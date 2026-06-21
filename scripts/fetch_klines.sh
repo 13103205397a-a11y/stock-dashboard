@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# 拉取全部自选股日K(腾讯行情,前复权)到 scripts/raw/<code>.json
+# 用法： bash scripts/fetch_klines.sh
+# 数据源：web.ifzq.gtimg.cn（公开行情）。仅供研究参考，非投资建议。
+set -u
+DIR="$(cd "$(dirname "$0")" && pwd)"
+RAW="$DIR/raw"
+mkdir -p "$RAW"
+
+# 从 data.js 读取代码列表
+CODES=$(node -e 'global.window={};require("'"$DIR"'/../data.js");console.log(window.STOCKS.map(s=>s.code).join(" "))')
+
+ok=0; fail=""
+for code in $CODES; do
+  case "$code" in 6*) m="sh";; *) m="sz";; esac
+  url="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=${m}${code},day,,,330,qfq"
+  curl -s --max-time 18 -H "User-Agent: Mozilla/5.0" "$url" -o "$RAW/${code}.json"
+  rows=$(node -e "try{const j=require('$RAW/${code}.json');const d=j.data['${m}${code}'];const k=d.qfqday||d.day;process.stdout.write(String(k?k.length:0))}catch(e){process.stdout.write('0')}")
+  if [ "${rows:-0}" -ge 20 ] 2>/dev/null; then ok=$((ok+1)); else fail="$fail ${code}(${rows})"; fi
+  sleep 0.15
+done
+echo "K线抓取完成：$ok 只成功"
+[ -n "$fail" ] && echo "数据不足：$fail"
+exit 0

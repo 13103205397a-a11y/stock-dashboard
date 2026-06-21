@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>自选股盘面 · 叙事复盘</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- 顶栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◆</span>
+      <div class="brand-text">
+        <h1>自选股盘面 · 叙事复盘</h1>
+        <p class="regime" id="regime">市场环境加载中…</p>
+      </div>
+    </div>
+    <div class="top-right">
+      <div class="search-box">
+        <span class="search-ico">⌕</span>
+        <input id="search" type="text" placeholder="搜索 名称 / 代码 / 标签 / 板块" autocomplete="off" />
+      </div>
+      <div class="upd-wrap">
+        <div class="updated" id="updated">—</div>
+        <div class="sigstat" id="signalStat"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 统计带 -->
+  <section class="stats" id="stats"></section>
+
+  <!-- 筛选条 -->
+  <nav class="filters">
+    <div class="filter-group" id="sectorChips"></div>
+    <div class="filter-group verdicts">
+      <button class="chip verdict-chip v-opp" data-verdict="opportunity">⚡ 今日买点</button>
+      <button class="chip verdict-chip" data-verdict="all">全部结论</button>
+      <button class="chip verdict-chip v-ok" data-verdict="成立">● 成立</button>
+      <button class="chip verdict-chip v-warn" data-verdict="存疑">● 存疑</button>
+      <button class="chip verdict-chip v-bad" data-verdict="证伪">● 证伪</button>
+      <button class="chip verdict-chip v-change" data-verdict="changed">叙事有变化</button>
+      <label class="sort-box">排序
+        <select id="sort">
+          <option value="default">默认(板块)</option>
+          <option value="chg">今日涨幅 ↓</option>
+          <option value="toBreakout">距突破 ↑(右侧近)</option>
+          <option value="pullback">回踩距离 ↑(左侧近)</option>
+          <option value="trend">趋势强度 ↓</option>
+        </select>
+      </label>
+    </div>
+  </nav>
+
+  <!-- 主网格 -->
+  <main class="grid" id="grid"></main>
+
+  <footer class="foot">
+    <span id="count">—</span>
+    <span class="disclaimer">本看板数据由 AI 整理/测算，仅供研究参考，<b>不构成任何投资建议</b>。投资有风险，决策需独立判断。</span>
+  </footer>
+
+  <!-- 详情抽屉 -->
+  <div class="drawer-backdrop" id="backdrop"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-inner" id="drawerInner"></div>
+  </aside>
+
+  <script src="data.js"></script>
+  <script src="meta.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
