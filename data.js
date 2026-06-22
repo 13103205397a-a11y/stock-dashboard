@@ -8213,7 +8213,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 2.0,
+      "netInflow": 2,
       "turnover": 7.62,
       "date": "2026-06-22",
       "asof": "2026-06-22"
