@@ -157,7 +157,7 @@
       </div>
       <div class="card-foot">
         <div class="tagrow">${tags}</div>
-        ${freshNews(s) ? `<span class="news-flag">📰 ${freshNews(s)}</span>` : ""}
+        ${freshNews(s) ? `<span class="news-flag">新消息 ${freshNews(s)}</span>` : ""}
         <span class="change-dot ${changed ? "has" : "none"}"><span class="d"></span>${changed ? "今日有变化" : "无变化"}</span>
       </div>
     </article>`;
