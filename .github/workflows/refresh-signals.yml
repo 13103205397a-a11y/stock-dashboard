@@ -28,11 +28,30 @@ jobs:
         with:
           node-version: "20"
 
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装 Python 依赖(问财技能用)
+        run: pip install --quiet requests numpy
+
       - name: 抓取日K(腾讯前复权)
         run: bash scripts/fetch_klines.sh
 
       - name: 重算技术信号 → 写回 data.js / meta.js
         run: node scripts/fetch_signals.js
+
+      - name: 抓取消息面(同花顺问财:资金流/新闻/研报) → 写回 data.js
+        continue-on-error: true        # 问财异常不阻断技术信号提交
+        env:
+          IWENCAI_API_KEY: ${{ secrets.IWENCAI_API_KEY }}
+        run: |
+          if [ -z "$IWENCAI_API_KEY" ]; then
+            echo "::warning::未配置 IWENCAI_API_KEY secret，跳过消息面抓取。"
+          else
+            python3 scripts/fetch_iwencai.py
+          fi
 
       - name: 提交并推送(仅在有变化时)
         run: |
