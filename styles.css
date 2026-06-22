@@ -226,6 +226,9 @@ html, body {
 .change-dot.has { color: var(--accent); }
 .change-dot.has .d { background: var(--accent); }
 .news-flag { font-size: 10px; color: var(--accent); border: 1px solid var(--accent-line); border-radius: 3px; padding: 1px 7px; white-space: nowrap; letter-spacing: .3px; }
+.fund { font-family: var(--mono); font-size: 10px; color: var(--muted); border: 1px solid var(--line); border-radius: 3px; padding: 1px 7px; white-space: nowrap; letter-spacing: .2px; }
+.fund.up { color: var(--up); border-color: rgba(229,72,77,.32); }
+.fund.down { color: var(--down); border-color: rgba(47,158,99,.32); }
 
 /* ---------- 抽屉 ---------- */
 .drawer-backdrop {
@@ -314,6 +317,30 @@ html, body {
 .nf-unconf { font-size: 10px; color: var(--warn); border: 1px solid rgba(214,162,63,.4); border-radius: 3px; padding: 0 6px; }
 .nf-text { font-size: 12.5px; color: var(--text); line-height: 1.6; }
 .nf-px { font-family: var(--mono); font-size: 10.5px; color: var(--muted); margin-top: 5px; }
+.nf-link { color: var(--text); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .15s, color .15s; }
+.nf-link:hover { color: var(--accent); border-bottom-color: var(--accent-line); }
+
+/* 抽屉小标题来源标注 */
+.src-note { font-size: 9.5px; font-weight: 400; color: var(--dim); letter-spacing: .2px; margin-left: 4px; }
+
+/* 主力资金行（信号区） */
+.fund-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 12px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; }
+.fund-row .fr-lab { font-size: 10px; color: var(--dim); letter-spacing: .2px; }
+.fund-row .fr-val { font-family: var(--mono); font-size: 12.5px; font-weight: 600; color: var(--text); }
+.fund-row .fr-val.up { color: var(--up); }
+.fund-row .fr-val.down { color: var(--down); }
+
+/* 机构研报列表 */
+.research-list { display: flex; flex-direction: column; gap: 8px; }
+.rp-item { background: var(--bg); border: 1px solid var(--line); border-left: 2px solid var(--accent-line); border-radius: 6px; padding: 10px 12px; }
+.rp-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
+.rp-rating { font-size: 10px; font-weight: 600; border-radius: 3px; padding: 1px 7px; letter-spacing: .3px; }
+.rp-rating.buy { color: var(--up); background: rgba(229,72,77,.10); }
+.rp-rating.sell { color: var(--down); background: rgba(47,158,99,.10); }
+.rp-rating.hold { color: var(--muted); background: var(--raise); }
+.rp-org { font-size: 11px; color: var(--text); font-weight: 600; }
+.rp-date { font-family: var(--mono); font-size: 10.5px; color: var(--dim); }
+.rp-title { font-size: 12px; color: var(--muted); line-height: 1.55; }
 
 .li { font-size: 13px; color: var(--text); line-height: 1.65; padding: 8px 0 8px 20px; position: relative; border-bottom: 1px solid var(--line); }
 .li:last-child { border-bottom: none; }
