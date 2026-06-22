@@ -113,6 +113,13 @@
 
   const sgn = (n) => (n > 0 ? "up" : n < 0 ? "down" : "");
   const pct = (n) => (n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(1) + "%");
+  // 主力净流入（亿元，A股惯例：流入为红、流出为绿）
+  const fundChip = (s) => {
+    const f = s.fund;
+    if (!f || f.netInflow == null) return "";
+    const n = f.netInflow, cls = n > 0 ? "up" : n < 0 ? "down" : "";
+    return `<span class="fund ${cls}" title="主力净流入 · 同花顺问财（${esc(f.date || "")}）">主力 ${n > 0 ? "+" : ""}${n}亿</span>`;
+  };
   const trendCls = (t) => (t === "多头排列" ? "t-up" : t === "空头排列" ? "t-down" : "t-flat");
   // 左/右信号状态 → 强度色：可介入=亮，观望/不足=暗
   function stateTone(txt, side) {
@@ -157,6 +164,7 @@
       </div>
       <div class="card-foot">
         <div class="tagrow">${tags}</div>
+        ${fundChip(s)}
         ${freshNews(s) ? `<span class="news-flag">新消息 ${freshNews(s)}</span>` : ""}
         <span class="change-dot ${changed ? "has" : "none"}"><span class="d"></span>${changed ? "今日有变化" : "无变化"}</span>
       </div>
@@ -179,15 +187,34 @@
   }
 
   function newsList(arr) {
-    if (!arr || !arr.length) return `<div class="li" style="color:var(--dim);border:none">暂无记录，每日复盘 Agent 跑后自动补录新闻/传闻/小作文。</div>`;
+    if (!arr || !arr.length) return `<div class="li" style="color:var(--dim);border:none">暂无记录。行情刷新（GitHub Actions）会自动补录同花顺问财新闻。</div>`;
     return `<div class="newsfeed">${arr.map((it) => {
-      const imp = it.impact || "中性";
+      // 兼容两种来源：问财(title/source/url) 与 复盘Agent(text/type/impact)
+      const title = it.title || it.text || "";
+      const imp = it.impact;
       const impCls = imp === "利好" ? "up" : imp === "利空" ? "down" : "flat";
-      const conf = it.confirmed ? "" : `<span class="nf-unconf">未证实</span>`;
+      const impTag = imp ? `<span class="nf-imp ${impCls}">${esc(imp)}</span>` : "";
+      const src = it.source ? `<span class="nf-type">${esc(it.source)}</span>` : (it.type ? `<span class="nf-type">${esc(it.type)}</span>` : "");
+      const conf = it.confirmed === false ? `<span class="nf-unconf">未证实</span>` : "";
+      const body = it.url
+        ? `<a class="nf-text nf-link" href="${esc(it.url)}" target="_blank" rel="noopener">${esc(title)}</a>`
+        : `<div class="nf-text">${esc(title)}</div>`;
       return `<div class="nf-item">
-        <div class="nf-meta"><span class="nf-date">${esc(it.date || "")}</span><span class="nf-type">${esc(it.type || "新闻")}</span><span class="nf-imp ${impCls}">${esc(imp)}</span>${conf}</div>
-        <div class="nf-text">${esc(it.text || "")}</div>
+        <div class="nf-meta"><span class="nf-date">${esc(it.date || "")}</span>${src}${impTag}${conf}</div>
+        ${body}
         ${it.priceReaction ? `<div class="nf-px">量价：${esc(it.priceReaction)}</div>` : ""}
+      </div>`;
+    }).join("")}</div>`;
+  }
+
+  function researchList(arr) {
+    if (!arr || !arr.length) return `<div class="li" style="color:var(--dim);border:none">暂无研报。</div>`;
+    return `<div class="research-list">${arr.map((r) => {
+      const rt = r.rating || "";
+      const rcls = /买入|强烈推荐|增持|推荐|跑赢/.test(rt) ? "buy" : /卖出|减持|跑输/.test(rt) ? "sell" : "hold";
+      return `<div class="rp-item">
+        <div class="rp-meta">${rt ? `<span class="rp-rating ${rcls}">${esc(rt)}</span>` : ""}<span class="rp-org">${esc(r.org || "")}</span><span class="rp-date">${esc(r.date || "")}</span></div>
+        <div class="rp-title">${esc(r.title || "")}</div>
       </div>`;
     }).join("")}</div>`;
   }
@@ -227,6 +254,11 @@
           ${maCell("盈亏比", g.leftRR == null ? "—" : g.leftRR)}
           ${maCell("右侧止损", g.rightStop == null ? "—" : "¥" + g.rightStop)}
         </div>
+        ${s.fund ? `<div class="fund-row">
+          <span class="fr-lab">主力资金（同花顺 ${esc(s.fund.date || "")}）</span>
+          <span class="fr-val ${s.fund.netInflow > 0 ? "up" : s.fund.netInflow < 0 ? "down" : ""}">净流入 ${s.fund.netInflow == null ? "—" : (s.fund.netInflow > 0 ? "+" : "") + s.fund.netInflow + " 亿"}</span>
+          <span class="fr-val">换手 ${s.fund.turnover == null ? "—" : s.fund.turnover + "%"}</span>
+        </div>` : ""}
       </div>` : "";
     $("#drawerInner").innerHTML = `
       <div class="dh">
@@ -276,8 +308,13 @@
       </div>
 
       <div class="dsec">
-        <h3>新闻 / 传闻 / 小作文 流水（每日补录）</h3>
+        <h3>新闻 / 传闻 / 小作文 流水 <span class="src-note">同花顺问财 · 自动</span></h3>
         ${newsList(s.news)}
+      </div>
+
+      <div class="dsec">
+        <h3>机构研报 <span class="src-note">同花顺问财 · 自动</span></h3>
+        ${researchList(s.research)}
       </div>
 
       <div class="dsec">
