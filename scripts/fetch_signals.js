@@ -17,8 +17,25 @@ require(DATA);
 require(META);
 const STOCKS = window.STOCKS;
 
-const mk = (code) => (code[0] === "6" ? "sh" : "sz") + code; // 6开头沪市,否则深市
+const mk = (code) => {
+  const c = code[0];
+  return (c === "6" ? "sh" : c === "8" || c === "4" ? "bj" : "sz") + code; // 6→沪 8/4→北交所 其余→深
+};
 const r2 = (n) => (n == null || isNaN(n) ? null : Math.round(n * 100) / 100);
+
+// 原子写：先写 .tmp 再 rename，避免写到一半被中断导致 data.js 截断/数据丢失
+function writeAtomic(file, content) {
+  const tmp = file + ".tmp";
+  fs.writeFileSync(tmp, content);
+  fs.renameSync(tmp, file);
+}
+// data.js / meta.js 统一头部（两脚本一致，避免互相覆盖日期标注）
+const DATA_HEADER =
+  "/* 自选股数据：叙事 + 左/右侧策略 + 技术信号 + 消息面\n" +
+  " * 技术信号(signal/left/right) ← scripts/fetch_signals.js（腾讯日K，前复权）\n" +
+  " * 消息面(fund/news/research) ← scripts/fetch_iwencai.py（同花顺问财）\n" +
+  " * 叙事/证伪/增长点为 AI 整理。仅供研究参考，非投资建议。\n" +
+  " * 数据时点见 meta.js 与各字段内 date。\n */\n";
 const fmt = (n) => (n == null ? "—" : (Math.abs(n) >= 100 ? n.toFixed(1) : n.toFixed(2)));
 
 function klines(code) {
@@ -33,8 +50,8 @@ function klines(code) {
 
 const mean = (a) => a.reduce((x, y) => x + y, 0) / a.length;
 const maOf = (closes, p) => (closes.length >= p ? mean(closes.slice(-p)) : null);
-const hiOf = (k, p) => (k.length ? Math.max(...k.slice(-p).map((x) => x.high)) : null);
-const loOf = (k, p) => (k.length ? Math.min(...k.slice(-p).map((x) => x.low)) : null);
+const hiOf = (k, p) => (k.length >= p ? Math.max(...k.slice(-p).map((x) => x.high)) : null); // 不足 p 根返回 null,避免"60日高"实为上市以来高
+const loOf = (k, p) => (k.length >= p ? Math.min(...k.slice(-p).map((x) => x.low)) : null);
 const atrOf = (k, p = 14) => {
   if (k.length < 2) return null;
   const trs = [];
@@ -118,7 +135,7 @@ function computeSignal(k) {
   const entry = (supLo + supHi) / 2;                      // 左侧逢低参考买入价(区间中位)
   const leftStop = r2(Math.max(close * 0.85, supLo * 0.97)); // 跌破逢低区止损(最深 -15%)
   const leftTarget = r2(brk > close * 1.01 ? brk : (high20 ?? close) * 1.05); // 左侧目标≈突破位
-  const leftRR = leftTarget && entry > leftStop ? r2((leftTarget - entry) / (entry - leftStop)) : null;
+  const leftRR = leftTarget && entry > leftStop ? r2(Math.min((leftTarget - entry) / (entry - leftStop), 10)) : null; // 夹顶 10,避免分母极小时出现离谱值
   const rightStop = r2(brk * 0.96);                       // 突破买入后跌回突破位下方止损
 
   const leftZone = `${fmt(r2(supLo))}–${fmt(r2(supHi))}`;
@@ -164,13 +181,8 @@ function computeSignal(k) {
     }
   }
 
-  // 写回 data.js（保留头部说明）
-  const header =
-    "/* 自选股叙事 + 左/右侧策略数据\n" +
-    " * 技术信号(signal/left.zone/right.zone/trigger)由 scripts/fetch_signals.js 拉取腾讯真实日K(前复权)计算。\n" +
-    " * 叙事/证伪/增长点等为 AI 整理。仅供研究参考，非投资建议。\n" +
-    " * 信号更新：" + new Date().toISOString().slice(0, 10) + "\n */\n";
-  fs.writeFileSync(DATA, header + "window.STOCKS = " + JSON.stringify(STOCKS, null, 2) + ";\n");
+  // 写回 data.js（原子写 + 统一头部）
+  writeAtomic(DATA, DATA_HEADER + "window.STOCKS = " + JSON.stringify(STOCKS, null, 2) + ";\n");
 
   // 统计技术面，自动汇总进 meta（不覆盖复盘 Agent 维护的 marketRegime）
   let bull = 0, bear = 0, leftReady = 0, rightReady = 0;
@@ -190,7 +202,7 @@ function computeSignal(k) {
       signalDate: latestDate,
       signalStat: `多头 ${bull} / 空头 ${bear} · 左侧已到逢低区 ${leftReady} · 右侧突破或临近 ${rightReady}（共 ${STOCKS.length} 只，行情截至 ${latestDate}，刷新于 ${today}）`,
     }, null, 2) + ";\n";
-  fs.writeFileSync(META, newMeta);
+  writeAtomic(META, newMeta);
 
   console.log(`\n完成：成功 ${ok}/${STOCKS.length}`);
   if (fail.length) console.log("失败：", fail.join("; "));

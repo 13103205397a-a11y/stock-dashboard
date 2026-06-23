@@ -7,7 +7,7 @@
 
   const $ = (s) => document.querySelector(s);
   const grid = $("#grid");
-  const esc = (s) => (s == null ? "" : String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])));
+  const esc = (s) => (s == null ? "" : String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])));
 
   /* ---------- 顶栏 / 统计 ---------- */
   function renderMeta() {

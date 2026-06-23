@@ -63,15 +63,20 @@ def load_stocks():
 
 
 def write_stocks(stocks):
+    # 与 fetch_signals.js 统一的头部，避免两脚本互相覆盖日期标注
     header = (
-        "/* 自选股叙事 + 左/右侧策略 + 消息面数据\n"
-        " * 技术信号(signal/left/right)由 scripts/fetch_signals.js 计算(腾讯日K)。\n"
-        " * 消息面(fund/news/research)由 scripts/fetch_iwencai.py 抓取(同花顺问财)。\n"
-        " * 叙事/证伪/增长点等为 AI 整理。仅供研究参考，非投资建议。\n"
-        " * 消息面更新：" + dt.date.today().isoformat() + "\n */\n"
+        "/* 自选股数据：叙事 + 左/右侧策略 + 技术信号 + 消息面\n"
+        " * 技术信号(signal/left/right) ← scripts/fetch_signals.js（腾讯日K，前复权）\n"
+        " * 消息面(fund/news/research) ← scripts/fetch_iwencai.py（同花顺问财）\n"
+        " * 叙事/证伪/增长点为 AI 整理。仅供研究参考，非投资建议。\n"
+        " * 数据时点见 meta.js 与各字段内 date。\n */\n"
     )
-    with open(DATA, "w", encoding="utf-8") as f:
-        f.write(header + "window.STOCKS = " + json.dumps(stocks, ensure_ascii=False, indent=2) + ";\n")
+    content = header + "window.STOCKS = " + json.dumps(stocks, ensure_ascii=False, indent=2) + ";\n"
+    # 原子写：先写 .tmp 再替换，避免写到一半被中断导致 data.js 损坏
+    tmp = DATA + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        f.write(content)
+    os.replace(tmp, DATA)
 
 
 def run(cmd, timeout=TIMEOUT):

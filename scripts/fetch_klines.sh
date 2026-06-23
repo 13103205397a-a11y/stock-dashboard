@@ -7,12 +7,18 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 RAW="$DIR/raw"
 mkdir -p "$RAW"
 
-# 从 data.js 读取代码列表
-CODES=$(node -e 'global.window={};require("'"$DIR"'/../data.js");console.log(window.STOCKS.map(s=>s.code).join(" "))')
+# 从 data.js 读取代码列表（解析失败或为空则中止，避免空列表静默"成功"后用旧K线继续）
+CODES=$(node -e 'global.window={};require("'"$DIR"'/../data.js");console.log(window.STOCKS.map(s=>s.code).join(" "))') \
+  || { echo "✗ 读取 data.js 失败，中止抓取。" >&2; exit 1; }
+CODE_COUNT=$(printf '%s' "$CODES" | wc -w | tr -d ' ')
+if [ "${CODE_COUNT:-0}" -lt 1 ]; then
+  echo "✗ 从 data.js 解析出 0 个股票代码，中止（不会用旧K线静默继续）。" >&2
+  exit 1
+fi
 
 ok=0; fail=""
 for code in $CODES; do
-  case "$code" in 6*) m="sh";; *) m="sz";; esac
+  case "$code" in 6*) m="sh";; 8*|4*) m="bj";; *) m="sz";; esac
   url="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=${m}${code},day,,,330,qfq"
   curl -s --max-time 18 -H "User-Agent: Mozilla/5.0" "$url" -o "$RAW/${code}.json"
   rows=$(node -e "try{const j=require('$RAW/${code}.json');const d=j.data['${m}${code}'];const k=d.qfqday||d.day;process.stdout.write(String(k?k.length:0))}catch(e){process.stdout.write('0')}")
