@@ -353,6 +353,71 @@
     $("#backdrop").classList.remove("show");
   }
 
+  /* ---------- 今日热点 TOP30 ---------- */
+  const HOT = window.HOT || {};
+
+  function hotCard(h) {
+    const chgCls = sgn(h.chgPct);
+    const netCls = h.netInflow > 0 ? "up" : h.netInflow < 0 ? "down" : "";
+    const concepts = (h.concepts || []).slice(0, 6).map((c) => `<span class="hc-chip">${esc(c)}</span>`).join("");
+    const boards = h.boards > 0 ? `<span class="hc-board">${h.boards}连板</span>` : "";
+    const news = (h.news || []).slice(0, 2).map((n) =>
+      n.url ? `<a class="hc-news" href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a>`
+            : `<span class="hc-news">${esc(n.title)}</span>`
+    ).join("");
+    const metric = (lab, val) => `<div class="hm"><span class="hm-l">${lab}</span><span class="hm-v">${val}</span></div>`;
+    return `<article class="hotcard">
+      <div class="hc-head">
+        <span class="hc-rank">${h.rank}</span>
+        <div class="hc-name-wrap">
+          <span class="hc-name">${esc(h.name)}</span>
+          <span class="hc-code">${esc(h.code)}${h.board ? " · " + esc(h.board) : ""}${(h.industry || []).length ? " · " + esc(h.industry.join("/")) : ""}</span>
+        </div>
+        <div class="hc-px">
+          <span class="hc-price">¥${h.price ?? "—"}</span>
+          <span class="chg ${chgCls}">${pct(h.chgPct)}</span>
+          ${boards}
+        </div>
+      </div>
+      <div class="hc-metrics">
+        ${metric("人气热度", h.heat != null ? (h.heat / 10000).toFixed(0) + "万" : "—")}
+        ${metric("换手", h.turnover != null ? h.turnover + "%" : "—")}
+        ${metric("量比", h.volRatio ?? "—")}
+        ${metric("振幅", h.amplitude != null ? h.amplitude + "%" : "—")}
+        ${metric("主力净流入", `<span class="${netCls}">${h.netInflow != null ? (h.netInflow > 0 ? "+" : "") + h.netInflow + "亿" : "—"}</span>`)}
+        ${metric("流通市值", h.floatCap != null ? h.floatCap + "亿" : "—")}
+      </div>
+      <div class="hc-concepts">${concepts || '<span class="hc-chip">—</span>'}</div>
+      <div class="hc-analysis">
+        <div class="hc-line"><span class="hc-tag theme">炒作题材</span><span class="hc-txt">${esc(h.reason || "—")}</span></div>
+        <div class="hc-line"><span class="hc-tag tech">技术面</span><span class="hc-txt">${esc(h.tech || "—")}</span></div>
+        <div class="hc-line"><span class="hc-tag senti">情绪面</span><span class="hc-txt">${esc(h.senti || "—")}</span></div>
+      </div>
+      ${news ? `<div class="hc-newsrow">${news}</div>` : ""}
+    </article>`;
+  }
+
+  function renderHot() {
+    const list = HOT.list || [];
+    const el = $("#hotList");
+    if (!el) return;
+    el.innerHTML = list.length
+      ? list.map(hotCard).join("")
+      : `<div class="empty">热点数据待生成（每日收盘后由问财自动更新）。</div>`;
+    const hd = $("#hotDate");
+    if (hd) hd.textContent = HOT.date ? `更新于 ${HOT.generatedAt || HOT.date}` : "";
+  }
+
+  function switchView(view) {
+    document.body.classList.toggle("view-hot", view === "hot");
+    document.querySelectorAll(".vtab").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
+    if (view === "hot") renderHot();
+    window.scrollTo(0, 0);
+  }
+  document.querySelectorAll(".vtab").forEach((b) =>
+    b.addEventListener("click", () => switchView(b.dataset.view))
+  );
+
   /* ---------- 事件 ---------- */
   $("#backdrop").addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
@@ -367,4 +432,5 @@
   renderStats();
   renderChips();
   render();
+  renderHot();
 })();
