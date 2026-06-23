@@ -53,11 +53,22 @@ jobs:
             python3 scripts/fetch_iwencai.py
           fi
 
+      - name: 抓取今日热点 TOP30(同花顺问财:热度/题材/技术/情绪) → 写回 hot.js
+        continue-on-error: true        # 热点异常不阻断其余提交
+        env:
+          IWENCAI_API_KEY: ${{ secrets.IWENCAI_API_KEY }}
+        run: |
+          if [ -z "$IWENCAI_API_KEY" ]; then
+            echo "::warning::未配置 IWENCAI_API_KEY secret，跳过热点抓取。"
+          else
+            python3 scripts/fetch_hot.py
+          fi
+
       - name: 提交并推送(仅在有变化时)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data.js meta.js
+          git add data.js meta.js hot.js
           if git diff --cached --quiet; then
             echo "行情无变化,跳过提交。"
           else
