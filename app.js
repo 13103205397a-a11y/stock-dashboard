@@ -132,6 +132,8 @@
     const v = s.review?.verdict || "—";
     const changed = isChanged(s);
     const g = s.signal || {};
+    const feat = isOpportunity(s) ? " feature" : "";
+    const featReason = /已回踩至逢低区/.test(g.leftState || "") ? g.leftState : (g.rightState || "信号临近");
     const tags = (s.tags || []).slice(0, 3).map((t) => `<span class="minitag">${esc(t)}</span>`).join("");
     const priceRow = g.price != null ? `
       <div class="px-row">
@@ -140,7 +142,7 @@
         <span class="trend ${trendCls(g.trend)}">${esc(g.trend)}</span>
         ${sparkline(g.spark, g.trend)}
       </div>` : "";
-    return `<article class="card v-${v}" data-code="${esc(s.code)}">
+    return `<article class="card v-${v}${feat}" data-code="${esc(s.code)}">
       <div class="card-head">
         <div class="name-wrap">
           <span class="name">${esc(s.name)}</span>
@@ -160,6 +162,10 @@
           <div class="ptitle">右侧 · 突破 ▸</div>
           <div class="zone">${esc(s.right?.zone || "—")}</div>
           <div class="pstate ${stateTone(g.rightState, "right")}">${esc(g.rightState || s.right?.trigger || "")}</div>
+        </div>
+        <div class="feat-note">
+          <div class="fn-k">今日买点</div>
+          <div class="fn-v">${esc(featReason)}</div>
         </div>
       </div>
       <div class="card-foot">
@@ -266,7 +272,7 @@
           <div class="dname">${esc(s.name)} <span class="verdict-badge ${esc(r.verdict)}">${esc(r.verdict || "—")}</span></div>
           <div class="dcode">${esc(s.code)} · ${esc(s.sector)}</div>
         </div>
-        <button class="dclose" id="dclose">✕</button>
+        <button class="dclose" id="dclose" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
 
       ${sigBlock}

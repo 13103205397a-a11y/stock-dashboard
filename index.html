@@ -4,33 +4,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>自选股盘面 · 叙事复盘</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- 顶栏 -->
-  <header class="topbar">
-    <div class="wrap topbar-in">
-      <div class="brand">
-        <span class="logo">◆</span>
-        <div class="brand-text">
-          <h1>自选股盘面 · 叙事复盘</h1>
+  <!-- ===== 报头 ===== -->
+  <header class="masthead">
+    <div class="wrap mast-in">
+      <div class="mast-left">
+        <span class="mast-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18" />
+            <rect x="5" y="13" width="3.4" height="6" rx="1" />
+            <rect x="10.3" y="9" width="3.4" height="10" rx="1" />
+            <rect x="15.6" y="5" width="3.4" height="14" rx="1" />
+          </svg>
+        </span>
+        <div class="mast-titles">
+          <div class="mast-kicker">叙事复盘 · Watchlist Review</div>
+          <h1 class="mast-title">自选股盘面</h1>
           <p class="regime" id="regime">市场环境加载中…</p>
         </div>
       </div>
-      <div class="top-right">
-        <div class="search-box">
-          <span class="search-ico">⌕</span>
+      <div class="mast-right">
+        <div class="dateline">
+          <span class="dl-k">行情截至</span>
+          <span class="updated" id="updated">—</span>
+          <span class="sigstat" id="signalStat"></span>
+        </div>
+        <label class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5" />
+            <path d="M20 20l-3.8-3.8" />
+          </svg>
           <input id="search" type="text" placeholder="搜索 名称 / 代码 / 标签 / 板块" autocomplete="off" />
-        </div>
-        <div class="upd-wrap">
-          <div class="updated" id="updated">—</div>
-          <div class="sigstat" id="signalStat"></div>
-        </div>
+        </label>
       </div>
     </div>
   </header>
 
-  <!-- 视图切换 -->
+  <!-- ===== 视图切换 ===== -->
   <div class="viewtabs">
     <div class="wrap viewtabs-in">
       <button class="vtab active" data-view="watch">自选股盘面</button>
@@ -39,36 +54,44 @@
     </div>
   </div>
 
-  <!-- ===== 自选股视图 ===== -->
-  <!-- 统计带 -->
-  <div class="wrap watch-only"><section class="stats" id="stats"></section></div>
+  <!-- ===== 自选股视图：不对称双栏 ===== -->
+  <div class="wrap watch-only board">
+    <aside class="rail">
+      <section class="rail-block">
+        <h2 class="rail-h">盘面速览 <span class="rail-en">At a glance</span></h2>
+        <div class="stats" id="stats"></div>
+      </section>
+      <section class="rail-block">
+        <h2 class="rail-h">板块 <span class="rail-en">Sectors</span></h2>
+        <div class="filter-group sector-list" id="sectorChips"></div>
+      </section>
+    </aside>
 
-  <!-- 筛选条 -->
-  <nav class="filters watch-only">
-    <div class="wrap filters-in">
-      <div class="filter-group" id="sectorChips"></div>
-      <div class="filter-group verdicts">
-        <button class="chip verdict-chip v-opp" data-verdict="opportunity">今日买点</button>
-        <button class="chip verdict-chip" data-verdict="all">全部结论</button>
-        <button class="chip verdict-chip v-ok" data-verdict="成立">成立</button>
-        <button class="chip verdict-chip v-warn" data-verdict="存疑">存疑</button>
-        <button class="chip verdict-chip v-bad" data-verdict="证伪">证伪</button>
-        <button class="chip verdict-chip v-change" data-verdict="changed">叙事有变化</button>
-        <label class="sort-box">排序
-          <select id="sort">
-            <option value="default">默认(板块)</option>
-            <option value="chg">今日涨幅 ↓</option>
-            <option value="toBreakout">距突破 ↑(右侧近)</option>
-            <option value="pullback">回踩距离 ↑(左侧近)</option>
-            <option value="trend">趋势强度 ↓</option>
-          </select>
-        </label>
-      </div>
+    <div class="main-col">
+      <nav class="filters">
+        <div class="filters-in">
+          <div class="filter-group verdicts">
+            <button class="chip verdict-chip v-opp" data-verdict="opportunity">今日买点</button>
+            <button class="chip verdict-chip" data-verdict="all">全部结论</button>
+            <button class="chip verdict-chip v-ok" data-verdict="成立">成立</button>
+            <button class="chip verdict-chip v-warn" data-verdict="存疑">存疑</button>
+            <button class="chip verdict-chip v-bad" data-verdict="证伪">证伪</button>
+            <button class="chip verdict-chip v-change" data-verdict="changed">叙事有变化</button>
+            <label class="sort-box">排序
+              <select id="sort">
+                <option value="default">默认(板块)</option>
+                <option value="chg">今日涨幅 ↓</option>
+                <option value="toBreakout">距突破 ↑(右侧近)</option>
+                <option value="pullback">回踩距离 ↑(左侧近)</option>
+                <option value="trend">趋势强度 ↓</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </nav>
+      <main class="grid" id="grid"></main>
     </div>
-  </nav>
-
-  <!-- 主网格 -->
-  <div class="wrap watch-only"><main class="grid" id="grid"></main></div>
+  </div>
 
   <!-- ===== 热点视图 ===== -->
   <div class="wrap hot-only"><main class="hotlist" id="hotList"></main></div>
