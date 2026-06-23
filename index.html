@@ -26,13 +26,10 @@
           </span>
           <h1 class="mast-title">自选股盘面</h1>
         </div>
-        <p class="regime" id="regime">市场环境加载中…</p>
       </div>
       <div class="mast-right">
         <div class="dateline">
-          <span class="dl-k">行情截至</span>
-          <span class="updated" id="updated">—</span>
-          <span class="sigstat" id="signalStat"></span>
+          <span class="dl-k">行情截至</span><span class="updated" id="updated">—</span>
         </div>
         <label class="search-box">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
@@ -52,6 +49,18 @@
       <button class="vtab" data-view="hot">今日热点 · TOP30</button>
       <span class="hot-date" id="hotDate"></span>
     </div>
+  </div>
+
+  <!-- ===== 今日复盘 ===== -->
+  <div class="wrap watch-only">
+    <section class="recap">
+      <div class="recap-head">
+        <h2 class="recap-title">今日复盘<span class="recap-en">Daily Recap</span></h2>
+        <span class="recap-date" id="reviewDate"></span>
+      </div>
+      <p class="recap-text" id="regime">市场环境加载中…</p>
+      <div class="recap-stat" id="signalStat"></div>
+    </section>
   </div>
 
   <!-- ===== 自选股视图：不对称双栏 ===== -->

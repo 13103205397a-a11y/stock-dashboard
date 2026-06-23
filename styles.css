@@ -130,11 +130,24 @@ body.view-hot .watch-only { display: none; }
 body.view-hot .hot-only { display: block; }
 body.view-hot .search-box { display: none; }
 
+/* ============ 今日复盘 ============ */
+.recap {
+  margin: 26px 0 6px; padding: 22px 26px;
+  background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+  border-radius: 12px; box-shadow: var(--shadow);
+}
+.recap-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 13px; }
+.recap-title { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: .6px; display: flex; align-items: baseline; gap: 10px; }
+.recap-en { font-family: var(--display); font-style: italic; font-size: 11px; font-weight: 500; color: var(--accent); letter-spacing: .5px; }
+.recap-date { font-family: var(--mono); font-size: 12px; color: var(--dim); white-space: nowrap; }
+.recap-text { font-size: 14px; line-height: 1.85; color: var(--text); max-width: 92ch; }
+.recap-stat { margin-top: 14px; padding-top: 13px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--muted); letter-spacing: .2px; line-height: 1.6; }
+
 /* ============ 盘面：不对称双栏 ============ */
 .board {
   display: grid; grid-template-columns: 268px minmax(0, 1fr);
   gap: clamp(22px, 3vw, 42px); align-items: start;
-  margin: 28px auto 64px;
+  margin: 22px auto 64px;
 }
 .rail { position: sticky; top: 64px; display: flex; flex-direction: column; gap: 28px; }
 .rail-block { }

@@ -11,8 +11,11 @@
 
   /* ---------- 顶栏 / 统计 ---------- */
   function renderMeta() {
+    const day = META.signalDate || META.lastUpdated || "—";
     $("#regime").textContent = META.marketRegime || "—";
-    $("#updated").textContent = "行情 " + (META.signalDate || META.lastUpdated || "—");
+    $("#updated").textContent = day;
+    const rd = $("#reviewDate");
+    if (rd) rd.textContent = day;
     const ss = $("#signalStat");
     if (ss) ss.textContent = META.signalStat || "";
   }
