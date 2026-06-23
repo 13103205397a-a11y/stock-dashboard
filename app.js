@@ -18,6 +18,22 @@
     if (rd) rd.textContent = day;
     const ss = $("#signalStat");
     if (ss) ss.textContent = META.signalStat || "";
+    renderMarketSnap();
+  }
+
+  // 真实大盘指数行（来自 meta.marketSnapshot，由行情程序写入）
+  function renderMarketSnap() {
+    const el = $("#marketSnap");
+    if (!el) return;
+    const ms = META.marketSnapshot;
+    const ix = ms && ms.indices;
+    if (!ix || !ix.length) { el.style.display = "none"; return; }
+    el.style.display = "";
+    el.innerHTML = ix.map((i) => {
+      const cls = i.pct > 0 ? "up" : i.pct < 0 ? "down" : "";
+      const sign = i.pct > 0 ? "+" : "";
+      return `<span class="ix"><span class="ix-n">${esc(i.name)}</span><span class="ix-p">${esc(i.price)}</span><span class="ix-c ${cls}">${sign}${esc(i.pct)}%</span></span>`;
+    }).join("") + `<span class="ix-date">行情截至 ${esc(ms.date || "")} 收盘</span>`;
   }
 
   function renderStats() {

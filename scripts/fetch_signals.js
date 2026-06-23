@@ -38,6 +38,28 @@ const DATA_HEADER =
   " * 数据时点见 meta.js 与各字段内 date。\n */\n";
 const fmt = (n) => (n == null ? "—" : (Math.abs(n) >= 100 ? n.toFixed(1) : n.toFixed(2)));
 
+// 大盘指数：从腾讯实时行情抓真实涨跌，写入 meta.marketSnapshot。
+// 目的：综述里的指数数字必须来自真实数据，杜绝复盘 Agent 自行编造/用隔日数据。
+const INDEX_CODES = [
+  ["sh000001", "上证指数"], ["sz399001", "深证成指"],
+  ["sz399006", "创业板指"], ["sh000688", "科创50"],
+];
+async function fetchIndices() {
+  const url = "https://qt.gtimg.cn/q=" + INDEX_CODES.map((x) => x[0]).join(",");
+  const res = await fetch(url, { headers: { Referer: "https://gu.qq.com/" } });
+  const text = Buffer.from(await res.arrayBuffer()).toString("latin1"); // 数字字段为 ASCII，名称乱码不取
+  const out = [];
+  for (const [code, name] of INDEX_CODES) {
+    const m = text.match(new RegExp('v_' + code + '="([^"]*)"'));
+    if (!m) continue;
+    const f = m[1].split("~");
+    const price = +f[3], prev = +f[4];               // 3=现价 4=昨收
+    if (!price || !prev) continue;
+    out.push({ code, name, price: r2(price), pct: r2(((price - prev) / prev) * 100) });
+  }
+  return out;
+}
+
 function klines(code) {
   const f = path.join(RAW, code + ".json");
   if (!fs.existsSync(f)) return null;
@@ -163,7 +185,7 @@ function computeSignal(k) {
   };
 }
 
-(function () {
+(async function () {
   let ok = 0, fail = [];
   for (const s of STOCKS) {
     try {
@@ -195,12 +217,26 @@ function computeSignal(k) {
   const latestDate = STOCKS.map((s) => s.signal?.date).filter(Boolean).sort().pop() || "—";
   const today = new Date().toISOString().slice(0, 10);
   const m = window.META || {};
+
+  // 抓真实大盘指数（失败则保留旧快照，不阻断技术信号写入）
+  let marketSnapshot = m.marketSnapshot || null;
+  try {
+    const idx = await fetchIndices();
+    if (idx.length) {
+      marketSnapshot = { date: latestDate, indices: idx };
+      console.log("大盘：" + idx.map((i) => `${i.name} ${i.price} ${i.pct > 0 ? "+" : ""}${i.pct}%`).join(" · "));
+    }
+  } catch (e) {
+    console.log("指数抓取失败，保留旧快照：" + e.message);
+  }
+
   const newMeta =
-    "/* 全局元信息：marketRegime/summary 由复盘 Agent 维护；signalDate/signalStat 为行情自动统计 */\n" +
+    "/* 全局元信息：marketRegime/summary 由复盘 Agent 维护；signalDate/signalStat/marketSnapshot 为行情自动统计 */\n" +
     "window.META = " + JSON.stringify({
       ...m,
       signalDate: latestDate,
       signalStat: `多头 ${bull} / 空头 ${bear} · 左侧已到逢低区 ${leftReady} · 右侧突破或临近 ${rightReady}（共 ${STOCKS.length} 只，行情截至 ${latestDate}，刷新于 ${today}）`,
+      marketSnapshot,
     }, null, 2) + ";\n";
   writeAtomic(META, newMeta);
 
