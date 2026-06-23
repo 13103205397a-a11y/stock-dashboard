@@ -18,6 +18,7 @@ bash scripts/fetch_klines.sh      # curl 拉取全部日K(腾讯前复权)到 sc
 node scripts/fetch_signals.js     # 计算均线/支撑/突破/量能 → 写回 data.js 的 signal 与 left/right.zone
 ```
 - 这会用**真实日K**重算每只票的现价、涨跌幅、均线排列(趋势)、支撑区、突破位、左/右侧信号状态。
+- 同时会抓真实大盘指数(上证/深证/创业板/科创50)写入 `meta.js` 的 `marketSnapshot`(含 price/pct)。**这是当日大盘涨跌的唯一权威来源。**
 - 若某数据源被限流：脚本数据源为 `web.ifzq.gtimg.cn`(腾讯)；如失效可改用东方财富 `push2his.eastmoney.com`(secid 规则：6 开头=1.，否则 0.)。
 - 沙箱环境下 node 无法直连，故抓取用 curl(`fetch_klines.sh`)、计算用 node(`fetch_signals.js`)分离。
 
@@ -75,7 +76,11 @@ review: {
 ### 更新 `meta.js`
 - `lastUpdated`：今日日期。
 - `marketRegime`：一句话当日 A 股算力/相关板块的强弱与风格。
+  - **【硬性纪律】综述里凡涉及大盘指数的涨跌/点位，必须直接引用第 0 步写入的 `marketSnapshot.indices`（price/pct），逐字一致；严禁自行编造、估算或沿用前一交易日的数字。**
+  - 写之前先核对：`marketSnapshot.date` 必须等于今日日期；若不等（说明第 0 步未成功刷新），则**不要描述大盘涨跌**，只写板块/个股层面的可核实变化，并在 `summary` 注明「大盘指数待行情刷新」。
+  - 涨跌方向必须与 `pct` 符号一致：pct 为负就是「跌/回落」，绝不能写成「反弹/上涨」。
 - `summary`：当日复盘要点：有几只逻辑变化、几只降级/升级、最值得关注的 1–3 条变化或小作文。
+- `marketSnapshot` / `signalDate` / `signalStat` 由第 0 步脚本写入，**不要手改**。
 
 ## 输出与写回
 - 直接改写 `股市看板/data.js` 和 `股市看板/meta.js`（保持现有格式与注释）。
