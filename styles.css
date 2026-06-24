@@ -440,39 +440,6 @@ body.view-hot .search-box { display: none; }
 .tl-date { font-family: var(--mono); font-size: 11px; color: var(--dim); }
 .tl-body { font-size: 12.5px; color: var(--muted); margin-top: 4px; line-height: 1.55; }
 
-/* ============ AI 复盘（Hermes 报告） ============ */
-.reports { margin: 14px 0 0; }
-.rep-tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
-.rep-tab {
-  font-family: var(--sans); font-size: 13px; color: var(--muted);
-  background: transparent; border: none; border-bottom: 2px solid transparent;
-  padding: 10px 16px 9px; cursor: pointer; display: inline-flex; flex-direction: column; align-items: flex-start; gap: 1px;
-  transition: color .15s ease;
-}
-.rep-tab:hover { color: var(--ink); }
-.rep-tab.active { color: var(--accent-deep); border-bottom-color: var(--accent); font-weight: 700; }
-.rep-time { font-family: var(--mono); font-size: 10px; color: var(--dim); font-weight: 400; }
-
-.rep-body { display: none; }
-.rep-body.active { display: block; }
-.rep-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
-.rep-head h2 { font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--ink); letter-spacing: .3px; }
-.rep-updated { font-family: var(--mono); font-size: 11px; color: var(--dim); white-space: nowrap; }
-
-.rep-md { font-size: 13.5px; color: var(--text); line-height: 1.75; max-width: 96ch; }
-.rep-md h3 { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--ink); margin: 18px 0 8px; padding-top: 4px; }
-.rep-md h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin: 14px 0 6px; }
-.rep-md p { margin: 7px 0; }
-.rep-md strong { color: var(--ink); }
-.rep-md code { font-family: var(--mono); font-size: 12px; background: var(--paper-2); padding: 1px 5px; border-radius: 3px; }
-.rep-md ul { margin: 7px 0; padding-left: 20px; }
-.rep-md li { margin: 3px 0; }
-.rep-md table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 12.5px; }
-.rep-md td { border: 1px solid var(--line); padding: 6px 10px; }
-.rep-md tr:first-child td { background: var(--paper-2); font-weight: 600; color: var(--ink); }
-.rep-foot { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11px; color: var(--dim); line-height: 1.55; }
-@media (max-width: 720px) { .rep-md { font-size: 13px; } .rep-head { flex-direction: column; align-items: flex-start; gap: 4px; } }
-
 /* ============ 底部 ============ */
 .foot { border-top: 1px solid var(--line); margin-top: 12px; }
 .foot-in { padding-block: 22px 36px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
@@ -523,6 +490,41 @@ body.view-hot .search-box { display: none; }
 .hc-news { font-size: 11.5px; color: var(--muted); line-height: 1.5; text-decoration: none; padding-left: 13px; position: relative; }
 .hc-news::before { content: "›"; position: absolute; left: 2px; color: var(--accent); }
 a.hc-news:hover { color: var(--accent-deep); }
+
+/* ============ AI 复盘（Hermes 报告） ============ */
+.reports { margin: 14px 0 0; }
+.rep-tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+.rep-tab {
+  font-family: var(--sans); font-size: 13px; color: var(--muted);
+  background: transparent; border: none; border-bottom: 2px solid transparent;
+  padding: 10px 16px 9px; cursor: pointer; display: inline-flex; flex-direction: column; align-items: flex-start; gap: 1px;
+  transition: color .15s ease;
+}
+.rep-tab:hover { color: var(--ink); }
+.rep-tab.active { color: var(--accent-deep); border-bottom-color: var(--accent); font-weight: 700; }
+.rep-time { font-family: var(--mono); font-size: 10px; color: var(--dim); font-weight: 400; }
+
+.rep-body { display: none; }
+.rep-body.active { display: block; }
+.rep-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.rep-head h2 { font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--ink); letter-spacing: .3px; }
+.rep-updated { font-family: var(--mono); font-size: 11px; color: var(--dim); white-space: nowrap; }
+
+.rep-md { font-size: 13.5px; color: var(--text); line-height: 1.75; max-width: 96ch; }
+.rep-md h3 { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--ink); margin: 18px 0 8px; padding-top: 4px; }
+.rep-md h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin: 14px 0 6px; }
+.rep-md p { margin: 7px 0; }
+.rep-md strong { color: var(--ink); }
+.rep-md code { font-family: var(--mono); font-size: 12px; background: var(--paper-2); padding: 1px 5px; border-radius: 3px; }
+.rep-md ul { margin: 7px 0; padding-left: 20px; }
+.rep-md li { margin: 3px 0; }
+.rep-md table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 12.5px; }
+.rep-md td { border: 1px solid var(--line); padding: 6px 10px; }
+.rep-md tr:first-child td { background: var(--paper-2); font-weight: 600; color: var(--ink); }
+.rep-md td .up { color: var(--up); font-weight: 600; }
+.rep-md td .down { color: var(--down); font-weight: 600; }
+.rep-foot { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11px; color: var(--dim); line-height: 1.55; }
+@media (max-width: 720px) { .rep-md { font-size: 13px; } .rep-head { flex-direction: column; align-items: flex-start; gap: 4px; } }
 
 /* ============ 响应式：移动端优先兼顾 ============ */
 @media (max-width: 980px) {
