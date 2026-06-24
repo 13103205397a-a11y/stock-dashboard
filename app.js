@@ -524,7 +524,11 @@
         <div class="rep-md">${md2html(r.content || "")}</div>
       </div>`
     ).join("");
-    el.innerHTML = `<div class="rep-tabs">${tabs}</div><div class="rep-bodies">${bodies}</div><div class="rep-foot">报告由本地 Hermes Agent 定时任务生成（全网搜索调研），scripts/fetch_hermes.py 导出。仅供研究参考，非投资建议。更新于 ${esc(REPORTS.updated || "")}</div>`;
+    el.innerHTML = `<div class="rep-tabs">${tabs}</div>
+      <button class="rep-toggle" id="repToggle">展开报告全文 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="rep-bodies" id="repBodies">${bodies}</div>
+      <div class="rep-foot">报告由本地 Hermes Agent 定时任务生成（全网搜索调研），scripts/fetch_hermes.py 导出。仅供研究参考，非投资建议。更新于 ${esc(REPORTS.updated || "")}</div>`;
+    // tab 切换
     el.querySelectorAll(".rep-tab").forEach((b) =>
       b.addEventListener("click", () => {
         const i = b.dataset.i;
@@ -532,6 +536,14 @@
         el.querySelectorAll(".rep-body").forEach((d) => d.classList.toggle("active", d.dataset.i === i));
       })
     );
+    // 展开/收起全文
+    const toggle = el.querySelector("#repToggle");
+    const bodiesEl = el.querySelector("#repBodies");
+    toggle.addEventListener("click", () => {
+      const open = bodiesEl.classList.toggle("open");
+      toggle.classList.toggle("open", open);
+      toggle.firstChild.textContent = open ? "收起报告 " : "展开报告全文 ";
+    });
   }
 
   /* ---------- 启动 ---------- */
