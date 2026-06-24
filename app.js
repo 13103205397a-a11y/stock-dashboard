@@ -454,10 +454,24 @@
 
   // 极简 markdown → HTML（标题/表格/加粗/列表/分隔线）。不引外部库，够用。
   function md2html(md) {
-    const lines = esc(md).split("\n");
+    // 去 AI 味：移除 emoji 和装饰性符号（📊🔥🔴🟢⭐⚠️等），保留文字内容
+    let text = (md || "")
+      .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/gu, "")
+      .replace(/[🔴🟢🟡⭐⚠️📊📈📉🔥✅❌➡️📍🎯🇺🇸🇨🇳]/g, "")
+      // 去 AI 过渡语：报告开头的英文思考过程（Let me.../I have.../All data... 等）
+      .replace(/^(I (?:now )?have all the data[^]*?\n---+\n)/, "")
+      .replace(/^(Let me [^\n]*\n)/, "")
+      .replace(/^(All data verified[^\n]*\n)/, "")
+      .replace(/^(Here(?:'s| is) the [^\n]*:\s*\n)/, "");
+    const lines = esc(text).split("\n");
     let html = "", inTable = false, inList = false;
     const flushList = () => { if (inList) { html += "</ul>"; inList = false; } };
     const flushTable = () => { if (inTable) { html += "</tbody></table>"; inTable = false; } };
+    // 涨跌着色：单元格里的 +X%/-X% 或 利多/利空 标红绿
+    const toneCell = (c) => c
+      .replace(/(\+[\d.]+%)/g, '<span class="up">$1</span>')
+      .replace(/(-[\d.]+%)/g, '<span class="down">$1</span>')
+      .replace(/(利[多空])/g, (m) => `<span class="${m === "利多" ? "up" : "down"}">${m}</span>`);
     for (let raw of lines) {
       const line = raw.replace(/\r$/, "");
       // 分隔线
@@ -466,12 +480,12 @@
       if (line.includes("|")) {
         const cells = line.split("|").map((c) => c.trim()).filter((c, i, a) => !(i === 0 && c === "") && !(i === a.length - 1 && c === ""));
         if (cells.every((c) => /^:?-+:?$/.test(c))) { if (!inTable) { html += "<table><tbody>"; inTable = true; } continue; }
-        if (cells.length) { flushList(); if (!inTable) { html += "<table><tbody>"; inTable = true; } html += "<tr>" + cells.map((c) => `<td>${c}</td>`).join("") + "</tr>"; continue; }
+        if (cells.length) { flushList(); if (!inTable) { html += "<table><tbody>"; inTable = true; } html += "<tr>" + cells.map((c) => `<td>${toneCell(c)}</td>`).join("") + "</tr>"; continue; }
       }
       flushTable();
       // 标题
       const hm = line.match(/^(#{1,4})\s+(.*)/);
-      if (hm) { flushList(); html += `<h${hm[1].length + 2}>${hm[2]}</h${hm[1].length + 2}>`; continue; }
+      if (hm) { flushList(); html += `<h${hm[1].length + 2}>${hm[2].trim()}</h${hm[1].length + 2}>`; continue; }
       // 列表
       const lm = line.match(/^[-*]\s+(.*)/);
       if (lm) { if (!inList) { html += "<ul>"; inList = true; } html += `<li>${lm[1]}</li>`; continue; }
