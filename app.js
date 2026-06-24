@@ -67,17 +67,29 @@
   function renderChips() {
     const counts = {};
     STOCKS.forEach((s) => (counts[s.sector] = (counts[s.sector] || 0) + 1));
-    const sectors = ["全部", ...Object.keys(counts)];
-    $("#sectorChips").innerHTML = sectors
-      .map((sec) => {
-        const n = sec === "全部" ? STOCKS.length : counts[sec];
-        const active = state.sector === sec ? "active" : "";
-        return `<button class="chip ${active}" data-sector="${esc(sec)}">${esc(sec)}<span class="badge">${n}</span></button>`;
-      })
-      .join("");
-    $("#sectorChips").querySelectorAll(".chip").forEach((b) =>
+    // 板块按数量降序，默认只露前 5 个 + "全部"，其余收进「更多」
+    const allSectors = Object.entries(counts).sort((a, b) => b[1] - a[1]).map((x) => x[0]);
+    const TOP = 5;
+    const top = allSectors.slice(0, TOP);
+    const rest = allSectors.slice(TOP);
+    const renderChip = (sec) => {
+      const n = counts[sec] || 0;
+      const active = state.sector === sec ? "active" : "";
+      return `<button class="chip ${active}" data-sector="${esc(sec)}">${esc(sec)}<span class="badge">${n}</span></button>`;
+    };
+    let html = `<button class="chip ${state.sector === "全部" ? "active" : ""}" data-sector="全部">全部<span class="badge">${STOCKS.length}</span></button>`;
+    html += top.map(renderChip).join("");
+    if (rest.length) {
+      const expanded = state._sectorMore ? " expanded" : "";
+      html += `<button class="chip sector-more${expanded}" id="sectorMore">更多 ${rest.length}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>`;
+      html += `<span class="sector-rest${expanded}">${rest.map(renderChip).join("")}</span>`;
+    }
+    $("#sectorChips").innerHTML = html;
+    $("#sectorChips").querySelectorAll(".chip[data-sector]").forEach((b) =>
       b.addEventListener("click", () => { state.sector = b.dataset.sector; renderChips(); render(); })
     );
+    const more = $("#sectorMore");
+    if (more) more.addEventListener("click", () => { state._sectorMore = !state._sectorMore; renderChips(); });
     document.querySelectorAll(".verdict-chip").forEach((b) =>
       b.classList.toggle("active", b.dataset.verdict === state.verdict)
     );
