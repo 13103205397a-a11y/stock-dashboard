@@ -23,8 +23,8 @@ window.STOCKS = [
       "硅光自研降本"
     ],
     "left": {
-      "zone": "1210.7–1242.9",
-      "trigger": "回踩 MA10(1242.9)/MA20(1210.7) 缩量企稳即逢低；强支撑 MA60 957.1；止损 1174.4",
+      "zone": "1221.2–1256.2",
+      "trigger": "回踩 MA10(1256.2)/MA20(1221.2) 缩量企稳即逢低；强支撑 MA60 968.5；止损 1184.6",
       "logic": "产业景气与订单未证伪前，回调即是上车成本，趋势中枢支撑有效。"
     },
     "right": {
@@ -80,39 +80,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 1310.01,
-      "chgPct": -5.23,
-      "ma5": 1316.88,
-      "ma10": 1242.94,
-      "ma20": 1210.74,
-      "ma60": 957.14,
-      "ma120": 769.92,
-      "ma250": 548.81,
+      "date": "2026-06-24",
+      "price": 1312.18,
+      "chgPct": 0.17,
+      "ma5": 1329.7,
+      "ma10": 1256.16,
+      "ma20": 1221.2,
+      "ma60": 968.55,
+      "ma120": 776.1,
+      "ma250": 553.6,
       "high20": 1416.88,
-      "low20": 1076,
+      "low20": 1085.56,
       "high60": 1416.88,
       "low60": 554,
-      "volRatio": 0.88,
-      "atr": 80.13,
+      "volRatio": 0.9,
+      "atr": 75.45,
       "trend": "多头排列",
-      "posPct": 36.87,
+      "posPct": 35.48,
       "supportZone": [
-        1210.74,
-        1242.94
+        1221.2,
+        1256.16
       ],
-      "deepSupport": 957.14,
-      "pullbackPct": 5.4,
+      "deepSupport": 968.55,
+      "pullbackPct": 4.46,
       "breakout": 1416.88,
-      "toBreakoutPct": 8.16,
-      "leftStop": 1174.41,
+      "toBreakoutPct": 7.98,
+      "leftStop": 1184.56,
       "leftTarget": 1416.88,
-      "leftRR": 3.62,
+      "leftRR": 3.29,
       "rightStop": 1360.2,
-      "leftState": "回踩约 5.4% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 8.2%",
+      "leftState": "回踩约 4.5% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 8.0%",
       "spark": [
-        627.4,
         613.2,
         597,
         588.08,
@@ -171,36 +170,37 @@ window.STOCKS = [
         1276.11,
         1367.88,
         1382.33,
-        1310.01
+        1310.01,
+        1312.18
       ]
     },
     "news": [
       {
-        "title": "为什么中际旭创的股价很牛？——从财务视角拆解光模块龙头的“十倍股”密码",
-        "date": "2026-06-23 10:18",
+        "title": "中际旭创股价何以受关注",
+        "date": "2026-06-24 09:29",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677638403.shtml"
+        "url": "http://news.10jqka.com.cn/19700121/c677669543.shtml"
       },
       {
-        "title": "中际旭创市值1.526万亿超贵州茅台 年内股价涨124%成沪深300第一大权重股",
-        "date": "2026-06-22 13:44",
+        "title": "半年报主线锁定AI硬件、出海制造，中际旭创受31家机构青睐",
+        "date": "2026-06-24 08:46",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677609215.shtml"
+        "url": "http://news.10jqka.com.cn/19700121/c677665597.shtml"
       },
       {
-        "title": "AI算力缔造新标杆！中际旭创市值、股价双超茅台",
-        "date": "2026-06-22 11:33",
+        "title": "机构看好39股高成长潜力，中际旭创有31家机构评级 位居第一位",
+        "date": "2026-06-24 08:05",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677606983.shtml"
+        "url": "http://news.10jqka.com.cn/19700121/c677663291.shtml"
       }
     ],
     "fund": {
-      "netInflow": -38.67,
-      "turnover": 2.63,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -12.28,
+      "turnover": 2.36,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "山西证券",
@@ -234,8 +234,8 @@ window.STOCKS = [
       "泰国产能释放"
     ],
     "left": {
-      "zone": "518.8–534.8",
-      "trigger": "回踩 MA10(550.5)/MA20(534.8) 缩量企稳即逢低；强支撑 MA60 434.7；止损 503.2",
+      "zone": "537.6–550.0",
+      "trigger": "回踩 MA10(550.0)/MA20(537.6) 缩量企稳即逢低；强支撑 MA60 438.3；止损 521.5",
       "logic": "高盈利弹性的二线龙头，回调时性价比凸显。"
     },
     "right": {
@@ -289,39 +289,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 552,
-      "chgPct": -4.82,
-      "ma5": 564.07,
-      "ma10": 550.49,
-      "ma20": 534.81,
-      "ma60": 434.74,
-      "ma120": 362.14,
-      "ma250": 276.85,
+      "date": "2026-06-24",
+      "price": 555.3,
+      "chgPct": 0.6,
+      "ma5": 565.33,
+      "ma10": 549.97,
+      "ma20": 537.61,
+      "ma60": 438.33,
+      "ma120": 364.19,
+      "ma250": 278.79,
       "high20": 591,
-      "low20": 467.14,
+      "low20": 479.12,
       "high60": 591,
       "low60": 309.79,
-      "volRatio": 1.02,
-      "atr": 40.62,
+      "volRatio": 1.03,
+      "atr": 39.14,
       "trend": "多头排列",
-      "posPct": 26.97,
+      "posPct": 26.68,
       "supportZone": [
-        518.76,
-        534.81
+        537.61,
+        549.97
       ],
-      "deepSupport": 434.74,
-      "pullbackPct": 3.21,
+      "deepSupport": 438.33,
+      "pullbackPct": 0.97,
       "breakout": 591,
-      "toBreakoutPct": 7.07,
-      "leftStop": 503.2,
+      "toBreakoutPct": 6.43,
+      "leftStop": 521.48,
       "leftTarget": 591,
-      "leftRR": 2.72,
+      "leftRR": 2.12,
       "rightStop": 567.36,
-      "leftState": "回踩约 3.2% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 7.1%",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "箱体内 · 距突破 6.4%",
       "spark": [
-        339.43,
         325.71,
         318.86,
         326.7,
@@ -380,36 +379,37 @@ window.STOCKS = [
         557.88,
         581.48,
         579.97,
-        552
+        552,
+        555.3
       ]
     },
     "news": [
+      {
+        "title": "新易盛：光模块技术领先，业绩高增，预测第二季度净利润36.33亿元，同比变动53.3%",
+        "date": "2026-06-23 21:38",
+        "source": "同花顺问财",
+        "url": "https://www.163.com/dy/article/L04VKFD805568W0A.html"
+      },
+      {
+        "title": "新易盛：光模块技术领先，业绩高增，预测第二季度净利润36.33亿元，同比变动53.3%",
+        "date": "2026-06-23 18:39",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677654503.shtml"
+      },
       {
         "title": "成都新易盛跻身全球影响力百强 市值突破8000亿元彰显中国科技出海实力",
         "date": "2026-06-22 11:00",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677606041.shtml"
-      },
-      {
-        "title": "新易盛又要IPO了",
-        "date": "2026-06-19 10:53",
-        "source": "同花顺问财",
-        "url": "https://finance.jrj.com.cn/2026/06/19105357521835.shtml"
-      },
-      {
-        "title": "新易盛股价涨3.42%",
-        "date": "2026-06-18 09:43",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868297157387775080&wfr=spider"
       }
     ],
     "fund": {
-      "netInflow": -34.22,
-      "turnover": 3.54,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -1.71,
+      "turnover": 3.23,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "甬兴证券",
@@ -443,8 +443,8 @@ window.STOCKS = [
       "客户份额提升"
     ],
     "left": {
-      "zone": "279.9–307.9",
-      "trigger": "回踩 307.9 缩量企稳；失守 279.9 转弱；强支撑 268.6，止损 271.6",
+      "zone": "312.6–317.5",
+      "trigger": "回踩 MA10(312.6)/MA20(317.5) 缩量企稳即逢低；强支撑 MA60 270.2；止损 303.2",
       "logic": "上游平台壁垒高，回调承接确定性较强。"
     },
     "right": {
@@ -497,39 +497,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 311.06,
-      "chgPct": -4.62,
-      "ma5": 325.56,
-      "ma10": 311.75,
-      "ma20": 315.77,
-      "ma60": 268.59,
-      "ma120": 226.99,
-      "ma250": 161.31,
+      "date": "2026-06-24",
+      "price": 325.28,
+      "chgPct": 4.57,
+      "ma5": 325.68,
+      "ma10": 312.62,
+      "ma20": 317.53,
+      "ma60": 270.23,
+      "ma120": 228.44,
+      "ma250": 162.4,
       "high20": 374.5,
       "low20": 277.18,
       "high60": 374.5,
       "low60": 212.51,
-      "volRatio": 1.09,
-      "atr": 24.46,
+      "volRatio": 1.04,
+      "atr": 22.42,
       "trend": "多头排列",
-      "posPct": 15.81,
+      "posPct": 20.37,
       "supportZone": [
-        279.95,
-        307.95
+        312.62,
+        317.53
       ],
-      "deepSupport": 268.59,
-      "pullbackPct": 1.01,
+      "deepSupport": 270.23,
+      "pullbackPct": 2.44,
       "breakout": 374.5,
-      "toBreakoutPct": 20.39,
-      "leftStop": 271.56,
+      "toBreakoutPct": 15.13,
+      "leftStop": 303.24,
       "leftTarget": 374.5,
-      "leftRR": 3.6,
+      "leftRR": 5.02,
       "rightStop": 359.52,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 20.4% · 暂无右侧",
+      "leftState": "回踩约 2.4% 入场（逢低区）",
+      "rightState": "远离突破 15.1% · 暂无右侧",
       "spark": [
-        226.71,
         231.64,
         226.36,
         225.79,
@@ -588,36 +587,37 @@ window.STOCKS = [
         329.33,
         336.6,
         326.12,
-        311.06
+        311.06,
+        325.28
       ]
     },
     "news": [
+      {
+        "title": "天孚通信：公司2025年度研发投入金额为2.67亿元，占营收比例为5.16%",
+        "date": "2026-06-24 17:46",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677684125.shtml"
+      },
+      {
+        "title": "“白毛股神”X平台点名！天孚通信尾盘异动拉升，10分钟放量超25亿",
+        "date": "2026-06-24 15:41",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677677922.shtml"
+      },
       {
         "title": "天孚通信股价涨3%",
         "date": "2026-06-18 10:02",
         "source": "同花顺问财",
         "url": "https://baijiahao.baidu.com/s?for=pc&id=1868298374114043466&wfr=spider"
-      },
-      {
-        "title": "天孚通信是做什么的？天孚通信的主营业务是什么？",
-        "date": "2026-06-16 15:40",
-        "source": "同花顺问财",
-        "url": "https://baike.jfinfo.com/4047291.html"
-      },
-      {
-        "title": "卡位AI光互连核心赛道，天孚通信CPO配套产品稳定交付",
-        "date": "2026-06-16 10:39",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677491108.shtml"
       }
     ],
     "fund": {
-      "netInflow": -18.9,
-      "turnover": 4.21,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 5.32,
+      "turnover": 4.15,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "东北证券",
@@ -650,8 +650,8 @@ window.STOCKS = [
       "国资订单"
     ],
     "left": {
-      "zone": "248.6–256.2",
-      "trigger": "回踩 MA10(233.0)/MA20(222.8) 缩量企稳即逢低；强支撑 MA60 168.5；止损 241.1",
+      "zone": "255.6–263.5",
+      "trigger": "回踩 MA10(238.6)/MA20(225.8) 缩量企稳即逢低；强支撑 MA60 171.5；止损 247.9",
       "logic": "国产替代主线，回调补涨属性。"
     },
     "right": {
@@ -704,39 +704,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 266.9,
-      "chgPct": -3.33,
-      "ma5": 256.24,
-      "ma10": 232.99,
-      "ma20": 222.83,
-      "ma60": 168.52,
-      "ma120": 121.6,
-      "ma250": 88.35,
+      "date": "2026-06-24",
+      "price": 266.36,
+      "chgPct": -0.2,
+      "ma5": 263.51,
+      "ma10": 238.6,
+      "ma20": 225.81,
+      "ma60": 171.52,
+      "ma120": 123.25,
+      "ma250": 89.24,
       "high20": 279,
       "low20": 197.58,
       "high60": 279,
       "low60": 81.38,
-      "volRatio": 0.9,
-      "atr": 16.57,
+      "volRatio": 0.87,
+      "atr": 16.11,
       "trend": "多头排列",
-      "posPct": 58.38,
+      "posPct": 55.29,
       "supportZone": [
-        248.55,
-        256.24
+        255.6,
+        263.51
       ],
-      "deepSupport": 168.52,
-      "pullbackPct": 4.16,
+      "deepSupport": 171.52,
+      "pullbackPct": 1.08,
       "breakout": 279,
-      "toBreakoutPct": 4.53,
-      "leftStop": 241.09,
+      "toBreakoutPct": 4.75,
+      "leftStop": 247.93,
       "leftTarget": 279,
-      "leftRR": 2.35,
+      "leftRR": 1.67,
       "rightStop": 267.84,
-      "leftState": "回踩约 4.2% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 4.5%",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "箱体内 · 距突破 4.7%",
       "spark": [
-        86.45,
         85,
         84.5,
         88.1,
@@ -795,36 +794,37 @@ window.STOCKS = [
         242,
         266.2,
         276.08,
-        266.9
+        266.9,
+        266.36
       ]
     },
     "news": [
       {
-        "title": "光迅科技股价涨4.76%",
-        "date": "2026-06-22 09:32",
+        "title": "光迅科技(002281)-千股千评-行情中心-证券之星",
+        "date": "2026-06-24 00:00",
         "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868658820617418369&wfr=spider"
+        "url": "https://quote.stockstar.com/Comment/Eval/002281"
+      },
+      {
+        "title": "涨幅超240%！武汉一企业，市值破2000亿元",
+        "date": "2026-06-17 12:13",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677526678.shtml"
       },
       {
         "title": "光迅科技股价涨3.2%",
         "date": "2026-06-17 10:17",
         "source": "同花顺问财",
         "url": "https://baijiahao.baidu.com/s?for=pc&id=1868208717641610469&wfr=spider"
-      },
-      {
-        "title": "光迅科技产品介绍",
-        "date": "2026-06-16 08:41",
-        "source": "同花顺问财",
-        "url": "https://www.tgb.cn/a/2sFqvuWVobM"
       }
     ],
     "fund": {
-      "netInflow": -3.42,
-      "turnover": 5.6,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -6.4,
+      "turnover": 5.41,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "国泰海通证券",
@@ -858,8 +858,8 @@ window.STOCKS = [
       "良率爬坡"
     ],
     "left": {
-      "zone": "1665.7–1717.2",
-      "trigger": "回踩 MA10(1582.8)/MA20(1401.9) 缩量企稳即逢低；强支撑 MA60 1100.4；止损 1615.7",
+      "zone": "1710.1–1763.0",
+      "trigger": "回踩 MA10(1619.1)/MA20(1441.7) 缩量企稳即逢低；强支撑 MA60 1117.9；止损 1658.8",
       "logic": "稀缺上游，逻辑未破时回调即布局。"
     },
     "right": {
@@ -912,39 +912,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 1818.3,
-      "chgPct": -2.95,
-      "ma5": 1717.21,
-      "ma10": 1582.79,
-      "ma20": 1401.89,
-      "ma60": 1100.39,
-      "ma120": 819.79,
-      "ma250": 525.69,
+      "date": "2026-06-24",
+      "price": 1838,
+      "chgPct": 1.08,
+      "ma5": 1763.03,
+      "ma10": 1619.09,
+      "ma20": 1441.74,
+      "ma60": 1117.9,
+      "ma120": 831.56,
+      "ma250": 532.63,
       "high20": 1968.14,
-      "low20": 1025,
+      "low20": 1046.59,
       "high60": 1968.14,
       "low60": 687.08,
-      "volRatio": 0.81,
-      "atr": 137.61,
+      "volRatio": 0.75,
+      "atr": 127.54,
       "trend": "多头排列",
-      "posPct": 65.24,
+      "posPct": 64.42,
       "supportZone": [
-        1665.69,
-        1717.21
+        1710.14,
+        1763.03
       ],
-      "deepSupport": 1100.39,
-      "pullbackPct": 5.89,
+      "deepSupport": 1117.9,
+      "pullbackPct": 4.25,
       "breakout": 1968.14,
-      "toBreakoutPct": 8.24,
-      "leftStop": 1615.72,
+      "toBreakoutPct": 7.08,
+      "leftStop": 1658.84,
       "leftTarget": 1968.14,
-      "leftRR": 3.65,
+      "leftRR": 2.98,
       "rightStop": 1889.41,
-      "leftState": "回踩约 5.9% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 8.2%",
+      "leftState": "回踩约 4.3% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 7.1%",
       "spark": [
-        787.18,
         786.49,
         758.95,
         732.64,
@@ -1003,15 +1002,16 @@ window.STOCKS = [
         1612,
         1673.36,
         1873.5,
-        1818.3
+        1818.3,
+        1838
       ]
     },
     "news": [
       {
-        "title": "源杰科技股价累涨超74% 公司提示估值畸高及回调风险",
-        "date": "2026-06-22 20:25",
+        "title": "AI算力重塑电子行业，硬科技龙头开启“芯”成长周期",
+        "date": "2026-06-23 22:55",
         "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/stock/zqgd/2026-06-22/doc-iniehwmn0175547.shtml"
+        "url": "https://chejiahao.m.autohome.com.cn/info/25429595"
       },
       {
         "title": "AI高密度算力驱动催生光互连新赛道 CPO概念走强 源杰科技创新高",
@@ -1020,19 +1020,19 @@ window.STOCKS = [
         "url": "http://news.10jqka.com.cn/19700121/c677604486.shtml"
       },
       {
-        "title": "行业增长持续超预期！CPO概念反复活跃 源杰科技涨超10%续创历史新高",
+        "title": "机构预测2030年CPO/NPO市场规模超390亿美元！源杰科技涨超10%续创历史新高",
         "date": "2026-06-22 09:54",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677604319.shtml"
+        "url": "http://news.10jqka.com.cn/19700121/c677604326.shtml"
       }
     ],
     "fund": {
-      "netInflow": -5.33,
-      "turnover": 4.26,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -1.6,
+      "turnover": 3.33,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "群益证券(香港)",
@@ -1066,8 +1066,8 @@ window.STOCKS = [
       "出海"
     ],
     "left": {
-      "zone": "107.8–113.4",
-      "trigger": "回踩 MA10(107.8)/MA20(95.14) 缩量企稳即逢低；强支撑 MA60 74.16；止损 104.5",
+      "zone": "109.2–115.7",
+      "trigger": "回踩 MA10(109.2)/MA20(97.62) 缩量企稳即逢低；强支撑 MA60 75.34；止损 105.9",
       "logic": "低估值蓝筹，回调安全边际高。"
     },
     "right": {
@@ -1120,39 +1120,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 117.31,
-      "chgPct": -2.35,
-      "ma5": 113.39,
-      "ma10": 107.75,
-      "ma20": 95.14,
-      "ma60": 74.16,
-      "ma120": 54.85,
-      "ma250": 36.19,
+      "date": "2026-06-24",
+      "price": 119.02,
+      "chgPct": 1.46,
+      "ma5": 115.69,
+      "ma10": 109.15,
+      "ma20": 97.62,
+      "ma60": 75.34,
+      "ma120": 55.65,
+      "ma250": 36.61,
       "high20": 125.16,
       "low20": 65.62,
       "high60": 125.16,
-      "low60": 46,
-      "volRatio": 0.98,
-      "atr": 8.61,
+      "low60": 46.52,
+      "volRatio": 0.92,
+      "atr": 8.51,
       "trend": "多头排列",
-      "posPct": 58.18,
+      "posPct": 57.98,
       "supportZone": [
-        107.75,
-        113.39
+        109.15,
+        115.69
       ],
-      "deepSupport": 74.16,
-      "pullbackPct": 3.46,
+      "deepSupport": 75.34,
+      "pullbackPct": 2.87,
       "breakout": 125.16,
-      "toBreakoutPct": 6.69,
-      "leftStop": 104.52,
+      "toBreakoutPct": 5.16,
+      "leftStop": 105.88,
       "leftTarget": 125.16,
-      "leftRR": 2.41,
+      "leftRR": 1.95,
       "rightStop": 120.15,
-      "leftState": "回踩约 3.5% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 6.7%",
+      "leftState": "回踩约 2.9% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 5.2%",
       "spark": [
-        48.17,
         47.88,
         48.95,
         53.85,
@@ -1211,36 +1210,37 @@ window.STOCKS = [
         111,
         111.01,
         120.13,
-        117.31
+        117.31,
+        119.02
       ]
     },
     "news": [
       {
-        "title": "亨通光电年投20亿研发关键技术突破 年内市值增2350亿国泰基金精准加仓",
-        "date": "2026-06-23 08:12",
+        "title": "亨通光电(600487):亨通光电关于新增公司2026年度与日常经营生产业务相关的商品期货套期保值业务",
+        "date": "2026-06-24 18:25",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677631383.shtml"
+        "url": "https://stock.cfi.cn/p20260624001609.html"
       },
       {
-        "title": "亨通光电，半年猛涨2000亿",
-        "date": "2026-06-21 09:30",
+        "title": "亨通光电(600487):亨通光电关于拟变更公司注册资本、修订《公司章程》并办理工商变更",
+        "date": "2026-06-24 18:25",
         "source": "同花顺问财",
-        "url": "https://finance.sina.cn/stock/ssgs/2026-06-21/detail-iniecryy1195826.d.html?vt=4"
+        "url": "https://stock.cfi.cn/p20260624001605.html"
       },
       {
-        "title": "亨通光电是做什么的？亨通光电的主营业务是什么？",
-        "date": "2026-06-16 15:40",
+        "title": "亨通光电(600487):亨通光电关于变更公司财务总监",
+        "date": "2026-06-24 18:25",
         "source": "同花顺问财",
-        "url": "https://baike.jfinfo.com/4047271.html"
+        "url": "https://stock.cfi.cn/p20260624001601.html"
       }
     ],
     "fund": {
-      "netInflow": -19.78,
-      "turnover": 7.5,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -4.4,
+      "turnover": 6.74,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "国泰海通证券",
@@ -1274,8 +1274,8 @@ window.STOCKS = [
       "电网投资"
     ],
     "left": {
-      "zone": "55.67–57.39",
-      "trigger": "回踩 MA10(54.09)/MA20(48.60) 缩量企稳即逢低；强支撑 MA60 39.36；止损 54.00",
+      "zone": "57.18–58.95",
+      "trigger": "回踩 MA10(54.83)/MA20(49.67) 缩量企稳即逢低；强支撑 MA60 39.93；止损 55.46",
       "logic": "低估值多元龙头，回调承接。"
     },
     "right": {
@@ -1328,39 +1328,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 61.73,
-      "chgPct": 3.52,
-      "ma5": 57.39,
-      "ma10": 54.09,
-      "ma20": 48.6,
-      "ma60": 39.36,
-      "ma120": 31.07,
-      "ma250": 23.11,
+      "date": "2026-06-24",
+      "price": 61.91,
+      "chgPct": 0.29,
+      "ma5": 58.95,
+      "ma10": 54.83,
+      "ma20": 49.67,
+      "ma60": 39.93,
+      "ma120": 31.43,
+      "ma250": 23.3,
       "high20": 64.64,
       "low20": 37.75,
       "high60": 64.64,
       "low60": 25.91,
-      "volRatio": 0.9,
+      "volRatio": 0.89,
       "atr": 4.52,
       "trend": "多头排列",
-      "posPct": 56.83,
+      "posPct": 55.04,
       "supportZone": [
-        55.67,
-        57.39
+        57.18,
+        58.95
       ],
-      "deepSupport": 39.36,
-      "pullbackPct": 7.55,
+      "deepSupport": 39.93,
+      "pullbackPct": 5.03,
       "breakout": 64.64,
-      "toBreakoutPct": 4.71,
-      "leftStop": 54,
+      "toBreakoutPct": 4.41,
+      "leftStop": 55.46,
       "leftTarget": 64.64,
-      "leftRR": 3.2,
+      "leftRR": 2.53,
       "rightStop": 62.05,
-      "leftState": "回踩约 7.6% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 4.7%",
+      "leftState": "回踩约 5.0% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 4.4%",
       "spark": [
-        27.67,
         26.77,
         27.05,
         28.99,
@@ -1419,36 +1418,37 @@ window.STOCKS = [
         54.91,
         56.55,
         59.63,
-        61.73
+        61.73,
+        61.91
       ]
     },
     "news": [
       {
-        "title": "中天科技全球首发超大芯数高密度光缆 亮相国际链博会",
-        "date": "2026-06-23 06:34",
+        "title": "“蓝海领航”！中天科技发布新一代16000T海缆敷设船",
+        "date": "2026-06-23 20:37",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677628982.shtml"
+        "url": "http://news.10jqka.com.cn/19700121/c677658976.shtml"
+      },
+      {
+        "title": "软硬一体+AI驱动 中天科技智慧能碳一体机来了",
+        "date": "2026-06-23 20:37",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677658968.shtml"
       },
       {
         "title": "中天科技发布17280芯超大芯数高密度光缆",
         "date": "2026-06-22 18:17",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677620343.shtml"
-      },
-      {
-        "title": "链博会首日 中天科技重磅发布17280芯超大芯数高密度光缆",
-        "date": "2026-06-22 18:14",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677620240.shtml"
       }
     ],
     "fund": {
-      "netInflow": 4.57,
-      "turnover": 9.49,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -10.77,
+      "turnover": 8.76,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "国泰海通证券",
@@ -1481,13 +1481,13 @@ window.STOCKS = [
       "AIDC 互联"
     ],
     "left": {
-      "zone": "524.9–553.5",
-      "trigger": "回踩 MA10(475.2)/MA20(440.9) 缩量企稳即逢低；强支撑 MA60 390.8；止损 509.2",
+      "zone": "533.6–562.6",
+      "trigger": "回踩 MA10(484.7)/MA20(451.7) 缩量企稳即逢低；强支撑 MA60 396.2；止损 517.6",
       "logic": "一体化龙头，回调布局空芯期权。"
     },
     "right": {
-      "zone": "已破 570.6 · 回踩 MA10(475.2) 不破加仓",
-      "trigger": "放量站上 570.6（60日高），量比>1.3 确认；新高回踩不破再加，止损 547.8",
+      "zone": "站上 594.0",
+      "trigger": "放量站上 594.0（60日高），量比>1.3 确认；新高回踩不破再加，止损 570.2",
       "logic": "空芯光纤催化驱动右侧弹性。"
     },
     "falsify": [
@@ -1535,39 +1535,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 570.58,
-      "chgPct": 10,
-      "ma5": 497.09,
-      "ma10": 475.18,
-      "ma20": 440.92,
-      "ma60": 390.82,
-      "ma120": 280.13,
-      "ma250": 171.5,
-      "high20": 570.58,
+      "date": "2026-06-24",
+      "price": 580,
+      "chgPct": 1.65,
+      "ma5": 520.27,
+      "ma10": 484.74,
+      "ma20": 451.72,
+      "ma60": 396.21,
+      "ma120": 284,
+      "ma250": 173.68,
+      "high20": 594,
       "low20": 351.37,
-      "high60": 570.58,
-      "low60": 243,
-      "volRatio": 0.91,
+      "high60": 594,
+      "low60": 252.25,
+      "volRatio": 0.95,
       "atr": 38.85,
       "trend": "多头排列",
-      "posPct": 46,
+      "posPct": 46.39,
       "supportZone": [
-        524.93,
-        553.46
+        533.6,
+        562.6
       ],
-      "deepSupport": 390.82,
+      "deepSupport": 396.21,
       "pullbackPct": 3.09,
-      "breakout": 570.58,
-      "toBreakoutPct": 0,
-      "leftStop": 509.19,
-      "leftTarget": 599.11,
-      "leftRR": 2,
-      "rightStop": 547.76,
+      "breakout": 594,
+      "toBreakoutPct": 2.41,
+      "leftStop": 517.59,
+      "leftTarget": 594,
+      "leftRR": 1.5,
+      "rightStop": 570.24,
       "leftState": "回踩约 3.1% 入场（逢低区）",
-      "rightState": "创新高但量能不足 · 谨慎跟进",
+      "rightState": "临近突破 · 距 2.4%",
       "spark": [
-        256.64,
         268.88,
         274.26,
         301.69,
@@ -1626,36 +1625,37 @@ window.STOCKS = [
         460.5,
         471.55,
         518.71,
-        570.58
+        570.58,
+        580
       ]
     },
     "news": [
       {
-        "title": "6月23日长飞光纤（601869）涨停分析：AI需求、技术突破、业绩高增驱动",
-        "date": "2026-06-23 15:37",
+        "title": "长飞光纤发布股票交易异常波动公告，提示部分产品价格波动幅度存在不确定性",
+        "date": "2026-06-24 09:54",
         "source": "同花顺问财",
-        "url": "https://stock.stockstar.com/RB2026062300021305.shtml"
+        "url": "https://finance.jrj.com.cn/2026/06/24095457563128.shtml"
       },
       {
-        "title": "长飞光纤成鄂股首家市值3000亿公司 武汉加速打造世界级光电子信息产业集群",
-        "date": "2026-06-23 11:15",
+        "title": "长飞光纤提示：光纤产品价格波动存不确定性风险",
+        "date": "2026-06-23 20:51",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677639966.shtml"
+        "url": "https://finance.sina.com.cn/stock/zqgd/2026-06-23/doc-iniemfsi9552634.shtml"
       },
       {
-        "title": "涨停雷达：空芯光纤+AI算力光纤+业绩高增 长飞光纤触及涨停",
-        "date": "2026-06-23 10:28",
+        "title": "长飞光纤市值突破3000亿元 成湖北首家三千亿市值上市公司",
+        "date": "2026-06-23 17:33",
         "source": "同花顺问财",
-        "url": "http://yuanchuang.10jqka.com.cn/20260623/c677638650.shtml"
+        "url": "http://news.10jqka.com.cn/19700121/c677652473.shtml"
       }
     ],
     "fund": {
-      "netInflow": 4.4,
-      "turnover": 5.67,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -1.86,
+      "turnover": 4.66,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "东北证券",
@@ -1689,13 +1689,13 @@ window.STOCKS = [
       "汽车线束"
     ],
     "left": {
-      "zone": "57.66–62.05",
-      "trigger": "回踩 MA10(57.66)/MA20(53.84) 缩量企稳即逢低；强支撑 MA60 45.53；止损 55.93",
+      "zone": "62.11–64.03",
+      "trigger": "回踩 MA10(58.84)/MA20(54.97) 缩量企稳即逢低；强支撑 MA60 46.24；止损 60.24",
       "logic": "题材弹性票，回调博弈超导主题。"
     },
     "right": {
-      "zone": "站上 66.66",
-      "trigger": "放量站上 66.66（60日高），量比>1.3 确认；新高回踩不破再加，止损 63.99",
+      "zone": "已破 68.74 · 回踩 MA10(58.84) 不破加仓",
+      "trigger": "放量站上 68.74（60日高），量比>1.3 确认；新高回踩不破再加，止损 65.99",
       "logic": "超导/核聚变催化驱动。"
     },
     "falsify": [
@@ -1743,39 +1743,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 62.49,
-      "chgPct": -1.9,
-      "ma5": 62.05,
-      "ma10": 57.66,
-      "ma20": 53.84,
-      "ma60": 45.53,
-      "ma120": 36.21,
-      "ma250": 23.63,
-      "high20": 66.66,
-      "low20": 42.59,
-      "high60": 66.66,
+      "date": "2026-06-24",
+      "price": 68.74,
+      "chgPct": 10,
+      "ma5": 64.03,
+      "ma10": 58.84,
+      "ma20": 54.97,
+      "ma60": 46.24,
+      "ma120": 36.61,
+      "ma250": 23.87,
+      "high20": 68.74,
+      "low20": 45,
+      "high60": 68.74,
       "low60": 24.18,
-      "volRatio": 0.92,
-      "atr": 4.7,
+      "volRatio": 0.96,
+      "atr": 4.9,
       "trend": "多头排列",
-      "posPct": 37.24,
+      "posPct": 48.65,
       "supportZone": [
-        57.66,
-        62.05
+        62.11,
+        64.03
       ],
-      "deepSupport": 45.53,
-      "pullbackPct": 0.7,
-      "breakout": 66.66,
-      "toBreakoutPct": 6.67,
-      "leftStop": 55.93,
-      "leftTarget": 66.66,
-      "leftRR": 1.73,
-      "rightStop": 63.99,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "箱体内 · 距突破 6.7%",
+      "deepSupport": 46.24,
+      "pullbackPct": 7.36,
+      "breakout": 68.74,
+      "toBreakoutPct": 0,
+      "leftStop": 60.24,
+      "leftTarget": 72.18,
+      "leftRR": 3.22,
+      "rightStop": 65.99,
+      "leftState": "回踩约 7.4% 入场（逢低区）",
+      "rightState": "创新高但量能不足 · 谨慎跟进",
       "spark": [
-        26.24,
         25.38,
         25.54,
         27.68,
@@ -1834,10 +1833,23 @@ window.STOCKS = [
         63.09,
         62.12,
         63.7,
-        62.49
+        62.49,
+        68.74
       ]
     },
     "news": [
+      {
+        "title": "AI算力带来巨量光纤光缆需求！永鼎股份反包涨停创历史新高",
+        "date": "2026-06-24 10:07",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677670711.shtml"
+      },
+      {
+        "title": "永鼎股份(600105)-千股千评-行情中心-证券之星",
+        "date": "2026-06-24 00:00",
+        "source": "同花顺问财",
+        "url": "https://quote.stockstar.com/Comment/Eval/600105"
+      },
       {
         "title": "永鼎股份涨停",
         "date": "2026-06-16 15:07",
@@ -1846,12 +1858,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -1.59,
-      "turnover": 9.54,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 5.98,
+      "turnover": 10.69,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "浙商证券",
@@ -1885,8 +1897,8 @@ window.STOCKS = [
       "PLC/硅光"
     ],
     "left": {
-      "zone": "158.7–161.7",
-      "trigger": "回踩 MA10(161.7)/MA20(158.7) 缩量企稳即逢低；强支撑 MA60 135.9；止损 153.9",
+      "zone": "158.5–162.9",
+      "trigger": "回踩 MA10(162.9)/MA20(158.5) 缩量企稳即逢低；强支撑 MA60 136.8；止损 153.8",
       "logic": "多元龙头，光模块逻辑支撑回调承接。"
     },
     "right": {
@@ -1939,39 +1951,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 163.66,
-      "chgPct": -6.3,
-      "ma5": 170.08,
-      "ma10": 161.67,
-      "ma20": 158.65,
-      "ma60": 135.92,
-      "ma120": 112.58,
-      "ma250": 88.12,
+      "date": "2026-06-24",
+      "price": 167.89,
+      "chgPct": 2.58,
+      "ma5": 170.86,
+      "ma10": 162.93,
+      "ma20": 158.54,
+      "ma60": 136.8,
+      "ma120": 113.36,
+      "ma250": 88.62,
       "high20": 181.57,
       "low20": 140.97,
       "high60": 181.57,
       "low60": 99.62,
-      "volRatio": 0.99,
-      "atr": 9.99,
+      "volRatio": 0.97,
+      "atr": 9.65,
       "trend": "多头排列",
-      "posPct": 20.41,
+      "posPct": 22.73,
       "supportZone": [
-        158.65,
-        161.67
+        158.54,
+        162.93
       ],
-      "deepSupport": 135.92,
-      "pullbackPct": 1.23,
+      "deepSupport": 136.8,
+      "pullbackPct": 3.05,
       "breakout": 181.57,
-      "toBreakoutPct": 10.94,
-      "leftStop": 153.89,
+      "toBreakoutPct": 8.15,
+      "leftStop": 153.79,
       "leftTarget": 181.57,
-      "leftRR": 3.41,
+      "leftRR": 3,
       "rightStop": 174.31,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "箱体内 · 距突破 10.9%",
+      "leftState": "回踩约 3.0% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 8.1%",
       "spark": [
-        115.49,
         105.1,
         109.25,
         106.7,
@@ -2030,36 +2041,37 @@ window.STOCKS = [
         170.51,
         177.55,
         174.67,
-        163.66
+        163.66,
+        167.89
       ]
     },
     "news": [
+      {
+        "title": "华工科技：公司聚焦800G、1.6T、3.2T、6.4T等超高速联接产品的研发",
+        "date": "2026-06-23 21:32",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677659807.shtml"
+      },
+      {
+        "title": "华工科技：在电信应用领域，公司实现5G-A的光模块商用，布局开发6G使用的光模块",
+        "date": "2026-06-23 19:32",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677656479.shtml"
+      },
       {
         "title": "AI光联接加速放量 太平洋予华工科技“买入”评级",
         "date": "2026-06-22 15:30",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677612334.shtml"
-      },
-      {
-        "title": "华工科技：公司国内算力中心光模块在手订单较去年实现显著增长",
-        "date": "2026-06-16 20:38",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677511732.shtml"
-      },
-      {
-        "title": "华工科技：公司已提前布局硅光PIC、VCSEL及CW激光器产能",
-        "date": "2026-06-16 19:31",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677509190.shtml"
       }
     ],
     "fund": {
-      "netInflow": -16.21,
-      "turnover": 7.62,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 3.85,
+      "turnover": 5.46,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "太平洋",
@@ -2093,8 +2105,8 @@ window.STOCKS = [
       "产能扩张"
     ],
     "left": {
-      "zone": "318.0–327.9",
-      "trigger": "回踩 327.9 缩量企稳；失守 318.0 转弱；强支撑 327.9，止损 308.5",
+      "zone": "319.3–329.2",
+      "trigger": "回踩 329.2 缩量企稳；失守 319.3 转弱；强支撑 329.2，止损 309.7",
       "logic": "业绩高增龙头，回调即布局。"
     },
     "right": {
@@ -2149,39 +2161,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 338.2,
-      "chgPct": -7.44,
-      "ma5": 357.96,
-      "ma10": 345.98,
-      "ma20": 352.06,
-      "ma60": 327.87,
-      "ma120": 303.44,
-      "ma250": 268.5,
+      "date": "2026-06-24",
+      "price": 343.43,
+      "chgPct": 1.55,
+      "ma5": 355.55,
+      "ma10": 346.07,
+      "ma20": 349.58,
+      "ma60": 329.19,
+      "ma120": 303.92,
+      "ma250": 269.46,
       "high20": 402.6,
       "low20": 306.56,
       "high60": 402.6,
       "low60": 248.81,
       "volRatio": 1,
-      "atr": 23.11,
+      "atr": 22.39,
       "trend": "多头排列",
-      "posPct": 3.15,
+      "posPct": 4.33,
       "supportZone": [
-        318.04,
-        327.87
+        319.32,
+        329.19
       ],
-      "deepSupport": 327.87,
-      "pullbackPct": 3.15,
+      "deepSupport": 329.19,
+      "pullbackPct": 4.33,
       "breakout": 402.6,
-      "toBreakoutPct": 19.04,
-      "leftStop": 308.5,
+      "toBreakoutPct": 17.23,
+      "leftStop": 309.74,
       "leftTarget": 402.6,
-      "leftRR": 5.51,
+      "leftRR": 5.4,
       "rightStop": 386.5,
-      "leftState": "回踩约 3.1% 入场（逢低区）",
-      "rightState": "远离突破 19.0% · 暂无右侧",
+      "leftState": "回踩约 4.3% 入场（逢低区）",
+      "rightState": "远离突破 17.2% · 暂无右侧",
       "spark": [
-        264.45,
         266.9,
         260.11,
         255.29,
@@ -2240,36 +2251,37 @@ window.STOCKS = [
         361.7,
         369,
         365.4,
-        338.2
+        338.2,
+        343.43
       ]
     },
     "news": [
       {
-        "title": "胜宏科技剑指千亿产值，深耕全球市场",
-        "date": "2026-06-23 14:27",
+        "title": "英伟达压PCB降价10%？胜宏科技：公司经营一切正常，客户方案调整是正常现象",
+        "date": "2026-06-24 13:52",
         "source": "同花顺问财",
-        "url": "https://chejiahao.m.autohome.com.cn/info/25057161"
+        "url": "http://news.10jqka.com.cn/19700121/c677675231.shtml"
+      },
+      {
+        "title": "从胜宏科技看上市公司引发的法律纷争",
+        "date": "2026-06-23 12:43",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677641935.shtml"
       },
       {
         "title": "胜宏科技：公司新建产能按计划推进落地",
         "date": "2026-06-17 19:31",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677541805.shtml"
-      },
-      {
-        "title": "胜宏科技：公司生产所需主要原材料为覆铜板、半固化片、铜球、铜箔等",
-        "date": "2026-06-17 16:39",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677534400.shtml"
       }
     ],
     "fund": {
-      "netInflow": -28.96,
-      "turnover": 6.04,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 2.51,
+      "turnover": 4.38,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "广发证券",
@@ -2303,8 +2315,8 @@ window.STOCKS = [
       "黄石产能"
     ],
     "left": {
-      "zone": "134.9–137.6",
-      "trigger": "回踩 MA10(137.6)/MA20(134.9) 缩量企稳即逢低；强支撑 MA60 109.2；止损 130.8",
+      "zone": "135.4–137.9",
+      "trigger": "回踩 MA10(137.9)/MA20(135.4) 缩量企稳即逢低；强支撑 MA60 110.2；止损 131.3",
       "logic": "稳健龙头，回调承接确定性高。"
     },
     "right": {
@@ -2357,39 +2369,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 138.5,
-      "chgPct": -4.65,
-      "ma5": 143.77,
-      "ma10": 137.64,
-      "ma20": 134.88,
-      "ma60": 109.2,
-      "ma120": 91.69,
-      "ma250": 75.49,
+      "date": "2026-06-24",
+      "price": 143.35,
+      "chgPct": 3.5,
+      "ma5": 144.31,
+      "ma10": 137.87,
+      "ma20": 135.38,
+      "ma60": 110.22,
+      "ma120": 92.32,
+      "ma250": 75.91,
       "high20": 151.9,
       "low20": 119.2,
       "high60": 151.9,
       "low60": 74.83,
-      "volRatio": 0.96,
-      "atr": 10.95,
+      "volRatio": 0.9,
+      "atr": 10.66,
       "trend": "多头排列",
-      "posPct": 26.83,
+      "posPct": 30.06,
       "supportZone": [
-        134.88,
-        137.64
+        135.38,
+        137.87
       ],
-      "deepSupport": 109.2,
-      "pullbackPct": 0.62,
+      "deepSupport": 110.22,
+      "pullbackPct": 3.98,
       "breakout": 151.9,
-      "toBreakoutPct": 9.68,
-      "leftStop": 130.83,
+      "toBreakoutPct": 5.96,
+      "leftStop": 131.31,
       "leftTarget": 151.9,
       "leftRR": 2.88,
       "rightStop": 145.82,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "箱体内 · 距突破 9.7%",
+      "leftState": "回踩约 4.0% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 6.0%",
       "spark": [
-        82.02,
         78.51,
         80.14,
         78.69,
@@ -2448,10 +2459,17 @@ window.STOCKS = [
         146.55,
         147.9,
         145.26,
-        138.5
+        138.5,
+        143.35
       ]
     },
     "news": [
+      {
+        "title": "【企业热点】沪电股份2.07亿收购！高端PCB产能利用率已达99%",
+        "date": "2026-06-24 10:05",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677670635.shtml"
+      },
       {
         "title": "沪电股份年内累计抛180亿投资 PCB行情火热加码高端产能建设",
         "date": "2026-06-23 08:05",
@@ -2463,21 +2481,15 @@ window.STOCKS = [
         "date": "2026-06-22 13:11",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677608636.shtml"
-      },
-      {
-        "title": "沪电股份拟超2亿元吸收合并全资子公司普江仓储以扩产",
-        "date": "2026-06-21 17:56",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677596119.shtml"
       }
     ],
     "fund": {
-      "netInflow": -10.9,
-      "turnover": 4.3,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 7.53,
+      "turnover": 3.67,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "招商证券",
@@ -2511,8 +2523,8 @@ window.STOCKS = [
       "折叠屏"
     ],
     "left": {
-      "zone": "96.22–105.8",
-      "trigger": "回踩 105.8 缩量企稳；失守 96.22 转弱；强支撑 82.53，止损 93.33",
+      "zone": "95.76–105.3",
+      "trigger": "回踩 105.3 缩量企稳；失守 95.76 转弱；强支撑 83.47，止损 92.89",
       "logic": "龙头估值低位，回调布局转型期权。"
     },
     "right": {
@@ -2565,39 +2577,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 106.91,
-      "chgPct": -5.38,
-      "ma5": 113.4,
-      "ma10": 110.33,
-      "ma20": 108.95,
-      "ma60": 82.53,
-      "ma120": 68.12,
-      "ma250": 57.08,
+      "date": "2026-06-24",
+      "price": 106.4,
+      "chgPct": -0.48,
+      "ma5": 113.04,
+      "ma10": 109.51,
+      "ma20": 108.52,
+      "ma60": 83.47,
+      "ma120": 68.61,
+      "ma250": 57.39,
       "high20": 123.1,
       "low20": 98.61,
       "high60": 123.1,
       "low60": 47,
-      "volRatio": 1.11,
-      "atr": 9.79,
+      "volRatio": 1.15,
+      "atr": 9.55,
       "trend": "多头排列",
-      "posPct": 29.54,
+      "posPct": 27.48,
       "supportZone": [
-        96.22,
-        105.84
+        95.76,
+        105.34
       ],
-      "deepSupport": 82.53,
+      "deepSupport": 83.47,
       "pullbackPct": 1.01,
       "breakout": 123.1,
-      "toBreakoutPct": 15.14,
-      "leftStop": 93.33,
+      "toBreakoutPct": 15.7,
+      "leftStop": 92.89,
       "leftTarget": 123.1,
-      "leftRR": 2.87,
+      "leftRR": 2.94,
       "rightStop": 118.18,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 15.1% · 暂无右侧",
+      "rightState": "远离突破 15.7% · 暂无右侧",
       "spark": [
-        50.37,
         49.45,
         49.18,
         49.65,
@@ -2656,13 +2667,14 @@ window.STOCKS = [
         119.01,
         119.91,
         112.99,
-        106.91
+        106.91,
+        106.4
       ]
     },
     "news": [
       {
         "title": "AI服务器PCB蓄势，鹏鼎控股谋求数倍增长",
-        "date": "2026-06-23 14:13",
+        "date": "2026-06-24 10:00",
         "source": "同花顺问财",
         "url": "https://chejiahao.m.autohome.com.cn/info/25471383"
       },
@@ -2680,12 +2692,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -0.21,
-      "turnover": 3.41,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -2.8,
+      "turnover": 2.13,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "广发证券",
@@ -2719,8 +2731,8 @@ window.STOCKS = [
       "光模块/光通信"
     ],
     "left": {
-      "zone": "233.7–240.9",
-      "trigger": "回踩 MA10(240.9)/MA20(229.2) 缩量企稳即逢低；强支撑 MA60 188.6；止损 226.7",
+      "zone": "236.8–244.2",
+      "trigger": "回踩 MA10(244.2)/MA20(231.0) 缩量企稳即逢低；强支撑 MA60 191.1；止损 229.8",
       "logic": "多元龙头，回调布局算力弹性。"
     },
     "right": {
@@ -2774,39 +2786,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 255.02,
-      "chgPct": -5.74,
-      "ma5": 260.91,
-      "ma10": 240.91,
-      "ma20": 229.23,
-      "ma60": 188.64,
-      "ma120": 137.38,
-      "ma250": 98,
+      "date": "2026-06-24",
+      "price": 257.13,
+      "chgPct": 0.83,
+      "ma5": 262.52,
+      "ma10": 244.18,
+      "ma20": 231.03,
+      "ma60": 191.12,
+      "ma120": 138.89,
+      "ma250": 98.9,
       "high20": 277.6,
       "low20": 191.75,
       "high60": 277.6,
       "low60": 98.83,
-      "volRatio": 1.03,
-      "atr": 18.19,
+      "volRatio": 0.93,
+      "atr": 17.32,
       "trend": "多头排列",
-      "posPct": 35.19,
+      "posPct": 34.54,
       "supportZone": [
-        233.68,
-        240.91
+        236.85,
+        244.18
       ],
-      "deepSupport": 188.64,
-      "pullbackPct": 5.86,
+      "deepSupport": 191.12,
+      "pullbackPct": 5.3,
       "breakout": 277.6,
-      "toBreakoutPct": 8.85,
-      "leftStop": 226.67,
+      "toBreakoutPct": 7.96,
+      "leftStop": 229.75,
       "leftTarget": 277.6,
-      "leftRR": 3.79,
+      "leftRR": 3.44,
       "rightStop": 266.5,
-      "leftState": "回踩约 5.9% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 8.9%",
+      "leftState": "回踩约 5.3% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 8.0%",
       "spark": [
-        108.21,
         104.3,
         102.65,
         105,
@@ -2865,10 +2876,17 @@ window.STOCKS = [
         256.92,
         273,
         270.55,
-        255.02
+        255.02,
+        257.13
       ]
     },
     "news": [
+      {
+        "title": "光模块巨头，订单剧增240%！",
+        "date": "2026-06-24 18:06",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677684851.shtml"
+      },
       {
         "title": "公司如何把握 AI 产业的战略发展机遇？东山精密回应",
         "date": "2026-06-23 16:15",
@@ -2876,25 +2894,19 @@ window.STOCKS = [
         "url": "http://news.10jqka.com.cn/19700121/c677648864.shtml"
       },
       {
-        "title": "东山精密再砸81亿元扩产光芯片",
-        "date": "2026-06-23 11:47",
+        "title": "东山精密 (002384)新闻公告_个股行情_同花顺财经",
+        "date": "2026-06-21 11:41",
         "source": "同花顺问财",
-        "url": "https://finance.ifeng.com/c/8uBqb5M30dg"
-      },
-      {
-        "title": "东山精密拟12亿美元扩建光芯片及光模块产能",
-        "date": "2026-06-18 17:21",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677572759.shtml"
+        "url": "https://stockpage.10jqka.com.cn/002384/news/"
       }
     ],
     "fund": {
-      "netInflow": -20.93,
-      "turnover": 5.2,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -4.37,
+      "turnover": 4.18,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "国盛证券",
@@ -2928,8 +2940,8 @@ window.STOCKS = [
       "高端料占比提升"
     ],
     "left": {
-      "zone": "160.8–165.8",
-      "trigger": "回踩 MA10(165.8)/MA20(151.0) 缩量企稳即逢低；强支撑 MA60 99.70；止损 156.0",
+      "zone": "163.7–168.7",
+      "trigger": "回踩 MA10(168.7)/MA20(153.5) 缩量企稳即逢低；强支撑 MA60 101.7；止损 158.8",
       "logic": "上游材料龙头，回调承接确定性强。"
     },
     "right": {
@@ -2982,39 +2994,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 167.87,
-      "chgPct": -9.01,
-      "ma5": 179.16,
-      "ma10": 165.76,
-      "ma20": 151.03,
-      "ma60": 99.7,
-      "ma120": 83.05,
-      "ma250": 64.63,
+      "date": "2026-06-24",
+      "price": 177.3,
+      "chgPct": 5.62,
+      "ma5": 178.74,
+      "ma10": 168.74,
+      "ma20": 153.52,
+      "ma60": 101.7,
+      "ma120": 84.03,
+      "ma250": 65.23,
       "high20": 191.88,
-      "low20": 114.8,
+      "low20": 124.71,
       "high60": 191.88,
       "low60": 50.4,
-      "volRatio": 1.05,
+      "volRatio": 1.02,
       "atr": 13.18,
       "trend": "多头排列",
-      "posPct": 68.38,
+      "posPct": 74.33,
       "supportZone": [
-        160.79,
-        165.76
+        163.68,
+        168.74
       ],
-      "deepSupport": 99.7,
-      "pullbackPct": 1.27,
+      "deepSupport": 101.7,
+      "pullbackPct": 5.07,
       "breakout": 191.88,
-      "toBreakoutPct": 14.3,
-      "leftStop": 155.96,
+      "toBreakoutPct": 8.22,
+      "leftStop": 158.77,
       "leftTarget": 191.88,
-      "leftRR": 3.91,
+      "leftRR": 3.45,
       "rightStop": 184.2,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 14.3% · 暂无右侧",
+      "leftState": "回踩约 5.1% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 8.2%",
       "spark": [
-        57,
         54.61,
         53.95,
         54.3,
@@ -3073,15 +3084,16 @@ window.STOCKS = [
         180.15,
         183.87,
         184.5,
-        167.87
+        167.87,
+        177.3
       ]
     },
     "news": [
       {
-        "title": "甜茶几分甜",
-        "date": "2026-06-23 10:57",
+        "title": "生益科技(600183)-千股千评-行情中心-证券之星",
+        "date": "2026-06-24 00:00",
         "source": "同花顺问财",
-        "url": "https://www.tgb.cn/a/2sRcz9cHNmz"
+        "url": "https://quote.stockstar.com/Comment/Eval/600183"
       },
       {
         "title": "覆铜板行情持续走高！“生益科技” 孟运东所长分享环氧树脂在覆铜板中的应用",
@@ -3097,12 +3109,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -10.9,
-      "turnover": 4.17,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 5.18,
+      "turnover": 3.25,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "太平洋",
@@ -3136,8 +3148,8 @@ window.STOCKS = [
       "光学膜"
     ],
     "left": {
-      "zone": "66.10–68.14",
-      "trigger": "回踩 MA10(68.14)/MA20(60.88) 缩量企稳即逢低；强支撑 MA60 45.92；止损 64.11",
+      "zone": "67.55–69.63",
+      "trigger": "回踩 MA10(69.63)/MA20(61.94) 缩量企稳即逢低；强支撑 MA60 46.65；止损 65.52",
       "logic": "上游材料弹性，回调布局国产替代。"
     },
     "right": {
@@ -3190,39 +3202,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 71.85,
-      "chgPct": -10,
-      "ma5": 74.29,
-      "ma10": 68.14,
-      "ma20": 60.88,
-      "ma60": 45.92,
-      "ma120": 37.26,
-      "ma250": 26.74,
+      "date": "2026-06-24",
+      "price": 74.55,
+      "chgPct": 3.76,
+      "ma5": 74.85,
+      "ma10": 69.63,
+      "ma20": 61.94,
+      "ma60": 46.65,
+      "ma120": 37.7,
+      "ma250": 27,
       "high20": 80.46,
       "low20": 45.99,
       "high60": 80.46,
       "low60": 28.6,
-      "volRatio": 0.91,
-      "atr": 5.41,
+      "volRatio": 0.94,
+      "atr": 5.45,
       "trend": "多头排列",
-      "posPct": 56.48,
+      "posPct": 59.8,
       "supportZone": [
-        66.1,
-        68.14
+        67.55,
+        69.63
       ],
-      "deepSupport": 45.92,
-      "pullbackPct": 5.44,
+      "deepSupport": 46.65,
+      "pullbackPct": 7.06,
       "breakout": 80.46,
-      "toBreakoutPct": 11.98,
-      "leftStop": 64.11,
+      "toBreakoutPct": 7.93,
+      "leftStop": 65.52,
       "leftTarget": 80.46,
-      "leftRR": 4.43,
+      "leftRR": 3.87,
       "rightStop": 77.24,
-      "leftState": "回踩约 5.4% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 12.0%",
+      "leftState": "回踩约 7.1% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 7.9%",
       "spark": [
-        30.47,
         29.6,
         30.05,
         30.37,
@@ -3281,21 +3292,22 @@ window.STOCKS = [
         73.2,
         74.83,
         79.83,
-        71.85
+        71.85,
+        74.55
       ]
     },
     "news": [
       {
-        "title": "「风口解读」东材科技涨超6%，总市值历史新高",
-        "date": "2026-06-22 20:26",
+        "title": "营收破32亿！东材科技拟募资14亿用于MLCC高性能聚酯基膜等项目",
+        "date": "2026-06-24 00:00",
         "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868700006436507157&wfr=spider"
+        "url": "https://www.cmpe360.com/p/145690"
       },
       {
-        "title": "【风口解读】东材科技涨超6%，总市值历史新高",
-        "date": "2026-06-22 20:09",
+        "title": "东材科技(601208)：产能逐步释放推动利润提升 看好公司光学膜及电子材料布局",
+        "date": "2026-06-24 00:00",
         "source": "同花顺问财",
-        "url": "https://finance.sina.cn/2026-06-22/detail-iniehwmp6946161.d.html"
+        "url": "http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/lastest/rptid/835629468674/index.phtml"
       },
       {
         "title": "东材科技借势英伟达1年涨7倍",
@@ -3305,12 +3317,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -5.89,
-      "turnover": 8.88,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 0.5,
+      "turnover": 8.28,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "国泰海通证券",
@@ -3343,8 +3355,8 @@ window.STOCKS = [
       "智算中心"
     ],
     "left": {
-      "zone": "181.7–185.8",
-      "trigger": "回踩 MA10(166.5)/MA20(185.8) 缩量企稳即逢低；强支撑 MA60 140.3；止损 176.3",
+      "zone": "201.5–212.4",
+      "trigger": "回踩 MA10(172.3)/MA20(186.1) 缩量企稳即逢低；强支撑 MA60 142.9；止损 195.4",
       "logic": "题材弹性票，回调博弈算力运营。"
     },
     "right": {
@@ -3396,39 +3408,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 201.93,
-      "chgPct": 3.96,
-      "ma5": 180.18,
-      "ma10": 166.51,
-      "ma20": 185.75,
-      "ma60": 140.29,
-      "ma120": 91.75,
-      "ma250": 56.88,
+      "date": "2026-06-24",
+      "price": 219,
+      "chgPct": 8.45,
+      "ma5": 191.36,
+      "ma10": 172.33,
+      "ma20": 186.1,
+      "ma60": 142.89,
+      "ma120": 93.36,
+      "ma250": 57.67,
       "high20": 240.88,
       "low20": 138,
       "high60": 240.88,
-      "low60": 57.63,
-      "volRatio": 1.18,
-      "atr": 16.51,
-      "trend": "震荡",
-      "posPct": 43.94,
+      "low60": 58.45,
+      "volRatio": 1.17,
+      "atr": 17.23,
+      "trend": "多头排列",
+      "posPct": 53.26,
       "supportZone": [
-        181.74,
-        185.75
+        201.48,
+        212.43
       ],
-      "deepSupport": 140.29,
-      "pullbackPct": 8.71,
+      "deepSupport": 142.89,
+      "pullbackPct": 3.09,
       "breakout": 240.88,
-      "toBreakoutPct": 19.29,
-      "leftStop": 176.28,
+      "toBreakoutPct": 9.99,
+      "leftStop": 195.44,
       "leftTarget": 240.88,
-      "leftRR": 7.66,
+      "leftRR": 2.95,
       "rightStop": 231.24,
-      "leftState": "回踩约 8.7% 入场（逢低区）",
-      "rightState": "远离突破 19.3% · 暂无右侧",
+      "leftState": "回踩约 3.1% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 10.0%",
       "spark": [
-        62.68,
         66.05,
         64.48,
         64.37,
@@ -3487,36 +3498,37 @@ window.STOCKS = [
         165.03,
         176.58,
         194.24,
-        201.93
+        201.93,
+        219
       ]
     },
     "news": [
+      {
+        "title": "利通电子(603629)-千股千评-行情中心-证券之星",
+        "date": "2026-06-24 00:00",
+        "source": "同花顺问财",
+        "url": "https://quote.stockstar.com/Comment/Eval/603629"
+      },
+      {
+        "title": "利通电子：算力业务客户集中度相对较高 自有算力设备均已对外出租",
+        "date": "2026-06-23 19:34",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677656540.shtml"
+      },
       {
         "title": "利通电子成立数汇科技公司，含大数据服务业务",
         "date": "2026-06-23 11:33",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677640534.shtml"
-      },
-      {
-        "title": "公司后期的算力租赁是否也会涨价？利通电子回应",
-        "date": "2026-06-22 16:18",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677615847.shtml"
-      },
-      {
-        "title": "算力租赁、利通电子、业绩狂飙",
-        "date": "2026-06-20 06:52",
-        "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/roll/2026-06-20/doc-iniczanf9032825.shtml"
       }
     ],
     "fund": {
-      "netInflow": -2.86,
-      "turnover": 15.65,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 5.18,
+      "turnover": 14.84,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "东方财富证券",
@@ -3544,8 +3556,8 @@ window.STOCKS = [
       "Mini/Micro LED"
     ],
     "left": {
-      "zone": "160.3–165.2",
-      "trigger": "回踩 MA10(153.8)/MA20(134.5) 缩量企稳即逢低；强支撑 MA60 83.32；止损 155.4",
+      "zone": "150.8–155.5",
+      "trigger": "回踩 MA10(155.5)/MA20(138.3) 缩量企稳即逢低；强支撑 MA60 85.50；止损 146.3",
       "logic": "稀缺主题，回调博弈玻璃基板产业化。"
     },
     "right": {
@@ -3598,39 +3610,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 172.15,
-      "chgPct": 0.08,
-      "ma5": 165.21,
-      "ma10": 153.77,
-      "ma20": 134.5,
-      "ma60": 83.32,
-      "ma120": 60.25,
-      "ma250": 44.38,
+      "date": "2026-06-24",
+      "price": 167.37,
+      "chgPct": -2.78,
+      "ma5": 168.47,
+      "ma10": 155.49,
+      "ma20": 138.29,
+      "ma60": 85.5,
+      "ma120": 61.38,
+      "ma250": 44.96,
       "high20": 184.37,
-      "low20": 83.93,
+      "low20": 96.77,
       "high60": 184.37,
       "low60": 32.22,
       "volRatio": 0.82,
-      "atr": 18.03,
+      "atr": 17.99,
       "trend": "多头排列",
-      "posPct": 106.61,
+      "posPct": 95.76,
       "supportZone": [
-        160.25,
-        165.21
+        150.83,
+        155.49
       ],
-      "deepSupport": 83.32,
-      "pullbackPct": 4.2,
+      "deepSupport": 85.5,
+      "pullbackPct": 7.64,
       "breakout": 184.37,
-      "toBreakoutPct": 7.1,
-      "leftStop": 155.44,
+      "toBreakoutPct": 10.16,
+      "leftStop": 146.3,
       "leftTarget": 184.37,
-      "leftRR": 2.97,
+      "leftRR": 4.55,
       "rightStop": 177,
-      "leftState": "回踩约 4.2% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 7.1%",
+      "leftState": "回踩约 7.6% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 10.2%",
       "spark": [
-        36.65,
         35.8,
         35.4,
         34.13,
@@ -3689,10 +3700,17 @@ window.STOCKS = [
         166.13,
         164.7,
         172.02,
-        172.15
+        172.15,
+        167.37
       ]
     },
     "news": [
+      {
+        "title": "沃格光电亮相链博会：筑自主供应链，链全球新生态",
+        "date": "2026-06-23 23:30",
+        "source": "同花顺问财",
+        "url": "https://mp.weixin.qq.com/s?__biz=MzU2OTA4ODE1NQ==&chksm=fdd7a6e88a961a02826150362aff92e259f6cc80e157ea8c2c01c87b5536c4a1fc7cee3061d2&idx=1&mid=2247522007&sn=c098b17609872bfcd7c22d8e38d4f47b"
+      },
       {
         "title": "沃格光电与华为",
         "date": "2026-06-21 08:38",
@@ -3704,21 +3722,15 @@ window.STOCKS = [
         "date": "2026-06-17 18:06",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677538655.shtml"
-      },
-      {
-        "title": "沃格光电：目前在泛半导体领域的业务尚处于早期阶段，尚未形成规模化工业量产",
-        "date": "2026-06-17 18:05",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677538625.shtml"
       }
     ],
     "fund": {
-      "netInflow": -1.61,
-      "turnover": 13.55,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -1.84,
+      "turnover": 12.8,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "国海证券",
@@ -3751,8 +3763,8 @@ window.STOCKS = [
       "新品迭代"
     ],
     "left": {
-      "zone": "1328.8–1400.9",
-      "trigger": "回踩 MA10(1330.0)/MA20(1328.8) 缩量企稳即逢低；强支撑 MA60 1094.9；止损 1289.0",
+      "zone": "1331.0–1430.1",
+      "trigger": "回踩 MA10(1348.3)/MA20(1331.0) 缩量企稳即逢低；强支撑 MA60 1107.5；止损 1291.0",
       "logic": "国产算力主线，回调博弈订单兑现。"
     },
     "right": {
@@ -3808,39 +3820,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 1413,
-      "chgPct": -3.02,
-      "ma5": 1400.89,
-      "ma10": 1330,
-      "ma20": 1328.85,
-      "ma60": 1094.9,
-      "ma120": 958.75,
-      "ma250": 837.87,
+      "date": "2026-06-24",
+      "price": 1453,
+      "chgPct": 2.83,
+      "ma5": 1430.09,
+      "ma10": 1348.29,
+      "ma20": 1330.95,
+      "ma60": 1107.51,
+      "ma120": 963.77,
+      "ma250": 842.06,
       "high20": 1540,
       "low20": 1199,
       "high60": 1540,
       "low60": 658.73,
-      "volRatio": 1.1,
-      "atr": 92.54,
+      "volRatio": 1.16,
+      "atr": 89.24,
       "trend": "多头排列",
-      "posPct": 29.05,
+      "posPct": 31.2,
       "supportZone": [
-        1328.85,
-        1400.89
+        1330.95,
+        1430.09
       ],
-      "deepSupport": 1094.9,
-      "pullbackPct": 0.86,
+      "deepSupport": 1107.51,
+      "pullbackPct": 1.6,
       "breakout": 1540,
-      "toBreakoutPct": 8.99,
-      "leftStop": 1288.98,
+      "toBreakoutPct": 5.99,
+      "leftStop": 1291.02,
       "leftTarget": 1540,
-      "leftRR": 2.31,
+      "leftRR": 1.78,
       "rightStop": 1478.4,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "箱体内 · 距突破 9.0%",
+      "leftState": "回踩约 1.6% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 6.0%",
       "spark": [
-        696.31,
         686.85,
         686.24,
         676.48,
@@ -3899,7 +3910,8 @@ window.STOCKS = [
         1320,
         1507.46,
         1456.99,
-        1413
+        1413,
+        1453
       ]
     },
     "news": [
@@ -3923,12 +3935,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -2.33,
-      "turnover": 2.2,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 11.45,
+      "turnover": 2.24,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "广发证券",
@@ -3962,13 +3974,13 @@ window.STOCKS = [
       "自研 DRAM"
     ],
     "left": {
-      "zone": "597.2–615.7",
-      "trigger": "回踩 MA10(554.3)/MA20(523.0) 缩量企稳即逢低；强支撑 MA60 385.6；止损 579.3",
+      "zone": "634.6–650.2",
+      "trigger": "回踩 MA10(574.7)/MA20(531.9) 缩量企稳即逢低；强支撑 MA60 392.8；止损 615.5",
       "logic": "存储周期上行，回调布局周期弹性。"
     },
     "right": {
-      "zone": "站上 689.7",
-      "trigger": "放量站上 689.7（60日高），量比>1.3 确认；新高回踩不破再加，止损 662.1",
+      "zone": "已破 705.1 · 回踩 MA10(574.7) 不破加仓",
+      "trigger": "放量站上 705.1（60日高），量比>1.3 确认；新高回踩不破再加，止损 676.9",
       "logic": "涨价 + 业绩驱动右侧。"
     },
     "falsify": [
@@ -4016,39 +4028,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 640.99,
-      "chgPct": -7.06,
-      "ma5": 615.7,
-      "ma10": 554.28,
-      "ma20": 522.97,
-      "ma60": 385.65,
-      "ma120": 330.64,
-      "ma250": 245.91,
-      "high20": 689.7,
+      "date": "2026-06-24",
+      "price": 705.09,
+      "chgPct": 10,
+      "ma5": 650.16,
+      "ma10": 574.74,
+      "ma20": 531.92,
+      "ma60": 392.78,
+      "ma120": 334.77,
+      "ma250": 248.26,
+      "high20": 705.09,
       "low20": 448.11,
-      "high60": 689.7,
+      "high60": 705.09,
       "low60": 236.11,
-      "volRatio": 1.05,
-      "atr": 41.12,
+      "volRatio": 1.13,
+      "atr": 43.89,
       "trend": "多头排列",
-      "posPct": 66.21,
+      "posPct": 79.51,
       "supportZone": [
-        597.23,
-        615.7
+        634.58,
+        650.16
       ],
-      "deepSupport": 385.65,
-      "pullbackPct": 4.11,
-      "breakout": 689.7,
-      "toBreakoutPct": 7.6,
-      "leftStop": 579.31,
-      "leftTarget": 689.7,
-      "leftRR": 3.07,
-      "rightStop": 662.11,
-      "leftState": "回踩约 4.1% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 7.6%",
+      "deepSupport": 392.78,
+      "pullbackPct": 8.45,
+      "breakout": 705.09,
+      "toBreakoutPct": 0,
+      "leftStop": 615.54,
+      "leftTarget": 740.34,
+      "leftRR": 3.65,
+      "rightStop": 676.89,
+      "leftState": "回踩约 8.4% 入场（逢低区）",
+      "rightState": "创新高但量能不足 · 谨慎跟进",
       "spark": [
-        277.65,
         261.25,
         257.91,
         255.1,
@@ -4107,36 +4118,37 @@ window.STOCKS = [
         586.04,
         629,
         689.7,
-        640.99
+        640.99,
+        705.09
       ]
     },
     "news": [
       {
-        "title": "兆易创新与Qt Group达成全球合作 聚焦嵌入式GUI技术方案",
-        "date": "2026-06-23 10:09",
+        "title": "兆易创新午后涨超8% 近日与Qt Group达成全球合作",
+        "date": "2026-06-24 14:14",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677638142.shtml"
+        "url": "http://news.10jqka.com.cn/19700121/c677675522.shtml"
       },
       {
-        "title": "兆易创新与Qt Group达成全球合作",
-        "date": "2026-06-23 08:28",
+        "title": "兆易创新午前涨超6% 与Qt Group达成全球合作 聚焦嵌入式GUI技术方案联合打磨与优化",
+        "date": "2026-06-24 11:49",
         "source": "同花顺问财",
-        "url": "https://finance.sina.cn/2026-06-23/detail-inieixwz6571748.d.html"
+        "url": "http://news.10jqka.com.cn/19700121/c677673366.shtml"
       },
       {
-        "title": "兆易创新与Qt Group达成全球合作",
-        "date": "2026-06-23 08:26",
+        "title": "QtGroup与兆易创新达成全球合作，提升工业与消费电子MCUGUI开发效率",
+        "date": "2026-06-24 11:18",
         "source": "同花顺问财",
-        "url": "https://m.sohu.com/a/1040227690_114984"
+        "url": "https://finance.sina.cn/2026-06-24/detail-inienpna6370889.d.html"
       }
     ],
     "fund": {
-      "netInflow": -56.03,
-      "turnover": 8.87,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 10.53,
+      "turnover": 8.95,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "中邮证券",
@@ -4170,8 +4182,8 @@ window.STOCKS = [
       "产能扩张"
     ],
     "left": {
-      "zone": "64.28–67.62",
-      "trigger": "回踩 MA10(64.28)/MA20(66.03) 缩量企稳即逢低；强支撑 MA60 55.85；止损 62.35",
+      "zone": "67.86–69.96",
+      "trigger": "回踩 MA10(65.30)/MA20(65.99) 缩量企稳即逢低；强支撑 MA60 56.37；止损 65.83",
       "logic": "绑定大客户，回调布局先进封装。"
     },
     "right": {
@@ -4224,39 +4236,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 68.42,
-      "chgPct": -3.97,
-      "ma5": 67.62,
-      "ma10": 64.28,
-      "ma20": 66.03,
-      "ma60": 55.85,
-      "ma120": 50.91,
-      "ma250": 41.52,
+      "date": "2026-06-24",
+      "price": 74.64,
+      "chgPct": 9.09,
+      "ma5": 69.96,
+      "ma10": 65.3,
+      "ma20": 65.99,
+      "ma60": 56.37,
+      "ma120": 51.23,
+      "ma250": 41.73,
       "high20": 78.48,
       "low20": 56.68,
       "high60": 78.48,
       "low60": 40.32,
-      "volRatio": 0.96,
-      "atr": 4.36,
+      "volRatio": 1.09,
+      "atr": 4.38,
       "trend": "多头排列",
-      "posPct": 22.5,
+      "posPct": 32.4,
       "supportZone": [
-        64.28,
-        67.62
+        67.86,
+        69.96
       ],
-      "deepSupport": 55.85,
-      "pullbackPct": 1.19,
+      "deepSupport": 56.37,
+      "pullbackPct": 6.69,
       "breakout": 78.48,
-      "toBreakoutPct": 14.7,
-      "leftStop": 62.35,
+      "toBreakoutPct": 5.14,
+      "leftStop": 65.83,
       "leftTarget": 78.48,
-      "leftRR": 3.48,
+      "leftRR": 3.11,
       "rightStop": 75.34,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 14.7% · 暂无右侧",
+      "leftState": "回踩约 6.7% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 5.1%",
       "spark": [
-        43.44,
         42.68,
         42.37,
         42.42,
@@ -4315,21 +4326,22 @@ window.STOCKS = [
         67.22,
         68.27,
         71.25,
-        68.42
+        68.42,
+        74.64
       ]
     },
     "news": [
       {
-        "title": "花旗：大幅上调长电科技、通富微电、华天科技目标价",
-        "date": "2026-06-23 13:14",
+        "title": "调研速递|通富微电接受财通基金等26家机构调研 2025年营收279.21亿元 聚焦存储与车载...",
+        "date": "2026-06-24 09:19",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677642500.shtml"
+        "url": "https://www.163.com/dy/article/L067O6TK05568W0A.html"
       },
       {
-        "title": "通富微电(002156)2025年三季报深度解读：主营业务利润同比大幅增长推动净利润同比大幅增长",
-        "date": "2026-06-22 20:56",
+        "title": "通富微电：公司是集成电路封装测试服务提供商",
+        "date": "2026-06-23 21:32",
         "source": "同花顺问财",
-        "url": "https://blog.csdn.net/beawan01/article/details/155138817"
+        "url": "http://news.10jqka.com.cn/19700121/c677659842.shtml"
       },
       {
         "title": "通富微电澄清NPO封测订单传闻",
@@ -4339,12 +4351,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -1.94,
-      "turnover": 9.39,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 16.45,
+      "turnover": 13.29,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "兴业证券",
@@ -4378,8 +4390,8 @@ window.STOCKS = [
       "晟碟并购协同"
     ],
     "left": {
-      "zone": "78.28–83.75",
-      "trigger": "回踩 MA10(78.28)/MA20(79.00) 缩量企稳即逢低；强支撑 MA60 58.55；止损 75.93",
+      "zone": "85.23–87.32",
+      "trigger": "回踩 MA10(80.23)/MA20(79.33) 缩量企稳即逢低；强支撑 MA60 59.46；止损 82.67",
       "logic": "封测龙头，回调承接确定性强。"
     },
     "right": {
@@ -4432,39 +4444,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 86.09,
-      "chgPct": -5.63,
-      "ma5": 83.75,
-      "ma10": 78.28,
-      "ma20": 79,
-      "ma60": 58.55,
-      "ma120": 51.38,
-      "ma250": 43.8,
+      "date": "2026-06-24",
+      "price": 94.7,
+      "chgPct": 10,
+      "ma5": 87.32,
+      "ma10": 80.23,
+      "ma20": 79.33,
+      "ma60": 59.46,
+      "ma120": 51.87,
+      "ma250": 44.05,
       "high20": 94.8,
       "low20": 67.85,
       "high60": 94.8,
       "low60": 37.92,
-      "volRatio": 0.95,
-      "atr": 5.74,
+      "volRatio": 1.02,
+      "atr": 5.96,
       "trend": "多头排列",
-      "posPct": 47.02,
+      "posPct": 59.27,
       "supportZone": [
-        78.28,
-        83.75
+        85.23,
+        87.32
       ],
-      "deepSupport": 58.55,
-      "pullbackPct": 2.8,
+      "deepSupport": 59.46,
+      "pullbackPct": 8.45,
       "breakout": 94.8,
-      "toBreakoutPct": 10.12,
-      "leftStop": 75.93,
-      "leftTarget": 94.8,
-      "leftRR": 2.71,
+      "toBreakoutPct": 0.11,
+      "leftStop": 82.67,
+      "leftTarget": 99.54,
+      "leftRR": 3.68,
       "rightStop": 91.01,
-      "leftState": "回踩约 2.8% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 10.1%",
+      "leftState": "回踩约 8.4% 入场（逢低区）",
+      "rightState": "临近突破 · 距 0.1%",
       "spark": [
-        40.54,
         39.33,
         39.43,
         39.74,
@@ -4523,36 +4534,37 @@ window.STOCKS = [
         81.66,
         82.93,
         91.23,
-        86.09
+        86.09,
+        94.7
       ]
     },
     "news": [
       {
-        "title": "花旗：大幅上调长电科技、通富微电、华天科技目标价",
-        "date": "2026-06-23 13:14",
+        "title": "长电科技涨停，成交额237.89亿元，人气排名3位！后市是否有机会？附走势预测",
+        "date": "2026-06-24 15:10",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677642500.shtml"
+        "url": "https://www.163.com/dy/article/L06RR0R905568W0A.html"
       },
       {
-        "title": "长电科技：封装技术驱动增长，预测第二季度净利润4.97亿元，同比变动85.9%",
-        "date": "2026-06-22 17:52",
+        "title": "长电科技强势封板，摩根：上调！消费电子ETF招商(159779)大涨2.6%",
+        "date": "2026-06-24 10:41",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677619575.shtml"
+        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868847106619717447&wfr=spider"
       },
       {
-        "title": "长电科技股价涨3.46%",
-        "date": "2026-06-22 09:31",
+        "title": "长电科技：公司在中国、韩国和新加坡拥有八大生产基地",
+        "date": "2026-06-23 20:03",
         "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868658813124951919&wfr=spider"
+        "url": "http://news.10jqka.com.cn/19700121/c677657314.shtml"
       }
     ],
     "fund": {
-      "netInflow": -20.89,
-      "turnover": 12.41,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 33.87,
+      "turnover": 14.38,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "华鑫证券",
@@ -4586,8 +4598,8 @@ window.STOCKS = [
       "稼动率回升"
     ],
     "left": {
-      "zone": "18.11–19.29",
-      "trigger": "回踩 MA10(18.11)/MA20(18.53) 缩量企稳即逢低；强支撑 MA60 14.97；止损 17.57",
+      "zone": "19.33–19.92",
+      "trigger": "回踩 MA10(18.45)/MA20(18.65) 缩量企稳即逢低；强支撑 MA60 15.10；止损 18.75",
       "logic": "二线封测龙头，回调补涨属性。"
     },
     "right": {
@@ -4640,39 +4652,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 19.54,
-      "chgPct": -4.4,
-      "ma5": 19.29,
-      "ma10": 18.11,
-      "ma20": 18.53,
-      "ma60": 14.97,
-      "ma120": 14.06,
-      "ma250": 12.27,
+      "date": "2026-06-24",
+      "price": 20.98,
+      "chgPct": 7.37,
+      "ma5": 19.92,
+      "ma10": 18.45,
+      "ma20": 18.65,
+      "ma60": 15.1,
+      "ma120": 14.15,
+      "ma250": 12.31,
       "high20": 21.94,
       "low20": 16.01,
       "high60": 21.94,
       "low60": 11.28,
-      "volRatio": 0.9,
-      "atr": 1.21,
+      "volRatio": 1,
+      "atr": 1.23,
       "trend": "多头排列",
-      "posPct": 30.57,
+      "posPct": 38.9,
       "supportZone": [
-        18.11,
-        19.29
+        19.33,
+        19.92
       ],
-      "deepSupport": 14.97,
-      "pullbackPct": 1.29,
+      "deepSupport": 15.1,
+      "pullbackPct": 5.3,
       "breakout": 21.94,
-      "toBreakoutPct": 12.27,
-      "leftStop": 17.57,
+      "toBreakoutPct": 4.57,
+      "leftStop": 18.75,
       "leftTarget": 21.94,
-      "leftRR": 2.86,
+      "leftRR": 2.65,
       "rightStop": 21.06,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 12.3% · 暂无右侧",
+      "leftState": "回踩约 5.3% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 4.6%",
       "spark": [
-        12.64,
         12.21,
         12.23,
         12.18,
@@ -4731,10 +4742,17 @@ window.STOCKS = [
         19.05,
         19.61,
         20.44,
-        19.54
+        19.54,
+        20.98
       ]
     },
     "news": [
+      {
+        "title": "华天科技(002185)-千股千评-行情中心-证券之星",
+        "date": "2026-06-24 00:00",
+        "source": "同花顺问财",
+        "url": "https://quote.stockstar.com/Comment/Eval/002185"
+      },
       {
         "title": "华天科技：公司板级封装产品已小批量生产",
         "date": "2026-06-22 18:54",
@@ -4746,21 +4764,15 @@ window.STOCKS = [
         "date": "2026-06-19 15:40",
         "source": "同花顺问财",
         "url": "https://baike.jfinfo.com/4046116.html"
-      },
-      {
-        "title": "华天科技股价涨3.03%",
-        "date": "2026-06-17 09:44",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868206641126343105&wfr=spider"
       }
     ],
     "fund": {
-      "netInflow": -1.7,
-      "turnover": 12.49,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 7.29,
+      "turnover": 17.87,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "华龙证券",
@@ -4793,8 +4805,8 @@ window.STOCKS = [
       "12 寸放量"
     ],
     "left": {
-      "zone": "62.16–64.08",
-      "trigger": "回踩 MA10(69.45)/MA20(64.08) 缩量企稳即逢低；强支撑 MA60 48.87；止损 60.30",
+      "zone": "62.86–64.80",
+      "trigger": "回踩 MA10(69.05)/MA20(64.80) 缩量企稳即逢低；强支撑 MA60 49.43；止损 60.97",
       "logic": "国产替代 + 周期复苏，回调布局。"
     },
     "right": {
@@ -4847,39 +4859,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 66.5,
-      "chgPct": -3.22,
-      "ma5": 68.9,
-      "ma10": 69.45,
-      "ma20": 64.08,
-      "ma60": 48.87,
-      "ma120": 44.09,
-      "ma250": 35.78,
+      "date": "2026-06-24",
+      "price": 67.2,
+      "chgPct": 1.05,
+      "ma5": 68.71,
+      "ma10": 69.05,
+      "ma20": 64.8,
+      "ma60": 49.43,
+      "ma120": 44.37,
+      "ma250": 35.96,
       "high20": 77.58,
-      "low20": 51.61,
+      "low20": 52.35,
       "high60": 77.58,
       "low60": 32,
-      "volRatio": 1.04,
-      "atr": 6.19,
+      "volRatio": 0.98,
+      "atr": 6.1,
       "trend": "多头排列",
-      "posPct": 36.09,
+      "posPct": 35.96,
       "supportZone": [
-        62.16,
-        64.08
+        62.86,
+        64.8
       ],
-      "deepSupport": 48.87,
-      "pullbackPct": 3.77,
+      "deepSupport": 49.43,
+      "pullbackPct": 3.7,
       "breakout": 77.58,
-      "toBreakoutPct": 16.66,
-      "leftStop": 60.3,
+      "toBreakoutPct": 15.45,
+      "leftStop": 60.97,
       "leftTarget": 77.58,
-      "leftRR": 5.12,
+      "leftRR": 4.8,
       "rightStop": 74.48,
-      "leftState": "回踩约 3.8% 入场（逢低区）",
-      "rightState": "远离突破 16.7% · 暂无右侧",
+      "leftState": "回踩约 3.7% 入场（逢低区）",
+      "rightState": "远离突破 15.4% · 暂无右侧",
       "spark": [
-        33.62,
         33.17,
         33.43,
         33.51,
@@ -4938,7 +4949,8 @@ window.STOCKS = [
         70.95,
         70.2,
         68.71,
-        66.5
+        66.5,
+        67.2
       ]
     },
     "news": [
@@ -4962,12 +4974,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.57,
-      "turnover": 9.08,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 0.6,
+      "turnover": 9.45,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "同花顺金融研究中心",
@@ -4995,8 +5007,8 @@ window.STOCKS = [
       "自有品牌+收购"
     ],
     "left": {
-      "zone": "539.9–580.4",
-      "trigger": "回踩 MA10(548.2)/MA20(539.9) 缩量企稳即逢低；强支撑 MA60 459.5；止损 523.7",
+      "zone": "558.8–596.3",
+      "trigger": "回踩 MA10(558.8)/MA20(544.0) 缩量企稳即逢低；强支撑 MA60 464.2；止损 542.0",
       "logic": "存储周期弹性，回调布局上行周期。"
     },
     "right": {
@@ -5049,39 +5061,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 596.01,
-      "chgPct": -3.27,
-      "ma5": 580.37,
-      "ma10": 548.24,
-      "ma20": 539.93,
-      "ma60": 459.49,
-      "ma120": 382.13,
-      "ma250": 262.78,
+      "date": "2026-06-24",
+      "price": 619.98,
+      "chgPct": 4.02,
+      "ma5": 596.32,
+      "ma10": 558.78,
+      "ma20": 544.04,
+      "ma60": 464.2,
+      "ma120": 385.28,
+      "ma250": 264.97,
       "high20": 639.83,
       "low20": 470,
       "high60": 639.83,
       "low60": 284.09,
-      "volRatio": 1.2,
-      "atr": 39.57,
+      "volRatio": 1.23,
+      "atr": 39.77,
       "trend": "多头排列",
-      "posPct": 29.71,
+      "posPct": 33.56,
       "supportZone": [
-        539.93,
-        580.37
+        558.78,
+        596.32
       ],
-      "deepSupport": 459.49,
-      "pullbackPct": 2.69,
+      "deepSupport": 464.2,
+      "pullbackPct": 3.97,
       "breakout": 639.83,
-      "toBreakoutPct": 7.35,
-      "leftStop": 523.74,
+      "toBreakoutPct": 3.2,
+      "leftStop": 542.01,
       "leftTarget": 639.83,
-      "leftRR": 2.19,
+      "leftRR": 1.75,
       "rightStop": 614.24,
-      "leftState": "回踩约 2.7% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 7.4%",
+      "leftState": "回踩约 4.0% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 3.2%",
       "spark": [
-        337.17,
         326.01,
         319.04,
         314.01,
@@ -5140,36 +5151,37 @@ window.STOCKS = [
         571.68,
         577.79,
         616.16,
-        596.01
+        596.01,
+        619.98
       ]
     },
     "news": [
       {
-        "title": "江波龙涨3.46%，股价创历史新高",
-        "date": "2026-06-23 11:08",
+        "title": "江波龙（301308） + 存储超级周期+端侧AI双轮驱动，业绩爆发式增长",
+        "date": "2026-06-24 13:26",
         "source": "同花顺问财",
-        "url": "https://www.stcn.com/article/detail/3973937.html"
+        "url": "https://www.tgb.cn/a/2sT2a0hZGcw"
       },
       {
-        "title": "江波龙股价涨3.14%，南方基金旗下2只基金重仓，合计持有5万股浮盈赚取96.7万元",
-        "date": "2026-06-23 10:49",
+        "title": "IAEIS 2026国际汽车电子产业峰会合作企业 | 深圳市江波龙电子股份有限公司",
+        "date": "2026-06-23 19:56",
         "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/money/fund/aiassistant/zcgyd/2026-06-23/doc-iniekeex6578579.shtml"
+        "url": "https://mp.weixin.qq.com/s?__biz=MjM5NjM0NjY2NQ==&chksm=bc302d298d4c8c2edd15069d585d74c73e98f016db9aa74b9d7c281bd0d8c462cc3a9342e80a&idx=3&mid=2652502347&sn=0143e9967b538b03c8bf2ad036d56ad7"
       },
       {
-        "title": "江波龙股价涨3.14%，华夏基金旗下2只基金重仓，合计持有39.73万股浮盈赚取768.35万元",
-        "date": "2026-06-23 10:49",
+        "title": "存储龙头江波龙再冲港股IPO：单季度利润超去年全年，短期偿债存资金缺口",
+        "date": "2026-06-20 09:35",
         "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/money/fund/aiassistant/zcgyd/2026-06-23/doc-iniekeez8883033.shtml"
+        "url": "http://news.10jqka.com.cn/19700121/c677591334.shtml"
       }
     ],
     "fund": {
-      "netInflow": -8.66,
-      "turnover": 7.74,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 0.17,
+      "turnover": 7.28,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "天风证券",
@@ -5203,13 +5215,13 @@ window.STOCKS = [
       "AI 存储"
     ],
     "left": {
-      "zone": "692.5–713.9",
-      "trigger": "回踩 MA10(671.5)/MA20(652.9) 缩量企稳即逢低；强支撑 MA60 568.1；止损 671.7",
+      "zone": "729.0–744.7",
+      "trigger": "回踩 MA10(689.9)/MA20(660.4) 缩量企稳即逢低；强支撑 MA60 575.3；止损 707.1",
       "logic": "高弹性存储票，回调博弈周期。"
     },
     "right": {
-      "zone": "站上 796.0",
-      "trigger": "放量站上 796.0（60日高），量比>1.3 确认；新高回踩不破再加，止损 764.2",
+      "zone": "站上 816.9",
+      "trigger": "放量站上 816.9（60日高），量比>1.3 确认；新高回踩不破再加，止损 784.2",
       "logic": "涨价驱动右侧弹性。"
     },
     "falsify": [
@@ -5257,39 +5269,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 755.01,
-      "chgPct": 2.43,
-      "ma5": 713.87,
-      "ma10": 671.47,
-      "ma20": 652.89,
-      "ma60": 568.07,
-      "ma120": 415.82,
-      "ma250": 276.47,
-      "high20": 796,
+      "date": "2026-06-24",
+      "price": 810,
+      "chgPct": 7.28,
+      "ma5": 744.74,
+      "ma10": 689.9,
+      "ma20": 660.44,
+      "ma60": 575.33,
+      "ma120": 420.98,
+      "ma250": 279.36,
+      "high20": 816.88,
       "low20": 568.18,
-      "high60": 796,
-      "low60": 350.03,
-      "volRatio": 1.16,
-      "atr": 48.72,
+      "high60": 816.88,
+      "low60": 352,
+      "volRatio": 1.23,
+      "atr": 50.96,
       "trend": "多头排列",
-      "posPct": 32.91,
+      "posPct": 40.79,
       "supportZone": [
-        692.46,
-        713.87
+        729,
+        744.74
       ],
-      "deepSupport": 568.07,
-      "pullbackPct": 5.76,
-      "breakout": 796,
-      "toBreakoutPct": 5.43,
-      "leftStop": 671.68,
-      "leftTarget": 796,
-      "leftRR": 2.95,
-      "rightStop": 764.16,
-      "leftState": "回踩约 5.8% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 5.4%",
+      "deepSupport": 575.33,
+      "pullbackPct": 8.76,
+      "breakout": 816.88,
+      "toBreakoutPct": 0.85,
+      "leftStop": 707.13,
+      "leftTarget": 857.72,
+      "leftRR": 4.06,
+      "rightStop": 784.2,
+      "leftState": "回踩约 8.8% 入场（逢低区）",
+      "rightState": "临近突破 · 距 0.8%",
       "spark": [
-        374.77,
         378.46,
         381.49,
         399.9,
@@ -5348,36 +5359,37 @@ window.STOCKS = [
         709.62,
         712,
         737.07,
-        755.01
+        755.01,
+        810
       ]
     },
     "news": [
       {
-        "title": "德明利完成董事会换届：李虎担任董事长",
-        "date": "2026-06-22 21:01",
+        "title": "德明利股价涨3.01%",
+        "date": "2026-06-17 13:03",
         "source": "同花顺问财",
-        "url": "https://finance.sina.cn/2026-06-22/detail-iniehwmn0185903.d.html"
+        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868219118372225053&wfr=spider"
       },
       {
         "title": "德明利股价涨3.01%",
-        "date": "2026-06-17 13:02",
+        "date": "2026-06-17 13:03",
         "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868219102826716259&wfr=spider"
+        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868219113688064200&wfr=spider"
       },
       {
-        "title": "德明利涨2.15%",
-        "date": "2026-06-16 15:45",
+        "title": "德明利股价涨3.01%",
+        "date": "2026-06-17 13:03",
         "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868138752419355909&wfr=spider"
+        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868219117860330986&wfr=spider"
       }
     ],
     "fund": {
-      "netInflow": 5.37,
-      "turnover": 10.42,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 18.14,
+      "turnover": 11.04,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "财信证券",
@@ -5411,8 +5423,8 @@ window.STOCKS = [
       "固态电解质"
     ],
     "left": {
-      "zone": "137.0–144.7",
-      "trigger": "回踩 MA10(144.7)/MA20(137.0) 缩量企稳即逢低；强支撑 MA60 94.86；止损 132.8",
+      "zone": "134.2–138.4",
+      "trigger": "回踩 MA10(145.1)/MA20(138.4) 缩量企稳即逢低；强支撑 MA60 96.36；止损 130.2",
       "logic": "陶瓷平台龙头，回调承接确定性强。"
     },
     "right": {
@@ -5466,39 +5478,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 145.5,
-      "chgPct": -6.8,
-      "ma5": 153.04,
-      "ma10": 144.66,
-      "ma20": 136.96,
-      "ma60": 94.86,
-      "ma120": 73.61,
-      "ma250": 56.53,
+      "date": "2026-06-24",
+      "price": 145.26,
+      "chgPct": -0.16,
+      "ma5": 152.04,
+      "ma10": 145.08,
+      "ma20": 138.37,
+      "ma60": 96.36,
+      "ma120": 74.47,
+      "ma250": 56.98,
       "high20": 166.66,
-      "low20": 109.38,
+      "low20": 119.03,
       "high60": 166.66,
       "low60": 51.7,
-      "volRatio": 1.02,
-      "atr": 13.36,
+      "volRatio": 0.98,
+      "atr": 13.33,
       "trend": "多头排列",
-      "posPct": 53.38,
+      "posPct": 50.74,
       "supportZone": [
-        136.96,
-        144.66
+        134.22,
+        138.37
       ],
-      "deepSupport": 94.86,
-      "pullbackPct": 0.58,
+      "deepSupport": 96.36,
+      "pullbackPct": 4.98,
       "breakout": 166.66,
-      "toBreakoutPct": 14.54,
-      "leftStop": 132.85,
+      "toBreakoutPct": 14.73,
+      "leftStop": 130.2,
       "leftTarget": 166.66,
-      "leftRR": 3.25,
+      "leftRR": 4.98,
       "rightStop": 159.99,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 14.5% · 暂无右侧",
+      "leftState": "回踩约 5.0% 入场（逢低区）",
+      "rightState": "远离突破 14.7% · 暂无右侧",
       "spark": [
-        55.13,
         54.75,
         54.39,
         53.65,
@@ -5557,7 +5568,8 @@ window.STOCKS = [
         155.46,
         157.89,
         156.11,
-        145.5
+        145.5,
+        145.26
       ]
     },
     "news": [
@@ -5571,22 +5583,22 @@ window.STOCKS = [
         "title": "三环集团通过港交所上市聆讯",
         "date": "2026-06-18 15:40",
         "source": "同花顺问财",
-        "url": "http://www.bkeconomy.com/detail-1781754192129462.html"
+        "url": "http://m.bjnews.com.cn/detail/1781754192129462.html"
       },
       {
-        "title": "三环集团通过港交所上市聆讯",
-        "date": "2026-06-18 15:40",
+        "title": "三环集团，通过港交所IPO聆讯，中国银河国际独家保荐",
+        "date": "2026-06-18 13:54",
         "source": "同花顺问财",
-        "url": "http://m.bjnews.com.cn/detail/1781754192129462.html"
+        "url": "http://news.10jqka.com.cn/19700121/c677562559.shtml"
       }
     ],
     "fund": {
-      "netInflow": -5.73,
-      "turnover": 3.63,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -3.51,
+      "turnover": 3.66,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "东北证券",
@@ -5620,8 +5632,8 @@ window.STOCKS = [
       "产能爬坡"
     ],
     "left": {
-      "zone": "65.16–67.18",
-      "trigger": "回踩 MA10(67.18)/MA20(60.68) 缩量企稳即逢低；强支撑 MA60 36.50；止损 63.21",
+      "zone": "66.26–68.31",
+      "trigger": "回踩 MA10(68.31)/MA20(62.21) 缩量企稳即逢低；强支撑 MA60 37.37；止损 64.27",
       "logic": "周期弹性龙头，回调布局上行。"
     },
     "right": {
@@ -5674,39 +5686,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 70.21,
-      "chgPct": -3.8,
-      "ma5": 72.49,
-      "ma10": 67.18,
-      "ma20": 60.68,
-      "ma60": 36.5,
-      "ma120": 28.46,
-      "ma250": 21.55,
+      "date": "2026-06-24",
+      "price": 72.38,
+      "chgPct": 3.09,
+      "ma5": 72.85,
+      "ma10": 68.31,
+      "ma20": 62.21,
+      "ma60": 37.37,
+      "ma120": 28.94,
+      "ma250": 21.79,
       "high20": 76.1,
-      "low20": 40.18,
+      "low20": 41.72,
       "high60": 76.1,
       "low60": 18.41,
-      "volRatio": 0.84,
-      "atr": 5.96,
+      "volRatio": 0.81,
+      "atr": 5.93,
       "trend": "多头排列",
-      "posPct": 92.37,
+      "posPct": 93.7,
       "supportZone": [
-        65.16,
-        67.18
+        66.26,
+        68.31
       ],
-      "deepSupport": 36.5,
-      "pullbackPct": 4.51,
+      "deepSupport": 37.37,
+      "pullbackPct": 5.96,
       "breakout": 76.1,
-      "toBreakoutPct": 8.39,
-      "leftStop": 63.21,
+      "toBreakoutPct": 5.14,
+      "leftStop": 64.27,
       "leftTarget": 76.1,
-      "leftRR": 3.35,
+      "leftRR": 2.92,
       "rightStop": 73.06,
-      "leftState": "回踩约 4.5% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 8.4%",
+      "leftState": "回踩约 6.0% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 5.1%",
       "spark": [
-        20.15,
         19.43,
         19.61,
         19.36,
@@ -5765,10 +5776,17 @@ window.STOCKS = [
         74.06,
         74.6,
         72.98,
-        70.21
+        70.21,
+        72.38
       ]
     },
     "news": [
+      {
+        "title": "风华高科：公司高度重视全球供应链格局变化带来的机遇与挑战",
+        "date": "2026-06-23 20:03",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677657311.shtml"
+      },
       {
         "title": "风华高科：已具备完整的材料、产品、装备三位一体产业布局",
         "date": "2026-06-23 15:13",
@@ -5780,21 +5798,15 @@ window.STOCKS = [
         "date": "2026-06-22 00:00",
         "source": "同花顺问财",
         "url": "https://www.cmpe360.com/p/139506"
-      },
-      {
-        "title": "风华高科：澄清全线暂停接单及英伟达认证传闻不属实",
-        "date": "2026-06-17 20:10",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677542944.shtml"
       }
     ],
     "fund": {
-      "netInflow": -0.1,
-      "turnover": 11.0,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -0.64,
+      "turnover": 11.29,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "野村东方国际证券",
@@ -5828,8 +5840,8 @@ window.STOCKS = [
       "新材料"
     ],
     "left": {
-      "zone": "56.80–58.56",
-      "trigger": "回踩 MA10(63.24)/MA20(58.56) 缩量企稳即逢低；强支撑 MA60 42.08；止损 55.10",
+      "zone": "64.10–66.61",
+      "trigger": "回踩 MA10(64.10)/MA20(59.94) 缩量企稳即逢低；强支撑 MA60 42.63；止损 62.18",
       "logic": "军工复苏 + 材料成长，回调布局。"
     },
     "right": {
@@ -5882,39 +5894,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 62.09,
-      "chgPct": -4.76,
-      "ma5": 66.49,
-      "ma10": 63.24,
-      "ma20": 58.56,
-      "ma60": 42.08,
-      "ma120": 40.22,
-      "ma250": 37.91,
+      "date": "2026-06-24",
+      "price": 68.3,
+      "chgPct": 10,
+      "ma5": 66.61,
+      "ma10": 64.1,
+      "ma20": 59.94,
+      "ma60": 42.63,
+      "ma120": 40.52,
+      "ma250": 38.05,
       "high20": 74.8,
-      "low20": 38.78,
+      "low20": 40.92,
       "high60": 74.8,
       "low60": 30.83,
-      "volRatio": 0.94,
-      "atr": 6.12,
+      "volRatio": 0.82,
+      "atr": 6.15,
       "trend": "多头排列",
-      "posPct": 47.54,
+      "posPct": 60.21,
       "supportZone": [
-        56.8,
-        58.56
+        64.1,
+        66.61
       ],
-      "deepSupport": 42.08,
-      "pullbackPct": 6.03,
+      "deepSupport": 42.63,
+      "pullbackPct": 2.54,
       "breakout": 74.8,
-      "toBreakoutPct": 20.47,
-      "leftStop": 55.1,
+      "toBreakoutPct": 9.52,
+      "leftStop": 62.18,
       "leftTarget": 74.8,
-      "leftRR": 6.64,
+      "leftRR": 2.97,
       "rightStop": 71.81,
-      "leftState": "回踩约 6.0% 入场（逢低区）",
-      "rightState": "远离突破 20.5% · 暂无右侧",
+      "leftState": "回踩约 2.5% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 9.5%",
       "spark": [
-        35.28,
         34.49,
         34.44,
         34.24,
@@ -5973,30 +5984,37 @@ window.STOCKS = [
         69.71,
         67.75,
         65.19,
-        62.09
+        62.09,
+        68.3
       ]
     },
     "news": [
+      {
+        "title": "火炬电子2026年6月24日涨停分析：业绩增长+产业链布局+员工持股",
+        "date": "2026-06-24 10:00",
+        "source": "同花顺问财",
+        "url": "https://www.163.com/dy/article/L06A3CLD05568W0A.html"
+      },
+      {
+        "title": "火炬电子(603678)-千股千评-行情中心-证券之星",
+        "date": "2026-06-24 00:00",
+        "source": "同花顺问财",
+        "url": "https://quote.stockstar.com/Comment/Eval/603678"
+      },
       {
         "title": "MLCC步入量价齐升超级周期 中邮证券首予火炬电子“买入”评级",
         "date": "2026-06-17 14:04",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677528648.shtml"
-      },
-      {
-        "title": "云汉芯城与火炬电子达成战略合作：“平台+制造+资本”布局全球化发展",
-        "date": "2026-06-11 08:23",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677370861.shtml"
       }
     ],
     "fund": {
-      "netInflow": -0.17,
-      "turnover": 9.37,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -1.29,
+      "turnover": 3.59,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "中邮证券",
@@ -6030,8 +6048,8 @@ window.STOCKS = [
       "新材料平台"
     ],
     "left": {
-      "zone": "82.48–85.03",
-      "trigger": "回踩 MA10(73.47)/MA20(64.69) 缩量企稳即逢低；强支撑 MA60 45.77；止损 80.00",
+      "zone": "87.19–89.89",
+      "trigger": "回踩 MA10(76.00)/MA20(66.80) 缩量企稳即逢低；强支撑 MA60 46.77；止损 84.57",
       "logic": "材料平台龙头，回调承接。"
     },
     "right": {
@@ -6084,39 +6102,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 90.78,
-      "chgPct": -8.21,
-      "ma5": 85.03,
-      "ma10": 73.47,
-      "ma20": 64.69,
-      "ma60": 45.77,
-      "ma120": 39.05,
-      "ma250": 29.7,
+      "date": "2026-06-24",
+      "price": 91.72,
+      "chgPct": 1.04,
+      "ma5": 89.89,
+      "ma10": 76,
+      "ma20": 66.8,
+      "ma60": 46.77,
+      "ma120": 39.59,
+      "ma250": 30.01,
       "high20": 101,
       "low20": 48.26,
       "high60": 101,
       "low60": 29.71,
-      "volRatio": 1.13,
-      "atr": 8.59,
+      "volRatio": 1.08,
+      "atr": 8.64,
       "trend": "多头排列",
-      "posPct": 98.34,
+      "posPct": 96.1,
       "supportZone": [
-        82.48,
-        85.03
+        87.19,
+        89.89
       ],
-      "deepSupport": 45.77,
-      "pullbackPct": 6.76,
+      "deepSupport": 46.77,
+      "pullbackPct": 2.04,
       "breakout": 101,
-      "toBreakoutPct": 11.26,
-      "leftStop": 80,
+      "toBreakoutPct": 10.12,
+      "leftStop": 84.57,
       "leftTarget": 101,
-      "leftRR": 4.6,
+      "leftRR": 3.14,
       "rightStop": 96.96,
-      "leftState": "回踩约 6.8% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 11.3%",
+      "leftState": "回踩约 2.0% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 10.1%",
       "spark": [
-        31.65,
         30.41,
         30.61,
         30.54,
@@ -6175,15 +6192,16 @@ window.STOCKS = [
         78.5,
         89.53,
         98.9,
-        90.78
+        90.78,
+        91.72
       ]
     },
     "news": [
       {
-        "title": "国瓷材料市值逼近千亿，MLCC粉体龙头迎高增长",
-        "date": "2026-06-23 12:20",
+        "title": "【关于国瓷】山东国瓷功能材料股份有限公司介绍",
+        "date": "2026-06-24 17:35",
         "source": "同花顺问财",
-        "url": "https://www.donews.com/news/detail/4/6605590.html"
+        "url": "https://mp.weixin.qq.com/s?__biz=MzUyNjA1NDI5NA==&chksm=fba02dabd45af2ce4d73fb9e65fedc835229e1a62d15d3edf04d8cd4e430350207a4dc3ac2e3&idx=1&mid=2247508493&sn=6c5f8d77baabc0461b4cbd48313cfc7e"
       },
       {
         "title": "国瓷材料股价涨4.47%",
@@ -6195,16 +6213,16 @@ window.STOCKS = [
         "title": "国瓷材料股价涨6.43%",
         "date": "2026-06-18 09:30",
         "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868296324828178235&wfr=spider"
+        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868296333036925853&wfr=spider"
       }
     ],
     "fund": {
-      "netInflow": -5.49,
-      "turnover": 15.36,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -4.33,
+      "turnover": 15.06,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "华泰证券",
@@ -6238,8 +6256,8 @@ window.STOCKS = [
       "汽车射频"
     ],
     "left": {
-      "zone": "87.31–90.01",
-      "trigger": "回踩 90.01 缩量企稳；失守 87.31 转弱；强支撑 90.01，止损 84.69",
+      "zone": "100.1–102.2",
+      "trigger": "回踩 MA10(100.1)/MA20(100.8) 缩量企稳即逢低；强支撑 MA60 90.69；止损 97.13",
       "logic": "估值低位龙头，回调布局复苏。"
     },
     "right": {
@@ -6292,39 +6310,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 95.48,
-      "chgPct": -3.87,
-      "ma5": 101.59,
-      "ma10": 100.12,
-      "ma20": 101.15,
-      "ma60": 90.01,
-      "ma120": 80.05,
-      "ma250": 52.58,
-      "high20": 116.4,
+      "date": "2026-06-24",
+      "price": 103.12,
+      "chgPct": 8,
+      "ma5": 102.19,
+      "ma10": 100.13,
+      "ma20": 100.79,
+      "ma60": 90.69,
+      "ma120": 80.59,
+      "ma250": 52.9,
+      "high20": 115.8,
       "low20": 88,
       "high60": 124.55,
       "low60": 59.98,
-      "volRatio": 1.18,
-      "atr": 9.11,
+      "volRatio": 1.15,
+      "atr": 9.28,
       "trend": "多头排列",
-      "posPct": 6.07,
+      "posPct": 13.7,
       "supportZone": [
-        87.31,
-        90.01
+        100.13,
+        102.19
       ],
-      "deepSupport": 90.01,
-      "pullbackPct": 6.07,
+      "deepSupport": 90.69,
+      "pullbackPct": 0.91,
       "breakout": 124.55,
-      "toBreakoutPct": 30.45,
-      "leftStop": 84.69,
+      "toBreakoutPct": 20.78,
+      "leftStop": 97.13,
       "leftTarget": 124.55,
-      "leftRR": 9.03,
+      "leftRR": 5.81,
       "rightStop": 119.57,
-      "leftState": "回踩约 6.1% 入场（逢低区）",
-      "rightState": "远离突破 30.4% · 暂无右侧",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 20.8% · 暂无右侧",
       "spark": [
-        62.37,
         64.24,
         62.52,
         64.27,
@@ -6383,7 +6400,8 @@ window.STOCKS = [
         105.56,
         107.45,
         99.32,
-        95.48
+        95.48,
+        103.12
       ]
     },
     "news": [
@@ -6394,25 +6412,25 @@ window.STOCKS = [
         "url": "http://news.10jqka.com.cn/19700121/c677652810.shtml"
       },
       {
+        "title": "高端MLCC已经切入华为AI服务器供应链？信维通信回应",
+        "date": "2026-06-23 17:42",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677652783.shtml"
+      },
+      {
         "title": "信维通信将携多款核心产品亮相2026慕尼黑上海电子展",
         "date": "2026-06-22 12:04",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677607619.shtml"
-      },
-      {
-        "title": "信维通信6月18日获融资买入16.49亿元",
-        "date": "2026-06-22 09:07",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868657294869057726&wfr=spider"
       }
     ],
     "fund": {
-      "netInflow": -2.98,
-      "turnover": 10.53,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 16.2,
+      "turnover": 12.61,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "华创证券",
@@ -6446,8 +6464,8 @@ window.STOCKS = [
       "海外需求"
     ],
     "left": {
-      "zone": "325.2–335.3",
-      "trigger": "回踩 MA10(308.1)/MA20(296.9) 缩量企稳即逢低；强支撑 MA60 228.7；止损 315.5",
+      "zone": "331.3–341.6",
+      "trigger": "回踩 MA10(314.9)/MA20(300.5) 缩量企稳即逢低；强支撑 MA60 231.9；止损 321.4",
       "logic": "受益 PCB 扩产，回调布局设备需求。"
     },
     "right": {
@@ -6500,39 +6518,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 346.44,
-      "chgPct": 2.21,
-      "ma5": 335.3,
-      "ma10": 308.05,
-      "ma20": 296.87,
-      "ma60": 228.68,
-      "ma120": 186.8,
-      "ma250": 135.16,
+      "date": "2026-06-24",
+      "price": 357.46,
+      "chgPct": 3.18,
+      "ma5": 341.59,
+      "ma10": 314.92,
+      "ma20": 300.47,
+      "ma60": 231.94,
+      "ma120": 188.86,
+      "ma250": 136.45,
       "high20": 369.78,
       "low20": 260.49,
       "high60": 369.78,
       "low60": 150.66,
-      "volRatio": 0.95,
-      "atr": 23.79,
+      "volRatio": 0.89,
+      "atr": 24.25,
       "trend": "多头排列",
-      "posPct": 51.5,
+      "posPct": 54.12,
       "supportZone": [
-        325.24,
-        335.3
+        331.34,
+        341.59
       ],
-      "deepSupport": 228.68,
-      "pullbackPct": 3.32,
+      "deepSupport": 231.94,
+      "pullbackPct": 4.65,
       "breakout": 369.78,
-      "toBreakoutPct": 6.74,
-      "leftStop": 315.48,
+      "toBreakoutPct": 3.45,
+      "leftStop": 321.4,
       "leftTarget": 369.78,
-      "leftRR": 2.67,
+      "leftRR": 2.21,
       "rightStop": 354.99,
-      "leftState": "回踩约 3.3% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 6.7%",
+      "leftState": "回踩约 4.6% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 3.4%",
       "spark": [
-        161.4,
         163.55,
         168.09,
         175.57,
@@ -6591,10 +6608,17 @@ window.STOCKS = [
         328.08,
         337,
         338.96,
-        346.44
+        346.44,
+        357.46
       ]
     },
     "news": [
+      {
+        "title": "大族数控再涨超7% PCB产业迎来新一轮扩产潮 公司高端产品已验证落地",
+        "date": "2026-06-24 14:15",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677675532.shtml"
+      },
       {
         "title": "大族数控早盘涨近9% 公司为全球最大PCB专用设备制造商",
         "date": "2026-06-18 10:45",
@@ -6606,21 +6630,15 @@ window.STOCKS = [
         "date": "2026-06-18 10:05",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677557221.shtml"
-      },
-      {
-        "title": "大族数控尾盘涨超6% PCB产业迎扩产潮 公司为全球PCB专用设备龙头",
-        "date": "2026-06-17 18:15",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677538975.shtml"
       }
     ],
     "fund": {
-      "netInflow": 1.26,
-      "turnover": 1.46,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -0.09,
+      "turnover": 1.04,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "湘财证券",
@@ -6654,13 +6672,13 @@ window.STOCKS = [
       "大客户 capex"
     ],
     "left": {
-      "zone": "132.8–136.9",
-      "trigger": "回踩 MA10(129.6)/MA20(129.8) 缩量企稳即逢低；强支撑 MA60 109.8；止损 128.8",
+      "zone": "137.0–140.0",
+      "trigger": "回踩 MA10(132.4)/MA20(130.7) 缩量企稳即逢低；强支撑 MA60 111.2；止损 132.9",
       "logic": "设备龙头估值修复，回调布局复苏。"
     },
     "right": {
-      "zone": "站上 156.3",
-      "trigger": "放量站上 156.3（60日高），量比>1.3 确认；新高回踩不破再加，止损 150.1",
+      "zone": "站上 157.7",
+      "trigger": "放量站上 157.7（60日高），量比>1.3 确认；新高回踩不破再加，止损 151.4",
       "logic": "设备需求复苏催化。"
     },
     "falsify": [
@@ -6708,39 +6726,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 145.11,
-      "chgPct": 9.99,
-      "ma5": 136.88,
-      "ma10": 129.62,
-      "ma20": 129.83,
-      "ma60": 109.76,
-      "ma120": 81.64,
-      "ma250": 56.61,
-      "high20": 145.12,
+      "date": "2026-06-24",
+      "price": 152.23,
+      "chgPct": 4.91,
+      "ma5": 140,
+      "ma10": 132.39,
+      "ma20": 130.67,
+      "ma60": 111.24,
+      "ma120": 82.6,
+      "ma250": 57.13,
+      "high20": 157.74,
       "low20": 116.3,
-      "high60": 156.3,
+      "high60": 157.74,
       "low60": 60.28,
-      "volRatio": 1.55,
-      "atr": 9.79,
+      "volRatio": 1.69,
+      "atr": 10.66,
       "trend": "多头排列",
-      "posPct": 32.2,
+      "posPct": 36.85,
       "supportZone": [
-        132.77,
-        136.88
+        137.01,
+        140
       ],
-      "deepSupport": 109.76,
-      "pullbackPct": 6.01,
-      "breakout": 156.3,
-      "toBreakoutPct": 7.71,
-      "leftStop": 128.79,
-      "leftTarget": 156.3,
-      "leftRR": 3.56,
-      "rightStop": 150.05,
-      "leftState": "回踩约 6.0% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 7.7%",
+      "deepSupport": 111.24,
+      "pullbackPct": 8.73,
+      "breakout": 157.74,
+      "toBreakoutPct": 3.62,
+      "leftStop": 132.9,
+      "leftTarget": 157.74,
+      "leftRR": 3.43,
+      "rightStop": 151.43,
+      "leftState": "回踩约 8.7% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 3.6%",
       "spark": [
-        63.69,
         61.71,
         62.66,
         63.65,
@@ -6799,10 +6816,17 @@ window.STOCKS = [
         135.84,
         134.9,
         131.93,
-        145.11
+        145.11,
+        152.23
       ]
     },
     "news": [
+      {
+        "title": "大族激光今日大宗交易溢价成交230万股，成交额3.53亿元",
+        "date": "2026-06-24 18:05",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677684847.shtml"
+      },
       {
         "title": "又涨停！大族激光凭什么？",
         "date": "2026-06-23 18:09",
@@ -6810,25 +6834,19 @@ window.STOCKS = [
         "url": "http://news.10jqka.com.cn/19700121/c677653764.shtml"
       },
       {
-        "title": "涨停雷达：AI算力PCB+激光器+一季报增长 大族激光触及涨停",
-        "date": "2026-06-23 10:41",
+        "title": "大族激光：控股股东累计质押50.71%持股",
+        "date": "2026-06-17 18:36",
         "source": "同花顺问财",
-        "url": "https://stock.10jqka.com.cn/20260623/c677638990.shtml"
-      },
-      {
-        "title": "重磅！大族激光获光学龙头6.5亿订单",
-        "date": "2026-06-17 17:47",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677537884.shtml"
+        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868240801900754963&wfr=spider"
       }
     ],
     "fund": {
-      "netInflow": 6.56,
-      "turnover": 12.8,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 5.44,
+      "turnover": 12.41,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "天风证券",
@@ -6862,8 +6880,8 @@ window.STOCKS = [
       "液冷整柜"
     ],
     "left": {
-      "zone": "71.35–73.55",
-      "trigger": "回踩 MA10(73.55)/MA20(74.09) 缩量企稳即逢低；强支撑 MA60 65.45；止损 69.21",
+      "zone": "73.76–76.10",
+      "trigger": "回踩 MA10(73.76)/MA20(74.43) 缩量企稳即逢低；强支撑 MA60 65.89；止损 71.54",
       "logic": "算力总装龙头，回调即布局。"
     },
     "right": {
@@ -6919,39 +6937,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 74.1,
-      "chgPct": -6.06,
-      "ma5": 75.32,
-      "ma10": 73.55,
-      "ma20": 74.09,
-      "ma60": 65.45,
-      "ma120": 61.48,
-      "ma250": 55.07,
+      "date": "2026-06-24",
+      "price": 76.78,
+      "chgPct": 3.62,
+      "ma5": 76.1,
+      "ma10": 73.76,
+      "ma20": 74.43,
+      "ma60": 65.89,
+      "ma120": 61.64,
+      "ma250": 55.3,
       "high20": 84.95,
-      "low20": 68,
+      "low20": 68.2,
       "high60": 84.95,
       "low60": 48.33,
-      "volRatio": 1.01,
-      "atr": 4.27,
+      "volRatio": 1.05,
+      "atr": 4.09,
       "trend": "多头排列",
-      "posPct": 13.22,
+      "posPct": 16.53,
       "supportZone": [
-        71.35,
-        73.55
+        73.76,
+        76.1
       ],
-      "deepSupport": 65.45,
-      "pullbackPct": 0.75,
+      "deepSupport": 65.89,
+      "pullbackPct": 0.9,
       "breakout": 84.95,
-      "toBreakoutPct": 14.64,
-      "leftStop": 69.21,
+      "toBreakoutPct": 10.64,
+      "leftStop": 71.54,
       "leftTarget": 84.95,
-      "leftRR": 3.86,
+      "leftRR": 2.96,
       "rightStop": 81.55,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 14.6% · 暂无右侧",
+      "rightState": "箱体内 · 距突破 10.6%",
       "spark": [
-        50.31,
         49.74,
         49.53,
         49.27,
@@ -7010,36 +7027,37 @@ window.STOCKS = [
         72.64,
         78.08,
         78.88,
-        74.1
+        74.1,
+        76.78
       ]
     },
     "news": [
+      {
+        "title": "万亿工业富联大涨，市值再次超越茅台",
+        "date": "2026-06-24 15:43",
+        "source": "同花顺问财",
+        "url": "https://finance.sina.cn/stock/ggyj/2026-06-24/detail-inienxzs1488469.d.html?cid=76702&node_id=76702&vt=4"
+      },
+      {
+        "title": "市值再度逼近茅台，工业富联估值重构",
+        "date": "2026-06-24 15:20",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/20260624/c677677237.shtml"
+      },
       {
         "title": "工业富联直线涨停",
         "date": "2026-06-18 15:13",
         "source": "同花顺问财",
         "url": "https://baijiahao.baidu.com/s?for=pc&id=1868320198994298667&wfr=spider"
-      },
-      {
-        "title": "英伟达CPO核心供应商！工业富联午后涨停 CPO概念多股集体冲高",
-        "date": "2026-06-18 13:59",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677562689.shtml"
-      },
-      {
-        "title": "AI相关产品出货量高速攀升 长江证券维持工业富联“买入”评级",
-        "date": "2026-06-16 14:54",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677496487.shtml"
       }
     ],
     "fund": {
-      "netInflow": -36.31,
-      "turnover": 1.22,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 11.47,
+      "turnover": 1.08,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "甬兴证券",
@@ -7073,8 +7091,8 @@ window.STOCKS = [
       "海外高毛利"
     ],
     "left": {
-      "zone": "148.1–150.5",
-      "trigger": "回踩 150.5 缩量企稳；失守 148.1 转弱；强支撑 148.1，止损 143.7",
+      "zone": "147.9–153.3",
+      "trigger": "回踩 153.3 缩量企稳；失守 147.9 转弱；强支撑 147.9，止损 143.5",
       "logic": "光储龙头业绩稳健，回调布局确定性。"
     },
     "right": {
@@ -7129,39 +7147,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 152,
-      "chgPct": -7.01,
-      "ma5": 152.82,
-      "ma10": 150.47,
-      "ma20": 160.92,
-      "ma60": 148.12,
-      "ma120": 154.32,
-      "ma250": 138.57,
+      "date": "2026-06-24",
+      "price": 154.8,
+      "chgPct": 1.84,
+      "ma5": 153.28,
+      "ma10": 150.7,
+      "ma20": 159.71,
+      "ma60": 147.92,
+      "ma120": 154.25,
+      "ma250": 138.94,
       "high20": 191.71,
       "low20": 141.21,
       "high60": 191.71,
       "low60": 121.06,
-      "volRatio": 1.02,
-      "atr": 9.84,
+      "volRatio": 1.03,
+      "atr": 9.82,
       "trend": "震荡",
-      "posPct": 2.62,
+      "posPct": 4.65,
       "supportZone": [
-        148.12,
-        150.47
+        147.92,
+        153.28
       ],
-      "deepSupport": 148.12,
-      "pullbackPct": 1.01,
+      "deepSupport": 147.92,
+      "pullbackPct": 0.99,
       "breakout": 191.71,
-      "toBreakoutPct": 26.13,
-      "leftStop": 143.67,
+      "toBreakoutPct": 23.84,
+      "leftStop": 143.48,
       "leftTarget": 191.71,
-      "leftRR": 7.54,
+      "leftRR": 5.77,
       "rightStop": 184.04,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 26.1% · 暂无右侧",
+      "rightState": "远离突破 23.8% · 暂无右侧",
       "spark": [
-        166.4,
         165.32,
         162.67,
         156.42,
@@ -7220,36 +7237,37 @@ window.STOCKS = [
         149.15,
         146.98,
         163.46,
-        152
+        152,
+        154.8
       ]
     },
     "news": [
       {
-        "title": "阳光电源(300274) 深度分析报告",
-        "date": "2026-06-22 19:28",
+        "title": "阳光电源：成长叙事下估值偏高",
+        "date": "2026-06-24 14:27",
         "source": "同花顺问财",
-        "url": "https://finance.ifeng.com/c/8uAwqHQ2qEN"
+        "url": "https://finance.sina.cn/2026-06-24/detail-inienttv8321648.d.html"
+      },
+      {
+        "title": "阳光电源领跑科技品牌全球榜单：科技创新构筑清洁能源硬核壁垒",
+        "date": "2026-06-23 19:11",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677656010.shtml"
       },
       {
         "title": "光伏逆变器业务持续高增，储能业务大爆发，阳光电源业绩高增！",
         "date": "2026-06-22 00:00",
         "source": "同花顺问财",
         "url": "https://www.cmpe360.com/p/223118"
-      },
-      {
-        "title": "阳光电源签下欧洲1.32GWh储能大单",
-        "date": "2026-06-19 11:33",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677588115.shtml"
       }
     ],
     "fund": {
-      "netInflow": -16.48,
-      "turnover": 5.19,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 1.47,
+      "turnover": 3.76,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "长江证券",
@@ -7283,8 +7301,8 @@ window.STOCKS = [
       "工商储拓展"
     ],
     "left": {
-      "zone": "91.30–100.4",
-      "trigger": "回踩 100.4 缩量企稳；失守 91.30 转弱；强支撑 104.3，止损 88.56",
+      "zone": "89.78–98.75",
+      "trigger": "回踩 98.75 缩量企稳；失守 89.78 转弱；强支撑 104.4，止损 87.08",
       "logic": "高弹性储能票，回调布局新兴市场。"
     },
     "right": {
@@ -7337,39 +7355,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 101.44,
-      "chgPct": -6.94,
-      "ma5": 103.83,
-      "ma10": 103.27,
-      "ma20": 108.42,
-      "ma60": 104.29,
-      "ma120": 87.24,
-      "ma250": 66.07,
+      "date": "2026-06-24",
+      "price": 99.75,
+      "chgPct": -1.67,
+      "ma5": 103.29,
+      "ma10": 102.85,
+      "ma20": 107.6,
+      "ma60": 104.42,
+      "ma120": 87.56,
+      "ma250": 66.31,
       "high20": 126.9,
       "low20": 94,
       "high60": 126.9,
       "low60": 84.34,
-      "volRatio": 1.07,
-      "atr": 6.34,
+      "volRatio": 1.04,
+      "atr": 5.84,
       "trend": "震荡",
-      "posPct": -2.73,
+      "posPct": -4.47,
       "supportZone": [
-        91.3,
-        100.43
+        89.78,
+        98.75
       ],
-      "deepSupport": 104.29,
+      "deepSupport": 104.42,
       "pullbackPct": 1.01,
       "breakout": 126.9,
-      "toBreakoutPct": 25.1,
-      "leftStop": 88.56,
+      "toBreakoutPct": 27.22,
+      "leftStop": 87.08,
       "leftTarget": 126.9,
-      "leftRR": 4.25,
+      "leftRR": 4.54,
       "rightStop": 121.82,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 25.1% · 暂无右侧",
+      "rightState": "远离突破 27.2% · 暂无右侧",
       "spark": [
-        91.93,
         92.46,
         91.45,
         91.66,
@@ -7428,36 +7445,37 @@ window.STOCKS = [
         103.08,
         103.2,
         109,
-        101.44
+        101.44,
+        99.75
       ]
     },
     "news": [
       {
-        "title": "德业股份：子公司签二期投资协议 涉资不少于12.32亿元",
-        "date": "2026-06-23 17:18",
+        "title": "投资不少于12.32亿元！德业股份建9GWh工商储生产线项目",
+        "date": "2026-06-24 09:40",
         "source": "同花顺问财",
-        "url": "https://finance.sina.cn/7x24/2026-06-23/detail-iniekvas2010228.d.html"
+        "url": "https://newenergy.in-en.com/html/newenergy-2453818.shtml"
+      },
+      {
+        "title": "德业股份：全资子公司签署二期投资协议 拟投建年产9GWh工商储生产线项目",
+        "date": "2026-06-23 23:19",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/20260623/c677661010.shtml"
       },
       {
         "title": "德业股份股价涨3.35%",
         "date": "2026-06-22 09:34",
         "source": "同花顺问财",
         "url": "https://baijiahao.baidu.com/s?for=pc&id=1868658960010620163&wfr=spider"
-      },
-      {
-        "title": "暴增860亿！储能逆变器龙头德业股份，逆势爆发",
-        "date": "2026-06-19 19:12",
-        "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/wm/2026-06-19/doc-inicxyys2718344.shtml"
       }
     ],
     "fund": {
-      "netInflow": -0.41,
-      "turnover": 2.08,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -1.19,
+      "turnover": 1.42,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "长江证券",
@@ -7491,8 +7509,8 @@ window.STOCKS = [
       "平台多元"
     ],
     "left": {
-      "zone": "156.6–161.5",
-      "trigger": "回踩 MA10(161.5)/MA20(152.0) 缩量企稳即逢低；强支撑 MA60 125.3；止损 151.9",
+      "zone": "153.6–162.3",
+      "trigger": "回踩 MA10(162.3)/MA20(153.6) 缩量企稳即逢低；强支撑 MA60 126.4；止损 149.0",
       "logic": "平台型成长，回调布局算力电源。"
     },
     "right": {
@@ -7545,39 +7563,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 173.05,
-      "chgPct": -8.34,
-      "ma5": 176.78,
-      "ma10": 161.47,
-      "ma20": 152.01,
-      "ma60": 125.27,
-      "ma120": 118.07,
-      "ma250": 92.37,
+      "date": "2026-06-24",
+      "price": 170.31,
+      "chgPct": -1.58,
+      "ma5": 178.11,
+      "ma10": 162.32,
+      "ma20": 153.62,
+      "ma60": 126.39,
+      "ma120": 118.82,
+      "ma250": 92.86,
       "high20": 189.98,
       "low20": 123.5,
       "high60": 189.98,
       "low60": 93.63,
       "volRatio": 1.02,
-      "atr": 14.04,
+      "atr": 13.34,
       "trend": "多头排列",
-      "posPct": 38.15,
+      "posPct": 34.75,
       "supportZone": [
-        156.62,
-        161.47
+        153.62,
+        162.32
       ],
-      "deepSupport": 125.27,
-      "pullbackPct": 7.17,
+      "deepSupport": 126.39,
+      "pullbackPct": 4.92,
       "breakout": 189.98,
-      "toBreakoutPct": 9.78,
-      "leftStop": 151.93,
+      "toBreakoutPct": 11.55,
+      "leftStop": 149.01,
       "leftTarget": 189.98,
-      "leftRR": 4.35,
+      "leftRR": 3.57,
       "rightStop": 182.38,
-      "leftState": "回踩约 7.2% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 9.8%",
+      "leftState": "回踩约 4.9% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 11.5%",
       "spark": [
-        103.1,
         100.27,
         101.25,
         100.45,
@@ -7636,7 +7653,8 @@ window.STOCKS = [
         178.9,
         179.5,
         188.79,
-        173.05
+        173.05,
+        170.31
       ]
     },
     "news": [
@@ -7660,12 +7678,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -2.51,
-      "turnover": 7.45,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -5.71,
+      "turnover": 6.08,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "东北证券",
@@ -7699,8 +7717,8 @@ window.STOCKS = [
       "电力信息化"
     ],
     "left": {
-      "zone": "45.14–49.66",
-      "trigger": "回踩 49.66 缩量企稳；失守 45.14 转弱；强支撑 44.38，止损 43.79",
+      "zone": "51.39–52.88",
+      "trigger": "回踩 MA10(51.39)/MA20(52.84) 缩量企稳即逢低；强支撑 MA60 44.81；止损 49.85",
       "logic": "算力供电纯标的，回调博弈 HVDC 放量。"
     },
     "right": {
@@ -7753,39 +7771,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 50.16,
-      "chgPct": -5.59,
-      "ma5": 52.28,
-      "ma10": 51.38,
-      "ma20": 52.76,
-      "ma60": 44.38,
-      "ma120": 37.73,
-      "ma250": 29.69,
+      "date": "2026-06-24",
+      "price": 55.18,
+      "chgPct": 10.01,
+      "ma5": 52.88,
+      "ma10": 51.39,
+      "ma20": 52.84,
+      "ma60": 44.81,
+      "ma120": 37.99,
+      "ma250": 29.85,
       "high20": 59.87,
       "low20": 46.41,
       "high60": 59.87,
       "low60": 25.43,
-      "volRatio": 0.83,
-      "atr": 4.14,
-      "trend": "震荡",
-      "posPct": 13.01,
+      "volRatio": 0.87,
+      "atr": 4.13,
+      "trend": "多头排列",
+      "posPct": 23.15,
       "supportZone": [
-        45.14,
-        49.66
+        51.39,
+        52.88
       ],
-      "deepSupport": 44.38,
-      "pullbackPct": 1.01,
+      "deepSupport": 44.81,
+      "pullbackPct": 4.34,
       "breakout": 59.87,
-      "toBreakoutPct": 19.36,
-      "leftStop": 43.79,
+      "toBreakoutPct": 8.5,
+      "leftStop": 49.85,
       "leftTarget": 59.87,
-      "leftRR": 3.45,
+      "leftRR": 3.38,
       "rightStop": 57.48,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 19.4% · 暂无右侧",
+      "leftState": "回踩约 4.3% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 8.5%",
       "spark": [
-        29.8,
         28.86,
         28.07,
         27.3,
@@ -7844,36 +7861,37 @@ window.STOCKS = [
         51.89,
         54.06,
         53.13,
-        50.16
+        50.16,
+        55.18
       ]
     },
     "news": [
+      {
+        "title": "6月24日中恒电气（002364）涨停分析：业绩高增、宁德合作驱动",
+        "date": "2026-06-24 15:41",
+        "source": "同花顺问财",
+        "url": "https://stock.stockstar.com/RB2026062400023542.shtml"
+      },
+      {
+        "title": "中恒电气(002364)-千股千评-行情中心-证券之星",
+        "date": "2026-06-24 00:00",
+        "source": "同花顺问财",
+        "url": "https://quote.stockstar.com/Comment/Eval/002364"
+      },
       {
         "title": "中恒博瑞科研成果斩获省部级科技进步特等奖",
         "date": "2026-06-23 11:09",
         "source": "同花顺问财",
         "url": "https://mp.weixin.qq.com/s?__biz=MzI0MDI1MTAxOA==&chksm=f3ca597f14f5db91885b277efcd98aa29a18063b6044fa3c5bb0cfd7c7a24a5585a0a263b545&idx=1&mid=2650980924&sn=d695c517618656365a3467b10ff328af"
-      },
-      {
-        "title": "叶肖剑 吴艺婧：非标产品制造企业中恒电气基于智能报价的成本管理体系构建与应用",
-        "date": "2026-06-22 16:27",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677616249.shtml"
-      },
-      {
-        "title": "中恒电气股价涨4.04%",
-        "date": "2026-06-17 09:30",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868205755925259386&wfr=spider"
       }
     ],
     "fund": {
-      "netInflow": -1.86,
-      "turnover": 6.21,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 3.93,
+      "turnover": 9.79,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "市值风云",
@@ -7907,8 +7925,8 @@ window.STOCKS = [
       "出海"
     ],
     "left": {
-      "zone": "15.00–16.07",
-      "trigger": "回踩 16.07 缩量企稳；失守 15.00 转弱；强支撑 16.42，止损 14.55",
+      "zone": "15.20–16.06",
+      "trigger": "回踩 16.06 缩量企稳；失守 15.20 转弱；强支撑 16.41，止损 14.74",
       "logic": "低估值央企蓝筹，回调安全边际高。"
     },
     "right": {
@@ -7961,39 +7979,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 16.19,
-      "chgPct": -3.57,
-      "ma5": 16.07,
-      "ma10": 15,
+      "date": "2026-06-24",
+      "price": 16.26,
+      "chgPct": 0.43,
+      "ma5": 16.06,
+      "ma10": 15.2,
       "ma20": 15.53,
-      "ma60": 16.42,
-      "ma120": 15.41,
-      "ma250": 11.13,
+      "ma60": 16.41,
+      "ma120": 15.47,
+      "ma250": 11.17,
       "high20": 17.27,
       "low20": 13.38,
       "high60": 19.89,
       "low60": 13.38,
-      "volRatio": 1.57,
-      "atr": 0.85,
+      "volRatio": 1.48,
+      "atr": 0.86,
       "trend": "震荡",
-      "posPct": -1.37,
+      "posPct": -0.9,
       "supportZone": [
-        15,
-        16.07
+        15.2,
+        16.06
       ],
-      "deepSupport": 16.42,
-      "pullbackPct": 0.77,
+      "deepSupport": 16.41,
+      "pullbackPct": 1.26,
       "breakout": 19.89,
-      "toBreakoutPct": 22.85,
-      "leftStop": 14.55,
+      "toBreakoutPct": 22.32,
+      "leftStop": 14.74,
       "leftTarget": 19.89,
-      "leftRR": 4.43,
+      "leftRR": 4.8,
       "rightStop": 19.09,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 22.9% · 暂无右侧",
+      "rightState": "远离突破 22.3% · 暂无右侧",
       "spark": [
-        16.69,
         15.94,
         16.07,
         15.8,
@@ -8052,16 +8069,11 @@ window.STOCKS = [
         15.79,
         15.26,
         16.79,
-        16.19
+        16.19,
+        16.26
       ]
     },
     "news": [
-      {
-        "title": "中国西电：10千伏/2.42兆伏安/800伏固态变压器已应用于贵安国家“东数西算”数据中心项目",
-        "date": "2026-06-20 00:00",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677590479.shtml"
-      },
       {
         "title": "中国西电涨停",
         "date": "2026-06-16 15:16",
@@ -8073,15 +8085,21 @@ window.STOCKS = [
         "date": "2026-06-16 15:03",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677496653.shtml"
+      },
+      {
+        "title": "中国西电在西安成立发电开关装备公司",
+        "date": "2026-06-16 14:51",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677496449.shtml"
       }
     ],
     "fund": {
-      "netInflow": -5.95,
-      "turnover": 5.98,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -0.58,
+      "turnover": 3.44,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "中信建投证券",
@@ -8115,8 +8133,8 @@ window.STOCKS = [
       "新能源并网"
     ],
     "left": {
-      "zone": "63.72–70.09",
-      "trigger": "回踩 70.09 缩量企稳；失守 63.72 转弱；强支撑 61.96，止损 61.81",
+      "zone": "62.18–62.38",
+      "trigger": "回踩 62.38 缩量企稳；失守 62.18 转弱；强支撑 62.38，止损 60.32",
       "logic": "电网+储能双轮，回调布局。"
     },
     "right": {
@@ -8169,39 +8187,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 70.8,
-      "chgPct": -9.01,
-      "ma5": 73.24,
-      "ma10": 71.01,
-      "ma20": 73.58,
-      "ma60": 61.96,
-      "ma120": 50.43,
-      "ma250": 34.92,
+      "date": "2026-06-24",
+      "price": 69.09,
+      "chgPct": -2.42,
+      "ma5": 72.64,
+      "ma10": 70.83,
+      "ma20": 73.27,
+      "ma60": 62.38,
+      "ma120": 50.77,
+      "ma250": 35.13,
       "high20": 85.83,
       "low20": 66.01,
       "high60": 88.16,
       "low60": 38.98,
-      "volRatio": 1.38,
-      "atr": 4.73,
+      "volRatio": 1.33,
+      "atr": 4.66,
       "trend": "震荡",
-      "posPct": 14.26,
+      "posPct": 10.75,
       "supportZone": [
-        63.72,
-        70.09
+        62.18,
+        62.38
       ],
-      "deepSupport": 61.96,
-      "pullbackPct": 1.01,
+      "deepSupport": 62.38,
+      "pullbackPct": 10.75,
       "breakout": 88.16,
-      "toBreakoutPct": 24.52,
-      "leftStop": 61.81,
+      "toBreakoutPct": 27.6,
+      "leftStop": 60.32,
       "leftTarget": 88.16,
-      "leftRR": 4.17,
+      "leftRR": 10,
       "rightStop": 84.63,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 24.5% · 暂无右侧",
+      "leftState": "回踩约 10.8% 入场（逢低区）",
+      "rightState": "远离突破 27.6% · 暂无右侧",
       "spark": [
-        43.98,
         44.12,
         45.06,
         44.15,
@@ -8260,36 +8277,37 @@ window.STOCKS = [
         70.87,
         74.63,
         77.81,
-        70.8
+        70.8,
+        69.09
       ]
     },
     "news": [
       {
-        "title": "递表 | A股600亿电力巨头冲刺港股，「四方股份」首次递表港交所",
-        "date": "2026-06-23 10:18",
+        "title": "四方股份(601126)-千股千评-行情中心-证券之星",
+        "date": "2026-06-24 00:00",
         "source": "同花顺问财",
-        "url": "https://mp.weixin.qq.com/s?__biz=MzIzMjI1Njc3NQ==&chksm=f2d62027b02a3a366a55392998b7a6b61f5b9221f8a2ae39a6425cdb057c5cd672dcd6f7f4cd&idx=2&mid=2654940491&sn=9286fc44bee3ffea9cb8c6b11420afb9"
-      },
-      {
-        "title": "四方股份：年入82亿净利稳增，毛利率三连降至29.9%，前五大客户占比超54%",
-        "date": "2026-06-23 08:34",
-        "source": "同花顺问财",
-        "url": "https://news.qq.com/rain/a/20260623A01W7S00"
+        "url": "https://quote.stockstar.com/Comment/Eval/601126"
       },
       {
         "title": "A股老牌电力龙头闯关港股！四方股份净利两年连增，前五大客户集中度超过50%",
         "date": "2026-06-22 18:32",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677620798.shtml"
+      },
+      {
+        "title": "从电网二次设备到储能与AI数据中心，四方股份的转型故事讲到哪了？",
+        "date": "2026-06-22 14:04",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677609635.shtml"
       }
     ],
     "fund": {
-      "netInflow": -3.11,
-      "turnover": 5.48,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 1.5,
+      "turnover": 4.7,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "中信建投证券",
@@ -8323,8 +8341,8 @@ window.STOCKS = [
       "整柜液冷方案"
     ],
     "left": {
-      "zone": "74.36–76.19",
-      "trigger": "回踩 76.19 缩量企稳；失守 74.36 转弱；强支撑 74.36，止损 72.13",
+      "zone": "75.78–78.13",
+      "trigger": "回踩 78.13 缩量企稳；失守 75.78 转弱；强支撑 74.48，止损 73.51",
       "logic": "液冷主线龙头，回调即布局渗透红利。"
     },
     "right": {
@@ -8379,39 +8397,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 81.48,
-      "chgPct": 5.41,
-      "ma5": 76.19,
-      "ma10": 72.33,
-      "ma20": 70.86,
-      "ma60": 74.36,
-      "ma120": 76.79,
-      "ma250": 60.81,
+      "date": "2026-06-24",
+      "price": 82.86,
+      "chgPct": 1.69,
+      "ma5": 78.13,
+      "ma10": 73.65,
+      "ma20": 71.21,
+      "ma60": 74.48,
+      "ma120": 76.9,
+      "ma250": 61.05,
       "high20": 85.03,
       "low20": 62.2,
       "high60": 93.52,
       "low60": 62.2,
-      "volRatio": 1.3,
-      "atr": 4.25,
+      "volRatio": 1.38,
+      "atr": 4.47,
       "trend": "震荡",
-      "posPct": 9.58,
+      "posPct": 11.25,
       "supportZone": [
-        74.36,
-        76.19
+        75.78,
+        78.13
       ],
-      "deepSupport": 74.36,
-      "pullbackPct": 6.94,
+      "deepSupport": 74.48,
+      "pullbackPct": 6.06,
       "breakout": 93.52,
-      "toBreakoutPct": 14.77,
-      "leftStop": 72.13,
+      "toBreakoutPct": 12.86,
+      "leftStop": 73.51,
       "leftTarget": 93.52,
-      "leftRR": 5.8,
+      "leftRR": 4.81,
       "rightStop": 89.77,
-      "leftState": "回踩约 6.9% 入场（逢低区）",
-      "rightState": "远离突破 14.8% · 暂无右侧",
+      "leftState": "回踩约 6.1% 入场（逢低区）",
+      "rightState": "远离突破 12.9% · 暂无右侧",
       "spark": [
-        75.64,
         73.34,
         71.51,
         68.92,
@@ -8470,7 +8487,8 @@ window.STOCKS = [
         74.62,
         74.37,
         77.3,
-        81.48
+        81.48,
+        82.86
       ]
     },
     "news": [
@@ -8481,25 +8499,25 @@ window.STOCKS = [
         "url": "http://news.10jqka.com.cn/19700121/c677639334.shtml"
       },
       {
-        "title": "英维克2026年6月23日涨停分析：AI算力温控+储能温控+产能布局",
-        "date": "2026-06-23 09:55",
+        "title": "净利率拐点预计在哪个季度？英维克回应",
+        "date": "2026-06-22 15:12",
         "source": "同花顺问财",
-        "url": "https://www.163.com/dy/article/L03ND38L05568W0A.html"
+        "url": "http://news.10jqka.com.cn/19700121/c677611714.shtml"
       },
       {
-        "title": "英伟达45℃温水100%全液冷 液冷服务器概念走强 英维克、大元泵业双双涨停",
-        "date": "2026-06-23 09:34",
+        "title": "英维克回应：公司微信公众号发布的相关消息是属实的",
+        "date": "2026-06-22 15:08",
         "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677636624.shtml"
+        "url": "http://news.10jqka.com.cn/19700121/c677611338.shtml"
       }
     ],
     "fund": {
-      "netInflow": -8.55,
-      "turnover": 12.02,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 0.33,
+      "turnover": 9.31,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "华泰证券",
@@ -8533,8 +8551,8 @@ window.STOCKS = [
       "液冷数据中心"
     ],
     "left": {
-      "zone": "79.30–80.73",
-      "trigger": "回踩 80.73 缩量企稳；失守 79.30 转弱；强支撑 87.74，止损 76.92",
+      "zone": "80.26–84.04",
+      "trigger": "回踩 84.04 缩量企稳；失守 80.26 转弱；强支撑 87.70，止损 77.85",
       "logic": "IDC 龙头，回调博弈上架率与算力放量。"
     },
     "right": {
@@ -8588,39 +8606,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 82.23,
-      "chgPct": -4.38,
-      "ma5": 82.79,
-      "ma10": 79.3,
-      "ma20": 80.73,
-      "ma60": 87.74,
-      "ma120": 81.5,
-      "ma250": 64.91,
-      "high20": 93.33,
+      "date": "2026-06-24",
+      "price": 85.6,
+      "chgPct": 4.1,
+      "ma5": 84.04,
+      "ma10": 80.26,
+      "ma20": 80.56,
+      "ma60": 87.7,
+      "ma120": 81.8,
+      "ma250": 65.08,
+      "high20": 89.18,
       "low20": 73.3,
       "high60": 110.98,
       "low60": 73.3,
-      "volRatio": 1.07,
-      "atr": 3.95,
+      "volRatio": 1.13,
+      "atr": 4.02,
       "trend": "震荡",
-      "posPct": -6.28,
+      "posPct": -2.4,
       "supportZone": [
-        79.3,
-        80.73
+        80.26,
+        84.04
       ],
-      "deepSupport": 87.74,
-      "pullbackPct": 1.85,
+      "deepSupport": 87.7,
+      "pullbackPct": 1.86,
       "breakout": 110.98,
-      "toBreakoutPct": 34.96,
-      "leftStop": 76.92,
+      "toBreakoutPct": 29.65,
+      "leftStop": 77.85,
       "leftTarget": 110.98,
-      "leftRR": 10,
+      "leftRR": 6.71,
       "rightStop": 106.54,
       "leftState": "回踩约 1.9% 入场（逢低区）",
-      "rightState": "远离突破 35.0% · 暂无右侧",
+      "rightState": "远离突破 29.6% · 暂无右侧",
       "spark": [
-        87.65,
         84.28,
         83.45,
         82.8,
@@ -8679,7 +8696,8 @@ window.STOCKS = [
         81.17,
         85.18,
         86,
-        82.23
+        82.23,
+        85.6
       ]
     },
     "news": [
@@ -8690,25 +8708,25 @@ window.STOCKS = [
         "url": "http://news.10jqka.com.cn/19700121/c677640336.shtml"
       },
       {
-        "title": "润泽科技(300442)：AIDC需求旺盛推动亮眼高增 出海战略布局赋能长期成长",
-        "date": "2026-06-23 00:00",
-        "source": "同花顺问财",
-        "url": "http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/lastest/rptid/835497680520/index.phtml"
-      },
-      {
         "title": "润泽科技股价涨3.29%",
         "date": "2026-06-22 09:41",
         "source": "同花顺问财",
         "url": "https://baijiahao.baidu.com/s?for=pc&id=1868659386649981178&wfr=spider"
+      },
+      {
+        "title": "润泽科技股价涨3.09%",
+        "date": "2026-06-18 09:59",
+        "source": "同花顺问财",
+        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868298165915414674&wfr=spider"
       }
     ],
     "fund": {
-      "netInflow": -2.97,
-      "turnover": 2.74,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 3.15,
+      "turnover": 2.67,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "中国银河",
@@ -8742,13 +8760,13 @@ window.STOCKS = [
       "AI 应用"
     ],
     "left": {
-      "zone": "223.2–228.2",
-      "trigger": "回踩 228.2 缩量企稳；失守 223.2 转弱；强支撑 189.5，止损 216.5",
+      "zone": "273.8–288.7",
+      "trigger": "回踩 MA10(215.1)/MA20(193.4) 缩量企稳即逢低；强支撑 MA60 192.5；止损 265.6",
       "logic": "题材弹性票，回调博弈智算订单。"
     },
     "right": {
-      "zone": "站上 266.0",
-      "trigger": "放量站上 266.0（60日高），量比>1.3 确认；新高回踩不破再加，止损 255.4",
+      "zone": "已破 297.6 · 回踩 MA10(215.1) 不破加仓",
+      "trigger": "放量站上 297.6（60日高），量比>1.3 确认；新高回踩不破再加，止损 285.7",
       "logic": "智算中心订单催化驱动。"
     },
     "falsify": [
@@ -8796,39 +8814,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 248,
-      "chgPct": -3.88,
-      "ma5": 228.16,
-      "ma10": 201.91,
-      "ma20": 188.19,
-      "ma60": 189.46,
-      "ma120": 129.2,
-      "ma250": 86,
-      "high20": 265.5,
+      "date": "2026-06-24",
+      "price": 297.6,
+      "chgPct": 20,
+      "ma5": 248.44,
+      "ma10": 215.07,
+      "ma20": 193.38,
+      "ma60": 192.48,
+      "ma120": 131.32,
+      "ma250": 87.02,
+      "high20": 297.6,
       "low20": 153,
-      "high60": 266,
+      "high60": 297.6,
       "low60": 109.34,
-      "volRatio": 1.29,
-      "atr": 18.23,
-      "trend": "震荡",
-      "posPct": 30.9,
+      "volRatio": 1.24,
+      "atr": 21.22,
+      "trend": "多头排列",
+      "posPct": 54.61,
       "supportZone": [
-        223.2,
-        228.16
+        273.79,
+        288.67
       ],
-      "deepSupport": 189.46,
-      "pullbackPct": 8.7,
-      "breakout": 266,
-      "toBreakoutPct": 7.26,
-      "leftStop": 216.5,
-      "leftTarget": 266,
-      "leftRR": 4.39,
-      "rightStop": 255.36,
-      "leftState": "回踩约 8.7% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 7.3%",
+      "deepSupport": 192.48,
+      "pullbackPct": 3.09,
+      "breakout": 297.6,
+      "toBreakoutPct": 0,
+      "leftStop": 265.58,
+      "leftTarget": 312.48,
+      "leftRR": 2,
+      "rightStop": 285.7,
+      "leftState": "回踩约 3.1% 入场（逢低区）",
+      "rightState": "创新高但量能不足 · 谨慎跟进",
       "spark": [
-        116.75,
         118.14,
         114.48,
         114.14,
@@ -8887,36 +8904,37 @@ window.STOCKS = [
         215.61,
         222.97,
         258.01,
-        248
+        248,
+        297.6
       ]
     },
     "news": [
       {
-        "title": "宏景科技 222.97 (3.41%)_股票行情_新浪财经_新浪网",
-        "date": "2026-06-18 08:38",
+        "title": "宏景科技盘中创历史新高",
+        "date": "2026-06-24 10:41",
         "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/realstock/company/sz301396/nc.shtml"
+        "url": "https://www.stcn.com/article/detail/3976301.html"
+      },
+      {
+        "title": "2026.06.15 职业教育概念行情数据：板块收涨1.29% 宏景科技涨15.17%",
+        "date": "2026-06-15 18:57",
+        "source": "同花顺问财",
+        "url": "http://news.10jqka.com.cn/19700121/c677475429.shtml"
       },
       {
         "title": "2026.06.15 算力租赁概念行情数据：板块收涨3.21% 宏景科技涨15.17%",
         "date": "2026-06-15 18:32",
         "source": "同花顺问财",
         "url": "http://news.10jqka.com.cn/19700121/c677475300.shtml"
-      },
-      {
-        "title": "2026.06.15 新型城镇化概念行情数据：板块收涨0.92% 宏景科技涨15.17%",
-        "date": "2026-06-15 17:39",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677472621.shtml"
       }
     ],
     "fund": {
-      "netInflow": -3.34,
-      "turnover": 12.02,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 4.03,
+      "turnover": 13.49,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "中邮证券",
@@ -8950,13 +8968,13 @@ window.STOCKS = [
       "EPC 总包"
     ],
     "left": {
-      "zone": "19.68–20.28",
-      "trigger": "回踩 MA10(18.42)/MA20(16.44) 缩量企稳即逢低；强支撑 MA60 12.52；止损 19.09",
+      "zone": "20.71–21.29",
+      "trigger": "回踩 MA10(19.16)/MA20(16.92) 缩量企稳即逢低；强支撑 MA60 12.73；止损 20.09",
       "logic": "工程+封测双轮，低估值回调布局。"
     },
     "right": {
-      "zone": "站上 22.95",
-      "trigger": "放量站上 22.95（60日高），量比>1.3 确认；新高回踩不破再加，止损 22.03",
+      "zone": "已破 23.01 · 回踩 MA10(19.16) 不破加仓",
+      "trigger": "放量站上 23.01（60日高），量比>1.3 确认；新高回踩不破再加，止损 22.09",
       "logic": "建设 capex + 存储复苏催化。"
     },
     "falsify": [
@@ -9004,39 +9022,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 20.92,
-      "chgPct": -7.31,
-      "ma5": 20.28,
-      "ma10": 18.42,
-      "ma20": 16.44,
-      "ma60": 12.52,
-      "ma120": 11.07,
-      "ma250": 9.21,
-      "high20": 22.95,
+      "date": "2026-06-24",
+      "price": 23.01,
+      "chgPct": 9.99,
+      "ma5": 21.29,
+      "ma10": 19.16,
+      "ma20": 16.92,
+      "ma60": 12.73,
+      "ma120": 11.2,
+      "ma250": 9.27,
+      "high20": 23.01,
       "low20": 12.67,
-      "high60": 22.95,
+      "high60": 23.01,
       "low60": 8.52,
-      "volRatio": 1.05,
-      "atr": 1.68,
+      "volRatio": 0.97,
+      "atr": 1.8,
       "trend": "多头排列",
-      "posPct": 67.11,
+      "posPct": 80.79,
       "supportZone": [
-        19.68,
-        20.28
+        20.71,
+        21.29
       ],
-      "deepSupport": 12.52,
-      "pullbackPct": 3.14,
-      "breakout": 22.95,
-      "toBreakoutPct": 9.7,
-      "leftStop": 19.09,
-      "leftTarget": 22.95,
-      "leftRR": 3.34,
-      "rightStop": 22.03,
-      "leftState": "回踩约 3.1% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 9.7%",
+      "deepSupport": 12.73,
+      "pullbackPct": 8.09,
+      "breakout": 23.01,
+      "toBreakoutPct": 0,
+      "leftStop": 20.09,
+      "leftTarget": 24.16,
+      "leftRR": 3.48,
+      "rightStop": 22.09,
+      "leftState": "回踩约 8.1% 入场（逢低区）",
+      "rightState": "创新高但量能不足 · 谨慎跟进",
       "spark": [
-        10.48,
         9.77,
         9.81,
         9.72,
@@ -9095,36 +9112,37 @@ window.STOCKS = [
         19.02,
         20.92,
         22.57,
-        20.92
+        20.92,
+        23.01
       ]
     },
     "news": [
+      {
+        "title": "6月24日太极实业（600667）涨停分析：诉讼落地、订单兑现、业绩增长驱动",
+        "date": "2026-06-24 15:36",
+        "source": "同花顺问财",
+        "url": "https://stock.stockstar.com/RB2026062400023016.shtml"
+      },
+      {
+        "title": "太极实业(600667)-千股千评-行情中心-证券之星",
+        "date": "2026-06-24 00:00",
+        "source": "同花顺问财",
+        "url": "https://quote.stockstar.com/Comment/Eval/600667"
+      },
       {
         "title": "太极实业上市公司信息",
         "date": "2026-06-20 09:14",
         "source": "同花顺问财",
         "url": "https://m.hx168.com.cn/stock/F10/600667.html"
-      },
-      {
-        "title": "太极实业是做什么的？太极实业的主营业务是什么？",
-        "date": "2026-06-19 15:40",
-        "source": "同花顺问财",
-        "url": "https://baike.jfinfo.com/4043832.html"
-      },
-      {
-        "title": "太极实业：海太半导体(无锡)有限公司2025年度营收39.39亿元 占公司年度营收的12.84%",
-        "date": "2026-06-18 18:32",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677575192.shtml"
       }
     ],
     "fund": {
-      "netInflow": -6.56,
-      "turnover": 14.61,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -1.69,
+      "turnover": 10.17,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "广发证券",
@@ -9158,8 +9176,8 @@ window.STOCKS = [
       "高端装备"
     ],
     "left": {
-      "zone": "44.24–48.66",
-      "trigger": "回踩 48.66 缩量企稳；失守 44.24 转弱；强支撑 59.68，止损 42.91",
+      "zone": "44.76–49.23",
+      "trigger": "回踩 49.23 缩量企稳；失守 44.76 转弱；强支撑 59.80，止损 43.41",
       "logic": "高端材料平台，回调布局军工/高端制造。"
     },
     "right": {
@@ -9212,39 +9230,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 49.15,
-      "chgPct": -10,
-      "ma5": 55.99,
-      "ma10": 57.86,
-      "ma20": 60.11,
-      "ma60": 59.68,
-      "ma120": 53.23,
-      "ma250": 35.4,
-      "high20": 68.08,
-      "low20": 49.15,
+      "date": "2026-06-24",
+      "price": 49.73,
+      "chgPct": 1.18,
+      "ma5": 54.17,
+      "ma10": 56.81,
+      "ma20": 59.41,
+      "ma60": 59.8,
+      "ma120": 53.33,
+      "ma250": 35.53,
+      "high20": 67.36,
+      "low20": 47.25,
       "high60": 78.87,
-      "low60": 42.31,
-      "volRatio": 1.05,
-      "atr": 4.57,
-      "trend": "震荡",
-      "posPct": -17.65,
+      "low60": 42.41,
+      "volRatio": 1.04,
+      "atr": 4.42,
+      "trend": "空头排列",
+      "posPct": -16.84,
       "supportZone": [
-        44.24,
-        48.66
+        44.76,
+        49.23
       ],
-      "deepSupport": 59.68,
+      "deepSupport": 59.8,
       "pullbackPct": 1.01,
       "breakout": 78.87,
-      "toBreakoutPct": 60.47,
-      "leftStop": 42.91,
+      "toBreakoutPct": 58.6,
+      "leftStop": 43.41,
       "leftTarget": 78.87,
-      "leftRR": 9.17,
+      "leftRR": 8.89,
       "rightStop": 75.72,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 60.5% · 暂无右侧",
+      "rightState": "远离突破 58.6% · 暂无右侧",
       "spark": [
-        42.49,
         46.74,
         49.45,
         53.15,
@@ -9303,16 +9320,11 @@ window.STOCKS = [
         60.05,
         57.3,
         54.61,
-        49.15
+        49.15,
+        49.73
       ]
     },
     "news": [
-      {
-        "title": "西部材料2026年6月23日跌停分析",
-        "date": "2026-06-23 14:36",
-        "source": "同花顺问财",
-        "url": "https://www.163.com/dy/article/L047FB2805568W0A.html"
-      },
       {
         "title": "西部材料跌1.62%",
         "date": "2026-06-16 15:25",
@@ -9321,12 +9333,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -2.52,
-      "turnover": 12.34,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 0.92,
+      "turnover": 10.73,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     },
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "浙商证券",
@@ -9360,8 +9372,8 @@ window.STOCKS = [
       "锰系"
     ],
     "left": {
-      "zone": "51.52–54.32",
-      "trigger": "回踩 MA10(56.39)/MA20(47.76) 缩量企稳即逢低；强支撑 MA60 31.04；止损 49.97",
+      "zone": "47.36–48.82",
+      "trigger": "回踩 MA10(55.93)/MA20(48.82) 缩量企稳即逢低；强支撑 MA60 31.52；止损 45.94",
       "logic": "化工+新材料题材，回调博弈材料延伸。"
     },
     "right": {
@@ -9414,39 +9426,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 56,
-      "chgPct": -10,
-      "ma5": 57.68,
-      "ma10": 56.39,
-      "ma20": 47.76,
-      "ma60": 31.04,
-      "ma120": 25.77,
-      "ma250": 20.85,
+      "date": "2026-06-24",
+      "price": 51,
+      "chgPct": -8.93,
+      "ma5": 56.58,
+      "ma10": 55.93,
+      "ma20": 48.82,
+      "ma60": 31.52,
+      "ma120": 26.05,
+      "ma250": 21,
       "high20": 66.39,
-      "low20": 27.66,
+      "low20": 29.99,
       "high60": 66.39,
       "low60": 19.43,
-      "volRatio": 0.93,
-      "atr": 5.66,
+      "volRatio": 0.94,
+      "atr": 5.76,
       "trend": "多头排列",
-      "posPct": 80.4,
+      "posPct": 61.82,
       "supportZone": [
-        51.52,
-        54.32
+        47.36,
+        48.82
       ],
-      "deepSupport": 31.04,
-      "pullbackPct": 3.09,
+      "deepSupport": 31.52,
+      "pullbackPct": 4.46,
       "breakout": 66.39,
-      "toBreakoutPct": 18.55,
-      "leftStop": 49.97,
+      "toBreakoutPct": 30.18,
+      "leftStop": 45.94,
       "leftTarget": 66.39,
-      "leftRR": 4.57,
+      "leftRR": 8.5,
       "rightStop": 63.73,
-      "leftState": "回踩约 3.1% 入场（逢低区）",
-      "rightState": "远离突破 18.6% · 暂无右侧",
+      "leftState": "回踩约 4.5% 入场（逢低区）",
+      "rightState": "远离突破 30.2% · 暂无右侧",
       "spark": [
-        22.51,
         22.27,
         22.86,
         22.24,
@@ -9505,7 +9516,8 @@ window.STOCKS = [
         57.1,
         56.56,
         62.22,
-        56
+        56,
+        51
       ]
     },
     "news": [
@@ -9528,7 +9540,7 @@ window.STOCKS = [
         "url": "http://news.10jqka.com.cn/19700121/c677573163.shtml"
       }
     ],
-    "newsAsof": "2026-06-23",
+    "newsAsof": "2026-06-24",
     "research": [
       {
         "org": "海通国际",
@@ -9544,10 +9556,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -3.61,
-      "turnover": 15.52,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": -0.79,
+      "turnover": 18.39,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     }
   },
   {
@@ -9568,8 +9580,8 @@ window.STOCKS = [
       "AI 大模型落地"
     ],
     "left": {
-      "zone": "67.24–69.13",
-      "trigger": "回踩 MA10(67.24)/MA20(64.57) 缩量企稳即逢低；强支撑 MA60 44.46；止损 65.22",
+      "zone": "65.36–70.19",
+      "trigger": "回踩 MA10(67.77)/MA20(65.36) 缩量企稳即逢低；强支撑 MA60 45.14；止损 63.40",
       "logic": "AI 应用题材弹性，回调博弈订单落地。"
     },
     "right": {
@@ -9622,39 +9634,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-06-23",
-      "price": 73.39,
-      "chgPct": 2.5,
-      "ma5": 69.13,
-      "ma10": 67.24,
-      "ma20": 64.57,
-      "ma60": 44.46,
-      "ma120": 35.86,
-      "ma250": 27.5,
+      "date": "2026-06-24",
+      "price": 70.57,
+      "chgPct": -3.84,
+      "ma5": 70.19,
+      "ma10": 67.77,
+      "ma20": 65.36,
+      "ma60": 45.14,
+      "ma120": 36.26,
+      "ma250": 27.7,
       "high20": 78,
-      "low20": 47.52,
+      "low20": 52.1,
       "high60": 78,
       "low60": 27.6,
-      "volRatio": 0.89,
-      "atr": 5.63,
+      "volRatio": 0.96,
+      "atr": 5.48,
       "trend": "多头排列",
-      "posPct": 65.07,
+      "posPct": 56.35,
       "supportZone": [
-        67.24,
-        69.13
+        65.36,
+        70.19
       ],
-      "deepSupport": 44.46,
-      "pullbackPct": 6.16,
+      "deepSupport": 45.14,
+      "pullbackPct": 0.54,
       "breakout": 78,
-      "toBreakoutPct": 6.28,
-      "leftStop": 65.22,
+      "toBreakoutPct": 10.53,
+      "leftStop": 63.4,
       "leftTarget": 78,
-      "leftRR": 3.31,
+      "leftRR": 2.34,
       "rightStop": 74.88,
-      "leftState": "回踩约 6.2% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 6.3%",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "箱体内 · 距突破 10.5%",
       "spark": [
-        29.99,
         31.28,
         30.85,
         30.67,
@@ -9713,7 +9724,8 @@ window.STOCKS = [
         66.27,
         69.14,
         71.6,
-        73.39
+        73.39,
+        70.57
       ]
     },
     "news": [
@@ -9746,10 +9758,10 @@ window.STOCKS = [
     ],
     "newsAsof": "2026-06-23",
     "fund": {
-      "netInflow": -0.12,
-      "turnover": 8.74,
-      "date": "2026-06-23",
-      "asof": "2026-06-23"
+      "netInflow": 0.03,
+      "turnover": 7.19,
+      "date": "2026-06-24",
+      "asof": "2026-06-24"
     }
   }
 ];
