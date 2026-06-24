@@ -158,6 +158,10 @@
         <span class="trend ${trendCls(g.trend)}">${esc(g.trend)}</span>
         ${sparkline(g.spark, g.trend)}
       </div>` : "";
+    // 买点状态：左侧命中/右侧命中/无 → 一句话
+    const leftHit = /已回踩至逢低区/.test(g.leftState || "");
+    const rightHit = /已放量突破|临近突破/.test(g.rightState || "");
+    const hitTag = leftHit ? `<span class="hit-tag left-hit">左侧逢低</span>` : rightHit ? `<span class="hit-tag right-hit">右侧突破</span>` : "";
     return `<article class="card v-${v}${feat}" data-code="${esc(s.code)}">
       <div class="card-head">
         <div class="name-wrap">
@@ -167,38 +171,45 @@
         <span class="verdict-badge ${v}">${esc(v)}</span>
       </div>
       ${priceRow}
-      <p class="narrative">${esc(s.narrative)}</p>
-      <div class="plans">
-        <div class="plan left">
-          <div class="ptitle">◂ 左侧 · 逢低</div>
-          <div class="zone">${esc(s.left?.zone || "—")}</div>
-          <div class="pstate ${stateTone(g.leftState, "left")}">${esc(g.leftState || s.left?.trigger || "")}</div>
+      <div class="card-hit">${hitTag}${hitTag ? ` <span class="hit-detail">${esc(featReason)}</span>` : `<span class="hit-detail">${esc(g.leftState || g.rightState || "暂无买点信号")}</span>`}</div>
+      <div class="card-more">
+        <p class="narrative">${esc(s.narrative)}</p>
+        <div class="plans">
+          <div class="plan left">
+            <div class="ptitle">◂ 左侧 · 逢低</div>
+            <div class="zone">${esc(s.left?.zone || "—")}</div>
+            <div class="pstate ${stateTone(g.leftState, "left")}">${esc(g.leftState || s.left?.trigger || "")}</div>
+          </div>
+          <div class="plan right">
+            <div class="ptitle">右侧 · 突破 ▸</div>
+            <div class="zone">${esc(s.right?.zone || "—")}</div>
+            <div class="pstate ${stateTone(g.rightState, "right")}">${esc(g.rightState || s.right?.trigger || "")}</div>
+          </div>
         </div>
-        <div class="plan right">
-          <div class="ptitle">右侧 · 突破 ▸</div>
-          <div class="zone">${esc(s.right?.zone || "—")}</div>
-          <div class="pstate ${stateTone(g.rightState, "right")}">${esc(g.rightState || s.right?.trigger || "")}</div>
-        </div>
-        <div class="feat-note">
-          <div class="fn-k">今日买点</div>
-          <div class="fn-v">${esc(featReason)}</div>
+        <div class="card-foot">
+          <div class="tagrow">${tags}</div>
+          ${fundChip(s)}
+          ${freshNews(s) ? `<span class="news-flag">新消息 ${freshNews(s)}</span>` : ""}
         </div>
       </div>
-      <div class="card-foot">
-        <div class="tagrow">${tags}</div>
-        ${fundChip(s)}
-        ${freshNews(s) ? `<span class="news-flag">新消息 ${freshNews(s)}</span>` : ""}
-        <span class="change-dot ${changed ? "has" : "none"}"><span class="d"></span>${changed ? "今日有变化" : "无变化"}</span>
-      </div>
+      <div class="card-expand">展开详情 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
     </article>`;
   }
 
   function render() {
     const list = sortList(STOCKS.filter(matches));
     grid.innerHTML = list.length ? list.map(card).join("") : `<div class="empty">没有匹配的标的，调整筛选试试。</div>`;
-    grid.querySelectorAll(".card").forEach((el) =>
-      el.addEventListener("click", () => openDrawer(el.dataset.code))
-    );
+    grid.querySelectorAll(".card").forEach((el) => {
+      // 点「展开详情」：折叠/展开卡片正文（不跳抽屉）
+      const expand = el.querySelector(".card-expand");
+      if (expand) expand.addEventListener("click", (e) => {
+        e.stopPropagation();
+        el.classList.toggle("expanded");
+        expand.classList.toggle("open");
+      });
+      // 点卡片其他区域：打开详情抽屉
+      el.addEventListener("click", () => openDrawer(el.dataset.code));
+    });
     $("#count").textContent = `显示 ${list.length} / ${STOCKS.length} 只`;
   }
 
