@@ -166,6 +166,12 @@ body.view-hot .search-box { display: none; }
 .sector-list .chip.active { background: var(--ink); color: #fff; font-weight: 600; }
 .sector-list .chip .badge { font-family: var(--mono); font-size: 10px; opacity: .5; }
 .sector-list .chip.active .badge { opacity: .8; }
+/* 板块「更多」折叠：默认只露前5个，点开才展开其余 */
+.sector-more { display: flex; align-items: center; justify-content: center; gap: 4px; color: var(--accent-d); border-style: dashed; }
+.sector-more svg { width: 13px; height: 13px; transition: transform .2s; }
+.sector-more.expanded svg { transform: rotate(180deg); }
+.sector-rest { display: none; flex-direction: column; gap: 1px; }
+.sector-rest.expanded { display: flex; }
 
 /* ============ 筛选条 ============ */
 .filters { margin-bottom: var(--s-3); }
