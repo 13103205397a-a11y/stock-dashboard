@@ -22,6 +22,8 @@ node scripts/fetch_signals.js     # 计算均线/支撑/突破/量能 → 写回
 - 若某数据源被限流：脚本数据源为 `web.ifzq.gtimg.cn`(腾讯)；如失效可改用东方财富 `push2his.eastmoney.com`(secid 规则：6 开头=1.，否则 0.)。
 - 沙箱环境下 node 无法直连，故抓取用 curl(`fetch_klines.sh`)、计算用 node(`fetch_signals.js`)分离。
 
+> **问财消息面已由 GitHub Actions 补入**：主力资金/新闻/研报（`fund`/`news`/`research`）由 `scripts/fetch_iwencai.py` 在 15:00 后自动写入 `data.js`。本步只刷新技术信号；复盘时**先读取已有 `news`/`research`**，再用 WebSearch 补充当日新消息（去重，勿重复录入已有条目；问财当日配额耗尽时消息面会缺，需手动补或待次日 Actions 补）。
+
 ## 每日任务（对 STOCKS 中每一只）
 用 WebSearch（必要时 WebFetch）检索**最近 1–3 个交易日**与该股相关的：
 1. **公告/业绩/经营**：业绩预告、订单、扩产、回购、减持、问询函等。
