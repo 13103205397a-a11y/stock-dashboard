@@ -12,10 +12,7 @@
   /* ---------- 顶栏 / 统计 ---------- */
   function renderMeta() {
     const day = META.signalDate || META.lastUpdated || "—";
-    $("#regime").textContent = META.marketRegime || "—";
     $("#updated").textContent = day;
-    const rd = $("#reviewDate");
-    if (rd) rd.textContent = day;
     const ss = $("#signalStat");
     if (ss) ss.textContent = META.signalStat || "";
     renderMarketSnap();
@@ -33,7 +30,7 @@
       const cls = i.pct > 0 ? "up" : i.pct < 0 ? "down" : "";
       const sign = i.pct > 0 ? "+" : "";
       return `<span class="ix"><span class="ix-n">${esc(i.name)}</span><span class="ix-p">${esc(i.price)}</span><span class="ix-c ${cls}">${sign}${esc(i.pct)}%</span></span>`;
-    }).join("") + `<span class="ix-date">行情截至 ${esc(ms.date || "")} 收盘</span>`;
+    }).join("") + `<span class="ix-date">截至 ${esc(ms.date || "")} 收盘</span>`;
   }
 
   function renderStats() {

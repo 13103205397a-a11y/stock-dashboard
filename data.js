@@ -1,7 +1,7 @@
-/* 自选股数据:叙事 + 左/右侧策略 + 技术信号 + 消息面
- * 技术信号(signal/left/right) ← scripts/fetch_signals.js(腾讯日K,前复权)
- * 消息面(fund/news/research) ← scripts/fetch_iwencai.py(同花顺问财)
- * 叙事/证伪/增长点为 AI 整理。仅供研究参考,非投资建议。
+/* 自选股数据：叙事 + 左/右侧策略 + 技术信号 + 消息面
+ * 技术信号(signal/left/right) ← scripts/fetch_signals.js（腾讯日K，前复权）
+ * 消息面(fund/news/research) ← scripts/fetch_iwencai.py（同花顺问财）
+ * 叙事/证伪/增长点为 AI 整理。仅供研究参考，非投资建议。
  * 数据时点见 meta.js 与各字段内 date。
  */
 window.STOCKS = [
@@ -9706,6 +9706,20 @@ window.STOCKS = [
         157.32,
         173.05
       ]
-    }
+    },
+    "research": [
+      {
+        "org": "国泰海通证券",
+        "rating": "增持",
+        "title": "雅克科技（002409）：2025年年报及2026年一季度点评：前驱体产品收入持续增长，新项目进展顺利",
+        "date": "2026-05-09"
+      },
+      {
+        "org": "方正证券",
+        "rating": "强烈推荐",
+        "title": "雅克科技（002409）：公司点评报告：毛利率同环比提升，加速打造平台型材料企业",
+        "date": "2026-05-08"
+      }
+    ]
   }
 ];

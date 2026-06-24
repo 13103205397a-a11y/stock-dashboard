@@ -213,8 +213,13 @@ def main():
     stocks = load_stocks()
     n = len(stocks)
     today = dt.date.today().isoformat()
+    # ONLY_MISSING=1：只补 fund/news 缺失的票，省配额（用于本地补漏新加股票）
+    only_missing = os.environ.get("ONLY_MISSING") == "1"
+    todo = [s for s in stocks if not (only_missing and s.get("fund") and s.get("news"))]
+    if only_missing and len(todo) < n:
+        print(f"补漏模式：只抓 {len(todo)}/{n} 只（缺消息面的），省配额。")
     ok_fund = ok_news = ok_rep = 0
-    for i, s in enumerate(stocks, 1):
+    for i, s in enumerate(todo, 1):
         name = s["name"]
         fund = fetch_fund(name)
         news = fetch_news(name)
@@ -231,10 +236,10 @@ def main():
             s["research"] = research
             ok_rep += 1
         nf = f"净流入{fund['netInflow']}亿" if fund and fund.get("netInflow") is not None else "—"
-        print(f"[{i:>2}/{n}] {name}  资金:{nf}  新闻:{len(news)}  研报:{len(research)}", flush=True)
+        print(f"[{i:>2}/{len(todo)}] {name}  资金:{nf}  新闻:{len(news)}  研报:{len(research)}", flush=True)
         time.sleep(0.2)
     write_stocks(stocks)
-    print(f"\n完成：资金流 {ok_fund}/{n} · 新闻 {ok_news}/{n} · 研报 {ok_rep}/{n}（{today}）")
+    print(f"\n完成：资金流 {ok_fund}/{len(todo)} · 新闻 {ok_news}/{len(todo)} · 研报 {ok_rep}/{len(todo)}（{today}）")
 
 
 if __name__ == "__main__":
