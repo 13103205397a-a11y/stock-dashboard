@@ -449,10 +449,71 @@
     b.addEventListener("click", () => { state.verdict = b.dataset.verdict; renderChips(); render(); })
   );
 
+  /* ---------- AI 复盘（Hermes 报告） ---------- */
+  const REPORTS = window.REPORTS || {};
+
+  // 极简 markdown → HTML（标题/表格/加粗/列表/分隔线）。不引外部库，够用。
+  function md2html(md) {
+    const lines = esc(md).split("\n");
+    let html = "", inTable = false, inList = false;
+    const flushList = () => { if (inList) { html += "</ul>"; inList = false; } };
+    const flushTable = () => { if (inTable) { html += "</tbody></table>"; inTable = false; } };
+    for (let raw of lines) {
+      const line = raw.replace(/\r$/, "");
+      // 分隔线
+      if (/^---+$/.test(line.trim())) { flushList(); flushTable(); continue; }
+      // 表格：---|--- 分隔行，跳过；数据行 → <tr><td>
+      if (line.includes("|")) {
+        const cells = line.split("|").map((c) => c.trim()).filter((c, i, a) => !(i === 0 && c === "") && !(i === a.length - 1 && c === ""));
+        if (cells.every((c) => /^:?-+:?$/.test(c))) { if (!inTable) { html += "<table><tbody>"; inTable = true; } continue; }
+        if (cells.length) { flushList(); if (!inTable) { html += "<table><tbody>"; inTable = true; } html += "<tr>" + cells.map((c) => `<td>${c}</td>`).join("") + "</tr>"; continue; }
+      }
+      flushTable();
+      // 标题
+      const hm = line.match(/^(#{1,4})\s+(.*)/);
+      if (hm) { flushList(); html += `<h${hm[1].length + 2}>${hm[2]}</h${hm[1].length + 2}>`; continue; }
+      // 列表
+      const lm = line.match(/^[-*]\s+(.*)/);
+      if (lm) { if (!inList) { html += "<ul>"; inList = true; } html += `<li>${lm[1]}</li>`; continue; }
+      // 空行
+      if (!line.trim()) { flushList(); continue; }
+      // 普通段落（内联：加粗 **x** / `code`）
+      flushList();
+      html += `<p>${line.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>")}</p>`;
+    }
+    flushList(); flushTable();
+    return html;
+  }
+
+  function renderReports() {
+    const el = $("#reports");
+    if (!el) return;
+    const list = REPORTS.reports || [];
+    if (!list.length) { el.innerHTML = ""; return; }
+    const tabs = list.map((r, i) =>
+      `<button class="rep-tab ${i === 0 ? "active" : ""}" data-i="${i}">${esc(r.type)}<span class="rep-time">${esc((r.time || "").slice(5, 16))}</span></button>`
+    ).join("");
+    const bodies = list.map((r, i) =>
+      `<div class="rep-body ${i === 0 ? "active" : ""}" data-i="${i}">
+        <div class="rep-head"><h2>${esc(r.title || "")}</h2><span class="rep-updated">Hermes · ${esc(r.time || "")}</span></div>
+        <div class="rep-md">${md2html(r.content || "")}</div>
+      </div>`
+    ).join("");
+    el.innerHTML = `<div class="rep-tabs">${tabs}</div><div class="rep-bodies">${bodies}</div><div class="rep-foot">报告由本地 Hermes Agent 定时任务生成（全网搜索调研），scripts/fetch_hermes.py 导出。仅供研究参考，非投资建议。更新于 ${esc(REPORTS.updated || "")}</div>`;
+    el.querySelectorAll(".rep-tab").forEach((b) =>
+      b.addEventListener("click", () => {
+        const i = b.dataset.i;
+        el.querySelectorAll(".rep-tab").forEach((t) => t.classList.toggle("active", t.dataset.i === i));
+        el.querySelectorAll(".rep-body").forEach((d) => d.classList.toggle("active", d.dataset.i === i));
+      })
+    );
+  }
+
   /* ---------- 启动 ---------- */
   renderMeta();
   renderStats();
   renderChips();
   render();
   renderHot();
+  renderReports();
 })();
