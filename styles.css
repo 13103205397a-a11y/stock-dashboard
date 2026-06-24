@@ -454,12 +454,17 @@ a.hc-news:hover { color: var(--accent-d); }
   .card { padding: var(--s-3); }
   .px { font-size: 19px; }
   .hotlist { grid-template-columns: 1fr; }
-  .ma-grid { grid-template-columns: repeat(3,1fr); }
+  .ma-grid { grid-template-columns: repeat(3, 1fr); }
   .drawer-inner { padding: var(--s-4); }
   .dplans { grid-template-columns: 1fr; }
   .sig-states { grid-template-columns: 1fr; }
   .rep-tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
   .rep-tab { white-space: nowrap; }
+  /* 手机端：板块 chip 横向滚动，不挤成一坨 */
+  .sector-list { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: var(--s-2); padding-bottom: 4px; }
+  .sector-list .chip { width: auto; flex-shrink: 0; border: 1px solid var(--line); }
+  .sector-rest { flex-direction: row; flex-wrap: nowrap; }
+  .sector-rest .chip { flex-shrink: 0; }
 }
 @media (max-width: 560px) {
   .stat { flex-basis: 50%; min-width: 45%; }
