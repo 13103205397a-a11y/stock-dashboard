@@ -51,20 +51,11 @@
     </div>
   </div>
 
-  <!-- ===== 今日复盘 ===== -->
+  <!-- ===== 市场速览条：只显示真实抓来的大盘指数 + 信号统计 ===== -->
   <div class="wrap watch-only">
-    <section class="recap">
-      <div class="recap-head">
-        <h2 class="recap-title">今日复盘<span class="recap-en">Daily Recap</span></h2>
-        <span class="recap-meta">
-          <span class="recap-live"><span class="dot"></span>每交易日收盘自动更新</span>
-          <span class="recap-date" id="reviewDate"></span>
-        </span>
-      </div>
-      <div class="recap-index" id="marketSnap"></div>
-      <p class="recap-text" id="regime">市场环境加载中…</p>
-      <div class="recap-stat" id="signalStat"></div>
-      <div class="recap-src">综述与复盘结论由每日「叙事复盘」例行任务在收盘后自动生成；多空 / 左右侧统计由当日真实日K行情程序测算。</div>
+    <section class="market-bar">
+      <div class="mb-indices" id="marketSnap"></div>
+      <div class="mb-stat" id="signalStat"></div>
     </section>
   </div>
 

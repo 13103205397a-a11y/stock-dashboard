@@ -26,6 +26,14 @@ jobs:
       - name: 检出仓库
         uses: actions/checkout@v4
 
+      - name: 清除昨日问财完成标记（确保当日兜底逻辑正确）
+        run: |
+          if [ -f .iwencai-done ]; then
+            OLD=$(cat .iwencai-done)
+            NOW=$(TZ=Asia/Shanghai date +%F)
+            if [ "$OLD" != "$NOW" ]; then rm -f .iwencai-done; echo "清除昨日标记($OLD)，当日重抓。"; fi
+          fi
+
       - name: 安装 Node
         uses: actions/setup-node@v4
         with:
@@ -45,10 +53,11 @@ jobs:
       - name: 重算技术信号 → 写回 data.js / meta.js
         run: node scripts/fetch_signals.js
 
-      # 问财调用耗配额，仅在每日首次(15:20)与手动触发时跑；
-      # 16:40/18:10 兜底只重算技术信号(K线+signal)，不重复抓问财。
+      # 问财调用耗配额。策略：只在当日尚未成功抓取过消息面时才跑，
+      # 用标记文件 .iwencai-done 记录当日是否已成功，避免兜底时间重复浪费配额。
+      # 15:20 首试；若失败（配额耗尽/接口抖动），16:40 / 18:10 兜底会因标记缺失而重试。
       - name: 抓取消息面(同花顺问财:资金流/新闻/研报) → 写回 data.js
-        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '20 7 * * 1-5'
+        if: github.event_name == 'workflow_dispatch' || !hashFiles('.iwencai-done')
         continue-on-error: true        # 问财异常(含当日配额耗尽)不阻断技术信号提交
         env:
           IWENCAI_API_KEY: ${{ secrets.IWENCAI_API_KEY }}
@@ -56,11 +65,11 @@ jobs:
           if [ -z "$IWENCAI_API_KEY" ]; then
             echo "::warning::未配置 IWENCAI_API_KEY secret，跳过消息面抓取。"
           else
-            python3 scripts/fetch_iwencai.py
+            python3 scripts/fetch_iwencai.py && echo "$(TZ=Asia/Shanghai date +%F)" > .iwencai-done
           fi
 
       - name: 抓取今日热点 TOP30(同花顺问财:热度/题材/技术/情绪) → 写回 hot.js
-        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '20 7 * * 1-5'
+        if: github.event_name == 'workflow_dispatch' || !hashFiles('.iwencai-done')
         continue-on-error: true        # 热点异常不阻断其余提交
         env:
           IWENCAI_API_KEY: ${{ secrets.IWENCAI_API_KEY }}
