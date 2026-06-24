@@ -45,8 +45,11 @@ jobs:
       - name: 重算技术信号 → 写回 data.js / meta.js
         run: node scripts/fetch_signals.js
 
+      # 问财调用耗配额，仅在每日首次(15:20)与手动触发时跑；
+      # 16:40/18:10 兜底只重算技术信号(K线+signal)，不重复抓问财。
       - name: 抓取消息面(同花顺问财:资金流/新闻/研报) → 写回 data.js
-        continue-on-error: true        # 问财异常不阻断技术信号提交
+        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '20 7 * * 1-5'
+        continue-on-error: true        # 问财异常(含当日配额耗尽)不阻断技术信号提交
         env:
           IWENCAI_API_KEY: ${{ secrets.IWENCAI_API_KEY }}
         run: |
@@ -57,6 +60,7 @@ jobs:
           fi
 
       - name: 抓取今日热点 TOP30(同花顺问财:热度/题材/技术/情绪) → 写回 hot.js
+        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '20 7 * * 1-5'
         continue-on-error: true        # 热点异常不阻断其余提交
         env:
           IWENCAI_API_KEY: ${{ secrets.IWENCAI_API_KEY }}
