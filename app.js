@@ -324,13 +324,13 @@
         <div class="review-now">
           <div class="rn-head"><span class="verdict-badge ${esc(r.verdict)}">${esc(r.verdict || "—")}</span><span class="rn-date">${esc(r.date || "")}</span></div>
           <div class="rn-row"><span class="lab">逻辑变化：</span>${esc(r.change || "无明显变化")}</div>
-          <div class="rn-row rumor"><span class="lab">小作文/传闻：</span>${esc(r.rumors || "无")}</div>
+          <div class="rn-row rumor"><span class="lab">传闻：</span>${esc(r.rumors || "无")}</div>
           <div class="rn-row grow"><span class="lab">新变化点：</span>${esc(r.newPoints || "无")}</div>
         </div>
       </div>
 
       <div class="dsec">
-        <h3>新闻 / 传闻 / 小作文 流水 <span class="src-note">同花顺问财 · 自动</span></h3>
+        <h3>新闻 / 传闻 流水 <span class="src-note">同花顺问财 · 自动</span></h3>
         ${newsList(s.news)}
       </div>
 
@@ -350,7 +350,7 @@
       </div>
 
       <div class="dsec">
-        <h3>需盯的小作文 / 催化</h3>
+        <h3>需盯的传闻 / 催化</h3>
         ${liList(s.watch, "")}
       </div>
 
