@@ -405,6 +405,13 @@ a.hc-news:hover { color: var(--accent-d); }
 .rep-time { font-family: var(--mono); font-size: 9px; color: var(--dim); font-weight: 400; }
 .rep-body { display: none; }
 .rep-body.active { display: block; }
+/* 正文默认折叠，点「展开报告全文」才显示 */
+.rep-bodies { max-height: 0; overflow: hidden; transition: max-height .3s cubic-bezier(.2,.6,.3,1); }
+.rep-bodies.open { max-height: 9999px; }
+.rep-toggle { display: flex; align-items: center; justify-content: center; gap: 5px; width: 100%; font-size: 12px; color: var(--muted); background: var(--card); border: 1px solid var(--line); border-radius: var(--r-sm); padding: var(--s-2) var(--s-3); cursor: pointer; margin-bottom: var(--s-2); transition: all .12s; }
+.rep-toggle:hover { color: var(--accent-d); border-color: var(--accent-l); }
+.rep-toggle svg { width: 14px; height: 14px; transition: transform .2s; }
+.rep-toggle.open svg { transform: rotate(180deg); }
 .rep-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); margin-bottom: var(--s-3); padding-bottom: var(--s-3); border-bottom: 1px solid var(--line); }
 .rep-head h2 { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--ink); }
 .rep-updated { font-family: var(--mono); font-size: 10px; color: var(--dim); white-space: nowrap; }
