@@ -16,6 +16,15 @@ if [ "${CODE_COUNT:-0}" -lt 1 ]; then
   exit 1
 fi
 
+# 清理已不在自选列表的旧K线缓存（删股后残留无意义，避免误用陈旧数据）
+removed=0
+for f in "$RAW"/*.json; do
+  [ -e "$f" ] || continue
+  c=$(basename "$f" .json)
+  case " $CODES " in *" $c "*) ;; *) rm -f "$f"; removed=$((removed+1));; esac
+done
+[ "$removed" -gt 0 ] && echo "清理 $removed 个已删股票的旧K线缓存"
+
 ok=0; fail=""
 for code in $CODES; do
   case "$code" in 6*) m="sh";; 8*|4*) m="bj";; *) m="sz";; esac
