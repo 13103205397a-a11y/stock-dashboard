@@ -537,7 +537,7 @@
       </div>`
     ).join("");
     el.innerHTML = `<div class="rep-tabs">${tabs}</div>
-      <button class="rep-toggle" id="repToggle">展开报告全文 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button class="rep-toggle" id="repToggle"><span class="rep-toggle-txt">展开报告全文</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
       <div class="rep-bodies" id="repBodies">${bodies}</div>
       <div class="rep-foot">报告由本地 Hermes Agent 定时任务生成（全网搜索调研），scripts/fetch_hermes.py 导出。仅供研究参考，非投资建议。更新于 ${esc(REPORTS.updated || "")}</div>`;
     // tab 切换
@@ -551,10 +551,11 @@
     // 展开/收起全文
     const toggle = el.querySelector("#repToggle");
     const bodiesEl = el.querySelector("#repBodies");
+    const toggleTxt = el.querySelector(".rep-toggle-txt");
     toggle.addEventListener("click", () => {
       const open = bodiesEl.classList.toggle("open");
       toggle.classList.toggle("open", open);
-      toggle.firstChild.textContent = open ? "收起报告 " : "展开报告全文 ";
+      if (toggleTxt) toggleTxt.textContent = open ? "收起报告" : "展开报告全文";
     });
   }
 
