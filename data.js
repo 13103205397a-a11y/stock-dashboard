@@ -599,16 +599,16 @@ window.STOCKS = [
         "url": "http://news.10jqka.com.cn/19700121/c677677922.shtml"
       },
       {
+        "title": "天孚通信股价涨3%",
+        "date": "2026-06-18 10:02",
+        "source": "同花顺问财",
+        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868298374114043466&wfr=spider"
+      },
+      {
         "title": "天孚通信是做什么的？天孚通信的主营业务是什么？",
         "date": "2026-06-16 15:40",
         "source": "同花顺问财",
         "url": "https://baike.jfinfo.com/4047291.html"
-      },
-      {
-        "title": "卡位AI光互连核心赛道，天孚通信CPO配套产品稳定交付",
-        "date": "2026-06-16 10:39",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677491108.shtml"
       }
     ],
     "fund": {
@@ -1216,22 +1216,22 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "江苏亨通光电股份有限公司关于2024年限制性股票激励计划第一个解除限售期解除限售条件成就的公告",
+        "date": "2026-06-25 00:00",
+        "source": "同花顺问财",
+        "url": "https://epaper.cs.com.cn/zgzqb/html/2026-06/25/nw.D110000zgzqb_20260625_1-B002.htm"
+      },
+      {
         "title": "亨通光电：拟新增银镍商品期货套期保值业务 最高保证金合计700万元",
         "date": "2026-06-24 23:34",
         "source": "同花顺问财",
         "url": "https://www.sohu.com/a/1041141608_120988533"
       },
       {
-        "title": "亨通光电多项议案获董事会通过，部分需股东会审议",
-        "date": "2026-06-24 19:55",
+        "title": "亨通光电：财务总监吴燕辞职，财务副总监王金猛继任",
+        "date": "2026-06-24 18:56",
         "source": "同花顺问财",
-        "url": "https://api.laoyaoba.com/n/1054125"
-      },
-      {
-        "title": "亨通光电: 亨通光电第九届董事会第十七次会议决议公告内容摘要",
-        "date": "2026-06-24 19:45",
-        "source": "同花顺问财",
-        "url": "https://stock.stockstar.com/AN2026062400039674.shtml"
+        "url": "http://news.10jqka.com.cn/19700121/c677686784.shtml"
       }
     ],
     "fund": {
@@ -6218,7 +6218,7 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 7.75,
-      "turnover": 18.0,
+      "turnover": 18,
       "date": "2026-06-25",
       "asof": "2026-06-25"
     },
