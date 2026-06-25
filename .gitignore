@@ -7,3 +7,4 @@ __pycache__/
 .iwencai-done
 # Hermes hook 更新日志（本机运行日志，不入库）
 scripts/.hermes-update.log
+scripts/raw_news.json

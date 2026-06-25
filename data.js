@@ -176,22 +176,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "一年身家暴增780亿，中际旭创老板成爽文男主",
-        "date": "2026-06-25 18:09",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677716216.shtml"
+        "title": "中际旭创:第六届董事会第一次会议决议公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300308",
+        "content": ""
       },
       {
-        "title": "23股获买入评级 最新:中际旭创",
-        "date": "2026-06-24 21:45",
-        "source": "同花顺问财",
-        "url": "https://sj.cfi.cn/newspage.aspx?client=phone&id=20260624000118"
+        "title": "中际旭创:关于董事会完成换届选举暨聘任高级管理人员和证券事务代表的公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300308",
+        "content": ""
       },
       {
-        "title": "太平洋：给予中际旭创买入评级",
-        "date": "2026-06-24 21:20",
-        "source": "同花顺问财",
-        "url": "https://stock.stockstar.com/RB2026062400042931.shtml"
+        "title": "中际旭创:2026年第二次临时股东会决议公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300308",
+        "content": ""
       }
     ],
     "fund": {
@@ -385,22 +388,11 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "【风口解读】新易盛涨超9%，总市值历史新高",
-        "date": "2026-06-25 16:19",
-        "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/stock/stockzmt/2026-06-25/doc-inierihr7731210.shtml"
-      },
-      {
-        "title": "英伟达官方打消量产担忧，AI算力需求支撑CPO赛道持续走高 新易盛创历史新高",
-        "date": "2026-06-25 13:19",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677705451.shtml"
-      },
-      {
-        "title": "新易盛涨8%创历史新高，市值超8300亿元",
-        "date": "2026-06-25 12:14",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677704567.shtml"
+        "title": "新易盛现5.63亿元平价大宗交易",
+        "date": "2026-06-25 16:49:32",
+        "source": "第一财经",
+        "url": "http://finance.eastmoney.com/a/202606253783109735.html",
+        "content": "新易盛今日出现5.63亿元平价大宗交易，成交价610.49元/股，买方为长江证券北京新源里营业部、机构专用席位，卖方均为机构专用席位。"
       }
     ],
     "fund": {
@@ -593,22 +585,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "“白毛股神”X平台点名！天孚通信尾盘异动拉升，10分钟放量超25亿",
-        "date": "2026-06-24 15:41",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677677922.shtml"
+        "title": "天孚通信:2025年年度权益分派实施公告",
+        "date": "2026-06-05",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300394",
+        "content": ""
       },
       {
-        "title": "天孚通信股价涨3%",
-        "date": "2026-06-18 10:02",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868298374114043466&wfr=spider"
+        "title": "天孚通信:关于更换持续督导保荐代表人的公告",
+        "date": "2026-05-22",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300394",
+        "content": ""
       },
       {
-        "title": "天孚通信是做什么的？天孚通信的主营业务是什么？",
-        "date": "2026-06-16 15:40",
-        "source": "同花顺问财",
-        "url": "https://baike.jfinfo.com/4047291.html"
+        "title": "天孚通信:2025年年度股东会决议公告",
+        "date": "2026-05-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300394",
+        "content": ""
       }
     ],
     "fund": {
@@ -800,22 +795,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "光迅科技股价涨4.76%",
-        "date": "2026-06-22 09:32",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868658820617418369&wfr=spider"
+        "title": "光迅科技：第八届董事会第六次会议决议公告",
+        "date": "2026-06-08 21:17:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606083763890543.html",
+        "content": "证券日报网讯 6月8日，光迅科技发布公告称，公司第八届董事会第六次会议审议通过《关于使用募集资金置换预先已投入募投项目及支付发行费用的自筹资金的议案》。"
       },
       {
-        "title": "光迅科技股价涨3.2%",
-        "date": "2026-06-17 10:17",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868208717641610469&wfr=spider"
+        "title": "光迅科技:武汉光迅科技股份有限公司向特定对象发行股票并在主板上市之上市公告书",
+        "date": "2026-06-11",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002281",
+        "content": ""
       },
       {
-        "title": "光迅科技产品介绍",
-        "date": "2026-06-16 08:41",
-        "source": "同花顺问财",
-        "url": "https://www.tgb.cn/a/2sFqvuWVobM"
+        "title": "光迅科技:武汉光迅科技股份有限公司关于向特定对象发行A股股票上市公告书披露的提示性公告",
+        "date": "2026-06-11",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002281",
+        "content": ""
       }
     ],
     "fund": {
@@ -1008,22 +1006,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "中国产业叙事：源杰科技",
-        "date": "2026-06-23 15:57",
-        "source": "同花顺问财",
-        "url": "https://finance.sina.cn/2026-06-23/detail-iniekqur9773542.d.html"
+        "title": "源杰科技:陕西源杰半导体科技股份有限公司关于股票交易风险提示公告",
+        "date": "2026-06-23",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=688498",
+        "content": ""
       },
       {
-        "title": "源杰科技最新公告：股票交易风险提示股价累计涨幅较大",
-        "date": "2026-06-22 19:10",
-        "source": "同花顺问财",
-        "url": "http://app.myzaker.com/news/article.php?pk=6a3918d78e9f097f3c6b50d3"
+        "title": "源杰科技:陕西源杰半导体科技股份有限公司关于副总经理无法正常履职暨离任的公告",
+        "date": "2026-05-15",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=688498",
+        "content": ""
       },
       {
-        "title": "AI高密度算力驱动催生光互连新赛道 CPO概念走强 源杰科技创新高",
-        "date": "2026-06-22 09:59",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677604486.shtml"
+        "title": "源杰科技股价续创新高突破1800元",
+        "date": "2026-06-22 09:46:08",
+        "source": "东方财富Choice数据",
+        "url": "http://finance.eastmoney.com/a/202606223777284332.html",
+        "content": "源杰科技股价续创新高突破1800元，现涨超8%。"
       }
     ],
     "fund": {
@@ -1216,22 +1217,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "江苏亨通光电股份有限公司关于2024年限制性股票激励计划第一个解除限售期解除限售条件成就的公告",
-        "date": "2026-06-25 00:00",
-        "source": "同花顺问财",
-        "url": "https://epaper.cs.com.cn/zgzqb/html/2026-06/25/nw.D110000zgzqb_20260625_1-B002.htm"
+        "title": "亨通光电：第九届董事会第十七次会议决议公告",
+        "date": "2026-06-24 22:02:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606243781779835.html",
+        "content": "证券日报网讯 6月24日，亨通光电发布公告称，公司第九届董事会第十七次会议审议通过《关于〈调整2024年限制性股票激励计划回购价格并回购注销部分限制性股票〉的议案》《关于〈拟变更公司注册资本、修订〈公司章程〉并办理工商变更〉的议案》《关于〈2024年限制性股票激励计划第一个解除限售期解除限售条件成就"
       },
       {
-        "title": "亨通光电：拟新增银镍商品期货套期保值业务 最高保证金合计700万元",
-        "date": "2026-06-24 23:34",
-        "source": "同花顺问财",
-        "url": "https://www.sohu.com/a/1041141608_120988533"
+        "title": "亨通光电：2025年年度权益分派实施公告",
+        "date": "2026-06-22 21:52:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606223778385765.html",
+        "content": "证券日报网讯 6月22日，亨通光电发布2025年年度权益分派实施公告称，根据公司2025年年度股东会决议通过的分配方案，公司拟以实施权益分派的股权登记日的总股本扣除公司回购专用账户的股份为基数，向全体股东每10股派发现金红利人民币2.75元（含税）。"
       },
       {
-        "title": "亨通光电：财务总监吴燕辞职，财务副总监王金猛继任",
-        "date": "2026-06-24 18:56",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677686784.shtml"
+        "title": "亨通光电：关于拟变更公司注册资本、修订《公司章程》并办理工商变更的公告",
+        "date": "2026-06-24 21:59:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606243781766766.html",
+        "content": "证券日报网讯 6月24日，亨通光电发布公告称，公司于 2026 年 6 月23 日召开第九届董事会第十七次会议，会议审议通过了《关于拟变更公司注册资本、修订并办理工商变更的议案》。"
       }
     ],
     "fund": {
@@ -1424,22 +1428,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "专访中天科技谭清武：“光储氢”一体化瞄准全球低碳未来",
-        "date": "2026-06-24 21:45",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677691356.shtml"
+        "title": "中天科技：第九届董事会第十五次会议决议公告",
+        "date": "2026-06-22 20:08:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606223778268151.html",
+        "content": "证券日报网讯 6月22日，中天科技发布公告称，公司第九届董事会第十五次会议审议通过《关于第二期员工持股计划第二个锁定期届满暨解锁条件成就的议案》《关于开设募集资金专户并签订募集资金专户存储之监管协议的议案》。"
       },
       {
-        "title": "中天科技推出10尺交直流一体液冷储能系统",
-        "date": "2026-06-24 21:08",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677690639.shtml"
+        "title": "中天科技:江苏中天科技股份有限公司关于第二期员工持股计划第二个锁定期届满暨解锁条件成就的公告",
+        "date": "2026-06-23",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600522",
+        "content": ""
       },
       {
-        "title": "全球首发！中天科技推出10尺交直流一体液冷储能系统",
-        "date": "2026-06-24 20:04",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677688455.shtml"
+        "title": "中天科技:江苏中天科技股份有限公司第九届董事会第十五次会议决议公告",
+        "date": "2026-06-23",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600522",
+        "content": ""
       }
     ],
     "fund": {
@@ -1631,22 +1638,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "它，一年涨超15倍！光纤周期的大赢家",
-        "date": "2026-06-25 15:39",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868953714561539687&wfr=spider"
+        "title": "长飞光纤:长飞光纤光缆股份有限公司关于股票交易异常波动的公告",
+        "date": "2026-06-24",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601869",
+        "content": ""
       },
       {
-        "title": "长飞光纤连续两天涨停！公司提示风险！",
-        "date": "2026-06-24 21:29",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677691006.shtml"
+        "title": "A股港股双双大涨 长飞光纤市值突破3000亿元",
+        "date": "2026-06-23 15:05:25",
+        "source": "中国经营报",
+        "url": "http://finance.eastmoney.com/a/202606233779663271.html",
+        "content": "这一事件成为长飞光纤股价大涨的直接原因。 　　记者注意到，近期，长飞光纤市值飞速增长。继4月2日长飞光纤A+H股总市值突破2000亿元关口后，6月22日，长飞光纤A+H股总市值进一步突破3000亿元大关。"
       },
       {
-        "title": "两天涨停，长飞光纤股价大涨，公司发布公告提示风险",
-        "date": "2026-06-24 17:58",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677684572.shtml"
+        "title": "长飞光纤:长飞光纤光缆股份有限公司投资者关系活动记录表_2025年度暨2026年第一季度业绩说明会",
+        "date": "2026-05-23",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601869",
+        "content": ""
       }
     ],
     "fund": {
@@ -1839,22 +1849,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "【风口解读】永鼎股份涨超6%，总市值历史新高",
-        "date": "2026-06-25 16:20",
-        "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/stock/stockzmt/2026-06-25/doc-inierihu5661301.shtml"
+        "title": "永鼎股份：股票交易异常波动公告",
+        "date": "2026-06-17 21:06:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606173774856844.html",
+        "content": "证券日报网讯 6月17日，永鼎股份发布公告称，公司股票于2026年6月15日、6月16日、6月17日连续三个交易日内日收盘价格涨幅偏离值累计达到20%，根据《上海证券交易所交易规则》的有关规定，属于股票交易异常波动情况。"
       },
       {
-        "title": "永鼎股份股价涨3.42%",
-        "date": "2026-06-23 09:46",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868750310075298672&wfr=spider"
+        "title": "永鼎股份：2025年年度权益分派实施公告",
+        "date": "2026-06-09 21:49:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606093765465880.html",
+        "content": "证券日报网讯 6月9日，永鼎股份发布2025年年度权益分派实施公告称，本次利润分配以方案实施前的公司总股本1，461，994，802股为基数，每股派发现金红利0.015元（含税），共计派发现金红利21，929，922.03元。"
       },
       {
-        "title": "永鼎股份涨停",
-        "date": "2026-06-16 15:07",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868136317256213651&wfr=spider"
+        "title": "永鼎股份:永鼎股份股票交易异常波动公告",
+        "date": "2026-06-18",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600105",
+        "content": ""
       }
     ],
     "fund": {
@@ -2047,22 +2060,25 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "华工科技:2026年第二次临时股东会决议公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=000988",
+        "content": ""
+      },
+      {
+        "title": "华工科技:第九届董事会第二十五次会议决议公告",
+        "date": "2026-06-09",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=000988",
+        "content": ""
+      },
+      {
         "title": "华工科技：公司聚焦800G、1.6T、3.2T、6.4T等超高速联接产品的研发",
-        "date": "2026-06-23 21:32",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677659807.shtml"
-      },
-      {
-        "title": "华工科技：在电信应用领域，公司实现5G-A的光模块商用，布局开发6G使用的光模块",
-        "date": "2026-06-23 19:32",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677656479.shtml"
-      },
-      {
-        "title": "AI光联接加速放量 太平洋予华工科技“买入”评级",
-        "date": "2026-06-22 15:30",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677612334.shtml"
+        "date": "2026-06-23 21:19:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606233779995249.html",
+        "content": "证券日报网讯 6月23日，华工科技在互动平台回答投资者提问时表示，公司聚焦800G、1.6T、3.2T、6.4T等超高速联接产品的研发，全面覆盖高速光联接、高速铜联接、高效液冷散热、光电集成四大技术路线，布局硅基光电子、铌酸锂、量子点激光器等新型材料方向，自主研发DPO/LRO/LPO"
       }
     ],
     "fund": {
@@ -2257,22 +2273,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "胜宏科技，DEEPSEEK时刻",
-        "date": "2026-06-25 14:16",
-        "source": "同花顺问财",
-        "url": "https://www.tgb.cn/a/2sUKC93ogcq"
-      },
-      {
-        "title": "胜宏科技，静待花开",
-        "date": "2026-06-25 12:53",
-        "source": "同花顺问财",
-        "url": "https://www.tgb.cn/a/2sUEELJhcHu"
-      },
-      {
         "title": "胜宏科技回应压价：已量产高端PCB价格稳定 新产品遵循市场化定价原则",
-        "date": "2026-06-25 11:49",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677704170.shtml"
+        "date": "2026-06-25 11:50:13",
+        "source": "上海证券报·中国证券网",
+        "url": "http://finance.eastmoney.com/a/202606253782806456.html",
+        "content": "上证报中国证券网讯（记者杨子晏）6月24日，胜宏科技公告投资者关系活动记录表，其中提到，目前公司已有部分ASIC相关PCB产品进行批量生产，业务进展顺利。 　　供需情况方面，胜宏科技表示，目前公司在手订单饱满，业务进展顺利，订单生产和交付均在正常履行中。"
+      },
+      {
+        "title": "胜宏科技:关于续聘会计师事务所的公告",
+        "date": "2026-06-13",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300476",
+        "content": ""
+      },
+      {
+        "title": "英伟达压PCB降价10%？胜宏科技：公司经营一切正常 客户方案调整是正常现象",
+        "date": "2026-06-24 13:53:09",
+        "source": "澎湃新闻",
+        "url": "http://finance.eastmoney.com/a/202606243781273566.html",
+        "content": "6月23日，算力链的PCB（印刷电路板）板块大跌，该板块概念龙头胜宏科技（300476）单日重挫逾7%。 　　据上海证券报报道，PCB整体大跌与两个市场传闻有关，一个市场流传是英伟达要求PCB厂商降价10%，另外一则是胜宏科技扩产拖累英伟达Rubin平台出货等。"
       }
     ],
     "fund": {
@@ -2465,22 +2484,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "沪电股份：公司提前布局、缩短材料认证周期，确保在供应紧张时获得优先配额保障",
-        "date": "2026-06-24 20:05",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677688457.shtml"
+        "title": "沪电股份：关于吸收合并全资子公司的公告",
+        "date": "2026-06-21 20:21:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606213777059774.html",
+        "content": "证券日报网讯 6月21日，沪电股份发布公告称，公司于2026年6月17日召开董事会，审议通过了关于吸收合并全资子公司的议案，为优化管理架构、降低管理成本及提高运营效率，拟吸收合并全资子公司昆山普江仓储设施有限公司。"
       },
       {
-        "title": "沪电股份：预期将在2026年下半年开始试产并逐步提升产能",
-        "date": "2026-06-24 19:38",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677687863.shtml"
+        "title": "沪电股份：第八届董事会第十九次会议决议公告",
+        "date": "2026-06-21 20:27:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606213777065397.html",
+        "content": "证券日报网讯 6月21日，沪电股份发布公告称，公司第八届董事会第十九次会议审议通过《关于吸收合并全资子公司的议案》。"
       },
       {
-        "title": "沪电股份：公司不盲从同质化扩张，将优势资源倾斜于高附加值核心PCB产品",
-        "date": "2026-06-24 19:36",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677687814.shtml"
+        "title": "沪电股份:第八届董事会第十九次会议决议公告",
+        "date": "2026-06-22",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002463",
+        "content": ""
       }
     ],
     "fund": {
@@ -2673,22 +2695,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "AI服务器PCB蓄势，鹏鼎控股谋求数倍增长",
-        "date": "2026-06-25 10:07",
-        "source": "同花顺问财",
-        "url": "https://chejiahao.m.autohome.com.cn/info/25471383"
+        "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司关于全资子公司与专业投资机构共同投资的公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002938",
+        "content": ""
       },
       {
-        "title": "鹏鼎控股涨停",
-        "date": "2026-06-17 15:33",
-        "source": "同花顺问财",
-        "url": "https://www.163.com/dy/article/KVKSCMO705568W0A.html"
+        "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司2025年度分红派息实施公告",
+        "date": "2026-06-04",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002938",
+        "content": ""
       },
       {
-        "title": "鹏鼎控股股价涨3.11%",
-        "date": "2026-06-17 09:42",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868206520938388565&wfr=spider"
+        "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司关于收到全资子公司利润分配款的公告",
+        "date": "2026-06-04",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002938",
+        "content": ""
       }
     ],
     "fund": {
@@ -2882,22 +2907,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "花旗大幅上调目标价！东山精密、新易盛双双大涨，太辰光下挫超7%",
-        "date": "2026-06-25 14:03",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677706034.shtml"
+        "title": "东山精密:第七届董事会第二次会议决议公告",
+        "date": "2026-06-17",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002384",
+        "content": ""
       },
       {
-        "title": "光模块巨头，订单剧增240%！",
-        "date": "2026-06-24 18:06",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677684851.shtml"
+        "title": "东山精密:对外投资公告",
+        "date": "2026-06-17",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002384",
+        "content": ""
       },
       {
-        "title": "公司如何把握 AI 产业的战略发展机遇？东山精密回应",
-        "date": "2026-06-23 16:15",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677648864.shtml"
+        "title": "东山精密:关于股票交易异常波动的公告",
+        "date": "2026-06-05",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002384",
+        "content": ""
       }
     ],
     "fund": {
@@ -3090,22 +3118,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "生益电子：生益科技为公司控股股东，也是公司原材料覆铜板的供应商之一",
-        "date": "2026-06-24 21:32",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677691085.shtml"
+        "title": "生益科技:生益科技第十一届董事会第十六次会议决议公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600183",
+        "content": ""
       },
       {
-        "title": "覆铜板行情持续走高！“生益科技” 孟运东所长分享环氧树脂在覆铜板中的应用",
-        "date": "2026-06-22 11:52",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677607448.shtml"
+        "title": "生益科技:生益科技关于增加2026年度日常关联交易预计额度的公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600183",
+        "content": ""
       },
       {
-        "title": "生益科技股价涨3.23%",
-        "date": "2026-06-22 09:50",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868660005882405490&wfr=spider"
+        "title": "生益科技:生益科技董事减持股份计划公告",
+        "date": "2026-05-30",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600183",
+        "content": ""
       }
     ],
     "fund": {
@@ -3298,22 +3329,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "营收破32亿！东材科技拟募资14亿用于MLCC高性能聚酯基膜等项目",
-        "date": "2026-06-25 00:00",
-        "source": "同花顺问财",
-        "url": "https://www.cmpe360.com/p/145690"
+        "title": "东材科技：第七届董事会第五次会议决议公告",
+        "date": "2026-06-08 19:47:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606083763817161.html",
+        "content": "证券日报网讯 6月8日，东材科技发布公告称，公司第七届董事会第五次会议审议通过《关于提请召开公司2025年年度股东会的议案》。"
       },
       {
-        "title": "AI算力东风起 东材电子膜产能释放加速",
-        "date": "2026-06-24 19:25",
-        "source": "同花顺问财",
-        "url": "https://stock.cfi.cn/p20260624001981.html"
+        "title": "东材科技：股票交易异常波动公告",
+        "date": "2026-06-04 21:16:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606043760649266.html",
+        "content": "证券日报网讯 6月4日，东材科技发布公告称，公司股票于2026年6月2日、6月3日、6月4日连续3个交易日内日收盘价格涨幅偏离值累计超过20%，根据《上海证券交易所交易规则》的有关规定，属于股票交易异常波动的情形。"
       },
       {
-        "title": "东材科技股价跌3.16%",
-        "date": "2026-06-24 09:48",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868841045205158161&wfr=spider"
+        "title": "东材科技:四川东材科技集团股份有限公司第七届董事会第五次会议决议公告",
+        "date": "2026-06-09",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601208",
+        "content": ""
       }
     ],
     "fund": {
@@ -3504,22 +3538,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "利通电子：算力业务客户集中度相对较高 自有算力设备均已对外出租",
-        "date": "2026-06-23 19:34",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677656540.shtml"
+        "title": "利通电子发布股价异动公告 自有算力设备均已对外出租并提示多项业务风险",
+        "date": "2026-06-23 22:12:09",
+        "source": "央广财经",
+        "url": "http://finance.eastmoney.com/a/202606233780047428.html",
+        "content": "6月23日，利通电子（603629.SH）发布股票交易异常波动公告，就公司算力业务相关运营情况及潜在风险作出说明：公司算力业务客户集中度相对较高，若主要客户经营状况、履约能力发生不利变化，可能对公司算力业务收入及盈利水平产生不利影响。"
       },
       {
-        "title": "利通电子成立数汇科技公司，含大数据服务业务",
-        "date": "2026-06-23 11:33",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677640534.shtml"
+        "title": "利通电子:利通电子股票交易异常波动公告",
+        "date": "2026-06-24",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603629",
+        "content": ""
       },
       {
-        "title": "公司后期的算力租赁是否也会涨价？利通电子回应",
-        "date": "2026-06-22 16:18",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677615847.shtml"
+        "title": "利通电子:利通电子关于2025年年度暨2026年第一季度业绩说明会召开情况的公告",
+        "date": "2026-06-03",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603629",
+        "content": ""
       }
     ],
     "fund": {
@@ -3706,22 +3743,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "沃格光电亮相链博会：筑自主供应链，链全球新生态",
-        "date": "2026-06-24 07:06",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677662649.shtml"
+        "title": "沃格光电：股票交易异常波动公告",
+        "date": "2026-06-17 21:09:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606173774861058.html",
+        "content": "证券日报网讯 6月17日，沃格光电发布公告称，公司股票于2026年6月16日、6月17日连续2个交易日收盘价格涨幅偏离值累计超过20%，根据《上海证券交易所交易规则》的有关规定，属于股票交易异常波动情形。"
       },
       {
-        "title": "沃格光电与华为",
-        "date": "2026-06-21 08:38",
-        "source": "同花顺问财",
-        "url": "http://app.myzaker.com/news/article.php?pk=6a37c8d0b15ec0107865a275"
+        "title": "沃格光电:江西沃格光电集团股份有限公司关于2023年股票期权与限制性股票激励计划部分股票期权注销完成的公告",
+        "date": "2026-06-23",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603773",
+        "content": ""
       },
       {
-        "title": "沃格光电：在泛半导体领域的业务尚处于早期阶段 相关产品技术尚未形成规模化工业量产",
-        "date": "2026-06-17 18:06",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677538655.shtml"
+        "title": "沃格光电:江西沃格光电集团股份有限公司股票交易异常波动公告",
+        "date": "2026-06-18",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603773",
+        "content": ""
       }
     ],
     "fund": {
@@ -3916,22 +3956,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "寒武纪股价跌3.03%",
-        "date": "2026-06-23 14:07",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868766748603117225&wfr=spider"
+        "title": "寒武纪:关于注销部分募集资金理财产品专用结算账户的公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=688256",
+        "content": ""
       },
       {
-        "title": "寒武纪，最新发声",
-        "date": "2026-06-18 21:32",
-        "source": "同花顺问财",
-        "url": "https://mp.weixin.qq.com/s?__biz=Mzg4MTEyNzc4Mg==&chksm=ced70fd9fc1cf6908768ff8a46dfb03116d317f5aa2fb12284197102244d1268cdac5afa1273&idx=1&mid=2247639424&sn=1f9108aae666a87ed708a59ce2618ec6"
+        "title": "寒武纪:关于2022年度向特定对象发行A股股票募投项目结项并将节余募集资金永久补充流动资金的公告",
+        "date": "2026-05-23",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=688256",
+        "content": ""
       },
       {
-        "title": "寒武纪，再创新高",
-        "date": "2026-06-18 15:37",
-        "source": "同花顺问财",
-        "url": "https://finance.sina.cn/2026-06-18/detail-inicvmmp6456705.d.html"
+        "title": "寒武纪:关于申请综合授信额度的公告",
+        "date": "2026-05-23",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=688256",
+        "content": ""
       }
     ],
     "fund": {
@@ -4124,22 +4167,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "兆易创新：连续2个交易日收盘价涨幅偏离值累超20%",
-        "date": "2026-06-25 19:00",
-        "source": "同花顺问财",
-        "url": "https://m.21jingji.com/timeline/5079b3816c7985e13c84752d779d54b7.html"
+        "title": "兆易创新：关于股票交易异常波动的公告",
+        "date": "2026-06-25 22:00:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606253783410587.html",
+        "content": "证券日报网讯 6月25日，兆易创新发布公告称，公司股票交易于2026年6月24日、2026年6月25日连续2个交易日内日收盘价格涨幅偏离值累计超过20%，根据《上海证券交易所交易规则》的有关规定，属于股票交易异常波动情形。"
       },
       {
-        "title": "兆易创新H股盘中大涨12% 股价创历史新高",
-        "date": "2026-06-25 11:11",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677703227.shtml"
+        "title": "兆易创新:兆易创新关于股票交易异常波动的公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
+        "content": ""
       },
       {
-        "title": "兆易创新推出GD33AP236x系列车规级SBC，进一步完善汽车电子布局",
-        "date": "2026-06-25 09:16",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677700057.shtml"
+        "title": "兆易创新:兆易创新关于2024年股票期权激励计划第二个行权期行权结果暨股份过户登记及上市的公告",
+        "date": "2026-06-17",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
+        "content": ""
       }
     ],
     "fund": {
@@ -4332,22 +4378,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "通富微电：持股5%以上股东产业基金持股比例降至5%以下",
-        "date": "2026-06-25 19:19",
-        "source": "同花顺问财",
-        "url": "https://wallstreetcn.com/livenews/3124641"
+        "title": "通富微电:国家大基金持股比例降至5%以下；天壕能源、昀冢科技明起停牌丨公告精选",
+        "date": "2026-06-25 21:31:00",
+        "source": "21世纪经济报道",
+        "url": "http://finance.eastmoney.com/a/202606253783336263.html",
+        "content": "今日焦点 　　通富微电：第二大股东国家大基金持股比例降至5%以下 　　通富微电公告称，公司持股5%以上股东国家集成电路产业投资基金股份有限公司因自身经营管理需要减持公司股份及股权激励计划导致持股比例被动稀释，持股比例由11.72%降至5.00%，合计减少6.72%。"
       },
       {
-        "title": "通富微电：国家集成电路产业基金减持比例达6.72%",
-        "date": "2026-06-25 19:17",
-        "source": "同花顺问财",
-        "url": "https://finance.sina.cn/7x24/2026-06-25/detail-inierpqp7713371.d.html"
+        "title": "通富微电:关于持股5%以上股东股份变动比例触及5%整数倍暨披露权益变动报告书的提示性公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002156",
+        "content": ""
       },
       {
-        "title": "通富微电(002156)2025年三季报深度解读：主营业务利润同比大幅增长推动净利润同比大幅增长",
-        "date": "2026-06-24 21:41",
-        "source": "同花顺问财",
-        "url": "https://blog.csdn.net/beawan01/article/details/155138817"
+        "title": "通富微电:关于控股股东部分股份解除质押的公告",
+        "date": "2026-06-10",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002156",
+        "content": ""
       }
     ],
     "fund": {
@@ -4540,22 +4589,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "78亿！长电科技砸钱建先进封测工厂",
-        "date": "2026-06-25 18:28",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868964366396516643&wfr=spider"
+        "title": "长电科技:江苏长电科技股份有限公司股票交易价格异常波动公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600584",
+        "content": ""
       },
       {
-        "title": "长电科技计划投资78亿元建设高端先进封测工厂",
-        "date": "2026-06-25 17:23",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677714605.shtml"
+        "title": "长电科技:江苏长电科技股份有限公司关于拟对外投资的公告",
+        "date": "2026-06-25",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600584",
+        "content": ""
       },
       {
-        "title": "78亿元！长电科技大手笔扩产",
-        "date": "2026-06-25 12:46",
-        "source": "同花顺问财",
-        "url": "https://www.sohu.com/a/1041402104_808989"
+        "title": "长电科技:江苏长电科技股份有限公司2025年年度权益分派实施公告",
+        "date": "2026-06-16",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600584",
+        "content": ""
       }
     ],
     "fund": {
@@ -4748,22 +4800,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "华天科技：聚焦Chiplet与功率赛道",
-        "date": "2026-06-23 18:11",
-        "source": "同花顺问财",
-        "url": "https://www.eet-china.com/mp/a504673.html"
+        "title": "华天科技：第八届董事会第十五次会议决议公告",
+        "date": "2026-06-10 21:17:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606103766964187.html",
+        "content": "证券日报网讯 6月10日，华天科技发布公告称，公司第八届董事会第十五次会议审议通过《关于调整2023年股票期权激励计划行权价格的议案》。"
       },
       {
-        "title": "华天科技：公司板级封装产品已小批量生产",
-        "date": "2026-06-22 18:54",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677621859.shtml"
+        "title": "华天科技：2025年年度权益分派实施公告",
+        "date": "2026-06-02 19:49:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606023757742451.html",
+        "content": "证券日报网讯 6月2日，华天科技发布2025年年度权益分派实施公告称，本公司 2025 年年度权益分派方案为：以公司现有总股本 3，323，423，616 股为基数，向全体股东每 10 股派 0.220000 元人民币现金。"
       },
       {
-        "title": "华天科技是做什么的？华天科技的主营业务是什么？",
-        "date": "2026-06-19 15:40",
-        "source": "同花顺问财",
-        "url": "https://baike.jfinfo.com/4046116.html"
+        "title": "华天科技：公司收购华羿微电事项正在进行之中",
+        "date": "2026-06-04 16:14:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606043760428538.html",
+        "content": "证券日报网讯 6月4日，华天科技在互动平台回答投资者提问时表示，公司收购华羿微电事项正在进行之中，并根据法律法规和相关规定履行后续有关程序和信息披露义务。"
       }
     ],
     "fund": {
@@ -4955,22 +5010,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "立昂微股价跌3.19%",
-        "date": "2026-06-23 09:55",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868750874085535205&wfr=spider"
+        "title": "立昂微：关于实施“立昂转债”赎回暨摘牌的第七次提示性公告",
+        "date": "2026-06-15 19:59:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606153771748189.html",
+        "content": "证券日报网讯 6月15日，立昂微发布公告称，“立昂转债”赎回条件已于2026年5月27日满足。赎回价格为100.8877元/张，赎回登记日为2026年6月17日，赎回款发放日为2026年6月18日。最后转股日为2026年6月17日，持有人可按33.59元/股的价格转股。"
       },
       {
-        "title": "立昂微股价跌3.05%",
-        "date": "2026-06-22 10:06",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868661011935436091&wfr=spider"
+        "title": "立昂微：关于实施“立昂转债”赎回暨摘牌的第三次提示性公告",
+        "date": "2026-06-09 21:39:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606093765441755.html",
+        "content": "证券日报网讯 6月9日，立昂微发布公告称，截至 2026 年 6 月 9 日收市后，距离 6 月 17 日（“立昂转债”最后转股日）仅剩 6 个交易日，6 月 17 日为“立昂转债”最后一个转股日。"
       },
       {
-        "title": "立昂微涨0.15%",
-        "date": "2026-06-16 15:41",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868138457645013892&wfr=spider"
+        "title": "立昂微：股票交易异常波动公告",
+        "date": "2026-06-05 20:33:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606053762187766.html",
+        "content": "证券日报网讯 6月5日，立昂微发布公告称，公司股票于2026年6月3日、6月4日、6月5日连续3个交易日内收盘价格涨幅偏离值累计超过20%，根据《上海证券交易所交易规则》的有关规定，属于股票交易异常波动情形。"
       }
     ],
     "fund": {
@@ -5157,22 +5215,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "江波龙股价涨5.49%，方正富邦基金旗下2只基金重仓，合计持有20.19万股浮盈赚取686.86万元",
-        "date": "2026-06-25 09:31",
-        "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/money/fund/aiassistant/zcgyd/2026-06-25/doc-inieqskx7781398.shtml"
+        "title": "江波龙：第三届董事会第十九次会议决议公告",
+        "date": "2026-06-18 21:22:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606183776410725.html",
+        "content": "证券日报网讯 6月18日，江波龙发布公告称，公司于2026年6月18日召开第三届董事会第十九次会议，会议审议通过《关于公司2025年度向特定对象发行A股股票相关授权的议案》。"
       },
       {
-        "title": "江波龙股价涨5.49%，新华基金旗下3只基金重仓，合计持有12.14万股浮盈赚取413万元",
-        "date": "2026-06-25 09:31",
-        "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/money/fund/aiassistant/zcgyd/2026-06-25/doc-inieqskx7781270.shtml"
+        "title": "江波龙:第三届董事会第十九次会议决议公告",
+        "date": "2026-06-18",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301308",
+        "content": ""
       },
       {
-        "title": "江波龙股价涨5.49%，南方基金旗下2只基金重仓，合计持有5万股浮盈赚取170.1万元",
-        "date": "2026-06-25 09:30",
-        "source": "同花顺问财",
-        "url": "https://finance.sina.com.cn/money/fund/aiassistant/zcgyd/2026-06-25/doc-inieqskw1003396.shtml"
+        "title": "江波龙:关于向特定对象发行股票申请获得中国证监会同意注册批复的公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301308",
+        "content": ""
       }
     ],
     "fund": {
@@ -5365,22 +5426,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "6月25日德明利（001309）涨停分析：AI存储高景气、管理层稳定、产能技术双突破驱动",
-        "date": "2026-06-25 15:36",
-        "source": "同花顺问财",
-        "url": "https://stock.stockstar.com/RB2026062500022795.shtml"
+        "title": "德明利:深圳市德明利技术股份有限公司股票交易异常波动公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=001309",
+        "content": ""
       },
       {
-        "title": "涨停雷达：存储芯片+企业级SSD+一季报增长 德明利触及涨停",
-        "date": "2026-06-25 13:41",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677705706.shtml"
+        "title": "德明利:关于为全资子公司提供担保的进展公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=001309",
+        "content": ""
       },
       {
-        "title": "涨停雷达：存储芯片+企业级SSD+一季报增长 德明利触及涨停",
-        "date": "2026-06-25 13:41",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/20260625/c677705706.shtml"
+        "title": "德明利:关于董事会完成换届选举及聘任高级管理人员、审计部负责人和证券事务代表的公告",
+        "date": "2026-06-23",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=001309",
+        "content": ""
       }
     ],
     "fund": {
@@ -5574,22 +5638,18 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "三环集团：警惕伪造授权与假冒MLCC产品",
-        "date": "2026-06-25 09:55",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677701398.shtml"
+        "title": "三环集团:关于刊发境外上市股份(H股)发行聆讯后资料集的公告",
+        "date": "2026-06-18",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300408",
+        "content": ""
       },
       {
-        "title": "MLCC龙头，在线打假",
-        "date": "2026-06-25 09:04",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677697946.shtml"
-      },
-      {
-        "title": "3000亿MLCC“隐形冠军”，三环集团通过港交所聆讯，76岁潮州首富募资聚焦海外产能扩建",
-        "date": "2026-06-20 08:03",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677590934.shtml"
+        "title": "三环集团赴港IPO：“电子工业大米”带飞营收，应收账款增长明显",
+        "date": "2026-06-16 14:56:04",
+        "source": "中新经纬",
+        "url": "http://finance.eastmoney.com/a/202606163773074163.html",
+        "content": "20世纪90年代，随着股份制改革推进，三环集团正式成立。1992年12月至2021年2月，张万镇任公司董事长。当前，张万镇任三环集团非执行董事。 　　2014年，三环集团在深交所上市。 　　在当前的AI浪潮下，三环集团A股股价涨幅明显。"
       }
     ],
     "fund": {
@@ -5782,22 +5842,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "新一代AI加速硬件集中量产 MLCC概念走强 风华高科历史新高",
-        "date": "2026-06-25 13:43",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677705735.shtml"
+        "title": "风华高科:关于股票交易异常波动的公告",
+        "date": "2026-06-18",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=000636",
+        "content": ""
       },
       {
-        "title": "风华高科高端电容如“7”而至，国内首家推出1206尺寸107容量MLCC产品",
-        "date": "2026-06-24 00:00",
-        "source": "同花顺问财",
-        "url": "https://www.cmpe360.com/p/139506"
+        "title": "风华高科:公司2025年度股东会决议公告",
+        "date": "2026-05-22",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=000636",
+        "content": ""
       },
       {
         "title": "风华高科：公司高度重视全球供应链格局变化带来的机遇与挑战",
-        "date": "2026-06-23 20:03",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677657311.shtml"
+        "date": "2026-06-23 19:56:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606233779927819.html",
+        "content": "证券日报网讯 6月23日，风华高科在互动平台回答投资者提问时表示，公司高度重视全球供应链格局变化带来的机遇与挑战，经过四十余年的行业深耕，已具备完整的材料、产品、装备三位一体产业布局，可为全球客户提供一站式产品采购服务和设计解决方案。"
       }
     ],
     "fund": {
@@ -5990,22 +6053,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "火炬电子：截至2025年底自产MLCC业务收入占主营业务收入的比例较小",
-        "date": "2026-06-25 18:27",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677716662.shtml"
+        "title": "个股异动 | 火炬电子一度涨停 澄清MLCC算力业务尚处培育期",
+        "date": "2026-06-03 10:58:05",
+        "source": "上海证券报·中国证券网",
+        "url": "http://finance.eastmoney.com/a/202606033758746918.html",
+        "content": "上证报中国证券网讯（记者王墨璞嘉）6月3日早盘，火炬电子一度涨停，截至10:43，报63.77元/股，上涨8.80%。"
       },
       {
-        "title": "火炬电子：截至2025年底，公司自产MLCC业务收入占主营业务收入的比例较小",
-        "date": "2026-06-25 18:00",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677715956.shtml"
+        "title": "火炬电子：股票交易异常波动公告",
+        "date": "2026-06-25 21:40:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606253783393592.html",
+        "content": "证券日报网讯 6月25日，火炬电子发布公告称，公司股票于2026年6月24日、6月25日连续两个交易日内日收盘价格涨幅偏离值累计超过20%。根据《上海证券交易所交易规则》的有关规定，属于股票交易异常波动的情形。"
       },
       {
-        "title": "火炬电子：自产MLCC业务收入占比小，算力应用尚在培育期",
-        "date": "2026-06-25 17:54",
-        "source": "同花顺问财",
-        "url": "https://wallstreetcn.com/livenews/3124586"
+        "title": "火炬电子:火炬电子股票交易异常波动公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603678",
+        "content": ""
       }
     ],
     "fund": {
@@ -6198,22 +6264,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "【关于国瓷】山东国瓷功能材料股份有限公司介绍",
-        "date": "2026-06-24 17:35",
-        "source": "同花顺问财",
-        "url": "https://mp.weixin.qq.com/s?__biz=MzUyNjA1NDI5NA==&chksm=fba02dabd45af2ce4d73fb9e65fedc835229e1a62d15d3edf04d8cd4e430350207a4dc3ac2e3&idx=1&mid=2247508493&sn=6c5f8d77baabc0461b4cbd48313cfc7e"
+        "title": "国瓷材料:关于股票交易异常波动的公告",
+        "date": "2026-06-17",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300285",
+        "content": ""
       },
       {
-        "title": "东营这家高端材料龙头企业发生了什么？",
-        "date": "2026-06-22 09:54",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677604324.shtml"
+        "title": "国瓷材料:第六届董事会第十三次会议决议公告",
+        "date": "2026-06-15",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300285",
+        "content": ""
       },
       {
-        "title": "国瓷材料股价涨4.47%",
-        "date": "2026-06-22 09:31",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868658777017379588&wfr=spider"
+        "title": "国瓷材料:关于公司下属全资公司向银行申请SDI项目借款暨公司为其借款及套期保值保证金提供担保的公告",
+        "date": "2026-06-15",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300285",
+        "content": ""
       }
     ],
     "fund": {
@@ -6406,22 +6475,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "信维通信：战略性布局高端MLCC国产替代",
-        "date": "2026-06-23 18:30",
-        "source": "同花顺问财",
-        "url": "https://wap.stockstar.com/detail/RB2026062300032650"
+        "title": "信维通信:关于向特定对象发行股票申请获得中国证监会注册批复的公告",
+        "date": "2026-05-27",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300136",
+        "content": ""
       },
       {
-        "title": "信维电科MLCC间接进入英伟达的AI服务器供应链？信维通信回应：正送样北美大客户验证",
-        "date": "2026-06-23 17:42",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677652810.shtml"
+        "title": "信维通信:2025年年度权益分派实施公告",
+        "date": "2026-05-15",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300136",
+        "content": ""
       },
       {
-        "title": "高端MLCC已经切入华为AI服务器供应链？信维通信回应",
-        "date": "2026-06-23 17:42",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677652783.shtml"
+        "title": "信维通信:关于向特定对象发行股票申请获得深圳证券交易所上市审核中心审核通过的公告",
+        "date": "2026-05-08",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300136",
+        "content": ""
       }
     ],
     "fund": {
@@ -6614,22 +6686,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "公司高端钻机是否有涨价计划？大族数控回应",
-        "date": "2026-06-25 13:45",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677705763.shtml"
+        "title": "大族数控：关于完成工商变更登记的公告",
+        "date": "2026-06-12 22:53:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606123770240214.html",
+        "content": "证券日报网讯 6月12日，大族数控发布公告称，公司分别于 2026 年 3月 30 日、2026 年 5 月 8 日召开第二届董事会第二十一次会议和 2025 年年度股东会，审议通过了《关于变更公司注册资本及修订的议案》，鉴于公司已完成发行 H 股股票并在香港联合交易所有限公司上市工作"
       },
       {
-        "title": "大族数控再涨超7% PCB产业迎来新一轮扩产潮 公司高端产品已验证落地",
-        "date": "2026-06-24 14:15",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677675532.shtml"
+        "title": "大族数控:关于完成工商变更登记的公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301200",
+        "content": ""
       },
       {
-        "title": "大族数控股价涨3.22%",
-        "date": "2026-06-24 10:21",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868843138886466453&wfr=spider"
+        "title": "大族数控:H股公告-截至2026年5月31日止月份之股份发行人的证券变动月报表",
+        "date": "2026-06-02",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301200",
+        "content": ""
       }
     ],
     "fund": {
@@ -6822,22 +6897,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "激光设备“双雄”千亿对决：AI为王，大族华工谁能领跑？",
-        "date": "2026-06-25 00:13",
-        "source": "同花顺问财",
-        "url": "https://chejiahao.m.autohome.com.cn/info/25412966"
+        "title": "大族激光:关于控股子公司投资建设光纤及预制棒项目的公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002008",
+        "content": ""
       },
       {
-        "title": "大族激光盘中创历史新高",
-        "date": "2026-06-24 14:15",
-        "source": "同花顺问财",
-        "url": "https://www.sohu.com/a/1040924153_115433"
+        "title": "大族激光:第八届董事会第十七次会议决议公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002008",
+        "content": ""
       },
       {
-        "title": "大族激光盘中创历史新高",
-        "date": "2026-06-24 14:08",
-        "source": "同花顺问财",
-        "url": "https://finance.ifeng.com/c/8uDYPTz4DAU"
+        "title": "大族激光:关于调整高级管理人员范围并修订《公司章程》的公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002008",
+        "content": ""
       }
     ],
     "fund": {
@@ -7033,22 +7111,11 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "高盛上调全球AI服务器预测：工业富联市占率或冲至69%",
-        "date": "2026-06-25 14:47",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677706900.shtml"
-      },
-      {
-        "title": "万亿工业富联大涨",
-        "date": "2026-06-24 15:49",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868863764787788492&wfr=spider"
-      },
-      {
-        "title": "市值再度逼近茅台，工业富联估值重构",
-        "date": "2026-06-24 15:21",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677677237.shtml"
+        "title": "工业富联:富士康工业互联网股份有限公司第三届董事会第三十四次会议决议公告",
+        "date": "2026-06-19",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601138",
+        "content": ""
       }
     ],
     "fund": {
@@ -7243,22 +7310,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "阳光电源市值领跑光储板块",
-        "date": "2026-06-24 21:28",
-        "source": "同花顺问财",
-        "url": "https://mp.weixin.qq.com/s?__biz=MjM5MTM3NTMwNA==&chksm=bcbaf939704585726dfca8ccc5f6e2cf26bec16b8cc9d2bbabb4b19c5dcc307e378a48551d28&idx=1&mid=2661757551&sn=f34dbf3920c1b22c90befaf8efca4c36"
+        "title": "阳光电源:关于2025年年度报告(英文简版)的自愿性披露公告",
+        "date": "2026-06-08",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300274",
+        "content": ""
       },
       {
-        "title": "深度解析2026年工商业储能厂家排名：阳光电源凭什么稳居头部？",
-        "date": "2026-06-24 19:32",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677687721.shtml"
+        "title": "阳光电源:关于2022年限制性股票激励计划首次授予部分第四个归属期归属结果暨股份上市公告",
+        "date": "2026-06-02",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300274",
+        "content": ""
       },
       {
-        "title": "阳光电源氢能板块牵手宿马园区",
-        "date": "2026-06-24 15:18",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677677104.shtml"
+        "title": "阳光电源:关于控股股东部分股份解除质押及质押的公告",
+        "date": "2026-06-01",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300274",
+        "content": ""
       }
     ],
     "fund": {
@@ -7451,22 +7521,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "德业股份：全资子公司签署二期投资协议，拟投建年产9GWh工商储生产线项目",
-        "date": "2026-06-25 10:56",
-        "source": "同花顺问财",
-        "url": "https://m.mysteel.com/a/26062510/9B3BF94C16354426_abc.html"
+        "title": "德业股份：2025年年度权益分派实施公告",
+        "date": "2026-05-17 17:38:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202605173739742465.html",
+        "content": "证券日报网讯 5月17日，德业股份发布公告称，公司2025年年度权益分派方案为：A股每股现金红利1.8元，每股转增股份0.4股。"
       },
       {
-        "title": "德业股份：全资子公司签署二期投资协议 拟投建年产9GWh工商储生产线项目",
-        "date": "2026-06-23 23:19",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677661010.shtml"
+        "title": "德业股份：关于调整2025年度利润分配总额和资本公积金转增股本总额的公告",
+        "date": "2026-05-17 17:38:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202605173739741417.html",
+        "content": "证券日报网讯 5月17日，德业股份发布公告称，公司调整2025年度利润分配总额和资本公积金转增股本总额。"
       },
       {
-        "title": "德业股份股价涨3.35%",
-        "date": "2026-06-22 09:34",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868658960010620163&wfr=spider"
+        "title": "晚间公告｜6月23日这些公告有看头",
+        "date": "2026-06-23 18:47:41",
+        "source": "第一财经",
+        "url": "http://finance.eastmoney.com/a/202606233779842193.html",
+        "content": "【品大事】 　　德业股份：全资子公司签署二期投资协议拟投建年产9GWh工商储生产线项目 　　德业股份公告称，全资子公司德业储能与慈溪滨海经济开发区管理委员会签署二期投资协议，投资建设年产9GWh工商储生产线项目，固定资产投资预计不少于12.32亿元。"
       }
     ],
     "fund": {
@@ -7659,22 +7732,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "麦格米特：在AI数据中心电源领域，实现从电力接入到算力终端的全链路自主化产品覆盖",
-        "date": "2026-06-18 21:12",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677580509.shtml"
+        "title": "麦格米特：2026年第一次临时股东会决议公告",
+        "date": "2026-06-25 21:48:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606253783406228.html",
+        "content": "证券日报网讯 6月25日，麦格米特发布公告称，公司2026年第一次临时股东会审议通过《关于公司发行H股股票并在香港联合交易所有限公司上市的议案》等多项议案。"
       },
       {
-        "title": "英伟达将超级电容列为AI服务器“硬刚需”，麦格米特触及涨停",
-        "date": "2026-06-17 14:38",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677529455.shtml"
+        "title": "麦格米特:2026年第一次临时股东会决议公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002851",
+        "content": ""
       },
       {
-        "title": "麦格米特：公司持续关注板载电源、液冷等有关业务机会",
-        "date": "2026-06-17 09:18",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677521917.shtml"
+        "title": "麦格米特:关于2022年股票期权激励计划首次授予部分第四个行权期采用自主行权模式的提示性公告的更正公告",
+        "date": "2026-06-22",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002851",
+        "content": ""
       }
     ],
     "fund": {
@@ -7867,22 +7943,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "中恒博瑞科研成果斩获省部级科技进步特等奖",
-        "date": "2026-06-23 11:09",
-        "source": "同花顺问财",
-        "url": "https://mp.weixin.qq.com/s?__biz=MzI0MDI1MTAxOA==&chksm=f3ca597f14f5db91885b277efcd98aa29a18063b6044fa3c5bb0cfd7c7a24a5585a0a263b545&idx=1&mid=2650980924&sn=d695c517618656365a3467b10ff328af"
+        "title": "中恒电气：2025年年度权益分派实施公告",
+        "date": "2026-06-12 22:54:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606123770240369.html",
+        "content": "证券日报网讯 6月12日，中恒电气发布2025年年度权益分派实施公告称，以公司现有总股本剔除已回购股份1，804，400股后的561，760，560股为基数，向全体股东每10股派1.000000元人民币现金（含税）。"
       },
       {
-        "title": "叶肖剑 吴艺婧：非标产品制造企业中恒电气基于智能报价的成本管理体系构建与应用",
-        "date": "2026-06-22 16:27",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677616249.shtml"
+        "title": "中恒电气:2025年年度权益分派实施公告",
+        "date": "2026-06-13",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002364",
+        "content": ""
       },
       {
-        "title": "中恒电气股价涨4.04%",
-        "date": "2026-06-17 09:30",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868205755925259386&wfr=spider"
+        "title": "中恒电气:关于控股股东签署《战略投资合作框架协议》事项的进展公告",
+        "date": "2026-06-09",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002364",
+        "content": ""
       }
     ],
     "fund": {
@@ -8075,22 +8154,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "中国西电在西安成立发电开关装备公司，注册资本1亿元",
-        "date": "2026-06-16 15:03",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677496653.shtml"
+        "title": "中国西电：2025年年度权益分派实施公告",
+        "date": "2026-06-15 20:32:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606153771798325.html",
+        "content": "证券日报网讯 6月15日，中国西电发布2025年年度权益分派实施公告称，本次利润分配以方案实施前的公司总股本5，125，882，352股为基数，每股派发现金红利0.054元（含税），共计派发现金红利276，797，647.01元（含税）。"
       },
       {
-        "title": "中国西电：中标国家电网特高压项目18.99亿元",
-        "date": "2026-06-12 16:40",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677424210.shtml"
+        "title": "中国西电:中国西电2025年年度权益分派实施公告",
+        "date": "2026-06-16",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601179",
+        "content": ""
       },
       {
-        "title": "中国西电(601179):中国西电产品中标公告",
-        "date": "2026-06-12 16:00",
-        "source": "同花顺问财",
-        "url": "https://www.cfi.net.cn/p20260612000384.html"
+        "title": "中国西电:中国西电产品中标公告",
+        "date": "2026-06-13",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601179",
+        "content": ""
       }
     ],
     "fund": {
@@ -8283,22 +8365,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "四方股份参加2025年度沪市主板生态提效能之低碳新能集体业绩说明会",
-        "date": "2026-06-25 15:16",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677707891.shtml"
+        "title": "四方股份：关于公司副总裁辞去职务的公告",
+        "date": "2026-06-14 19:21:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606143770714375.html",
+        "content": "证券日报网讯 6月14日，四方股份发布公告称，公司董事会收到副总裁胡晓东先生提交的书面报告。胡晓东先生因退休原因，申请辞去公司副总裁职务。根据《公司法》《公司章程》等相关规定，胡晓东先生辞去副总裁职务的书面报告自送达董事会之日起生效。"
       },
       {
-        "title": "A股老牌电力龙头闯关港股！四方股份净利两年连增，前五大客户集中度超过50%",
-        "date": "2026-06-22 18:32",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677620798.shtml"
+        "title": "四方股份：关于董事辞职的公告",
+        "date": "2026-05-22 20:13:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202605223746991351.html",
+        "content": "5月22日，四方股份发布公告称，公司董事会于近日收到董事张涛先生的书面辞职报告。因工作安排变动原因，张涛先生申请辞去公司董事及各专门委员会相关职务。张涛先生的辞职不会导致公司董事会成员低于法定最低人数，不会影响公司董事会的正常运作。张涛先生的辞职报告自送达董事会之日起生效。"
       },
       {
-        "title": "从电网二次设备到储能与AI数据中心，四方股份的转型故事讲到哪了？",
-        "date": "2026-06-22 14:04",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677609635.shtml"
+        "title": "四方股份:四方股份关于向香港联交所递交境外上市股份(H股)发行上市申请并刊发申请资料的公告",
+        "date": "2026-06-17",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601126",
+        "content": ""
       }
     ],
     "fund": {
@@ -8493,22 +8578,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "英特尔完成液冷工质权威认证 液冷服务器概念早盘拉升 冰轮环境触及涨停",
-        "date": "2026-06-25 09:54",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677701362.shtml"
+        "title": "英维克：如涉及对公司经营产生重大影响、达到披露标准且未涉及商业保密的客户合作信息，公司会通过法定信息披露媒体披露相关的公告",
+        "date": "2026-06-22 20:49:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606223778310975.html",
+        "content": "证券日报网讯 6月22日，英维克在互动平台回答投资者提问时表示，如涉及对公司经营产生重大影响、达到披露标准且未涉及商业保密的客户合作信息，公司会通过法定信息披露媒体披露相关的公告。"
       },
       {
-        "title": "英维克SoluKing长效液冷工质系列两款产品通过英特尔认证",
-        "date": "2026-06-25 08:54",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677697237.shtml"
+        "title": "英维克:关于为全资下属公司PTENVICOOLTECHNOLOGYINDONESIA提供担保的进展公告",
+        "date": "2026-06-05",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002837",
+        "content": ""
       },
       {
-        "title": "一句话点评：英维克（002837）到底值不值得投资？",
-        "date": "2026-06-25 07:05",
-        "source": "同花顺问财",
-        "url": "https://news.sohu.com/a/1040788619_121409661"
+        "title": "英维克:第五届董事会第四次会议决议公告",
+        "date": "2026-06-05",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002837",
+        "content": ""
       }
     ],
     "fund": {
@@ -8702,22 +8790,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "润泽科技：AIDC需求旺盛推动亮眼高增，出海战略布局赋能长期成长",
-        "date": "2026-06-23 11:26",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677640336.shtml"
+        "title": "润泽科技：股东拟减持不超0.9931%公司股份",
+        "date": "2026-06-01 21:10:53",
+        "source": "第一财经",
+        "url": "http://finance.eastmoney.com/a/202606013756302439.html",
+        "content": "润泽科技公告，持股2.0613%的股东宁波大容明琛创业投资合伙企业（有限合伙）计划以集中竞价交易方式减持其持有的不超过1623.07万股股份（不超过公司总股本的0.9931%，不超过扣除公司回购专用账户股份后总股本的1%）。"
       },
       {
-        "title": "润泽科技股价涨3.29%",
-        "date": "2026-06-22 09:41",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868659386649981178&wfr=spider"
+        "title": "润泽科技：宁波大容计划减持不超0.9931%公司股份",
+        "date": "2026-06-01 20:51:00",
+        "source": "财中社",
+        "url": "http://finance.eastmoney.com/a/202606013756265717.html",
+        "content": "2026年一季度，润泽科技实现收入18.40亿元，归母净利润5.82亿元。"
       },
       {
-        "title": "润泽科技：夯实算力底座 锻造民族品牌",
-        "date": "2026-06-17 06:11",
-        "source": "同花顺问财",
-        "url": "http://news.yunnan.cn/system/2026/06/17/034048104.shtml"
+        "title": "润泽科技：股东宁波大容拟减持不超0.99%股份",
+        "date": "2026-06-01 20:32:11",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202606013756229611.html",
+        "content": "润泽科技(300442.SZ)公告称，特定股东宁波大容明琛创业投资合伙企业(有限合伙)计划自公告披露之日起15个交易日后90日内，以集中竞价方式减持不超过16,230,666股(约1,623.07万股)，占公司总股本的0.9931%，减持原因为自身资金需求。"
       }
     ],
     "fund": {
@@ -8910,22 +9001,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "长电科技拟78亿投建封测厂；中创环保董事长被刑拘丨公告精选",
-        "date": "2026-06-24 21:32",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868885389047000833&wfr=spider"
+        "title": "宏景科技：股票交易异常波动公告",
+        "date": "2026-06-24 21:19:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606243781678390.html",
+        "content": "证券日报网讯 6月24日，宏景科技发布公告称，公司股票于2026年6月22日、6月23日、6月24日连续3个交易日收盘价格涨幅偏离值累计超过30%，根据《深圳证券交易所交易规则》，属于股票交易异常波动的情形。"
       },
       {
-        "title": "2026.06.24 职业教育概念行情数据：板块收跌2.33% 宏景科技涨20.00%",
-        "date": "2026-06-24 18:38",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677685675.shtml"
+        "title": "宏景科技：关于完成工商变更登记并换发营业执照的公告",
+        "date": "2026-06-09 20:06:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606093765333184.html",
+        "content": "证券日报网讯 6月9日，宏景科技发布公告称，公司于2026年4月28日召开第四届董事会第十七次会议、2026年5月20日召开2025年年度股东会，审议通过《关于变更注册资本、修订并办理工商变更登记的议案》。"
       },
       {
-        "title": "2026.06.24 算力租赁概念行情数据：板块收跌0.02% 宏景科技涨20.00%",
-        "date": "2026-06-24 18:32",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677685522.shtml"
+        "title": "宏景科技:股票交易异常波动公告",
+        "date": "2026-06-24",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301396",
+        "content": ""
       }
     ],
     "fund": {
@@ -9118,22 +9212,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "涨停雷达：存储芯片封测+SK海力士+无锡国资+一季报增长 太极实业触及涨停",
-        "date": "2026-06-25 09:28",
-        "source": "同花顺问财",
-        "url": "https://stock.10jqka.com.cn/20260625/c677700423.shtml"
+        "title": "太极实业：2025年年度权益分派实施公告",
+        "date": "2026-06-22 20:48:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606223778308588.html",
+        "content": "证券日报网讯 6月22日，太极实业发布2025年年度权益分派实施公告称，本次利润分配以方案实施前的公司总股本2，091，542，178股为基数，每股派发现金红利0.065元（含税）。股权登记日为2026年6月29日，除权（息）日为2026年6月30日。"
       },
       {
-        "title": "“太极实业”的18万股民赢麻了",
-        "date": "2026-06-24 21:26",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868884983892936863&wfr=spider"
+        "title": "太极实业:股票交易异常波动公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600667",
+        "content": ""
       },
       {
-        "title": "太极实业是做什么的？太极实业的主营业务是什么？",
-        "date": "2026-06-19 15:40",
-        "source": "同花顺问财",
-        "url": "https://baike.jfinfo.com/4043832.html"
+        "title": "太极实业:2025年年度权益分派实施公告",
+        "date": "2026-06-23",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600667",
+        "content": ""
       }
     ],
     "fund": {
@@ -9326,22 +9423,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "西安经开区加速构建全链条氢能产业生态 龙头企业引领关键材料与规模化应用突破",
-        "date": "2026-06-24 18:46",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677686622.shtml"
+        "title": "【财闻联播】长鑫科技，5月27日上会！西部材料回应向SpaceX“供货”传闻",
+        "date": "2026-05-20 20:38:00",
+        "source": "券商中国",
+        "url": "http://finance.eastmoney.com/a/202605203743767581.html",
+        "content": "股东会上，西部材料董事长杨延安，西部材料总经理康彦，西部材料副总经理、董事会秘书顾亮，部分公司董事以及部分股东代表现场出席会议。"
       },
       {
-        "title": "西部材料股价跌3.32%",
-        "date": "2026-06-24 09:49",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868841122254874348&wfr=spider"
+        "title": "直击西部材料股东会：管理层回应SpaceX“供货”传闻 详解供应链卡位与业绩下滑原因",
+        "date": "2026-05-20 16:52:47",
+        "source": "界面新闻",
+        "url": "http://finance.eastmoney.com/a/202605203743549571.html",
+        "content": "股东会上，西部材料董事长杨延安，西部材料总经理康彦，西部材料副总经理、董事会秘书顾亮，部分公司董事以及部分股东代表现场出席会议。"
       },
       {
-        "title": "西部材料2026年6月23日跌停分析",
-        "date": "2026-06-23 14:36",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868768547686028158&wfr=spider"
+        "title": "西部材料:西部金属材料股份有限公司2025年度股东会决议公告",
+        "date": "2026-05-20",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002149",
+        "content": ""
       }
     ],
     "fund": {
@@ -9534,22 +9634,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "红星发展股价涨3.23%",
-        "date": "2026-06-23 09:30",
-        "source": "同花顺问财",
-        "url": "https://www.163.com/dy/article/L03LV8PD05568W0A.html"
+        "title": "红星发展:红星发展关于公司及全资子公司拟公开挂牌转让所持万山鹏程矿业有限责任公司全部股权及债权的公告",
+        "date": "2026-06-19",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600367",
+        "content": ""
       },
       {
         "title": "红星发展:红星发展第九届董事会第五次临时会议决议公告",
-        "date": "2026-06-19 00:00",
-        "source": "同花顺问财",
-        "url": "https://pilu.tianyancha.com/announcement/235baae9156722fb87471081013f9993"
+        "date": "2026-06-19",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600367",
+        "content": ""
       },
       {
-        "title": "红星发展拟挂牌转让万山鹏程矿业100%股权及债权",
-        "date": "2026-06-18 17:59",
-        "source": "同花顺问财",
-        "url": "http://news.10jqka.com.cn/19700121/c677574272.shtml"
+        "title": "红星发展:红星发展股票交易异常波动暨风险提示公告",
+        "date": "2026-06-05",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600367",
+        "content": ""
       }
     ],
     "newsAsof": "2026-06-25",
@@ -9741,22 +9844,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "雅克科技涨7.38%",
-        "date": "2026-06-17 15:16",
-        "source": "同花顺问财",
-        "url": "https://baijiahao.baidu.com/s?for=pc&id=1868227530779242388&wfr=spider"
+        "title": "雅克科技：关于公司股票交易异常波动的公告",
+        "date": "2026-06-11 20:58:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606113768534846.html",
+        "content": "证券日报网讯 6月11日，雅克科技发布公告称，公司股票交易价格连续两个交易日（2026年6月10日、2026年6月11日）收盘价格涨幅偏离值累计超过20%，根据深圳证券交易所相关规则，公司股票交易属于异常波动情况。"
       },
       {
-        "title": "雅克科技大涨解读",
-        "date": "2026-06-17 13:43",
-        "source": "同花顺问财",
-        "url": "https://www.tgb.cn/a/2sHqZmEsYdB"
+        "title": "雅克科技:关于公司股票交易异常波动的公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002409",
+        "content": ""
       },
       {
-        "title": "一、前驱体（雅克科技",
-        "date": "2026-06-13 13:14",
-        "source": "同花顺问财",
-        "url": "https://mnews.tianyancha.com/ll_rzaiyb99nr.html"
+        "title": "雅克科技:关于全资子公司对参股公司增资暨关联交易的公告",
+        "date": "2026-06-04",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002409",
+        "content": ""
       }
     ],
     "newsAsof": "2026-06-25"
