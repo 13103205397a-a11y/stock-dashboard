@@ -231,9 +231,9 @@ function computeSignal(k) {
   }
 
   const newMeta =
-    "/* 全局元信息：marketRegime/summary 由复盘 Agent 维护；signalDate/signalStat/marketSnapshot 为行情自动统计 */\n" +
+    "/* 全局元信息：signalDate/signalStat/marketSnapshot 由行情程序自动统计 */\n" +
     "window.META = " + JSON.stringify({
-      ...m,
+      lastUpdated: latestDate,
       signalDate: latestDate,
       signalStat: `多头 ${bull} / 空头 ${bear} · 左侧已到逢低区 ${leftReady} · 右侧突破或临近 ${rightReady}（共 ${STOCKS.length} 只，行情截至 ${latestDate}，刷新于 ${today}）`,
       marketSnapshot,

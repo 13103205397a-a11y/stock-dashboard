@@ -1,6 +1,7 @@
 /* 自选股数据：叙事 + 左/右侧策略 + 技术信号 + 消息面
  * 技术信号(signal/left/right) ← scripts/fetch_signals.js（腾讯日K，前复权）
- * 消息面(fund/news/research) ← scripts/fetch_iwencai.py（同花顺问财）
+ * 消息面(news) ← scripts/fetch_news.py（东方财富，免费，规则筛选）
+ * 资金流(fund)/研报(research) ← scripts/fetch_hot.py 附带（问财，仅热点票）
  * 叙事/证伪/增长点为 AI 整理。仅供研究参考，非投资建议。
  * 数据时点见 meta.js 与各字段内 date。
  */
