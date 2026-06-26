@@ -388,6 +388,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "新易盛：2026年第二次临时股东会决议公告",
+        "date": "2026-06-26 19:51:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606263784969047.html",
+        "content": "证券日报网讯 6月26日，新易盛发布公告称，公司2026年第二次临时股东会审议通过《关于公司发行 H股股票并在香港联合交易所有限公司上市的议案》《关于公司发行 H股股票并在香港联合交易所有限公司上市方案的议案》《关于公司转为境外募集股份有限公司的议案》等多项议案。"
+      },
+      {
         "title": "新易盛:关于完成更换公司董事的公告",
         "date": "2026-06-26",
         "source": "公司公告",
@@ -396,13 +403,6 @@ window.STOCKS = [
       },
       {
         "title": "新易盛:成都新易盛通信技术股份有限公司2026年第二次临时股东会决议公告",
-        "date": "2026-06-26",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300502",
-        "content": ""
-      },
-      {
-        "title": "新易盛:北京国枫律师事务所关于成都新易盛通信技术股份有限公司2026年第二次临时股东大会的法律意见书",
         "date": "2026-06-26",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300502",
@@ -7753,15 +7753,15 @@ window.STOCKS = [
         "content": "证券日报网讯 6月25日，麦格米特发布公告称，公司2026年第一次临时股东会审议通过《关于公司发行H股股票并在香港联合交易所有限公司上市的议案》等多项议案。"
       },
       {
-        "title": "麦格米特:2026年第一次临时股东会决议公告",
-        "date": "2026-06-26",
+        "title": "麦格米特:关于向香港联交所递交H股发行上市申请并刊发申请资料的公告",
+        "date": "2026-06-27",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002851",
         "content": ""
       },
       {
-        "title": "麦格米特:关于2022年股票期权激励计划首次授予部分第四个行权期采用自主行权模式的提示性公告的更正公告",
-        "date": "2026-06-22",
+        "title": "麦格米特:2026年第一次临时股东会决议公告",
+        "date": "2026-06-26",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002851",
         "content": ""
