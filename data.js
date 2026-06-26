@@ -388,11 +388,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "新易盛现5.63亿元平价大宗交易",
-        "date": "2026-06-25 16:49:32",
-        "source": "第一财经",
-        "url": "http://finance.eastmoney.com/a/202606253783109735.html",
-        "content": "新易盛今日出现5.63亿元平价大宗交易，成交价610.49元/股，买方为长江证券北京新源里营业部、机构专用席位，卖方均为机构专用席位。"
+        "title": "新易盛:关于完成更换公司董事的公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300502",
+        "content": ""
+      },
+      {
+        "title": "新易盛:成都新易盛通信技术股份有限公司2026年第二次临时股东会决议公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300502",
+        "content": ""
+      },
+      {
+        "title": "新易盛:北京国枫律师事务所关于成都新易盛通信技术股份有限公司2026年第二次临时股东大会的法律意见书",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300502",
+        "content": ""
       }
     ],
     "fund": {
@@ -5222,15 +5236,15 @@ window.STOCKS = [
         "content": "证券日报网讯 6月18日，江波龙发布公告称，公司于2026年6月18日召开第三届董事会第十九次会议，会议审议通过《关于公司2025年度向特定对象发行A股股票相关授权的议案》。"
       },
       {
-        "title": "江波龙:第三届董事会第十九次会议决议公告",
-        "date": "2026-06-18",
+        "title": "江波龙:关于董事股份减持计划实施完毕的公告",
+        "date": "2026-06-26",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301308",
         "content": ""
       },
       {
-        "title": "江波龙:关于向特定对象发行股票申请获得中国证监会同意注册批复的公告",
-        "date": "2026-06-12",
+        "title": "江波龙:第三届董事会第十九次会议决议公告",
+        "date": "2026-06-18",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301308",
         "content": ""
