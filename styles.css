@@ -49,9 +49,31 @@
 
   --maxw: 1380px;
   --gutter: clamp(16px, 4vw, 40px);
+
+  /* iOS 安全区(刘海屏/Home 条) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bot: env(safe-area-inset-bottom, 0px);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ============ 苹果原生触感(全局) ============ */
+html {
+  -webkit-tap-highlight-color: transparent;   /* 去点击灰块 */
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;                  /* 去 300ms 点击延迟 */
+}
+/* 所有可点元素的 tap 微缩放反馈(苹果原生表单感) */
+.card, .market-card, .chip, .vtab, .anomaly-chip, .dclose, .rep-tab,
+.verdict-chip, .sector-more, .card-expand, .hotcard, .rep-toggle {
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .12s cubic-bezier(.2,.6,.3,1), background .15s, border-color .15s, box-shadow .15s;
+}
+.card:active, .market-card:active, .hotcard:active { transform: scale(.985); }
+.chip:active, .vtab:active, .anomaly-chip:active, .verdict-chip:active,
+.dclose:active, .rep-tab:active, .sector-more:active, .card-expand:active, .rep-toggle:active {
+  transform: scale(.94);
+}
 
 html, body {
   background: var(--bg);
@@ -109,7 +131,7 @@ body { background-image: linear-gradient(180deg, #F8F5EF 0%, var(--bg) 180px); b
 .search-box input::placeholder { color: var(--dim); }
 
 /* ============ 视图切换（毛玻璃顶栏） ============ */
-.viewtabs { border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; background: rgba(245,242,236,.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.viewtabs { border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; background: rgba(245,242,236,.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding-top: var(--safe-top); }
 .viewtabs-in { display: flex; align-items: center; gap: var(--s-1); }
 .vtab {
   font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--muted);
@@ -469,12 +491,74 @@ a.hc-news:hover { color: var(--accent-d); }
   .sector-list .chip { width: auto; flex-shrink: 0; border: 1px solid var(--line); }
   .sector-rest { flex-direction: row; flex-wrap: nowrap; }
   .sector-rest .chip { flex-shrink: 0; }
+  /* 统计带手机端: 2 行布局,数字加大,标签缩小 */
+  .stats { gap: 1px; background: var(--line); border-radius: var(--r-sm); overflow: hidden; }
+  .stat { flex: 1 1 33%; min-width: 33%; padding: var(--s-3) var(--s-2) !important; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--card); }
+  .stat .k { font-size: 22px; font-weight: 700; }
+  .stat .l { font-size: 10px; line-height: 1.3; }
 }
 @media (max-width: 560px) {
   .stat { flex-basis: 50%; min-width: 45%; }
   .risk-row { grid-template-columns: repeat(2,1fr); }
   .drawer { width: 100%; max-width: 100%; }
-  .viewtabs-in { overflow-x: auto; }
+  .viewtabs-in { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .vtab { font-size: 12px; padding: var(--s-2) var(--s-3) calc(var(--s-2) - 1px); letter-spacing: .2px; }
+
+  /* ============ 卡片可读性(巨头卡) ============ */
+  .grid { gap: var(--s-3); }
+  .card { padding: var(--s-4); border-radius: var(--r-lg); }
+  .card .name { font-size: 17px; }
+  .card .code { font-size: 11px; }
+  .card .px { font-size: 22px; font-weight: 700; }
+  .card .chg { font-size: 15px; font-weight: 600; }
+  .card .narrative { font-size: 14px; line-height: 1.65; color: var(--text); }
+  .card .hit-detail { font-size: 13px; line-height: 1.5; }
+  .card .zone { font-size: 13px; }
+  .card .pstate { font-size: 12px; line-height: 1.45; }
+  .card .minitag { font-size: 11px; padding: 2px 7px; }
+  .card .fund { font-size: 12px; padding: 2px 8px; }
+
+  /* ============ 异动卡可读性 ============ */
+  .market-grid { gap: var(--s-2); }
+  .market-card { padding: var(--s-3) var(--s-4); border-radius: var(--r); }
+  .market-card .mc-name { font-size: 16px; }
+  .market-card .mc-price { font-size: 17px; font-weight: 700; }
+  .market-card .mc-hl { font-size: 13px; font-weight: 600; padding: 2px 9px; }
+  .market-card .mc-reason { font-size: 12px; line-height: 1.5; }
+
+  /* ============ 详情抽屉体验 ============ */
+  .drawer { border-left: none; }
+  .drawer-inner {
+    padding: calc(var(--s-5) + var(--safe-top)) var(--s-4) calc(var(--s-6) + var(--safe-bot) + 20px);
+  }
+  /* 抽屉顶部"抓手"指示条(苹果原生表单风) */
+  .drawer-inner::before {
+    content: ""; display: block; width: 36px; height: 4px; margin: 0 auto var(--s-4);
+    background: var(--line-2); border-radius: 2px;
+  }
+  .dname { font-size: 19px; }
+  .dcode { font-size: 12px; }
+  .dsec h3 { font-size: 16px; }
+  .dnarr { font-size: 14.5px; line-height: 1.7; }
+  .sig-px { font-size: 26px; font-weight: 700; }
+  .ma-grid { gap: var(--s-2); }
+  .mc { padding: var(--s-2) var(--s-3); }
+  .mv { font-family: var(--mono); font-size: 14px; }
+  .ml { font-size: 11px; }
+
+  /* 估值面板数值右对齐 + 分组感 */
+  .val-grid { gap: var(--s-2); }
+  .vm { padding: var(--s-3); }
+  .vm-l { font-size: 11px; }
+  .vm-v { font-family: var(--mono); font-size: 16px; font-weight: 600; }
+
+  /* 新闻/研报列表: 左竖线 + 时间戳灰 */
+  .nf-item { padding-left: 10px; border-left: 2px solid var(--line); }
+  .rp-item { padding-left: 10px; border-left: 2px solid var(--line); }
+
+  /* 情绪条手机端紧凑 */
+  .sentiment-bar { padding: var(--s-3); gap: var(--s-3); }
+  .sent-val { font-size: 12px; padding: 2px 7px; }
 }
 
 /* ============ 全市场异动视图 ============ */
@@ -535,7 +619,9 @@ a.hc-news:hover { color: var(--accent-d); }
 @media (max-width: 720px) {
   .market-grid { grid-template-columns: 1fr; }
   .val-grid { grid-template-columns: repeat(2, 1fr); }
-  .anomaly-types { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .anomaly-chip { flex-shrink: 0; }
+  /* 异动筛选: 横滚 + chip 间距收紧 + 当前类型高亮更醒目 */
+  .anomaly-types { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: var(--s-2); padding-bottom: 6px; }
+  .anomaly-chip { flex-shrink: 0; font-size: 12px; padding: 6px 11px; }
+  .anomaly-chip.active { box-shadow: 0 2px 8px -2px var(--accent-l); }
   .sentiment-bar { font-size: 13px; }
 }
