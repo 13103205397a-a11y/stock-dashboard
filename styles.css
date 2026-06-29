@@ -93,62 +93,77 @@ body { background-image: linear-gradient(180deg, #F8F5EF 0%, var(--bg) 180px); b
 ::-webkit-scrollbar-track { background: transparent; }
 
 .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+.wrap-tight { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
 .tnum { font-variant-numeric: tabular-nums; }
 
-/* ============ 报头（极简） ============ */
-.masthead { border-bottom: 1px solid var(--line); }
-.mast-in {
-  display: flex; align-items: center; justify-content: space-between; gap: var(--s-5);
-  padding-block: var(--s-5);
-}
-.mast-left { min-width: 0; }
-.mast-kicker {
-  font-family: var(--mono); font-size: 10px; font-weight: 500;
-  letter-spacing: 2px; text-transform: uppercase; color: var(--accent);
-}
-.mast-headline { display: flex; align-items: center; gap: var(--s-3); margin-top: var(--s-2); }
-.mast-mark { color: var(--accent); flex-shrink: 0; }
-.mast-mark svg { width: 26px; height: 26px; display: block; }
-.mast-title {
-  font-family: var(--serif); font-weight: 700;
-  font-size: clamp(22px, 3vw, 30px); line-height: 1; color: var(--ink);
-  letter-spacing: 1px;
-}
-.mast-right { display: flex; flex-direction: column; align-items: flex-end; gap: var(--s-2); flex-shrink: 0; }
-.dateline { text-align: right; }
-.dl-k { font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); margin-right: var(--s-2); }
-.updated { font-family: var(--mono); font-size: 12px; color: var(--ink); white-space: nowrap; }
+/* ============ 应用骨架: 左侧导航 + 右侧内容 ============ */
+.app-shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
 
-.search-box {
-  display: flex; align-items: center; gap: var(--s-2);
-  background: var(--card); border: 1px solid var(--line);
-  border-radius: var(--r-sm); padding: var(--s-2) var(--s-3); width: 260px; max-width: 100%;
-  transition: border-color .15s, box-shadow .15s;
+.sidebar {
+  position: sticky; top: 0; align-self: start; height: 100vh;
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding: calc(var(--s-5) + var(--safe-top)) var(--s-3) var(--s-4);
+  background: var(--bg-2); border-right: 1px solid var(--line);
+  overflow-y: auto; z-index: 40;
 }
-.search-box:focus-within { border-color: var(--accent-l); box-shadow: 0 0 0 3px var(--accent-s); }
-.search-box svg { width: 15px; height: 15px; color: var(--dim); flex-shrink: 0; }
-.search-box input { background: none; border: none; outline: none; color: var(--text); font-family: var(--sans); font-size: 13px; width: 100%; }
-.search-box input::placeholder { color: var(--dim); }
+.side-logo { display: flex; align-items: center; gap: var(--s-3); padding: 0 var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); }
+.side-logo svg { width: 26px; height: 26px; color: var(--accent); flex-shrink: 0; }
+.logo-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.logo-title { font-family: var(--serif); font-weight: 700; font-size: 16px; color: var(--ink); letter-spacing: .5px; }
+.logo-sub { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; color: var(--dim); text-transform: uppercase; }
 
-/* ============ 视图切换（毛玻璃顶栏） ============ */
-.viewtabs { border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; background: rgba(245,242,236,.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding-top: var(--safe-top); }
-.viewtabs-in { display: flex; align-items: center; gap: var(--s-1); }
-.vtab {
-  font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--muted);
-  background: transparent; border: none; border-bottom: 2px solid transparent;
-  padding: var(--s-3) var(--s-4) calc(var(--s-3) - 1px); cursor: pointer; letter-spacing: .3px; transition: color .15s;
+.side-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.nav-item {
+  display: flex; align-items: center; gap: var(--s-3);
+  padding: var(--s-2) var(--s-3); border: none; background: transparent;
+  color: var(--muted); font-family: var(--sans); font-size: 13.5px; font-weight: 500;
+  cursor: pointer; border-radius: var(--r-sm); text-align: left;
+  position: relative; transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
 }
-.vtab:hover { color: var(--ink); }
-.vtab.active { color: var(--accent-d); border-bottom-color: var(--accent); font-weight: 600; }
-.hot-date { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--dim); }
-.hot-only { display: none; }
-.market-only { display: none; }
-body.view-hot .watch-only { display: none; }
+.nav-item .nav-ico { width: 18px; height: 18px; flex-shrink: 0; stroke-width: 1.7; }
+.nav-item:hover { background: var(--card); color: var(--ink); }
+.nav-item:active { transform: scale(.97); }
+.nav-item.active { background: var(--accent-s); color: var(--accent-d); font-weight: 600; }
+.nav-item.active::before {
+  content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 60%; background: var(--accent); border-radius: 2px;
+}
+
+.side-foot { border-top: 1px solid var(--line); padding-top: var(--s-3); display: flex; flex-direction: column; gap: var(--s-2); }
+.side-foot .dateline { text-align: left; }
+.side-foot .dl-k { font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); margin-right: var(--s-2); }
+.side-foot .updated { font-family: var(--mono); font-size: 11px; color: var(--ink); }
+.side-foot .search-box { width: 100%; padding: var(--s-2); }
+
+.content-area { min-width: 0; }
+.content-in { padding: calc(var(--s-5) + var(--safe-top)) var(--gutter) var(--s-6); max-width: var(--maxw); margin-inline: auto; }
+.view { animation: viewIn .2s ease; }
+@keyframes viewIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* 移动端汉堡按钮(默认隐藏) */
+.menu-toggle {
+  display: none; position: fixed; top: calc(var(--s-3) + var(--safe-top)); left: var(--s-3); z-index: 60;
+  width: 40px; height: 40px; border: 1px solid var(--line); background: var(--card);
+  border-radius: var(--r-sm); cursor: pointer; align-items: center; justify-content: center; color: var(--ink);
+}
+.menu-toggle svg { width: 20px; height: 20px; }
+.sidebar-backdrop { display: none; }
+
+/* ============ 视图显隐(11模块) ============ */
+.view { display: none; }
+body.view-home .home-only,
+body.view-holdings .holdings-only,
+body.view-opportunities .opportunities-only,
+body.view-logic .logic-only,
+body.view-agent .agent-only,
+body.view-industry .industry-only,
+body.view-events .events-only,
+body.view-news .news-only,
+body.view-watch .watch-only,
+body.view-market .market-only,
 body.view-hot .hot-only { display: block; }
-body.view-hot .search-box { display: none; }
-body.view-market .watch-only { display: none; }
-body.view-market .market-only { display: block; }
-.mast-sub { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.hot-date { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--dim); }
 
 /* ============ 市场速览条 ============ */
 .market-bar {
@@ -464,6 +479,21 @@ a.hc-news:hover { color: var(--accent-d); }
 
 /* ============ 响应式 ============ */
 @media (max-width: 980px) {
+  /* 侧栏变抽屉式 */
+  .app-shell { grid-template-columns: 1fr; }
+  .menu-toggle { display: inline-flex; }
+  .sidebar {
+    position: fixed; top: 0; left: 0; height: 100vh; width: 260px;
+    transform: translateX(-100%); transition: transform .25s cubic-bezier(.2,.6,.3,1);
+    box-shadow: var(--shadow-lg);
+  }
+  body.sidebar-open .sidebar { transform: translateX(0); }
+  body.sidebar-open .sidebar-backdrop {
+    display: block; position: fixed; inset: 0; background: rgba(30,25,15,.35);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); z-index: 35;
+  }
+  .content-in { padding-top: calc(var(--s-5) + var(--safe-top) + 48px); }
+
   .board { grid-template-columns: 1fr; gap: var(--s-4); }
   .rail { position: static; flex-direction: row; flex-wrap: wrap; gap: var(--s-4); }
   .rail-block { flex: 1 1 200px; }

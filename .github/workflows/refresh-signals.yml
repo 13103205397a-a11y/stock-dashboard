@@ -62,6 +62,18 @@ jobs:
         run: python3 scripts/fetch_market.py
         continue-on-error: true        # 异常不阻断其他步骤提交
 
+      - name: 持仓决策数据(德业+信维,免key) → 写回 holdings.js
+        run: python3 scripts/fetch_holdings.py
+        continue-on-error: true
+
+      - name: 产业雷达数据(行业排名,免key) → 写回 industry.js
+        run: python3 scripts/fetch_industry.py
+        continue-on-error: true
+
+      - name: 新闻全量数据(全球资讯+公告,免key) → 写回 newsall.js
+        run: python3 scripts/fetch_news_all.py
+        continue-on-error: true
+
       - name: 抓取今日热点 TOP30(同花顺问财:热度/题材) → 写回 hot.js
         # 只在首次(15:20)和手动触发时跑，避免重复消耗问财配额。
         # 判断依据：hot.js 里的日期是不是今天（不再依赖容器内的标记文件）。
@@ -80,7 +92,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data.js meta.js hot.js market.js
+          git add data.js meta.js hot.js market.js holdings.js industry.js newsall.js
           if git diff --cached --quiet; then
             echo "行情无变化,跳过提交。"
           else
