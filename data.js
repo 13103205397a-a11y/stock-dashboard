@@ -1231,6 +1231,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "亨通光电：关于控股股东部分股权解除质押及质押公告",
+        "date": "2026-06-29 21:26:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606293786936040.html",
+        "content": "证券日报网讯 6月29日，亨通光电发布公告称，控股股东亨通集团持有公司股份593765498股（占总股本24.07%）。"
+      },
+      {
         "title": "亨通光电：第九届董事会第十七次会议决议公告",
         "date": "2026-06-24 22:02:00",
         "source": "证券日报",
@@ -1243,13 +1250,6 @@ window.STOCKS = [
         "source": "证券日报",
         "url": "http://finance.eastmoney.com/a/202606223778385765.html",
         "content": "证券日报网讯 6月22日，亨通光电发布2025年年度权益分派实施公告称，根据公司2025年年度股东会决议通过的分配方案，公司拟以实施权益分派的股权登记日的总股本扣除公司回购专用账户的股份为基数，向全体股东每10股派发现金红利人民币2.75元（含税）。"
-      },
-      {
-        "title": "亨通光电：关于拟变更公司注册资本、修订《公司章程》并办理工商变更的公告",
-        "date": "2026-06-24 21:59:00",
-        "source": "证券日报",
-        "url": "http://finance.eastmoney.com/a/202606243781766766.html",
-        "content": "证券日报网讯 6月24日，亨通光电发布公告称，公司于 2026 年 6 月23 日召开第九届董事会第十七次会议，会议审议通过了《关于拟变更公司注册资本、修订并办理工商变更的议案》。"
       }
     ],
     "fund": {
@@ -1863,6 +1863,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "永鼎股份：关于控股股东部分股权解除质押及再质押的公告",
+        "date": "2026-06-29 21:23:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202606293786927132.html",
+        "content": "证券日报网讯 6月29日，永鼎股份发布公告称，控股股东永鼎集团解除质押45000000股，再质押22500000股。本次解除质押及再次质押后，永鼎集团累计质押公司股份183500000股，占其持股52.57%，占公司总股本12.55%。"
+      },
+      {
         "title": "永鼎股份：股票交易异常波动公告",
         "date": "2026-06-17 21:06:00",
         "source": "证券日报",
@@ -1872,13 +1879,6 @@ window.STOCKS = [
       {
         "title": "永鼎股份:永鼎股份关于控股股东部分股权解除质押及再质押的公告",
         "date": "2026-06-30",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600105",
-        "content": ""
-      },
-      {
-        "title": "永鼎股份:永鼎股份股票交易异常波动公告",
-        "date": "2026-06-18",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600105",
         "content": ""
@@ -2294,11 +2294,11 @@ window.STOCKS = [
         "content": ""
       },
       {
-        "title": "英伟达压PCB降价10%？胜宏科技：公司经营一切正常 客户方案调整是正常现象",
-        "date": "2026-06-24 13:53:09",
-        "source": "澎湃新闻",
-        "url": "http://finance.eastmoney.com/a/202606243781273566.html",
-        "content": "6月23日，算力链的PCB（印刷电路板）板块大跌，该板块概念龙头胜宏科技（300476）单日重挫逾7%。 　　据上海证券报报道，PCB整体大跌与两个市场传闻有关，一个市场流传是英伟达要求PCB厂商降价10%，另外一则是胜宏科技扩产拖累英伟达Rubin平台出货等。"
+        "title": "胜宏科技：惠州mSAP车间产能用于满足1.6T光模块生产需求 当前在手订单饱满",
+        "date": "2026-06-29 21:44:40",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202606293786963778.html",
+        "content": "胜宏科技(300476.SZ)发布投资者关系活动记录表公告，目前公司已有部分ASIC相关PCB产品进行批量生产，业务进展顺利。公司在惠州配置了mSAP车间，该产能目前用于满足1.6T光模块的生产需求，当前在手订单饱满，产能利用率处于良好水平。"
       }
     ],
     "fund": {
@@ -4174,22 +4174,22 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "利好来了！A股公司密集公告！兆易创新大消息",
+        "date": "2026-06-29 21:19:45",
+        "source": "证券时报",
+        "url": "http://finance.eastmoney.com/a/202606293786915279.html",
+        "content": "全球最火内存ETF纳入兆易创新 　　6月29日，存储芯片龙头股兆易创新大涨9%，股价再创历史新高，总市值逼近6000亿元。 　　消息面上，近日，Roundhill Memory ETF（DRAM）首次将A股公司兆易创新纳入投资组合，持仓权重为2.91%。"
+      },
+      {
+        "title": "利好来了！A股公司，密集公告！兆易创新，大消息",
+        "date": "2026-06-29 21:13:00",
+        "source": "券商中国",
+        "url": "http://finance.eastmoney.com/a/202606293786914643.html",
+        "content": "全球最火内存ETF纳入兆易创新 　　6月29日，存储芯片龙头股兆易创新大涨9%，股价再创历史新高，总市值逼近6000亿元。 　　消息面上，近日，Roundhill Memory ETF（DRAM）首次将A股公司兆易创新纳入投资组合，持仓权重为2.91%。"
+      },
+      {
         "title": "兆易创新:兆易创新关于部分股票期权注销完成的公告",
         "date": "2026-06-27",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
-        "content": ""
-      },
-      {
-        "title": "兆易创新:兆易创新关于股票交易异常波动的公告",
-        "date": "2026-06-26",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
-        "content": ""
-      },
-      {
-        "title": "兆易创新:兆易创新关于2024年股票期权激励计划第二个行权期行权结果暨股份过户登记及上市的公告",
-        "date": "2026-06-17",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
         "content": ""
@@ -5842,6 +5842,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "风华高科异动澄清：英伟达未对其开展产品认证 高端项目仍处建设阶段",
+        "date": "2026-06-29 20:47:14",
+        "source": "央广财经",
+        "url": "http://finance.eastmoney.com/a/202606293786898840.html",
+        "content": "6月29日，风华高科（000636.SZ）发布公告称，公司股票连续30个交易日内收盘价格累计涨幅偏离值达200%，属于严重异常波动。"
+      },
+      {
         "title": "风华高科:关于股票交易严重异常波动的公告",
         "date": "2026-06-30",
         "source": "公司公告",
@@ -5854,13 +5861,6 @@ window.STOCKS = [
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=000636",
         "content": ""
-      },
-      {
-        "title": "风华高科：英伟达未对公司开展任何产品认证 高端项目尚处建设阶段",
-        "date": "2026-06-29 20:05:00",
-        "source": "财中社",
-        "url": "http://finance.eastmoney.com/a/202606293786876533.html",
-        "content": "2026年一季度，风华高科实现收入15.15亿元，归母净利润8856万元。"
       }
     ],
     "fund": {
