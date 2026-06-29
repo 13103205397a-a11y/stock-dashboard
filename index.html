@@ -7,140 +7,189 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
-  <!-- ===== 报头 ===== -->
-  <header class="masthead">
-    <div class="wrap mast-in">
-      <div class="mast-left">
-        <div class="mast-kicker">叙事复盘 · Watchlist Review</div>
-        <div class="mast-headline">
-          <span class="mast-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 21h18" />
-              <rect x="5" y="13" width="3.4" height="6" rx="1" />
-              <rect x="10.3" y="9" width="3.4" height="10" rx="1" />
-              <rect x="15.6" y="5" width="3.4" height="14" rx="1" />
-            </svg>
-          </span>
-          <h1 class="mast-title">自选股盘面</h1>
-          <span class="mast-sub">巨头核心 + 全市场异动</span>
+  <!-- 移动端汉堡按钮 -->
+  <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+
+  <div class="app-shell">
+    <!-- ===== 左侧导航 ===== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="side-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 21h18"/><rect x="5" y="13" width="3.4" height="6" rx="1"/><rect x="10.3" y="9" width="3.4" height="10" rx="1"/><rect x="15.6" y="5" width="3.4" height="14" rx="1"/>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-title">A股盘面</span>
+          <span class="logo-sub">巨头 · 异动 · 决策</span>
         </div>
       </div>
-      <div class="mast-right">
+
+      <nav class="side-nav">
+        <button class="nav-item active" data-view="home">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" data-view="holdings">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h18M3 12h18M3 17h18"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/><circle cx="7" cy="12" r="1.5" fill="currentColor"/><circle cx="7" cy="17" r="1.5" fill="currentColor"/></svg>
+          <span>持仓决策</span>
+        </button>
+        <button class="nav-item" data-view="opportunities">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+          <span>机会清单</span>
+        </button>
+        <button class="nav-item" data-view="logic">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><path d="M8 6h8M6 9v3l6 3M18 9v3l-6 3"/></svg>
+          <span>逻辑链</span>
+        </button>
+        <button class="nav-item" data-view="agent">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M9 2v6M15 2v6M8 14h.01M16 14h.01M8 17h8"/></svg>
+          <span>Agent</span>
+        </button>
+        <button class="nav-item" data-view="industry">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5 5l14 14M19 5L5 19"/></svg>
+          <span>产业雷达</span>
+        </button>
+        <button class="nav-item" data-view="events">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l4-4 4 4 4-8 4 8"/><circle cx="3" cy="17" r="1"/><circle cx="7" cy="13" r="1"/><circle cx="11" cy="17" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="19" cy="17" r="1"/></svg>
+          <span>事件概率</span>
+        </button>
+        <button class="nav-item" data-view="news">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h13v16H6a2 2 0 01-2-2V4z"/><path d="M17 8h3v8a2 2 0 01-2 2M8 8h5M8 12h5M8 16h3"/></svg>
+          <span>新闻</span>
+        </button>
+        <button class="nav-item" data-view="watch">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>巨头核心</span>
+        </button>
+        <button class="nav-item" data-view="market">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>
+          <span>市场异动</span>
+        </button>
+        <button class="nav-item" data-view="hot">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3c0 4-3 5-3 9a3 3 0 006 0c0-1-1-2-1-3 0 0 3 1 3 4a6 6 0 11-12 0c0-5 4-6 4-10z"/></svg>
+          <span>今日热点</span>
+        </button>
+      </nav>
+
+      <div class="side-foot">
         <div class="dateline">
           <span class="dl-k">行情截至</span><span class="updated" id="updated">—</span>
         </div>
         <label class="search-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="6.5" />
-            <path d="M20 20l-3.8-3.8" />
-          </svg>
-          <input id="search" type="text" placeholder="搜索 名称 / 代码 / 标签 / 板块" autocomplete="off" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-3.8-3.8"/></svg>
+          <input id="search" type="text" placeholder="搜索 名称/代码/板块" autocomplete="off" />
         </label>
       </div>
-    </div>
-  </header>
-
-  <!-- ===== 视图切换 ===== -->
-  <div class="viewtabs">
-    <div class="wrap viewtabs-in">
-      <button class="vtab active" data-view="watch">巨头核心</button>
-      <button class="vtab" data-view="market">全市场异动</button>
-      <button class="vtab" data-view="hot">今日热点 · TOP30</button>
-      <span class="hot-date" id="hotDate"></span>
-    </div>
-  </div>
-
-  <!-- ===== 市场速览条：真实大盘指数 + 信号统计 ===== -->
-  <div class="wrap watch-only">
-    <section class="market-bar">
-      <div class="mb-indices" id="marketSnap"></div>
-      <div class="mb-stat" id="signalStat"></div>
-    </section>
-  </div>
-
-  <!-- ===== AI 复盘（Hermes 定时任务导出的全网调研报告） ===== -->
-  <div class="wrap watch-only">
-    <section class="reports" id="reports"></section>
-  </div>
-
-  <!-- ===== 自选股视图：不对称双栏 ===== -->
-  <div class="wrap watch-only board">
-    <aside class="rail">
-      <section class="rail-block">
-        <h2 class="rail-h">盘面速览 <span class="rail-en">At a glance</span></h2>
-        <div class="stats" id="stats"></div>
-      </section>
-      <section class="rail-block">
-        <h2 class="rail-h">板块 <span class="rail-en">Sectors</span></h2>
-        <div class="filter-group sector-list" id="sectorChips"></div>
-      </section>
     </aside>
 
-    <div class="main-col">
-      <nav class="filters">
-        <div class="filters-in">
-          <div class="filter-group verdicts">
-            <button class="chip verdict-chip v-opp" data-verdict="opportunity">今日买点</button>
-            <button class="chip verdict-chip" data-verdict="all">全部结论</button>
-            <button class="chip verdict-chip v-ok" data-verdict="成立">成立</button>
-            <button class="chip verdict-chip v-warn" data-verdict="存疑">存疑</button>
-            <button class="chip verdict-chip v-bad" data-verdict="证伪">证伪</button>
-            <button class="chip verdict-chip v-change" data-verdict="changed">叙事有变化</button>
-            <label class="sort-box">排序
-              <select id="sort">
-                <option value="default">默认(板块)</option>
-                <option value="chg">今日涨幅 ↓</option>
-                <option value="toBreakout">距突破 ↑(右侧近)</option>
-                <option value="pullback">回踩距离 ↑(左侧近)</option>
-                <option value="trend">趋势强度 ↓</option>
-              </select>
-            </label>
+    <!-- 遮罩(移动端点侧栏外关闭) -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- ===== 右侧展示区 ===== -->
+    <main class="content-area">
+      <div class="content-in">
+
+        <!-- Home 首页总览 -->
+        <section class="view view-home home-only" id="viewHome"></section>
+
+        <!-- 持仓决策 -->
+        <section class="view holdings-only" id="viewHoldings"></section>
+
+        <!-- 机会清单 -->
+        <section class="view opportunities-only" id="viewOpportunities"></section>
+
+        <!-- 逻辑链 -->
+        <section class="view logic-only" id="viewLogic"></section>
+
+        <!-- Agent 复盘 -->
+        <section class="view agent-only"><div class="wrap-tight"><section class="reports" id="reports"></section></div></section>
+
+        <!-- 产业雷达 -->
+        <section class="view industry-only" id="viewIndustry"></section>
+
+        <!-- 事件概率 -->
+        <section class="view events-only" id="viewEvents"></section>
+
+        <!-- 新闻 -->
+        <section class="view news-only" id="viewNews"></section>
+
+        <!-- 巨头核心(原 watch) -->
+        <section class="view watch-only">
+          <div class="wrap-tight">
+            <section class="market-bar"><div class="mb-indices" id="marketSnap"></div><div class="mb-stat" id="signalStat"></div></section>
           </div>
-        </div>
-      </nav>
-      <main class="grid" id="grid"></main>
-    </div>
-  </div>
+          <div class="wrap-tight board">
+            <aside class="rail">
+              <section class="rail-block"><h2 class="rail-h">盘面速览 <span class="rail-en">At a glance</span></h2><div class="stats" id="stats"></div></section>
+              <section class="rail-block"><h2 class="rail-h">板块 <span class="rail-en">Sectors</span></h2><div class="filter-group sector-list" id="sectorChips"></div></section>
+            </aside>
+            <div class="main-col">
+              <nav class="filters">
+                <div class="filters-in">
+                  <div class="filter-group verdicts">
+                    <button class="chip verdict-chip v-opp" data-verdict="opportunity">今日买点</button>
+                    <button class="chip verdict-chip" data-verdict="all">全部结论</button>
+                    <button class="chip verdict-chip v-ok" data-verdict="成立">成立</button>
+                    <button class="chip verdict-chip v-warn" data-verdict="存疑">存疑</button>
+                    <button class="chip verdict-chip v-bad" data-verdict="证伪">证伪</button>
+                    <button class="chip verdict-chip v-change" data-verdict="changed">叙事有变化</button>
+                    <label class="sort-box">排序
+                      <select id="sort">
+                        <option value="default">默认(板块)</option>
+                        <option value="chg">今日涨幅 ↓</option>
+                        <option value="toBreakout">距突破 ↑(右侧近)</option>
+                        <option value="pullback">回踩距离 ↑(左侧近)</option>
+                        <option value="trend">趋势强度 ↓</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+              </nav>
+              <main class="grid" id="grid"></main>
+            </div>
+          </div>
+        </section>
 
-  <!-- ===== 全市场异动视图 ===== -->
-  <div class="wrap market-only">
-    <!-- 打板情绪条(炸板率/连板梯队/晋级率) -->
-    <section class="sentiment-bar" id="sentimentBar"></section>
+        <!-- 市场异动 -->
+        <section class="view market-only">
+          <div class="wrap-tight">
+            <section class="sentiment-bar" id="sentimentBar"></section>
+            <nav class="filters market-filters">
+              <div class="filters-in">
+                <div class="filter-group anomaly-types" id="anomalyChips">
+                  <button class="chip anomaly-chip v-opp active" data-anomaly="gainers">涨幅 TOP</button>
+                  <button class="chip anomaly-chip v-bad" data-anomaly="losers">跌幅 TOP</button>
+                  <button class="chip anomaly-chip v-change" data-anomaly="turnover">换手 TOP</button>
+                  <button class="chip anomaly-chip v-ok" data-anomaly="inflow">主力流入</button>
+                  <button class="chip anomaly-chip v-warn" data-anomaly="outflow">主力流出</button>
+                  <button class="chip anomaly-chip v-opp" data-anomaly="limitUp">涨停池</button>
+                  <button class="chip anomaly-chip v-bad" data-anomaly="limitDown">跌停池</button>
+                  <button class="chip anomaly-chip v-change" data-anomaly="brokeUp">炸板池</button>
+                  <button class="chip anomaly-chip v-ok" data-anomaly="hotRank">人气榜</button>
+                  <button class="chip anomaly-chip v-opp" data-anomaly="dragonTiger">龙虎榜</button>
+                </div>
+              </div>
+            </nav>
+            <main class="grid market-grid" id="marketGrid"></main>
+          </div>
+        </section>
 
-    <!-- 异动筛选 -->
-    <nav class="filters market-filters">
-      <div class="filters-in">
-        <div class="filter-group anomaly-types" id="anomalyChips">
-          <button class="chip anomaly-chip v-opp active" data-anomaly="gainers">涨幅 TOP</button>
-          <button class="chip anomaly-chip v-bad" data-anomaly="losers">跌幅 TOP</button>
-          <button class="chip anomaly-chip v-change" data-anomaly="turnover">换手 TOP</button>
-          <button class="chip anomaly-chip v-ok" data-anomaly="inflow">主力流入</button>
-          <button class="chip anomaly-chip v-warn" data-anomaly="outflow">主力流出</button>
-          <button class="chip anomaly-chip v-opp" data-anomaly="limitUp">涨停池</button>
-          <button class="chip anomaly-chip v-bad" data-anomaly="limitDown">跌停池</button>
-          <button class="chip anomaly-chip v-change" data-anomaly="brokeUp">炸板池</button>
-          <button class="chip anomaly-chip v-ok" data-anomaly="hotRank">人气榜</button>
-          <button class="chip anomaly-chip v-opp" data-anomaly="dragonTiger">龙虎榜</button>
-        </div>
+        <!-- 今日热点 -->
+        <section class="view hot-only"><div class="wrap-tight"><main class="hotlist" id="hotList"></main></div></section>
+
+        <footer class="foot">
+          <div class="wrap-tight foot-in">
+            <span id="count">—</span>
+            <span class="disclaimer">本看板数据自动整理/测算，仅供研究参考，<b>不构成任何投资建议</b>。投资有风险，决策需独立判断。</span>
+          </div>
+        </footer>
       </div>
-    </nav>
-
-    <!-- 异动卡网格 -->
-    <main class="grid market-grid" id="marketGrid"></main>
+    </main>
   </div>
-
-  <!-- ===== 热点视图 ===== -->
-  <div class="wrap hot-only"><main class="hotlist" id="hotList"></main></div>
-
-  <footer class="foot">
-    <div class="wrap foot-in">
-      <span id="count">—</span>
-      <span class="disclaimer">本看板数据自动整理/测算，仅供研究参考，<b>不构成任何投资建议</b>。投资有风险，决策需独立判断。</span>
-    </div>
-  </footer>
 
   <!-- 详情抽屉 -->
   <div class="drawer-backdrop" id="backdrop"></div>
@@ -148,11 +197,14 @@
     <div class="drawer-inner" id="drawerInner"></div>
   </aside>
 
-  <script src="data.js?v=2"></script>
-  <script src="meta.js?v=2"></script>
-  <script src="hot.js?v=2"></script>
-  <script src="market.js?v=2"></script>
-  <script src="reports.js?v=2"></script>
-  <script src="app.js?v=2"></script>
+  <script src="data.js?v=4"></script>
+  <script src="meta.js?v=4"></script>
+  <script src="hot.js?v=4"></script>
+  <script src="market.js?v=4"></script>
+  <script src="holdings.js?v=4" onerror="window.HOLDINGS=null"></script>
+  <script src="industry.js?v=4" onerror="window.INDUSTRY=null"></script>
+  <script src="newsall.js?v=4" onerror="window.NEWSALL=null"></script>
+  <script src="reports.js?v=4"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

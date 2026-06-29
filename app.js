@@ -1,8 +1,13 @@
-/* A股盘面 · 巨头复盘 + 全市场异动 — 渲染 / 筛选 / 详情抽屉 */
+/* A股盘面 · 左侧导航 11 模块 — 渲染 / 筛选 / 详情抽屉 */
 (function () {
   const STOCKS = window.STOCKS || [];
   const META = window.META || {};
   const MARKET = window.MARKET || {};
+  const HOLDINGS = window.HOLDINGS || null;
+  const INDUSTRY = window.INDUSTRY || null;
+  const NEWSALL = window.NEWSALL || null;
+  const REPORTS = window.REPORTS || {};
+  const HOT = window.HOT || {};
 
   const state = { sector: "全部", verdict: "all", q: "", sort: "default" };
   const marketState = { anomaly: "gainers", q: "" };
@@ -587,7 +592,6 @@
   }
 
   /* ---------- 今日热点 TOP30 ---------- */
-  const HOT = window.HOT || {};
 
   function hotCard(h) {
     const chgCls = sgn(h.chgPct);
@@ -641,17 +645,43 @@
     if (hd) hd.textContent = HOT.date ? `更新于 ${HOT.generatedAt || HOT.date}` : "";
   }
 
+  // 11 个模块的视图切换 + 懒渲染调度
+  const VIEW_RENDER = {
+    home: () => renderHome(),
+    holdings: () => renderHoldings(),
+    opportunities: () => renderOpportunities(),
+    logic: () => renderLogic(),
+    agent: () => renderReports(),
+    industry: () => renderIndustry(),
+    events: () => renderEvents(),
+    news: () => renderNewsAll(),
+    watch: () => render(),
+    market: () => renderMarket(),
+    hot: () => renderHot(),
+  };
   function switchView(view) {
-    document.body.classList.toggle("view-hot", view === "hot");
-    document.body.classList.toggle("view-market", view === "market");
-    document.querySelectorAll(".vtab").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
-    if (view === "hot") renderHot();
-    if (view === "market") renderMarket();
+    // 清掉所有 view-* class,再设当前
+    document.body.classList.forEach((c) => { if (c.startsWith("view-")) document.body.classList.remove(c); });
+    document.body.classList.add("view-" + view);
+    document.querySelectorAll(".nav-item").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
+    // 懒渲染:切到该视图才调对应 render(已有数据则重渲染,无数据则显示待生成)
+    const fn = VIEW_RENDER[view];
+    if (fn) { try { fn(); } catch (e) { console.warn("render " + view + " failed", e); } }
+    // 移动端:切完关侧栏
+    document.body.classList.remove("sidebar-open");
     window.scrollTo(0, 0);
+    // 更新计数文案
+    const cnt = $("#count");
+    if (cnt && view === "watch") cnt.textContent = `显示 ${STOCKS.length} / ${STOCKS.length} 只`;
   }
-  document.querySelectorAll(".vtab").forEach((b) =>
+  document.querySelectorAll(".nav-item").forEach((b) =>
     b.addEventListener("click", () => switchView(b.dataset.view))
   );
+  // 汉堡菜单(移动端)
+  const mt = $("#menuToggle");
+  if (mt) mt.addEventListener("click", () => document.body.classList.toggle("sidebar-open"));
+  const sb = $("#sidebarBackdrop");
+  if (sb) sb.addEventListener("click", () => document.body.classList.remove("sidebar-open"));
 
   /* ---------- 事件 ---------- */
   $("#backdrop").addEventListener("click", closeDrawer);
@@ -669,8 +699,216 @@
     })
   );
 
-  /* ---------- AI 复盘（Hermes 报告） ---------- */
-  const REPORTS = window.REPORTS || {};
+  /* ===================================================================
+     新增 6 个模块渲染: Home / 持仓决策 / 机会清单 / 逻辑链 / 产业雷达 / 事件概率 / 新闻
+  =================================================================== */
+  // 通用区块标题
+  const secTitle = (t, sub) => `<h2 class="vsec-title">${esc(t)}${sub ? `<span class="vsec-sub">${esc(sub)}</span>` : ""}</h2>`;
+  // 通用空态
+  const emptyState = (msg) => `<div class="empty">${esc(msg)}</div>`;
+  // 亿/万 格式化
+  const fmtYi = (n) => n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(2) + "亿";
+  const fmtWan = (n) => n == null ? "—" : (n > 0 ? "+" : "") + (n / 1e4).toFixed(0) + "万";
+
+  /* ---------- 1. Home 首页总览 ---------- */
+  function renderHome() {
+    const el = $("#viewHome");
+    if (!el) return;
+    // 大盘指数
+    const ms = META.marketSnapshot;
+    const ixHtml = ms && ms.indices && ms.indices.length
+      ? ms.indices.map((i) => {
+          const cls = i.pct > 0 ? "up" : i.pct < 0 ? "down" : "";
+          return `<span class="ix"><span class="ix-n">${esc(i.name)}</span><span class="ix-p">${esc(i.price)}</span><span class="ix-c ${cls}">${i.pct > 0 ? "+" : ""}${esc(i.pct)}%</span></span>`;
+        }).join("")
+      : `<span class="empty-inline">大盘数据待生成</span>`;
+    // 打板情绪
+    const s = MARKET.sentiment || {};
+    const nb = MARKET.northbound;
+    // 巨头快照(前4只)
+    const giants = STOCKS.slice(0, 4).map((st) => {
+      const g = st.signal || {};
+      const chg = g.chgPct;
+      return `<article class="mini-card" data-code="${esc(st.code)}">
+        <div class="mc-head"><span class="mc-name">${esc(st.name)}</span><span class="mc-code">${esc(st.code)}</span></div>
+        <div class="mc-px"><span class="mc-price">¥${g.price ?? "—"}</span>${chg != null ? `<span class="chg ${sgn(chg)}">${pct(chg)}</span>` : ""}</div>
+        <div class="mc-mini">${st.sector || ""}</div>
+      </article>`;
+    }).join("");
+    // 异动摘要(各类数量)
+    const summary = [
+      { k: "涨停", v: (MARKET.limitUp || []).length, cls: "up" },
+      { k: "炸板", v: (MARKET.brokeUp || []).length, cls: "warn" },
+      { k: "跌停", v: (MARKET.limitDown || []).length, cls: "down" },
+      { k: "涨幅TOP50", v: (MARKET.topGainers || []).length, cls: "" },
+      { k: "龙虎榜", v: ((MARKET.dragonTiger || {}).stocks || []).length, cls: "" },
+      { k: "人气榜", v: (MARKET.hotRank || []).length, cls: "" },
+    ];
+    const sumHtml = summary.map((x) => `<div class="stat ${x.cls}"><div class="k">${x.v}</div><div class="l">${x.k}</div></div>`).join("");
+    el.innerHTML = `
+      <div class="home-grid">
+        <section class="card blk">
+          <h3 class="blk-h">大盘指数</h3>
+          <div class="ix-row">${ixHtml}<span class="ix-date">截至 ${esc((ms && ms.date) || "")}</span></div>
+        </section>
+        <section class="card blk">
+          <h3 class="blk-h">打板情绪</h3>
+          <div class="em-line"><span class="em up">涨停 ${s.zt_count ?? "—"}</span><span class="em warn">炸板 ${s.zb_count ?? "—"}</span><span class="em down">跌停 ${s.dt_count ?? "—"}</span><span class="em">炸板率 ${s.break_rate ?? "—"}%</span><span class="em">最高 ${s.max_height ?? "—"}连板</span></div>
+          ${nb ? `<div class="em-line"><span class="em ${sgn(nb.total_yi)}">北向 ${nb.total_yi > 0 ? "流入" : "流出"} ${Math.abs(nb.total_yi).toFixed(2)}亿</span><span class="em-mini">沪${nb.hgt_yi.toFixed(2)} 深${nb.sgt_yi.toFixed(2)}</span></div>` : ""}
+        </section>
+      </div>
+      <section class="card blk"><h3 class="blk-h">异动摘要</h3><div class="stats">${sumHtml}</div></section>
+      ${secTitle("巨头快照", "前4只自选")}
+      <div class="mini-grid">${giants || emptyState("自选数据待生成")}</div>
+    `;
+    el.querySelectorAll(".mini-card").forEach((c) => c.addEventListener("click", () => openDrawer(c.dataset.code)));
+  }
+
+  /* ---------- 2. 持仓决策 ---------- */
+  function renderHoldings() {
+    const el = $("#viewHoldings");
+    if (!el) return;
+    if (!HOLDINGS || !HOLDINGS.list || !HOLDINGS.list.length) {
+      el.innerHTML = secTitle("持仓决策", "德业股份 · 信维通信") + emptyState("持仓数据待生成(每日收盘后由 fetch_holdings.py 自动更新)。");
+      return;
+    }
+    const cards = HOLDINGS.list.map((h) => {
+      const v = h.valuation || {};
+      const f = h.fund || {};
+      const chg = h.price != null && h.lastClose ? ((h.price / h.lastClose - 1) * 100) : null;
+      const reports = (h.research || []).slice(0, 3).map((r) =>
+        `<div class="rp-item"><div class="rp-meta"><span class="rp-rating buy">${esc(r.rating || "")}</span><span class="rp-org">${esc(r.org || "")}</span><span class="rp-date">${esc(r.date || "")}</span></div><div class="rp-title">${esc(r.title || "")}</div></div>`
+      ).join("");
+      return `<article class="card blk hold-card">
+        <div class="hc-top">
+          <div><div class="hc-name">${esc(h.name)} <span class="hc-code">${esc(h.code)}</span></div><div class="hc-sec">${esc((h.concept || []).join(" / ") || h.industry || "")}</div></div>
+          <div class="hc-px"><span class="hc-price">¥${h.price ?? "—"}</span>${chg != null ? `<span class="chg ${sgn(chg)}">${pct(chg)}</span>` : ""}</div>
+        </div>
+        <div class="val-grid">
+          <div class="vm"><span class="vm-l">PE(TTM)</span><span class="vm-v">${v.pe_ttm ?? "—"}</span></div>
+          <div class="vm"><span class="vm-l">前向PE</span><span class="vm-v">${v.pe_fwd ?? "—"}</span></div>
+          <div class="vm"><span class="vm-l">PEG</span><span class="vm-v ${v.peg != null && v.peg < 1 ? "up" : v.peg != null && v.peg > 2 ? "down" : ""}">${v.peg ?? "—"}</span></div>
+          <div class="vm"><span class="vm-l">市值</span><span class="vm-v">${v.mcap_yi != null ? v.mcap_yi + "亿" : "—"}</span></div>
+          <div class="vm"><span class="vm-l">今年EPS</span><span class="vm-v">${v.eps_cur ?? "—"}</span></div>
+          <div class="vm"><span class="vm-l">明年EPS</span><span class="vm-v">${v.eps_next ?? "—"}</span></div>
+          <div class="vm"><span class="vm-l">主力净流入</span><span class="vm-v ${sgn(f.netInflow)}">${fmtYi(f.netInflow)}</span></div>
+          <div class="vm"><span class="vm-l">换手率</span><span class="vm-v">${f.turnover != null ? f.turnover + "%" : "—"}</span></div>
+        </div>
+        ${reports ? `<div class="dsec"><h3>近期研报</h3><div class="research-list">${reports}</div></div>` : ""}
+        <div class="hc-hint">数据时点 ${esc(HOLDINGS.date || "")} · 机构覆盖 ${v.analyst_count ?? "—"}家 · 仅供研究参考</div>
+      </article>`;
+    }).join("");
+    el.innerHTML = secTitle("持仓决策", "德业股份 · 信维通信") + `<div class="hold-grid">${cards}</div>`;
+  }
+
+  /* ---------- 3. 机会清单 ---------- */
+  function renderOpportunities() {
+    const el = $("#viewOpportunities");
+    if (!el) return;
+    // 聚合异动池里有"机会信号"的票:涨停 + 主力大流入 + 龙虎榜净买
+    const zt = (MARKET.limitUp || []).slice(0, 20).map((m) => ({ ...m, _tag: "涨停", _tagCls: "up" }));
+    const inflow = (MARKET.topInflow || []).slice(0, 20).map((m) => ({ ...m, _tag: "主力流入", _tagCls: "ok" }));
+    const dt = ((MARKET.dragonTiger || {}).stocks || []).slice(0, 20).map((m) => ({ ...m, _tag: "龙虎榜", _tagCls: "change" }));
+    const all = [...zt, ...inflow, ...dt];
+    if (!all.length) { el.innerHTML = secTitle("机会清单", "异动池买点") + emptyState("机会数据待生成。"); return; }
+    const cards = all.map((m) => {
+      const chg = m.chgPct != null ? m.chgPct : m.change_pct;
+      const nf = m.netInflow != null ? m.netInflow / 1e8 : m.net_buy_wan != null ? m.net_buy_wan / 1e4 : null;
+      return `<article class="market-card" data-code="${esc(m.code)}">
+        <div class="mc-head"><span class="mc-name">${esc(m.name)}</span><span class="mc-code">${esc(m.code)}</span><span class="mc-tag ${m._tagCls}">${m._tag}</span></div>
+        <div class="mc-px"><span class="mc-price">¥${m.price ?? m.close ?? "—"}</span>${chg != null ? `<span class="chg ${sgn(chg)}">${pct(chg)}</span>` : ""}${nf != null ? `<span class="mc-hl ${sgn(nf)}">主力 ${nf > 0 ? "+" : ""}${nf.toFixed(2)}亿</span>` : ""}${m.lbc ? `<span class="mc-hl up">${m.lbc}连板</span>` : ""}</div>
+        <div class="mc-mini">${esc(m.industry || (m.reason || "").slice(0, 30) || "")}</div>
+      </article>`;
+    }).join("");
+    el.innerHTML = secTitle("机会清单", "异动池买点 · 涨停/主力流入/龙虎榜") + `<div class="market-grid">${cards}</div>`;
+    el.querySelectorAll(".market-card").forEach((c) => c.addEventListener("click", () => openMarketDrawer(c.dataset.code)));
+  }
+
+  /* ---------- 4. 逻辑链 ---------- */
+  function renderLogic() {
+    const el = $("#viewLogic");
+    if (!el) return;
+    // 以巨头为锚,展示每只自选的板块归属 + 同概念关联
+    const chains = STOCKS.slice(0, 12).map((st) => {
+      const blocks = st.blocks || (st.valuation ? null : null);
+      const tags = (st.tags || []).slice(0, 6).map((t) => `<span class="lc-tag">${esc(t)}</span>`).join("");
+      const concept = (st._concept || []).slice(0, 4).map((c) => `<span class="lc-concept">${esc(c)}</span>`).join("");
+      return `<article class="card blk lc-card" data-code="${esc(st.code)}">
+        <div class="lc-head"><span class="lc-name">${esc(st.name)}</span><span class="lc-code">${esc(st.code)}</span><span class="lc-sec">${esc(st.sector || "")}</span></div>
+        <div class="lc-narr">${esc((st.narrative || "").slice(0, 80))}${st.narrative && st.narrative.length > 80 ? "…" : ""}</div>
+        ${tags ? `<div class="lc-tags">${tags}</div>` : ""}
+        ${concept ? `<div class="lc-concepts">${concept}</div>` : ""}
+      </article>`;
+    }).join("");
+    el.innerHTML = secTitle("逻辑链", "巨头产业链 · 板块/概念归属") +
+      (chains ? `<div class="lc-grid">${chains}</div>` : emptyState("自选数据待生成。"));
+    el.querySelectorAll(".lc-card").forEach((c) => c.addEventListener("click", () => openDrawer(c.dataset.code)));
+  }
+
+  /* ---------- 6. 产业雷达 ---------- */
+  function renderIndustry() {
+    const el = $("#viewIndustry");
+    if (!el) return;
+    if (!INDUSTRY || !INDUSTRY.top) { el.innerHTML = secTitle("产业雷达", "行业板块涨跌排名") + emptyState("行业数据待生成(每日收盘后由 fetch_industry.py 自动更新)。"); return; }
+    const rowHtml = (r) => `<div class="ind-row ${r.change_pct > 0 ? "up" : r.change_pct < 0 ? "down" : ""}">
+      <span class="ind-rank">${r.rank}</span><span class="ind-name">${esc(r.name)}</span>
+      <span class="ind-chg">${r.change_pct > 0 ? "+" : ""}${r.change_pct}%</span>
+      <span class="ind-cnt">↑${r.up_count} ↓${r.down_count}</span>
+      <span class="ind-leader">龙头 ${esc(r.leader || "—")} ${r.leader_change != null ? (r.leader_change > 0 ? "+" : "") + r.leader_change + "%" : ""}</span>
+    </div>`;
+    const top = (INDUSTRY.top || []).map(rowHtml).join("");
+    const bottom = (INDUSTRY.bottom || []).map(rowHtml).join("");
+    el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY.total || 0} 个行业 · ${esc(INDUSTRY.date || "")}`) +
+      `<div class="ind-cols"><section class="card blk"><h3 class="blk-h">涨幅前 ${INDUSTRY.top ? INDUSTRY.top.length : 0}</h3><div class="ind-list">${top}</div></section>
+      <section class="card blk"><h3 class="blk-h">跌幅前 ${INDUSTRY.bottom ? INDUSTRY.bottom.length : 0}</h3><div class="ind-list">${bottom}</div></section></div>`;
+  }
+
+  /* ---------- 7. 事件概率 ---------- */
+  function renderEvents() {
+    const el = $("#viewEvents");
+    if (!el) return;
+    const s = MARKET.sentiment || {};
+    const ladder = s.ladder || {};
+    const ladHtml = Object.entries(ladder).sort((a, b) => Number(b[0]) - Number(a[0]))
+      .map(([k, v]) => `<div class="ev-lad"><span class="ev-lad-h">${k}板</span><span class="ev-lad-n">${v}</span><span class="ev-lad-bar" style="width:${Math.min(v * 8, 100)}%"></span></div>`).join("");
+    // 涨停原因题材分布(从 limitUp 的 zt_stat 提取)
+    const reasons = {};
+    (MARKET.limitUp || []).forEach((m) => {
+      const r = m.industry || m.zt_stat || "其他";
+      reasons[r] = (reasons[r] || 0) + 1;
+    });
+    const reasonHtml = Object.entries(reasons).sort((a, b) => b[1] - a[1]).slice(0, 12)
+      .map(([k, v]) => `<div class="ev-reason"><span class="ev-r-name">${esc(k)}</span><span class="ev-r-n">${v}</span><span class="ev-r-bar" style="width:${Math.min(v * 4, 100)}%"></span></div>`).join("");
+    el.innerHTML = secTitle("事件概率", "异动催化 · 连板梯队 / 题材分布 / 炸板率") +
+      `<div class="ev-grid">
+        <section class="card blk"><h3 class="blk-h">打板情绪</h3>
+          <div class="em-line"><span class="em up">涨停 ${s.zt_count ?? "—"}</span><span class="em warn">炸板 ${s.zb_count ?? "—"}</span><span class="em down">跌停 ${s.dt_count ?? "—"}</span></div>
+          <div class="em-line"><span class="em">炸板率 ${s.break_rate ?? "—"}%</span><span class="em">最高 ${s.max_height ?? "—"}连板</span></div>
+        </section>
+        <section class="card blk"><h3 class="blk-h">连板梯队</h3><div class="ev-lad-list">${ladHtml || emptyState("无数据")}</div></section>
+      </div>
+      ${reasonHtml ? `<section class="card blk"><h3 class="blk-h">涨停题材分布</h3><div class="ev-reason-list">${reasonHtml}</div></section>` : ""}`;
+  }
+
+  /* ---------- 8. 新闻 ---------- */
+  function renderNewsAll() {
+    const el = $("#viewNews");
+    if (!el) return;
+    if (!NEWSALL) { el.innerHTML = secTitle("新闻", "个股新闻 / 全球资讯 / 公告") + emptyState("新闻数据待生成(每日由 fetch_news_all.py 自动更新)。"); return; }
+    const globalHtml = (NEWSALL.global || []).slice(0, 20).map((n) =>
+      `<div class="nf-item"><div class="nf-meta"><span class="nf-date">${esc((n.time || n.date || "").toString().slice(0, 16))}</span></div><div class="nf-text">${esc(n.title || "")}</div></div>`
+    ).join("");
+    const annHtml = (NEWSALL.announcements || []).slice(0, 30).map((n) =>
+      `<div class="nf-item"><div class="nf-meta"><span class="nf-date">${esc((n.date || "").slice(0, 10))}</span><span class="nf-type">公告</span></div><div class="nf-text">${esc(n.title || n.announcementTitle || "")}</div></div>`
+    ).join("");
+    el.innerHTML = secTitle("新闻", "全球资讯 / 公告 · " + esc(NEWSALL.date || "")) +
+      `<div class="news-cols">
+        <section class="card blk"><h3 class="blk-h">全球资讯 7×24</h3><div class="newsfeed">${globalHtml || emptyState("无资讯")}</div></section>
+        <section class="card blk"><h3 class="blk-h">近期公告</h3><div class="newsfeed">${annHtml || emptyState("无公告")}</div></section>
+      </div>`;
+  }
+
+
 
   // 极简 markdown → HTML（标题/表格/加粗/列表/分隔线）。不引外部库，够用。
   function md2html(md) {
@@ -760,8 +998,6 @@
   renderMeta();
   renderStats();
   renderChips();
-  render();
-  renderHot();
-  renderMarket();
-  renderReports();
+  // 默认进 Home 视图(其他视图切到时再懒渲染)
+  switchView("home");
 })();
