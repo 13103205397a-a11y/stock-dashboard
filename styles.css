@@ -120,9 +120,13 @@ body { background-image: linear-gradient(180deg, #F8F5EF 0%, var(--bg) 180px); b
 .vtab.active { color: var(--accent-d); border-bottom-color: var(--accent); font-weight: 600; }
 .hot-date { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--dim); }
 .hot-only { display: none; }
+.market-only { display: none; }
 body.view-hot .watch-only { display: none; }
 body.view-hot .hot-only { display: block; }
 body.view-hot .search-box { display: none; }
+body.view-market .watch-only { display: none; }
+body.view-market .market-only { display: block; }
+.mast-sub { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 6px; }
 
 /* ============ 市场速览条 ============ */
 .market-bar {
@@ -471,4 +475,67 @@ a.hc-news:hover { color: var(--accent-d); }
   .risk-row { grid-template-columns: repeat(2,1fr); }
   .drawer { width: 100%; max-width: 100%; }
   .viewtabs-in { overflow-x: auto; }
+}
+
+/* ============ 全市场异动视图 ============ */
+.market-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--s-2); }
+
+/* 打板情绪条 */
+.sentiment-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-4);
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: var(--s-3) var(--s-4); margin-bottom: var(--s-3);
+}
+.sent-group { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; }
+.sent-group.lad { border-left: 1px solid var(--line); padding-left: var(--s-4); }
+.sent-label { font-size: 12px; color: var(--muted); font-weight: 600; }
+.sent-val { font-size: 13px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--bg-2); }
+.sent-val.up { color: var(--up); } .sent-val.down { color: var(--down); } .sent-val.warn { color: var(--warn); }
+.sent-mini { font-size: 12px; color: var(--dim); }
+.sent-date { margin-left: auto; font-size: 12px; color: var(--dim); }
+.lad-item { display: inline-flex; flex-direction: column; align-items: center; padding: 2px 8px; background: var(--bg-2); border-radius: 4px; }
+.lad-h { font-size: 11px; color: var(--muted); } .lad-n { font-size: 14px; font-weight: 600; color: var(--up); }
+
+/* 异动筛选 chip */
+.market-filters { margin-bottom: var(--s-3); }
+.anomaly-types { flex-wrap: wrap; gap: var(--s-2); }
+.anomaly-chip { font-size: 13px; padding: 6px 12px; border-radius: 16px; border: 1px solid var(--line); background: var(--card); color: var(--text); cursor: pointer; transition: all .15s; }
+.anomaly-chip:hover { border-color: var(--accent); }
+.anomaly-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* 异动轻量卡 */
+.market-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  padding: var(--s-3); display: flex; flex-direction: column; gap: 6px; cursor: pointer;
+  transition: box-shadow .15s, border-color .15s;
+}
+.market-card:hover { border-color: var(--accent); box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.mc-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.mc-name { font-weight: 600; font-size: 15px; color: var(--ink); }
+.mc-code { font-size: 11px; color: var(--dim); }
+.mc-sec { font-size: 11px; color: var(--muted); margin-left: auto; padding: 1px 6px; background: var(--bg-2); border-radius: 3px; }
+.mc-px { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.mc-price { font-size: 16px; font-weight: 600; color: var(--ink); }
+.mc-hl { font-size: 12px; font-weight: 600; padding: 1px 6px; border-radius: 3px; background: var(--bg-2); }
+.mc-hl.up { color: var(--up); } .mc-hl.down { color: var(--down); } .mc-hl.warn { color: var(--warn); }
+.mc-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.mc-mini { font-size: 11px; color: var(--muted); }
+.mc-reason { font-size: 12px; color: var(--muted); line-height: 1.4; border-top: 1px dashed var(--line); padding-top: 4px; }
+
+/* 估值面板(巨头抽屉) */
+.val-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-2);
+  margin-top: var(--s-2);
+}
+.vm { display: flex; flex-direction: column; gap: 2px; padding: var(--s-2); background: var(--bg-2); border-radius: var(--r-sm); }
+.vm-l { font-size: 11px; color: var(--muted); }
+.vm-v { font-size: 15px; font-weight: 600; color: var(--ink); }
+.vm-v.up { color: var(--up); } .vm-v.down { color: var(--down); }
+
+@media (max-width: 720px) {
+  .market-grid { grid-template-columns: 1fr; }
+  .val-grid { grid-template-columns: repeat(2, 1fr); }
+  .anomaly-types { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .anomaly-chip { flex-shrink: 0; }
+  .sentiment-bar { font-size: 13px; }
 }

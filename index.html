@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>自选股盘面 · 叙事复盘</title>
+  <title>A股盘面 · 巨头复盘 + 全市场异动</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet" />
@@ -25,6 +25,7 @@
             </svg>
           </span>
           <h1 class="mast-title">自选股盘面</h1>
+          <span class="mast-sub">巨头核心 + 全市场异动</span>
         </div>
       </div>
       <div class="mast-right">
@@ -45,7 +46,8 @@
   <!-- ===== 视图切换 ===== -->
   <div class="viewtabs">
     <div class="wrap viewtabs-in">
-      <button class="vtab active" data-view="watch">自选股盘面</button>
+      <button class="vtab active" data-view="watch">巨头核心</button>
+      <button class="vtab" data-view="market">全市场异动</button>
       <button class="vtab" data-view="hot">今日热点 · TOP30</button>
       <span class="hot-date" id="hotDate"></span>
     </div>
@@ -103,6 +105,33 @@
     </div>
   </div>
 
+  <!-- ===== 全市场异动视图 ===== -->
+  <div class="wrap market-only">
+    <!-- 打板情绪条(炸板率/连板梯队/晋级率) -->
+    <section class="sentiment-bar" id="sentimentBar"></section>
+
+    <!-- 异动筛选 -->
+    <nav class="filters market-filters">
+      <div class="filters-in">
+        <div class="filter-group anomaly-types" id="anomalyChips">
+          <button class="chip anomaly-chip v-opp active" data-anomaly="gainers">涨幅 TOP</button>
+          <button class="chip anomaly-chip v-bad" data-anomaly="losers">跌幅 TOP</button>
+          <button class="chip anomaly-chip v-change" data-anomaly="turnover">换手 TOP</button>
+          <button class="chip anomaly-chip v-ok" data-anomaly="inflow">主力流入</button>
+          <button class="chip anomaly-chip v-warn" data-anomaly="outflow">主力流出</button>
+          <button class="chip anomaly-chip v-opp" data-anomaly="limitUp">涨停池</button>
+          <button class="chip anomaly-chip v-bad" data-anomaly="limitDown">跌停池</button>
+          <button class="chip anomaly-chip v-change" data-anomaly="brokeUp">炸板池</button>
+          <button class="chip anomaly-chip v-ok" data-anomaly="hotRank">人气榜</button>
+          <button class="chip anomaly-chip v-opp" data-anomaly="dragonTiger">龙虎榜</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 异动卡网格 -->
+    <main class="grid market-grid" id="marketGrid"></main>
+  </div>
+
   <!-- ===== 热点视图 ===== -->
   <div class="wrap hot-only"><main class="hotlist" id="hotList"></main></div>
 
@@ -122,6 +151,7 @@
   <script src="data.js"></script>
   <script src="meta.js"></script>
   <script src="hot.js"></script>
+  <script src="market.js"></script>
   <script src="reports.js"></script>
   <script src="app.js"></script>
 </body>
