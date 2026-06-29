@@ -1870,15 +1870,15 @@ window.STOCKS = [
         "content": "证券日报网讯 6月17日，永鼎股份发布公告称，公司股票于2026年6月15日、6月16日、6月17日连续三个交易日内日收盘价格涨幅偏离值累计达到20%，根据《上海证券交易所交易规则》的有关规定，属于股票交易异常波动情况。"
       },
       {
-        "title": "永鼎股份:永鼎股份股票交易异常波动公告",
-        "date": "2026-06-18",
+        "title": "永鼎股份:永鼎股份关于控股股东部分股权解除质押及再质押的公告",
+        "date": "2026-06-30",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600105",
         "content": ""
       },
       {
-        "title": "永鼎股份:永鼎股份关于为子公司申请年度银行授信提供担保的进展公告",
-        "date": "2026-06-11",
+        "title": "永鼎股份:永鼎股份股票交易异常波动公告",
+        "date": "2026-06-18",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600105",
         "content": ""
@@ -2287,8 +2287,8 @@ window.STOCKS = [
         "content": "上证报中国证券网讯（记者杨子晏）6月24日，胜宏科技公告投资者关系活动记录表，其中提到，目前公司已有部分ASIC相关PCB产品进行批量生产，业务进展顺利。 　　供需情况方面，胜宏科技表示，目前公司在手订单饱满，业务进展顺利，订单生产和交付均在正常履行中。"
       },
       {
-        "title": "胜宏科技:关于续聘会计师事务所的公告",
-        "date": "2026-06-13",
+        "title": "胜宏科技:2026年第二次临时股东会决议公告",
+        "date": "2026-06-29",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300476",
         "content": ""
@@ -2716,8 +2716,8 @@ window.STOCKS = [
         "content": "对此，鹏鼎控股方面回应称，二级市场股价受多重因素影响，公司光模块业务占比情况此前已经披露过，对于后续占比是否会增加目前无法预测，需要以后续财报为准。"
       },
       {
-        "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司关于全资子公司与专业投资机构共同投资的公告",
-        "date": "2026-06-12",
+        "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司第四届董事会第三次会议决议公告",
+        "date": "2026-06-30",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002938",
         "content": ""
@@ -3350,8 +3350,8 @@ window.STOCKS = [
         "content": "证券日报网讯 6月4日，东材科技发布公告称，公司股票于2026年6月2日、6月3日、6月4日连续3个交易日内日收盘价格涨幅偏离值累计超过20%，根据《上海证券交易所交易规则》的有关规定，属于股票交易异常波动的情形。"
       },
       {
-        "title": "东材科技:四川东材科技集团股份有限公司第七届董事会第五次会议决议公告",
-        "date": "2026-06-09",
+        "title": "东材科技:四川东材科技集团股份有限公司关于高级管理人员辞职的公告",
+        "date": "2026-06-30",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601208",
         "content": ""
@@ -5842,6 +5842,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "风华高科:关于股票交易严重异常波动的公告",
+        "date": "2026-06-30",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=000636",
+        "content": ""
+      },
+      {
         "title": "风华高科:关于股票交易异常波动的公告",
         "date": "2026-06-18",
         "source": "公司公告",
@@ -5849,18 +5856,11 @@ window.STOCKS = [
         "content": ""
       },
       {
-        "title": "风华高科:公司2025年度股东会决议公告",
-        "date": "2026-05-22",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=000636",
-        "content": ""
-      },
-      {
-        "title": "风华高科：公司高度重视全球供应链格局变化带来的机遇与挑战",
-        "date": "2026-06-23 19:56:00",
-        "source": "证券日报",
-        "url": "http://finance.eastmoney.com/a/202606233779927819.html",
-        "content": "证券日报网讯 6月23日，风华高科在互动平台回答投资者提问时表示，公司高度重视全球供应链格局变化带来的机遇与挑战，经过四十余年的行业深耕，已具备完整的材料、产品、装备三位一体产业布局，可为全球客户提供一站式产品采购服务和设计解决方案。"
+        "title": "风华高科：英伟达未对公司开展任何产品认证 高端项目尚处建设阶段",
+        "date": "2026-06-29 20:05:00",
+        "source": "财中社",
+        "url": "http://finance.eastmoney.com/a/202606293786876533.html",
+        "content": "2026年一季度，风华高科实现收入15.15亿元，归母净利润8856万元。"
       }
     ],
     "fund": {
