@@ -1,9 +1,11 @@
-/* 自选股盘面 · 叙事复盘 — 渲染 / 筛选 / 详情抽屉 */
+/* A股盘面 · 巨头复盘 + 全市场异动 — 渲染 / 筛选 / 详情抽屉 */
 (function () {
   const STOCKS = window.STOCKS || [];
   const META = window.META || {};
+  const MARKET = window.MARKET || {};
 
   const state = { sector: "全部", verdict: "all", q: "", sort: "default" };
+  const marketState = { anomaly: "gainers", q: "" };
 
   const $ = (s) => document.querySelector(s);
   const grid = $("#grid");
@@ -48,7 +50,7 @@
       if (/已放量突破|临近突破/.test(g.rightState || "")) rightReady++;
     });
     $("#stats").innerHTML = [
-      { k: STOCKS.length, l: "自选股总数", cls: "" },
+      { k: STOCKS.length, l: "巨头总数", cls: "" },
       { k: c.成立, l: "逻辑成立", cls: "ok" },
       { k: c.存疑, l: "逻辑存疑", cls: "warn" },
       { k: c.changed, l: "今日叙事有变化", cls: "change" },
@@ -316,6 +318,20 @@
 
       ${sigBlock}
 
+      ${s.valuation ? `<div class="dsec">
+        <h3>估值面板 <span class="src-note">机构一致预期 · ${esc(s.valuation.asof || "")}</span></h3>
+        <div class="val-grid">
+          <div class="vm"><span class="vm-l">PE(TTM)</span><span class="vm-v">${s.valuation.pe_ttm == null ? "—" : s.valuation.pe_ttm.toFixed(1)}</span></div>
+          <div class="vm"><span class="vm-l">前向PE</span><span class="vm-v">${s.valuation.pe_fwd == null ? "—" : s.valuation.pe_fwd.toFixed(1)}</span></div>
+          <div class="vm"><span class="vm-l">PEG</span><span class="vm-v ${s.valuation.peg != null && s.valuation.peg < 1 ? "up" : s.valuation.peg != null && s.valuation.peg > 2 ? "down" : ""}">${s.valuation.peg == null ? "—" : s.valuation.peg.toFixed(2)}</span></div>
+          <div class="vm"><span class="vm-l">PB</span><span class="vm-v">${s.valuation.pb == null ? "—" : s.valuation.pb.toFixed(2)}</span></div>
+          <div class="vm"><span class="vm-l">总市值</span><span class="vm-v">${s.valuation.mcap_yi == null ? "—" : s.valuation.mcap_yi.toFixed(0) + "亿"}</span></div>
+          <div class="vm"><span class="vm-l">今年EPS</span><span class="vm-v">${s.valuation.eps_cur == null ? "—" : s.valuation.eps_cur.toFixed(2)}</span></div>
+          <div class="vm"><span class="vm-l">明年EPS</span><span class="vm-v">${s.valuation.eps_next == null ? "—" : s.valuation.eps_next.toFixed(2)}</span></div>
+          <div class="vm"><span class="vm-l">覆盖机构</span><span class="vm-v">${s.valuation.analyst_count == null ? "—" : s.valuation.analyst_count + "家"}</span></div>
+        </div>
+      </div>` : ""}
+
       <div class="dsec">
         <h3>叙事逻辑</h3>
         <p class="dnarr">${esc(s.narrative)}</p>
@@ -398,6 +414,178 @@
     $("#backdrop").classList.remove("show");
   }
 
+  /* ---------- 全市场异动视图 ---------- */
+  // 异动类型 → 对应数据源 + 卡片字段适配
+  const ANOMALY_DEFS = {
+    gainers:     { key: "topGainers",  title: "涨幅 TOP50",     field: "chgPct",   fmt: "pct" },
+    losers:      { key: "topLosers",   title: "跌幅 TOP50",     field: "chgPct",   fmt: "pct" },
+    turnover:    { key: "topTurnover", title: "换手率 TOP50",    field: "turnover", fmt: "pct0" },
+    inflow:      { key: "topInflow",   title: "主力净流入 TOP50", field: "netInflow", fmt: "yi" },
+    outflow:     { key: "topOutflow",  title: "主力净流出 TOP50", field: "netInflow", fmt: "yi" },
+    limitUp:     { key: "limitUp",     title: "涨停池",          field: "lbc",      fmt: "lbc", pool: true },
+    limitDown:   { key: "limitDown",   title: "跌停池",          field: "dt_days",  fmt: "days", pool: true },
+    brokeUp:     { key: "brokeUp",     title: "炸板池",          field: "break_times", fmt: "times", pool: true },
+    hotRank:     { key: "hotRank",     title: "东财人气榜 TOP50", field: "rank",    fmt: "rank" },
+    dragonTiger: { key: "dt_stocks",   title: "龙虎榜",          field: "net_buy_wan", fmt: "wan" },
+  };
+
+  // 异动轻量卡(只有行情+板块+资金流,无叙事/左右计划)
+  function marketCard(m, def) {
+    const code = m.code || "";
+    const name = m.name || "—";
+    const price = m.price != null ? `¥${m.price}` : "—";
+    const chg = m.chgPct;
+    const chgCls = sgn(chg);
+    // 高亮字段
+    let hl = "";
+    if (def.fmt === "pct" || def.fmt === "pct0") {
+      const v = def.field === "chgPct" ? chg : m[def.field];
+      hl = v != null ? `<span class="mc-hl ${sgn(v)}">${def.field === "chgPct" ? pct(v) : v.toFixed(2) + "%"}</span>` : "";
+    } else if (def.fmt === "yi") {
+      const v = m.netInflow;
+      const yi = v != null ? v / 1e8 : null;
+      hl = yi != null ? `<span class="mc-hl ${sgn(yi)}">主力 ${yi > 0 ? "+" : ""}${yi.toFixed(2)}亿</span>` : "";
+    } else if (def.fmt === "lbc") {
+      const lb = m.lbc || m.limit_days;
+      hl = lb ? `<span class="mc-hl up">${lb}连板</span>` : `<span class="mc-hl">首板</span>`;
+    } else if (def.fmt === "days") {
+      const d = m.dt_days || 1;
+      hl = `<span class="mc-hl down">${d}日跌停</span>`;
+    } else if (def.fmt === "times") {
+      const t = m.break_times || 0;
+      hl = `<span class="mc-hl warn">炸${t}次</span>`;
+    } else if (def.fmt === "rank") {
+      hl = `<span class="mc-hl">#${m.rank}</span>`;
+    } else if (def.fmt === "wan") {
+      const w = m.net_buy_wan;
+      hl = w != null ? `<span class="mc-hl ${sgn(w)}">净买 ${w.toFixed(0)}万</span>` : "";
+    }
+    const industry = m.industry ? `<span class="mc-sec">${esc(typeof m.industry === "string" ? m.industry : (m.industry || []).join("/"))}</span>` : "";
+    const turnover = m.turnover != null ? `<span class="mc-mini">换手${m.turnover.toFixed(1)}%</span>` : "";
+    const ztStat = m.zt_stat ? `<span class="mc-mini">${esc(m.zt_stat)}</span>` : "";
+    const reason = m.reason ? `<div class="mc-reason">${esc(m.reason)}</div>` : "";
+    // 龙虎榜特殊:reason 字段
+    const dtReason = m.reason ? `<div class="mc-reason">${esc(m.reason)}</div>` : "";
+    return `<article class="market-card ${chgCls}" data-code="${esc(code)}">
+      <div class="mc-head">
+        <span class="mc-name">${esc(name)}</span>
+        <span class="mc-code">${esc(code)}</span>
+        ${industry}
+      </div>
+      <div class="mc-px">
+        <span class="mc-price">${price}</span>
+        ${chg != null ? `<span class="chg ${chgCls}">${pct(chg)}</span>` : ""}
+        ${hl}
+      </div>
+      <div class="mc-meta">${turnover}${ztStat}</div>
+      ${reason || dtReason}
+    </article>`;
+  }
+
+  // 打板情绪条(炸板率/连板梯队/北向)
+  function renderSentiment() {
+    const el = $("#sentimentBar");
+    if (!el) return;
+    const s = MARKET.sentiment || {};
+    const nb = MARKET.northbound;
+    const ladder = s.ladder || {};
+    const ladHtml = Object.entries(ladder)
+      .sort((a, b) => Number(b[0]) - Number(a[0]))
+      .map(([k, v]) => `<span class="lad-item"><span class="lad-h">${k}板</span><span class="lad-n">${v}</span></span>`).join("");
+    el.innerHTML = `
+      <div class="sent-group">
+        <span class="sent-label">打板情绪</span>
+        <span class="sent-val up">涨停 ${s.zt_count ?? "—"}</span>
+        <span class="sent-val warn">炸板 ${s.zb_count ?? "—"}</span>
+        <span class="sent-val down">跌停 ${s.dt_count ?? "—"}</span>
+        <span class="sent-val">炸板率 ${s.break_rate ?? "—"}%</span>
+        <span class="sent-val">最高 ${s.max_height ?? "—"}连板</span>
+      </div>
+      <div class="sent-group lad">${ladHtml ? `<span class="sent-label">连板梯队</span>${ladHtml}` : ""}</div>
+      ${nb ? `<div class="sent-group"><span class="sent-label">北向资金</span><span class="sent-val ${sgn(nb.total_yi)}">净${nb.total_yi > 0 ? "流入" : "流出"} ${Math.abs(nb.total_yi).toFixed(2)}亿</span><span class="sent-mini">沪${nb.hgt_yi.toFixed(2)} 深${nb.sgt_yi.toFixed(2)}</span></div>` : ""}
+      <div class="sent-date">数据时点 ${esc(MARKET.date || "")}</div>
+    `;
+  }
+
+  function renderMarket() {
+    renderSentiment();
+    const el = $("#marketGrid");
+    if (!el) return;
+    const def = ANOMALY_DEFS[marketState.anomaly] || ANOMALY_DEFS.gainers;
+    // 龙虎榜数据在 dragonTiger.stocks
+    let list;
+    if (marketState.anomaly === "dragonTiger") {
+      list = (MARKET.dragonTiger && MARKET.dragonTiger.stocks) || [];
+    } else {
+      list = MARKET[def.key] || [];
+    }
+    // 搜索过滤
+    if (marketState.q) {
+      const q = marketState.q.toLowerCase();
+      list = list.filter((m) => [m.name, m.code, m.industry, m.reason].filter(Boolean).join(" ").toLowerCase().includes(q));
+    }
+    // 截断到前 60 张卡(避免卡顿)
+    const shown = list.slice(0, 60);
+    el.innerHTML = shown.length
+      ? shown.map((m) => marketCard(m, def)).join("")
+      : `<div class="empty">该异动类型暂无数据(非交易日或盘后未更新)。</div>`;
+    el.querySelectorAll(".market-card").forEach((c) =>
+      c.addEventListener("click", () => openMarketDrawer(c.dataset.code))
+    );
+    const count = $("#count");
+    if (count) count.textContent = `${def.title} · 显示 ${shown.length} / ${list.length} 只`;
+  }
+
+  // 异动票详情抽屉(降级版:若在 STOCKS 里则用完整叙事抽屉,否则只显示行情)
+  function openMarketDrawer(code) {
+    const inWatch = STOCKS.find((x) => x.code === code);
+    if (inWatch) { openDrawer(code); return; }
+    // 从 MARKET 各池里找这只票
+    const pools = ["topGainers","topLosers","topTurnover","topInflow","topOutflow",
+                   "limitUp","limitDown","brokeUp","hotRank"];
+    let m = null;
+    for (const p of pools) {
+      const found = (MARKET[p] || []).find((x) => x.code === code);
+      if (found) { m = found; break; }
+    }
+    if (!m) { closeDrawer(); return; }
+    const chg = m.chgPct;
+    const industry = typeof m.industry === "string" ? m.industry : (m.industry || []).join("/");
+    const netflow = m.netInflow != null ? m.netInflow / 1e8 : null;
+    $("#drawerInner").innerHTML = `
+      <div class="dh">
+        <div>
+          <div class="dname">${esc(m.name)} <span class="mc-hl up">${m.lbc ? m.lbc + "连板" : ""}</span></div>
+          <div class="dcode">${esc(m.code)} · ${esc(industry || "—")}</div>
+        </div>
+        <button class="dclose" id="dclose" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <div class="dsec">
+        <h3>实时行情 <span class="src-note">东财 · ${esc(MARKET.date || "")}</span></h3>
+        <div class="sig-top">
+          <span class="sig-px">¥${m.price ?? "—"}</span>
+          ${chg != null ? `<span class="chg ${sgn(chg)}">${pct(chg)}</span>` : ""}
+          ${m.turnover != null ? `<span class="sig-pos">换手 ${m.turnover.toFixed(2)}%</span>` : ""}
+          ${m.volumeRatio != null ? `<span class="sig-pos">量比 ${m.volumeRatio}</span>` : ""}
+          ${m.amplitude != null ? `<span class="sig-pos">振幅 ${m.amplitude.toFixed(2)}%</span>` : ""}
+        </div>
+        ${netflow != null ? `<div class="fund-row"><span class="fr-lab">主力净流入</span><span class="fr-val ${sgn(netflow)}">${netflow > 0 ? "+" : ""}${netflow.toFixed(2)} 亿</span></div>` : ""}
+        ${m.mcap_yi != null ? `<div class="fund-row"><span class="fr-lab">总市值</span><span class="fr-val">${m.mcap_yi.toFixed(0)} 亿</span></div>` : ""}
+        ${m.zt_stat ? `<div class="fund-row"><span class="fr-lab">连板</span><span class="fr-val">${esc(m.zt_stat)}</span></div>` : ""}
+        ${m.first_seal ? `<div class="fund-row"><span class="fr-lab">封板时间</span><span class="fr-val">${esc(m.first_seal)}</span></div>` : ""}
+      </div>
+      ${m.reason ? `<div class="dsec"><h3>异动原因 / 题材</h3><p class="dnarr">${esc(m.reason)}</p></div>` : ""}
+      <div class="dsec">
+        <h3>说明</h3>
+        <p class="dnarr" style="color:var(--muted)">此为全市场异动池中的票,非巨头核心自选,仅展示轻量行情。如需深度叙事/买卖计划,需手动加入巨头清单。</p>
+      </div>
+    `;
+    $("#drawer").classList.add("show");
+    $("#drawer").setAttribute("aria-hidden", "false");
+    $("#backdrop").classList.add("show");
+    $("#dclose").addEventListener("click", closeDrawer);
+  }
+
   /* ---------- 今日热点 TOP30 ---------- */
   const HOT = window.HOT || {};
 
@@ -455,8 +643,10 @@
 
   function switchView(view) {
     document.body.classList.toggle("view-hot", view === "hot");
+    document.body.classList.toggle("view-market", view === "market");
     document.querySelectorAll(".vtab").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
     if (view === "hot") renderHot();
+    if (view === "market") renderMarket();
     window.scrollTo(0, 0);
   }
   document.querySelectorAll(".vtab").forEach((b) =>
@@ -470,6 +660,13 @@
   $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
   document.querySelectorAll(".verdict-chip").forEach((b) =>
     b.addEventListener("click", () => { state.verdict = b.dataset.verdict; renderChips(); render(); })
+  );
+  document.querySelectorAll(".anomaly-chip").forEach((b) =>
+    b.addEventListener("click", () => {
+      marketState.anomaly = b.dataset.anomaly;
+      document.querySelectorAll(".anomaly-chip").forEach((c) => c.classList.toggle("active", c === b));
+      renderMarket();
+    })
   );
 
   /* ---------- AI 复盘（Hermes 报告） ---------- */
@@ -565,5 +762,6 @@
   renderChips();
   render();
   renderHot();
+  renderMarket();
   renderReports();
 })();
