@@ -3,8 +3,6 @@ scripts/raw/
 .DS_Store
 __pycache__/
 *.tmp
-# 问财当日完成标记（仅 GitHub Actions 运行时用，不入库）
-.iwencai-done
 # Hermes hook 更新日志（本机运行日志，不入库）
 scripts/.hermes-update.log
 scripts/raw_news.json

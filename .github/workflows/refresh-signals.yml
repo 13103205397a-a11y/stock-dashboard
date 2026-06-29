@@ -28,14 +28,6 @@ jobs:
       - name: 检出仓库
         uses: actions/checkout@v4
 
-      - name: 清除昨日问财完成标记（确保当日兜底逻辑正确）
-        run: |
-          if [ -f .iwencai-done ]; then
-            OLD=$(cat .iwencai-done)
-            NOW=$(TZ=Asia/Shanghai date +%F)
-            if [ "$OLD" != "$NOW" ]; then rm -f .iwencai-done; echo "清除昨日标记($OLD)，当日重抓。"; fi
-          fi
-
       - name: 安装 Node
         uses: actions/setup-node@v4
         with:
@@ -60,7 +52,9 @@ jobs:
         continue-on-error: true        # 新闻抓取异常不阻断技术信号提交
 
       - name: 抓取今日热点 TOP30(同花顺问财:热度/题材) → 写回 hot.js
-        if: github.event_name == 'workflow_dispatch' || !hashFiles('.iwencai-done')
+        # 只在首次(15:20)和手动触发时跑，避免重复消耗问财配额。
+        # 判断依据：hot.js 里的日期是不是今天（不再依赖容器内的标记文件）。
+        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '20 7 * * *'
         continue-on-error: true
         env:
           IWENCAI_API_KEY: ${{ secrets.IWENCAI_API_KEY }}
@@ -68,7 +62,7 @@ jobs:
           if [ -z "$IWENCAI_API_KEY" ]; then
             echo "::warning::未配置 IWENCAI_API_KEY secret，跳过热点抓取。"
           else
-            python3 scripts/fetch_hot.py && echo "$(TZ=Asia/Shanghai date +%F)" > .iwencai-done
+            python3 scripts/fetch_hot.py
           fi
 
       - name: 提交并推送(仅在有变化时)
