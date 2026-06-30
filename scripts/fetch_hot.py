@@ -7,7 +7,7 @@
 - 题材：所属概念标签 + 当日最热 1 条新闻标题（点出催化）。
 - 技术面/情绪面：基于量价规则生成标签（确定性，无需 LLM）。
 输出：写 hot.js → window.HOT = { date, generatedAt, list:[...] }。
-依赖：IWENCAI_API_KEY；技能目录同 fetch_iwencai.py（优先仓库内 skills/）。
+依赖：IWENCAI_API_KEY；技能目录优先仓库内 skills/（回退到上级 ../skills/）。
 仅供研究参考，非投资建议。用法： python3 scripts/fetch_hot.py
 """
 import os
@@ -179,8 +179,8 @@ def reason_text(concepts, news):
 def main():
     rows = fetch_top()
     if not rows:
-        print("✗ 未取到热度榜数据。", file=sys.stderr)
-        sys.exit(1)
+        print("⚠ 未取到热度榜数据(可能问财配额耗尽/异常),保留旧 hot.js 不更新。", file=sys.stderr)
+        return
     today = dt.date.today().isoformat()
     out = []
     for i, r in enumerate(rows[:TOPN], 1):

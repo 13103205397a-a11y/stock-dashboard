@@ -25,7 +25,11 @@ TODAY = datetime.now().strftime("%Y-%m-%d")
 
 def main():
     print(f"采集产业雷达数据 ({TODAY})...", flush=True)
-    data = a.industry_comparison(top_n=30)
+    try:
+        data = a.industry_comparison(top_n=30)
+    except Exception as e:
+        print(f"⚠ 采集产业雷达失败({type(e).__name__}: {e}),保留旧 industry.js 不更新。", flush=True)
+        return
     out = {
         "date": TODAY,
         "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),

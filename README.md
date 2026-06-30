@@ -18,21 +18,36 @@
 - **今日热点 TOP30**：按个股热度排序，含涨跌/换手/量比/资金/连板/所属概念/行业/市值 + 炒作题材/技术面/情绪面规则化标签 + 催化新闻。
 
 ## 文件结构
-| 文件/目录 | 作用 |
+### 前端（12 个视图模块，对应 `index.html` 侧栏）
+| 文件 | 作用 |
 |---|---|
-| `index.html` | 页面结构 |
-| `styles.css` | 深色终端风样式（涨红跌绿） |
-| `app.js` | 渲染 / 筛选 / 搜索 / 抽屉 / 热点 |
-| `data.js` | 全部自选股数据（`window.STOCKS`） |
-| `meta.js` | 全局元信息（更新时间 / 市场环境 / 摘要 / 大盘快照） |
-| `hot.js` | 今日热点 TOP30（`window.HOT`） |
-| `agent/daily-review.md` | 每日复盘 Agent 提示词 |
-| `scripts/fetch_klines.sh` | curl 拉全部日K（腾讯前复权）→ `scripts/raw/` |
-| `scripts/fetch_signals.js` | 算均线/支撑/突破/止损/走势图 → 写回 `data.js` 的 signal、`meta.js` |
-| `scripts/fetch_iwencai.py` | 问财补主力资金/新闻/研报 → 写回 `data.js` |
-| `scripts/fetch_hot.py` | 问财取热度榜 TOP30 + 题材/技术/情绪 → 写回 `hot.js` |
-| `skills/` | 问财技能 vendored 副本（market-query / news-search / report-search / astock-selector） |
-| `.github/workflows/refresh-signals.yml` | GitHub Actions：每日收盘自动刷新行情+消息面+热点 |
+| `index.html` / `styles.css` / `app.js` | 页面结构 / 深色终端风样式 / 渲染·筛选·搜索·抽屉 |
+| `data.js` | 自选股数据（`window.STOCKS`）：叙事 + 技术信号 + 消息面 |
+| `meta.js` | 全局元信息（行情时点 / 统计 / 大盘快照 `marketSnapshot`） |
+| `holdings.js` | 持仓决策（德业/信维等，`window.HOLDINGS`） |
+| `opportunities.js` / `logic.js` | 机会清单 / 逻辑链（`window.OPPORTUNITIES` / `window.LOGIC`） |
+| `industry.js` / `materials.js` / `events.js` | 产业雷达 / 材料涨价 / 事件概率（`window.INDUSTRY` / `MATERIALS` / `EVENTS`） |
+| `newsall.js` / `hot.js` | 全球资讯+公告（`window.NEWSALL`）/ 今日热点 TOP30（`window.HOT`） |
+| `market.js` | 全市场异动扫描（`window.MARKET`） |
+| `reports.js` | AI 每日复盘报告（`window.REPORTS`） |
+
+### 抓取脚本（`scripts/`）
+| 脚本 | 数据源 | 写入 |
+|---|---|---|
+| `fetch_klines.sh` | 腾讯 `web.ifzq.gtimg.cn`（前复权） | `scripts/raw/<code>.json` |
+| `fetch_signals.js` | 上述日K | `data.js` 的 signal/left/right、`meta.js` 的 marketSnapshot |
+| `fetch_news.py` | 东方财富（新闻+公告，免key） | `data.js` 的 news |
+| `fetch_enhanced.py` | 东财/腾讯 via a-stock-pro（免key） | `data.js` 的 fund/research/valuation |
+| `fetch_market.py` | a-stock-pro（免key） | `market.js` |
+| `fetch_holdings.py` | 腾讯实时（免key） | `holdings.js` |
+| `fetch_industry.py` | a-stock-pro 行业排名（免key） | `industry.js` |
+| `fetch_industry_ai.py` | Hermes Agent 会话（按 `agent/industry-radar.md`） | `industry.js`（AI 调研版） |
+| `fetch_news_all.py` | a-stock-pro（免key） | `newsall.js` |
+| `fetch_hot.py` | 同花顺问财（需 `IWENCAI_API_KEY`） | `hot.js` |
+| `fetch_hermes.py` | Hermes 每日自动调度 | 触发各 AI 分析模块 |
+| `skills/` | a-stock-pro / hithink-astock-selector / hithink-market-query / news-search / report-search（vendored） | — |
+| `.github/workflows/refresh-signals.yml` | GitHub Actions：工作日收盘后自动刷新行情+消息面+异动 | data/meta/market/holdings/industry/newsall/hot.js |
+| `agent/*.md` | 各模块 AI 分析提示词（daily-review / industry-radar / logic-chain / materials-analysis / events-analysis / opportunities-analysis） | 驱动 reports.js 等 |
 
 ## 数据字段（`data.js` 每条）
 - `code` `name` `sector` `tags`：代码 / 名称 / 板块 / 标签
@@ -54,20 +69,27 @@
 > `left.zone` / `right.zone` / `trigger` 与 `signal` 均为真实日K计算的具体点位，非估计值。
 
 ## 数据怎么来的（真实数据）
-技术信号（腾讯日K）与消息面（同花顺问财）分脚本维护，互不覆盖。
+技术信号（腾讯日K）与消息面（东财/腾讯，免key）分脚本维护，互不覆盖；只有 `fetch_hot.py` 走问财需 key。
 
 | 脚本 | 数据源 | 写入 |
 |---|---|---|
 | `scripts/fetch_klines.sh` | 腾讯 `web.ifzq.gtimg.cn`（公开行情，前复权） | `scripts/raw/<code>.json` |
 | `scripts/fetch_signals.js` | 上述日K | `data.js` 的 signal/left/right、`meta.js` 的 marketSnapshot |
-| `scripts/fetch_iwencai.py` | 同花顺问财 SkillHub | `data.js` 的 fund/news/research |
-| `scripts/fetch_hot.py` | 同花顺问财 SkillHub | `hot.js` |
+| `scripts/fetch_enhanced.py` | 东财/腾讯 via a-stock-pro（免key） | `data.js` 的 fund/research/valuation |
+| `scripts/fetch_news.py` | 东方财富（免key） | `data.js` 的 news |
+| `scripts/fetch_market.py` / `fetch_holdings.py` / `fetch_industry.py` / `fetch_news_all.py` | a-stock-pro / 腾讯（均免key） | market.js / holdings.js / industry.js / newsall.js |
+| `scripts/fetch_hot.py` | 同花顺问财（需 `IWENCAI_API_KEY`） | `hot.js` |
 
-本地全量刷新（需 `IWENCAI_API_KEY` 环境变量）：
+本地全量刷新（仅 `fetch_hot.py` 需 `IWENCAI_API_KEY`，其余免key）：
 ```bash
-bash scripts/fetch_klines.sh && node scripts/fetch_signals.js
-python3 scripts/fetch_iwencai.py   # 需 requests/numpy；问财技能
-python3 scripts/fetch_hot.py
+bash scripts/fetch_klines.sh && node scripts/fetch_signals.js   # 行情 + 技术信号
+python3 scripts/fetch_news.py        # 新闻/公告 → data.js
+python3 scripts/fetch_enhanced.py    # 资金/研报/估值 → data.js
+python3 scripts/fetch_market.py      # 全市场异动 → market.js
+python3 scripts/fetch_holdings.py    # 持仓决策 → holdings.js
+python3 scripts/fetch_industry.py    # 产业雷达 → industry.js
+python3 scripts/fetch_news_all.py    # 全球资讯+公告 → newsall.js
+python3 scripts/fetch_hot.py         # 热点 TOP30 → hot.js（需问财 key）
 ```
 - **左侧(逢低)**：支撑区 = MA60 / MA20 / 近 20–60 日低点构成的回踩带；状态分「已在支撑区·可分批左侧 / 高于支撑区·等回踩 / 跌破支撑·破位观望」。
 - **右侧(突破)**：突破位 = 近 60 日高（平台高）；状态分「已放量突破·右侧持有 / 临近突破 / 箱体内 / 创新高量能不足」，配合量比确认。
@@ -89,7 +111,7 @@ python3 scripts/fetch_hot.py
 ## 增删自选股
 1. 编辑 `data.js` 的 `window.STOCKS` 数组（加/删一个对象，只需手写叙事/策略等编辑性字段，`signal`/`fund`/`news`/`research` 留给脚本）。
 2. 跑 `bash scripts/fetch_klines.sh && node scripts/fetch_signals.js` 补技术信号，按算出的 MA/支撑/突破回填 `left.zone`/`right.zone`。
-3. 跑 `python3 scripts/fetch_iwencai.py` 补消息面（问财配额充足时）。
+3. 跑 `python3 scripts/fetch_news.py && python3 scripts/fetch_enhanced.py` 补消息面（免key）。
 4. `git add data.js meta.js && git commit && git push`。前端 `app.js` 按数组动态渲染，无需改。
 
 ## 每日复盘

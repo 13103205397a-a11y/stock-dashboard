@@ -1,4 +1,4 @@
-/* A股盘面 · 左侧导航 11 模块 — 渲染 / 筛选 / 详情抽屉 */
+/* A股盘面 · 左侧导航 12 模块 — 渲染 / 筛选 / 详情抽屉 */
 (function () {
   const STOCKS = window.STOCKS || [];
   const META = window.META || {};
