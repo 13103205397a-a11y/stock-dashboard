@@ -994,8 +994,18 @@ def stock_fund_flow_120d(code: str) -> list[dict]:
         "Origin": "https://quote.eastmoney.com",
     }
     try:
-        r = em_get(url, params=params, headers=headers, timeout=15)
-        d = r.json()
+        # 重试3次(东财资金流接口偶发风控,重试可救回部分)
+        d = None
+        for _try in range(3):
+            try:
+                r = em_get(url, params=params, headers=headers, timeout=15)
+                d = r.json()
+                break
+            except Exception:
+                if _try < 2:
+                    time.sleep(2 * (_try + 1))   # 2s, 4s 递增等待
+        if d is None:
+            return []
     except Exception as e:
         print(f"[WARN] push2 资金流请求失败: {e}")
         return []

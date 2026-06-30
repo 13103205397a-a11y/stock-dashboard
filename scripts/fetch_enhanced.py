@@ -76,16 +76,27 @@ def write_stocks(stocks):
 
 
 def build_fund(code):
-    """构造 fund 字段(与原 schema 兼容: netInflow 亿/turnover %/date/asof)。"""
+    """构造 fund 字段(与原 schema 兼容: netInflow 亿/turnover %/date/asof)。
+    资金流优先用 stock_fund_flow_120d(push2his, 历史日级, 不易被风控),
+    失败时回退 eastmoney_fund_flow_minute(push2, 分钟级, 易被风控)。"""
+    net_inflow = None
     try:
-        flow = a.eastmoney_fund_flow_minute(code)
-        net_inflow = None
+        # 优先:120日日级(走 push2his,实测不被风控)
+        flow = a.stock_fund_flow_120d(code)
         if flow:
-            # 取最新一条主力净流入,转成亿
             main_net_yuan = flow[-1].get("main_net", 0) or 0
             net_inflow = round(main_net_yuan / 1e8, 2) if main_net_yuan else 0
     except Exception:
         net_inflow = None
+    # 回退:分钟级(push2,可能被风控)
+    if net_inflow is None:
+        try:
+            flow = a.eastmoney_fund_flow_minute(code)
+            if flow:
+                main_net_yuan = flow[-1].get("main_net", 0) or 0
+                net_inflow = round(main_net_yuan / 1e8, 2) if main_net_yuan else 0
+        except Exception:
+            net_inflow = None
     try:
         q = a.tencent_quote([code])
         turnover = q[code].get("turnover_pct") if q and code in q else None
