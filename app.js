@@ -733,7 +733,6 @@
   function renderHome() {
     const el = $("#viewHome");
     if (!el) return;
-    // 各模块总结卡片: view键 + 标题 + 图标 + 一句话 + 关键数字
     const ms = META.marketSnapshot;
     const ixHtml = ms && ms.indices && ms.indices.length
       ? ms.indices.map((i) => {
@@ -743,69 +742,81 @@
       : `<span class="empty-inline">待生成</span>`;
     const s = MARKET.sentiment || {};
     const nb = MARKET.northbound;
-    const H = window.HOLDINGS;
     const I = window.INDUSTRY;
     const L = window.LOGIC;
     const E = window.EVENTS;
     const O = window.OPPORTUNITIES;
     const M = window.MATERIALS;
-    const N = window.NEWSALL;
-    const R = window.REPORTS || {};
 
+    // 各模块"最强"选取规则
+    // 产业雷达: confidence 最高(高>中高>中),取第一个
+    const confRank = { "高": 3, "中高": 2, "中": 1 };
+    const bestInd = (I && I.directions || []).slice().sort((a, b) => (confRank[b.confidence] || 0) - (confRank[a.confidence] || 0))[0];
+    // 材料涨价: intensity 最高(极强>强>中强)
+    const intRank = { "极强": 4, "强": 3, "中强": 2, "中": 1 };
+    const bestMat = (M && M.directions || []).slice().sort((a, b) => (intRank[b.intensity] || 0) - (intRank[a.intensity] || 0))[0];
+    // 机会清单: priority 星最多
+    const bestOpp = (O && O.directions || []).slice().sort((a, b) => (b.priority || "").length - (a.priority || "").length)[0];
+    // 事件概率: importance 最高
+    const impRank = { "高": 3, "中高": 2, "中": 1 };
+    const bestEvt = (E && E.events || []).slice().sort((a, b) => (impRank[b.importance] || 0) - (impRank[a.importance] || 0))[0];
+    // 逻辑链: 取第一个(产业链本身无强弱,取首位)
+    const bestLogic = (L && L.chains || [])[0];
+
+    // 精华卡: 标签 + 标题 + 一句话精华 + 强度徽章
     const cards = [
-      { view: "holdings", icon: "▤", title: "持仓决策",
-        line: H && H.list ? H.list.map(x => x.name).join(" · ") : "待生成",
-        num: H && H.list ? `${H.list.length}只` : "—" },
-      { view: "opportunities", icon: "★", title: "机会清单",
-        line: O && O.summary ? (O.summary.length > 50 ? O.summary.slice(0, 50) + "…" : O.summary) : "待生成",
-        num: O && O.directions ? `${O.directions.length}方向` : "—" },
-      { view: "logic", icon: "⛓", title: "逻辑链",
-        line: L && L.summary ? (L.summary.length > 50 ? L.summary.slice(0, 50) + "…" : L.summary) : "待生成",
-        num: L && L.chains ? `${L.chains.length}条链` : "—" },
-      { view: "industry", icon: "◎", title: "产业雷达",
-        line: I && I.summary ? (I.summary.length > 50 ? I.summary.slice(0, 50) + "…" : I.summary) : "待生成",
-        num: I && I.directions ? `${I.directions.length}方向` : "—" },
-      { view: "materials", icon: "▲", title: "材料涨价",
-        line: M && M.summary ? (M.summary.length > 50 ? M.summary.slice(0, 50) + "…" : M.summary) : "待生成",
-        num: M && M.directions ? `${M.directions.length}材料` : "—" },
-      { view: "events", icon: "⚡", title: "事件概率",
-        line: E && E.summary ? (E.summary.length > 50 ? E.summary.slice(0, 50) + "…" : E.summary) : "待生成",
-        num: E && E.events ? `${E.events.length}事件` : "—" },
-      { view: "news", icon: "❝", title: "新闻",
-        line: N ? `全球资讯${(N.global||[]).length}条 · 公告${(N.announcements||[]).length}条` : "待生成",
-        num: N ? `${(N.global||[]).length + (N.announcements||[]).length}条` : "—" },
-      { view: "agent", icon: "✦", title: "Agent 复盘",
-        line: R.reports && R.reports.length ? R.reports.map(r => r.type).join(" · ") : "待生成",
-        num: R.reports ? `${R.reports.length}篇` : "—" },
-      { view: "watch", icon: "◆", title: "巨头核心",
-        line: `${STOCKS.length}只自选 · ${(STOCKS.filter(s => s.review?.verdict === "成立")).length}成立`,
-        num: `${STOCKS.length}只` },
-      { view: "market", icon: "≋", title: "市场异动",
-        line: `涨停${(MARKET.limitUp||[]).length} · 炸板${(MARKET.brokeUp||[]).length} · 跌停${(MARKET.limitDown||[]).length}`,
-        num: `${(MARKET.limitUp||[]).length + (MARKET.brokeUp||[]).length + (MARKET.limitDown||[]).length}只` },
-      { view: "hot", icon: "♥", title: "今日热点",
-        line: window.HOT && window.HOT.list ? `TOP${window.HOT.list.length} · ${window.HOT.date || ""}` : "待生成",
-        num: window.HOT && window.HOT.list ? `${window.HOT.list.length}` : "—" },
-    ];
+      bestOpp ? {
+        tag: "机会清单", tagCls: "ok",
+        title: bestOpp.name,
+        essence: bestOpp.logic ? (bestOpp.logic.length > 60 ? bestOpp.logic.slice(0, 60) + "…" : bestOpp.logic) : "—",
+        badge: bestOpp.stage || "", badgeCls: "warn"
+      } : null,
+      bestInd ? {
+        tag: "产业雷达", tagCls: "up",
+        title: bestInd.name,
+        essence: bestInd.price_signal ? (bestInd.price_signal.length > 60 ? bestInd.price_signal.slice(0, 60) + "…" : bestInd.price_signal) : "—",
+        badge: "置信度 " + (bestInd.confidence || "—"), badgeCls: "ok"
+      } : null,
+      bestMat ? {
+        tag: "材料涨价", tagCls: "warn",
+        title: bestMat.name,
+        essence: bestMat.price ? (bestMat.price.length > 60 ? bestMat.price.slice(0, 60) + "…" : bestMat.price) : "—",
+        badge: bestMat.intensity || "", badgeCls: "up"
+      } : null,
+      bestEvt ? {
+        tag: "事件概率", tagCls: "up",
+        title: bestEvt.title,
+        essence: bestEvt.importance_reason ? (bestEvt.importance_reason.length > 60 ? bestEvt.importance_reason.slice(0, 60) + "…" : bestEvt.importance_reason) : "—",
+        badge: bestEvt.importance || "", badgeCls: "ok"
+      } : null,
+      bestLogic ? {
+        tag: "逻辑链", tagCls: "ok",
+        title: bestLogic.name,
+        essence: bestLogic.bottleneck ? (bestLogic.bottleneck.length > 60 ? bestLogic.bottleneck.slice(0, 60) + "…" : bestLogic.bottleneck) : "—",
+        badge: "卡点", badgeCls: "warn"
+      } : null,
+    ].filter(Boolean);
+
     const cardHtml = cards.map((c) => `
-      <button class="home-card" data-go="${c.view}">
-        <div class="hc-ico">${c.icon}</div>
-        <div class="hc-body">
-          <div class="hc-t">${esc(c.title)}</div>
-          <div class="hc-line">${esc(c.line)}</div>
+      <article class="home-best ${c.tagCls}">
+        <div class="hb-top">
+          <span class="hb-tag ${c.tagCls}">${esc(c.tag)}</span>
+          <span class="hb-badge ${c.badgeCls}">${esc(c.badge)}</span>
         </div>
-        <div class="hc-num">${esc(c.num)}</div>
-      </button>`).join("");
+        <h3 class="hb-title">${esc(c.title)}</h3>
+        <p class="hb-essence">${esc(c.essence)}</p>
+      </article>`).join("");
+
     el.innerHTML = `
       <section class="card blk home-top">
         <h3 class="blk-h">大盘速览</h3>
         <div class="ix-row">${ixHtml}<span class="ix-date">截至 ${esc((ms && ms.date) || "")}</span></div>
         <div class="em-line"><span class="em up">涨停 ${s.zt_count ?? "—"}</span><span class="em warn">炸板 ${s.zb_count ?? "—"}</span><span class="em down">跌停 ${s.dt_count ?? "—"}</span><span class="em">炸板率 ${s.break_rate ?? "—"}%</span><span class="em">最高 ${s.max_height ?? "—"}连板</span>${nb ? `<span class="em ${sgn(nb.total_yi)}">北向 ${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}亿</span>` : ""}</div>
       </section>
-      <div class="home-cards">${cardHtml}</div>
-      <div class="home-foot">数据时点 ${esc(MARKET.date || META.signalDate || "")} · 仅供研究参考,非投资建议</div>
+      ${secTitle("今日最强", "5个分析模块各取第1 · 仅供研究参考")}
+      <div class="home-best-grid">${cardHtml || emptyState("分析数据待生成")}</div>
+      <div class="home-foot">数据时点 ${esc(MARKET.date || META.signalDate || "")} · 非投资建议</div>
     `;
-    el.querySelectorAll(".home-card").forEach((b) => b.addEventListener("click", () => switchView(b.dataset.go)));
   }
 
   /* ---------- 2. 持仓决策 ---------- */
