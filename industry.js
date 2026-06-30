@@ -1,614 +1,96 @@
-/* 产业雷达数据：行业板块涨跌排名
- * 由 scripts/fetch_industry.py 生成（a-stock-pro,免 key）
- * 时点: 2026-06-29 23:34:56
+/* 产业雷达数据：供需紧张/涨价方向调研
+ * A阶段: 人工调研固化(2026-06-30); B阶段: 待Hermes自动分析接入
+ * 数据来源: TrendForce/财联社/长江有色/生意社/SMM/公司公告/研报等公开信息
  * 仅供研究参考,非投资建议。
  */
 window.INDUSTRY = {
-  "date": "2026-06-29",
-  "generatedAt": "2026-06-29 23:34:56",
-  "top": [
+  "date": "2026-06-30",
+  "generatedAt": "2026-06-30 调研固化",
+  "type": "supply_demand",
+  "summary": "当前供需紧张方向置信度排序: 存储芯片 > MLCC > 功率半导体 > 锗 > 光模块上游。注意三个反向信号: 兆易创新自承存储价格不可持续;中际旭创称光模块整机年降;锑价5-6月实际回调。",
+  "directions": [
     {
-      "rank": 1,
-      "name": "航空机场",
-      "change_pct": -1.06,
-      "code": "BK0420",
-      "up_count": 5,
-      "down_count": 9,
-      "leader": "600897",
-      "leader_change": 0.54
+      "name": "存储芯片 (DRAM/NAND/HBM)",
+      "supply": "严重紧缺,创近15年最紧张。HBM产能被锁单,利基存储间接受益于大厂转向AI。",
+      "price_signal": "TrendForce: 2026Q1 DRAM合约价环比+93%~98%, NAND +85%~90%; Q2 DRAM +58%~63%, NAND +70%~75%。三星/SK海力士/美光Q1报价涨60-70%。现货端手机存储芯片近3月涨超300%。",
+      "driver": "AI算力需求爆发(HBM被英伟达GPU大量搭载); 三大厂控产保价、产能优先HBM; 库存见底进入补库周期。",
+      "evidence": "TrendForce 3/31发布Q1涨幅数据(已核实); 兆易创新Q1营收+119%/净利+523%,公告称存储供不应求量价齐升; HP称内存BOM占比从15-18%升至35%。",
+      "stocks": [
+        {"code": "603986", "name": "兆易创新", "role": "全球NOR市占18.5%第二,绑定长鑫存储"},
+        {"code": "300223", "name": "北京君正", "role": "车规级存储全球第二,毛利率50%+"},
+        {"code": "301308", "name": "江波龙", "role": "全球第二大独立存储模组商"},
+        {"code": "300475", "name": "香农芯创", "role": "SK海力士HBM独家代理"},
+        {"code": "002409", "name": "雅克科技", "role": "存储前驱体材料全球前三"}
+      ],
+      "risk": "兆易创新6/29公告自承价格已处历史高位继续大幅上涨不可持续; 滚动PE 200倍远超行业128; 周期股特征产能边际增加后价格将回落。",
+      "confidence": "高",
+      "asof": "2026-06-29"
     },
     {
-      "rank": 2,
-      "name": "铁路公路",
-      "change_pct": 0.33,
-      "code": "BK0421",
-      "up_count": 22,
-      "down_count": 11,
-      "leader": "600350",
-      "leader_change": 2.21
+      "name": "MLCC (多层陶瓷电容器)",
+      "supply": "紧缺且持续收紧。高端MLCC结构性短缺,村田/三星电机高容产品交期16-24周,渠道库存历史低位1-1.5月。高端领涨、全线上行。",
+      "price_signal": "村田3月涨15-35%, 7月1日起AI服务器/高端车规MLCC再涨10-40%; 太阳诱电4月涨10-30%; 华新科技5月涨5-15%; 现货渠道全品类涨30-70%,紧缺料号翻倍。",
+      "driver": "AI服务器单台MLCC达2-3万颗(传统10倍),整机柜44万颗; 摩根士丹利测算Vera Rubin架构单机架MLCC价值量较GB300增182%; 日系稼动率95%+且BB ratio 1.12; 四年去库存后补库周期; 银钯原材料涨价。",
+      "evidence": "村田6月发涨价函7/1生效(财联社6/11); 富昌电子Q1高容交期18-22周(东莞证券); 机构测算全球缺口约5000亿只,高端缺口超15%,紧缺延续至2027; 风华高科6/25涨停创历史新高。",
+      "stocks": [
+        {"code": "000636", "name": "风华高科", "role": "国内MLCC绝对龙头,产能A股首位,祥和基地达产将提至500亿只/月"},
+        {"code": "300408", "name": "三环集团", "role": "MLCC/陶瓷元器件龙头,高端技术突破"},
+        {"code": "603678", "name": "火炬电子", "role": "MLCC+陶瓷,军用高可靠+民用"},
+        {"code": "603267", "name": "鸿远电子", "role": "高可靠MLCC,军品+民品"},
+        {"code": "300285", "name": "国瓷材料", "role": "MLCC上游瓷粉龙头,材料端受益"}
+      ],
+      "risk": "涨价已较充分反映股价(风华6月创新高),短期回调风险; 日系厂商调价保守,若村田不带头涨价传导不及预期; 2028年新增产能集中释放后涨价放缓。",
+      "confidence": "高",
+      "asof": "2026-06-28"
     },
     {
-      "rank": 3,
-      "name": "物流",
-      "change_pct": 0.1,
-      "code": "BK0422",
-      "up_count": 22,
-      "down_count": 24,
-      "leader": "300873",
-      "leader_change": 7.24
+      "name": "功率半导体 (MOSFET/IGBT)",
+      "supply": "紧缺且收紧。AI电源800V HVDC架构+新能源车+储能+工控四重需求叠加; 8寸成熟产能被先进制程虹吸,交期拉长至30周以上,出现涨价+缺货+分货。",
+      "price_signal": "近20家厂商7月1日集中调价: 扬杰科技7/1全系涨10-15%(年内第二次); 立昂微6/15起涨10-15%; 芯联集成7月上调8寸代工价; 华润微2月率先涨10%+; 士兰微3/1涨10%; 英飞凌4/1涨7/1再涨。宏微科技6/26启动第二轮。",
+      "driver": "AI服务器机柜功率大升,功率器件价值量是传统3-5倍; 800V HVDC拉动1200V SiC/MOS需求; 8寸产能被先进制程挤占; 铜/锡/银封装材料成本上涨; 新能源车/储能稳定增量。",
+      "evidence": "央视财经: 安徽某功率半导体企业订单排到4-5个月后,交期30周+(新浪6/29); 全球近20家模拟/功率企业7/1新一轮涨价(21世纪经济报道6/29); 华润微Q1净利同比+296%。",
+      "stocks": [
+        {"code": "688396", "name": "华润微", "role": "国内MOSFET龙头,全品类IDM,8/12寸满产,2月率先涨价"},
+        {"code": "600460", "name": "士兰微", "role": "民营全链条IDM,硅基+SiC双布局"},
+        {"code": "300373", "name": "扬杰科技", "role": "分立器件龙头,7/1全系涨价10-15%"},
+        {"code": "603290", "name": "斯达半导", "role": "国内IGBT模块市占超20%,绑定比亚迪/特斯拉"},
+        {"code": "605111", "name": "新洁能", "role": "MOSFET设计龙头,为英伟达800V架构开发低内阻功率管"}
+      ],
+      "risk": "AI CAPEX放缓则反向传导订单; 成本驱动型涨价毛利率过手难赚超额; 碳化硅器件涨价传导尚未完全打通; 中低压MOS交期回落则价格中枢松动。",
+      "confidence": "高",
+      "asof": "2026-06-30"
     },
     {
-      "rank": 4,
-      "name": "水泥",
-      "change_pct": -0.74,
-      "code": "BK0424",
-      "up_count": 7,
-      "down_count": 16,
-      "leader": "600668",
-      "leader_change": 4.08
+      "name": "战略小金属 - 锗 (含钨)",
+      "supply": "紧缺。锗100%伴生矿,扩产周期5-8年,供给刚性; 出口管制+矿产法实施条例进一步收紧; 全球供需缺口约40-50吨(占产量近20%)。",
+      "price_signal": "锗6/10单日跳涨9.4%(长江有色); 6/26高位持稳21600-25100元/千克; 同比+53%; SMM测算5N锗从2025年底15000涨至26000-28000元/公斤,累计+85%; 光纤级四氯化锗年内涨近300%。钨同步高位: 钨粉6月124万元/吨,开采指标连年缩减。",
+      "driver": "供给刚性锁死(伴生矿无独立矿床); 2023起出口管制,2026高端配额收紧(1-5月出口同比-40%); 6/15矿产法实施条例施行锗纳入36种战略矿产采矿权审批上收; AI光模块/低轨卫星/军工红外需求稳固。",
+      "evidence": "长江有色6/10锗均价22800元/千克(+9.4%); SMM全球缺口40-50吨占产量近20%,国内社会库存仅30余吨; 海关1-5月出口2961千克同比-40%; 中国掌控全球70%+原生锗产量。",
+      "stocks": [
+        {"code": "002428", "name": "云南锗业", "role": "国内锗龙头,锗锭主营(云南占出口56%)"},
+        {"code": "600497", "name": "驰宏锌锗", "role": "铅锌冶炼副产锗,一体化锗资源"},
+        {"code": "000060", "name": "中金岭南", "role": "铅锌冶炼副产锗/锑等小金属"},
+        {"code": "688268", "name": "华特气体", "role": "锗烷(锗下游半导体CVD用)头部,产能10吨+在建5吨"}
+      ],
+      "risk": "锑价5-6月实际从15.8万跌至13.7万/吨(非单边涨); 镓价6月低位僵持(出口管制托不住内循环供给); 锗下游刚需若海外套利需求减弱则高位震荡; 中美磋商若管制暂停则供给释放。",
+      "confidence": "中高",
+      "asof": "2026-06-26"
     },
     {
-      "rank": 5,
-      "name": "公用事业",
-      "change_pct": -0.26,
-      "code": "BK0427",
-      "up_count": 66,
-      "down_count": 65,
-      "leader": "603318",
-      "leader_change": 9.99
-    },
-    {
-      "rank": 6,
-      "name": "电力",
-      "change_pct": -0.16,
-      "code": "BK0428",
-      "up_count": 53,
-      "down_count": 50,
-      "leader": "600396",
-      "leader_change": 5.4
-    },
-    {
-      "rank": 7,
-      "name": "农林牧渔",
-      "change_pct": 1.63,
-      "code": "BK0433",
-      "up_count": 86,
-      "down_count": 22,
-      "leader": "603477",
-      "leader_change": 9.98
-    },
-    {
-      "rank": 8,
-      "name": "纺织服饰",
-      "change_pct": 0.12,
-      "code": "BK0436",
-      "up_count": 51,
-      "down_count": 52,
-      "leader": "002687",
-      "leader_change": 9.96
-    },
-    {
-      "rank": 9,
-      "name": "煤炭",
-      "change_pct": 1.22,
-      "code": "BK0437",
-      "up_count": 30,
-      "down_count": 2,
-      "leader": "601001",
-      "leader_change": 5.26
-    },
-    {
-      "rank": 10,
-      "name": "食品饮料",
-      "change_pct": 0.91,
-      "code": "BK0438",
-      "up_count": 95,
-      "down_count": 32,
-      "leader": "605300",
-      "leader_change": 9.99
-    },
-    {
-      "rank": 11,
-      "name": "家居用品",
-      "change_pct": 0.08,
-      "code": "BK0440",
-      "up_count": 40,
-      "down_count": 33,
-      "leader": "300640",
-      "leader_change": 8.11
-    },
-    {
-      "rank": 12,
-      "name": "通信设备",
-      "change_pct": -2.93,
-      "code": "BK0448",
-      "up_count": 11,
-      "down_count": 80,
-      "leader": "301307",
-      "leader_change": 20.0
-    },
-    {
-      "rank": 13,
-      "name": "航运港口",
-      "change_pct": -0.61,
-      "code": "BK0450",
-      "up_count": 15,
-      "down_count": 19,
-      "leader": "601000",
-      "leader_change": 2.44
-    },
-    {
-      "rank": 14,
-      "name": "房地产开发",
-      "change_pct": -0.76,
-      "code": "BK0451",
-      "up_count": 32,
-      "down_count": 53,
-      "leader": "002208",
-      "leader_change": 9.99
-    },
-    {
-      "rank": 15,
-      "name": "塑料",
-      "change_pct": -1.99,
-      "code": "BK0454",
-      "up_count": 22,
-      "down_count": 56,
-      "leader": "603928",
-      "leader_change": 9.98
-    },
-    {
-      "rank": 16,
-      "name": "家用电器",
-      "change_pct": 1.01,
-      "code": "BK0456",
-      "up_count": 66,
-      "down_count": 41,
-      "leader": "000521",
-      "leader_change": 10.02
-    },
-    {
-      "rank": 17,
-      "name": "电网设备",
-      "change_pct": -0.78,
-      "code": "BK0457",
-      "up_count": 42,
-      "down_count": 98,
-      "leader": "600468",
-      "leader_change": 9.98
-    },
-    {
-      "rank": 18,
-      "name": "仪器仪表",
-      "change_pct": -0.63,
-      "code": "BK0458",
-      "up_count": 20,
-      "down_count": 43,
-      "leader": "301528",
-      "leader_change": 20.0
-    },
-    {
-      "rank": 19,
-      "name": "元件",
-      "change_pct": -3.69,
-      "code": "BK0459",
-      "up_count": 11,
-      "down_count": 55,
-      "leader": "603459",
-      "leader_change": 10.0
-    },
-    {
-      "rank": 20,
-      "name": "石油石化",
-      "change_pct": -0.61,
-      "code": "BK0464",
-      "up_count": 18,
-      "down_count": 29,
-      "leader": "002828",
-      "leader_change": 9.97
-    },
-    {
-      "rank": 21,
-      "name": "化学制药",
-      "change_pct": 5.87,
-      "code": "BK0465",
-      "up_count": 148,
-      "down_count": 12,
-      "leader": "002653",
-      "leader_change": 10.0
-    },
-    {
-      "rank": 22,
-      "name": "化学纤维",
-      "change_pct": -0.82,
-      "code": "BK0471",
-      "up_count": 8,
-      "down_count": 18,
-      "leader": "002427",
-      "leader_change": 7.99
-    },
-    {
-      "rank": 23,
-      "name": "证券Ⅱ",
-      "change_pct": 0.51,
-      "code": "BK0473",
-      "up_count": 34,
-      "down_count": 14,
-      "leader": "601211",
-      "leader_change": 4.2
-    },
-    {
-      "rank": 24,
-      "name": "保险Ⅱ",
-      "change_pct": 2.19,
-      "code": "BK0474",
-      "up_count": 5,
-      "down_count": 0,
-      "leader": "601601",
-      "leader_change": 3.24
-    },
-    {
-      "rank": 25,
-      "name": "银行Ⅱ",
-      "change_pct": 0.1,
-      "code": "BK0475",
-      "up_count": 23,
-      "down_count": 12,
-      "leader": "601665",
-      "leader_change": 1.89
-    },
-    {
-      "rank": 26,
-      "name": "装修建材",
-      "change_pct": -1.13,
-      "code": "BK0476",
-      "up_count": 10,
-      "down_count": 26,
-      "leader": "920792",
-      "leader_change": 3.6
-    },
-    {
-      "rank": 27,
-      "name": "有色金属",
-      "change_pct": -0.16,
-      "code": "BK0478",
-      "up_count": 76,
-      "down_count": 66,
-      "leader": "002237",
-      "leader_change": 10.01
-    },
-    {
-      "rank": 28,
-      "name": "钢铁",
-      "change_pct": 0.27,
-      "code": "BK0479",
-      "up_count": 31,
-      "down_count": 12,
-      "leader": "000959",
-      "leader_change": 9.9
-    },
-    {
-      "rank": 29,
-      "name": "汽车零部件",
-      "change_pct": -1.16,
-      "code": "BK0481",
-      "up_count": 74,
-      "down_count": 195,
-      "leader": "603950",
-      "leader_change": 10.0
-    },
-    {
-      "rank": 30,
-      "name": "一般零售",
-      "change_pct": 1.05,
-      "code": "BK0482",
-      "up_count": 42,
-      "down_count": 17,
-      "leader": "600857",
-      "leader_change": 10.02
+      "name": "AI光模块上游 (光芯片/EML/CW激光器)",
+      "supply": "结构性紧缺。800G/1.6T需求远超产能,头部厂商2026产能售罄; 核心瓶颈在上游光芯片(EML/CW激光器),缺口超30%,Tower硅光产能锁至2028年。",
+      "price_signal": "上游光芯片/旋光片/光模块PCB/光纤已涨价(每日调研精选1/31); 激光器芯片缺口超30%; 1.6T实际成交价1000-1300美元。注意: 中际旭创明确光模块整机价格年降是行业普遍规律,涨价集中在上游卡点环节非整机。",
+      "driver": "AI互连需求爆发(英伟达Rubin+谷歌3D Torus); 800G进入旺期、1.6T开启商用元年(需求6000万/3000万只,实际出货仅3500-4000万/1500万只); 硅光渗透率2026首破50%带动CW激光器需求激增。",
+      "evidence": "中际旭创Q1净利+262%,预付款较上期增长1009%(锁上游物料); 公司称EML和CW光芯片上半年仍紧张下半年才缓解(投资者活动2/28); 覆铜板交期从两周延至六周(天风证券); 中际+新易盛合计份额55-65%。",
+      "stocks": [
+        {"code": "300308", "name": "中际旭创", "role": "全球光模块市占第一(25%+),1.6T已量产,硅光自研"},
+        {"code": "300502", "name": "新易盛", "role": "1.6T通过英伟达GB200认证,硅光为主,泰国满产"},
+        {"code": "688048", "name": "源杰科技", "role": "CW光源供应商,硅光导入带动净利大增"},
+        {"code": "002384", "name": "东山精密", "role": "子公司索尔思光电IDM,自研EML光芯片"}
+      ],
+      "risk": "光模块整机价格年降(非纯涨价逻辑,靠量增+结构升级); 英伟达CPO共封装光学量产可能解构可插拔模块长期价值; 上游光芯片下半年供给缓解后涨价减弱; 板块资金拥挤、估值高(中际市值万亿)。",
+      "confidence": "中高",
+      "asof": "2026-06-30"
     }
-  ],
-  "bottom": [
-    {
-      "rank": 71,
-      "name": "专业服务",
-      "change_pct": -1.83,
-      "code": "BK1043",
-      "up_count": 10,
-      "down_count": 24,
-      "leader": "600861",
-      "leader_change": 2.71
-    },
-    {
-      "rank": 72,
-      "name": "生物制品",
-      "change_pct": 7.29,
-      "code": "BK1044",
-      "up_count": 57,
-      "down_count": 1,
-      "leader": "688336",
-      "leader_change": 20.0
-    },
-    {
-      "rank": 73,
-      "name": "房地产服务",
-      "change_pct": 0.84,
-      "code": "BK1045",
-      "up_count": 10,
-      "down_count": 4,
-      "leader": "600136",
-      "leader_change": 3.13
-    },
-    {
-      "rank": 74,
-      "name": "游戏Ⅱ",
-      "change_pct": 2.07,
-      "code": "BK1046",
-      "up_count": 18,
-      "down_count": 5,
-      "leader": "002624",
-      "leader_change": 9.97
-    },
-    {
-      "rank": 75,
-      "name": "电力设备",
-      "change_pct": -0.77,
-      "code": "BK1200",
-      "up_count": 138,
-      "down_count": 262,
-      "leader": "600468",
-      "leader_change": 9.98
-    },
-    {
-      "rank": 76,
-      "name": "电子",
-      "change_pct": -0.5,
-      "code": "BK1201",
-      "up_count": 190,
-      "down_count": 317,
-      "leader": "688689",
-      "leader_change": 19.99
-    },
-    {
-      "rank": 77,
-      "name": "房地产",
-      "change_pct": -0.55,
-      "code": "BK1202",
-      "up_count": 42,
-      "down_count": 57,
-      "leader": "002208",
-      "leader_change": 9.99
-    },
-    {
-      "rank": 78,
-      "name": "非银金融",
-      "change_pct": 0.46,
-      "code": "BK1203",
-      "up_count": 50,
-      "down_count": 28,
-      "leader": "002647",
-      "leader_change": 9.18
-    },
-    {
-      "rank": 79,
-      "name": "国防军工",
-      "change_pct": -1.27,
-      "code": "BK1204",
-      "up_count": 36,
-      "down_count": 106,
-      "leader": "688629",
-      "leader_change": 18.08
-    },
-    {
-      "rank": 80,
-      "name": "机械设备",
-      "change_pct": -0.94,
-      "code": "BK1205",
-      "up_count": 196,
-      "down_count": 413,
-      "leader": "002639",
-      "leader_change": 10.02
-    },
-    {
-      "rank": 81,
-      "name": "基础化工",
-      "change_pct": -0.98,
-      "code": "BK1206",
-      "up_count": 145,
-      "down_count": 299,
-      "leader": "002407",
-      "leader_change": 10.0
-    },
-    {
-      "rank": 82,
-      "name": "计算机",
-      "change_pct": -0.91,
-      "code": "BK1207",
-      "up_count": 95,
-      "down_count": 261,
-      "leader": "603516",
-      "leader_change": 10.0
-    },
-    {
-      "rank": 83,
-      "name": "建筑材料",
-      "change_pct": -1.63,
-      "code": "BK1208",
-      "up_count": 21,
-      "down_count": 54,
-      "leader": "601636",
-      "leader_change": 9.97
-    },
-    {
-      "rank": 84,
-      "name": "建筑装饰",
-      "change_pct": -0.38,
-      "code": "BK1209",
-      "up_count": 66,
-      "down_count": 84,
-      "leader": "002628",
-      "leader_change": 9.95
-    },
-    {
-      "rank": 85,
-      "name": "交通运输",
-      "change_pct": -0.16,
-      "code": "BK1210",
-      "up_count": 64,
-      "down_count": 63,
-      "leader": "300873",
-      "leader_change": 7.24
-    },
-    {
-      "rank": 86,
-      "name": "汽车",
-      "change_pct": -0.9,
-      "code": "BK1211",
-      "up_count": 105,
-      "down_count": 216,
-      "leader": "603950",
-      "leader_change": 10.0
-    },
-    {
-      "rank": 87,
-      "name": "轻工制造",
-      "change_pct": 0.08,
-      "code": "BK1212",
-      "up_count": 88,
-      "down_count": 78,
-      "leader": "605377",
-      "leader_change": 10.06
-    },
-    {
-      "rank": 88,
-      "name": "商贸零售",
-      "change_pct": 0.44,
-      "code": "BK1213",
-      "up_count": 59,
-      "down_count": 42,
-      "leader": "600857",
-      "leader_change": 10.02
-    },
-    {
-      "rank": 89,
-      "name": "社会服务",
-      "change_pct": -0.47,
-      "code": "BK1214",
-      "up_count": 42,
-      "down_count": 41,
-      "leader": "605098",
-      "leader_change": 10.01
-    },
-    {
-      "rank": 90,
-      "name": "通信",
-      "change_pct": -2.68,
-      "code": "BK1215",
-      "up_count": 16,
-      "down_count": 114,
-      "leader": "301307",
-      "leader_change": 20.0
-    },
-    {
-      "rank": 91,
-      "name": "医药生物",
-      "change_pct": 4.94,
-      "code": "BK1216",
-      "up_count": 476,
-      "down_count": 32,
-      "leader": "301520",
-      "leader_change": 20.0
-    },
-    {
-      "rank": 92,
-      "name": "综合",
-      "change_pct": -1.33,
-      "code": "BK1217",
-      "up_count": 4,
-      "down_count": 14,
-      "leader": "600682",
-      "leader_change": 1.9
-    },
-    {
-      "rank": 93,
-      "name": "出版",
-      "change_pct": -0.05,
-      "code": "BK1218",
-      "up_count": 13,
-      "down_count": 13,
-      "leader": "601811",
-      "leader_change": 2.37
-    },
-    {
-      "rank": 94,
-      "name": "电视广播Ⅱ",
-      "change_pct": -1.73,
-      "code": "BK1219",
-      "up_count": 3,
-      "down_count": 10,
-      "leader": "301551",
-      "leader_change": 1.01
-    },
-    {
-      "rank": 95,
-      "name": "广告营销",
-      "change_pct": -0.63,
-      "code": "BK1220",
-      "up_count": 10,
-      "down_count": 18,
-      "leader": "002354",
-      "leader_change": 3.17
-    },
-    {
-      "rank": 96,
-      "name": "数字媒体",
-      "change_pct": -0.92,
-      "code": "BK1221",
-      "up_count": 6,
-      "down_count": 9,
-      "leader": "300413",
-      "leader_change": 3.28
-    },
-    {
-      "rank": 97,
-      "name": "影视院线",
-      "change_pct": -0.11,
-      "code": "BK1222",
-      "up_count": 9,
-      "down_count": 8,
-      "leader": "002739",
-      "leader_change": 6.31
-    },
-    {
-      "rank": 98,
-      "name": "其他电子Ⅱ",
-      "change_pct": -1.99,
-      "code": "BK1223",
-      "up_count": 6,
-      "down_count": 26,
-      "leader": "002859",
-      "leader_change": 10.0
-    },
-    {
-      "rank": 99,
-      "name": "纺织制造",
-      "change_pct": -0.12,
-      "code": "BK1224",
-      "up_count": 13,
-      "down_count": 19,
-      "leader": "002674",
-      "leader_change": 9.95
-    },
-    {
-      "rank": 100,
-      "name": "服装家纺",
-      "change_pct": -0.31,
-      "code": "BK1225",
-      "up_count": 26,
-      "down_count": 30,
-      "leader": "002687",
-      "leader_change": 9.96
-    }
-  ],
-  "total": 100
+  ]
 };

@@ -849,18 +849,44 @@
   function renderIndustry() {
     const el = $("#viewIndustry");
     if (!el) return;
-    if (!INDUSTRY || !INDUSTRY.top) { el.innerHTML = secTitle("产业雷达", "行业板块涨跌排名") + emptyState("行业数据待生成(每日收盘后由 fetch_industry.py 自动更新)。"); return; }
-    const rowHtml = (r) => `<div class="ind-row ${r.change_pct > 0 ? "up" : r.change_pct < 0 ? "down" : ""}">
-      <span class="ind-rank">${r.rank}</span><span class="ind-name">${esc(r.name)}</span>
-      <span class="ind-chg">${r.change_pct > 0 ? "+" : ""}${r.change_pct}%</span>
-      <span class="ind-cnt">↑${r.up_count} ↓${r.down_count}</span>
-      <span class="ind-leader">龙头 ${esc(r.leader || "—")} ${r.leader_change != null ? (r.leader_change > 0 ? "+" : "") + r.leader_change + "%" : ""}</span>
-    </div>`;
-    const top = (INDUSTRY.top || []).map(rowHtml).join("");
-    const bottom = (INDUSTRY.bottom || []).map(rowHtml).join("");
-    el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY.total || 0} 个行业 · ${esc(INDUSTRY.date || "")}`) +
-      `<div class="ind-cols"><section class="card blk"><h3 class="blk-h">涨幅前 ${INDUSTRY.top ? INDUSTRY.top.length : 0}</h3><div class="ind-list">${top}</div></section>
-      <section class="card blk"><h3 class="blk-h">跌幅前 ${INDUSTRY.bottom ? INDUSTRY.bottom.length : 0}</h3><div class="ind-list">${bottom}</div></section></div>`;
+    // 兼容两种数据: 旧的行业排名(type无) + 新的供需调研(type=supply_demand)
+    if (!INDUSTRY || (!INDUSTRY.directions && !INDUSTRY.top)) {
+      el.innerHTML = secTitle("产业雷达", "供需紧张 / 涨价方向调研") + emptyState("产业调研数据待生成。");
+      return;
+    }
+    // 新版: 供需调研卡片
+    if (INDUSTRY.directions) {
+      const confCls = { "高": "up", "中高": "ok", "中": "warn", "低": "down" };
+      const cards = INDUSTRY.directions.map((d) => {
+        const stocks = (d.stocks || []).map((s) =>
+          `<button class="ind-stock" data-code="${esc(s.code)}"><span class="is-name">${esc(s.name)}</span><span class="is-code">${esc(s.code)}</span><span class="is-role">${esc(s.role || "")}</span></button>`
+        ).join("");
+        return `<article class="card blk sd-card">
+          <div class="sd-head">
+            <h3 class="sd-name">${esc(d.name)}</h3>
+            <span class="sd-conf ${confCls[d.confidence] || ""}">置信度 ${esc(d.confidence || "—")}</span>
+          </div>
+          <div class="sd-grid">
+            <div class="sd-item"><span class="sd-l">供需状况</span><p class="sd-v">${esc(d.supply || "—")}</p></div>
+            <div class="sd-item sd-price"><span class="sd-l">涨价信号</span><p class="sd-v">${esc(d.price_signal || "—")}</p></div>
+            <div class="sd-item"><span class="sd-l">驱动因素</span><p class="sd-v">${esc(d.driver || "—")}</p></div>
+            <div class="sd-item"><span class="sd-l">关键证据</span><p class="sd-v">${esc(d.evidence || "—")}</p></div>
+            <div class="sd-item sd-risk"><span class="sd-l">风险 / 反向信号</span><p class="sd-v">${esc(d.risk || "—")}</p></div>
+          </div>
+          <div class="sd-stocks"><span class="sd-l">相关受益股</span><div class="sd-stock-list">${stocks}</div></div>
+          <div class="sd-foot">数据时点 ${esc(d.asof || "")} · 仅供研究参考,非投资建议</div>
+        </article>`;
+      }).join("");
+      el.innerHTML = secTitle("产业雷达", `供需紧张 / 涨价方向调研 · ${esc(INDUSTRY.date || "")}`) +
+        (INDUSTRY.summary ? `<div class="sd-summary">${esc(INDUSTRY.summary)}</div>` : "") +
+        `<div class="sd-grid-cards">${cards}</div>`;
+      el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+      return;
+    }
+    // 旧版兜底: 行业涨跌排名
+    const rowHtml = (r) => `<div class="ind-row ${r.change_pct > 0 ? "up" : r.change_pct < 0 ? "down" : ""}"><span class="ind-rank">${r.rank}</span><span class="ind-name">${esc(r.name)}</span><span class="ind-chg">${r.change_pct > 0 ? "+" : ""}${r.change_pct}%</span><span class="ind-cnt">↑${r.up_count} ↓${r.down_count}</span><span class="ind-leader">龙头 ${esc(r.leader || "—")}</span></div>`;
+    el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY.total || 0} 个行业`) +
+      `<div class="ind-cols"><section class="card blk"><h3 class="blk-h">涨幅前 ${(INDUSTRY.top||[]).length}</h3><div class="ind-list">${(INDUSTRY.top||[]).map(rowHtml).join("")}</div></section></div>`;
   }
 
   /* ---------- 7. 事件概率 ---------- */
