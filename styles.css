@@ -765,8 +765,36 @@ a.hc-news:hover { color: var(--accent-d); }
 }
 
 /* ============ Home 今日最强 ============ */
-.home-top { display: flex; flex-direction: column; gap: var(--s-3); margin-bottom: var(--s-5); }
-.home-top .blk-h { font-family: var(--serif); font-size: 16px; }
+/* 大盘速览 */
+.home-market { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: var(--s-5); margin-bottom: var(--s-5); box-shadow: var(--shadow); }
+.hm-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--s-4); padding-bottom: var(--s-3); border-bottom: 1px solid var(--line); }
+.hm-title { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--ink); margin: 0; letter-spacing: .5px; }
+.hm-date { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+/* 指数卡片网格 */
+.idx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s-3); margin-bottom: var(--s-4); }
+.idx-card { border-radius: var(--r); padding: var(--s-3) var(--s-4); border-left: 3px solid var(--line); background: var(--bg-2); transition: transform .15s; }
+.idx-card.up { border-left-color: var(--up); background: rgba(200,57,43,.06); }
+.idx-card.down { border-left-color: var(--down); background: rgba(30,122,82,.06); }
+.idx-card.flat { border-left-color: var(--muted); }
+.idx-name { font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+.idx-price { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.2; font-variant-numeric: tabular-nums; }
+.idx-chg { font-family: var(--mono); font-size: 13px; font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.idx-card.up .idx-chg { color: var(--up); }
+.idx-card.down .idx-chg { color: var(--down); }
+.idx-card.flat .idx-chg { color: var(--muted); }
+/* 情绪数字块 */
+.hm-sentiment { display: grid; grid-template-columns: repeat(auto-fit, minmax(95px, 1fr)); gap: var(--s-2); }
+.sent-block { background: var(--bg-2); border-radius: var(--r-sm); padding: var(--s-2) var(--s-3); text-align: center; border-top: 2px solid var(--line); }
+.sent-block.up { border-top-color: var(--up); background: rgba(200,57,43,.05); }
+.sent-block.warn { border-top-color: var(--warn); background: rgba(176,122,20,.05); }
+.sent-block.down { border-top-color: var(--down); background: rgba(30,122,82,.05); }
+.sb-n { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--ink); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.sent-block.up .sb-n { color: var(--up); }
+.sent-block.warn .sb-n { color: var(--warn); }
+.sent-block.down .sb-n { color: var(--down); }
+.sb-u { font-size: 12px; font-weight: 500; color: var(--muted); margin-left: 1px; }
+.sb-l { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
 .vsec-title { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--ink); margin: var(--s-5) 0 var(--s-3); letter-spacing: .5px; }
 .vsec-sub { font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--dim); margin-left: var(--s-2); letter-spacing: .5px; }
 
@@ -803,4 +831,10 @@ a.hc-news:hover { color: var(--accent-d); }
   .home-best { padding: var(--s-4); }
   .hb-title { font-size: 15px; }
   .hb-essence { font-size: 12.5px; }
+  .home-market { padding: var(--s-4); }
+  .hm-title { font-size: 16px; }
+  .idx-grid { grid-template-columns: repeat(2, 1fr); gap: var(--s-2); }
+  .idx-price { font-size: 17px; }
+  .hm-sentiment { grid-template-columns: repeat(3, 1fr); }
+  .sb-n { font-size: 18px; }
 }
