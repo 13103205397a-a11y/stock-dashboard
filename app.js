@@ -805,23 +805,40 @@
   function renderOpportunities() {
     const el = $("#viewOpportunities");
     if (!el) return;
-    // 聚合异动池里有"机会信号"的票:涨停 + 主力大流入 + 龙虎榜净买
-    const zt = (MARKET.limitUp || []).slice(0, 20).map((m) => ({ ...m, _tag: "涨停", _tagCls: "up" }));
-    const inflow = (MARKET.topInflow || []).slice(0, 20).map((m) => ({ ...m, _tag: "主力流入", _tagCls: "ok" }));
-    const dt = ((MARKET.dragonTiger || {}).stocks || []).slice(0, 20).map((m) => ({ ...m, _tag: "龙虎榜", _tagCls: "change" }));
-    const all = [...zt, ...inflow, ...dt];
-    if (!all.length) { el.innerHTML = secTitle("机会清单", "异动池买点") + emptyState("机会数据待生成。"); return; }
-    const cards = all.map((m) => {
-      const chg = m.chgPct != null ? m.chgPct : m.change_pct;
-      const nf = m.netInflow != null ? m.netInflow / 1e8 : m.net_buy_wan != null ? m.net_buy_wan / 1e4 : null;
-      return `<article class="market-card" data-code="${esc(m.code)}">
-        <div class="mc-head"><span class="mc-name">${esc(m.name)}</span><span class="mc-code">${esc(m.code)}</span><span class="mc-tag ${m._tagCls}">${m._tag}</span></div>
-        <div class="mc-px"><span class="mc-price">¥${m.price ?? m.close ?? "—"}</span>${chg != null ? `<span class="chg ${sgn(chg)}">${pct(chg)}</span>` : ""}${nf != null ? `<span class="mc-hl ${sgn(nf)}">主力 ${nf > 0 ? "+" : ""}${nf.toFixed(2)}亿</span>` : ""}${m.lbc ? `<span class="mc-hl up">${m.lbc}连板</span>` : ""}</div>
-        <div class="mc-mini">${esc(m.industry || (m.reason || "").slice(0, 30) || "")}</div>
+    const OPP = window.OPPORTUNITIES || null;
+    if (!OPP || !OPP.directions || !OPP.directions.length) {
+      el.innerHTML = secTitle("机会清单", "当日热点发酵分析") + emptyState("机会分析数据待生成。");
+      return;
+    }
+    const stageCls = (st) => /初起/.test(st) ? "ok" : /扩散/.test(st) ? "warn" : /高潮/.test(st) ? "up" : /退潮/.test(st) ? "down" : "";
+    const cards = OPP.directions.map((d) => {
+      const stocks = (d.stocks || []).map((s) => {
+        const posCls = /龙头/.test(s.position) ? "up" : /二线/.test(s.position) ? "ok" : "";
+        return `<button class="ev-stock ${posCls}" data-code="${esc(s.code)}"><span class="is-name">${esc(s.name)}</span><span class="is-code">${esc(s.code)}</span><span class="ev-impact">${esc(s.position)}</span><span class="is-role">${esc(s.detail || "")}</span></button>`;
+      }).join("");
+      return `<article class="card blk opp-card">
+        <div class="opp-head">
+          <h3 class="sd-name">${esc(d.name)}</h3>
+          <div class="opp-badges">
+            <span class="ev-badge ev-stage ${stageCls(d.stage)}">${esc(d.stage || "")}</span>
+            <span class="ev-badge ev-priority">${esc(d.priority || "")}</span>
+          </div>
+        </div>
+        <div class="sd-grid">
+          <div class="sd-item"><span class="sd-l">背后逻辑</span><p class="sd-v">${esc(d.logic || "—")}</p></div>
+          <div class="sd-item"><span class="sd-l">发酵信号</span><p class="sd-v">${esc(d.signals || "—")}</p></div>
+          <div class="sd-item sd-price"><span class="sd-l">机会挖掘</span><p class="sd-v">${esc(d.opportunity || "—")}</p></div>
+          <div class="sd-item sd-risk"><span class="sd-l">风险提示</span><p class="sd-v">${esc(d.risk || "—")}</p></div>
+        </div>
+        <div class="sd-stocks"><span class="sd-l">相关个股</span><div class="sd-stock-list">${stocks}</div></div>
+        <div class="sd-foot">数据时点 ${esc(d.asof || "")}</div>
       </article>`;
     }).join("");
-    el.innerHTML = secTitle("机会清单", "异动池买点 · 涨停/主力流入/龙虎榜") + `<div class="market-grid">${cards}</div>`;
-    el.querySelectorAll(".market-card").forEach((c) => c.addEventListener("click", () => openMarketDrawer(c.dataset.code)));
+    el.innerHTML = secTitle("机会清单", `当日热点发酵分析 · ${esc(OPP.date || "")}`) +
+      (OPP.market_state ? `<div class="sd-summary">${esc(OPP.market_state)}</div>` : "") +
+      (OPP.summary ? `<div class="sd-summary">${esc(OPP.summary)}</div>` : "") +
+      `<div class="sd-grid-cards">${cards}</div>`;
+    el.querySelectorAll(".ev-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
 
   /* ---------- 4. 逻辑链 ---------- */
@@ -905,27 +922,42 @@
   function renderEvents() {
     const el = $("#viewEvents");
     if (!el) return;
-    const s = MARKET.sentiment || {};
-    const ladder = s.ladder || {};
-    const ladHtml = Object.entries(ladder).sort((a, b) => Number(b[0]) - Number(a[0]))
-      .map(([k, v]) => `<div class="ev-lad"><span class="ev-lad-h">${k}板</span><span class="ev-lad-n">${v}</span><span class="ev-lad-bar" style="width:${Math.min(v * 8, 100)}%"></span></div>`).join("");
-    // 涨停原因题材分布(从 limitUp 的 zt_stat 提取)
-    const reasons = {};
-    (MARKET.limitUp || []).forEach((m) => {
-      const r = m.industry || m.zt_stat || "其他";
-      reasons[r] = (reasons[r] || 0) + 1;
-    });
-    const reasonHtml = Object.entries(reasons).sort((a, b) => b[1] - a[1]).slice(0, 12)
-      .map(([k, v]) => `<div class="ev-reason"><span class="ev-r-name">${esc(k)}</span><span class="ev-r-n">${v}</span><span class="ev-r-bar" style="width:${Math.min(v * 4, 100)}%"></span></div>`).join("");
-    el.innerHTML = secTitle("事件概率", "异动催化 · 连板梯队 / 题材分布 / 炸板率") +
-      `<div class="ev-grid">
-        <section class="card blk"><h3 class="blk-h">打板情绪</h3>
-          <div class="em-line"><span class="em up">涨停 ${s.zt_count ?? "—"}</span><span class="em warn">炸板 ${s.zb_count ?? "—"}</span><span class="em down">跌停 ${s.dt_count ?? "—"}</span></div>
-          <div class="em-line"><span class="em">炸板率 ${s.break_rate ?? "—"}%</span><span class="em">最高 ${s.max_height ?? "—"}连板</span></div>
-        </section>
-        <section class="card blk"><h3 class="blk-h">连板梯队</h3><div class="ev-lad-list">${ladHtml || emptyState("无数据")}</div></section>
-      </div>
-      ${reasonHtml ? `<section class="card blk"><h3 class="blk-h">涨停题材分布</h3><div class="ev-reason-list">${reasonHtml}</div></section>` : ""}`;
+    const EVENTS = window.EVENTS || null;
+    if (!EVENTS || !EVENTS.events || !EVENTS.events.length) {
+      el.innerHTML = secTitle("事件概率", "重要新闻影响分析") + emptyState("事件分析数据待生成。");
+      return;
+    }
+    const impCls = { "高": "up", "中高": "ok", "中": "warn", "低": "dim" };
+    const dirCls = (d) => /利好/.test(d) && !/谨慎|利空/.test(d) ? "up" : /利空/.test(d) && !/受益/.test(d) ? "down" : /结构性/.test(d) ? "warn" : "";
+    const cards = EVENTS.events.map((e) => {
+      const stocks = (e.stocks || []).map((s) => {
+        const impCls2 = s.impact === "受益" ? "up" : s.impact === "受损" ? "down" : "";
+        return `<button class="ev-stock ${impCls2}" data-code="${esc(s.code)}"><span class="is-name">${esc(s.name)}</span><span class="is-code">${esc(s.code)}</span><span class="ev-impact">${esc(s.impact)}</span><span class="is-role">${esc(s.role || "")}</span></button>`;
+      }).join("");
+      return `<article class="card blk ev-card">
+        <div class="ev-head">
+          <h3 class="ev-title">${esc(e.title)}</h3>
+          <div class="ev-badges">
+            <span class="ev-badge ev-cat">${esc(e.category || "")}</span>
+            <span class="ev-badge ev-imp ${impCls[e.importance] || ""}">${esc(e.importance || "")}</span>
+            <span class="ev-badge ev-dir ${dirCls(e.direction)}">${esc(e.direction || "")}</span>
+            <span class="ev-time">${esc(e.time || "")}</span>
+          </div>
+        </div>
+        <div class="ev-content">${esc(e.content || "")}</div>
+        <div class="ev-grid-info">
+          <div class="ev-info"><span class="sd-l">重要性原因</span><p class="sd-v">${esc(e.importance_reason || "—")}</p></div>
+          <div class="ev-info"><span class="sd-l">影响板块</span><p class="sd-v">${esc(e.sectors || "—")}</p></div>
+          <div class="ev-info"><span class="sd-l">影响时效</span><p class="sd-v">${esc(e.timeliness || "—")}</p></div>
+        </div>
+        ${stocks ? `<div class="ev-stocks"><span class="sd-l">受影响个股</span><div class="sd-stock-list">${stocks}</div></div>` : ""}
+        <div class="sd-foot">来源: ${esc(e.source || "—")}</div>
+      </article>`;
+    }).join("");
+    el.innerHTML = secTitle("事件概率", `重要新闻影响分析 · ${esc(EVENTS.date || "")}`) +
+      (EVENTS.summary ? `<div class="sd-summary">${esc(EVENTS.summary)}</div>` : "") +
+      `<div class="sd-grid-cards">${cards}</div>`;
+    el.querySelectorAll(".ev-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
 
   /* ---------- 8. 新闻 ---------- */

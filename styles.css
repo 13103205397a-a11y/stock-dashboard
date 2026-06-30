@@ -712,3 +712,44 @@ a.hc-news:hover { color: var(--accent-d); }
   .lc-logic, .lc-bottleneck { grid-template-columns: 1fr; gap: 2px; }
   .lc-chain { padding: var(--s-4); }
 }
+
+/* ============ 事件概率(新闻影响分析) ============ */
+.ev-card { display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-5); }
+.ev-head { padding-bottom: var(--s-2); border-bottom: 1px solid var(--line); }
+.ev-title { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--ink); margin: 0 0 var(--s-2); line-height: 1.4; }
+.ev-badges { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; }
+.ev-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: var(--bg-2); color: var(--muted); }
+.ev-badge.ev-imp.up { background: rgba(200,57,43,.1); color: var(--up); }
+.ev-badge.ev-imp.ok { background: rgba(46,125,82,.1); color: var(--ok); }
+.ev-badge.ev-imp.warn { background: rgba(176,122,20,.1); color: var(--warn); }
+.ev-badge.ev-dir.up { background: rgba(46,125,82,.1); color: var(--ok); }
+.ev-badge.ev-dir.down { background: rgba(200,57,43,.1); color: var(--up); }
+.ev-badge.ev-dir.warn { background: rgba(176,122,20,.12); color: var(--warn); }
+.ev-time { font-family: var(--mono); font-size: 10px; color: var(--dim); margin-left: auto; }
+.ev-content { font-size: 13.5px; line-height: 1.65; color: var(--text); }
+.ev-grid-info { display: grid; gap: var(--s-3); }
+.ev-info { display: grid; grid-template-columns: 88px 1fr; gap: var(--s-3); align-items: start; }
+.ev-stocks { border-top: 1px dashed var(--line); padding-top: var(--s-3); }
+.ev-stock { display: grid; grid-template-columns: auto auto auto 1fr; gap: var(--s-3); align-items: center; }
+.ev-stock.up { border-left: 3px solid var(--ok); }
+.ev-stock.down { border-left: 3px solid var(--up); }
+.ev-impact { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 8px; background: var(--bg-2); }
+.ev-stock.up .ev-impact { color: var(--ok); }
+.ev-stock.down .ev-impact { color: var(--up); }
+
+/* ============ 机会清单(热点发酵分析) ============ */
+.opp-card { display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-5); }
+.opp-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-3); padding-bottom: var(--s-2); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.opp-badges { display: flex; gap: var(--s-2); flex-shrink: 0; }
+.ev-badge.ev-stage.ok { background: rgba(46,125,82,.1); color: var(--ok); }
+.ev-badge.ev-stage.warn { background: rgba(176,122,20,.1); color: var(--warn); }
+.ev-badge.ev-stage.up { background: rgba(200,57,43,.1); color: var(--up); }
+.ev-badge.ev-stage.down { background: rgba(120,120,120,.12); color: var(--muted); }
+.ev-badge.ev-priority { font-family: var(--mono); color: var(--accent); background: var(--accent-s); }
+
+@media (max-width: 720px) {
+  .ev-card, .opp-card { padding: var(--s-4); }
+  .ev-title { font-size: 15px; }
+  .ev-info { grid-template-columns: 1fr; gap: 2px; }
+  .ev-stock { grid-template-columns: 1fr; gap: 2px; }
+}
