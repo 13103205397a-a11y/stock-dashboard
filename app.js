@@ -763,34 +763,34 @@
     // 逻辑链: 取第一个(产业链本身无强弱,取首位)
     const bestLogic = (L && L.chains || [])[0];
 
-    // 精华卡: 标签 + 标题 + 一句话精华 + 强度徽章
+    // 精华卡: 标签 + 标题 + 一句话精华 + 强度徽章 + 跳转目标
     const cards = [
       bestOpp ? {
-        tag: "机会清单", tagCls: "ok",
+        tag: "机会清单", tagCls: "ok", go: "opportunities",
         title: bestOpp.name,
         essence: bestOpp.logic ? (bestOpp.logic.length > 60 ? bestOpp.logic.slice(0, 60) + "…" : bestOpp.logic) : "—",
         badge: bestOpp.stage || "", badgeCls: "warn"
       } : null,
       bestInd ? {
-        tag: "产业雷达", tagCls: "up",
+        tag: "产业雷达", tagCls: "up", go: "industry",
         title: bestInd.name,
         essence: bestInd.price_signal ? (bestInd.price_signal.length > 60 ? bestInd.price_signal.slice(0, 60) + "…" : bestInd.price_signal) : "—",
         badge: "置信度 " + (bestInd.confidence || "—"), badgeCls: "ok"
       } : null,
       bestMat ? {
-        tag: "材料涨价", tagCls: "warn",
+        tag: "材料涨价", tagCls: "warn", go: "materials",
         title: bestMat.name,
         essence: bestMat.price ? (bestMat.price.length > 60 ? bestMat.price.slice(0, 60) + "…" : bestMat.price) : "—",
         badge: bestMat.intensity || "", badgeCls: "up"
       } : null,
       bestEvt ? {
-        tag: "事件概率", tagCls: "up",
+        tag: "事件概率", tagCls: "up", go: "events",
         title: bestEvt.title,
         essence: bestEvt.importance_reason ? (bestEvt.importance_reason.length > 60 ? bestEvt.importance_reason.slice(0, 60) + "…" : bestEvt.importance_reason) : "—",
         badge: bestEvt.importance || "", badgeCls: "ok"
       } : null,
       bestLogic ? {
-        tag: "逻辑链", tagCls: "ok",
+        tag: "逻辑链", tagCls: "ok", go: "logic",
         title: bestLogic.name,
         essence: bestLogic.bottleneck ? (bestLogic.bottleneck.length > 60 ? bestLogic.bottleneck.slice(0, 60) + "…" : bestLogic.bottleneck) : "—",
         badge: "卡点", badgeCls: "warn"
@@ -798,7 +798,7 @@
     ].filter(Boolean);
 
     const cardHtml = cards.map((c) => `
-      <article class="home-best ${c.tagCls}">
+      <article class="home-best ${c.tagCls}" data-go="${esc(c.go)}">
         <div class="hb-top">
           <span class="hb-tag ${c.tagCls}">${esc(c.tag)}</span>
           <span class="hb-badge ${c.badgeCls}">${esc(c.badge)}</span>
@@ -813,10 +813,11 @@
         <div class="ix-row">${ixHtml}<span class="ix-date">截至 ${esc((ms && ms.date) || "")}</span></div>
         <div class="em-line"><span class="em up">涨停 ${s.zt_count ?? "—"}</span><span class="em warn">炸板 ${s.zb_count ?? "—"}</span><span class="em down">跌停 ${s.dt_count ?? "—"}</span><span class="em">炸板率 ${s.break_rate ?? "—"}%</span><span class="em">最高 ${s.max_height ?? "—"}连板</span>${nb ? `<span class="em ${sgn(nb.total_yi)}">北向 ${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}亿</span>` : ""}</div>
       </section>
-      ${secTitle("今日最强", "5个分析模块各取第1 · 仅供研究参考")}
+      ${secTitle("今日最强", "5个分析模块各取第1 · 点击查看详情")}
       <div class="home-best-grid">${cardHtml || emptyState("分析数据待生成")}</div>
       <div class="home-foot">数据时点 ${esc(MARKET.date || META.signalDate || "")} · 非投资建议</div>
     `;
+    el.querySelectorAll(".home-best").forEach((c) => c.addEventListener("click", () => switchView(c.dataset.go)));
   }
 
   /* ---------- 2. 持仓决策 ---------- */
