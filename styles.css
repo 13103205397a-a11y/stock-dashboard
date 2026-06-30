@@ -778,7 +778,10 @@ a.hc-news:hover { color: var(--accent-d); }
   position: relative; background: var(--card); border: 1px solid var(--line);
   border-left: 3px solid var(--muted); border-radius: var(--r);
   padding: var(--s-4) var(--s-5); display: flex; flex-direction: column; gap: var(--s-2);
+  cursor: pointer; transition: all .15s; -webkit-tap-highlight-color: transparent;
 }
+.home-best:hover { border-color: var(--accent-l); box-shadow: 0 2px 14px -4px rgba(60,50,30,.14); transform: translateY(-1px); }
+.home-best:active { transform: scale(.99); }
 .home-best.up { border-left-color: var(--up); }
 .home-best.ok { border-left-color: var(--ok); }
 .home-best.warn { border-left-color: var(--warn); }
