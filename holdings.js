@@ -1,53 +1,61 @@
 /* 持仓决策数据：德业股份 + 信维通信
  * 由 scripts/fetch_holdings.py 生成（a-stock-pro,免 key）
- * 时点: 2026-06-29 23:35:15
+ * 时点: 2026-06-30 17:00:50
  * 仅供研究参考,非投资建议。
  */
 window.HOLDINGS = {
-  "date": "2026-06-29",
-  "generatedAt": "2026-06-29 23:35:15",
+  "date": "2026-06-30",
+  "generatedAt": "2026-06-30 17:00:50",
   "list": [
     {
       "code": "605117",
       "name": "德业股份",
-      "price": 104.27,
-      "lastClose": 96.49,
+      "price": 106.18,
+      "lastClose": 104.27,
       "industry": "逆变器",
       "concept": [
         "逆变器",
         "电力设备",
         "光伏设备",
         "浙江板块",
-        "HS300_",
         "光伏概念",
         "融资融券",
         "上证180_",
         "沪股通",
         "MSCI中国",
         "国产芯片",
+        "储能概念",
+        "百元股",
+        "昨日高振幅",
         "周期股",
         "大盘股",
         "大盘成长",
         "2026一季报预增",
         "先进制造风格",
-        "储能概念"
+        "HS300_"
       ],
       "valuation": {
-        "pe_ttm": 36.34,
-        "pe_fwd": 24.4,
-        "peg": 0.92,
-        "pb": 13.37,
-        "mcap_yi": 1327.46,
+        "pe_ttm": 37.0,
+        "pe_fwd": 24.8,
+        "peg": 0.94,
+        "pb": 13.62,
+        "mcap_yi": 1351.78,
         "eps_cur": 4.28,
         "eps_next": 5.41,
-        "analyst_count": 22
+        "analyst_count": 23
       },
       "fund": {
-        "netInflow": 0.65,
-        "turnover": 2.33,
-        "date": "2026-06-29"
+        "netInflow": null,
+        "turnover": 1.61,
+        "date": "2026-06-30"
       },
       "research": [
+        {
+          "org": "群益证券",
+          "rating": "增持",
+          "title": "储能业务爆发式增长，新产品积极推进，建议“买进”",
+          "date": "2026-06-30"
+        },
         {
           "org": "国信证券",
           "rating": "增持",
@@ -71,20 +79,14 @@ window.HOLDINGS = {
           "rating": "买入",
           "title": "海外能源转型政策+能源危机驱动，储能业务快速成长",
           "date": "2026-04-17"
-        },
-        {
-          "org": "开源证券",
-          "rating": "买入",
-          "title": "公司信息更新报告：Q1业绩超预期，储能业务持续增长",
-          "date": "2026-04-13"
         }
       ]
     },
     {
       "code": "300136",
       "name": "信维通信",
-      "price": 116.75,
-      "lastClose": 118.19,
+      "price": 119.25,
+      "lastClose": 116.75,
       "industry": "消费电子零部件及组装",
       "concept": [
         "消费电子零部件及组装",
@@ -128,21 +130,27 @@ window.HOLDINGS = {
         "百元股"
       ],
       "valuation": {
-        "pe_ttm": 153.47,
-        "pe_fwd": 98.9,
-        "peg": 2.38,
-        "pb": 14.16,
-        "mcap_yi": 963.42,
-        "eps_cur": 1.18,
-        "eps_next": 1.67,
-        "analyst_count": 2
+        "pe_ttm": 156.75,
+        "pe_fwd": 104.6,
+        "peg": 2.29,
+        "pb": 14.47,
+        "mcap_yi": 984.05,
+        "eps_cur": 1.14,
+        "eps_next": 1.66,
+        "analyst_count": 3
       },
       "fund": {
-        "netInflow": -5.47,
-        "turnover": 14.08,
-        "date": "2026-06-29"
+        "netInflow": null,
+        "turnover": 10.13,
+        "date": "2026-06-30"
       },
       "research": [
+        {
+          "org": "华鑫证券",
+          "rating": "买入",
+          "title": "公司动态研究报告：加快多业务领域布局，定增募投项目推动构建第二增长曲线",
+          "date": "2026-06-30"
+        },
         {
           "org": "中邮证券",
           "rating": "买入",
@@ -166,12 +174,6 @@ window.HOLDINGS = {
           "rating": "买入",
           "title": "信维通信2024年三季报点评：Q3业绩稳中向好，消费电子回暖加速",
           "date": "2024-11-05"
-        },
-        {
-          "org": "东吴证券",
-          "rating": "买入",
-          "title": "2024年中报点评：主业受益AI手机升级，海外卫星加速渗透带来第二成长曲线",
-          "date": "2024-08-26"
         }
       ]
     }
