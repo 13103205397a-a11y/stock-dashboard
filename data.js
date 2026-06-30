@@ -4009,13 +4009,6 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "利通电子发布股价异动公告 自有算力设备均已对外出租并提示多项业务风险",
-        "date": "2026-06-23 22:12:09",
-        "source": "央广财经",
-        "url": "http://finance.eastmoney.com/a/202606233780047428.html",
-        "content": "6月23日，利通电子（603629.SH）发布股票交易异常波动公告，就公司算力业务相关运营情况及潜在风险作出说明：公司算力业务客户集中度相对较高，若主要客户经营状况、履约能力发生不利变化，可能对公司算力业务收入及盈利水平产生不利影响。"
-      },
-      {
         "title": "利通电子:利通电子关于调整董事会专门委员会成员的公告",
         "date": "2026-07-01",
         "source": "公司公告",
@@ -4024,6 +4017,13 @@ window.STOCKS = [
       },
       {
         "title": "利通电子:利通电子关于确认其他非流动金融资产公允价值变动的公告",
+        "date": "2026-07-01",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603629",
+        "content": ""
+      },
+      {
+        "title": "利通电子:利通电子2025年年度权益分派实施公告",
         "date": "2026-07-01",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603629",
@@ -9981,25 +9981,25 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "润泽科技:关于2023年限制性股票激励计划部分限制性股票回购注销完成的公告",
+        "date": "2026-06-30",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300442",
+        "content": ""
+      },
+      {
+        "title": "润泽科技:2025年年度权益分派实施公告",
+        "date": "2026-06-30",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300442",
+        "content": ""
+      },
+      {
         "title": "润泽科技：股东拟减持不超0.9931%公司股份",
         "date": "2026-06-01 21:10:53",
         "source": "第一财经",
         "url": "http://finance.eastmoney.com/a/202606013756302439.html",
         "content": "润泽科技公告，持股2.0613%的股东宁波大容明琛创业投资合伙企业（有限合伙）计划以集中竞价交易方式减持其持有的不超过1623.07万股股份（不超过公司总股本的0.9931%，不超过扣除公司回购专用账户股份后总股本的1%）。"
-      },
-      {
-        "title": "润泽科技：宁波大容计划减持不超0.9931%公司股份",
-        "date": "2026-06-01 20:51:00",
-        "source": "财中社",
-        "url": "http://finance.eastmoney.com/a/202606013756265717.html",
-        "content": "2026年一季度，润泽科技实现收入18.40亿元，归母净利润5.82亿元。"
-      },
-      {
-        "title": "润泽科技：股东宁波大容拟减持不超0.99%股份",
-        "date": "2026-06-01 20:32:11",
-        "source": "财联社",
-        "url": "http://finance.eastmoney.com/a/202606013756229611.html",
-        "content": "润泽科技(300442.SZ)公告称，特定股东宁波大容明琛创业投资合伙企业(有限合伙)计划自公告披露之日起15个交易日后90日内，以集中竞价方式减持不超过16,230,666股(约1,623.07万股)，占公司总股本的0.9931%，减持原因为自身资金需求。"
       }
     ],
     "fund": {
