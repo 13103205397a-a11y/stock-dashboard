@@ -115,8 +115,8 @@ def main():
     print("查找产业雷达 Hermes session...", flush=True)
     sessions = list_sessions(limit=100)
     if not sessions:
-        print("✗ 未找到任何 Hermes session。请先运行 agent/industry-radar.md 任务。", flush=True)
-        sys.exit(1)
+        print("⚠ 未找到任何 Hermes session,保留旧 industry.js 不更新。请先运行 agent/industry-radar.md 任务。", flush=True)
+        return
     # 匹配产业雷达相关 session(标题含"产业"/"供需"/"雷达"/"industry")
     keywords = ["产业雷达", "供需", "产业分析", "industry-radar", "industry", "涨价"]
     matched = []
@@ -148,9 +148,9 @@ def main():
             break
 
     if not found_json:
-        print("✗ 未在候选 session 中找到含 directions 的产业分析 JSON。", flush=True)
+        print("⚠ 未在候选 session 中找到含 directions 的产业分析 JSON,保留旧 industry.js 不更新。", flush=True)
         print("  请确认 agent/industry-radar.md 任务已运行且输出了 JSON 代码块。", flush=True)
-        sys.exit(1)
+        return
 
     # 写回 industry.js
     header = (

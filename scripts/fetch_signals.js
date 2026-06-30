@@ -33,7 +33,7 @@ function writeAtomic(file, content) {
 const DATA_HEADER =
   "/* 自选股数据：叙事 + 左/右侧策略 + 技术信号 + 消息面\n" +
   " * 技术信号(signal/left/right) ← scripts/fetch_signals.js（腾讯日K，前复权）\n" +
-  " * 消息面(fund/news/research) ← scripts/fetch_iwencai.py（同花顺问财）\n" +
+  " * 消息面：fund/research ← fetch_enhanced.py（东财/腾讯,免key）；news ← fetch_news.py（东财,免key）\n" +
   " * 叙事/证伪/增长点为 AI 整理。仅供研究参考，非投资建议。\n" +
   " * 数据时点见 meta.js 与各字段内 date。\n */\n";
 const fmt = (n) => (n == null ? "—" : (Math.abs(n) >= 100 ? n.toFixed(1) : n.toFixed(2)));
