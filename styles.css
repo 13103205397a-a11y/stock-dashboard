@@ -655,3 +655,40 @@ a.hc-news:hover { color: var(--accent-d); }
   .anomaly-chip.active { box-shadow: 0 2px 8px -2px var(--accent-l); }
   .sentiment-bar { font-size: 13px; }
 }
+
+/* ============ 产业雷达(供需调研) ============ */
+.sd-summary { background: var(--accent-s); border-left: 3px solid var(--accent); padding: var(--s-3) var(--s-4); border-radius: var(--r); margin-bottom: var(--s-4); font-size: 13px; line-height: 1.65; color: var(--text); }
+.sd-grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: var(--s-4); }
+.sd-card { display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-5); }
+.sd-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding-bottom: var(--s-2); border-bottom: 1px solid var(--line); }
+.sd-name { font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--ink); margin: 0; }
+.sd-conf { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 10px; background: var(--bg-2); color: var(--muted); white-space: nowrap; }
+.sd-conf.up { background: rgba(200,57,43,.1); color: var(--up); }
+.sd-conf.ok { background: rgba(46,125,82,.1); color: var(--ok); }
+.sd-conf.warn { background: rgba(176,122,20,.1); color: var(--warn); }
+.sd-grid { display: grid; gap: var(--s-3); }
+.sd-item { display: grid; grid-template-columns: 88px 1fr; gap: var(--s-3); align-items: start; }
+.sd-l { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: .3px; padding-top: 2px; }
+.sd-v { font-size: 13.5px; line-height: 1.65; color: var(--text); margin: 0; }
+.sd-item.sd-price .sd-v { color: var(--up); font-weight: 500; }
+.sd-item.sd-risk { background: rgba(176,122,20,.06); border-radius: var(--r-sm); padding: var(--s-2); }
+.sd-item.sd-risk .sd-v { color: var(--warn); }
+.sd-stocks { border-top: 1px dashed var(--line); padding-top: var(--s-3); }
+.sd-stock-list { display: flex; flex-direction: column; gap: var(--s-2); margin-top: var(--s-2); }
+.ind-stock { display: grid; grid-template-columns: auto auto 1fr; gap: var(--s-3); align-items: center; text-align: left; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--r-sm); padding: var(--s-2) var(--s-3); cursor: pointer; transition: all .15s; -webkit-tap-highlight-color: transparent; }
+.ind-stock:hover { border-color: var(--accent-l); background: var(--card); }
+.ind-stock:active { transform: scale(.98); }
+.is-name { font-weight: 600; font-size: 14px; color: var(--ink); }
+.is-code { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+.is-role { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.sd-foot { font-size: 10px; color: var(--dim); margin-top: var(--s-1); }
+
+@media (max-width: 720px) {
+  .sd-grid-cards { grid-template-columns: 1fr; gap: var(--s-3); }
+  .sd-card { padding: var(--s-4); }
+  .sd-name { font-size: 16px; }
+  .sd-item { grid-template-columns: 1fr; gap: 2px; }
+  .sd-l { padding-top: 0; }
+  .ind-stock { grid-template-columns: 1fr; gap: 2px; }
+}
+
