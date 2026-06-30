@@ -828,21 +828,33 @@
   function renderLogic() {
     const el = $("#viewLogic");
     if (!el) return;
-    // 以巨头为锚,展示每只自选的板块归属 + 同概念关联
-    const chains = STOCKS.slice(0, 12).map((st) => {
-      const blocks = st.blocks || (st.valuation ? null : null);
-      const tags = (st.tags || []).slice(0, 6).map((t) => `<span class="lc-tag">${esc(t)}</span>`).join("");
-      const concept = (st._concept || []).slice(0, 4).map((c) => `<span class="lc-concept">${esc(c)}</span>`).join("");
-      return `<article class="card blk lc-card" data-code="${esc(st.code)}">
-        <div class="lc-head"><span class="lc-name">${esc(st.name)}</span><span class="lc-code">${esc(st.code)}</span><span class="lc-sec">${esc(st.sector || "")}</span></div>
-        <div class="lc-narr">${esc((st.narrative || "").slice(0, 80))}${st.narrative && st.narrative.length > 80 ? "…" : ""}</div>
-        ${tags ? `<div class="lc-tags">${tags}</div>` : ""}
-        ${concept ? `<div class="lc-concepts">${concept}</div>` : ""}
+    const LOGIC = window.LOGIC || null;
+    if (!LOGIC || !LOGIC.chains || !LOGIC.chains.length) {
+      el.innerHTML = secTitle("逻辑链", "产业链上下游拆解") + emptyState("产业链数据待生成。");
+      return;
+    }
+    const cards = LOGIC.chains.map((c) => {
+      const segs = (c.segments || []).map((s) => {
+        const stocks = (s.stocks || []).map((st) =>
+          `<button class="ind-stock" data-code="${esc(st.code)}"><span class="is-name">${esc(st.name)}</span><span class="is-code">${esc(st.code)}</span><span class="is-role">${esc(st.role || "")}</span></button>`
+        ).join("");
+        return `<div class="lc-seg">
+          <div class="lc-seg-head"><span class="lc-stage">${esc(s.stage)}</span><span class="lc-supply ${s.supply && /紧|缺/.test(s.supply) ? "warn" : ""}">${esc((s.supply || "").slice(0, 30))}</span></div>
+          <div class="lc-products">${esc(s.products || "—")}</div>
+          ${stocks ? `<div class="sd-stock-list">${stocks}</div>` : '<div class="lc-no-stock">未点名核心A股</div>'}
+        </div>`;
+      }).join("");
+      return `<article class="card blk lc-chain">
+        <div class="lc-chain-head"><h3 class="sd-name">${esc(c.name)}</h3><span class="lc-asof">${esc(c.asof || "")}</span></div>
+        <div class="lc-logic"><span class="sd-l">核心逻辑</span><p class="sd-v">${esc(c.logic || "—")}</p></div>
+        <div class="lc-bottleneck"><span class="sd-l">卡脖子环节</span><p class="sd-v">${esc(c.bottleneck || "—")}</p></div>
+        <div class="lc-segs"><span class="sd-l">上下游拆解</span>${segs}</div>
       </article>`;
     }).join("");
-    el.innerHTML = secTitle("逻辑链", "巨头产业链 · 板块/概念归属") +
-      (chains ? `<div class="lc-grid">${chains}</div>` : emptyState("自选数据待生成。"));
-    el.querySelectorAll(".lc-card").forEach((c) => c.addEventListener("click", () => openDrawer(c.dataset.code)));
+    el.innerHTML = secTitle("逻辑链", `产业链上下游拆解 · ${esc(LOGIC.date || "")}`) +
+      (LOGIC.summary ? `<div class="sd-summary">${esc(LOGIC.summary)}</div>` : "") +
+      `<div class="sd-grid-cards">${cards}</div>`;
+    el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
 
   /* ---------- 6. 产业雷达 ---------- */
