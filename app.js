@@ -734,12 +734,18 @@
     const el = $("#viewHome");
     if (!el) return;
     const ms = META.marketSnapshot;
+    // 指数:每个做成独立卡片块(名称+价格+涨跌幅+涨跌色背景)
     const ixHtml = ms && ms.indices && ms.indices.length
       ? ms.indices.map((i) => {
-          const cls = i.pct > 0 ? "up" : i.pct < 0 ? "down" : "";
-          return `<span class="ix"><span class="ix-n">${esc(i.name)}</span><span class="ix-c ${cls}">${i.pct > 0 ? "+" : ""}${esc(i.pct)}%</span></span>`;
+          const cls = i.pct > 0 ? "up" : i.pct < 0 ? "down" : "flat";
+          const sign = i.pct > 0 ? "+" : "";
+          return `<div class="idx-card ${cls}">
+            <div class="idx-name">${esc(i.name)}</div>
+            <div class="idx-price">${esc(i.price)}</div>
+            <div class="idx-chg">${sign}${esc(i.pct)}%</div>
+          </div>`;
         }).join("")
-      : `<span class="empty-inline">待生成</span>`;
+      : `<div class="empty-inline">大盘数据待生成</div>`;
     const s = MARKET.sentiment || {};
     const nb = MARKET.northbound;
     const I = window.INDUSTRY;
@@ -808,10 +814,20 @@
       </article>`).join("");
 
     el.innerHTML = `
-      <section class="card blk home-top">
-        <h3 class="blk-h">大盘速览</h3>
-        <div class="ix-row">${ixHtml}<span class="ix-date">截至 ${esc((ms && ms.date) || "")}</span></div>
-        <div class="em-line"><span class="em up">涨停 ${s.zt_count ?? "—"}</span><span class="em warn">炸板 ${s.zb_count ?? "—"}</span><span class="em down">跌停 ${s.dt_count ?? "—"}</span><span class="em">炸板率 ${s.break_rate ?? "—"}%</span><span class="em">最高 ${s.max_height ?? "—"}连板</span>${nb ? `<span class="em ${sgn(nb.total_yi)}">北向 ${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}亿</span>` : ""}</div>
+      <section class="home-market">
+        <div class="hm-head">
+          <h3 class="hm-title">大盘速览</h3>
+          <span class="hm-date">截至 ${esc((ms && ms.date) || "")}</span>
+        </div>
+        <div class="idx-grid">${ixHtml}</div>
+        <div class="hm-sentiment">
+          <div class="sent-block up"><div class="sb-n">${s.zt_count ?? "—"}</div><div class="sb-l">涨停</div></div>
+          <div class="sent-block warn"><div class="sb-n">${s.zb_count ?? "—"}</div><div class="sb-l">炸板</div></div>
+          <div class="sent-block down"><div class="sb-n">${s.dt_count ?? "—"}</div><div class="sb-l">跌停</div></div>
+          <div class="sent-block"><div class="sb-n">${s.break_rate ?? "—"}<span class="sb-u">%</span></div><div class="sb-l">炸板率</div></div>
+          <div class="sent-block"><div class="sb-n">${s.max_height ?? "—"}<span class="sb-u">板</span></div><div class="sb-l">最高连板</div></div>
+          ${nb ? `<div class="sent-block ${sgn(nb.total_yi)}"><div class="sb-n">${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}<span class="sb-u">亿</span></div><div class="sb-l">北向净额</div></div>` : ""}
+        </div>
       </section>
       ${secTitle("今日最强", "5个分析模块各取第1 · 点击查看详情")}
       <div class="home-best-grid">${cardHtml || emptyState("分析数据待生成")}</div>
