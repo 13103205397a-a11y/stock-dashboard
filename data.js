@@ -962,7 +962,7 @@ window.STOCKS = [
       "peg": 2.52,
       "pb": 15.38,
       "mcap_yi": 2005.41,
-      "eps_cur": 2.0,
+      "eps_cur": 2,
       "eps_next": 3.02,
       "analyst_count": 5,
       "asof": "2026-06-30"
@@ -1198,7 +1198,7 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 659.49,
-      "pe_fwd": 292.0,
+      "pe_fwd": 292,
       "peg": 4.32,
       "pb": 95.27,
       "mcap_yi": 2317.75,
@@ -1878,7 +1878,7 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 3.0,
+      "turnover": 3,
       "date": "2026-06-30",
       "asof": "2026-06-30"
     },
@@ -5906,13 +5906,6 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "江波龙：第三届董事会第十九次会议决议公告",
-        "date": "2026-06-18 21:22:00",
-        "source": "证券日报",
-        "url": "http://finance.eastmoney.com/a/202606183776410725.html",
-        "content": "证券日报网讯 6月18日，江波龙发布公告称，公司于2026年6月18日召开第三届董事会第十九次会议，会议审议通过《关于公司2025年度向特定对象发行A股股票相关授权的议案》。"
-      },
-      {
         "title": "江波龙:关于董事股份减持计划实施完毕的公告",
         "date": "2026-06-26",
         "source": "公司公告",
@@ -5922,6 +5915,13 @@ window.STOCKS = [
       {
         "title": "江波龙:第三届董事会第十九次会议决议公告",
         "date": "2026-06-18",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301308",
+        "content": ""
+      },
+      {
+        "title": "江波龙:关于向特定对象发行股票申请获得中国证监会同意注册批复的公告",
+        "date": "2026-06-12",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301308",
         "content": ""
@@ -8298,6 +8298,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "阳光电源:关于为子公司提供担保额度预计的进展公告",
+        "date": "2026-06-30",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300274",
+        "content": ""
+      },
+      {
         "title": "阳光电源:关于2025年年度报告(英文简版)的自愿性披露公告",
         "date": "2026-06-08",
         "source": "公司公告",
@@ -8307,13 +8314,6 @@ window.STOCKS = [
       {
         "title": "阳光电源:关于2022年限制性股票激励计划首次授予部分第四个归属期归属结果暨股份上市公告",
         "date": "2026-06-02",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300274",
-        "content": ""
-      },
-      {
-        "title": "阳光电源:关于控股股东部分股份解除质押及质押的公告",
-        "date": "2026-06-01",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300274",
         "content": ""
@@ -8599,7 +8599,7 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 37.0,
+      "pe_ttm": 37,
       "pe_fwd": 24.8,
       "peg": 0.94,
       "pb": 13.62,
@@ -9080,7 +9080,7 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 231.41,
-      "pe_fwd": 117.0,
+      "pe_fwd": 117,
       "peg": 1.99,
       "pb": 12.4,
       "mcap_yi": 300.26,
@@ -10047,7 +10047,7 @@ window.STOCKS = [
       "peg": 1.54,
       "pb": 9.48,
       "mcap_yi": 1360.88,
-      "eps_cur": 2.0,
+      "eps_cur": 2,
       "eps_next": 2.54,
       "analyst_count": 13,
       "asof": "2026-06-30"
@@ -10283,7 +10283,7 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 2033.12,
-      "pe_fwd": 165.0,
+      "pe_fwd": 165,
       "peg": 1.56,
       "pb": 59.02,
       "mcap_yi": 469.24,
@@ -10941,6 +10941,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "红星发展:红星发展股票交易风险提示公告",
+        "date": "2026-07-01",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600367",
+        "content": ""
+      },
+      {
         "title": "红星发展:红星发展关于公司及全资子公司拟公开挂牌转让所持万山鹏程矿业有限责任公司全部股权及债权的公告",
         "date": "2026-06-19",
         "source": "公司公告",
@@ -10950,13 +10957,6 @@ window.STOCKS = [
       {
         "title": "红星发展:红星发展第九届董事会第五次临时会议决议公告",
         "date": "2026-06-19",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600367",
-        "content": ""
-      },
-      {
-        "title": "红星发展:红星发展股票交易异常波动暨风险提示公告",
-        "date": "2026-06-05",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600367",
         "content": ""
