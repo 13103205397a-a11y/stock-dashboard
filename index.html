@@ -53,6 +53,10 @@
           <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5 5l14 14M19 5L5 19"/></svg>
           <span>产业雷达</span>
         </button>
+        <button class="nav-item" data-view="materials">
+          <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2v20M4 7l8-5 8 5M4 17l8 5 8-5M4 7v10M20 7v10"/></svg>
+          <span>材料涨价</span>
+        </button>
         <button class="nav-item" data-view="events">
           <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l4-4 4 4 4-8 4 8"/><circle cx="3" cy="17" r="1"/><circle cx="7" cy="13" r="1"/><circle cx="11" cy="17" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="19" cy="17" r="1"/></svg>
           <span>事件概率</span>
@@ -110,6 +114,9 @@
 
         <!-- 产业雷达 -->
         <section class="view industry-only" id="viewIndustry"></section>
+
+        <!-- 材料涨价 -->
+        <section class="view materials-only" id="viewMaterials"></section>
 
         <!-- 事件概率 -->
         <section class="view events-only" id="viewEvents"></section>
@@ -203,6 +210,7 @@
   <script src="market.js?v=4"></script>
   <script src="holdings.js?v=4" onerror="window.HOLDINGS=null"></script>
   <script src="industry.js?v=4" onerror="window.INDUSTRY=null"></script>
+  <script src="materials.js?v=4" onerror="window.MATERIALS=null"></script>
   <script src="logic.js?v=4" onerror="window.LOGIC=null"></script>
   <script src="events.js?v=4" onerror="window.EVENTS=null"></script>
   <script src="opportunities.js?v=4" onerror="window.OPPORTUNITIES=null"></script>

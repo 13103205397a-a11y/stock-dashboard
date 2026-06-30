@@ -653,6 +653,7 @@
     logic: () => renderLogic(),
     agent: () => renderReports(),
     industry: () => renderIndustry(),
+    materials: () => renderMaterials(),
     events: () => renderEvents(),
     news: () => renderNewsAll(),
     watch: () => render(),
@@ -916,6 +917,43 @@
     const rowHtml = (r) => `<div class="ind-row ${r.change_pct > 0 ? "up" : r.change_pct < 0 ? "down" : ""}"><span class="ind-rank">${r.rank}</span><span class="ind-name">${esc(r.name)}</span><span class="ind-chg">${r.change_pct > 0 ? "+" : ""}${r.change_pct}%</span><span class="ind-cnt">↑${r.up_count} ↓${r.down_count}</span><span class="ind-leader">龙头 ${esc(r.leader || "—")}</span></div>`;
     el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY.total || 0} 个行业`) +
       `<div class="ind-cols"><section class="card blk"><h3 class="blk-h">涨幅前 ${(INDUSTRY.top||[]).length}</h3><div class="ind-list">${(INDUSTRY.top||[]).map(rowHtml).join("")}</div></section></div>`;
+  }
+
+  /* ---------- 6.5 材料涨价 ---------- */
+  function renderMaterials() {
+    const el = $("#viewMaterials");
+    if (!el) return;
+    const MAT = window.MATERIALS || null;
+    if (!MAT || !MAT.directions || !MAT.directions.length) {
+      el.innerHTML = secTitle("材料涨价", "原材料/大宗商品涨价调研") + emptyState("材料涨价数据待生成。");
+      return;
+    }
+    const intCls = { "极强": "up", "强": "ok", "中强": "warn", "中": "warn", "弱": "down" };
+    const cards = MAT.directions.map((d) => {
+      const stocks = (d.stocks || []).map((s) =>
+        `<button class="ind-stock" data-code="${esc(s.code)}"><span class="is-name">${esc(s.name)}</span><span class="is-code">${esc(s.code)}</span><span class="is-role">${esc(s.role || "")}</span></button>`
+      ).join("");
+      return `<article class="card blk mat-card">
+        <div class="sd-head">
+          <h3 class="sd-name">${esc(d.name)}</h3>
+          <span class="sd-conf ${intCls[d.intensity] || ""}">涨价强度 ${esc(d.intensity || "—")}</span>
+        </div>
+        <div class="sd-grid">
+          <div class="sd-item sd-price"><span class="sd-l">价格/涨幅</span><p class="sd-v">${esc(d.price || "—")}</p></div>
+          <div class="sd-item"><span class="sd-l">涨价时点</span><p class="sd-v">${esc(d.timing || "—")}</p></div>
+          <div class="sd-item"><span class="sd-l">涨价驱动</span><p class="sd-v">${esc(d.driver || "—")}</p></div>
+          <div class="sd-item"><span class="sd-l">供需状况</span><p class="sd-v">${esc(d.supply || "—")}</p></div>
+          <div class="sd-item"><span class="sd-l">下游应用</span><p class="sd-v">${esc(d.downstream || "—")}</p></div>
+          <div class="sd-item sd-risk"><span class="sd-l">风险/反向信号</span><p class="sd-v">${esc(d.risk || "—")}</p></div>
+        </div>
+        <div class="sd-stocks"><span class="sd-l">相关受益股</span><div class="sd-stock-list">${stocks}</div></div>
+        <div class="sd-foot">数据时点 ${esc(d.asof || "")} · 仅供研究参考,非投资建议</div>
+      </article>`;
+    }).join("");
+    el.innerHTML = secTitle("材料涨价", `原材料/大宗商品涨价调研 · ${esc(MAT.date || "")}`) +
+      (MAT.summary ? `<div class="sd-summary">${esc(MAT.summary)}</div>` : "") +
+      `<div class="sd-grid-cards">${cards}</div>`;
+    el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
 
   /* ---------- 7. 事件概率 ---------- */
