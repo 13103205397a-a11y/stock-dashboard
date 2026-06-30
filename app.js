@@ -11,6 +11,9 @@
 
   const state = { sector: "全部", verdict: "all", q: "", sort: "default" };
   const marketState = { anomaly: "gainers", q: "" };
+  // 视图滚动位置记忆(A2):curView 跟踪当前视图,viewScroll 存各视图上次 scrollY
+  let curView = "home";
+  const viewScroll = new Map();
 
   const $ = (s) => document.querySelector(s);
   const grid = $("#grid");
@@ -19,7 +22,14 @@
   /* ---------- 顶栏 / 统计 ---------- */
   function renderMeta() {
     const day = META.signalDate || META.lastUpdated || "—";
-    $("#updated").textContent = day;
+    // A3: 数据时效色点。距今天数 ≤1 绿(最新)、2-4 黄(覆盖周末)、>4 红(过期)
+    let d = null, cls = "";
+    if (/^\d{4}-\d{2}-\d{2}$/.test(day)) {
+      d = Math.floor((Date.now() - new Date(day + "T00:00:00")) / 86400000);
+      cls = d <= 1 ? "ok" : d <= 4 ? "warn" : "bad";
+    }
+    const tip = d == null ? "" : d <= 1 ? "最新" : d <= 4 ? `${d}天前` : "数据过期";
+    $("#updated").innerHTML = `<span class="fresh ${cls}"></span>行情截至 ${esc(day)}${tip ? ` <span class="fresh-tip ${cls}">${tip}</span>` : ""}`;
     const ss = $("#signalStat");
     if (ss) ss.textContent = META.signalStat || "";
     renderMarketSnap();
@@ -272,6 +282,7 @@
   }
 
   function openDrawer(code) {
+    document.body.style.overflow = "hidden";   // A1: 抽屉打开锁背景滚动
     const s = STOCKS.find((x) => x.code === code);
     if (!s) return;
     const r = s.review || {};
@@ -417,6 +428,7 @@
     $("#drawer").classList.remove("show");
     $("#drawer").setAttribute("aria-hidden", "true");
     $("#backdrop").classList.remove("show");
+    document.body.style.overflow = "";          // A1: 关闭恢复背景滚动
   }
 
   /* ---------- 全市场异动视图 ---------- */
@@ -543,6 +555,7 @@
 
   // 异动票详情抽屉(降级版:若在 STOCKS 里则用完整叙事抽屉,否则只显示行情)
   function openMarketDrawer(code) {
+    document.body.style.overflow = "hidden";   // A1: 抽屉打开锁背景滚动
     const inWatch = STOCKS.find((x) => x.code === code);
     if (inWatch) { openDrawer(code); return; }
     // 从 MARKET 各池里找这只票
@@ -661,6 +674,8 @@
     hot: () => renderHot(),
   };
   function switchView(view) {
+    // A2: 切走前记住当前视图滚动位置
+    viewScroll.set(curView, window.scrollY);
     // 清掉所有 view-* class,再设当前
     document.body.classList.forEach((c) => { if (c.startsWith("view-")) document.body.classList.remove(c); });
     document.body.classList.add("view-" + view);
@@ -670,7 +685,9 @@
     if (fn) { try { fn(); } catch (e) { console.warn("render " + view + " failed", e); } }
     // 移动端:切完关侧栏
     document.body.classList.remove("sidebar-open");
-    window.scrollTo(0, 0);
+    // A2: 恢复该视图上次滚动位置;首次访问回顶(与原行为一致)
+    window.scrollTo(0, viewScroll.get(view) ?? 0);
+    curView = view;
     // 更新计数文案
     const cnt = $("#count");
     if (cnt && view === "watch") cnt.textContent = `显示 ${STOCKS.length} / ${STOCKS.length} 只`;
