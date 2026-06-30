@@ -664,15 +664,15 @@ window.STOCKS = [
         "content": "对于物料紧缺的情况，天孚通信表示，公司一直积极与供应商保持紧密沟通，预计今年下半年开始供应紧缺矛盾会逐步缓解。"
       },
       {
-        "title": "天孚通信:2025年年度权益分派实施公告",
-        "date": "2026-06-05",
+        "title": "天孚通信:关于全资子公司对外投资设立合资公司的进展公告",
+        "date": "2026-06-30",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300394",
         "content": ""
       },
       {
-        "title": "天孚通信:关于更换持续督导保荐代表人的公告",
-        "date": "2026-05-22",
+        "title": "天孚通信:2025年年度权益分派实施公告",
+        "date": "2026-06-05",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300394",
         "content": ""
@@ -1137,7 +1137,7 @@ window.STOCKS = [
     "news": [
       {
         "title": "源杰科技:陕西源杰半导体科技股份有限公司关于股票交易风险提示公告",
-        "date": "2026-06-23",
+        "date": "2026-07-01",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=688498",
         "content": ""
@@ -1855,6 +1855,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "长飞光纤:长飞光纤光缆股份有限公司2025年年度股东会决议公告",
+        "date": "2026-07-01",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601869",
+        "content": ""
+      },
+      {
         "title": "长飞光纤:长飞光纤光缆股份有限公司关于股票交易异常波动的公告",
         "date": "2026-06-24",
         "source": "公司公告",
@@ -1867,13 +1874,6 @@ window.STOCKS = [
         "source": "中国经营报",
         "url": "http://finance.eastmoney.com/a/202606233779663271.html",
         "content": "这一事件成为长飞光纤股价大涨的直接原因。 　　记者注意到，近期，长飞光纤市值飞速增长。继4月2日长飞光纤A+H股总市值突破2000亿元关口后，6月22日，长飞光纤A+H股总市值进一步突破3000亿元大关。"
-      },
-      {
-        "title": "长飞光纤:长飞光纤光缆股份有限公司投资者关系活动记录表_2025年度暨2026年第一季度业绩说明会",
-        "date": "2026-05-23",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601869",
-        "content": ""
       }
     ],
     "fund": {
@@ -4016,15 +4016,15 @@ window.STOCKS = [
         "content": "6月23日，利通电子（603629.SH）发布股票交易异常波动公告，就公司算力业务相关运营情况及潜在风险作出说明：公司算力业务客户集中度相对较高，若主要客户经营状况、履约能力发生不利变化，可能对公司算力业务收入及盈利水平产生不利影响。"
       },
       {
-        "title": "利通电子:利通电子股票交易异常波动公告",
-        "date": "2026-06-24",
+        "title": "利通电子:利通电子关于调整董事会专门委员会成员的公告",
+        "date": "2026-07-01",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603629",
         "content": ""
       },
       {
-        "title": "利通电子:利通电子关于2025年年度暨2026年第一季度业绩说明会召开情况的公告",
-        "date": "2026-06-03",
+        "title": "利通电子:利通电子关于确认其他非流动金融资产公允价值变动的公告",
+        "date": "2026-07-01",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603629",
         "content": ""
