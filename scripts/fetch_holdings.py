@@ -57,8 +57,10 @@ def build_one(code):
             "eps_next": fv.get("eps_next"),
             "analyst_count": fv.get("analyst_count"),
         }
-    # 3. 资金流向(分钟级,取最新主力净)
-    flow = safe(a.eastmoney_fund_flow_minute, code, default=[])
+    # 3. 资金流向:优先 120日日级(push2his,不易风控),回退分钟级(push2)
+    flow = safe(a.stock_fund_flow_120d, code, default=[])
+    if not flow:
+        flow = safe(a.eastmoney_fund_flow_minute, code, default=[])
     net_inflow = None
     if flow:
         net_inflow = round((flow[-1].get("main_net", 0) or 0) / 1e8, 2)
