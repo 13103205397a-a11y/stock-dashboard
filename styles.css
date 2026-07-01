@@ -3,16 +3,16 @@
    原则：统一间距 / 克制配色 / 精致发丝线 / 呼吸感留白
    ============================================================ */
 :root {
-  /* —— 纸张与墨（极简暖灰底）—— */
-  --bg:        #F5F2EC;
-  --bg-2:      #EFEBE2;
+  /* —— 纸张与墨（白底系，符合 Mac 原生审美）—— */
+  --bg:        #FFFFFF;
+  --bg-2:      #F5F5F7;
   --card:      #FFFFFF;
-  --line:      #E4DFD3;
-  --line-2:    #D2CBB9;
-  --ink:       #1A1A1A;
-  --text:      #2C2C2C;
-  --muted:     #76705F;
-  --dim:       #A8A190;
+  --line:      #E5E5EA;
+  --line-2:    #D1D1D6;
+  --ink:       #1D1D1F;
+  --text:      #1D1D1F;
+  --muted:     #6E6E73;
+  --dim:       #AEAEB2;
 
   /* —— 唯一强调：赭石（只用于一处）—— */
   --accent:       #B85C1F;
@@ -44,8 +44,8 @@
   --r-sm: 6px;  --r: 10px;  --r-lg: 14px;
 
   /* —— 阴影（极淡）—— */
-  --shadow:    0 1px 3px rgba(60,50,30,.06), 0 4px 16px -8px rgba(60,50,30,.10);
-  --shadow-lg: 0 4px 24px -10px rgba(60,50,30,.18);
+  --shadow:    0 1px 2px rgba(0,0,0,.04), 0 2px 8px -4px rgba(0,0,0,.08);
+  --shadow-lg: 0 4px 16px -6px rgba(0,0,0,.12);
 
   --maxw: 1380px;
   --gutter: clamp(16px, 4vw, 40px);
@@ -53,6 +53,61 @@
   /* iOS 安全区(刘海屏/Home 条) */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bot: env(safe-area-inset-bottom, 0px);
+}
+
+/* ============ 深色模式（Swift 主动设置 data-theme=dark / 系统自动）============ */
+:root[data-theme="dark"] {
+  --bg:        #1C1C1E;
+  --bg-2:      #2C2C2E;
+  --card:      #2C2C2E;
+  --line:      #3A3A3C;
+  --line-2:    #48484A;
+  --ink:       #FFFFFF;
+  --text:      #FFFFFF;
+  --muted:     #98989D;
+  --dim:       #636366;
+  --accent:       #FF9F0A;
+  --accent-d:     #FFB340;
+  --accent-s:     rgba(255,159,10,.12);
+  --accent-l:     rgba(255,159,10,.30);
+  --slate:        #5A9FD4;
+  --slate-s:      rgba(90,159,212,.10);
+  --slate-l:      rgba(90,159,212,.28);
+  --up:    #FF453A;
+  --down:  #30D158;
+  --ok:    #30D158;
+  --warn:  #FFD60A;
+  --bad:   #FF453A;
+  --shadow:    0 1px 2px rgba(0,0,0,.20), 0 2px 8px -4px rgba(0,0,0,.40);
+  --shadow-lg: 0 4px 16px -6px rgba(0,0,0,.50);
+}
+/* 浏览器里跟随系统(网页单独访问时) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #1C1C1E;
+    --bg-2:      #2C2C2E;
+    --card:      #2C2C2E;
+    --line:      #3A3A3C;
+    --line-2:    #48484A;
+    --ink:       #FFFFFF;
+    --text:      #FFFFFF;
+    --muted:     #98989D;
+    --dim:       #636366;
+    --accent:       #FF9F0A;
+    --accent-d:     #FFB340;
+    --accent-s:     rgba(255,159,10,.12);
+    --accent-l:     rgba(255,159,10,.30);
+    --slate:        #5A9FD4;
+    --slate-s:      rgba(90,159,212,.10);
+    --slate-l:      rgba(90,159,212,.28);
+    --up:    #FF453A;
+    --down:  #30D158;
+    --ok:    #30D158;
+    --warn:  #FFD60A;
+    --bad:   #FF453A;
+    --shadow:    0 1px 2px rgba(0,0,0,.20), 0 2px 8px -4px rgba(0,0,0,.40);
+    --shadow-lg: 0 4px 16px -6px rgba(0,0,0,.50);
+  }
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -85,7 +140,10 @@ html, body {
   text-rendering: optimizeLegibility;
   min-height: 100vh;
 }
-body { background-image: linear-gradient(180deg, #F8F5EF 0%, var(--bg) 180px); background-repeat: no-repeat; }
+body { background: var(--bg); padding-top: env(safe-area-inset-top, 0px); }
+/* App 里毛玻璃标题栏透明,给红绿灯按钮留出空间 */
+:root { --titlebar-h: 28px; }
+body { padding-top: var(--titlebar-h); }
 
 ::selection { background: var(--accent-s); }
 ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -137,11 +195,11 @@ body { background-image: linear-gradient(180deg, #F8F5EF 0%, var(--bg) 180px); b
 /* A3: 数据时效色点(绿=最新 / 黄=周末内 / 红=过期) */
 .fresh { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; background: var(--dim); vertical-align: middle; }
 .fresh.ok { background: var(--down); }
-.fresh.warn { background: #e0a800; }
+.fresh.warn { background: var(--warn); }
 .fresh.bad { background: var(--up); }
 .fresh-tip { font-family: var(--mono); font-size: 10px; margin-left: 4px; }
 .fresh-tip.ok { color: var(--down); }
-.fresh-tip.warn { color: #e0a800; }
+.fresh-tip.warn { color: var(--warn); }
 .fresh-tip.bad { color: var(--up); }
 .side-foot .search-box { width: 100%; padding: var(--s-2); }
 
