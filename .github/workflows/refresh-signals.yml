@@ -39,7 +39,7 @@ jobs:
           python-version: "3.11"
 
       - name: 安装 Python 依赖(问财技能 + a-stock-pro 用)
-        run: pip install --quiet requests numpy pandas
+        run: pip install --quiet requests numpy pandas mootdx
 
       - name: 抓取日K(腾讯前复权)
         run: bash scripts/fetch_klines.sh
