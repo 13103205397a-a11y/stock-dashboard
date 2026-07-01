@@ -2577,6 +2577,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "胜宏科技:2026-059关于对子公司及子公司之间提供担保的进展公告",
+        "date": "2026-07-02",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300476",
+        "content": ""
+      },
+      {
         "title": "胜宏科技:2026年第二次临时股东会决议公告",
         "date": "2026-06-29",
         "source": "公司公告",
@@ -2589,13 +2596,6 @@ window.STOCKS = [
         "source": "每日经济新闻",
         "url": "http://finance.eastmoney.com/a/202606303788023897.html",
         "content": "相关个股方面，TCL科技涨停，智谱上涨11.98%，中科曙光上涨 7.77%，领益智造上涨8.06%，胜宏科技上涨7.55%。 　　消息面上，胜宏科技布投资者关系活动记录表公告，目前公司已有部分ASIC相关PCB产品进行批量生产，业务进展顺利。"
-      },
-      {
-        "title": "胜宏科技：mSAP车间当前在手订单饱满 产能利用率处于良好水平",
-        "date": "2026-06-30 08:36:00",
-        "source": "南方财经网",
-        "url": "http://finance.eastmoney.com/a/202606303787345178.html",
-        "content": "胜宏科技在投资者关系活动中表示，公司在惠州配置的mSAP车间目前用于满足1.6T光模块的生产需求，当前在手订单饱满，产能利用率处于良好水平；公司与相关客户保持密切沟通，将围绕客户需求进行产能布局。"
       }
     ],
     "fund": {
@@ -8552,6 +8552,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "光伏逆变器龙头一度接近20cm跌停，板块公司纷纷回应，影响几何？",
+        "date": "2026-07-01 19:39:22",
+        "source": "界面新闻",
+        "url": "http://finance.eastmoney.com/a/202607013790442231.html",
+        "content": "阳光电源、锦浪科技、固德威、德业股份、禾迈股份、昱能科技、上能电气等公司均有海外业务，但不同企业在区域、产品和客户结构上并不相同。"
+      },
+      {
         "title": "德业股份:关于2022年股票期权激励计划2026年第二季度自主行权结果暨股份变动的公告",
         "date": "2026-07-02",
         "source": "公司公告",
@@ -8561,13 +8568,6 @@ window.STOCKS = [
       {
         "title": "德业股份:关于全资子公司签署二期投资协议暨对外投资进展公告",
         "date": "2026-06-24",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=605117",
-        "content": ""
-      },
-      {
-        "title": "德业股份:关于2022年股票期权激励计划预留授予部分第二个行权期到期未行权的股票期权注销完成的公告",
-        "date": "2026-06-02",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=605117",
         "content": ""
@@ -11200,6 +11200,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "雅克科技：关于公司股票交易异常波动的公告",
+        "date": "2026-07-01 19:52:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202607013790461134.html",
+        "content": "证券日报网讯 7月1日，雅克科技发布公告称，公司，股票交易价格连续三个交易日（2026年6月29日、2026年6月30日、2026年7月1日）收盘价格涨幅偏离值累计超过20%，根据深圳证券交易所相关规则，公司股票交易属于异常波动情况。"
+      },
+      {
         "title": "雅克科技:关于公司股票交易异常波动的公告",
         "date": "2026-07-02",
         "source": "公司公告",
@@ -11208,13 +11215,6 @@ window.STOCKS = [
       },
       {
         "title": "雅克科技:关于全资子公司对参股公司增资暨关联交易的公告",
-        "date": "2026-06-04",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002409",
-        "content": ""
-      },
-      {
-        "title": "雅克科技:第七届董事会第二次会议决议公告",
         "date": "2026-06-04",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002409",
