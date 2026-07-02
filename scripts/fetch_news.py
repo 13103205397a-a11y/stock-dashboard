@@ -98,13 +98,13 @@ def write_stocks(stocks):
 
 
 def fetch_search_news(name):
-    """东方财富新闻资讯。"""
+    """东方财富新闻资讯(按时间排序,拉30条避免热门票成交额快讯刷屏)。"""
     param = json.dumps({
         "uid": "", "keyword": name, "type": ["cmsArticleWebOld"],
         "client": "web", "clientType": "web", "clientVersion": "curr",
         "param": {"cmsArticleWebOld": {
-            "searchScope": "default", "sort": "default",
-            "pageIndex": 1, "pageSize": 15, "preTag": "", "postTag": "",
+            "searchScope": "default", "sort": "time",
+            "pageIndex": 1, "pageSize": 30, "preTag": "", "postTag": "",
         }},
     }, ensure_ascii=False)
     url = SEARCH_URL + "?cb=jQuery&param=" + urllib.parse.quote(param)
