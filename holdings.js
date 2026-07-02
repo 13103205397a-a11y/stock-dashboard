@@ -1,17 +1,17 @@
 /* 持仓决策数据：德业股份 + 信维通信
  * 由 scripts/fetch_holdings.py 生成（a-stock-pro,免 key）
- * 时点: 2026-06-30 17:12:07
+ * 时点: 2026-07-02 05:08:16
  * 仅供研究参考,非投资建议。
  */
 window.HOLDINGS = {
-  "date": "2026-06-30",
-  "generatedAt": "2026-06-30 17:12:07",
+  "date": "2026-07-02",
+  "generatedAt": "2026-07-02 05:08:16",
   "list": [
     {
       "code": "605117",
       "name": "德业股份",
-      "price": 106.18,
-      "lastClose": 104.27,
+      "price": 96.85,
+      "lastClose": 101.5,
       "industry": "逆变器",
       "concept": [
         "逆变器",
@@ -35,19 +35,19 @@ window.HOLDINGS = {
         "HS300_"
       ],
       "valuation": {
-        "pe_ttm": 37.0,
-        "pe_fwd": 24.8,
-        "peg": 0.94,
-        "pb": 13.62,
-        "mcap_yi": 1351.78,
-        "eps_cur": 4.28,
-        "eps_next": 5.41,
-        "analyst_count": 23
+        "pe_ttm": 33.76,
+        "pe_fwd": null,
+        "peg": null,
+        "pb": 12.42,
+        "mcap_yi": 1233.12,
+        "eps_cur": null,
+        "eps_next": null,
+        "analyst_count": 0
       },
       "fund": {
-        "netInflow": null,
-        "turnover": 1.61,
-        "date": "2026-06-30"
+        "netInflow": -1.46,
+        "turnover": 0.8,
+        "date": "2026-07-02"
       },
       "research": [
         {
@@ -85,8 +85,8 @@ window.HOLDINGS = {
     {
       "code": "300136",
       "name": "信维通信",
-      "price": 119.25,
-      "lastClose": 116.75,
+      "price": 104.14,
+      "lastClose": 112.16,
       "industry": "消费电子零部件及组装",
       "concept": [
         "消费电子零部件及组装",
@@ -130,19 +130,19 @@ window.HOLDINGS = {
         "百元股"
       ],
       "valuation": {
-        "pe_ttm": 156.75,
-        "pe_fwd": 104.6,
-        "peg": 2.29,
-        "pb": 14.47,
-        "mcap_yi": 984.05,
-        "eps_cur": 1.14,
-        "eps_next": 1.66,
-        "analyst_count": 3
+        "pe_ttm": 136.89,
+        "pe_fwd": null,
+        "peg": null,
+        "pb": 12.63,
+        "mcap_yi": 859.36,
+        "eps_cur": null,
+        "eps_next": null,
+        "analyst_count": 0
       },
       "fund": {
         "netInflow": null,
-        "turnover": 10.13,
-        "date": "2026-06-30"
+        "turnover": 5.89,
+        "date": "2026-07-02"
       },
       "research": [
         {

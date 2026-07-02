@@ -23,8 +23,8 @@ window.STOCKS = [
       "硅光自研降本"
     ],
     "left": {
-      "zone": "1100.8–1210.9",
-      "trigger": "回踩 1210.9 缩量企稳；失守 1100.8 转弱；强支撑 1023.9，止损 1067.8",
+      "zone": "1048.5–1153.3",
+      "trigger": "回踩 1153.3 缩量企稳；失守 1048.5 转弱；强支撑 1033.7，止损 1017.0",
       "logic": "产业景气与订单未证伪前，回调即是上车成本，趋势中枢支撑有效。"
     },
     "right": {
@@ -80,39 +80,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 1223.17,
-      "chgPct": -3.69,
-      "ma5": 1258.09,
-      "ma10": 1293.9,
-      "ma20": 1246.1,
-      "ma60": 1023.93,
-      "ma120": 802.39,
-      "ma250": 576.36,
+      "date": "2026-07-02",
+      "price": 1165,
+      "chgPct": -4.76,
+      "ma5": 1226.41,
+      "ma10": 1282.79,
+      "ma20": 1240.6,
+      "ma60": 1033.66,
+      "ma120": 806.96,
+      "ma250": 580.51,
       "high20": 1416.88,
       "low20": 1093,
       "high60": 1416.88,
-      "low60": 577.69,
-      "volRatio": 1.05,
-      "atr": 80.77,
-      "trend": "多头排列",
-      "posPct": 19.46,
+      "low60": 593.35,
+      "volRatio": 0.95,
+      "atr": 80.43,
+      "trend": "震荡",
+      "posPct": 12.71,
       "supportZone": [
-        1100.85,
-        1210.94
+        1048.5,
+        1153.35
       ],
-      "deepSupport": 1023.93,
+      "deepSupport": 1033.66,
       "pullbackPct": 1.01,
       "breakout": 1416.88,
-      "toBreakoutPct": 15.84,
-      "leftStop": 1067.83,
+      "toBreakoutPct": 21.62,
+      "leftStop": 1017.05,
       "leftTarget": 1416.88,
-      "leftRR": 2.96,
+      "leftRR": 3.77,
       "rightStop": 1360.2,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 15.8% · 暂无右侧",
+      "rightState": "远离突破 21.6% · 暂无右侧",
       "spark": [
-        581,
         605.52,
         618.53,
         687.14,
@@ -171,7 +170,8 @@ window.STOCKS = [
         1253.89,
         1220,
         1270,
-        1223.17
+        1223.17,
+        1165
       ]
     },
     "news": [
@@ -198,12 +198,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 2.49,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -8.61,
+      "turnover": 1.64,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "太平洋",
@@ -237,15 +237,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 94.75,
-      "pe_fwd": 47.1,
-      "peg": 0.64,
-      "pb": 40.88,
-      "mcap_yi": 14096.24,
-      "eps_cur": 26.96,
-      "eps_next": 46.84,
-      "analyst_count": 31,
-      "asof": "2026-06-30"
+      "pe_ttm": 87.16,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 37.61,
+      "mcap_yi": 12967.43,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -266,8 +266,8 @@ window.STOCKS = [
       "泰国产能释放"
     ],
     "left": {
-      "zone": "540.2–556.9",
-      "trigger": "回踩 MA10(574.3)/MA20(556.9) 缩量企稳即逢低；强支撑 MA60 460.0；止损 524.0",
+      "zone": "474.3–521.7",
+      "trigger": "回踩 521.7 缩量企稳；失守 474.3 转弱；强支撑 463.5，止损 460.1",
       "logic": "高盈利弹性的二线龙头，回调时性价比凸显。"
     },
     "right": {
@@ -321,39 +321,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 575.56,
-      "chgPct": -5.18,
-      "ma5": 583.2,
-      "ma10": 574.26,
-      "ma20": 556.92,
-      "ma60": 460.01,
-      "ma120": 375.02,
-      "ma250": 288.93,
+      "date": "2026-07-02",
+      "price": 527,
+      "chgPct": -8.44,
+      "ma5": 566.5,
+      "ma10": 571.18,
+      "ma20": 555.37,
+      "ma60": 463.48,
+      "ma120": 376.77,
+      "ma250": 290.72,
       "high20": 618.87,
       "low20": 490.13,
       "high60": 618.87,
       "low60": 314.42,
-      "volRatio": 1.22,
-      "atr": 45.94,
+      "volRatio": 1.1,
+      "atr": 44.02,
       "trend": "多头排列",
-      "posPct": 25.12,
+      "posPct": 13.7,
       "supportZone": [
-        540.22,
-        556.92
+        474.3,
+        521.73
       ],
-      "deepSupport": 460.01,
-      "pullbackPct": 3.35,
+      "deepSupport": 463.48,
+      "pullbackPct": 1.01,
       "breakout": 618.87,
-      "toBreakoutPct": 7.52,
-      "leftStop": 524.01,
+      "toBreakoutPct": 17.43,
+      "leftStop": 460.07,
       "leftTarget": 618.87,
-      "leftRR": 2.86,
+      "leftRR": 3.19,
       "rightStop": 594.12,
-      "leftState": "回踩约 3.3% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 7.5%",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 17.4% · 暂无右侧",
       "spark": [
-        318.92,
         324.5,
         326.93,
         357.5,
@@ -412,7 +411,8 @@ window.STOCKS = [
         566,
         556.96,
         607,
-        575.56
+        575.56,
+        527
       ]
     },
     "news": [
@@ -439,12 +439,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 4.66,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -25.49,
+      "turnover": 3.24,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "山西证券",
@@ -478,15 +478,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 78.8,
-      "pe_fwd": 44.7,
-      "peg": 0.76,
-      "pb": 43.59,
-      "mcap_yi": 7613.26,
-      "eps_cur": 13.58,
-      "eps_next": 21.56,
-      "analyst_count": 19,
-      "asof": "2026-06-30"
+      "pe_ttm": 68.29,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 37.78,
+      "mcap_yi": 6597.57,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -507,8 +507,8 @@ window.STOCKS = [
       "客户份额提升"
     ],
     "left": {
-      "zone": "268.7–277.0",
-      "trigger": "回踩 277.0 缩量企稳；失守 268.7 转弱；强支撑 277.0，止损 260.6",
+      "zone": "236.0–259.6",
+      "trigger": "回踩 259.6 缩量企稳；失守 236.0 转弱；强支撑 277.5，止损 229.0",
       "logic": "上游平台壁垒高，回调承接确定性较强。"
     },
     "right": {
@@ -561,39 +561,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 285,
-      "chgPct": -5.84,
-      "ma5": 308.56,
-      "ma10": 317.12,
-      "ma20": 315.61,
-      "ma60": 277,
-      "ma120": 234.79,
-      "ma250": 167.52,
-      "high20": 374.5,
-      "low20": 277.18,
+      "date": "2026-07-02",
+      "price": 262.27,
+      "chgPct": -7.98,
+      "ma5": 292.62,
+      "ma10": 310.41,
+      "ma20": 310.98,
+      "ma60": 277.54,
+      "ma120": 235.71,
+      "ma250": 168.36,
+      "high20": 357.98,
+      "low20": 257.67,
       "high60": 374.5,
       "low60": 217.36,
-      "volRatio": 1.13,
-      "atr": 22.88,
+      "volRatio": 0.96,
+      "atr": 23.67,
       "trend": "震荡",
-      "posPct": 2.89,
+      "posPct": -5.5,
       "supportZone": [
-        268.69,
-        277
+        236.04,
+        259.65
       ],
-      "deepSupport": 277,
-      "pullbackPct": 2.89,
+      "deepSupport": 277.54,
+      "pullbackPct": 1.01,
       "breakout": 374.5,
-      "toBreakoutPct": 31.4,
-      "leftStop": 260.63,
+      "toBreakoutPct": 42.79,
+      "leftStop": 228.96,
       "leftTarget": 374.5,
-      "leftRR": 8.32,
+      "leftRR": 6.71,
       "rightStop": 359.52,
-      "leftState": "回踩约 2.9% 入场（逢低区）",
-      "rightState": "远离突破 31.4% · 暂无右侧",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 42.8% · 暂无右侧",
       "spark": [
-        230.07,
         237.97,
         226.19,
         240.21,
@@ -652,7 +651,8 @@ window.STOCKS = [
         318,
         295.15,
         302.68,
-        285
+        285,
+        262.27
       ]
     },
     "news": [
@@ -679,12 +679,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 3.89,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -10.84,
+      "turnover": 2.85,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "太平洋",
@@ -718,15 +718,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 152.02,
-      "pe_fwd": 97.3,
-      "peg": 2.86,
-      "pb": 60.4,
-      "mcap_yi": 3294.33,
-      "eps_cur": 3.11,
-      "eps_next": 4.17,
-      "analyst_count": 22,
-      "asof": "2026-06-30"
+      "pe_ttm": 131.34,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 52.18,
+      "mcap_yi": 2846.13,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -746,8 +746,8 @@ window.STOCKS = [
       "国资订单"
     ],
     "left": {
-      "zone": "228.6–235.6",
-      "trigger": "回踩 MA10(255.5)/MA20(235.6) 缩量企稳即逢低；强支撑 MA60 185.0；止损 221.7",
+      "zone": "197.8–217.6",
+      "trigger": "回踩 217.6 缩量企稳；失守 197.8 转弱；强支撑 187.3，止损 191.9",
       "logic": "国产替代主线，回调补涨属性。"
     },
     "right": {
@@ -800,39 +800,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 242.43,
-      "chgPct": -5.65,
-      "ma5": 247.42,
-      "ma10": 255.46,
-      "ma20": 235.62,
-      "ma60": 184.99,
-      "ma120": 130.63,
-      "ma250": 93.3,
+      "date": "2026-07-02",
+      "price": 219.8,
+      "chgPct": -9.33,
+      "ma5": 239.09,
+      "ma10": 253.24,
+      "ma20": 235.41,
+      "ma60": 187.26,
+      "ma120": 131.87,
+      "ma250": 94.01,
       "high20": 279,
       "low20": 199.05,
       "high60": 279,
-      "low60": 83.4,
-      "volRatio": 0.99,
-      "atr": 18.8,
+      "low60": 85,
+      "volRatio": 0.95,
+      "atr": 19.86,
       "trend": "多头排列",
-      "posPct": 31.05,
+      "posPct": 17.38,
       "supportZone": [
-        228.55,
-        235.62
+        197.82,
+        217.6
       ],
-      "deepSupport": 184.99,
-      "pullbackPct": 2.89,
+      "deepSupport": 187.26,
+      "pullbackPct": 1.01,
       "breakout": 279,
-      "toBreakoutPct": 15.08,
-      "leftStop": 221.7,
+      "toBreakoutPct": 26.93,
+      "leftStop": 191.89,
       "leftTarget": 279,
-      "leftRR": 4.52,
+      "leftRR": 4.51,
       "rightStop": 267.84,
-      "leftState": "回踩约 2.9% 入场（逢低区）",
-      "rightState": "远离突破 15.1% · 暂无右侧",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 26.9% · 暂无右侧",
       "spark": [
-        83.9,
         90.39,
         92.36,
         98.26,
@@ -891,7 +890,8 @@ window.STOCKS = [
         240.34,
         235.94,
         256.94,
-        242.43
+        242.43,
+        219.8
       ]
     },
     "news": [
@@ -919,11 +919,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 7.37,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 3.8,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "华鑫证券",
@@ -957,15 +957,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 205.23,
-      "pe_fwd": 128.5,
-      "peg": 2.52,
-      "pb": 15.38,
-      "mcap_yi": 2005.41,
-      "eps_cur": 2,
-      "eps_next": 3.02,
-      "analyst_count": 5,
-      "asof": "2026-06-30"
+      "pe_ttm": 175.08,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 13.12,
+      "mcap_yi": 1710.77,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -986,8 +986,8 @@ window.STOCKS = [
       "良率爬坡"
     ],
     "left": {
-      "zone": "1584.9–1609.0",
-      "trigger": "回踩 MA10(1783.9)/MA20(1609.0) 缩量企稳即逢低；强支撑 MA60 1206.6；止损 1537.3",
+      "zone": "1575.0–1623.7",
+      "trigger": "回踩 MA10(1792.7)/MA20(1623.7) 缩量企稳即逢低；强支撑 MA60 1223.0；止损 1527.8",
       "logic": "稀缺上游，逻辑未破时回调即布局。"
     },
     "right": {
@@ -1040,39 +1040,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 1761,
-      "chgPct": -6.63,
-      "ma5": 1804.75,
-      "ma10": 1783.89,
-      "ma20": 1608.96,
-      "ma60": 1206.58,
-      "ma120": 888.1,
-      "ma250": 566.54,
+      "date": "2026-07-02",
+      "price": 1699.97,
+      "chgPct": -3.47,
+      "ma5": 1769.74,
+      "ma10": 1792.69,
+      "ma20": 1623.71,
+      "ma60": 1223.03,
+      "ma120": 898.33,
+      "ma250": 572.89,
       "high20": 1968.14,
-      "low20": 1240,
+      "low20": 1278,
       "high60": 1968.14,
-      "low60": 709.47,
-      "volRatio": 0.86,
-      "atr": 144.16,
+      "low60": 725.05,
+      "volRatio": 0.84,
+      "atr": 145.72,
       "trend": "多头排列",
-      "posPct": 45.95,
+      "posPct": 39,
       "supportZone": [
-        1584.9,
-        1608.96
+        1575,
+        1623.71
       ],
-      "deepSupport": 1206.58,
-      "pullbackPct": 9.45,
+      "deepSupport": 1223.03,
+      "pullbackPct": 4.7,
       "breakout": 1968.14,
-      "toBreakoutPct": 11.76,
-      "leftStop": 1537.35,
+      "toBreakoutPct": 15.77,
+      "leftStop": 1527.75,
       "leftTarget": 1968.14,
-      "leftRR": 6.23,
+      "leftRR": 5.15,
       "rightStop": 1889.41,
-      "leftState": "回踩约 9.4% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 11.8%",
+      "leftState": "回踩约 4.7% 入场（逢低区）",
+      "rightState": "远离突破 15.8% · 暂无右侧",
       "spark": [
-        713.31,
         748.52,
         742.99,
         784.41,
@@ -1131,7 +1130,8 @@ window.STOCKS = [
         1776.91,
         1724.83,
         1886,
-        1761
+        1761,
+        1699.97
       ]
     },
     "news": [
@@ -1159,11 +1159,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 4.47,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 1.93,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "群益证券",
@@ -1197,15 +1197,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 659.49,
-      "pe_fwd": 292,
-      "peg": 4.32,
-      "pb": 95.27,
-      "mcap_yi": 2317.75,
-      "eps_cur": 6.46,
-      "eps_next": 10.83,
-      "analyst_count": 11,
-      "asof": "2026-06-30"
+      "pe_ttm": 592.7,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 85.62,
+      "mcap_yi": 2083.02,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -1226,8 +1226,8 @@ window.STOCKS = [
       "出海"
     ],
     "left": {
-      "zone": "91.74–100.9",
-      "trigger": "回踩 100.9 缩量企稳；失守 91.74 转弱；强支撑 80.05，止损 88.98",
+      "zone": "87.63–96.40",
+      "trigger": "回踩 96.40 缩量企稳；失守 87.63 转弱；强支撑 80.78，止损 85.00",
       "logic": "低估值蓝筹，回调安全边际高。"
     },
     "right": {
@@ -1280,39 +1280,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 101.93,
-      "chgPct": -6.78,
-      "ma5": 110.52,
-      "ma10": 112.97,
-      "ma20": 106.3,
-      "ma60": 80.05,
-      "ma120": 58.91,
-      "ma250": 38.26,
+      "date": "2026-07-02",
+      "price": 97.37,
+      "chgPct": -4.47,
+      "ma5": 105.44,
+      "ma10": 111.63,
+      "ma20": 106.61,
+      "ma60": 80.78,
+      "ma120": 59.51,
+      "ma250": 38.59,
       "high20": 124.89,
-      "low20": 87.85,
+      "low20": 91.93,
       "high60": 124.89,
       "low60": 50.62,
-      "volRatio": 0.84,
+      "volRatio": 0.77,
       "atr": 8.85,
-      "trend": "多头排列",
-      "posPct": 27.34,
+      "trend": "震荡",
+      "posPct": 20.53,
       "supportZone": [
-        91.74,
-        100.91
+        87.63,
+        96.4
       ],
-      "deepSupport": 80.05,
+      "deepSupport": 80.78,
       "pullbackPct": 1.01,
       "breakout": 124.89,
-      "toBreakoutPct": 22.52,
-      "leftStop": 88.98,
+      "toBreakoutPct": 28.26,
+      "leftStop": 85,
       "leftTarget": 124.89,
-      "leftRR": 3.89,
+      "leftRR": 4.69,
       "rightStop": 119.89,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 22.5% · 暂无右侧",
+      "rightState": "远离突破 28.3% · 暂无右侧",
       "spark": [
-        53.12,
         57.78,
         58.43,
         58.29,
@@ -1371,7 +1370,8 @@ window.STOCKS = [
         110.54,
         108.04,
         109.34,
-        101.93
+        101.93,
+        97.37
       ]
     },
     "news": [
@@ -1399,11 +1399,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 5.19,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 3.92,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "东兴证券",
@@ -1437,15 +1437,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 83.52,
-      "pe_fwd": 38.8,
-      "peg": 1.95,
-      "pb": 8.5,
-      "mcap_yi": 2673.56,
-      "eps_cur": 2.82,
-      "eps_next": 3.38,
-      "analyst_count": 11,
-      "asof": "2026-06-30"
+      "pe_ttm": 74.27,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 7.56,
+      "mcap_yi": 2377.45,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -1466,8 +1466,8 @@ window.STOCKS = [
       "电网投资"
     ],
     "left": {
-      "zone": "53.05–54.69",
-      "trigger": "回踩 MA10(59.91)/MA20(54.69) 缩量企稳即逢低；强支撑 MA60 42.64；止损 51.46",
+      "zone": "48.16–52.97",
+      "trigger": "回踩 52.97 缩量企稳；失守 48.16 转弱；强支撑 43.04，止损 46.71",
       "logic": "低估值多元龙头，回调承接。"
     },
     "right": {
@@ -1520,39 +1520,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 55.42,
-      "chgPct": -8.67,
-      "ma5": 60.87,
-      "ma10": 59.91,
-      "ma20": 54.69,
-      "ma60": 42.64,
-      "ma120": 33.18,
-      "ma250": 24.25,
+      "date": "2026-07-02",
+      "price": 53.51,
+      "chgPct": -3.45,
+      "ma5": 57.95,
+      "ma10": 59.77,
+      "ma20": 55.11,
+      "ma60": 43.04,
+      "ma120": 33.47,
+      "ma250": 24.42,
       "high20": 68.1,
-      "low20": 43.4,
+      "low20": 43.81,
       "high60": 68.1,
       "low60": 27.42,
-      "volRatio": 0.94,
-      "atr": 4.72,
+      "volRatio": 0.89,
+      "atr": 4.86,
       "trend": "多头排列",
-      "posPct": 29.98,
+      "posPct": 24.33,
       "supportZone": [
-        53.05,
-        54.69
+        48.16,
+        52.97
       ],
-      "deepSupport": 42.64,
-      "pullbackPct": 1.34,
+      "deepSupport": 43.04,
+      "pullbackPct": 1.01,
       "breakout": 68.1,
-      "toBreakoutPct": 22.88,
-      "leftStop": 51.46,
+      "toBreakoutPct": 27.27,
+      "leftStop": 46.71,
       "leftTarget": 68.1,
-      "leftRR": 5.91,
+      "leftRR": 4.55,
       "rightStop": 65.38,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 22.9% · 暂无右侧",
+      "rightState": "远离突破 27.3% · 暂无右侧",
       "spark": [
-        29.32,
         30.67,
         30.25,
         30.7,
@@ -1611,7 +1610,8 @@ window.STOCKS = [
         61.29,
         58.84,
         60.68,
-        55.42
+        55.42,
+        53.51
       ]
     },
     "news": [
@@ -1639,11 +1639,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 7.38,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 5.06,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "中邮证券",
@@ -1677,15 +1677,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 64.85,
-      "pe_fwd": 33.3,
-      "peg": 1.56,
-      "pb": 5.45,
-      "mcap_yi": 2070.98,
-      "eps_cur": 1.82,
-      "eps_next": 2.21,
-      "analyst_count": 10,
-      "asof": "2026-06-30"
+      "pe_ttm": 57.08,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 4.8,
+      "mcap_yi": 1822.86,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -1705,8 +1705,8 @@ window.STOCKS = [
       "AIDC 互联"
     ],
     "left": {
-      "zone": "476.0–490.7",
-      "trigger": "回踩 MA10(530.1)/MA20(490.7) 缩量企稳即逢低；强支撑 MA60 416.8；止损 461.7",
+      "zone": "438.9–482.7",
+      "trigger": "回踩 482.7 缩量企稳；失守 438.9 转弱；强支撑 419.4，止损 425.7",
       "logic": "一体化龙头，回调布局空芯期权。"
     },
     "right": {
@@ -1759,39 +1759,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 508.51,
-      "chgPct": -6.85,
-      "ma5": 539.9,
-      "ma10": 530.09,
-      "ma20": 490.71,
-      "ma60": 416.83,
-      "ma120": 301.25,
-      "ma250": 183.78,
+      "date": "2026-07-02",
+      "price": 487.61,
+      "chgPct": -4.11,
+      "ma5": 522.42,
+      "ma10": 532.8,
+      "ma20": 492.84,
+      "ma60": 419.41,
+      "ma120": 304.3,
+      "ma250": 185.58,
       "high20": 600,
       "low20": 406,
       "high60": 600,
-      "low60": 304.9,
-      "volRatio": 0.91,
-      "atr": 37.26,
+      "low60": 330,
+      "volRatio": 0.81,
+      "atr": 38.41,
       "trend": "多头排列",
-      "posPct": 21.99,
+      "posPct": 16.26,
       "supportZone": [
-        475.99,
-        490.71
+        438.85,
+        482.73
       ],
-      "deepSupport": 416.83,
-      "pullbackPct": 3.63,
+      "deepSupport": 419.41,
+      "pullbackPct": 1.01,
       "breakout": 600,
-      "toBreakoutPct": 17.99,
-      "leftStop": 461.71,
+      "toBreakoutPct": 23.05,
+      "leftStop": 425.68,
       "leftTarget": 600,
-      "leftRR": 5.39,
+      "leftRR": 3.96,
       "rightStop": 576,
-      "leftState": "回踩约 3.6% 入场（逢低区）",
-      "rightState": "远离突破 18.0% · 暂无右侧",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 23.0% · 暂无右侧",
       "spark": [
-        332.49,
         352.5,
         357.1,
         362.1,
@@ -1850,7 +1849,8 @@ window.STOCKS = [
         543,
         527.1,
         545.9,
-        508.51
+        508.51,
+        487.61
       ]
     },
     "news": [
@@ -1878,11 +1878,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 3,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 1.79,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "华鑫证券",
@@ -1916,15 +1916,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 390.57,
-      "pe_fwd": 69.9,
-      "peg": 1.83,
-      "pb": 31.76,
-      "mcap_yi": 2218.2,
-      "eps_cur": 7.81,
-      "eps_next": 10.79,
-      "analyst_count": 7,
-      "asof": "2026-06-30"
+      "pe_ttm": 347.0,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 28.21,
+      "mcap_yi": 1970.74,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -1945,8 +1945,8 @@ window.STOCKS = [
       "汽车线束"
     ],
     "left": {
-      "zone": "57.79–59.58",
-      "trigger": "回踩 MA10(65.19)/MA20(59.58) 缩量企稳即逢低；强支撑 MA60 49.49；止损 56.06",
+      "zone": "52.53–57.79",
+      "trigger": "回踩 57.79 缩量企稳；失守 52.53 转弱；强支撑 49.96，止损 50.96",
       "logic": "题材弹性票，回调博弈超导主题。"
     },
     "right": {
@@ -1999,39 +1999,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 62.46,
-      "chgPct": -7.44,
-      "ma5": 66.34,
-      "ma10": 65.19,
-      "ma20": 59.58,
-      "ma60": 49.49,
-      "ma120": 38.41,
-      "ma250": 25.03,
+      "date": "2026-07-02",
+      "price": 58.37,
+      "chgPct": -6.55,
+      "ma5": 63.42,
+      "ma10": 64.71,
+      "ma20": 59.9,
+      "ma60": 49.96,
+      "ma120": 38.68,
+      "ma250": 25.23,
       "high20": 73.97,
       "low20": 49.09,
       "high60": 73.97,
-      "low60": 29.69,
-      "volRatio": 0.87,
-      "atr": 5.62,
+      "low60": 30,
+      "volRatio": 0.81,
+      "atr": 5.72,
       "trend": "多头排列",
-      "posPct": 26.21,
+      "posPct": 16.84,
       "supportZone": [
-        57.79,
-        59.58
+        52.53,
+        57.79
       ],
-      "deepSupport": 49.49,
-      "pullbackPct": 4.84,
+      "deepSupport": 49.96,
+      "pullbackPct": 1.01,
       "breakout": 73.97,
-      "toBreakoutPct": 18.43,
-      "leftStop": 56.06,
+      "toBreakoutPct": 26.73,
+      "leftStop": 50.96,
       "leftTarget": 73.97,
-      "leftRR": 5.82,
+      "leftRR": 4.48,
       "rightStop": 71.01,
-      "leftState": "回踩约 4.8% 入场（逢低区）",
-      "rightState": "远离突破 18.4% · 暂无右侧",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 26.7% · 暂无右侧",
       "spark": [
-        30.28,
         30.97,
         30.2,
         33.22,
@@ -2090,7 +2089,8 @@ window.STOCKS = [
         65.71,
         63.1,
         67.48,
-        62.46
+        62.46,
+        58.37
       ]
     },
     "news": [
@@ -2118,11 +2118,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 7.33,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 4.04,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "民生证券",
@@ -2156,15 +2156,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 960.69,
-      "pe_fwd": 210.9,
-      "peg": 1.12,
-      "pb": 29.93,
-      "mcap_yi": 986.55,
-      "eps_cur": 0.32,
-      "eps_next": 0.92,
-      "analyst_count": 3,
-      "asof": "2026-06-30"
+      "pe_ttm": 826.3,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 25.74,
+      "mcap_yi": 848.54,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -2185,8 +2185,8 @@ window.STOCKS = [
       "PLC/硅光"
     ],
     "left": {
-      "zone": "163.6–172.4",
-      "trigger": "回踩 MA10(172.4)/MA20(163.6) 缩量企稳即逢低；强支撑 MA60 142.5；止损 158.7",
+      "zone": "145.2–159.8",
+      "trigger": "回踩 159.8 缩量企稳；失守 145.2 转弱；强支撑 143.5，止损 140.9",
       "logic": "多元龙头，光模块逻辑支撑回调承接。"
     },
     "right": {
@@ -2239,39 +2239,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 173.55,
-      "chgPct": -5.99,
-      "ma5": 173.94,
-      "ma10": 172.4,
-      "ma20": 163.6,
-      "ma60": 142.48,
-      "ma120": 117.28,
-      "ma250": 91.21,
+      "date": "2026-07-02",
+      "price": 161.37,
+      "chgPct": -7.02,
+      "ma5": 171.5,
+      "ma10": 171.49,
+      "ma20": 163.97,
+      "ma60": 143.5,
+      "ma120": 117.95,
+      "ma250": 91.68,
       "high20": 187.66,
       "low20": 145.75,
       "high60": 187.66,
-      "low60": 99.62,
+      "low60": 101.41,
       "volRatio": 1.15,
-      "atr": 11.18,
+      "atr": 11.84,
       "trend": "多头排列",
-      "posPct": 21.81,
+      "posPct": 12.45,
       "supportZone": [
-        163.6,
-        172.4
+        145.23,
+        159.76
       ],
-      "deepSupport": 142.48,
-      "pullbackPct": 0.67,
+      "deepSupport": 143.5,
+      "pullbackPct": 1.01,
       "breakout": 187.66,
-      "toBreakoutPct": 8.13,
-      "leftStop": 158.7,
+      "toBreakoutPct": 16.29,
+      "leftStop": 140.88,
       "leftTarget": 187.66,
-      "leftRR": 2.11,
+      "leftRR": 3.03,
       "rightStop": 180.15,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "箱体内 · 距突破 8.1%",
+      "rightState": "远离突破 16.3% · 暂无右侧",
       "spark": [
-        100.09,
         103.29,
         103.95,
         110.16,
@@ -2330,7 +2329,8 @@ window.STOCKS = [
         160.94,
         177.03,
         184.61,
-        173.55
+        173.55,
+        161.37
       ]
     },
     "news": [
@@ -2358,11 +2358,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 10.85,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 4.72,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "太平洋",
@@ -2396,15 +2396,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 109.23,
-      "pe_fwd": 78.2,
-      "peg": 2.68,
-      "pb": 16.23,
-      "mcap_yi": 1855.3,
-      "eps_cur": 2.36,
-      "eps_next": 3.05,
-      "analyst_count": 7,
-      "asof": "2026-06-30"
+      "pe_ttm": 95.32,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 14.16,
+      "mcap_yi": 1618.93,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -2425,8 +2425,8 @@ window.STOCKS = [
       "产能扩张"
     ],
     "left": {
-      "zone": "294.2–323.6",
-      "trigger": "回踩 323.6 缩量企稳；失守 294.2 转弱；强支撑 335.4，止损 285.4",
+      "zone": "285.7–314.3",
+      "trigger": "回踩 314.3 缩量企稳；失守 285.7 转弱；强支撑 336.4，止损 277.1",
       "logic": "业绩高增龙头，回调即布局。"
     },
     "right": {
@@ -2481,39 +2481,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 326.86,
-      "chgPct": -5.65,
-      "ma5": 331.67,
-      "ma10": 343.61,
-      "ma20": 341.77,
-      "ma60": 335.39,
-      "ma120": 305.27,
-      "ma250": 273.88,
+      "date": "2026-07-02",
+      "price": 317.42,
+      "chgPct": -2.89,
+      "ma5": 325.13,
+      "ma10": 339.18,
+      "ma20": 339.97,
+      "ma60": 336.43,
+      "ma120": 305.44,
+      "ma250": 274.71,
       "high20": 375.8,
       "low20": 306.56,
       "high60": 402.6,
-      "low60": 252.21,
-      "volRatio": 1.06,
-      "atr": 22.3,
+      "low60": 256.01,
+      "volRatio": 0.96,
+      "atr": 22.65,
       "trend": "震荡",
-      "posPct": -2.54,
+      "posPct": -5.65,
       "supportZone": [
-        294.17,
-        323.59
+        285.68,
+        314.25
       ],
-      "deepSupport": 335.39,
+      "deepSupport": 336.43,
       "pullbackPct": 1.01,
       "breakout": 402.6,
-      "toBreakoutPct": 23.17,
-      "leftStop": 285.35,
+      "toBreakoutPct": 26.84,
+      "leftStop": 277.11,
       "leftTarget": 402.6,
-      "leftRR": 3.98,
+      "leftRR": 4.49,
       "rightStop": 386.5,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 23.2% · 暂无右侧",
+      "rightState": "远离突破 26.8% · 暂无右侧",
       "spark": [
-        255.09,
         261.69,
         262.89,
         283.89,
@@ -2572,7 +2571,8 @@ window.STOCKS = [
         319.55,
         315.37,
         346.43,
-        326.86
+        326.86,
+        317.42
       ]
     },
     "news": [
@@ -2591,20 +2591,20 @@ window.STOCKS = [
         "content": ""
       },
       {
-        "title": "港股PCB股多数上涨！胜宏科技推进CoWoP技术研发落地",
-        "date": "2026-06-30 10:42:27",
-        "source": "每日经济新闻",
-        "url": "http://finance.eastmoney.com/a/202606303788023897.html",
-        "content": "相关个股方面，TCL科技涨停，智谱上涨11.98%，中科曙光上涨 7.77%，领益智造上涨8.06%，胜宏科技上涨7.55%。 　　消息面上，胜宏科技布投资者关系活动记录表公告，目前公司已有部分ASIC相关PCB产品进行批量生产，业务进展顺利。"
+        "title": "胜宏科技：惠州厂房四项目处于爬坡量产阶段，泰国A2栋及越南工厂建设按计划推进",
+        "date": "2026-07-02 08:44:00",
+        "source": "南方财经网",
+        "url": "http://finance.eastmoney.com/a/202607023790911555.html",
+        "content": "南财智讯7月2日电，胜宏科技在投资者关系活动中表示，国内产能方面，惠州厂房四项目现已分阶段逐步投产，目前处于爬坡与量产阶段；厂房十、十一目前正在加快建设，今年下半年将持续推进装修、设备安装与调试试产工作；海外产能方面，泰国工厂A1栋二期高端产能已开始生产验证板，A2栋厂房和越南工厂建设正按计划有序推进"
       }
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 6.73,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 2.58,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "开源证券",
@@ -2638,15 +2638,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 72.75,
-      "pe_fwd": 36.5,
-      "peg": 0.53,
-      "pb": 21.74,
-      "mcap_yi": 2997.29,
-      "eps_cur": 9.49,
-      "eps_next": 15.97,
-      "analyst_count": 16,
-      "asof": "2026-06-30"
+      "pe_ttm": 66.28,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 19.8,
+      "mcap_yi": 2730.47,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -2667,8 +2667,8 @@ window.STOCKS = [
       "黄石产能"
     ],
     "left": {
-      "zone": "135.9–140.1",
-      "trigger": "回踩 MA10(146.3)/MA20(140.1) 缩量企稳即逢低；强支撑 MA60 116.0；止损 131.8",
+      "zone": "121.8–134.0",
+      "trigger": "回踩 134.0 缩量企稳；失守 121.8 转弱；强支撑 117.0，止损 118.2",
       "logic": "稳健龙头，回调承接确定性高。"
     },
     "right": {
@@ -2721,39 +2721,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 145.01,
-      "chgPct": -5.1,
-      "ma5": 148.23,
-      "ma10": 146.27,
-      "ma20": 140.09,
-      "ma60": 116.05,
-      "ma120": 95.52,
-      "ma250": 78.05,
+      "date": "2026-07-02",
+      "price": 135.39,
+      "chgPct": -6.63,
+      "ma5": 144.31,
+      "ma10": 145.15,
+      "ma20": 140.37,
+      "ma60": 117.04,
+      "ma120": 96.01,
+      "ma250": 78.42,
       "high20": 158.2,
       "low20": 122.22,
       "high60": 158.2,
       "low60": 74.83,
-      "volRatio": 0.93,
-      "atr": 11.28,
+      "volRatio": 0.85,
+      "atr": 11.74,
       "trend": "多头排列",
-      "posPct": 24.96,
+      "posPct": 15.68,
       "supportZone": [
-        135.88,
-        140.09
+        121.85,
+        134.04
       ],
-      "deepSupport": 116.05,
-      "pullbackPct": 3.51,
+      "deepSupport": 117.04,
+      "pullbackPct": 1.01,
       "breakout": 158.2,
-      "toBreakoutPct": 9.1,
-      "leftStop": 131.81,
+      "toBreakoutPct": 16.85,
+      "leftStop": 118.2,
       "leftTarget": 158.2,
-      "leftRR": 3.27,
+      "leftRR": 3.11,
       "rightStop": 151.87,
-      "leftState": "回踩约 3.5% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 9.1%",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 16.8% · 暂无右侧",
       "spark": [
-        75.77,
         75.82,
         75.93,
         83.57,
@@ -2812,7 +2811,8 @@ window.STOCKS = [
         147.28,
         141.06,
         152.8,
-        145.01
+        145.01,
+        135.39
       ]
     },
     "news": [
@@ -2839,12 +2839,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 4.63,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -11.01,
+      "turnover": 2.89,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "中邮证券",
@@ -2878,15 +2878,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 68.35,
-      "pe_fwd": 51.3,
-      "peg": 0.99,
-      "pb": 18.58,
-      "mcap_yi": 2938.05,
-      "eps_cur": 2.98,
-      "eps_next": 4.52,
-      "analyst_count": 22,
-      "asof": "2026-06-30"
+      "pe_ttm": 60.06,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 16.32,
+      "mcap_yi": 2581.76,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -2907,8 +2907,8 @@ window.STOCKS = [
       "折叠屏"
     ],
     "left": {
-      "zone": "92.16–101.4",
-      "trigger": "回踩 101.4 缩量企稳；失守 92.16 转弱；强支撑 88.16，止损 89.40",
+      "zone": "86.82–88.94",
+      "trigger": "回踩 88.94 缩量企稳；失守 86.82 转弱；强支撑 88.94，止损 84.22",
       "logic": "龙头估值低位，回调布局转型期权。"
     },
     "right": {
@@ -2961,39 +2961,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 102.4,
-      "chgPct": -2.83,
-      "ma5": 106.78,
-      "ma10": 109.91,
-      "ma20": 108.85,
-      "ma60": 88.16,
-      "ma120": 70.96,
-      "ma250": 58.95,
+      "date": "2026-07-02",
+      "price": 96.47,
+      "chgPct": -5.79,
+      "ma5": 103.25,
+      "ma10": 107.66,
+      "ma20": 108.31,
+      "ma60": 88.94,
+      "ma120": 71.35,
+      "ma250": 59.22,
       "high20": 123.1,
-      "low20": 98.61,
+      "low20": 94.28,
       "high60": 123.1,
       "low60": 49.01,
-      "volRatio": 0.99,
-      "atr": 9.78,
+      "volRatio": 0.9,
+      "atr": 9.66,
       "trend": "震荡",
-      "posPct": 16.15,
+      "posPct": 8.47,
       "supportZone": [
-        92.16,
-        101.38
+        86.82,
+        88.94
       ],
-      "deepSupport": 88.16,
-      "pullbackPct": 1.01,
+      "deepSupport": 88.94,
+      "pullbackPct": 8.47,
       "breakout": 123.1,
-      "toBreakoutPct": 20.21,
-      "leftStop": 89.4,
+      "toBreakoutPct": 27.6,
+      "leftStop": 84.22,
       "leftTarget": 123.1,
-      "leftRR": 3.57,
+      "leftRR": 9.62,
       "rightStop": 118.18,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 20.2% · 暂无右侧",
+      "leftState": "回踩约 8.5% 入场（逢低区）",
+      "rightState": "远离突破 27.6% · 暂无右侧",
       "spark": [
-        49.95,
         49.87,
         49.93,
         53.67,
@@ -3052,7 +3051,8 @@ window.STOCKS = [
         110.98,
         101,
         105.38,
-        102.4
+        102.4,
+        96.47
       ]
     },
     "news": [
@@ -3079,12 +3079,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 2.24,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -3.79,
+      "turnover": 1.5,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "中邮证券",
@@ -3118,15 +3118,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 65.79,
-      "pe_fwd": 45.2,
-      "peg": 1.2,
-      "pb": 7.56,
-      "mcap_yi": 2433.63,
-      "eps_cur": 2.33,
-      "eps_next": 3.21,
-      "analyst_count": 19,
-      "asof": "2026-06-30"
+      "pe_ttm": 59.77,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 6.86,
+      "mcap_yi": 2211.0,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -3147,8 +3147,8 @@ window.STOCKS = [
       "光模块/光通信"
     ],
     "left": {
-      "zone": "235.6–242.8",
-      "trigger": "回踩 MA10(260.7)/MA20(242.8) 缩量企稳即逢低；强支撑 MA60 204.0；止损 228.5",
+      "zone": "199.7–205.9",
+      "trigger": "回踩 205.9 缩量企稳；失守 199.7 转弱；强支撑 205.9，止损 193.7",
       "logic": "多元龙头，回调布局算力弹性。"
     },
     "right": {
@@ -3202,39 +3202,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 246.31,
-      "chgPct": -6.11,
-      "ma5": 258.87,
-      "ma10": 260.7,
-      "ma20": 242.84,
-      "ma60": 203.96,
-      "ma120": 146.19,
-      "ma250": 103.38,
+      "date": "2026-07-02",
+      "price": 221.68,
+      "chgPct": -10,
+      "ma5": 248.05,
+      "ma10": 257.17,
+      "ma20": 242.72,
+      "ma60": 205.88,
+      "ma120": 147.3,
+      "ma250": 104.12,
       "high20": 277.6,
       "low20": 205.01,
       "high60": 277.6,
-      "low60": 104.8,
-      "volRatio": 0.89,
-      "atr": 18.64,
+      "low60": 106.85,
+      "volRatio": 0.91,
+      "atr": 19.21,
       "trend": "多头排列",
-      "posPct": 20.76,
+      "posPct": 7.67,
       "supportZone": [
-        235.55,
-        242.84
+        199.71,
+        205.88
       ],
-      "deepSupport": 203.96,
-      "pullbackPct": 1.43,
+      "deepSupport": 205.88,
+      "pullbackPct": 7.67,
       "breakout": 277.6,
-      "toBreakoutPct": 12.7,
-      "leftStop": 228.49,
+      "toBreakoutPct": 25.23,
+      "leftStop": 193.72,
       "leftTarget": 277.6,
-      "leftRR": 3.59,
+      "leftRR": 8.24,
       "rightStop": 266.5,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 12.7% · 暂无右侧",
+      "leftState": "回踩约 7.7% 入场（逢低区）",
+      "rightState": "远离突破 25.2% · 暂无右侧",
       "spark": [
-        106.25,
         110.55,
         109.01,
         119.91,
@@ -3293,7 +3292,8 @@ window.STOCKS = [
         260.32,
         249.59,
         262.35,
-        246.31
+        246.31,
+        221.68
       ]
     },
     "news": [
@@ -3320,12 +3320,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 4.51,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -31.21,
+      "turnover": 5.58,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "开源证券",
@@ -3359,15 +3359,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 235.54,
-      "pe_fwd": 71.5,
-      "peg": 0.71,
-      "pb": 21.23,
-      "mcap_yi": 3637.02,
-      "eps_cur": 3.67,
-      "eps_next": 7.37,
-      "analyst_count": 12,
-      "asof": "2026-06-30"
+      "pe_ttm": 199.02,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 17.94,
+      "mcap_yi": 3073.2,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -3388,8 +3388,8 @@ window.STOCKS = [
       "高端料占比提升"
     ],
     "left": {
-      "zone": "158.3–163.2",
-      "trigger": "回踩 MA10(176.9)/MA20(163.2) 缩量企稳即逢低；强支撑 MA60 111.8；止损 153.6",
+      "zone": "142.5–156.8",
+      "trigger": "回踩 156.8 缩量企稳；失守 142.5 转弱；强支撑 113.6，止损 138.2",
       "logic": "上游材料龙头，回调承接确定性强。"
     },
     "right": {
@@ -3442,39 +3442,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 164.8,
-      "chgPct": -4.96,
-      "ma5": 175.01,
-      "ma10": 176.88,
-      "ma20": 163.24,
-      "ma60": 111.78,
-      "ma120": 88.44,
-      "ma250": 68.18,
+      "date": "2026-07-02",
+      "price": 158.34,
+      "chgPct": -3.92,
+      "ma5": 169.24,
+      "ma10": 174.69,
+      "ma20": 164.14,
+      "ma60": 113.57,
+      "ma120": 89.16,
+      "ma250": 68.7,
       "high20": 191.88,
       "low20": 126,
       "high60": 191.88,
-      "low60": 50.4,
-      "volRatio": 0.85,
-      "atr": 14.02,
+      "low60": 51.23,
+      "volRatio": 0.82,
+      "atr": 14.24,
       "trend": "多头排列",
-      "posPct": 47.43,
+      "posPct": 39.42,
       "supportZone": [
-        158.34,
-        163.24
+        142.51,
+        156.76
       ],
-      "deepSupport": 111.78,
-      "pullbackPct": 0.96,
+      "deepSupport": 113.57,
+      "pullbackPct": 1.01,
       "breakout": 191.88,
-      "toBreakoutPct": 16.43,
-      "leftStop": 153.59,
+      "toBreakoutPct": 21.18,
+      "leftStop": 138.23,
       "leftTarget": 191.88,
-      "leftRR": 4.32,
+      "leftRR": 3.71,
       "rightStop": 184.2,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 16.4% · 暂无右侧",
+      "rightState": "远离突破 21.2% · 暂无右侧",
       "spark": [
-        50.83,
         51.7,
         54.4,
         58.18,
@@ -3533,7 +3532,8 @@ window.STOCKS = [
         178.5,
         171.16,
         173.4,
-        164.8
+        164.8,
+        158.34
       ]
     },
     "news": [
@@ -3561,11 +3561,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 2.83,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 1.82,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "太平洋",
@@ -3599,15 +3599,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 107.22,
-      "pe_fwd": 77.4,
-      "peg": 1.81,
-      "pb": 26.35,
-      "mcap_yi": 4152.07,
-      "eps_cur": 2.24,
-      "eps_next": 3.2,
-      "analyst_count": 13,
-      "asof": "2026-06-30"
+      "pe_ttm": 97.07,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 23.86,
+      "mcap_yi": 3758.89,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -3628,8 +3628,8 @@ window.STOCKS = [
       "光学膜"
     ],
     "left": {
-      "zone": "61.90–65.26",
-      "trigger": "回踩 MA10(73.09)/MA20(66.98) 缩量企稳即逢低；强支撑 MA60 50.10；止损 60.04",
+      "zone": "59.91–65.90",
+      "trigger": "回踩 65.90 缩量企稳；失守 59.91 转弱；强支撑 50.72，止损 58.12",
       "logic": "上游材料弹性，回调布局国产替代。"
     },
     "right": {
@@ -3682,39 +3682,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 67.28,
-      "chgPct": -4.96,
-      "ma5": 71.33,
-      "ma10": 73.09,
-      "ma20": 66.98,
-      "ma60": 50.1,
-      "ma120": 39.53,
-      "ma250": 28.25,
+      "date": "2026-07-02",
+      "price": 66.57,
+      "chgPct": -1.06,
+      "ma5": 69.12,
+      "ma10": 72.43,
+      "ma20": 67.49,
+      "ma60": 50.72,
+      "ma120": 39.85,
+      "ma250": 28.48,
       "high20": 80.46,
-      "low20": 52,
+      "low20": 52.32,
       "high60": 80.46,
       "low60": 29.12,
-      "volRatio": 0.81,
-      "atr": 5.93,
+      "volRatio": 0.74,
+      "atr": 5.94,
       "trend": "多头排列",
-      "posPct": 34.3,
+      "posPct": 31.26,
       "supportZone": [
-        61.9,
-        65.26
+        59.91,
+        65.9
       ],
-      "deepSupport": 50.1,
-      "pullbackPct": 3.09,
+      "deepSupport": 50.72,
+      "pullbackPct": 1.01,
       "breakout": 80.46,
-      "toBreakoutPct": 19.59,
-      "leftStop": 60.04,
+      "toBreakoutPct": 20.87,
+      "leftStop": 58.12,
       "leftTarget": 80.46,
-      "leftRR": 4.77,
+      "leftRR": 3.67,
       "rightStop": 77.24,
-      "leftState": "回踩约 3.1% 入场（逢低区）",
-      "rightState": "远离突破 19.6% · 暂无右侧",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 20.9% · 暂无右侧",
       "spark": [
-        29.4,
         30.6,
         32.3,
         33.34,
@@ -3773,7 +3772,8 @@ window.STOCKS = [
         73.65,
         67.33,
         70.79,
-        67.28
+        67.28,
+        66.57
       ]
     },
     "news": [
@@ -3801,11 +3801,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 6.26,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 3.62,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "开源证券",
@@ -3839,15 +3839,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 187.99,
-      "pe_fwd": 99.7,
-      "peg": 1.82,
-      "pb": 11.75,
-      "mcap_yi": 715.11,
-      "eps_cur": 0.71,
-      "eps_next": 1.1,
-      "analyst_count": 9,
-      "asof": "2026-06-30"
+      "pe_ttm": 175.3,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 10.95,
+      "mcap_yi": 666.82,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -3867,8 +3867,8 @@ window.STOCKS = [
       "智算中心"
     ],
     "left": {
-      "zone": "179.0–190.1",
-      "trigger": "回踩 MA10(190.1)/MA20(179.0) 缩量企稳即逢低；强支撑 MA60 153.2；止损 173.6",
+      "zone": "156.7–172.3",
+      "trigger": "回踩 172.3 缩量企稳；失守 156.7 转弱；强支撑 155.1，止损 151.9",
       "logic": "题材弹性票，回调博弈算力运营。"
     },
     "right": {
@@ -3920,39 +3920,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 193.4,
-      "chgPct": 8.16,
-      "ma5": 188.81,
-      "ma10": 190.08,
-      "ma20": 178.96,
-      "ma60": 153.21,
-      "ma120": 100.11,
-      "ma250": 61.01,
+      "date": "2026-07-02",
+      "price": 174.06,
+      "chgPct": -10,
+      "ma5": 182.04,
+      "ma10": 190.99,
+      "ma20": 177.26,
+      "ma60": 155.11,
+      "ma120": 101.34,
+      "ma250": 61.62,
       "high20": 225.85,
       "low20": 138,
       "high60": 240.88,
       "low60": 58.45,
-      "volRatio": 0.96,
-      "atr": 17.79,
+      "volRatio": 0.88,
+      "atr": 18.51,
       "trend": "多头排列",
-      "posPct": 26.23,
+      "posPct": 12.22,
       "supportZone": [
-        178.96,
-        190.08
+        156.65,
+        172.32
       ],
-      "deepSupport": 153.21,
-      "pullbackPct": 1.75,
+      "deepSupport": 155.11,
+      "pullbackPct": 1.01,
       "breakout": 240.88,
-      "toBreakoutPct": 24.55,
-      "leftStop": 173.59,
+      "toBreakoutPct": 38.39,
+      "leftStop": 151.95,
       "leftTarget": 240.88,
-      "leftRR": 5.16,
+      "leftRR": 6.09,
       "rightStop": 231.24,
-      "leftState": "回踩约 1.7% 入场（逢低区）",
-      "rightState": "远离突破 24.6% · 暂无右侧",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 38.4% · 暂无右侧",
       "spark": [
-        60.26,
         59.42,
         64,
         70.4,
@@ -4011,7 +4010,8 @@ window.STOCKS = [
         187.09,
         176.86,
         178.81,
-        193.4
+        193.4,
+        174.06
       ]
     },
     "news": [
@@ -4039,11 +4039,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 11.1,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 7.55,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "东莞证券",
@@ -4059,15 +4059,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 87.77,
+      "pe_ttm": 85.44,
       "pe_fwd": null,
       "peg": null,
-      "pb": 20.9,
-      "mcap_yi": 461.39,
+      "pb": 20.34,
+      "mcap_yi": 449.13,
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-06-30"
+      "asof": "2026-07-02"
     }
   },
   {
@@ -4088,8 +4088,8 @@ window.STOCKS = [
       "Mini/Micro LED"
     ],
     "left": {
-      "zone": "133.7–147.0",
-      "trigger": "回踩 147.0 缩量企稳；失守 133.7 转弱；强支撑 96.38，止损 129.6",
+      "zone": "131.4–144.6",
+      "trigger": "回踩 144.6 缩量企稳；失守 131.4 转弱；强支撑 98.26，止损 127.5",
       "logic": "稀缺主题，回调博弈玻璃基板产业化。"
     },
     "right": {
@@ -4142,39 +4142,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 148.5,
-      "chgPct": -8.88,
-      "ma5": 164.96,
-      "ma10": 166.72,
-      "ma20": 152,
-      "ma60": 96.38,
-      "ma120": 66.89,
-      "ma250": 47.84,
+      "date": "2026-07-02",
+      "price": 146.01,
+      "chgPct": -1.68,
+      "ma5": 159.77,
+      "ma10": 164.71,
+      "ma20": 153.36,
+      "ma60": 98.26,
+      "ma120": 67.84,
+      "ma250": 48.34,
       "high20": 188,
       "low20": 107.11,
       "high60": 188,
       "low60": 32.22,
-      "volRatio": 0.95,
-      "atr": 18.89,
+      "volRatio": 0.89,
+      "atr": 18.63,
       "trend": "多头排列",
-      "posPct": 54.08,
+      "posPct": 48.59,
       "supportZone": [
-        133.65,
-        147.01
+        131.41,
+        144.55
       ],
-      "deepSupport": 96.38,
+      "deepSupport": 98.26,
       "pullbackPct": 1.01,
       "breakout": 188,
-      "toBreakoutPct": 26.6,
-      "leftStop": 129.64,
+      "toBreakoutPct": 28.76,
+      "leftStop": 127.47,
       "leftTarget": 188,
-      "leftRR": 4.46,
+      "leftRR": 4.76,
       "rightStop": 180.48,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 26.6% · 暂无右侧",
+      "rightState": "远离突破 28.8% · 暂无右侧",
       "spark": [
-        32.89,
         34.07,
         32.9,
         35.65,
@@ -4233,7 +4232,8 @@ window.STOCKS = [
         178,
         163.35,
         162.97,
-        148.5
+        148.5,
+        146.01
       ]
     },
     "news": [
@@ -4261,11 +4261,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 13.21,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 7.47,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "华鑫证券",
@@ -4293,15 +4293,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": -197.56,
-      "pe_fwd": 708.6,
-      "peg": 3.62,
-      "pb": 34.68,
-      "mcap_yi": 366.16,
-      "eps_cur": 0.23,
-      "eps_next": 0.68,
-      "analyst_count": 2,
-      "asof": "2026-06-30"
+      "pe_ttm": -177.96,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 31.23,
+      "mcap_yi": 329.83,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -4321,8 +4321,8 @@ window.STOCKS = [
       "新品迭代"
     ],
     "left": {
-      "zone": "1378.3–1467.6",
-      "trigger": "回踩 MA10(1467.6)/MA20(1378.3) 缩量企稳即逢低；强支撑 MA60 1176.1；止损 1336.9",
+      "zone": "1338.0–1379.4",
+      "trigger": "回踩 MA10(1475.6)/MA20(1379.4) 缩量企稳即逢低；强支撑 MA60 1188.2；止损 1297.8",
       "logic": "国产算力主线，回调博弈订单兑现。"
     },
     "right": {
@@ -4378,39 +4378,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 1485.33,
-      "chgPct": -6.91,
-      "ma5": 1505.18,
-      "ma10": 1467.63,
-      "ma20": 1378.27,
-      "ma60": 1176.06,
-      "ma120": 989.79,
-      "ma250": 864.29,
+      "date": "2026-07-02",
+      "price": 1400,
+      "chgPct": -5.74,
+      "ma5": 1484.18,
+      "ma10": 1475.63,
+      "ma20": 1379.36,
+      "ma60": 1188.24,
+      "ma120": 993.86,
+      "ma250": 868.35,
       "high20": 1620,
       "low20": 1199,
       "high60": 1620,
-      "low60": 668.03,
-      "volRatio": 1.05,
-      "atr": 101.72,
+      "low60": 669.46,
+      "volRatio": 0.97,
+      "atr": 105.11,
       "trend": "多头排列",
-      "posPct": 26.3,
+      "posPct": 17.82,
       "supportZone": [
-        1378.27,
-        1467.63
+        1337.98,
+        1379.36
       ],
-      "deepSupport": 1176.06,
-      "pullbackPct": 1.21,
+      "deepSupport": 1188.24,
+      "pullbackPct": 1.5,
       "breakout": 1620,
-      "toBreakoutPct": 9.07,
-      "leftStop": 1336.92,
+      "toBreakoutPct": 15.71,
+      "leftStop": 1297.84,
       "leftTarget": 1620,
-      "leftRR": 2.29,
+      "leftRR": 4.3,
       "rightStop": 1555.2,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "箱体内 · 距突破 9.1%",
+      "rightState": "远离突破 15.7% · 暂无右侧",
       "spark": [
-        669.46,
         687.38,
         750,
         780.2,
@@ -4469,7 +4468,8 @@ window.STOCKS = [
         1458,
         1482,
         1595.55,
-        1485.33
+        1485.33,
+        1400
       ]
     },
     "news": [
@@ -4497,11 +4497,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 2.58,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 1.37,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "第一上海证券",
@@ -4535,15 +4535,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 368.97,
-      "pe_fwd": 195.8,
-      "peg": 1.86,
-      "pb": 81.91,
-      "mcap_yi": 10024.73,
-      "eps_cur": 8.15,
-      "eps_next": 16.71,
-      "analyst_count": 13,
-      "asof": "2026-06-30"
+      "pe_ttm": 321.71,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 71.42,
+      "mcap_yi": 8740.87,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -4564,8 +4564,8 @@ window.STOCKS = [
       "自研 DRAM"
     ],
     "left": {
-      "zone": "700.6–722.3",
-      "trigger": "回踩 MA10(722.3)/MA20(610.2) 缩量企稳即逢低；强支撑 MA60 437.9；止损 679.6",
+      "zone": "645.1–680.1",
+      "trigger": "回踩 MA10(733.8)/MA20(620.6) 缩量企稳即逢低；强支撑 MA60 445.5；止损 625.7",
       "logic": "存储周期上行，回调布局周期弹性。"
     },
     "right": {
@@ -4618,39 +4618,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 772.01,
-      "chgPct": -5.27,
-      "ma5": 794.44,
-      "ma10": 722.3,
-      "ma20": 610.18,
-      "ma60": 437.88,
-      "ma120": 358.68,
-      "ma250": 261.74,
+      "date": "2026-07-02",
+      "price": 701.18,
+      "chgPct": -9.17,
+      "ma5": 779.64,
+      "ma10": 733.82,
+      "ma20": 620.63,
+      "ma60": 445.47,
+      "ma120": 362.63,
+      "ma250": 264.07,
       "high20": 846.66,
       "low20": 451,
       "high60": 846.66,
       "low60": 242.33,
-      "volRatio": 1.02,
-      "atr": 56.17,
+      "volRatio": 0.99,
+      "atr": 60.31,
       "trend": "多头排列",
-      "posPct": 76.3,
+      "posPct": 57.4,
       "supportZone": [
-        700.63,
-        722.3
+        645.09,
+        680.14
       ],
-      "deepSupport": 437.88,
-      "pullbackPct": 6.88,
+      "deepSupport": 445.47,
+      "pullbackPct": 3.09,
       "breakout": 846.66,
-      "toBreakoutPct": 9.67,
-      "leftStop": 679.62,
+      "toBreakoutPct": 20.75,
+      "leftStop": 625.73,
       "leftTarget": 846.66,
-      "leftRR": 4.24,
+      "leftRR": 4.99,
       "rightStop": 812.79,
-      "leftState": "回踩约 6.9% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 9.7%",
+      "leftState": "回踩约 3.1% 入场（逢低区）",
+      "rightState": "远离突破 20.7% · 暂无右侧",
       "spark": [
-        246.24,
         248.35,
         248.91,
         255.21,
@@ -4709,7 +4708,8 @@ window.STOCKS = [
         770,
         840,
         815,
-        772.01
+        772.01,
+        701.18
       ]
     },
     "news": [
@@ -4736,12 +4736,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 6.73,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -53.41,
+      "turnover": 5.68,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "华鑫证券",
@@ -4775,15 +4775,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 198.96,
-      "pe_fwd": 116.3,
-      "peg": 4.85,
-      "pb": 23.11,
-      "mcap_yi": 5448.21,
-      "eps_cur": 7.01,
-      "eps_next": 8.69,
-      "analyst_count": 24,
-      "asof": "2026-06-30"
+      "pe_ttm": 170.15,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 19.76,
+      "mcap_yi": 4659.39,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -4804,8 +4804,8 @@ window.STOCKS = [
       "产能扩张"
     ],
     "left": {
-      "zone": "67.98–72.16",
-      "trigger": "回踩 MA10(72.16)/MA20(67.98) 缩量企稳即逢低；强支撑 MA60 59.05；止损 65.94",
+      "zone": "65.94–67.97",
+      "trigger": "回踩 MA10(72.44)/MA20(67.97) 缩量企稳即逢低；强支撑 MA60 59.54；止损 63.96",
       "logic": "绑定大客户，回调布局先进封装。"
     },
     "right": {
@@ -4858,39 +4858,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 73.91,
-      "chgPct": -2.58,
-      "ma5": 74.35,
-      "ma10": 72.16,
-      "ma20": 67.98,
-      "ma60": 59.05,
-      "ma120": 52.77,
-      "ma250": 42.75,
+      "date": "2026-07-02",
+      "price": 70.08,
+      "chgPct": -5.18,
+      "ma5": 72.81,
+      "ma10": 72.44,
+      "ma20": 67.97,
+      "ma60": 59.54,
+      "ma120": 53.04,
+      "ma250": 42.93,
       "high20": 79.38,
       "low20": 56.68,
       "high60": 79.38,
       "low60": 40.32,
-      "volRatio": 1.13,
-      "atr": 5.15,
+      "volRatio": 1,
+      "atr": 5.51,
       "trend": "多头排列",
-      "posPct": 25.16,
+      "posPct": 17.7,
       "supportZone": [
-        67.98,
-        72.16
+        65.94,
+        67.97
       ],
-      "deepSupport": 59.05,
-      "pullbackPct": 2.43,
+      "deepSupport": 59.54,
+      "pullbackPct": 3.1,
       "breakout": 79.38,
-      "toBreakoutPct": 7.4,
-      "leftStop": 65.94,
+      "toBreakoutPct": 13.27,
+      "leftStop": 63.96,
       "leftTarget": 79.38,
-      "leftRR": 2.25,
+      "leftRR": 4.15,
       "rightStop": 76.2,
-      "leftState": "回踩约 2.4% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 7.4%",
+      "leftState": "回踩约 3.1% 入场（逢低区）",
+      "rightState": "远离突破 13.3% · 暂无右侧",
       "spark": [
-        40.69,
         40.34,
         41.11,
         44.57,
@@ -4949,7 +4948,8 @@ window.STOCKS = [
         71.6,
         72.58,
         75.87,
-        73.91
+        73.91,
+        70.08
       ]
     },
     "news": [
@@ -4976,12 +4976,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 10.26,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -7.66,
+      "turnover": 5.52,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "开源证券",
@@ -5015,15 +5015,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 79.61,
-      "pe_fwd": 74.4,
-      "peg": 2.92,
-      "pb": 7.41,
-      "mcap_yi": 1151.29,
-      "eps_cur": 1.02,
-      "eps_next": 1.28,
-      "analyst_count": 15,
-      "asof": "2026-06-30"
+      "pe_ttm": 72.92,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 6.79,
+      "mcap_yi": 1054.63,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -5044,8 +5044,8 @@ window.STOCKS = [
       "晟碟并购协同"
     ],
     "left": {
-      "zone": "100.6–103.7",
-      "trigger": "回踩 MA10(95.51)/MA20(85.09) 缩量企稳即逢低；强支撑 MA60 64.82；止损 97.57",
+      "zone": "94.22–97.14",
+      "trigger": "回踩 MA10(97.14)/MA20(85.98) 缩量企稳即逢低；强支撑 MA60 65.82；止损 91.40",
       "logic": "封测龙头，回调承接确定性强。"
     },
     "right": {
@@ -5098,39 +5098,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 106.64,
-      "chgPct": 2.98,
-      "ma5": 103.7,
-      "ma10": 95.51,
-      "ma20": 85.09,
-      "ma60": 64.82,
-      "ma120": 54.66,
-      "ma250": 45.49,
+      "date": "2026-07-02",
+      "price": 97.94,
+      "chgPct": -8.16,
+      "ma5": 102.45,
+      "ma10": 97.14,
+      "ma20": 85.98,
+      "ma60": 65.82,
+      "ma120": 55.17,
+      "ma250": 45.75,
       "high20": 111.11,
       "low20": 67.85,
       "high60": 111.11,
       "low60": 37.92,
-      "volRatio": 1.15,
-      "atr": 7.74,
+      "volRatio": 1.22,
+      "atr": 8.27,
       "trend": "多头排列",
-      "posPct": 64.51,
+      "posPct": 48.81,
       "supportZone": [
-        100.59,
-        103.7
+        94.22,
+        97.14
       ],
-      "deepSupport": 64.82,
-      "pullbackPct": 2.84,
+      "deepSupport": 65.82,
+      "pullbackPct": 0.82,
       "breakout": 111.11,
-      "toBreakoutPct": 4.19,
-      "leftStop": 97.57,
+      "toBreakoutPct": 13.45,
+      "leftStop": 91.4,
       "leftTarget": 111.11,
-      "leftRR": 1.96,
+      "leftRR": 3.6,
       "rightStop": 106.67,
-      "leftState": "回踩约 2.8% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 4.2%",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 13.4% · 暂无右侧",
       "spark": [
-        38.38,
         38.19,
         38.72,
         41.88,
@@ -5189,7 +5188,8 @@ window.STOCKS = [
         100.89,
         103.25,
         103.55,
-        106.64
+        106.64,
+        97.94
       ]
     },
     "news": [
@@ -5217,11 +5217,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 12.77,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 7.41,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "华鑫证券",
@@ -5255,15 +5255,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 112.15,
-      "pe_fwd": 91.6,
-      "peg": 3.98,
-      "pb": 6.48,
-      "mcap_yi": 1852.94,
-      "eps_cur": 1.13,
-      "eps_next": 1.39,
-      "analyst_count": 15,
-      "asof": "2026-06-30"
+      "pe_ttm": 105.25,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 6.08,
+      "mcap_yi": 1738.95,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -5284,8 +5284,8 @@ window.STOCKS = [
       "稼动率回升"
     ],
     "left": {
-      "zone": "20.43–21.07",
-      "trigger": "回踩 MA10(21.07)/MA20(19.32) 缩量企稳即逢低；强支撑 MA60 15.95；止损 19.82",
+      "zone": "19.02–19.42",
+      "trigger": "回踩 MA10(21.28)/MA20(19.42) 缩量企稳即逢低；强支撑 MA60 16.11；止损 18.45",
       "logic": "二线封测龙头，回调补涨属性。"
     },
     "right": {
@@ -5338,39 +5338,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 21.86,
-      "chgPct": -2.02,
-      "ma5": 22.21,
-      "ma10": 21.07,
-      "ma20": 19.32,
-      "ma60": 15.95,
-      "ma120": 14.62,
-      "ma250": 12.58,
+      "date": "2026-07-02",
+      "price": 21.13,
+      "chgPct": -3.34,
+      "ma5": 21.96,
+      "ma10": 21.28,
+      "ma20": 19.42,
+      "ma60": 16.11,
+      "ma120": 14.7,
+      "ma250": 12.63,
       "high20": 23.86,
       "low20": 16.01,
       "high60": 23.86,
       "low60": 11.28,
-      "volRatio": 1.27,
-      "atr": 1.63,
+      "volRatio": 1.19,
+      "atr": 1.73,
       "trend": "多头排列",
-      "posPct": 37.03,
+      "posPct": 31.14,
       "supportZone": [
-        20.43,
-        21.07
+        19.02,
+        19.42
       ],
-      "deepSupport": 15.95,
-      "pullbackPct": 3.76,
+      "deepSupport": 16.11,
+      "pullbackPct": 8.82,
       "breakout": 23.86,
-      "toBreakoutPct": 9.15,
-      "leftStop": 19.82,
+      "toBreakoutPct": 12.92,
+      "leftStop": 18.45,
       "leftTarget": 23.86,
-      "leftRR": 3.34,
+      "leftRR": 6.05,
       "rightStop": 22.91,
-      "leftState": "回踩约 3.8% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 9.1%",
+      "leftState": "回踩约 8.8% 入场（逢低区）",
+      "rightState": "远离突破 12.9% · 暂无右侧",
       "spark": [
-        11.53,
         11.34,
         11.44,
         12.14,
@@ -5429,7 +5428,8 @@ window.STOCKS = [
         22.56,
         21.92,
         22.31,
-        21.86
+        21.86,
+        21.13
       ]
     },
     "news": [
@@ -5457,11 +5457,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 14.1,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 8.17,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "华龙证券",
@@ -5495,15 +5495,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 90.88,
-      "pe_fwd": 69.7,
-      "peg": 3.19,
-      "pb": 4.16,
-      "mcap_yi": 741.28,
-      "eps_cur": 0.32,
-      "eps_next": 0.39,
-      "analyst_count": 2,
-      "asof": "2026-06-30"
+      "pe_ttm": 85.67,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 3.92,
+      "mcap_yi": 698.75,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -5523,8 +5523,8 @@ window.STOCKS = [
       "12 寸放量"
     ],
     "left": {
-      "zone": "72.58–76.44",
-      "trigger": "回踩 MA10(72.58)/MA20(69.87) 缩量企稳即逢低；强支撑 MA60 53.03；止损 70.40",
+      "zone": "68.50–70.61",
+      "trigger": "回踩 MA10(72.78)/MA20(70.61) 缩量企稳即逢低；强支撑 MA60 53.71；止损 66.44",
       "logic": "国产替代 + 周期复苏，回调布局。"
     },
     "right": {
@@ -5577,39 +5577,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 79.84,
-      "chgPct": 2.89,
-      "ma5": 76.44,
-      "ma10": 72.58,
-      "ma20": 69.87,
-      "ma60": 53.03,
-      "ma120": 46.01,
-      "ma250": 37.04,
+      "date": "2026-07-02",
+      "price": 73,
+      "chgPct": -8.57,
+      "ma5": 76.94,
+      "ma10": 72.78,
+      "ma20": 70.61,
+      "ma60": 53.71,
+      "ma120": 46.33,
+      "ma250": 37.24,
       "high20": 83.29,
-      "low20": 54.91,
+      "low20": 56.56,
       "high60": 83.29,
-      "low60": 32,
-      "volRatio": 1.18,
-      "atr": 6.34,
+      "low60": 32.28,
+      "volRatio": 1.09,
+      "atr": 6.48,
       "trend": "多头排列",
-      "posPct": 50.56,
+      "posPct": 35.92,
       "supportZone": [
-        72.58,
-        76.44
+        68.5,
+        70.61
       ],
-      "deepSupport": 53.03,
-      "pullbackPct": 4.45,
+      "deepSupport": 53.71,
+      "pullbackPct": 3.38,
       "breakout": 83.29,
-      "toBreakoutPct": 4.32,
-      "leftStop": 70.4,
+      "toBreakoutPct": 14.1,
+      "leftStop": 66.44,
       "leftTarget": 83.29,
-      "leftRR": 2.14,
+      "leftRR": 4.41,
       "rightStop": 79.96,
-      "leftState": "回踩约 4.4% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 4.3%",
+      "leftState": "回踩约 3.4% 入场（逢低区）",
+      "rightState": "远离突破 14.1% · 暂无右侧",
       "spark": [
-        32.2,
         32.44,
         32.35,
         35.05,
@@ -5668,7 +5667,8 @@ window.STOCKS = [
         75.37,
         78.89,
         77.6,
-        79.84
+        79.84,
+        73
       ]
     },
     "news": [
@@ -5696,11 +5696,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 11.68,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 7.27,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "中邮证券",
@@ -5734,15 +5734,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": -1105.91,
-      "pe_fwd": 215.6,
-      "peg": 1.76,
-      "pb": 8.59,
-      "mcap_yi": 599.23,
-      "eps_cur": 0.36,
-      "eps_next": 0.8,
-      "analyst_count": 3,
-      "asof": "2026-06-30"
+      "pe_ttm": -1035.8,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 8.04,
+      "mcap_yi": 561.23,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -5763,8 +5763,8 @@ window.STOCKS = [
       "自有品牌+收购"
     ],
     "left": {
-      "zone": "624.0–643.3",
-      "trigger": "回踩 MA10(643.3)/MA20(583.0) 缩量企稳即逢低；强支撑 MA60 495.8；止损 605.3",
+      "zone": "569.9–587.5",
+      "trigger": "回踩 MA10(648.3)/MA20(587.5) 缩量企稳即逢低；强支撑 MA60 501.4；止损 552.8",
       "logic": "存储周期弹性，回调布局上行周期。"
     },
     "right": {
@@ -5817,39 +5817,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 667.84,
-      "chgPct": -5.11,
-      "ma5": 690.33,
-      "ma10": 643.33,
-      "ma20": 583.01,
-      "ma60": 495.84,
-      "ma120": 403.54,
-      "ma250": 277.28,
+      "date": "2026-07-02",
+      "price": 621.8,
+      "chgPct": -6.89,
+      "ma5": 679.23,
+      "ma10": 648.34,
+      "ma20": 587.47,
+      "ma60": 501.4,
+      "ma120": 406.58,
+      "ma250": 279.45,
       "high20": 749.88,
       "low20": 470,
       "high60": 749.88,
       "low60": 284.09,
-      "volRatio": 1.15,
-      "atr": 47.28,
+      "volRatio": 1.01,
+      "atr": 49.94,
       "trend": "多头排列",
-      "posPct": 34.69,
+      "posPct": 24.01,
       "supportZone": [
-        624.03,
-        643.33
+        569.85,
+        587.47
       ],
-      "deepSupport": 495.84,
-      "pullbackPct": 3.81,
+      "deepSupport": 501.4,
+      "pullbackPct": 5.84,
       "breakout": 749.88,
-      "toBreakoutPct": 12.28,
-      "leftStop": 605.31,
+      "toBreakoutPct": 20.6,
+      "leftStop": 552.75,
       "leftTarget": 749.88,
-      "leftRR": 4.1,
+      "leftRR": 6.61,
       "rightStop": 719.88,
-      "leftState": "回踩约 3.8% 入场（逢低区）",
-      "rightState": "远离突破 12.3% · 暂无右侧",
+      "leftState": "回踩约 5.8% 入场（逢低区）",
+      "rightState": "远离突破 20.6% · 暂无右侧",
       "spark": [
-        288.45,
         284.58,
         296.51,
         322.93,
@@ -5908,7 +5907,8 @@ window.STOCKS = [
         679.6,
         723.1,
         703.8,
-        667.84
+        667.84,
+        621.8
       ]
     },
     "news": [
@@ -5935,12 +5935,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 5.87,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -8.93,
+      "turnover": 4.08,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "国信证券",
@@ -5974,15 +5974,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 54.76,
-      "pe_fwd": 21.3,
+      "pe_ttm": 48.12,
+      "pe_fwd": null,
       "peg": null,
-      "pb": 24.7,
-      "mcap_yi": 1983.67,
-      "eps_cur": 33.02,
-      "eps_next": 26.89,
-      "analyst_count": 7,
-      "asof": "2026-06-30"
+      "pb": 21.71,
+      "mcap_yi": 1743.25,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -6003,8 +6003,8 @@ window.STOCKS = [
       "AI 存储"
     ],
     "left": {
-      "zone": "812.1–837.2",
-      "trigger": "回踩 MA10(837.2)/MA20(734.6) 缩量企稳即逢低；强支撑 MA60 620.9；止损 787.7",
+      "zone": "781.2–823.7",
+      "trigger": "回踩 MA10(851.1)/MA20(746.1) 缩量企稳即逢低；强支撑 MA60 629.1；止损 757.8",
       "logic": "高弹性存储票，回调博弈周期。"
     },
     "right": {
@@ -6057,39 +6057,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 893.22,
-      "chgPct": -5.27,
-      "ma5": 929.62,
-      "ma10": 837.18,
-      "ma20": 734.56,
-      "ma60": 620.94,
-      "ma120": 450.73,
-      "ma250": 296.16,
+      "date": "2026-07-02",
+      "price": 849.14,
+      "chgPct": -4.93,
+      "ma5": 921.25,
+      "ma10": 851.13,
+      "ma20": 746.07,
+      "ma60": 629.09,
+      "ma120": 455.81,
+      "ma250": 299.21,
       "high20": 980,
       "low20": 568.18,
       "high60": 980,
       "low60": 352,
-      "volRatio": 1.19,
-      "atr": 64.63,
+      "volRatio": 1.05,
+      "atr": 68.21,
       "trend": "多头排列",
-      "posPct": 43.85,
+      "posPct": 34.98,
       "supportZone": [
-        812.07,
-        837.18
+        781.21,
+        823.67
       ],
-      "deepSupport": 620.94,
-      "pullbackPct": 6.69,
+      "deepSupport": 629.09,
+      "pullbackPct": 3.09,
       "breakout": 980,
-      "toBreakoutPct": 9.72,
-      "leftStop": 787.7,
+      "toBreakoutPct": 15.41,
+      "leftStop": 757.77,
       "leftTarget": 980,
-      "leftRR": 4.21,
+      "leftRR": 3.98,
       "rightStop": 940.8,
-      "leftState": "回踩约 6.7% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 9.7%",
+      "leftState": "回踩约 3.1% 入场（逢低区）",
+      "rightState": "远离突破 15.4% · 暂无右侧",
       "spark": [
-        360.15,
         352.02,
         378.18,
         393.3,
@@ -6148,7 +6147,8 @@ window.STOCKS = [
         951,
         970,
         942.9,
-        893.22
+        893.22,
+        849.14
       ]
     },
     "news": [
@@ -6176,11 +6176,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 7.95,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 5.69,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "国信证券",
@@ -6214,15 +6214,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 52.12,
-      "pe_fwd": 26.6,
+      "pe_ttm": 46.62,
+      "pe_fwd": null,
       "peg": null,
-      "pb": 32.29,
-      "mcap_yi": 1554.98,
-      "eps_cur": 35.46,
-      "eps_next": 29.85,
-      "analyst_count": 3,
-      "asof": "2026-06-30"
+      "pb": 28.88,
+      "mcap_yi": 1392.1,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -6243,8 +6243,8 @@ window.STOCKS = [
       "固态电解质"
     ],
     "left": {
-      "zone": "158.8–165.5",
-      "trigger": "回踩 MA10(158.8)/MA20(147.6) 缩量企稳即逢低；强支撑 MA60 105.7；止损 154.0",
+      "zone": "144.1–148.5",
+      "trigger": "回踩 MA10(158.6)/MA20(148.5) 缩量企稳即逢低；强支撑 MA60 107.4；止损 139.7",
       "logic": "陶瓷平台龙头，回调承接确定性强。"
     },
     "right": {
@@ -6298,39 +6298,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 170.46,
-      "chgPct": 2.13,
-      "ma5": 165.54,
-      "ma10": 158.79,
-      "ma20": 147.56,
-      "ma60": 105.67,
-      "ma120": 79.49,
-      "ma250": 59.67,
+      "date": "2026-07-02",
+      "price": 153.86,
+      "chgPct": -9.74,
+      "ma5": 163.59,
+      "ma10": 158.63,
+      "ma20": 148.51,
+      "ma60": 107.36,
+      "ma120": 80.39,
+      "ma250": 60.17,
       "high20": 180.35,
       "low20": 121.52,
       "high60": 180.35,
-      "low60": 52.27,
-      "volRatio": 1.06,
-      "atr": 13.64,
+      "low60": 52.55,
+      "volRatio": 0.99,
+      "atr": 14.16,
       "trend": "多头排列",
-      "posPct": 61.31,
+      "posPct": 43.32,
       "supportZone": [
-        158.79,
-        165.54
+        144.05,
+        148.51
       ],
-      "deepSupport": 105.67,
-      "pullbackPct": 2.97,
+      "deepSupport": 107.36,
+      "pullbackPct": 3.6,
       "breakout": 180.35,
-      "toBreakoutPct": 5.8,
-      "leftStop": 154.03,
+      "toBreakoutPct": 17.22,
+      "leftStop": 139.73,
       "leftTarget": 180.35,
-      "leftRR": 2.23,
+      "leftRR": 5.2,
       "rightStop": 173.14,
-      "leftState": "回踩约 3.0% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 5.8%",
+      "leftState": "回踩约 3.6% 入场（逢低区）",
+      "rightState": "远离突破 17.2% · 暂无右侧",
       "spark": [
-        52.73,
         54.39,
         56.24,
         57.94,
@@ -6389,7 +6388,8 @@ window.STOCKS = [
         160.05,
         166.69,
         166.9,
-        170.46
+        170.46,
+        153.86
       ]
     },
     "news": [
@@ -6416,12 +6416,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 3.98,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": 4.82,
+      "turnover": 3.08,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "中邮证券",
@@ -6455,15 +6455,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 111.19,
-      "pe_fwd": 89.7,
-      "peg": 3.41,
-      "pb": 14.85,
-      "mcap_yi": 3120.7,
-      "eps_cur": 1.86,
-      "eps_next": 2.35,
-      "analyst_count": 14,
-      "asof": "2026-06-30"
+      "pe_ttm": 101.85,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 13.6,
+      "mcap_yi": 2858.37,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -6484,8 +6484,8 @@ window.STOCKS = [
       "产能爬坡"
     ],
     "left": {
-      "zone": "66.96–68.42",
-      "trigger": "回踩 MA10(74.93)/MA20(68.42) 缩量企稳即逢低；强支撑 MA60 42.17；止损 64.95",
+      "zone": "61.42–67.56",
+      "trigger": "回踩 67.56 缩量企稳；失守 61.42 转弱；强支撑 43.00，止损 59.57",
       "logic": "周期弹性龙头，回调布局上行。"
     },
     "right": {
@@ -6538,39 +6538,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 74.4,
-      "chgPct": 2.99,
-      "ma5": 77.01,
-      "ma10": 74.93,
-      "ma20": 68.42,
-      "ma60": 42.17,
-      "ma120": 31.47,
-      "ma250": 23.07,
+      "date": "2026-07-02",
+      "price": 68.24,
+      "chgPct": -8.28,
+      "ma5": 74.73,
+      "ma10": 74.34,
+      "ma20": 68.81,
+      "ma60": 43,
+      "ma120": 31.91,
+      "ma250": 23.29,
       "high20": 84,
       "low20": 53.86,
       "high60": 84,
-      "low60": 18.41,
-      "volRatio": 0.77,
-      "atr": 6.27,
+      "low60": 18.44,
+      "volRatio": 0.69,
+      "atr": 6.35,
       "trend": "多头排列",
-      "posPct": 76.43,
+      "posPct": 58.71,
       "supportZone": [
-        66.96,
-        68.42
+        61.42,
+        67.56
       ],
-      "deepSupport": 42.17,
-      "pullbackPct": 8.74,
+      "deepSupport": 43,
+      "pullbackPct": 1.01,
       "breakout": 84,
-      "toBreakoutPct": 12.9,
-      "leftStop": 64.95,
+      "toBreakoutPct": 23.09,
+      "leftStop": 59.57,
       "leftTarget": 84,
-      "leftRR": 5.95,
+      "leftRR": 3.97,
       "rightStop": 80.64,
-      "leftState": "回踩约 8.7% 入场（逢低区）",
-      "rightState": "远离突破 12.9% · 暂无右侧",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 23.1% · 暂无右侧",
       "spark": [
-        18.62,
         18.61,
         18.55,
         19.83,
@@ -6629,7 +6628,8 @@ window.STOCKS = [
         78.5,
         80.27,
         72.24,
-        74.4
+        74.4,
+        68.24
       ]
     },
     "news": [
@@ -6656,12 +6656,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 3.87,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -0.37,
+      "turnover": 5.26,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "中邮证券",
@@ -6695,15 +6695,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 271.99,
-      "pe_fwd": 136.3,
-      "peg": 6.02,
-      "pb": 6.7,
-      "mcap_yi": 835.83,
-      "eps_cur": 0.53,
-      "eps_next": 0.65,
-      "analyst_count": 2,
-      "asof": "2026-06-30"
+      "pe_ttm": 255.61,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 6.29,
+      "mcap_yi": 785.5,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -6724,8 +6724,8 @@ window.STOCKS = [
       "新材料"
     ],
     "left": {
-      "zone": "78.75–81.11",
-      "trigger": "回踩 MA10(73.86)/MA20(67.71) 缩量企稳即逢低；强支撑 MA60 46.54；止损 76.39",
+      "zone": "73.51–75.06",
+      "trigger": "回踩 MA10(75.06)/MA20(68.60) 缩量企稳即逢低；强支撑 MA60 47.38；止损 71.31",
       "logic": "军工复苏 + 材料成长，回调布局。"
     },
     "right": {
@@ -6778,39 +6778,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 87.5,
-      "chgPct": 5.42,
-      "ma5": 81.11,
-      "ma10": 73.86,
-      "ma20": 67.71,
-      "ma60": 46.54,
-      "ma120": 42.44,
-      "ma250": 38.99,
+      "date": "2026-07-02",
+      "price": 81.68,
+      "chgPct": -6.65,
+      "ma5": 82.42,
+      "ma10": 75.06,
+      "ma20": 68.6,
+      "ma60": 47.38,
+      "ma120": 42.82,
+      "ma250": 39.18,
       "high20": 91.3,
       "low20": 52.61,
       "high60": 91.3,
       "low60": 30.83,
-      "volRatio": 0.88,
-      "atr": 6.81,
+      "volRatio": 0.97,
+      "atr": 6.95,
       "trend": "多头排列",
-      "posPct": 87.99,
+      "posPct": 72.39,
       "supportZone": [
-        78.75,
-        81.11
+        73.51,
+        75.06
       ],
-      "deepSupport": 46.54,
-      "pullbackPct": 7.88,
+      "deepSupport": 47.38,
+      "pullbackPct": 8.83,
       "breakout": 91.3,
-      "toBreakoutPct": 4.34,
-      "leftStop": 76.39,
+      "toBreakoutPct": 11.78,
+      "leftStop": 71.31,
       "leftTarget": 91.3,
-      "leftRR": 3.21,
+      "leftRR": 5.72,
       "rightStop": 87.65,
-      "leftState": "回踩约 7.9% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 4.3%",
+      "leftState": "回踩约 8.8% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 11.8%",
       "spark": [
-        31.58,
         31.82,
         30.91,
         32.74,
@@ -6869,7 +6868,8 @@ window.STOCKS = [
         79.49,
         80.43,
         83,
-        87.5
+        87.5,
+        81.68
       ]
     },
     "news": [
@@ -6896,12 +6896,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 9.01,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": 2.36,
+      "turnover": 5.53,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "中邮证券",
@@ -6935,15 +6935,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 156.16,
-      "pe_fwd": 69.7,
-      "peg": 2.24,
-      "pb": 6.45,
-      "mcap_yi": 394.72,
-      "eps_cur": 1.19,
-      "eps_next": 1.56,
-      "analyst_count": 12,
-      "asof": "2026-06-30"
+      "pe_ttm": 153.6,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 6.35,
+      "mcap_yi": 388.25,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -6964,8 +6964,8 @@ window.STOCKS = [
       "新材料平台"
     ],
     "left": {
-      "zone": "92.94–95.82",
-      "trigger": "回踩 MA10(95.82)/MA20(79.12) 缩量企稳即逢低；强支撑 MA60 52.69；止损 90.16",
+      "zone": "89.33–94.19",
+      "trigger": "回踩 MA10(97.68)/MA20(80.95) 缩量企稳即逢低；强支撑 MA60 53.81；止损 86.65",
       "logic": "材料平台龙头，回调承接。"
     },
     "right": {
@@ -7018,39 +7018,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 98.82,
-      "chgPct": -4.23,
-      "ma5": 101.75,
-      "ma10": 95.82,
-      "ma20": 79.12,
-      "ma60": 52.69,
-      "ma120": 42.68,
-      "ma250": 31.72,
+      "date": "2026-07-02",
+      "price": 97.1,
+      "chgPct": -1.74,
+      "ma5": 101.49,
+      "ma10": 97.68,
+      "ma20": 80.95,
+      "ma60": 53.81,
+      "ma120": 43.26,
+      "ma250": 32.04,
       "high20": 112.88,
       "low20": 54.68,
       "high60": 112.88,
-      "low60": 29.82,
-      "volRatio": 0.94,
-      "atr": 10.06,
+      "low60": 29.95,
+      "volRatio": 0.85,
+      "atr": 10.38,
       "trend": "多头排列",
-      "posPct": 87.54,
+      "posPct": 80.45,
       "supportZone": [
-        92.94,
-        95.82
+        89.33,
+        94.19
       ],
-      "deepSupport": 52.69,
-      "pullbackPct": 3.13,
+      "deepSupport": 53.81,
+      "pullbackPct": 3.09,
       "breakout": 112.88,
-      "toBreakoutPct": 14.23,
-      "leftStop": 90.16,
+      "toBreakoutPct": 16.25,
+      "leftStop": 86.65,
       "leftTarget": 112.88,
-      "leftRR": 4.38,
+      "leftRR": 4.13,
       "rightStop": 108.36,
       "leftState": "回踩约 3.1% 入场（逢低区）",
-      "rightState": "远离突破 14.2% · 暂无右侧",
+      "rightState": "远离突破 16.3% · 暂无右侧",
       "spark": [
-        30.04,
         30.5,
         31.16,
         32.12,
@@ -7109,7 +7108,8 @@ window.STOCKS = [
         102.81,
         105.55,
         103.18,
-        98.82
+        98.82,
+        97.1
       ]
     },
     "news": [
@@ -7137,11 +7137,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 13.2,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 8.43,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "中邮证券",
@@ -7175,15 +7175,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 166.78,
-      "pe_fwd": 122.8,
-      "peg": 5.43,
-      "pb": 14.47,
-      "mcap_yi": 880.82,
-      "eps_cur": 0.84,
-      "eps_next": 1.03,
-      "analyst_count": 18,
-      "asof": "2026-06-30"
+      "pe_ttm": 154.72,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 13.42,
+      "mcap_yi": 817.13,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -7204,8 +7204,8 @@ window.STOCKS = [
       "汽车射频"
     ],
     "left": {
-      "zone": "104.5–109.4",
-      "trigger": "回踩 MA10(109.4)/MA20(104.5) 缩量企稳即逢低；强支撑 MA60 95.09；止损 101.4",
+      "zone": "94.10–95.81",
+      "trigger": "回踩 95.81 缩量企稳；失守 94.10 转弱；强支撑 95.81，止损 91.28",
       "logic": "估值低位龙头，回调布局复苏。"
     },
     "right": {
@@ -7258,39 +7258,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 112.16,
-      "chgPct": -5.95,
-      "ma5": 116.62,
-      "ma10": 109.4,
-      "ma20": 104.55,
-      "ma60": 95.09,
-      "ma120": 83.59,
-      "ma250": 54.8,
+      "date": "2026-07-02",
+      "price": 104.56,
+      "chgPct": -6.78,
+      "ma5": 114.18,
+      "ma10": 109.3,
+      "ma20": 105,
+      "ma60": 95.81,
+      "ma120": 84.03,
+      "ma250": 55.14,
       "high20": 129.44,
       "low20": 90,
       "high60": 129.44,
       "low60": 59.98,
-      "volRatio": 1.08,
-      "atr": 10.37,
+      "volRatio": 0.89,
+      "atr": 10.29,
       "trend": "多头排列",
-      "posPct": 17.95,
+      "posPct": 9.13,
       "supportZone": [
-        104.55,
-        109.4
+        94.1,
+        95.81
       ],
-      "deepSupport": 95.09,
-      "pullbackPct": 2.52,
+      "deepSupport": 95.81,
+      "pullbackPct": 9.13,
       "breakout": 129.44,
-      "toBreakoutPct": 15.41,
-      "leftStop": 101.41,
+      "toBreakoutPct": 23.79,
+      "leftStop": 91.28,
       "leftTarget": 129.44,
-      "leftRR": 4.04,
+      "leftRR": 9.37,
       "rightStop": 124.26,
-      "leftState": "回踩约 2.5% 入场（逢低区）",
-      "rightState": "远离突破 15.4% · 暂无右侧",
+      "leftState": "回踩约 9.1% 入场（逢低区）",
+      "rightState": "远离突破 23.8% · 暂无右侧",
       "spark": [
-        61.47,
         61.72,
         60.63,
         65.83,
@@ -7349,7 +7348,8 @@ window.STOCKS = [
         118.19,
         116.75,
         119.25,
-        112.16
+        112.16,
+        104.56
       ]
     },
     "news": [
@@ -7377,11 +7377,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 10.13,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 5.79,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "华鑫证券",
@@ -7415,15 +7415,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 156.75,
-      "pe_fwd": 104.6,
-      "peg": 2.29,
-      "pb": 14.47,
-      "mcap_yi": 984.05,
-      "eps_cur": 1.14,
-      "eps_next": 1.66,
-      "analyst_count": 3,
-      "asof": "2026-06-30"
+      "pe_ttm": 136.96,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 12.64,
+      "mcap_yi": 859.78,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -7444,8 +7444,8 @@ window.STOCKS = [
       "海外需求"
     ],
     "left": {
-      "zone": "354.7–367.8",
-      "trigger": "回踩 MA10(354.7)/MA20(320.8) 缩量企稳即逢低；强支撑 MA60 248.8；止损 344.1",
+      "zone": "358.5–363.6",
+      "trigger": "回踩 MA10(358.5)/MA20(324.9) 缩量企稳即逢低；强支撑 MA60 252.3；止损 347.8",
       "logic": "受益 PCB 扩产，回调布局设备需求。"
     },
     "right": {
@@ -7498,39 +7498,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 376.61,
-      "chgPct": 4.43,
-      "ma5": 367.81,
-      "ma10": 354.7,
-      "ma20": 320.83,
-      "ma60": 248.79,
-      "ma120": 199.13,
-      "ma250": 143.06,
+      "date": "2026-07-02",
+      "price": 366.35,
+      "chgPct": -2.72,
+      "ma5": 363.57,
+      "ma10": 358.52,
+      "ma20": 324.85,
+      "ma60": 252.29,
+      "ma120": 201.13,
+      "ma250": 144.36,
       "high20": 395.36,
       "low20": 260.49,
       "high60": 395.36,
       "low60": 150.66,
-      "volRatio": 0.91,
-      "atr": 29.32,
+      "volRatio": 0.84,
+      "atr": 30.44,
       "trend": "多头排列",
-      "posPct": 51.37,
+      "posPct": 45.21,
       "supportZone": [
-        354.7,
-        367.81
+        358.52,
+        363.57
       ],
-      "deepSupport": 248.79,
-      "pullbackPct": 2.39,
+      "deepSupport": 252.29,
+      "pullbackPct": 0.77,
       "breakout": 395.36,
-      "toBreakoutPct": 4.98,
-      "leftStop": 344.06,
+      "toBreakoutPct": 7.92,
+      "leftStop": 347.77,
       "leftTarget": 395.36,
-      "leftRR": 1.98,
+      "leftRR": 2.58,
       "rightStop": 379.55,
-      "leftState": "回踩约 2.4% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 5.0%",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "箱体内 · 距突破 7.9%",
       "spark": [
-        156.45,
         153.43,
         152.61,
         174.13,
@@ -7589,7 +7588,8 @@ window.STOCKS = [
         370.78,
         343.45,
         360.65,
-        376.61
+        376.61,
+        366.35
       ]
     },
     "news": [
@@ -7617,11 +7617,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 0.96,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 0.64,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "东吴证券",
@@ -7655,15 +7655,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 171.16,
-      "pe_fwd": 106.7,
-      "peg": 1.89,
-      "pb": 16.02,
-      "mcap_yi": 1533.62,
-      "eps_cur": 3.38,
-      "eps_next": 5.29,
-      "analyst_count": 8,
-      "asof": "2026-06-30"
+      "pe_ttm": 172.59,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 16.15,
+      "mcap_yi": 1546.51,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -7684,8 +7684,8 @@ window.STOCKS = [
       "大客户 capex"
     ],
     "left": {
-      "zone": "130.7–134.8",
-      "trigger": "回踩 MA10(143.3)/MA20(134.8) 缩量企稳即逢低；强支撑 MA60 118.3；止损 126.8",
+      "zone": "117.3–119.4",
+      "trigger": "回踩 119.4 缩量企稳；失守 117.3 转弱；强支撑 119.4，止损 113.7",
       "logic": "设备龙头估值修复，回调布局复苏。"
     },
     "right": {
@@ -7738,39 +7738,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 137.98,
-      "chgPct": -8.08,
-      "ma5": 146.67,
-      "ma10": 143.34,
-      "ma20": 134.79,
-      "ma60": 118.25,
-      "ma120": 87.04,
-      "ma250": 59.6,
+      "date": "2026-07-02",
+      "price": 130.28,
+      "chgPct": -5.58,
+      "ma5": 142.17,
+      "ma10": 142.78,
+      "ma20": 134.77,
+      "ma60": 119.39,
+      "ma120": 87.77,
+      "ma250": 60.03,
       "high20": 168.08,
       "low20": 116.3,
       "high60": 168.08,
-      "low60": 60.69,
-      "volRatio": 1.32,
-      "atr": 13.07,
+      "low60": 61.61,
+      "volRatio": 1.22,
+      "atr": 13.45,
       "trend": "多头排列",
-      "posPct": 16.69,
+      "posPct": 9.12,
       "supportZone": [
-        130.74,
-        134.79
+        117.25,
+        119.39
       ],
-      "deepSupport": 118.25,
-      "pullbackPct": 2.37,
+      "deepSupport": 119.39,
+      "pullbackPct": 9.12,
       "breakout": 168.08,
-      "toBreakoutPct": 21.81,
-      "leftStop": 126.82,
+      "toBreakoutPct": 29.01,
+      "leftStop": 113.73,
       "leftTarget": 168.08,
-      "leftRR": 5.94,
+      "leftRR": 10,
       "rightStop": 161.36,
-      "leftState": "回踩约 2.4% 入场（逢低区）",
-      "rightState": "远离突破 21.8% · 暂无右侧",
+      "leftState": "回踩约 9.1% 入场（逢低区）",
+      "rightState": "远离突破 29.0% · 暂无右侧",
       "spark": [
-        61.51,
         63.66,
         64.16,
         70.6,
@@ -7829,7 +7828,8 @@ window.STOCKS = [
         151.27,
         141.2,
         150.11,
-        137.98
+        137.98,
+        130.28
       ]
     },
     "news": [
@@ -7856,13 +7856,19 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 10.99,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -3.76,
+      "turnover": 4.58,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
+      {
+        "org": "东吴证券",
+        "rating": "买入",
+        "title": "投资扩产光棒与光纤产能，有望受益于DCI需求扩张",
+        "date": "2026-06-30"
+      },
       {
         "org": "东吴证券",
         "rating": "买入",
@@ -7886,24 +7892,18 @@ window.STOCKS = [
         "rating": "买入",
         "title": "公司事件点评报告：AI驱动PCB与半导体双线突破，工业激光领域加速产业升级",
         "date": "2025-08-27"
-      },
-      {
-        "org": "信达证券",
-        "rating": "",
-        "title": "需求复苏迹象隐现，Q2单季有所改善",
-        "date": "2023-08-27"
       }
     ],
     "valuation": {
-      "pe_ttm": 111.97,
-      "pe_fwd": 64.4,
-      "peg": 1.25,
-      "pb": 7.55,
-      "mcap_yi": 1436.14,
-      "eps_cur": 2.33,
-      "eps_next": 3.53,
-      "analyst_count": 13,
-      "asof": "2026-06-30"
+      "pe_ttm": 96.58,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 6.51,
+      "mcap_yi": 1238.67,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -7924,8 +7924,8 @@ window.STOCKS = [
       "液冷整柜"
     ],
     "left": {
-      "zone": "65.62–67.65",
-      "trigger": "回踩 67.65 缩量企稳；失守 65.62 转弱；强支撑 67.65，止损 63.65",
+      "zone": "59.20–65.12",
+      "trigger": "回踩 65.12 缩量企稳；失守 59.20 转弱；强支撑 67.88，止损 57.43",
       "logic": "算力总装龙头，回调即布局。"
     },
     "right": {
@@ -7981,39 +7981,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 70,
-      "chgPct": -2.98,
-      "ma5": 71.79,
-      "ma10": 73.95,
-      "ma20": 73.77,
-      "ma60": 67.65,
+      "date": "2026-07-02",
+      "price": 65.78,
+      "chgPct": -6.03,
+      "ma5": 69.55,
+      "ma10": 73.26,
+      "ma20": 73.01,
+      "ma60": 67.88,
       "ma120": 61.99,
-      "ma250": 56.33,
-      "high20": 84.95,
-      "low20": 66.5,
+      "ma250": 56.52,
+      "high20": 80.86,
+      "low20": 64.9,
       "high60": 84.95,
-      "low60": 51.75,
-      "volRatio": 0.89,
-      "atr": 4.1,
+      "low60": 52,
+      "volRatio": 0.86,
+      "atr": 4.23,
       "trend": "震荡",
-      "posPct": 3.47,
+      "posPct": -3.1,
       "supportZone": [
-        65.62,
-        67.65
+        59.2,
+        65.12
       ],
-      "deepSupport": 67.65,
-      "pullbackPct": 3.47,
+      "deepSupport": 67.88,
+      "pullbackPct": 1.01,
       "breakout": 84.95,
-      "toBreakoutPct": 21.36,
-      "leftStop": 63.65,
+      "toBreakoutPct": 29.14,
+      "leftStop": 57.43,
       "leftTarget": 84.95,
-      "leftRR": 6.13,
+      "leftRR": 4.82,
       "rightStop": 81.55,
-      "leftState": "回踩约 3.5% 入场（逢低区）",
-      "rightState": "远离突破 21.4% · 暂无右侧",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 29.1% · 暂无右侧",
       "spark": [
-        52,
         52.18,
         52.58,
         56.61,
@@ -8072,7 +8071,8 @@ window.STOCKS = [
         70.22,
         69.61,
         72.15,
-        70
+        70,
+        65.78
       ]
     },
     "news": [
@@ -8093,11 +8093,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 0.83,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 0.54,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "金元证券",
@@ -8131,15 +8131,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 35.22,
-      "pe_fwd": 23.5,
-      "peg": 0.67,
-      "pb": 8.12,
-      "mcap_yi": 14317.51,
-      "eps_cur": 3.07,
-      "eps_next": 4.14,
-      "analyst_count": 22,
-      "asof": "2026-06-30"
+      "pe_ttm": 32.13,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 7.41,
+      "mcap_yi": 13059.4,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -8160,8 +8160,8 @@ window.STOCKS = [
       "海外高毛利"
     ],
     "left": {
-      "zone": "123.2–135.6",
-      "trigger": "回踩 135.6 缩量企稳；失守 123.2 转弱；强支撑 147.7，止损 119.5",
+      "zone": "118.3–130.1",
+      "trigger": "回踩 130.1 缩量企稳；失守 118.3 转弱；强支撑 147.8，止损 114.8",
       "logic": "光储龙头业绩稳健，回调布局确定性。"
     },
     "right": {
@@ -8216,39 +8216,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 136.92,
-      "chgPct": -13.9,
-      "ma5": 151.06,
-      "ma10": 152.17,
-      "ma20": 152.53,
-      "ma60": 147.71,
-      "ma120": 153.48,
-      "ma250": 140.73,
-      "high20": 175.67,
+      "date": "2026-07-02",
+      "price": 131.45,
+      "chgPct": -4,
+      "ma5": 146.82,
+      "ma10": 150.4,
+      "ma20": 150.56,
+      "ma60": 147.79,
+      "ma120": 153.12,
+      "ma250": 141.01,
+      "high20": 169,
       "low20": 127.3,
       "high60": 191.71,
       "low60": 121.06,
       "volRatio": 1.22,
-      "atr": 11.3,
+      "atr": 11.13,
       "trend": "震荡",
-      "posPct": -7.3,
+      "posPct": -11.05,
       "supportZone": [
-        123.23,
-        135.55
+        118.31,
+        130.14
       ],
-      "deepSupport": 147.71,
+      "deepSupport": 147.79,
       "pullbackPct": 1.01,
       "breakout": 191.71,
-      "toBreakoutPct": 40.02,
-      "leftStop": 119.53,
+      "toBreakoutPct": 45.84,
+      "leftStop": 114.76,
       "leftTarget": 191.71,
-      "leftRR": 6.32,
+      "leftRR": 7.13,
       "rightStop": 184.04,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 40.0% · 暂无右侧",
+      "rightState": "远离突破 45.8% · 暂无右侧",
       "spark": [
-        126.57,
         122.64,
         121.6,
         126.31,
@@ -8307,10 +8306,18 @@ window.STOCKS = [
         151.05,
         155.64,
         159.02,
-        136.92
+        136.92,
+        131.45
       ]
     },
     "news": [
+      {
+        "title": "闪崩！阳光电源市值跌破3000亿 公司回应",
+        "date": "2026-07-02 06:26:04",
+        "source": "上海证券报",
+        "url": "http://finance.eastmoney.com/a/202607013790550115.html",
+        "content": "目前以阳光电源为代表的头部企业正通过布局海外本地化产能、开拓中东、东南亚、拉美等新兴市场，对冲欧美政策风险。 　　当日，多家券商发布点评。"
+      },
       {
         "title": "阳光电源:关于为子公司提供担保额度预计的进展公告",
         "date": "2026-06-30",
@@ -8324,22 +8331,15 @@ window.STOCKS = [
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300274",
         "content": ""
-      },
-      {
-        "title": "阳光电源:关于2022年限制性股票激励计划首次授予部分第四个归属期归属结果暨股份上市公告",
-        "date": "2026-06-02",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300274",
-        "content": ""
       }
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 4.67,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 3.55,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "交银国际证券",
@@ -8373,15 +8373,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 27.64,
-      "pe_fwd": 20.9,
-      "peg": 0.98,
-      "pb": 6.98,
-      "mcap_yi": 2524.49,
-      "eps_cur": 7.61,
-      "eps_next": 9.24,
-      "analyst_count": 29,
-      "asof": "2026-06-30"
+      "pe_ttm": 22.86,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 5.77,
+      "mcap_yi": 2087.76,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -8402,8 +8402,8 @@ window.STOCKS = [
       "工商储拓展"
     ],
     "left": {
-      "zone": "91.35–100.5",
-      "trigger": "回踩 100.5 缩量企稳；失守 91.35 转弱；强支撑 105.3，止损 88.61",
+      "zone": "87.78–96.55",
+      "trigger": "回踩 96.55 缩量企稳；失守 87.78 转弱；强支撑 105.4，止损 85.14",
       "logic": "高弹性储能票，回调布局新兴市场。"
     },
     "right": {
@@ -8456,39 +8456,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 101.5,
-      "chgPct": -4.41,
-      "ma5": 101.55,
-      "ma10": 102.42,
-      "ma20": 103.74,
-      "ma60": 105.25,
-      "ma120": 89.23,
-      "ma250": 67.62,
-      "high20": 119.48,
+      "date": "2026-07-02",
+      "price": 97.53,
+      "chgPct": -3.91,
+      "ma5": 101.19,
+      "ma10": 101.87,
+      "ma20": 102.85,
+      "ma60": 105.43,
+      "ma120": 89.53,
+      "ma250": 67.87,
+      "high20": 115.56,
       "low20": 94,
       "high60": 126.9,
       "low60": 84.34,
-      "volRatio": 1.02,
-      "atr": 6,
+      "volRatio": 0.96,
+      "atr": 5.86,
       "trend": "空头排列",
-      "posPct": -3.56,
+      "posPct": -7.5,
       "supportZone": [
-        91.35,
-        100.49
+        87.78,
+        96.55
       ],
-      "deepSupport": 105.25,
+      "deepSupport": 105.43,
       "pullbackPct": 1.01,
       "breakout": 126.9,
-      "toBreakoutPct": 25.02,
-      "leftStop": 88.61,
+      "toBreakoutPct": 30.11,
+      "leftStop": 85.14,
       "leftTarget": 126.9,
-      "leftRR": 4.24,
+      "leftRR": 4.94,
       "rightStop": 121.82,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 25.0% · 暂无右侧",
+      "rightState": "远离突破 30.1% · 暂无右侧",
       "spark": [
-        86.57,
         85.79,
         87.75,
         86.79,
@@ -8547,7 +8546,8 @@ window.STOCKS = [
         96.49,
         104.27,
         106.18,
-        101.5
+        101.5,
+        97.53
       ]
     },
     "news": [
@@ -8574,12 +8574,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 1.61,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -1.46,
+      "turnover": 0.76,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "群益证券",
@@ -8613,15 +8613,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 37,
-      "pe_fwd": 24.8,
-      "peg": 0.94,
-      "pb": 13.62,
-      "mcap_yi": 1351.78,
-      "eps_cur": 4.28,
-      "eps_next": 5.41,
-      "analyst_count": 23,
-      "asof": "2026-06-30"
+      "pe_ttm": 33.85,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 12.45,
+      "mcap_yi": 1236.56,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -8642,8 +8642,8 @@ window.STOCKS = [
       "平台多元"
     ],
     "left": {
-      "zone": "140.8–154.9",
-      "trigger": "回踩 154.9 缩量企稳；失守 140.8 转弱；强支撑 131.7，止损 136.6",
+      "zone": "137.1–150.8",
+      "trigger": "回踩 150.8 缩量企稳；失守 137.1 转弱；强支撑 132.6，止损 133.0",
       "logic": "平台型成长，回调布局算力电源。"
     },
     "right": {
@@ -8696,39 +8696,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 156.45,
-      "chgPct": -6.42,
-      "ma5": 163.54,
-      "ma10": 170.82,
-      "ma20": 160.51,
-      "ma60": 131.65,
-      "ma120": 121.91,
-      "ma250": 95.18,
+      "date": "2026-07-02",
+      "price": 152.32,
+      "chgPct": -2.64,
+      "ma5": 159.61,
+      "ma10": 168.17,
+      "ma20": 160.23,
+      "ma60": 132.58,
+      "ma120": 122.45,
+      "ma250": 95.61,
       "high20": 189.98,
       "low20": 135.2,
       "high60": 189.98,
       "low60": 93.63,
-      "volRatio": 1.06,
-      "atr": 13.3,
-      "trend": "多头排列",
-      "posPct": 18.84,
+      "volRatio": 1.01,
+      "atr": 13.19,
+      "trend": "震荡",
+      "posPct": 14.88,
       "supportZone": [
-        140.81,
-        154.89
+        137.09,
+        150.8
       ],
-      "deepSupport": 131.65,
+      "deepSupport": 132.58,
       "pullbackPct": 1.01,
       "breakout": 189.98,
-      "toBreakoutPct": 21.43,
-      "leftStop": 136.58,
+      "toBreakoutPct": 24.72,
+      "leftStop": 132.98,
       "leftTarget": 189.98,
-      "leftRR": 3.74,
+      "leftRR": 4.2,
       "rightStop": 182.38,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 21.4% · 暂无右侧",
+      "rightState": "远离突破 24.7% · 暂无右侧",
       "spark": [
-        96.4,
         94.57,
         93.79,
         102.5,
@@ -8787,7 +8786,8 @@ window.STOCKS = [
         160.76,
         161.32,
         167.18,
-        156.45
+        156.45,
+        152.32
       ]
     },
     "news": [
@@ -8814,12 +8814,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 8.96,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -7.72,
+      "turnover": 3.79,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "东吴证券",
@@ -8853,15 +8853,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 634.94,
-      "pe_fwd": 105.8,
-      "peg": 1.3,
-      "pb": 10.84,
-      "mcap_yi": 766.11,
-      "eps_cur": 1.58,
-      "eps_next": 2.87,
-      "analyst_count": 13,
-      "asof": "2026-06-30"
+      "pe_ttm": 576.95,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 9.85,
+      "mcap_yi": 696.13,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -8882,8 +8882,8 @@ window.STOCKS = [
       "电力信息化"
     ],
     "left": {
-      "zone": "46.66–47.01",
-      "trigger": "回踩 47.01 缩量企稳；失守 46.66 转弱；强支撑 47.01，止损 45.26",
+      "zone": "50.94–52.51",
+      "trigger": "回踩 MA10(53.51)/MA20(52.51) 缩量企稳即逢低；强支撑 MA60 47.47；止损 49.41",
       "logic": "算力供电纯标的，回调博弈 HVDC 放量。"
     },
     "right": {
@@ -8936,39 +8936,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 51.84,
-      "chgPct": -3.64,
-      "ma5": 53.9,
-      "ma10": 53.39,
-      "ma20": 52.59,
-      "ma60": 47.01,
-      "ma120": 39.15,
-      "ma250": 30.63,
+      "date": "2026-07-02",
+      "price": 53.04,
+      "chgPct": 2.31,
+      "ma5": 53.29,
+      "ma10": 53.51,
+      "ma20": 52.51,
+      "ma60": 47.47,
+      "ma120": 39.37,
+      "ma250": 30.78,
       "high20": 58.3,
       "low20": 46.41,
       "high60": 59.87,
       "low60": 25.43,
-      "volRatio": 1.01,
-      "atr": 4.06,
+      "volRatio": 0.91,
+      "atr": 4.17,
       "trend": "多头排列",
-      "posPct": 10.26,
+      "posPct": 11.73,
       "supportZone": [
-        46.66,
-        47.01
+        50.94,
+        52.51
       ],
-      "deepSupport": 47.01,
-      "pullbackPct": 10.26,
+      "deepSupport": 47.47,
+      "pullbackPct": 1,
       "breakout": 59.87,
-      "toBreakoutPct": 15.49,
-      "leftStop": 45.26,
+      "toBreakoutPct": 12.88,
+      "leftStop": 49.41,
       "leftTarget": 59.87,
-      "leftRR": 8.27,
+      "leftRR": 3.52,
       "rightStop": 57.48,
-      "leftState": "回踩约 10.3% 入场（逢低区）",
-      "rightState": "远离突破 15.5% · 暂无右侧",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 12.9% · 暂无右侧",
       "spark": [
-        25.54,
         27.16,
         27.47,
         28.93,
@@ -9027,7 +9026,8 @@ window.STOCKS = [
         53.95,
         53.8,
         53.8,
-        51.84
+        51.84,
+        53.04
       ]
     },
     "news": [
@@ -9055,11 +9055,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 6.93,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 4.52,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "国信证券",
@@ -9093,15 +9093,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 231.41,
-      "pe_fwd": 117,
-      "peg": 1.99,
-      "pb": 12.4,
-      "mcap_yi": 300.26,
-      "eps_cur": 0.46,
-      "eps_next": 0.73,
-      "analyst_count": 6,
-      "asof": "2026-06-30"
+      "pe_ttm": 227.63,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 12.2,
+      "mcap_yi": 295.35,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -9122,8 +9122,8 @@ window.STOCKS = [
       "出海"
     ],
     "left": {
-      "zone": "13.05–14.36",
-      "trigger": "回踩 14.36 缩量企稳；失守 13.05 转弱；强支撑 16.30，止损 12.66",
+      "zone": "12.91–14.20",
+      "trigger": "回踩 14.20 缩量企稳；失守 12.91 转弱；强支撑 16.29，止损 12.52",
       "logic": "低估值央企蓝筹，回调安全边际高。"
     },
     "right": {
@@ -9176,39 +9176,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 14.5,
-      "chgPct": -2.82,
-      "ma5": 15.08,
-      "ma10": 15.54,
-      "ma20": 15.1,
-      "ma60": 16.3,
-      "ma120": 15.65,
-      "ma250": 11.3,
+      "date": "2026-07-02",
+      "price": 14.34,
+      "chgPct": -1.1,
+      "ma5": 14.73,
+      "ma10": 15.4,
+      "ma20": 14.99,
+      "ma60": 16.29,
+      "ma120": 15.69,
+      "ma250": 11.33,
       "high20": 16.95,
       "low20": 13.33,
       "high60": 19.84,
       "low60": 13.33,
-      "volRatio": 0.91,
-      "atr": 0.91,
+      "volRatio": 0.84,
+      "atr": 0.92,
       "trend": "空头排列",
-      "posPct": -11.07,
+      "posPct": -11.96,
       "supportZone": [
-        13.05,
-        14.36
+        12.91,
+        14.2
       ],
-      "deepSupport": 16.3,
+      "deepSupport": 16.29,
       "pullbackPct": 1.01,
       "breakout": 19.84,
-      "toBreakoutPct": 36.8,
-      "leftStop": 12.66,
+      "toBreakoutPct": 38.33,
+      "leftStop": 12.52,
       "leftTarget": 19.84,
-      "leftRR": 5.89,
+      "leftRR": 6.1,
       "rightStop": 19.04,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 36.8% · 暂无右侧",
+      "rightState": "远离突破 38.3% · 暂无右侧",
       "spark": [
-        15.28,
         15,
         14.92,
         15.96,
@@ -9267,7 +9266,8 @@ window.STOCKS = [
         14.88,
         15,
         14.92,
-        14.5
+        14.5,
+        14.34
       ]
     },
     "news": [
@@ -9295,11 +9295,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 2.34,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 1.25,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "东吴证券",
@@ -9333,15 +9333,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 57.88,
-      "pe_fwd": 48.1,
-      "peg": 2.13,
-      "pb": 3.31,
-      "mcap_yi": 764.78,
-      "eps_cur": 0.31,
-      "eps_next": 0.38,
-      "analyst_count": 11,
-      "asof": "2026-06-30"
+      "pe_ttm": 55.47,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 3.18,
+      "mcap_yi": 733.0,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -9362,8 +9362,8 @@ window.STOCKS = [
       "新能源并网"
     ],
     "left": {
-      "zone": "52.72–57.99",
-      "trigger": "回踩 57.99 缩量企稳；失守 52.72 转弱；强支撑 64.08，止损 51.14",
+      "zone": "53.08–58.39",
+      "trigger": "回踩 58.39 缩量企稳；失守 53.08 转弱；强支撑 64.38，止损 51.49",
       "logic": "电网+储能双轮，回调布局。"
     },
     "right": {
@@ -9416,39 +9416,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 58.58,
-      "chgPct": -7.31,
-      "ma5": 64.24,
-      "ma10": 68.44,
-      "ma20": 69.58,
-      "ma60": 64.08,
-      "ma120": 52.17,
-      "ma250": 36.11,
+      "date": "2026-07-02",
+      "price": 58.98,
+      "chgPct": 0.68,
+      "ma5": 61.69,
+      "ma10": 67.25,
+      "ma20": 68.7,
+      "ma60": 64.38,
+      "ma120": 52.41,
+      "ma250": 36.28,
       "high20": 79.79,
-      "low20": 57.97,
+      "low20": 57,
       "high60": 88.16,
       "low60": 38.98,
-      "volRatio": 1.09,
-      "atr": 5.13,
+      "volRatio": 1.02,
+      "atr": 5.08,
       "trend": "震荡",
-      "posPct": -8.58,
+      "posPct": -8.39,
       "supportZone": [
-        52.72,
-        57.99
+        53.08,
+        58.39
       ],
-      "deepSupport": 64.08,
+      "deepSupport": 64.38,
       "pullbackPct": 1.01,
       "breakout": 88.16,
-      "toBreakoutPct": 50.5,
-      "leftStop": 51.14,
+      "toBreakoutPct": 49.47,
+      "leftStop": 51.49,
       "leftTarget": 88.16,
-      "leftRR": 7.78,
+      "leftRR": 7.64,
       "rightStop": 84.63,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 50.5% · 暂无右侧",
+      "rightState": "远离突破 49.5% · 暂无右侧",
       "spark": [
-        40.87,
         41.02,
         39.18,
         43.03,
@@ -9507,7 +9506,8 @@ window.STOCKS = [
         65.16,
         62.54,
         63.2,
-        58.58
+        58.58,
+        58.98
       ]
     },
     "news": [
@@ -9535,11 +9535,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 3.25,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 2.11,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "东吴证券",
@@ -9573,15 +9573,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 61.36,
-      "pe_fwd": 52.7,
-      "peg": 3.33,
-      "pb": 11.52,
-      "mcap_yi": 521.45,
-      "eps_cur": 1.2,
-      "eps_next": 1.39,
-      "analyst_count": 17,
-      "asof": "2026-06-30"
+      "pe_ttm": 57.06,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 10.71,
+      "mcap_yi": 484.9,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -9602,8 +9602,8 @@ window.STOCKS = [
       "整柜液冷方案"
     ],
     "left": {
-      "zone": "71.47–73.68",
-      "trigger": "回踩 73.68 缩量企稳；失守 71.47 转弱；强支撑 75.40，止损 69.32",
+      "zone": "71.76–73.98",
+      "trigger": "回踩 73.98 缩量企稳；失守 71.76 转弱；强支撑 75.58，止损 69.61",
       "logic": "液冷主线龙头，回调即布局渗透红利。"
     },
     "right": {
@@ -9658,39 +9658,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 74.73,
-      "chgPct": -6.07,
-      "ma5": 80.11,
-      "ma10": 79.12,
-      "ma20": 73.68,
-      "ma60": 75.4,
-      "ma120": 76.84,
-      "ma250": 62.21,
+      "date": "2026-07-02",
+      "price": 74.38,
+      "chgPct": -0.47,
+      "ma5": 77.59,
+      "ma10": 79.09,
+      "ma20": 73.98,
+      "ma60": 75.58,
+      "ma120": 76.76,
+      "ma250": 62.42,
       "high20": 89.69,
       "low20": 62.2,
       "high60": 93.52,
       "low60": 62.2,
-      "volRatio": 1.09,
-      "atr": 5.35,
+      "volRatio": 0.91,
+      "atr": 5.5,
       "trend": "震荡",
-      "posPct": -0.88,
+      "posPct": -1.58,
       "supportZone": [
-        71.47,
-        73.68
+        71.76,
+        73.98
       ],
-      "deepSupport": 75.4,
-      "pullbackPct": 1.43,
+      "deepSupport": 75.58,
+      "pullbackPct": 0.54,
       "breakout": 93.52,
-      "toBreakoutPct": 25.14,
-      "leftStop": 69.32,
+      "toBreakoutPct": 25.73,
+      "leftStop": 69.61,
       "leftTarget": 93.52,
-      "leftRR": 6.44,
+      "leftRR": 6.33,
       "rightStop": 89.77,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 25.1% · 暂无右侧",
+      "rightState": "远离突破 25.7% · 暂无右侧",
       "spark": [
-        63.54,
         64.2,
         65.13,
         70.25,
@@ -9749,7 +9748,8 @@ window.STOCKS = [
         82.57,
         76.7,
         79.56,
-        74.73
+        74.73,
+        74.38
       ]
     },
     "news": [
@@ -9777,11 +9777,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 5.36,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 3.11,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "国金证券",
@@ -9815,15 +9815,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 210.1,
-      "pe_fwd": 86.5,
-      "peg": 1.21,
-      "pb": 30.77,
-      "mcap_yi": 899.39,
-      "eps_cur": 0.92,
-      "eps_next": 1.58,
-      "analyst_count": 12,
-      "asof": "2026-06-30"
+      "pe_ttm": 197.53,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 28.93,
+      "mcap_yi": 845.58,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -9844,8 +9844,8 @@ window.STOCKS = [
       "液冷数据中心"
     ],
     "left": {
-      "zone": "82.14–87.62",
-      "trigger": "回踩 87.62 缩量企稳；失守 82.14 转弱；强支撑 87.62，止损 79.67",
+      "zone": "83.53–87.79",
+      "trigger": "回踩 87.79 缩量企稳；失守 83.53 转弱；强支撑 87.79，止损 81.02",
       "logic": "IDC 龙头，回调博弈上架率与算力放量。"
     },
     "right": {
@@ -9899,39 +9899,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 90.06,
-      "chgPct": 8.41,
-      "ma5": 82.14,
-      "ma10": 83.09,
-      "ma20": 80.23,
-      "ma60": 87.62,
-      "ma120": 83.04,
-      "ma250": 65.83,
+      "date": "2026-07-02",
+      "price": 90.54,
+      "chgPct": 0.53,
+      "ma5": 83.53,
+      "ma10": 84.02,
+      "ma20": 80.69,
+      "ma60": 87.79,
+      "ma120": 83.38,
+      "ma250": 66.01,
       "high20": 93,
       "low20": 73.3,
       "high60": 110.98,
       "low60": 73.3,
-      "volRatio": 1.27,
-      "atr": 5.17,
+      "volRatio": 1.28,
+      "atr": 5.3,
       "trend": "震荡",
-      "posPct": 2.79,
+      "posPct": 3.13,
       "supportZone": [
-        82.14,
-        87.62
+        83.53,
+        87.79
       ],
-      "deepSupport": 87.62,
-      "pullbackPct": 2.79,
+      "deepSupport": 87.79,
+      "pullbackPct": 3.13,
       "breakout": 110.98,
-      "toBreakoutPct": 23.23,
-      "leftStop": 79.67,
+      "toBreakoutPct": 22.58,
+      "leftStop": 81.02,
       "leftTarget": 110.98,
-      "leftRR": 5.01,
+      "leftRR": 5.46,
       "rightStop": 106.54,
-      "leftState": "回踩约 2.8% 入场（逢低区）",
-      "rightState": "远离突破 23.2% · 暂无右侧",
+      "leftState": "回踩约 3.1% 入场（逢低区）",
+      "rightState": "远离突破 22.6% · 暂无右侧",
       "spark": [
-        80.27,
         81,
         79.51,
         86.91,
@@ -9990,7 +9989,8 @@ window.STOCKS = [
         77.77,
         76.2,
         83.07,
-        90.06
+        90.06,
+        90.54
       ]
     },
     "news": [
@@ -10018,11 +10018,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 3.22,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 3.0,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "西南证券",
@@ -10056,15 +10056,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 26.21,
-      "pe_fwd": 41.5,
-      "peg": 1.54,
-      "pb": 9.48,
-      "mcap_yi": 1360.88,
-      "eps_cur": 2,
-      "eps_next": 2.54,
-      "analyst_count": 13,
-      "asof": "2026-06-30"
+      "pe_ttm": 28.46,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 10.3,
+      "mcap_yi": 1476.37,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -10085,8 +10085,8 @@ window.STOCKS = [
       "AI 应用"
     ],
     "left": {
-      "zone": "299.9–309.2",
-      "trigger": "回踩 MA10(278.8)/MA20(226.4) 缩量企稳即逢低；强支撑 MA60 208.5；止损 290.9",
+      "zone": "278.7–287.3",
+      "trigger": "回踩 MA10(287.3)/MA20(232.8) 缩量企稳即逢低；强支撑 MA60 211.5；止损 270.4",
       "logic": "题材弹性票，回调博弈智算订单。"
     },
     "right": {
@@ -10139,39 +10139,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 327.5,
-      "chgPct": -1.24,
-      "ma5": 309.16,
-      "ma10": 278.8,
-      "ma20": 226.43,
-      "ma60": 208.51,
-      "ma120": 142.33,
-      "ma250": 92.35,
+      "date": "2026-07-02",
+      "price": 300.95,
+      "chgPct": -8.11,
+      "ma5": 308.75,
+      "ma10": 287.33,
+      "ma20": 232.81,
+      "ma60": 211.48,
+      "ma120": 144.46,
+      "ma250": 93.39,
       "high20": 339.38,
       "low20": 153,
       "high60": 339.38,
       "low60": 114.56,
-      "volRatio": 0.81,
-      "atr": 27.02,
+      "volRatio": 0.73,
+      "atr": 27.84,
       "trend": "多头排列",
-      "posPct": 57.07,
+      "posPct": 42.31,
       "supportZone": [
-        299.89,
-        309.16
+        278.71,
+        287.33
       ],
-      "deepSupport": 208.51,
-      "pullbackPct": 5.93,
+      "deepSupport": 211.48,
+      "pullbackPct": 4.74,
       "breakout": 339.38,
-      "toBreakoutPct": 3.63,
-      "leftStop": 290.89,
+      "toBreakoutPct": 12.77,
+      "leftStop": 270.35,
       "leftTarget": 339.38,
-      "leftRR": 2.56,
+      "leftRR": 4.45,
       "rightStop": 325.8,
-      "leftState": "回踩约 5.9% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 3.6%",
+      "leftState": "回踩约 4.7% 入场（逢低区）",
+      "rightState": "远离突破 12.8% · 暂无右侧",
       "spark": [
-        122.85,
         118.79,
         115.8,
         136.46,
@@ -10230,7 +10229,8 @@ window.STOCKS = [
         289.7,
         294,
         331.6,
-        327.5
+        327.5,
+        300.95
       ]
     },
     "news": [
@@ -10257,12 +10257,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 10.56,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -1.71,
+      "turnover": 5.98,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "中邮证券",
@@ -10296,15 +10296,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 2033.12,
-      "pe_fwd": 165,
-      "peg": 1.56,
-      "pb": 59.02,
-      "mcap_yi": 469.24,
-      "eps_cur": 2.01,
-      "eps_next": 4.13,
-      "analyst_count": 6,
-      "asof": "2026-06-30"
+      "pe_ttm": 1830.79,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 53.15,
+      "mcap_yi": 422.54,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -10325,12 +10325,12 @@ window.STOCKS = [
       "EPC 总包"
     ],
     "left": {
-      "zone": "29.53–31.14",
-      "trigger": "回踩 MA10(24.84)/MA20(20.54) 缩量企稳即逢低；强支撑 MA60 14.25；止损 28.65",
+      "zone": "28.51–29.39",
+      "trigger": "回踩 MA10(25.94)/MA20(21.30) 缩量企稳即逢低；强支撑 MA60 14.60；止损 27.65",
       "logic": "工程+封测双轮，低估值回调布局。"
     },
     "right": {
-      "zone": "已破 32.10 · 回踩 MA10(24.84) 不破加仓",
+      "zone": "站上 32.10",
       "trigger": "放量站上 32.10（60日高），量比>1.3 确认；新高回踩不破再加，止损 30.82",
       "logic": "建设 capex + 存储复苏催化。"
     },
@@ -10379,39 +10379,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 32.1,
-      "chgPct": 10.01,
-      "ma5": 28.46,
-      "ma10": 24.84,
-      "ma20": 20.54,
-      "ma60": 14.25,
-      "ma120": 11.98,
-      "ma250": 9.65,
+      "date": "2026-07-02",
+      "price": 29.92,
+      "chgPct": -6.79,
+      "ma5": 29.39,
+      "ma10": 25.94,
+      "ma20": 21.3,
+      "ma60": 14.6,
+      "ma120": 12.17,
+      "ma250": 9.75,
       "high20": 32.1,
       "low20": 14.32,
       "high60": 32.1,
       "low60": 8.46,
-      "volRatio": 1.09,
-      "atr": 2.28,
+      "volRatio": 1.26,
+      "atr": 2.36,
       "trend": "多头排列",
-      "posPct": 125.28,
+      "posPct": 104.9,
       "supportZone": [
-        29.53,
-        31.14
+        28.51,
+        29.39
       ],
-      "deepSupport": 14.25,
-      "pullbackPct": 3.09,
+      "deepSupport": 14.6,
+      "pullbackPct": 1.8,
       "breakout": 32.1,
-      "toBreakoutPct": 0,
-      "leftStop": 28.65,
-      "leftTarget": 33.71,
-      "leftRR": 2,
+      "toBreakoutPct": 7.29,
+      "leftStop": 27.65,
+      "leftTarget": 32.1,
+      "leftRR": 2.43,
       "rightStop": 30.82,
-      "leftState": "回踩约 3.1% 入场（逢低区）",
-      "rightState": "创新高但量能不足 · 谨慎跟进",
+      "leftState": "回踩约 1.8% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 7.3%",
       "spark": [
-        8.74,
         8.49,
         8.74,
         9.43,
@@ -10470,7 +10469,8 @@ window.STOCKS = [
         26.82,
         28.94,
         29.18,
-        32.1
+        32.1,
+        29.92
       ]
     },
     "news": [
@@ -10497,12 +10497,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 19.08,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": 6.8,
+      "turnover": 13.45,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "国信证券",
@@ -10536,15 +10536,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 132.88,
-      "pe_fwd": 132.6,
-      "peg": 14.59,
-      "pb": 7.09,
-      "mcap_yi": 610.31,
-      "eps_cur": 0.22,
-      "eps_next": 0.24,
-      "analyst_count": 1,
-      "asof": "2026-06-30"
+      "pe_ttm": 136.66,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 7.29,
+      "mcap_yi": 627.67,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   },
   {
@@ -10565,8 +10565,8 @@ window.STOCKS = [
       "高端装备"
     ],
     "left": {
-      "zone": "46.11–50.72",
-      "trigger": "回踩 50.72 缩量企稳；失守 46.11 转弱；强支撑 59.88，止损 44.72",
+      "zone": "44.20–48.62",
+      "trigger": "回踩 48.62 缩量企稳；失守 44.20 转弱；强支撑 59.88，止损 42.87",
       "logic": "高端材料平台，回调布局军工/高端制造。"
     },
     "right": {
@@ -10619,39 +10619,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 51.23,
-      "chgPct": -5.15,
-      "ma5": 51.19,
-      "ma10": 52.68,
-      "ma20": 56.84,
+      "date": "2026-07-02",
+      "price": 49.11,
+      "chgPct": -4.14,
+      "ma5": 51.2,
+      "ma10": 51.58,
+      "ma20": 56.21,
       "ma60": 59.88,
-      "ma120": 53.7,
-      "ma250": 36.2,
+      "ma120": 53.74,
+      "ma250": 36.33,
       "high20": 66.66,
       "low20": 47.25,
       "high60": 78.87,
       "low60": 44.59,
-      "volRatio": 0.97,
-      "atr": 4.12,
+      "volRatio": 0.94,
+      "atr": 3.8,
       "trend": "空头排列",
-      "posPct": -14.45,
+      "posPct": -17.99,
       "supportZone": [
-        46.11,
-        50.72
+        44.2,
+        48.62
       ],
       "deepSupport": 59.88,
       "pullbackPct": 1.01,
       "breakout": 78.87,
-      "toBreakoutPct": 53.95,
-      "leftStop": 44.72,
+      "toBreakoutPct": 60.6,
+      "leftStop": 42.87,
       "leftTarget": 78.87,
-      "leftRR": 8.25,
+      "leftRR": 9.17,
       "rightStop": 75.72,
       "leftState": "已回踩至逢低区 · 可分批左侧",
-      "rightState": "远离突破 54.0% · 暂无右侧",
+      "rightState": "远离突破 60.6% · 暂无右侧",
       "spark": [
-        49.15,
         47.1,
         45.38,
         48.19,
@@ -10710,7 +10709,8 @@ window.STOCKS = [
         50.02,
         51.63,
         54.01,
-        51.23
+        51.23,
+        49.11
       ]
     },
     "news": [
@@ -10737,12 +10737,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 11.56,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "netInflow": -2.92,
+      "turnover": 5.13,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "中航证券",
@@ -10776,15 +10776,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 327.94,
+      "pe_ttm": 299.34,
       "pe_fwd": null,
       "peg": null,
-      "pb": 7.08,
-      "mcap_yi": 263.64,
+      "pb": 6.46,
+      "mcap_yi": 240.65,
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-06-30"
+      "asof": "2026-07-02"
     }
   },
   {
@@ -10805,8 +10805,8 @@ window.STOCKS = [
       "锰系"
     ],
     "left": {
-      "zone": "57.81–59.04",
-      "trigger": "回踩 MA10(57.81)/MA20(55.10) 缩量企稳即逢低；强支撑 MA60 34.62；止损 56.07",
+      "zone": "56.06–60.83",
+      "trigger": "回踩 MA10(58.29)/MA20(56.06) 缩量企稳即逢低；强支撑 MA60 35.31；止损 54.38",
       "logic": "化工+新材料题材，回调博弈材料延伸。"
     },
     "right": {
@@ -10859,39 +10859,38 @@ window.STOCKS = [
       }
     ],
     "signal": {
-      "date": "2026-07-01",
-      "price": 63.8,
-      "chgPct": 1.38,
-      "ma5": 59.04,
-      "ma10": 57.81,
-      "ma20": 55.1,
-      "ma60": 34.62,
-      "ma120": 27.77,
-      "ma250": 21.88,
+      "date": "2026-07-02",
+      "price": 61.92,
+      "chgPct": -2.95,
+      "ma5": 60.83,
+      "ma10": 58.29,
+      "ma20": 56.06,
+      "ma60": 35.31,
+      "ma120": 28.13,
+      "ma250": 22.06,
       "high20": 66.39,
-      "low20": 41.49,
+      "low20": 45.02,
       "high60": 66.39,
       "low60": 19.43,
-      "volRatio": 1.09,
-      "atr": 5.89,
+      "volRatio": 1.01,
+      "atr": 5.92,
       "trend": "多头排列",
-      "posPct": 84.27,
+      "posPct": 75.36,
       "supportZone": [
-        57.81,
-        59.04
+        56.06,
+        60.83
       ],
-      "deepSupport": 34.62,
-      "pullbackPct": 8.06,
+      "deepSupport": 35.31,
+      "pullbackPct": 1.8,
       "breakout": 66.39,
-      "toBreakoutPct": 4.06,
-      "leftStop": 56.07,
+      "toBreakoutPct": 7.22,
+      "leftStop": 54.38,
       "leftTarget": 66.39,
-      "leftRR": 3.38,
+      "leftRR": 1.95,
       "rightStop": 63.73,
-      "leftState": "回踩约 8.1% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 4.1%",
+      "leftState": "回踩约 1.8% 入场（逢低区）",
+      "rightState": "箱体内 · 距突破 7.2%",
       "spark": [
-        20.62,
         19.63,
         20.32,
         20.39,
@@ -10950,7 +10949,8 @@ window.STOCKS = [
         58.28,
         57.21,
         62.93,
-        63.8
+        63.8,
+        61.92
       ]
     },
     "news": [
@@ -10976,7 +10976,7 @@ window.STOCKS = [
         "content": ""
       }
     ],
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "research": [
       {
         "org": "华鑫证券",
@@ -10999,20 +10999,20 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 13.21,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 14.61,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
     "valuation": {
-      "pe_ttm": 232.91,
+      "pe_ttm": 231.73,
       "pe_fwd": null,
       "peg": null,
-      "pb": 8.64,
-      "mcap_yi": 202.62,
+      "pb": 8.59,
+      "mcap_yi": 201.59,
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-06-30"
+      "asof": "2026-07-02"
     }
   },
   {
@@ -11033,8 +11033,8 @@ window.STOCKS = [
       "LNG 接收站建设景气"
     ],
     "left": {
-      "zone": "217.2–229.0",
-      "trigger": "回踩 MA10(183.1)/MA20(153.1) 缩量企稳即逢低；强支撑 MA60 115.3；止损 210.7",
+      "zone": "208.1–214.6",
+      "trigger": "回踩 MA10(189.9)/MA20(158.2) 缩量企稳即逢低；强支撑 MA60 117.6；止损 201.9",
       "logic": "前驱体国产替代与先进制程客户放量逻辑未证伪前,回调即是上车成本,多头排列中枢支撑有效。"
     },
     "right": {
@@ -11066,39 +11066,38 @@ window.STOCKS = [
     },
     "history": [],
     "signal": {
-      "date": "2026-07-01",
-      "price": 236.09,
-      "chgPct": 5.16,
-      "ma5": 207.54,
-      "ma10": 183.13,
-      "ma20": 153.09,
-      "ma60": 115.32,
-      "ma120": 101.88,
-      "ma250": 82.66,
+      "date": "2026-07-02",
+      "price": 216.15,
+      "chgPct": -8.45,
+      "ma5": 214.56,
+      "ma10": 189.95,
+      "ma20": 158.21,
+      "ma60": 117.64,
+      "ma120": 103.07,
+      "ma250": 83.32,
       "high20": 246.44,
       "low20": 104.7,
       "high60": 246.44,
-      "low60": 76.37,
-      "volRatio": 1.13,
-      "atr": 15.03,
+      "low60": 77.34,
+      "volRatio": 1.07,
+      "atr": 15.84,
       "trend": "多头排列",
-      "posPct": 104.73,
+      "posPct": 83.74,
       "supportZone": [
-        217.2,
-        229.01
+        208.12,
+        214.56
       ],
-      "deepSupport": 115.32,
-      "pullbackPct": 3.09,
+      "deepSupport": 117.64,
+      "pullbackPct": 0.74,
       "breakout": 246.44,
-      "toBreakoutPct": 4.38,
-      "leftStop": 210.69,
+      "toBreakoutPct": 14.01,
+      "leftStop": 201.88,
       "leftTarget": 246.44,
-      "leftRR": 1.88,
+      "leftRR": 3.71,
       "rightStop": 236.58,
-      "leftState": "回踩约 3.1% 入场（逢低区）",
-      "rightState": "箱体内 · 距突破 4.4%",
+      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "rightState": "远离突破 14.0% · 暂无右侧",
       "spark": [
-        76.92,
         77.84,
         78.13,
         83.39,
@@ -11157,7 +11156,8 @@ window.STOCKS = [
         188.6,
         207.46,
         224.5,
-        236.09
+        236.09,
+        216.15
       ]
     },
     "research": [
@@ -11194,9 +11194,9 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": null,
-      "turnover": 14.04,
-      "date": "2026-06-30",
-      "asof": "2026-06-30"
+      "turnover": 10.66,
+      "date": "2026-07-02",
+      "asof": "2026-07-02"
     },
     "news": [
       {
@@ -11221,17 +11221,17 @@ window.STOCKS = [
         "content": ""
       }
     ],
-    "newsAsof": "2026-07-01",
+    "newsAsof": "2026-07-02",
     "valuation": {
-      "pe_ttm": 106.13,
-      "pe_fwd": 78.8,
-      "peg": 3.81,
-      "pb": 13.43,
-      "mcap_yi": 715.08,
-      "eps_cur": 2.85,
-      "eps_next": 3.44,
-      "analyst_count": 7,
-      "asof": "2026-06-30"
+      "pe_ttm": 102.61,
+      "pe_fwd": null,
+      "peg": null,
+      "pb": 12.99,
+      "mcap_yi": 691.39,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
+      "asof": "2026-07-02"
     }
   }
 ];
