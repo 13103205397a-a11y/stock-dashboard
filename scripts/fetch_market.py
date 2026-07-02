@@ -42,6 +42,47 @@ def safe(fn, *args, default=None, **kw):
         return default
 
 
+def sina_top(sort_field, n=50, asc=0):
+    """新浪涨跌幅/换手率 TOP 榜(push2.eastmoney 不通时的 fallback)。
+    sort_field: changepercent(涨跌幅) / turnoverratio(换手率) / amount(成交额) / nmc(流通市值)
+    asc: 0 降序(最高) / 1 升序(最低)
+    返回格式与 market_top 兼容: [{rank, code, name, price, chgPct, turnover, ...}]
+    """
+    import urllib.request, json
+    url = (f"https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/"
+           f"Market_Center.getHQNodeData?page=1&num={n}&sort={sort_field}&asc={asc}"
+           f"&node=hs_a&symbol=&_s_r_a=sort")
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            items = json.loads(resp.read().decode("utf-8"))
+    except Exception as e:
+        print(f"  [WARN] sina_top({sort_field}) 失败: {e}", flush=True)
+        return []
+    out = []
+    for i, it in enumerate(items, 1):
+        out.append({
+            "rank": i,
+            "code": it.get("code", ""),
+            "name": it.get("name", ""),
+            "price": float(it.get("trade", 0) or 0),
+            "chgPct": round(float(it.get("changepercent", 0) or 0), 2),
+            "turnover": round(float(it.get("turnoverratio", 0) or 0), 2),
+            "amount": float(it.get("amount", 0) or 0),
+            "mcap_yi": round(float(it.get("nmc", 0) or 0) / 1e8, 2),
+        })
+    return out
+
+
+def top_with_fallback(em_fn, em_args, sina_sort, sina_asc, n=50, default=None):
+    """先试东财 market_top,空了用新浪 fallback。"""
+    r = safe(em_fn, *em_args, default=default or [])
+    if r and len(r) > 0:
+        return r
+    print(f"    东财为空,改用新浪...", flush=True)
+    return sina_top(sina_sort, n, asc=sina_asc)
+
+
 def collect_market():
     """采集全市场异动数据。"""
     market = {
@@ -58,16 +99,13 @@ def collect_market():
     market["sentiment"] = safe(a.limit_up_sentiment, TODAY, default={})
     time.sleep(1.2)  # 尊重东财限流
 
-    # ===== 2. 涨幅/资金流 TOP 榜 =====
+    # ===== 2. 涨幅/资金流 TOP 榜(东财不通时用新浪 fallback) =====
     print("  [2/4] 涨幅/资金流 TOP 榜...", flush=True)
-    market["topGainers"] = safe(a.market_top, "chgPct", 50, default=[])
-    time.sleep(1.0)
-    market["topLosers"] = safe(a.market_top, "chgPct", 50, desc=False, default=[])
-    time.sleep(1.0)
-    market["topTurnover"] = safe(a.market_top, "turnover", 50, default=[])
-    time.sleep(1.0)
+    market["topGainers"] = top_with_fallback(a.market_top, ("chgPct", 50), "changepercent", 0)
+    market["topLosers"] = top_with_fallback(a.market_top, ("chgPct", 50, False), "changepercent", 1)
+    market["topTurnover"] = top_with_fallback(a.market_top, ("turnover", 50), "turnoverratio", 0)
+    # 资金流新浪没有,只能靠东财(东财不通就空)
     market["topInflow"] = safe(a.market_top, "netInflow", 50, default=[])
-    time.sleep(1.0)
     market["topOutflow"] = safe(a.market_top, "netInflow", 50, desc=False, default=[])
 
     # ===== 3. 热度人气榜 =====
