@@ -918,7 +918,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -13.65,
+      "netInflow": null,
       "turnover": 4.61,
       "date": "2026-07-02",
       "asof": "2026-07-02"
@@ -1158,7 +1158,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.34,
+      "netInflow": null,
       "turnover": 3.28,
       "date": "2026-07-02",
       "asof": "2026-07-02"
@@ -9294,7 +9294,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -2.42,
+      "netInflow": null,
       "turnover": 2.39,
       "date": "2026-07-02",
       "asof": "2026-07-02"
@@ -9534,7 +9534,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -0.57,
+      "netInflow": null,
       "turnover": 3.26,
       "date": "2026-07-02",
       "asof": "2026-07-02"
@@ -10242,15 +10242,15 @@ window.STOCKS = [
         "content": "证券日报网讯 6月24日，宏景科技发布公告称，公司股票于2026年6月22日、6月23日、6月24日连续3个交易日收盘价格涨幅偏离值累计超过30%，根据《深圳证券交易所交易规则》，属于股票交易异常波动的情形。"
       },
       {
-        "title": "宏景科技：关于完成工商变更登记并换发营业执照的公告",
-        "date": "2026-06-09 20:06:00",
-        "source": "证券日报",
-        "url": "http://finance.eastmoney.com/a/202606093765333184.html",
-        "content": "证券日报网讯 6月9日，宏景科技发布公告称，公司于2026年4月28日召开第四届董事会第十七次会议、2026年5月20日召开2025年年度股东会，审议通过《关于变更注册资本、修订并办理工商变更登记的议案》。"
-      },
-      {
         "title": "宏景科技:关于控股股东部分股份解除质押的公告",
         "date": "2026-07-02",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301396",
+        "content": ""
+      },
+      {
+        "title": "宏景科技:关于对外担保的进展公告",
+        "date": "2026-06-29",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301396",
         "content": ""
@@ -10998,7 +10998,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
+      "netInflow": -1.98,
       "turnover": 19.6,
       "date": "2026-07-02",
       "asof": "2026-07-02"
@@ -11193,7 +11193,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
+      "netInflow": -5.25,
       "turnover": 13.34,
       "date": "2026-07-02",
       "asof": "2026-07-02"
