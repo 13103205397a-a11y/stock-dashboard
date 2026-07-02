@@ -159,7 +159,7 @@ def fetch_announcements(code):
 
 
 def fetch_one(code, name):
-    """合并新闻+公告，去重，规则筛选。"""
+    """合并新闻+公告，去重，规则筛选。优先保留最新的有价值新闻。"""
     news = fetch_search_news(name)
     anns = fetch_announcements(code)
     # 合并去重
@@ -170,17 +170,15 @@ def fetch_one(code, name):
             continue
         seen.add(t)
         merged.append(n)
-    # 过滤垃圾 + 评分排序
-    scored = [(score(n["title"]), n) for n in merged if not is_garbage(n["title"])]
-    scored.sort(key=lambda x: -x[0])
-    # 最多 3 条，只要评分 > 0 的
-    kept = [n for sc, n in scored if sc > 0][:3]
-    # 如果一条有价值的都没有，但原始新闻 > 0，留评分最高的 1 条（哪怕是 0 分）
-    if not kept and merged:
-        scored_all = [(score(n["title"]), n) for n in merged if not is_garbage(n["title"])]
-        scored_all.sort(key=lambda x: -x[0])
-        if scored_all:
-            kept = [scored_all[0][1]]
+    # 过滤垃圾
+    filtered = [n for n in merged if not is_garbage(n["title"])]
+    # 排序：先按日期降序(最新优先)，再按评分降序
+    filtered.sort(key=lambda n: (n.get("date", ""), score(n["title"])), reverse=True)
+    # 最多 3 条，优先取评分 > 0 的
+    kept = [n for n in filtered if score(n["title"]) > 0][:3]
+    # 如果一条有价值的都没有，留最新的 1 条
+    if not kept and filtered:
+        kept = [filtered[0]]
     return code, name, kept
 
 
