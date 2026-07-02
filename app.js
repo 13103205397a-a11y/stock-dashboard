@@ -48,6 +48,51 @@
       const sign = i.pct > 0 ? "+" : "";
       return `<span class="ix"><span class="ix-n">${esc(i.name)}</span><span class="ix-p">${esc(i.price)}</span><span class="ix-c ${cls}">${sign}${esc(i.pct)}%</span></span>`;
     }).join("") + `<span class="ix-date">截至 ${esc(ms.date || "")} 收盘</span>`;
+    renderGauges();
+  }
+
+  // 市场情绪仪表盘:打板情绪环形图 + 北向资金流向条
+  function renderGauges() {
+    const el = $("#marketGauges");
+    if (!el) return;
+    const MK = window.MARKET || {};
+    const sent = MK.sentiment || {};
+    const nb = MK.northbound || {};
+    if (!sent.zt_count && !nb.total_yi) { el.style.display = "none"; return; }
+    el.style.display = "";
+    let html = "";
+    // 1. 打板情绪环形图(涨停/炸板/跌停 比例)
+    if (sent.zt_count != null) {
+      const zt = sent.zt_count || 0, zb = sent.zb_count || 0, dt = sent.dt_count || 0;
+      const total = zt + zb + dt || 1;
+      const r = 16, cx = 20, cy = 20, c = 2 * Math.PI * r;
+      const ztPct = zt / total, zbPct = zb / total;
+      const ztDash = c * ztPct, zbDash = c * zbPct;
+      html += `<div class="gauge">
+        <svg class="gauge-ring" viewBox="0 0 40 40">
+          <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--line)" stroke-width="5"/>
+          <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--up)" stroke-width="5"
+            stroke-dasharray="${ztDash} ${c}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="round"/>
+          <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--warn)" stroke-width="5"
+            stroke-dasharray="${zbDash} ${c}" stroke-dashoffset="${-ztDash}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="round"/>
+        </svg>
+        <div class="gauge-label">涨停 <b class="up">${zt}</b></div>
+        <div class="gauge-sub">炸${zb} 跌${dt}</div>
+      </div>`;
+    }
+    // 2. 北向资金流向条
+    if (nb.total_yi != null) {
+      const val = nb.total_yi;
+      const cls = val > 0 ? "up" : val < 0 ? "down" : "";
+      const sign = val > 0 ? "+" : "";
+      const width = Math.min(Math.abs(val) / 100 * 100, 100); // 100亿为满
+      const dir = val > 0 ? "right" : "left";
+      html += `<div class="gauge gauge-flow">
+        <div class="flow-label">北向 <b class="${cls}">${sign}${val}亿</b></div>
+        <div class="flow-bar"><div class="flow-fill ${cls}" style="width:${width}%;float:${dir}"></div></div>
+      </div>`;
+    }
+    el.innerHTML = html;
   }
 
   function renderStats() {
@@ -153,12 +198,20 @@
     const w = 100, h = 26, min = Math.min(...arr), max = Math.max(...arr), rng = (max - min) || 1;
     const pts = arr.map((v, i) => `${(i / (arr.length - 1) * w).toFixed(1)},${(h - (v - min) / rng * (h - 2) - 1).toFixed(1)}`).join(" ");
     const col = trend === "多头排列" ? "var(--up)" : trend === "空头排列" ? "var(--down)" : "var(--muted)";
-    return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg>`;
+    const gid = "sg" + Math.random().toString(36).slice(2, 8);
+    // 渐变填充区域:线条下方半透明渐变,顶部连线
+    return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${col}" stop-opacity=".28"/>
+        <stop offset="100%" stop-color="${col}" stop-opacity="0"/>
+      </linearGradient></defs>
+      <polygon points="0,${h} ${pts} ${w},${h}" fill="url(#${gid})"/>
+      <polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.4" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
+    </svg>`;
   }
 
   const sgn = (n) => (n > 0 ? "up" : n < 0 ? "down" : "");
-  const pct = (n) => (n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(1) + "%");
-  // 主力净流入（亿元，A股惯例：流入为红、流出为绿）
+  const pct = (n) => (n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(1) + "%");  // 主力净流入（亿元，A股惯例：流入为红、流出为绿）
   const fundChip = (s) => {
     const f = s.fund;
     if (!f || f.netInflow == null) return "";
