@@ -176,13 +176,6 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "PCB核心企业订单持续饱满，通信ETF华夏（515050）近20日“吸金”累超68亿元，上半年涨幅居同类第一",
-        "date": "2026-07-02 11:26:00",
-        "source": "21世纪经济报道",
-        "url": "http://stock.eastmoney.com/a/202607023791711041.html",
-        "content": "场外联接(A类：008086；C类：008087) 　　创业板人工智能ETF华夏(159381)，跟踪指数新易盛、中际旭创、天孚通信三大光模块龙头权重占比超49%。目前基金规模超20亿元，场内综合费率仅0.20%，为ETF最低档。"
-      },
-      {
         "title": "中际旭创:第六届董事会第一次会议决议公告",
         "date": "2026-06-12",
         "source": "公司公告",
@@ -191,6 +184,13 @@ window.STOCKS = [
       },
       {
         "title": "中际旭创:关于董事会完成换届选举暨聘任高级管理人员和证券事务代表的公告",
+        "date": "2026-06-12",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300308",
+        "content": ""
+      },
+      {
+        "title": "中际旭创:2026年第二次临时股东会决议公告",
         "date": "2026-06-12",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300308",
@@ -6634,6 +6634,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "风华高科:公司2025年度分红派息实施公告",
+        "date": "2026-07-03",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=000636",
+        "content": ""
+      },
+      {
         "title": "A股迎来批量交易风险提示公告潮 高景气科技赛道成预警主力",
         "date": "2026-07-02 17:44:42",
         "source": "新华财经",
@@ -6646,13 +6653,6 @@ window.STOCKS = [
         "source": "上海证券报",
         "url": "http://finance.eastmoney.com/a/202607013788836563.html",
         "content": "○6月30日交易公开信息显示，机构席位净买入金海通、新洁能、风华高科、长光华芯、紫光股份等公司。 机构调研 　　○水晶光电涂布滤光片进入北美大客户供应链并打破日系垄断，微棱镜出货同比正向增长，2026年将为北美大客户两款高端机型主摄独家供应全新光学元件，成为重要业绩增量。"
-      },
-      {
-        "title": "002635重要收购，将新增光模块领域业务",
-        "date": "2026-06-30 21:33:00",
-        "source": "数据宝",
-        "url": "http://finance.eastmoney.com/a/202606303788652090.html",
-        "content": "11股机构净买入金额均超1亿元，多氟多获机构净买入7.56亿元，居首；其次是风华高科、长光华芯等个股，机构净买入金额均超3亿元。 　　机构净卖出个股中，翱捷科技遭机构净卖出3.32亿元，居首；紧随其后是天娱数科、旭光电子，净卖出金额均超1亿元。"
       }
     ],
     "fund": {
@@ -11005,7 +11005,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -1.98,
+      "netInflow": null,
       "turnover": 19.6,
       "date": "2026-07-02",
       "asof": "2026-07-02"
@@ -11200,7 +11200,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -5.25,
+      "netInflow": null,
       "turnover": 13.34,
       "date": "2026-07-02",
       "asof": "2026-07-02"
