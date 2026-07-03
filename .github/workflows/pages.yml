@@ -18,6 +18,11 @@ on:
       - 'materials.js'
       - 'newsall.js'
       - 'reports.js'
+  schedule:
+    # 每天北京 19:00(UTC 11:00)定时部署一次,
+    # 把当天收盘后(行情刷新兜底 18:10 + AI 复盘)更新的数据发布上线。
+    # 数据 push 本身不触发部署(见 paths-ignore),由这个定时统一发布。
+    - cron: "0 11 * * *"
   workflow_dispatch: {}
 
 permissions:
