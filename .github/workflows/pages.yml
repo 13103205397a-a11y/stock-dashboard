@@ -18,6 +18,8 @@ on:
       - 'materials.js'
       - 'newsall.js'
       - 'reports.js'
+      - 'portfolio_analysis.js'
+      - 'weekend.js'
   schedule:
     # 每天北京 19:00(UTC 11:00)定时部署一次,
     # 把当天收盘后(行情刷新兜底 18:10 + AI 复盘)更新的数据发布上线。
@@ -54,33 +56,56 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
+      url: ${{ steps.deploy1.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy3.outputs.page_url }}
     steps:
       # GitHub Pages 后端偶发返回 "Deployment failed, try again later":
       # 部署请求本身成功创建,但轮询到的最终状态是 failed。
       # 这种失败与 deploy-pages 的 error_count 无关(状态请求本身没出错,
       # 是后端把部署标记成了 failed),加大 error_count 救不了。
-      # 解法:第一次失败后不阻塞 job,用第二个步骤重试一次。
-      - name: 部署到 GitHub Pages(首次)
-        id: deployment
+      # 解法:多次重试,递增等待(30s → 60s → 90s),让后端有时间恢复。
+      - name: 部署尝试 1
+        id: deploy1
         uses: actions/deploy-pages@v5
         with:
           artifact_name: github-pages
         continue-on-error: true
 
-      - name: 首次部署结果
-        if: always()
+      - name: 等待重试 1
+        if: steps.deploy1.outcome != 'success'
         run: |
-          if [ "${{ steps.deployment.outcome }}" = "success" ]; then
-            echo "首次部署成功,跳过重试"
-          else
-            echo "首次部署结果为 ${{ steps.deployment.outcome }},等待 20 秒后重试"
-            sleep 20
-          fi
+          echo "部署 1 失败(${{ steps.deploy1.outcome }}),等待 30 秒后重试"
+          sleep 30
 
-      - name: 部署到 GitHub Pages(重试)
-        id: deployment_retry
-        if: steps.deployment.outcome != 'success'
+      - name: 部署尝试 2
+        id: deploy2
+        if: steps.deploy1.outcome != 'success'
         uses: actions/deploy-pages@v5
         with:
           artifact_name: github-pages
+        continue-on-error: true
+
+      - name: 等待重试 2
+        if: steps.deploy1.outcome != 'success' && steps.deploy2.outcome != 'success'
+        run: |
+          echo "部署 2 失败(${{ steps.deploy2.outcome }}),等待 60 秒后重试"
+          sleep 60
+
+      - name: 部署尝试 3
+        id: deploy3
+        if: steps.deploy1.outcome != 'success' && steps.deploy2.outcome != 'success'
+        uses: actions/deploy-pages@v5
+        with:
+          artifact_name: github-pages
+
+      - name: 部署结果汇总
+        if: always()
+        run: |
+          echo "部署 1: ${{ steps.deploy1.outcome }}"
+          echo "部署 2: ${{ steps.deploy2.outcome }}"
+          echo "部署 3: ${{ steps.deploy3.outcome }}"
+          if [ "${{ steps.deploy1.outcome }}" = "success" ] || [ "${{ steps.deploy2.outcome }}" = "success" ] || [ "${{ steps.deploy3.outcome }}" = "success" ]; then
+            echo "✓ 至少一次部署成功"
+          else
+            echo "✗ 三次部署全部失败"
+            exit 1
+          fi
