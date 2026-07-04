@@ -1214,6 +1214,84 @@
   }
 
   /* ---------- 4. 逻辑链 ---------- */
+  // 底层逻辑成立条件提取 + 强弱评分
+  // 强信号关键词（好：成立强）
+  const STRONG_POS = ["涨停", "成交最大", "全市场最大", "涨价落地", "正式落地", "紧缺加剧", "供不应求",
+    "龙头确认", "产能停产", "停产", "2连板", "3连板", "4天3板", "暴涨", "爆发", "大幅上涨", "确认涨价",
+    "涨幅超", "涨幅已超", "创新高", "历史新高", "订单爆满", "满产满销", "量产交付", "量产元年"];
+  // 弱信号关键词（中：成立偏弱/预期）
+  const WEAK_POS = ["偏紧", "预期", "有望", "预计", "反弹", "回暖", "复苏", "趋势", "拉动", "受益",
+    "高景气", "渗透率提升", "国产替代", "需求爆发", " climbing", "爬坡", "扩张"];
+  // 负面/风险关键词（坏：不成立或风险）
+  const NEGATIVE = ["自承不可持续", "不可持续", "透支", "下跌", "跌", "风险提示", "疲软", "调整",
+    "回落", "下修", "不及预期", "否认", "否认涨价", "占比小", "概念关联", "纯正标的稀缺",
+    "回调风险", "获利盘", "压力", "质疑", "预警", "亏损", "下滑", "减产", "退出"];
+
+  const extractConditions = (chain) => {
+    const logic = chain.logic || "";
+    const bn = chain.bottleneck || "";
+    const segs = chain.segments || [];
+    // 从 segments 的 supply 字段也提取
+    const supplyTxt = segs.map((s) => s.supply || "").join(" ");
+    const allText = logic + " " + bn + " " + supplyTxt;
+
+    const conditions = [];
+    // 强成立条件
+    STRONG_POS.forEach((kw) => {
+      const re = new RegExp("[^，。；,;.!。]{0,30}" + kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[^，。；,;.!。]{0,40}", "g");
+      const matches = allText.match(re);
+      if (matches) matches.slice(0, 2).forEach((m) => {
+        const cond = m.trim();
+        if (cond.length > 6 && !conditions.some((c) => c.text === cond)) {
+          conditions.push({ text: cond, type: "strong", score: 3 });
+        }
+      });
+    });
+    // 弱成立条件
+    WEAK_POS.forEach((kw) => {
+      const re = new RegExp("[^，。；,;.!。]{0,25}" + kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[^，。；,;.!。]{0,35}", "g");
+      const matches = allText.match(re);
+      if (matches) matches.slice(0, 1).forEach((m) => {
+        const cond = m.trim();
+        if (cond.length > 6 && !conditions.some((c) => c.text === cond)) {
+          conditions.push({ text: cond, type: "medium", score: 1 });
+        }
+      });
+    });
+    // 风险/不成立条件
+    NEGATIVE.forEach((kw) => {
+      const re = new RegExp("[^，。；,;.!。]{0,30}" + kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[^，。；,;.!。]{0,40}", "g");
+      const matches = allText.match(re);
+      if (matches) matches.slice(0, 2).forEach((m) => {
+        const cond = m.trim();
+        if (cond.length > 6 && !conditions.some((c) => c.text === cond)) {
+          conditions.push({ text: cond, type: "risk", score: -2 });
+        }
+      });
+    });
+    return conditions;
+  };
+
+  const scoreChain = (chain) => {
+    const conds = extractConditions(chain);
+    const rawScore = conds.reduce((s, c) => s + c.score, 0);
+    // 归一化到 0-100：强成立多=高分
+    const strongCnt = conds.filter((c) => c.type === "strong").length;
+    const riskCnt = conds.filter((c) => c.type === "risk").length;
+    const mediumCnt = conds.filter((c) => c.type === "medium").length;
+    // 基础分 = 强成立*15 + 中*5 - 风险*10
+    let score = strongCnt * 15 + mediumCnt * 5 - riskCnt * 10;
+    score = Math.max(0, Math.min(100, score + 30)); // 基础 30 分
+    return { conditions: conds, score, strongCnt, mediumCnt, riskCnt };
+  };
+
+  const strengthLabel = (score) => {
+    if (score >= 70) return { label: "强成立", cls: "up" };
+    if (score >= 45) return { label: "成立", cls: "ok" };
+    if (score >= 25) return { label: "弱成立", cls: "warn" };
+    return { label: "不成立", cls: "down" };
+  };
+
   function renderLogic() {
     const el = $("#viewLogic");
     if (!el) return;
@@ -1222,7 +1300,15 @@
       el.innerHTML = secTitle("逻辑链", "产业链上下游拆解") + emptyState("产业链数据待生成。");
       return;
     }
-    const cards = LOGIC.chains.map((c) => {
+
+    // 每条链评分 + 排序（成立强度从高到低）
+    const scored = LOGIC.chains.map((c) => {
+      const sc = scoreChain(c);
+      return { chain: c, ...sc, strength: strengthLabel(sc.score) };
+    }).sort((a, b) => b.score - a.score);
+
+    const cards = scored.map((item, idx) => {
+      const c = item.chain;
       const segs = (c.segments || []).map((s) => {
         const stocks = (s.stocks || []).map((st) =>
           `<button class="ind-stock" data-code="${esc(st.code)}"><span class="is-name">${esc(st.name)}</span><span class="is-code">${esc(st.code)}</span><span class="is-role">${esc(st.role || "")}</span></button>`
@@ -1233,14 +1319,41 @@
           ${stocks ? `<div class="sd-stock-list">${stocks}</div>` : '<div class="lc-no-stock">未点名核心A股</div>'}
         </div>`;
       }).join("");
-      return `<article class="card blk lc-chain">
-        <div class="lc-chain-head"><h3 class="sd-name">${esc(c.name)}</h3><span class="lc-asof">${esc(c.asof || "")}</span></div>
+
+      // 底层逻辑成立条件排序展示
+      const conds = item.conditions.sort((a, b) => b.score - a.score);
+      const strongList = conds.filter((x) => x.type === "strong");
+      const mediumList = conds.filter((x) => x.type === "medium");
+      const riskList = conds.filter((x) => x.type === "risk");
+      const condHtml = `
+        <div class="lc-conditions">
+          <div class="lc-cond-head">
+            <span class="lc-cond-title">底层逻辑成立条件</span>
+            <span class="lc-strength ${item.strength.cls}">${item.strength.label} ${item.score}</span>
+          </div>
+          <div class="lc-cond-meta">
+            <span class="lc-cond-cnt up">强成立 ${strongList.length}</span>
+            <span class="lc-cond-cnt ok">弱成立 ${mediumList.length}</span>
+            <span class="lc-cond-cnt down">风险/不成立 ${riskList.length}</span>
+          </div>
+          ${strongList.length ? `<div class="lc-cond-group"><span class="lc-cond-lbl up">✓ 强成立</span><div class="lc-cond-items">${strongList.map((x) => `<div class="lc-cond-item up">${esc(x.text)}</div>`).join("")}</div></div>` : ""}
+          ${mediumList.length ? `<div class="lc-cond-group"><span class="lc-cond-lbl ok">○ 弱成立</span><div class="lc-cond-items">${mediumList.map((x) => `<div class="lc-cond-item ok">${esc(x.text)}</div>`).join("")}</div></div>` : ""}
+          ${riskList.length ? `<div class="lc-cond-group"><span class="lc-cond-lbl down">✗ 风险/不成立</span><div class="lc-cond-items">${riskList.map((x) => `<div class="lc-cond-item down">${esc(x.text)}</div>`).join("")}</div></div>` : ""}
+        </div>`;
+
+      return `<article class="card blk lc-chain ${item.strength.cls}">
+        <div class="lc-chain-head">
+          <div class="lc-chain-title"><span class="lc-rank">#${idx + 1}</span><h3 class="sd-name">${esc(c.name)}</h3></div>
+          <span class="lc-asof">${esc(c.asof || "")}</span>
+        </div>
+        ${condHtml}
         <div class="lc-logic"><span class="sd-l">核心逻辑</span>${fieldHtml(c.logic || "—")}</div>
         <div class="lc-bottleneck"><span class="sd-l">卡脖子环节</span>${fieldHtml(c.bottleneck || "—")}</div>
         <div class="lc-segs"><span class="sd-l">上下游拆解</span>${segs}</div>
       </article>`;
     }).join("");
-    el.innerHTML = secTitle("逻辑链", `产业链上下游拆解 · ${esc(LOGIC.date || "")}`) +
+
+    el.innerHTML = secTitle("逻辑链", `产业链上下游拆解 · 按底层逻辑成立强度排序 · ${esc(LOGIC.date || "")}`) +
       (LOGIC.summary ? summaryHtml(LOGIC.summary) : "") +
       `<div class="sd-grid-cards">${cards}</div>`;
     el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
