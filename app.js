@@ -960,30 +960,61 @@
   }
 
   /* ---------- 2. 持仓决策 ---------- */
-  // 持仓配置（portfolio.json）
+  // 持仓配置：优先 portfolio.json，降级 localStorage
   let PORTFOLIO_CFG = null;
+  const PF_LS_KEY = "portfolio_cfg_v1";
   const loadPortfolio = async () => {
     try {
       const r = await fetch("portfolio.json?t=" + Date.now());
-      if (!r.ok) return { holdings: [] };
-      return await r.json();
-    } catch {
-      return { holdings: [] };
-    }
+      if (r.ok) {
+        const data = await r.json();
+        if (data.holdings && data.holdings.length) return data;
+      }
+    } catch {}
+    // 降级 localStorage
+    try {
+      const ls = localStorage.getItem(PF_LS_KEY);
+      if (ls) return JSON.parse(ls);
+    } catch {}
+    return { holdings: [] };
   };
   const savePortfolio = async (data) => {
     data.updated = new Date().toISOString().slice(0, 10);
+    PORTFOLIO_CFG = data;
+    try { localStorage.setItem(PF_LS_KEY, JSON.stringify(data)); } catch {}
     try {
       const r = await fetch("http://localhost:8787/api/portfolio", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (r.ok) { PORTFOLIO_CFG = data; return { ok: true }; }
-      return { ok: false, msg: "app_server 未响应" };
+      if (r.ok) return { ok: true, msg: "已保存（同步到文件）" };
+      return { ok: true, msg: "已保存到本地（app_server 未启动）" };
     } catch {
-      return { ok: false, msg: "需启动 app_server.py (端口 8787) 才能保存" };
+      return { ok: true, msg: "已保存到本地（app_server 未启动）" };
     }
+  };
+  // 启动时同步：如果 localStorage 有数据但 portfolio.json 没有，推送上去
+  const syncPortfolioToServer = async () => {
+    try {
+      const ls = localStorage.getItem(PF_LS_KEY);
+      if (!ls) return;
+      const lsData = JSON.parse(ls);
+      if (!lsData.holdings || !lsData.holdings.length) return;
+      const r = await fetch("http://localhost:8787/api/portfolio");
+      if (!r.ok) return;
+      const srv = await r.json();
+      const srvList = srv.data?.holdings || [];
+      // localStorage 比 server 多或不同，同步上去
+      if (JSON.stringify(lsData.holdings) !== JSON.stringify(srvList)) {
+        await fetch("http://localhost:8787/api/portfolio", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(lsData),
+        });
+        console.log("[portfolio] localStorage → portfolio.json 同步完成");
+      }
+    } catch {}
   };
   const portfolioToast = (msg, type = "info") => {
     const t = document.createElement("div");
@@ -1000,6 +1031,7 @@
     const el = $("#viewHoldings");
     if (!el) return;
     if (!PORTFOLIO_CFG) PORTFOLIO_CFG = await loadPortfolio();
+    syncPortfolioToServer(); // 后台同步，不阻塞渲染
     const cfg = PORTFOLIO_CFG || { holdings: [] };
     const cfgList = cfg.holdings || [];
     // 行情数据 map（holdings.js）
@@ -1118,8 +1150,8 @@
         const data = { ...PORTFOLIO_CFG };
         data.holdings = [...(data.holdings || []), { code, name, buyPrice: buy, shares, weight, note, addedAt: new Date().toISOString().slice(0, 10) }];
         const r = await savePortfolio(data);
-        if (r.ok) { portfolioToast("持仓已添加", "success"); renderHoldings(); }
-        else portfolioToast(r.msg, "error");
+        if (r.ok) { portfolioToast(r.msg || "持仓已添加", "success"); renderHoldings(); }
+        else portfolioToast(r.msg || "保存失败", "error");
       });
     });
   }
@@ -1135,8 +1167,8 @@
         const data = { ...PORTFOLIO_CFG };
         data.holdings = (data.holdings || []).filter((h) => h.code !== code);
         const r = await savePortfolio(data);
-        if (r.ok) { portfolioToast("持仓已删除", "success"); renderHoldings(); }
-        else portfolioToast(r.msg, "error");
+        if (r.ok) { portfolioToast(r.msg || "持仓已删除", "success"); renderHoldings(); }
+        else portfolioToast(r.msg || "删除失败", "error");
       });
     });
   }
