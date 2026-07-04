@@ -12,3 +12,4 @@ scripts/raw_news.json
 # Mac 原生 App 构建产物（不入库）
 app/stock-dashboard
 股市看板.app/
+app/icon_assets/AppIcon.iconset/

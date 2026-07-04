@@ -40,6 +40,8 @@ REFRESH_STEPS = [
     ("补资金/研报/估值", ["python3", "scripts/fetch_enhanced.py"]),
     ("全市场异动", ["python3", "scripts/fetch_market.py"]),
     ("同步Hermes复盘", ["python3", "scripts/fetch_hermes.py"]),
+    ("同步持仓分析", ["python3", "scripts/fetch_portfolio_analysis.py"]),
+    ("同步周末发酵", ["python3", "scripts/fetch_weekend.py"]),
 ]
 
 # 刷新状态（进程内共享）
@@ -60,8 +62,49 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if self.path == "/api/status":
             self._handle_status()
             return
+        if self.path == "/api/portfolio":
+            self._handle_portfolio_get()
+            return
         # 静态文件（网页本体）
         super().do_GET()
+
+    def do_POST(self):
+        if self.path == "/api/portfolio":
+            self._handle_portfolio_post()
+            return
+        self.send_error(404)
+
+    def _handle_portfolio_get(self):
+        """读取 portfolio.json 持仓配置"""
+        path = os.path.join(HERE, "portfolio.json")
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            self._json({"ok": True, "data": data})
+        except FileNotFoundError:
+            self._json({"ok": True, "data": {"updated": "", "holdings": []}})
+        except Exception as e:
+            self._json({"ok": False, "msg": str(e)})
+
+    def _handle_portfolio_post(self):
+        """写入 portfolio.json 持仓配置（整体覆盖）"""
+        length = int(self.headers.get("Content-Length", 0))
+        body = self.rfile.read(length).decode("utf-8")
+        try:
+            data = json.loads(body)
+            if not isinstance(data, dict) or "holdings" not in data:
+                self._json({"ok": False, "msg": "数据格式错误，需 {holdings: [...]}"})
+                return
+            path = os.path.join(HERE, "portfolio.json")
+            tmp = path + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+            os.replace(tmp, path)
+            self._json({"ok": True, "msg": "持仓已保存"})
+        except json.JSONDecodeError:
+            self._json({"ok": False, "msg": "JSON 解析失败"})
+        except Exception as e:
+            self._json({"ok": False, "msg": str(e)})
 
     def _handle_refresh(self):
         if refresh_state["running"]:
@@ -82,9 +125,19 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
         self.send_response(200)
         self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Content-Length", len(body))
         self.end_headers()
         self.wfile.write(body)
+
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
 
     def log_message(self, *args):
         pass  # 静默日志，避免刷屏

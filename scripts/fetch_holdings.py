@@ -27,7 +27,23 @@ sys.path.insert(0, ASTOCK_PATH)
 import astock as a  # noqa: E402
 
 TODAY = datetime.now().strftime("%Y-%m-%d")
-HOLDING_CODES = ["605117", "300136"]
+HOLDING_CODES = ["605117", "300136"]  # 默认持仓，portfolio.json 不存在时回退
+
+
+def load_portfolio():
+    """读取 portfolio.json 持仓配置，回退到默认硬编码列表"""
+    pf = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "portfolio.json")
+    if os.path.exists(pf):
+        try:
+            with open(pf, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            codes = [h["code"] for h in data.get("holdings", []) if h.get("code")]
+            if codes:
+                print(f"  [portfolio.json] 读取 {len(codes)} 只持仓: {codes}", flush=True)
+                return codes
+        except Exception as e:
+            print(f"  [WARN] portfolio.json 解析失败，回退默认: {e}", flush=True)
+    return HOLDING_CODES
 
 
 def safe(fn, *args, default=None, **kw):
@@ -94,8 +110,9 @@ def build_one(code):
 def main():
     print(f"采集持仓数据 ({TODAY})...", flush=True)
     time.sleep(1)
+    codes = load_portfolio()
     items = []
-    for code in HOLDING_CODES:
+    for code in codes:
         print(f"  → {code}", flush=True)
         items.append(build_one(code))
         time.sleep(1.2)
