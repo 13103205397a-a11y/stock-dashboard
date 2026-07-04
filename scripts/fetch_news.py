@@ -18,6 +18,8 @@ import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from _dataio import DataLock, load_stocks, write_stocks
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.dirname(HERE)
 DATA = os.path.join(PROJ, "data.js")
@@ -58,43 +60,6 @@ def score(title):
     if is_garbage(title):
         s -= 20
     return s
-
-
-def load_stocks():
-    """读 data.js 的 STOCKS 数组。"""
-    txt = open(DATA, encoding="utf-8").read()
-    start = txt.index("window.STOCKS")
-    brace = txt.index("[", start)
-    depth, end = 0, brace
-    for i in range(brace, len(txt)):
-        if txt[i] == "[":
-            depth += 1
-        elif txt[i] == "]":
-            depth -= 1
-            if depth == 0:
-                end = i + 1
-                break
-    return eval(txt[brace:end], {"true": True, "false": False, "null": None})
-
-
-def write_stocks(stocks):
-    """原子写回 data.js。"""
-    txt = open(DATA, encoding="utf-8").read()
-    start = txt.index("window.STOCKS")
-    brace = txt.index("[", start)
-    depth, end = 0, brace
-    for i in range(brace, len(txt)):
-        if txt[i] == "[":
-            depth += 1
-        elif txt[i] == "]":
-            depth -= 1
-            if depth == 0:
-                end = i + 1
-                break
-    new_txt = txt[:brace] + json.dumps(stocks, ensure_ascii=False, indent=2) + txt[end:]
-    tmp = DATA + ".tmp"
-    open(tmp, "w", encoding="utf-8").write(new_txt)
-    os.replace(tmp, DATA)
 
 
 def fetch_search_news(name):
@@ -183,31 +148,32 @@ def fetch_one(code, name):
 
 
 def main():
-    stocks = load_stocks()
-    print(f"开始抓取+筛选 {len(stocks)} 只股票的新闻（并发6）...")
-    results = {}
-    ok = 0
-    with ThreadPoolExecutor(max_workers=6) as pool:
-        futs = {pool.submit(fetch_one, s["code"], s["name"]): s for s in stocks}
-        for i, fut in enumerate(as_completed(futs), 1):
-            code, name, news = fut.result()
-            results[code] = news
-            if news:
-                ok += 1
-            if i % 10 == 0 or i == len(stocks):
-                print(f"  进度: {i}/{len(stocks)}（有新闻 {ok}）", flush=True)
-    # 写回 data.js
-    updated = 0
-    total = 0
-    for s in stocks:
-        c = s["code"]
-        if c in results:
-            s["news"] = results[c]
-            s["newsAsof"] = TODAY
-            updated += 1
-            total += len(results[c])
-    write_stocks(stocks)
-    print(f"\n完成：{updated}/{len(stocks)} 只更新，共保留 {total} 条新闻 → data.js")
+    with DataLock():
+        stocks = load_stocks()
+        print(f"开始抓取+筛选 {len(stocks)} 只股票的新闻（并发6）...")
+        results = {}
+        ok = 0
+        with ThreadPoolExecutor(max_workers=6) as pool:
+            futs = {pool.submit(fetch_one, s["code"], s["name"]): s for s in stocks}
+            for i, fut in enumerate(as_completed(futs), 1):
+                code, name, news = fut.result()
+                results[code] = news
+                if news:
+                    ok += 1
+                if i % 10 == 0 or i == len(stocks):
+                    print(f"  进度: {i}/{len(stocks)}（有新闻 {ok}）", flush=True)
+        # 写回 data.js
+        updated = 0
+        total = 0
+        for s in stocks:
+            c = s["code"]
+            if c in results:
+                s["news"] = results[c]
+                s["newsAsof"] = TODAY
+                updated += 1
+                total += len(results[c])
+        write_stocks(stocks)
+        print(f"\n完成：{updated}/{len(stocks)} 只更新，共保留 {total} 条新闻 → data.js")
 
 
 if __name__ == "__main__":

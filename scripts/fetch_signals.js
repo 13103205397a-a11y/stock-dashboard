@@ -10,12 +10,9 @@ const path = require("path");
 const DATA = path.join(__dirname, "..", "data.js");
 const META = path.join(__dirname, "..", "meta.js");
 const RAW = path.join(__dirname, "raw");
+const LOCK = path.join(__dirname, "..", ".data.lock");
 
-// 载入现有数据（保留编辑性字段）
-global.window = {};
-require(DATA);
-require(META);
-const STOCKS = window.STOCKS;
+// 载入现有数据（保留编辑性字段）—— 移入 main()，避免被测试 require 时产生副作用。
 
 const mk = (code) => {
   const c = code[0];
@@ -44,9 +41,22 @@ const INDEX_CODES = [
   ["sh000001", "上证指数"], ["sz399001", "深证成指"],
   ["sz399006", "创业板指"], ["sh000688", "科创50"],
 ];
+async function fetchWithRetry(url, opts = {}, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await fetch(url, opts);
+      if (res.ok) return res;
+      throw new Error(`HTTP ${res.status}`);
+    } catch (e) {
+      if (i === retries - 1) throw e;
+      await new Promise((r) => setTimeout(r, 1000 * (i + 1)));
+    }
+  }
+}
+
 async function fetchIndices() {
   const url = "https://qt.gtimg.cn/q=" + INDEX_CODES.map((x) => x[0]).join(",");
-  const res = await fetch(url, { headers: { Referer: "https://gu.qq.com/" } });
+  const res = await fetchWithRetry(url, { headers: { Referer: "https://gu.qq.com/" } });
   const text = Buffer.from(await res.arrayBuffer()).toString("latin1"); // 数字字段为 ASCII，名称乱码不取
   const out = [];
   for (const [code, name] of INDEX_CODES) {
@@ -185,62 +195,116 @@ function computeSignal(k) {
   };
 }
 
-(async function () {
-  let ok = 0, fail = [];
-  for (const s of STOCKS) {
+// ── 跨语言文件锁（与 scripts/_dataio.py 协议一致，勿单独修改）──
+// 锁文件 .data.lock 位于项目根；获取用 O_EXCL 创建+写 PID，冲突时探活对端 PID，
+// 已退出则强占，否则等待；超时报错。防止 Node 与 Python 脚本并发写 data.js。
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+function pidAlive(pid) {
+  try { process.kill(pid, 0); return true; } catch { return false; }
+}
+async function acquireLock(timeoutMs = 30000) {
+  const deadline = Date.now() + timeoutMs;
+  while (true) {
     try {
-      const k = klines(s.code);
-      if (!k || k.length < 20) { fail.push(s.code + s.name + "(数据不足)"); continue; }
-      const c = computeSignal(k);
-      s.signal = c.signal;
-      s.left = s.left || {}; s.right = s.right || {};
-      s.left.zone = c.leftZone; s.left.trigger = c.leftTrigger;   // logic 编辑性文案保留
-      s.right.zone = c.rightZone; s.right.trigger = c.rightTrigger;
-      ok++;
-      process.stdout.write(`✓ ${s.name}(${s.code}) ${c.signal.price} ${c.signal.trend} L:${c.signal.leftState.slice(0,8)} R:${c.signal.rightState.slice(0,12)}\n`);
+      const fd = fs.openSync(LOCK, "wx");
+      fs.writeSync(fd, String(process.pid));
+      fs.closeSync(fd);
+      return;
     } catch (e) {
-      fail.push(s.code + s.name + "(" + e.message + ")");
+      if (e.code !== "EEXIST") throw e;
+      let stale = false;
+      try {
+        const pid = parseInt(fs.readFileSync(LOCK, "utf8").trim(), 10);
+        if (!pid || !pidAlive(pid)) stale = true;
+      } catch {
+        stale = true;
+      }
+      if (stale) {
+        try { fs.unlinkSync(LOCK); } catch {}
+        continue;
+      }
+      if (Date.now() > deadline) throw new Error("获取 data.js 锁超时（30s），另一进程仍持有");
+      await sleep(200);
     }
   }
+}
+function releaseLock() {
+  try { fs.unlinkSync(LOCK); } catch {}
+}
 
-  // 写回 data.js（原子写 + 统一头部）
-  writeAtomic(DATA, DATA_HEADER + "window.STOCKS = " + JSON.stringify(STOCKS, null, 2) + ";\n");
+async function main() {
+  // 载入现有数据（保留编辑性字段）
+  global.window = {};
+  require(DATA);
+  require(META);
+  const STOCKS = window.STOCKS;
 
-  // 统计技术面，自动汇总进 meta（不覆盖复盘 Agent 维护的 marketRegime）
-  let bull = 0, bear = 0, leftReady = 0, rightReady = 0;
-  STOCKS.forEach((s) => {
-    const g = s.signal || {};
-    if (g.trend === "多头排列") bull++; else if (g.trend === "空头排列") bear++;
-    if (/已回踩至逢低区/.test(g.leftState || "")) leftReady++;
-    if (/已放量突破|临近突破/.test(g.rightState || "")) rightReady++;
-  });
-  const latestDate = STOCKS.map((s) => s.signal?.date).filter(Boolean).sort().pop() || "—";
-  const today = new Date().toISOString().slice(0, 10);
-  const m = window.META || {};
-
-  // 抓真实大盘指数（失败则保留旧快照，不阻断技术信号写入）
-  let marketSnapshot = m.marketSnapshot || null;
+  await acquireLock();
   try {
-    const idx = await fetchIndices();
-    if (idx.length) {
-      marketSnapshot = { date: latestDate, indices: idx };
-      console.log("大盘：" + idx.map((i) => `${i.name} ${i.price} ${i.pct > 0 ? "+" : ""}${i.pct}%`).join(" · "));
+    let ok = 0, fail = [];
+    for (const s of STOCKS) {
+      try {
+        const k = klines(s.code);
+        if (!k || k.length < 20) { fail.push(s.code + s.name + "(数据不足)"); continue; }
+        const c = computeSignal(k);
+        s.signal = c.signal;
+        s.left = s.left || {}; s.right = s.right || {};
+        s.left.zone = c.leftZone; s.left.trigger = c.leftTrigger;   // logic 编辑性文案保留
+        s.right.zone = c.rightZone; s.right.trigger = c.rightTrigger;
+        ok++;
+        process.stdout.write(`✓ ${s.name}(${s.code}) ${c.signal.price} ${c.signal.trend} L:${c.signal.leftState.slice(0,8)} R:${c.signal.rightState.slice(0,12)}\n`);
+      } catch (e) {
+        fail.push(s.code + s.name + "(" + e.message + ")");
+      }
     }
-  } catch (e) {
-    console.log("指数抓取失败，保留旧快照：" + e.message);
+
+    // 写回 data.js（原子写 + 统一头部）
+    writeAtomic(DATA, DATA_HEADER + "window.STOCKS = " + JSON.stringify(STOCKS, null, 2) + ";\n");
+
+    // 统计技术面，自动汇总进 meta（不覆盖复盘 Agent 维护的 marketRegime）
+    let bull = 0, bear = 0, leftReady = 0, rightReady = 0;
+    STOCKS.forEach((s) => {
+      const g = s.signal || {};
+      if (g.trend === "多头排列") bull++; else if (g.trend === "空头排列") bear++;
+      if (/已回踩至逢低区/.test(g.leftState || "")) leftReady++;
+      if (/已放量突破|临近突破/.test(g.rightState || "")) rightReady++;
+    });
+    const latestDate = STOCKS.map((s) => s.signal?.date).filter(Boolean).sort().pop() || "—";
+    const today = new Date().toISOString().slice(0, 10);
+    const m = window.META || {};
+
+    // 抓真实大盘指数（失败则保留旧快照，不阻断技术信号写入）
+    let marketSnapshot = m.marketSnapshot || null;
+    try {
+      const idx = await fetchIndices();
+      if (idx.length) {
+        marketSnapshot = { date: latestDate, indices: idx };
+        console.log("大盘：" + idx.map((i) => `${i.name} ${i.price} ${i.pct > 0 ? "+" : ""}${i.pct}%`).join(" · "));
+      }
+    } catch (e) {
+      console.log("指数抓取失败，保留旧快照：" + e.message);
+    }
+
+    const newMeta =
+      "/* 全局元信息：signalDate/signalStat/marketSnapshot 由行情程序自动统计 */\n" +
+      "window.META = " + JSON.stringify({
+        lastUpdated: latestDate,
+        signalDate: latestDate,
+        signalStat: `多头 ${bull} / 空头 ${bear} · 左侧已到逢低区 ${leftReady} · 右侧突破或临近 ${rightReady}（共 ${STOCKS.length} 只，行情截至 ${latestDate}，刷新于 ${today}）`,
+        marketSnapshot,
+      }, null, 2) + ";\n";
+    writeAtomic(META, newMeta);
+
+    console.log(`\n完成：成功 ${ok}/${STOCKS.length}`);
+    if (fail.length) console.log("失败：", fail.join("; "));
+  } finally {
+    releaseLock();
   }
+}
 
-  const newMeta =
-    "/* 全局元信息：signalDate/signalStat/marketSnapshot 由行情程序自动统计 */\n" +
-    "window.META = " + JSON.stringify({
-      lastUpdated: latestDate,
-      signalDate: latestDate,
-      signalStat: `多头 ${bull} / 空头 ${bear} · 左侧已到逢低区 ${leftReady} · 右侧突破或临近 ${rightReady}（共 ${STOCKS.length} 只，行情截至 ${latestDate}，刷新于 ${today}）`,
-      marketSnapshot,
-    }, null, 2) + ";\n";
-  writeAtomic(META, newMeta);
+if (require.main === module) {
+  main().catch((e) => { console.error(e); process.exit(1); });
+}
 
-  console.log(`\n完成：成功 ${ok}/${STOCKS.length}`);
-  if (fail.length) console.log("失败：", fail.join("; "));
-})();
+module.exports = { computeSignal };
 

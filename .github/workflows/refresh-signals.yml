@@ -101,3 +101,36 @@ jobs:
             git push origin "HEAD:${GITHUB_REF_NAME}"
             echo "已推送行情更新。"
           fi
+
+      - name: 失败告警（创建 Issue）
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const date = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            // 查找是否已有未关闭的同标签 issue，有则评论追加，无则新建
+            const label = 'ci-failed';
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: label,
+              state: 'open'
+            });
+            const body = `行情刷新工作流失败 @ ${date}\n\n运行链接：${runUrl}\n触发分支：${context.refName}\n\n请检查 Actions 日志，常见原因：数据源限流/改版、问财配额耗尽、网络抖动。`;
+            if (issues.data.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues.data[0].number,
+                body
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `CI 失败：行情刷新工作流`,
+                body,
+                labels: [label]
+              });
+            }

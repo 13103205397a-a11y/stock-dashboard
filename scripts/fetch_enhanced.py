@@ -25,6 +25,8 @@ import warnings
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 
+from _dataio import DataLock, load_stocks, write_stocks
+
 warnings.filterwarnings("ignore")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -36,43 +38,6 @@ TODAY = time.strftime("%Y-%m-%d")
 ASTOCK_PATH = os.path.join(PROJ, "skills", "a-stock-pro", "scripts")
 sys.path.insert(0, ASTOCK_PATH)
 import astock as a  # noqa: E402
-
-
-def load_stocks():
-    """读 data.js 的 STOCKS 数组(与 fetch_news.py 同模式)。"""
-    txt = open(DATA, encoding="utf-8").read()
-    start = txt.index("window.STOCKS")
-    brace = txt.index("[", start)
-    depth, end = 0, brace
-    for i in range(brace, len(txt)):
-        if txt[i] == "[":
-            depth += 1
-        elif txt[i] == "]":
-            depth -= 1
-            if depth == 0:
-                end = i + 1
-                break
-    return eval(txt[brace:end], {"true": True, "false": False, "null": None})
-
-
-def write_stocks(stocks):
-    """原子写回 data.js(与 fetch_news.py 同模式)。"""
-    txt = open(DATA, encoding="utf-8").read()
-    start = txt.index("window.STOCKS")
-    brace = txt.index("[", start)
-    depth, end = 0, brace
-    for i in range(brace, len(txt)):
-        if txt[i] == "[":
-            depth += 1
-        elif txt[i] == "]":
-            depth -= 1
-            if depth == 0:
-                end = i + 1
-                break
-    new_txt = txt[:brace] + json.dumps(stocks, ensure_ascii=False, indent=2) + txt[end:]
-    tmp = DATA + ".tmp"
-    open(tmp, "w", encoding="utf-8").write(new_txt)
-    os.replace(tmp, DATA)
 
 
 def build_fund(code):
@@ -161,40 +126,41 @@ def fetch_one(stock):
 
 
 def main():
-    stocks = load_stocks()
-    print(f"开始用 a-stock-pro 补齐 {len(stocks)} 只股票的 fund/research/valuation...")
-    # 并发度 3: 东财有限流,太快会被风控
-    results = {}
-    ok_fund = ok_research = ok_val = 0
-    with ThreadPoolExecutor(max_workers=3) as pool:
-        futs = {pool.submit(fetch_one, s): s for s in stocks}
-        for i, fut in enumerate(as_completed(futs), 1):
-            try:
-                code, fund, research, valuation = fut.result()
-                results[code] = (fund, research, valuation)
-                if fund.get("netInflow") is not None:
-                    ok_fund += 1
+    with DataLock():
+        stocks = load_stocks()
+        print(f"开始用 a-stock-pro 补齐 {len(stocks)} 只股票的 fund/research/valuation...")
+        # 并发度 3: 东财有限流,太快会被风控
+        results = {}
+        ok_fund = ok_research = ok_val = 0
+        with ThreadPoolExecutor(max_workers=3) as pool:
+            futs = {pool.submit(fetch_one, s): s for s in stocks}
+            for i, fut in enumerate(as_completed(futs), 1):
+                try:
+                    code, fund, research, valuation = fut.result()
+                    results[code] = (fund, research, valuation)
+                    if fund.get("netInflow") is not None:
+                        ok_fund += 1
+                    if research:
+                        ok_research += 1
+                    if valuation:
+                        ok_val += 1
+                except Exception as e:
+                    print(f"  [WARN] {futs[fut]['code']} 失败: {e}")
+                if i % 10 == 0 or i == len(stocks):
+                    print(f"  进度: {i}/{len(stocks)} (fund {ok_fund}/research {ok_research}/val {ok_val})", flush=True)
+        # 写回
+        for s in stocks:
+            code = s["code"]
+            if code in results:
+                fund, research, valuation = results[code]
+                s["fund"] = fund
                 if research:
-                    ok_research += 1
+                    s["research"] = research
                 if valuation:
-                    ok_val += 1
-            except Exception as e:
-                print(f"  [WARN] {futs[fut]['code']} 失败: {e}")
-            if i % 10 == 0 or i == len(stocks):
-                print(f"  进度: {i}/{len(stocks)} (fund {ok_fund}/research {ok_research}/val {ok_val})", flush=True)
-    # 写回
-    for s in stocks:
-        code = s["code"]
-        if code in results:
-            fund, research, valuation = results[code]
-            s["fund"] = fund
-            if research:
-                s["research"] = research
-            if valuation:
-                s["valuation"] = valuation
-    write_stocks(stocks)
-    print(f"\n完成: fund {ok_fund}/{len(stocks)}, research {ok_research}/{len(stocks)}, "
-          f"valuation {ok_val}/{len(stocks)} → data.js")
+                    s["valuation"] = valuation
+        write_stocks(stocks)
+        print(f"\n完成: fund {ok_fund}/{len(stocks)}, research {ok_research}/{len(stocks)}, "
+              f"valuation {ok_val}/{len(stocks)} → data.js")
 
 
 if __name__ == "__main__":

@@ -6,3 +6,9 @@ __pycache__/
 # Hermes hook 更新日志（本机运行日志，不入库）
 scripts/.hermes-update.log
 scripts/raw_news.json
+# 跨语言数据锁（运行时产物，不入库）
+.data.lock
+
+# Mac 原生 App 构建产物（不入库）
+app/stock-dashboard
+股市看板.app/

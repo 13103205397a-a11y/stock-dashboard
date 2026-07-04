@@ -5,7 +5,9 @@ import Cocoa
 import WebKit
 import Foundation
 
-let PROJECT = "/Users/Admin/Documents/vscode claude/股市看板"
+// 项目根目录：优先环境变量 STOCK_DASHBOARD_DIR，否则用默认值（换机器时设环境变量覆盖）
+let PROJECT = ProcessInfo.processInfo.environment["STOCK_DASHBOARD_DIR"]
+    ?? "/Users/Admin/Documents/vscode claude/股市看板"
 
 // 毛玻璃视图子类:允许鼠标拖拽穿透到窗口(解决拖不动问题)
 class VisualEffectView: NSVisualEffectView {
@@ -102,6 +104,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
             completionHandler: nil)
 
         DispatchQueue.global().async {
+            // ⚠️ 与 app_server.py 的 REFRESH_STEPS 保持一致，改动需同步两端。
             let steps: [(String, [String])] = [
                 ("抓日K", ["bash", "scripts/fetch_klines.sh"]),
                 ("算信号", ["node", "scripts/fetch_signals.js"]),
@@ -135,9 +138,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
 
     func getEnvWithIwencai() -> [String: String] {
         var env = ProcessInfo.processInfo.environment
+        if env["IWENCAI_API_KEY"] != nil { return env }
+        let account = env["IWENCAI_KEYCHAIN_ACCOUNT"] ?? "Admin"
         let task = Process()
         task.launchPath = "/usr/bin/security"
-        task.arguments = ["find-generic-password", "-a", "Admin", "-s", "iwencai-api-key", "-w"]
+        task.arguments = ["find-generic-password", "-a", account, "-s", "iwencai-api-key", "-w"]
         let pipe = Pipe()
         task.standardOutput = pipe
         task.standardError = Pipe()

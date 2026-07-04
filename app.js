@@ -226,7 +226,7 @@
     return /已放量突破/.test(txt) ? "go" : /临近突破/.test(txt) ? "near" : /量能不足/.test(txt) ? "warn" : "wait";
   }
 
-  function card(s) {
+  function card(s, i) {
     const v = s.review?.verdict || "—";
     const changed = isChanged(s);
     const g = s.signal || {};
@@ -244,7 +244,7 @@
     const leftHit = /已回踩至逢低区/.test(g.leftState || "");
     const rightHit = /已放量突破|临近突破/.test(g.rightState || "");
     const hitTag = leftHit ? `<span class="hit-tag left-hit">左侧逢低</span>` : rightHit ? `<span class="hit-tag right-hit">右侧突破</span>` : "";
-    return `<article class="card v-${v}${feat}" data-code="${esc(s.code)}">
+    return `<article class="card v-${v}${feat}" data-code="${esc(s.code)}" style="--i:${i ?? 0}">
       <div class="card-head">
         <div class="name-wrap">
           <span class="name">${esc(s.name)}</span>
@@ -280,7 +280,7 @@
 
   function render() {
     const list = sortList(STOCKS.filter(matches));
-    grid.innerHTML = list.length ? list.map(card).join("") : `<div class="empty">没有匹配的标的，调整筛选试试。</div>`;
+    grid.innerHTML = list.length ? list.map((s, i) => card(s, i)).join("") : `<div class="empty">没有匹配的标的，调整筛选试试。</div>`;
     grid.querySelectorAll(".card").forEach((el) => {
       // 点「展开详情」：折叠/展开卡片正文（不跳抽屉）
       const expand = el.querySelector(".card-expand");
@@ -771,6 +771,20 @@
     })
   );
 
+  // 密度切换（紧凑/标准，localStorage 持久化）
+  const savedDensity = localStorage.getItem("density") || "compact";
+  document.body.classList.add("density-" + savedDensity);
+  document.querySelectorAll(".density-btn").forEach((b) => {
+    b.classList.toggle("active", b.dataset.density === savedDensity);
+    b.addEventListener("click", () => {
+      const d = b.dataset.density;
+      document.body.classList.remove("density-compact", "density-standard");
+      document.body.classList.add("density-" + d);
+      localStorage.setItem("density", d);
+      document.querySelectorAll(".density-btn").forEach((c) => c.classList.toggle("active", c === b));
+    });
+  });
+
   /* ===================================================================
      新增 6 个模块渲染: Home / 持仓决策 / 机会清单 / 逻辑链 / 产业雷达 / 事件概率 / 新闻
   =================================================================== */
@@ -778,6 +792,61 @@
   const secTitle = (t, sub) => `<h2 class="vsec-title">${esc(t)}${sub ? `<span class="vsec-sub">${esc(sub)}</span>` : ""}</h2>`;
   // 通用空态
   const emptyState = (msg) => `<div class="empty">${esc(msg)}</div>`;
+  // 通用长文本列化：支持数组/字符串，字符串智能按编号/分号/句号拆分
+  // - 数组：直接渲染编号列表
+  // - 字符串：优先按"1. 2. "/"①②"等已有编号拆；其次按分号；最后按句号
+  // - 单条不列化，保持段落
+  function fieldHtml(s) {
+    if (!s) return "";
+    let items = [];
+    if (Array.isArray(s)) {
+      items = s;
+    } else if (typeof s === "string") {
+      const t = s.trim();
+      if (!t) return "";
+      // 已有显式编号：1. 2. / ①② / (1)(2)
+      if (/\d+[.、)]\s|①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩|（\d+）/.test(t)) {
+        items = t.split(/(?<=\d+[.、)]\s|①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩|）)/).map((x) => x.trim()).filter(Boolean);
+      } else {
+        // 中英文分号优先（实际数据常用英文 ; 分隔多事实点）
+        const semiParts = t.split(/[；;]/).map((x) => x.trim()).filter(Boolean);
+        if (semiParts.length >= 2) {
+          items = semiParts;
+        } else {
+          // 句号兜底
+          const sentParts = t.split(/(?<=[。！？])\s*/).map((x) => x.trim()).filter(Boolean);
+          if (sentParts.length >= 2) {
+            items = sentParts;
+          } else {
+            // 斜杠分隔（sectors/downstream 等），排除日期 7/3 这种
+            const slashParts = t.split("/").map((x) => x.trim()).filter((x) => x && x.length >= 2 && !/^\d+$/.test(x));
+            if (slashParts.length >= 3) {
+              items = slashParts;
+            } else {
+              // 顿号分隔（products 等），仅当整段无其他分隔符时
+              const dunParts = t.split("、").map((x) => x.trim()).filter(Boolean);
+              if (dunParts.length >= 3) {
+                items = dunParts;
+              }
+            }
+          }
+        }
+      }
+      if (items.length <= 1) return `<p class="sd-v">${esc(t)}</p>`;
+    }
+    if (!items.length) return "";
+    const lis = items.map((it, i) => `<li><span class="sum-idx">${i + 1}</span><span class="sum-txt">${esc(it)}</span></li>`).join("");
+    return `<ol class="sd-field-list">${lis}</ol>`;
+  }
+  // summaryHtml 保留为 fieldHtml 别名（summary 带背景色容器，复用列化逻辑）
+  const summaryHtml = (s) => {
+    if (!s) return "";
+    const inner = fieldHtml(s);
+    if (!inner) return "";
+    // 单段落用 div.sd-summary，列表用 div.sd-summary 包住 ol
+    if (inner.startsWith("<p")) return `<div class="sd-summary">${inner}</div>`;
+    return `<div class="sd-summary">${inner}</div>`;
+  };
   // 亿/万 格式化
   const fmtYi = (n) => n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(2) + "亿";
   const fmtWan = (n) => n == null ? "—" : (n > 0 ? "+" : "") + (n / 1e4).toFixed(0) + "万";
@@ -950,18 +1019,18 @@
           </div>
         </div>
         <div class="sd-grid">
-          <div class="sd-item"><span class="sd-l">背后逻辑</span><p class="sd-v">${esc(d.logic || "—")}</p></div>
-          <div class="sd-item"><span class="sd-l">发酵信号</span><p class="sd-v">${esc(d.signals || "—")}</p></div>
-          <div class="sd-item sd-price"><span class="sd-l">机会挖掘</span><p class="sd-v">${esc(d.opportunity || "—")}</p></div>
-          <div class="sd-item sd-risk"><span class="sd-l">风险提示</span><p class="sd-v">${esc(d.risk || "—")}</p></div>
+          <div class="sd-item"><span class="sd-l">背后逻辑</span>${fieldHtml(d.logic || "—")}</div>
+          <div class="sd-item"><span class="sd-l">发酵信号</span>${fieldHtml(d.signals || "—")}</div>
+          <div class="sd-item sd-price"><span class="sd-l">机会挖掘</span>${fieldHtml(d.opportunity || "—")}</div>
+          <div class="sd-item sd-risk"><span class="sd-l">风险提示</span>${fieldHtml(d.risk || "—")}</div>
         </div>
         <div class="sd-stocks"><span class="sd-l">相关个股</span><div class="sd-stock-list">${stocks}</div></div>
         <div class="sd-foot">数据时点 ${esc(d.asof || "")}</div>
       </article>`;
     }).join("");
     el.innerHTML = secTitle("机会清单", `当日热点发酵分析 · ${esc(OPP.date || "")}`) +
-      (OPP.market_state ? `<div class="sd-summary">${esc(OPP.market_state)}</div>` : "") +
-      (OPP.summary ? `<div class="sd-summary">${esc(OPP.summary)}</div>` : "") +
+      (OPP.market_state ? summaryHtml(OPP.market_state) : "") +
+      (OPP.summary ? summaryHtml(OPP.summary) : "") +
       `<div class="sd-grid-cards">${cards}</div>`;
     el.querySelectorAll(".ev-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
@@ -982,19 +1051,19 @@
         ).join("");
         return `<div class="lc-seg">
           <div class="lc-seg-head"><span class="lc-stage">${esc(s.stage)}</span><span class="lc-supply ${s.supply && /紧|缺/.test(s.supply) ? "warn" : ""}">${esc((s.supply || "").slice(0, 30))}</span></div>
-          <div class="lc-products">${esc(s.products || "—")}</div>
+          <div class="lc-products">${fieldHtml(s.products || "—")}</div>
           ${stocks ? `<div class="sd-stock-list">${stocks}</div>` : '<div class="lc-no-stock">未点名核心A股</div>'}
         </div>`;
       }).join("");
       return `<article class="card blk lc-chain">
         <div class="lc-chain-head"><h3 class="sd-name">${esc(c.name)}</h3><span class="lc-asof">${esc(c.asof || "")}</span></div>
-        <div class="lc-logic"><span class="sd-l">核心逻辑</span><p class="sd-v">${esc(c.logic || "—")}</p></div>
-        <div class="lc-bottleneck"><span class="sd-l">卡脖子环节</span><p class="sd-v">${esc(c.bottleneck || "—")}</p></div>
+        <div class="lc-logic"><span class="sd-l">核心逻辑</span>${fieldHtml(c.logic || "—")}</div>
+        <div class="lc-bottleneck"><span class="sd-l">卡脖子环节</span>${fieldHtml(c.bottleneck || "—")}</div>
         <div class="lc-segs"><span class="sd-l">上下游拆解</span>${segs}</div>
       </article>`;
     }).join("");
     el.innerHTML = secTitle("逻辑链", `产业链上下游拆解 · ${esc(LOGIC.date || "")}`) +
-      (LOGIC.summary ? `<div class="sd-summary">${esc(LOGIC.summary)}</div>` : "") +
+      (LOGIC.summary ? summaryHtml(LOGIC.summary) : "") +
       `<div class="sd-grid-cards">${cards}</div>`;
     el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
@@ -1021,18 +1090,18 @@
             <span class="sd-conf ${confCls[d.confidence] || ""}">置信度 ${esc(d.confidence || "—")}</span>
           </div>
           <div class="sd-grid">
-            <div class="sd-item"><span class="sd-l">供需状况</span><p class="sd-v">${esc(d.supply || "—")}</p></div>
-            <div class="sd-item sd-price"><span class="sd-l">涨价信号</span><p class="sd-v">${esc(d.price_signal || "—")}</p></div>
-            <div class="sd-item"><span class="sd-l">驱动因素</span><p class="sd-v">${esc(d.driver || "—")}</p></div>
-            <div class="sd-item"><span class="sd-l">关键证据</span><p class="sd-v">${esc(d.evidence || "—")}</p></div>
-            <div class="sd-item sd-risk"><span class="sd-l">风险 / 反向信号</span><p class="sd-v">${esc(d.risk || "—")}</p></div>
+            <div class="sd-item"><span class="sd-l">供需状况</span>${fieldHtml(d.supply || "—")}</div>
+            <div class="sd-item sd-price"><span class="sd-l">涨价信号</span>${fieldHtml(d.price_signal || "—")}</div>
+            <div class="sd-item"><span class="sd-l">驱动因素</span>${fieldHtml(d.driver || "—")}</div>
+            <div class="sd-item"><span class="sd-l">关键证据</span>${fieldHtml(d.evidence || "—")}</div>
+            <div class="sd-item sd-risk"><span class="sd-l">风险 / 反向信号</span>${fieldHtml(d.risk || "—")}</div>
           </div>
           <div class="sd-stocks"><span class="sd-l">相关受益股</span><div class="sd-stock-list">${stocks}</div></div>
           <div class="sd-foot">数据时点 ${esc(d.asof || "")} · 仅供研究参考,非投资建议</div>
         </article>`;
       }).join("");
       el.innerHTML = secTitle("产业雷达", `供需紧张 / 涨价方向调研 · ${esc(INDUSTRY.date || "")}`) +
-        (INDUSTRY.summary ? `<div class="sd-summary">${esc(INDUSTRY.summary)}</div>` : "") +
+        (INDUSTRY.summary ? summaryHtml(INDUSTRY.summary) : "") +
         `<div class="sd-grid-cards">${cards}</div>`;
       el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
       return;
@@ -1063,19 +1132,19 @@
           <span class="sd-conf ${intCls[d.intensity] || ""}">涨价强度 ${esc(d.intensity || "—")}</span>
         </div>
         <div class="sd-grid">
-          <div class="sd-item sd-price"><span class="sd-l">价格/涨幅</span><p class="sd-v">${esc(d.price || "—")}</p></div>
-          <div class="sd-item"><span class="sd-l">涨价时点</span><p class="sd-v">${esc(d.timing || "—")}</p></div>
-          <div class="sd-item"><span class="sd-l">涨价驱动</span><p class="sd-v">${esc(d.driver || "—")}</p></div>
-          <div class="sd-item"><span class="sd-l">供需状况</span><p class="sd-v">${esc(d.supply || "—")}</p></div>
-          <div class="sd-item"><span class="sd-l">下游应用</span><p class="sd-v">${esc(d.downstream || "—")}</p></div>
-          <div class="sd-item sd-risk"><span class="sd-l">风险/反向信号</span><p class="sd-v">${esc(d.risk || "—")}</p></div>
+          <div class="sd-item sd-price"><span class="sd-l">价格/涨幅</span>${fieldHtml(d.price || "—")}</div>
+          <div class="sd-item"><span class="sd-l">涨价时点</span>${fieldHtml(d.timing || "—")}</div>
+          <div class="sd-item"><span class="sd-l">涨价驱动</span>${fieldHtml(d.driver || "—")}</div>
+          <div class="sd-item"><span class="sd-l">供需状况</span>${fieldHtml(d.supply || "—")}</div>
+          <div class="sd-item"><span class="sd-l">下游应用</span>${fieldHtml(d.downstream || "—")}</div>
+          <div class="sd-item sd-risk"><span class="sd-l">风险/反向信号</span>${fieldHtml(d.risk || "—")}</div>
         </div>
         <div class="sd-stocks"><span class="sd-l">相关受益股</span><div class="sd-stock-list">${stocks}</div></div>
         <div class="sd-foot">数据时点 ${esc(d.asof || "")} · 仅供研究参考,非投资建议</div>
       </article>`;
     }).join("");
     el.innerHTML = secTitle("材料涨价", `原材料/大宗商品涨价调研 · ${esc(MAT.date || "")}`) +
-      (MAT.summary ? `<div class="sd-summary">${esc(MAT.summary)}</div>` : "") +
+      (MAT.summary ? summaryHtml(MAT.summary) : "") +
       `<div class="sd-grid-cards">${cards}</div>`;
     el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
@@ -1106,18 +1175,18 @@
             <span class="ev-time">${esc(e.time || "")}</span>
           </div>
         </div>
-        <div class="ev-content">${esc(e.content || "")}</div>
+        <div class="ev-content">${fieldHtml(e.content || "")}</div>
         <div class="ev-grid-info">
-          <div class="ev-info"><span class="sd-l">重要性原因</span><p class="sd-v">${esc(e.importance_reason || "—")}</p></div>
-          <div class="ev-info"><span class="sd-l">影响板块</span><p class="sd-v">${esc(e.sectors || "—")}</p></div>
-          <div class="ev-info"><span class="sd-l">影响时效</span><p class="sd-v">${esc(e.timeliness || "—")}</p></div>
+          <div class="ev-info"><span class="sd-l">重要性原因</span>${fieldHtml(e.importance_reason || "—")}</div>
+          <div class="ev-info"><span class="sd-l">影响板块</span>${fieldHtml(e.sectors || "—")}</div>
+          <div class="ev-info"><span class="sd-l">影响时效</span>${fieldHtml(e.timeliness || "—")}</div>
         </div>
         ${stocks ? `<div class="ev-stocks"><span class="sd-l">受影响个股</span><div class="sd-stock-list">${stocks}</div></div>` : ""}
         <div class="sd-foot">来源: ${esc(e.source || "—")}</div>
       </article>`;
     }).join("");
     el.innerHTML = secTitle("事件概率", `重要新闻影响分析 · ${esc(EVENTS.date || "")}`) +
-      (EVENTS.summary ? `<div class="sd-summary">${esc(EVENTS.summary)}</div>` : "") +
+      (EVENTS.summary ? summaryHtml(EVENTS.summary) : "") +
       `<div class="sd-grid-cards">${cards}</div>`;
     el.querySelectorAll(".ev-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
