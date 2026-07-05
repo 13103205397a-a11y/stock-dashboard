@@ -3,8 +3,8 @@
  * 技术面/情绪面为规则化标签。仅供研究参考，非投资建议。
  */
 window.HOT = {
-  "date": "2026-07-04",
-  "generatedAt": "2026-07-04 09:40",
+  "date": "2026-07-05",
+  "generatedAt": "2026-07-05 09:56",
   "list": [
     {
       "rank": 1,
@@ -94,19 +94,19 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 233.9,
-      "reason": "融资融券｜注册制次新股｜风电　催化：今日，华润新能源在深交所上市",
+      "reason": "融资融券｜注册制次新股｜风电　催化：华润新能源，昨日上市",
       "news": [
         {
-          "title": "今日，华润新能源在深交所上市",
-          "date": "2026-07-02 18:50",
+          "title": "华润新能源，昨日上市",
+          "date": "2026-07-03 05:00",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c677905432.shtml"
+          "url": "https://news.sohu.com/a/1045039377_121124370"
         },
         {
-          "title": "华润新能源上市首日市值突破3100亿",
-          "date": "2026-07-02 18:47",
+          "title": "大涨触发临停！华润新能源上市，为深交所史上最大IPO",
+          "date": "2026-07-02 23:23",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c677905366.shtml"
+          "url": "http://news.10jqka.com.cn/19700121/c677913936.shtml"
         }
       ],
       "tech": "高位跳水 · 趋势走坏",
@@ -169,13 +169,13 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 152.3,
-      "reason": "AI视频｜虚拟数字人｜AI语料　催化：天娱数科股价涨5.16%",
+      "reason": "AI视频｜虚拟数字人｜AI语料　催化：关于天娱数科",
       "news": [
         {
-          "title": "天娱数科股价涨5.16%",
-          "date": "2026-07-01 10:00",
+          "title": "关于天娱数科",
+          "date": "2026-07-03 21:57",
           "source": "同花顺问财",
-          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869475992643876655&wfr=spider"
+          "url": "https://www.tgb.cn/a/2t8yLw7oBxG"
         }
       ],
       "tech": "高位跳水 · 趋势走坏",
@@ -245,19 +245,19 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 1626.2,
-      "reason": "国家大基金持股｜存储芯片｜先进封装　催化：先进封装芯连AI 长电78亿扩产加速",
+      "reason": "国家大基金持股｜存储芯片｜先进封装　催化：长电科技：全球第三 很不一般",
       "news": [
-        {
-          "title": "先进封装芯连AI 长电78亿扩产加速",
-          "date": "2026-07-03 21:16",
-          "source": "同花顺问财",
-          "url": "https://www.cfi.cn/p20260703002898.html"
-        },
         {
           "title": "长电科技：全球第三 很不一般",
           "date": "2026-07-03 07:21",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c677915739.shtml"
+        },
+        {
+          "title": "长电科技跌停",
+          "date": "2026-07-02 15:07",
+          "source": "同花顺问财",
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869585896115137688&wfr=spider"
         }
       ],
       "tech": "高位跳水 · 趋势走坏",
@@ -293,15 +293,15 @@ window.HOT = {
       "news": [
         {
           "title": "浙江三花智能控制股份有限公司",
-          "date": "2026-07-04 17:25",
+          "date": "2026-07-05 14:25",
           "source": "同花顺问财",
           "url": "https://www.zjshc.com"
         },
         {
-          "title": "三花智控股价涨5.45%",
-          "date": "2026-07-03 10:03",
+          "title": "三花智控公司研报：全球热管理零部件龙头，AIDC液冷、仿生机器人打开空间（附下载）",
+          "date": "2026-07-04 22:07",
           "source": "同花顺问财",
-          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869657350109365266&wfr=spider"
+          "url": "http://news.10jqka.com.cn/19700121/c677953826.shtml"
         }
       ],
       "tech": "放量大涨",
@@ -333,8 +333,15 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 2815.9,
-      "reason": "PCB概念｜2026一季报预增｜光伏概念",
-      "news": [],
+      "reason": "PCB概念｜2026一季报预增｜光伏概念　催化：中国巨石涨2.17%",
+      "news": [
+        {
+          "title": "中国巨石涨2.17%",
+          "date": "2026-07-03 09:42",
+          "source": "同花顺问财",
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869656057196958683&wfr=spider"
+        }
+      ],
       "tech": "宽幅震荡 · 多空激烈",
       "senti": "资金净流入 · 情绪偏暖"
     },
@@ -364,19 +371,19 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 350.3,
-      "reason": "工业母机｜人形机器人｜新型工业化　催化：筹划并购的埃斯顿，成了机器人情绪龙头？",
+      "reason": "工业母机｜人形机器人｜新型工业化　催化：埃斯顿公告，筹划收购参股机器人子公司！",
       "news": [
-        {
-          "title": "筹划并购的埃斯顿，成了机器人情绪龙头？",
-          "date": "2026-07-04 06:21",
-          "source": "同花顺问财",
-          "url": "https://www.163.com/dy/article/L0VLH8OP05199O55.html?referFrom="
-        },
         {
           "title": "埃斯顿公告，筹划收购参股机器人子公司！",
           "date": "2026-07-03 18:58",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c677940076.shtml"
+        },
+        {
+          "title": "埃斯顿涨停！正筹划全资收购埃斯顿酷卓",
+          "date": "2026-07-03 16:27",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c677934046.shtml"
         }
       ],
       "tech": "涨停 · 多方主导",
@@ -456,9 +463,9 @@ window.HOT = {
       "news": [
         {
           "title": "兆易创新与德赛西威达成战略合作",
-          "date": "2026-07-03 14:02",
+          "date": "2026-07-03 14:03",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c677927702.shtml"
+          "url": "http://news.10jqka.com.cn/19700121/c677927724.shtml"
         },
         {
           "title": "兆易创新与德赛西威达成战略合作，携手共筑汽车电子产业链新生态",
@@ -496,15 +503,8 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 950.8,
-      "reason": "绿色电力｜风电｜储能　催化：个股异动 | 大唐发电午后涨停",
-      "news": [
-        {
-          "title": "个股异动 | 大唐发电午后涨停",
-          "date": "2026-07-01 14:30",
-          "source": "同花顺问财",
-          "url": "https://www.cnstock.com/commonDetail/736973"
-        }
-      ],
+      "reason": "绿色电力｜风电｜储能",
+      "news": [],
       "tech": "横盘整理 · 方向待选",
       "senti": "资金净流入 · 情绪偏暖"
     },
@@ -534,21 +534,8 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 2186.5,
-      "reason": "光纤概念｜F5G概念｜共封装光学(CPO)　催化：亨通光电：控股股东解除质押2600万股 占其持股4.35%",
-      "news": [
-        {
-          "title": "亨通光电：控股股东解除质押2600万股 占其持股4.35%",
-          "date": "2026-07-04 09:11",
-          "source": "同花顺问财",
-          "url": "https://finance.stockstar.com/IG2026070400005973.shtml"
-        },
-        {
-          "title": "江苏亨通光电股份有限公司 关于控股股东部分股权解除质押公告",
-          "date": "2026-07-04 00:00",
-          "source": "同花顺问财",
-          "url": "http://paper.cnstock.com/html/2026-07/04/content_2239641.htm"
-        }
-      ],
+      "reason": "光纤概念｜F5G概念｜共封装光学(CPO)",
+      "news": [],
       "tech": "冲高回落 · 分歧加大",
       "senti": "资金流出 · 情绪转弱"
     },
@@ -609,19 +596,19 @@ window.HOT = {
       ],
       "board": "创业板",
       "floatCap": 1741.9,
-      "reason": "存储芯片｜国家大基金持股｜先进封装　催化：爆炸！江波龙：净利润增长62204%-74394%",
+      "reason": "存储芯片｜国家大基金持股｜先进封装　催化：存储“二道贩子”江波龙，凭什么净利暴涨740倍？",
       "news": [
         {
-          "title": "爆炸！江波龙：净利润增长62204%-74394%",
-          "date": "2026-07-04 09:10",
+          "title": "存储“二道贩子”江波龙，凭什么净利暴涨740倍？",
+          "date": "2026-07-05 09:19",
           "source": "同花顺问财",
-          "url": "https://mp.weixin.qq.com/s?__biz=MzkxMjI4ODAxMw==&chksm=c0a8e7ab9d5ebbb84b6b227064abb95cda113d22a0f9c6e645890bc0bd5d21bcf66f2753fed0&idx=1&mid=2247624739&sn=7de13bd7f5285a1a4d39f14d3d4a450b"
+          "url": "https://www.tmtpost.com/8052838.html"
         },
         {
-          "title": "江波龙上半年净利润同比预增超622倍",
-          "date": "2026-07-04 01:04",
+          "title": "事到如今，利润暴增622+倍的江波龙不装了：不止存储，还要做AI基建",
+          "date": "2026-07-04 19:04",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c677947200.shtml"
+          "url": "https://www.sohu.com/a/1045837553_116157"
         }
       ],
       "tech": "宽幅震荡 · 多空激烈",
@@ -653,19 +640,19 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 1455.8,
-      "reason": "存储芯片｜中芯国际概念｜共封装光学(CPO)　催化：正式揭牌！德明利成立实验室",
+      "reason": "存储芯片｜中芯国际概念｜共封装光学(CPO)　催化：德明利涨8.74%",
       "news": [
+        {
+          "title": "德明利涨8.74%",
+          "date": "2026-07-03 16:11",
+          "source": "同花顺问财",
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869680531622652850&wfr=spider"
+        },
         {
           "title": "正式揭牌！德明利成立实验室",
           "date": "2026-07-02 17:17",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c677902409.shtml"
-        },
-        {
-          "title": "德明利推出CKD DDR5内存条，为AI PC提供稳定高频内存解决方案",
-          "date": "2026-07-02 16:23",
-          "source": "同花顺问财",
-          "url": "https://www.elecfans.com/d/8041228.html"
         }
       ],
       "tech": "大涨但量能一般",
@@ -728,8 +715,14 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 731.6,
-      "reason": "超级电容｜共封装光学(CPO)｜AI眼镜　催化：风华（苏州）公司顺利通过IATF16949、ISO9001双体系认证",
+      "reason": "超级电容｜共封装光学(CPO)｜AI眼镜　催化：风华高科：深耕 “电子工业大米”，铸就国产算力硬支撑",
       "news": [
+        {
+          "title": "风华高科：深耕 “电子工业大米”，铸就国产算力硬支撑",
+          "date": "2026-07-05 16:32",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c677956056.shtml"
+        },
         {
           "title": "风华（苏州）公司顺利通过IATF16949、ISO9001双体系认证",
           "date": "2026-07-03 20:36",
@@ -766,8 +759,21 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 215.2,
-      "reason": "培育钻石｜第三代半导体｜旅游概念",
-      "news": [],
+      "reason": "培育钻石｜第三代半导体｜旅游概念　催化：黄河旋风大跌5.71%",
+      "news": [
+        {
+          "title": "黄河旋风大跌5.71%",
+          "date": "2026-07-03 09:40",
+          "source": "同花顺问财",
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869655904287420722&wfr=spider"
+        },
+        {
+          "title": "培育钻石概念震荡回升 黄河旋风反包涨停",
+          "date": "2026-07-02 10:40",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c677891184.shtml"
+        }
+      ],
       "tech": "高位跳水 · 趋势走坏",
       "senti": "资金流出 · 情绪转弱 · 换手过热"
     },
@@ -803,7 +809,7 @@ window.HOT = {
           "title": "TCL科技股价跌5.24%",
           "date": "2026-07-03 09:41",
           "source": "同花顺问财",
-          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869656004738525716&wfr=spider"
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869655976632905667&wfr=spider"
         }
       ],
       "tech": "冲高回落 · 分歧加大",
@@ -842,12 +848,6 @@ window.HOT = {
           "date": "2026-07-03 14:44",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c677928519.shtml"
-        },
-        {
-          "title": "彩虹股份跌5.49%",
-          "date": "2026-07-02 15:03",
-          "source": "同花顺问财",
-          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869585626426372673&wfr=spider"
         }
       ],
       "tech": "高位跳水 · 趋势走坏",
@@ -888,10 +888,10 @@ window.HOT = {
           "url": "http://news.10jqka.com.cn/19700121/c677935015.shtml"
         },
         {
-          "title": "脑机概念只是噱头？每股净资产6分钱的海南海药凭什么8天6板？",
-          "date": "2026-07-02 23:04",
+          "title": "A股92股涨停，海南海药8天6板晋级3连板，机器人、半导体材料板块批量连板",
+          "date": "2026-07-02 17:06",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c677913763.shtml"
+          "url": "http://news.10jqka.com.cn/19700121/c677901985.shtml"
         }
       ],
       "tech": "宽幅震荡 · 多空激烈",
@@ -923,8 +923,21 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 499.4,
-      "reason": "中芯国际概念｜第三代半导体｜存储芯片",
-      "news": [],
+      "reason": "中芯国际概念｜第三代半导体｜存储芯片　催化：立昂微跌停",
+      "news": [
+        {
+          "title": "立昂微跌停",
+          "date": "2026-07-02 15:21",
+          "source": "同花顺问财",
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869586784004250956&wfr=spider"
+        },
+        {
+          "title": "立昂微：公司已实现28nm逻辑芯片用硅片批量供货，8英寸重掺杂外延片订单旺盛",
+          "date": "2026-07-02 13:22",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c677894150.shtml"
+        }
+      ],
       "tech": "高位跳水 · 趋势走坏",
       "senti": "资金流出 · 情绪转弱"
     },
@@ -985,13 +998,19 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 5731.4,
-      "reason": "金属铅｜金属锌｜黄金概念　催化：万国黄金集团涨超17% 黄金金融与避险双属性重获提振 紫金赋能助力公司金矿产能持续增长",
+      "reason": "金属铅｜金属锌｜黄金概念　催化：首页-紫金矿业",
       "news": [
         {
-          "title": "万国黄金集团涨超17% 黄金金融与避险双属性重获提振 紫金赋能助力公司金矿产能持续增长",
-          "date": "2026-07-03 14:53",
+          "title": "首页-紫金矿业",
+          "date": "2026-07-05 17:48",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c677928764.shtml"
+          "url": "http://www.zjky.cn/"
+        },
+        {
+          "title": "紫金矿业股价涨5.29%",
+          "date": "2026-07-03 09:37",
+          "source": "同花顺问财",
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1869655735265290969&wfr=spider"
         }
       ],
       "tech": "大涨但量能一般",
@@ -1098,15 +1117,8 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 3849.9,
-      "reason": "PCB概念｜先进封装｜共封装光学(CPO)　催化：存储涨价！PCB扩产！光通信业绩预喜！高“光”159363持续吸金，华宝基金科技ETF交投登顶6年峰值",
-      "news": [
-        {
-          "title": "存储涨价！PCB扩产！光通信业绩预喜！高“光”159363持续吸金，华宝基金科技ETF交投登顶6年峰值",
-          "date": "2026-07-03 19:21",
-          "source": "同花顺问财",
-          "url": "https://finance.sina.com.cn/money/fund/etf/2026-07-03/doc-inifpqkw3659337.shtml"
-        }
-      ],
+      "reason": "PCB概念｜先进封装｜共封装光学(CPO)",
+      "news": [],
       "tech": "大涨但量能一般",
       "senti": "资金净流入 · 情绪偏暖"
     },
@@ -1136,19 +1148,19 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 273.3,
-      "reason": "PET铜箔｜固态电池｜PCB概念　催化：东吴证券：首予诺德股份“买入”评级，高端电子箔业务迎来突破",
+      "reason": "PET铜箔｜固态电池｜PCB概念　催化：【JH-12126】诺德股份：锂电铜箔盈利反转在即，高端电子箔业务迎来突破（36页）",
       "news": [
+        {
+          "title": "【JH-12126】诺德股份：锂电铜箔盈利反转在即，高端电子箔业务迎来突破（36页）",
+          "date": "2026-07-05 07:18",
+          "source": "同花顺问财",
+          "url": "https://mp.weixin.qq.com/s?__biz=MzA4MzU5Mjk4MQ==&chksm=89e6b1a5589c3f2ae4824d60e92d8a200978dd593dda401084828ee98901453bdee20775b8c9&idx=5&mid=2452699740&sn=e836db2504f53dcd18aba945c4444048"
+        },
         {
           "title": "东吴证券：首予诺德股份“买入”评级，高端电子箔业务迎来突破",
           "date": "2026-07-03 14:24",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c677928079.shtml"
-        },
-        {
-          "title": "【诺德股份*曾朵红】深度：锂电铜箔盈利反转在即，高端电子箔业务迎来突破",
-          "date": "2026-07-03 07:44",
-          "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c677915967.shtml"
         }
       ],
       "tech": "大涨但量能一般",

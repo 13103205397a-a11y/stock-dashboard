@@ -200,10 +200,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": -19.67,
       "turnover": 2.96,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "太平洋",
@@ -245,7 +245,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -439,12 +439,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 13.62,
+      "netInflow": null,
       "turnover": 4.26,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "山西证券",
@@ -486,7 +486,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -681,10 +681,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": -2.9,
       "turnover": 3.7,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "太平洋",
@@ -726,7 +726,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -920,10 +920,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 5.16,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "华鑫证券",
@@ -965,7 +965,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -1160,10 +1160,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 3.12,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "群益证券",
@@ -1205,7 +1205,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -1400,10 +1400,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 7.06,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "东兴证券",
@@ -1445,7 +1445,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -1640,10 +1640,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 6.84,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中邮证券",
@@ -1685,7 +1685,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -1855,6 +1855,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "600458，签超30亿元销售合同！互联网龙头股获南向资金爆买",
+        "date": "2026-07-05 13:39:00",
+        "source": "数据宝",
+        "url": "http://finance.eastmoney.com/a/202607053794248450.html",
+        "content": "建滔集团一周下跌21.95%跌幅最高，长飞光纤光缆、兆易创新分别下跌19.58%、15.28%。从股价表现来看，本周互联网巨头集体反弹，此前大涨的PCB概念股有所回调。"
+      },
+      {
         "title": "算力浪潮引爆光纤赛道！杭电股份上半年扣非净利最高预增超12倍，昔日“减值包袱”大反转成“利润奶牛”",
         "date": "2026-07-03 20:32:50",
         "source": "每日经济新闻",
@@ -1867,22 +1874,15 @@ window.STOCKS = [
         "source": "中国新闻网",
         "url": "http://finance.eastmoney.com/a/202607023792078397.html",
         "content": "在“光谷”，腾讯云已为长飞光纤、光迅科技等“光谷七星”及产业链众多企业提供数字化技术支撑；诞生于光谷的AI企业“模态跃迁”，正在借助腾讯云算力+模型基础设施，打造企业级智能体协作应用层，加速AI智能体在各行业落地。"
-      },
-      {
-        "title": "晚报丨芯片股抛售拖累全球股市，韩股跌近8%；今晚20:30，沃什时代首份非农出炉；美国电力需求或将破纪录；当Meta开始卖算力；特斯拉Optimus产线或已就绪！亚马逊消费电子处理器20年首次转向；软银计划在美国推出AI云服务",
-        "date": "2026-07-02 18:10:00",
-        "source": "哈富证券",
-        "url": "http://hk.eastmoney.com/a/202607023792038694.html",
-        "content": "另一方面，Meta引发算力过剩恐慌，存储半导体股、光通讯股、PCB概念股成“重灾区”，其中，南方两倍做多三星电子、南方两倍做多海力士均暴跌超26%，兆易创新、澜起科技、长飞光纤光缆、建滔积层板皆大幅下挫。"
       }
     ],
     "fund": {
       "netInflow": null,
       "turnover": 3.07,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "华鑫证券",
@@ -1924,7 +1924,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -2095,34 +2095,34 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "【明日主题前瞻】先进封装产能成为AI供应链中的关键瓶颈",
-        "date": "2026-06-30 19:20:11",
-        "source": "财联社",
-        "url": "http://finance.eastmoney.com/a/202606303788511342.html",
-        "content": "永鼎股份以“光棒、光纤、光缆”等网络基础通信产品为根基，业务逐步延伸至光芯片、光器件、光模块等核心产品。"
-      },
-      {
-        "title": "永鼎股份:永鼎股份关于控股股东部分股权解除质押及再质押的公告",
-        "date": "2026-06-30",
+        "title": "永鼎股份:永鼎股份2026年半年度业绩预增公告",
+        "date": "2026-07-06",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600105",
         "content": ""
       },
       {
-        "title": "永鼎股份：关于控股股东部分股权解除质押及再质押的公告",
-        "date": "2026-06-29 21:23:00",
-        "source": "证券日报",
-        "url": "http://finance.eastmoney.com/a/202606293786927132.html",
-        "content": "证券日报网讯 6月29日，永鼎股份发布公告称，控股股东永鼎集团解除质押45000000股，再质押22500000股。本次解除质押及再次质押后，永鼎集团累计质押公司股份183500000股，占其持股52.57%，占公司总股本12.55%。"
+        "title": "利好来了！多家A股公司，业绩大增",
+        "date": "2026-07-05 16:51:00",
+        "source": "中新经纬",
+        "url": "http://finance.eastmoney.com/a/202607053794275164.html",
+        "content": "永鼎股份预计2026年半年度归属于上市公司股东的净利润为5.00亿元至7.00亿元，同比增长57%至120%。业绩变动主要系光通信板块受益于数字经济推进和AI算力需求爆发，光纤市场量价齐升，板块利润大幅增长。"
+      },
+      {
+        "title": "最高预增1194％ 刚刚又一批A股公司业绩报喜",
+        "date": "2026-07-05 16:44:14",
+        "source": "大河财立方",
+        "url": "http://finance.eastmoney.com/a/202607053794273950.html",
+        "content": "永鼎股份： 　　预计2026年半年度实现归属于上市公司股东的净利润5亿元—7亿元，同比增加57%—120%。 　　公司本期净利润增长幅度较大，主要系光通信板块受益于数字经济加速推进、AI算力需求爆发式增长，带动光纤市场量价齐升，板块利润实现大幅增长。"
       }
     ],
     "fund": {
       "netInflow": null,
       "turnover": 6.59,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "民生证券",
@@ -2164,7 +2164,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -2359,10 +2359,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 5.75,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "太平洋",
@@ -2404,7 +2404,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -2601,10 +2601,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 3.82,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "开源证券",
@@ -2646,7 +2646,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -2841,10 +2841,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 4.54,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中邮证券",
@@ -2886,7 +2886,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -3057,34 +3057,34 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "周末要闻汇总：A股交易新规，明起施行；万亿逆回购来了",
+        "date": "2026-07-05 15:59:22",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202607053794265426.html",
+        "content": "鹏鼎控股：拟定增募资不超96亿元用于AI服务器和高速光模块高密度互连积层板项目 　　鹏鼎控股(002938.SZ)公告称，公司发布2026年度向特定对象发行A股股票预案，拟募集资金总额不超过96亿元，扣除发行费用后用于“庆鼎AI服务器和高速光模块高密度互连积层板项目”。"
+      },
+      {
+        "title": "周末要闻汇总：净利最高预增近744倍 存储龙头上半年业绩“炸裂”",
+        "date": "2026-07-05 14:00:09",
+        "source": "东方财富Choice数据",
+        "url": "http://finance.eastmoney.com/a/202607053794251173.html",
+        "content": "鹏鼎控股：拟定增募资不超96亿元 用于AI服务器和高速光模块HDI项目 　　鹏鼎控股公告，公司发布2026年度向特定对象发行A股股票预案，拟募集资金总额不超过96亿元，扣除发行费用后用于“庆鼎AI服务器和高速光模块高密度互连积层板项目”。"
+      },
+      {
         "title": "总投资127亿元 2000亿PCB龙头大手笔扩产",
         "date": "2026-07-04 11:29:00",
         "source": "中国证券报",
         "url": "http://finance.eastmoney.com/a/202607043794163922.html",
         "content": "7月3日晚，鹏鼎控股披露定增预案，公司拟募资不超过96亿元，用于江苏淮安庆鼎AI服务器及高速光模块高密度互连积层板项目。根据预案，本次募投项目计划总投资127.3亿元，拟使用募集资金96亿元。 　　鹏鼎控股是PCB行业龙头企业之一。"
-      },
-      {
-        "title": "【早报】证监会征求意见，事关上市公司再融资；A股存储龙头半年报净利最高预增740倍",
-        "date": "2026-07-04 07:00:00",
-        "source": "财联社",
-        "url": "http://finance.eastmoney.com/a/202607043793972364.html",
-        "content": "2、鹏鼎控股公告，拟定增募资不超96亿元，用于AI服务器和高速光模块高密度互连积层板项目。 　　3、动力源公告，筹划控制权变更事项，股票停牌。 　　4、东岳硅材公告，预计上半年净利润同比增长905%-952%，有机硅产品价格上涨。"
-      },
-      {
-        "title": "PCB龙头鹏鼎控股拟定增募资96亿元 只投向这一个项目",
-        "date": "2026-07-04 01:54:17",
-        "source": "每日经济新闻",
-        "url": "http://finance.eastmoney.com/a/202607043793944789.html",
-        "content": "与此同时，鹏鼎控股将通过募投项目实施新增约65.56万平方米高阶HDI年产能，进一步扩大AI服务器、高速光模块等高增长领域所需的高阶HDI产品业务规模。 　　此外，鹏鼎控股拟通过本次向特定对象发行股票募集资金，优化公司资本结构。"
       }
     ],
     "fund": {
       "netInflow": null,
       "turnover": 1.81,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中邮证券",
@@ -3126,7 +3126,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -3322,10 +3322,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 8.96,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "开源证券",
@@ -3367,7 +3367,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -3562,10 +3562,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 3.24,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "太平洋",
@@ -3607,7 +3607,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -3802,10 +3802,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 5.42,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "开源证券",
@@ -3847,7 +3847,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -4040,10 +4040,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 8.18,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "东莞证券",
@@ -4067,7 +4067,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -4262,10 +4262,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 9.13,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "华鑫证券",
@@ -4301,7 +4301,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -4498,10 +4498,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 1.62,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "第一上海证券",
@@ -4543,7 +4543,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -4714,6 +4714,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "600458，签超30亿元销售合同！互联网龙头股获南向资金爆买",
+        "date": "2026-07-05 13:39:00",
+        "source": "数据宝",
+        "url": "http://finance.eastmoney.com/a/202607053794248450.html",
+        "content": "建滔集团一周下跌21.95%跌幅最高，长飞光纤光缆、兆易创新分别下跌19.58%、15.28%。从股价表现来看，本周互联网巨头集体反弹，此前大涨的PCB概念股有所回调。"
+      },
+      {
         "title": "人形机器人概念全面爆发 机构：半年度业绩将成为市场主线",
         "date": "2026-07-04 02:32:51",
         "source": "上海证券报",
@@ -4726,22 +4733,15 @@ window.STOCKS = [
         "source": "中国证券报",
         "url": "http://finance.eastmoney.com/a/202607033792352986.html",
         "content": "举例来看，方正富邦核心优势混合A上半年回报率达183.67%，从一季度末的基金持仓来看，该基金聚焦存储产业链，兆易创新、普冉股份、精智达、德明利、香农芯创、江波龙、佰维存储等多只二季度涨幅居前的股票上榜其十大重仓股行列。"
-      },
-      {
-        "title": "中电港上半年业绩预喜 净利润同比增长近两倍",
-        "date": "2026-07-03 22:05:00",
-        "source": "证券日报",
-        "url": "http://finance.eastmoney.com/a/202607033793880759.html",
-        "content": "目前已与多家原厂围绕机器人、机械臂和无人车领域推出应用创新方案，如与成都阿加犀智能科技有限公司联合推出基于高通平台的低功耗AI机器人解决方案；携手ADI、兆易创新科技集团股份有限公司等企业，共同打造智慧视觉、灵巧手、运动控制、电源管理等细分领域解决方案。"
       }
     ],
     "fund": {
       "netInflow": null,
       "turnover": 9.33,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "华鑫证券",
@@ -4783,7 +4783,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -4978,10 +4978,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 6.87,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "开源证券",
@@ -5023,7 +5023,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -5218,10 +5218,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 9.96,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中邮证券",
@@ -5263,7 +5263,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -5458,10 +5458,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 9.74,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "华龙证券",
@@ -5503,7 +5503,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -5697,10 +5697,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 11.14,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中邮证券",
@@ -5742,7 +5742,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -5913,34 +5913,34 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "多股应声涨停！A股中报行情开启 12家上市公司净利最高同比预增超150%",
-        "date": "2026-07-04 19:21:25",
+        "title": "周末要闻汇总：A股交易新规，明起施行；万亿逆回购来了",
+        "date": "2026-07-05 15:59:22",
         "source": "财联社",
-        "url": "http://finance.eastmoney.com/a/202607043794200361.html",
-        "content": "具体到个股来看，存储芯片龙头江波龙以最高超743倍的业绩增速遥遥领先。江波龙周五公告，预计上半年归母净利润92亿元-110亿元，同比增长62204%-74394%。"
+        "url": "http://finance.eastmoney.com/a/202607053794265426.html",
+        "content": "公司要闻 　　江波龙：预计上半年净利润92亿元-110亿元同比增长62204%-74394% 　　江波龙(301308.SZ)公告称，预计2026年半年度归属于上市公司股东的净利润为92亿元-110亿元，同比增长62204%-74394%。"
       },
       {
-        "title": "这只热门存储概念股，业绩暴增！688729，下周解禁市值超650亿元",
-        "date": "2026-07-04 17:56:00",
-        "source": "数据宝",
-        "url": "http://finance.eastmoney.com/a/202607043794194030.html",
-        "content": "江波龙上半年业绩暴增 　　7月3日晚间，存储芯片热门股江波龙（301308）发布业绩预告，公司预计2026年上半年实现归母净利润92亿元至110亿元，同比增长62204.03%至74393.95%。"
+        "title": "周末要闻汇总：净利最高预增近744倍 存储龙头上半年业绩“炸裂”",
+        "date": "2026-07-05 14:00:09",
+        "source": "东方财富Choice数据",
+        "url": "http://finance.eastmoney.com/a/202607053794251173.html",
+        "content": "存储龙头江波龙上半年业绩“炸裂” 　　7月3日晚间，江波龙发布2026年半年度业绩预告显示，公司预计上半年实现归属净利润约为92亿—110亿元，同比暴涨62204.03%—74393.95%。"
       },
       {
-        "title": "存储龙头，半年狂赚约百亿！多家A股公司业绩大增",
-        "date": "2026-07-04 16:34:00",
-        "source": "中新经纬",
-        "url": "http://finance.eastmoney.com/a/202607043794189542.html",
-        "content": "对原厂而言，长约意味着出货确定性；对江波龙这类模组厂商而言，长约意味着在产能紧缺时能拿到货。江波龙是全球第二大、国内第一大独立存储器厂商，在产能争夺中具备规模优势。 　　支撑江波龙业绩的存储行业景气度，下半年预计仍将延续。"
+        "title": "明天，A股交易规则迎两项大改！存储龙头净利最高预增743倍，如何影响下周行情？",
+        "date": "2026-07-05 11:38:05",
+        "source": "每日经济新闻",
+        "url": "http://finance.eastmoney.com/a/202607053794241798.html",
+        "content": "周五盘后，又有几则业绩预告引发关注： 　　江波龙：预计上半年净利润92亿元-110亿元，同比增长62204%-74394%。公司表示，报告期内，受下游需求增加以及全球存储晶圆产能总体增长有限的影响，全球半导体存储产业景气，为公司创造了良好的外部环境。"
       }
     ],
     "fund": {
       "netInflow": null,
       "turnover": 7.32,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "国信证券",
@@ -5982,7 +5982,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -6177,10 +6177,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 12.0,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "国信证券",
@@ -6222,7 +6222,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -6418,10 +6418,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 3.56,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中邮证券",
@@ -6463,7 +6463,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -6658,10 +6658,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 7.84,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中邮证券",
@@ -6703,7 +6703,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -6898,10 +6898,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 9.03,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中邮证券",
@@ -6943,7 +6943,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -7138,10 +7138,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 11.02,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中邮证券",
@@ -7183,7 +7183,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -7378,10 +7378,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 7.88,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "华鑫证券",
@@ -7423,7 +7423,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -7618,10 +7618,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 0.73,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "东吴证券",
@@ -7663,7 +7663,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -7858,10 +7858,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 6.05,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "东吴证券",
@@ -7903,7 +7903,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -8101,10 +8101,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 0.66,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "金元证券",
@@ -8146,7 +8146,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -8343,10 +8343,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 3.62,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "交银国际证券",
@@ -8388,7 +8388,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -8583,10 +8583,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 1.09,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "群益证券",
@@ -8628,7 +8628,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -8823,10 +8823,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 5.38,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "东吴证券",
@@ -8868,7 +8868,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -9063,10 +9063,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 10.11,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "国信证券",
@@ -9108,7 +9108,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -9303,10 +9303,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 2.07,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "东吴证券",
@@ -9348,7 +9348,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -9543,10 +9543,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 3.28,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "东吴证券",
@@ -9588,7 +9588,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -9785,10 +9785,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 3.83,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "国金证券",
@@ -9830,7 +9830,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -10026,10 +10026,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 2.77,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "西南证券",
@@ -10071,7 +10071,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -10266,10 +10266,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 7.75,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中邮证券",
@@ -10311,7 +10311,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -10506,10 +10506,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 19.5,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "国信证券",
@@ -10551,7 +10551,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -10746,10 +10746,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 7.49,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "中航证券",
@@ -10791,7 +10791,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -10983,7 +10983,7 @@ window.STOCKS = [
         "content": ""
       }
     ],
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "research": [
       {
         "org": "华鑫证券",
@@ -11007,8 +11007,8 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 14.6,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
     "valuation": {
       "pe_ttm": 196.09,
@@ -11019,7 +11019,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   },
   {
@@ -11202,8 +11202,8 @@ window.STOCKS = [
     "fund": {
       "netInflow": null,
       "turnover": 14.54,
-      "date": "2026-07-04",
-      "asof": "2026-07-04"
+      "date": "2026-07-05",
+      "asof": "2026-07-05"
     },
     "news": [
       {
@@ -11221,14 +11221,14 @@ window.STOCKS = [
         "content": "2025年，雅克科技的含氟类特种气体收入占其营业收入的比例为5.79%。 　　截至7月1日收盘，雅克科技股价报236.09元/股，总市值为1124亿元，年内涨近220%，近一年涨近358%。"
       },
       {
-        "title": "又有48家A股公司提示风险！8天4板后，002407紧急澄清：目前无六氟化钨生产线和实质性产品",
-        "date": "2026-07-02 08:27:00",
-        "source": "华夏时报",
-        "url": "http://finance.eastmoney.com/a/202607023790905622.html",
-        "content": "2025年，雅克科技的含氟类特种气体收入占其营业收入的比例为5.79%。 　　截至7月1日收盘，雅克科技股价报236.09元/股，总市值为1124亿元，年内涨近220%，近一年涨近358%。"
+        "title": "雅克科技:关于公司股票交易异常波动的公告",
+        "date": "2026-07-02",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002409",
+        "content": ""
       }
     ],
-    "newsAsof": "2026-07-04",
+    "newsAsof": "2026-07-05",
     "valuation": {
       "pe_ttm": 94.31,
       "pe_fwd": null,
@@ -11238,7 +11238,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-07-04"
+      "asof": "2026-07-05"
     }
   }
 ];
