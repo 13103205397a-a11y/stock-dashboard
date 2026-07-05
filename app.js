@@ -786,6 +786,19 @@
     });
   });
 
+  // 主题切换（亮/暗/彭博）
+  const savedTheme = localStorage.getItem("theme") || "bloomberg";
+  document.documentElement.setAttribute("data-theme", savedTheme);
+  document.querySelectorAll(".theme-btn").forEach((b) => {
+    b.classList.toggle("active", b.dataset.theme === savedTheme);
+    b.addEventListener("click", () => {
+      const t = b.dataset.theme;
+      document.documentElement.setAttribute("data-theme", t);
+      localStorage.setItem("theme", t);
+      document.querySelectorAll(".theme-btn").forEach((c) => c.classList.toggle("active", c === b));
+    });
+  });
+
   /* ===================================================================
      新增 6 个模块渲染: Home / 持仓决策 / 机会清单 / 逻辑链 / 产业雷达 / 事件概率 / 新闻
   =================================================================== */

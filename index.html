@@ -6,8 +6,8 @@
   <title>A股盘面 · 巨头复盘 + 全市场异动</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=18" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=19" />
 </head>
 <body>
   <!-- 移动端汉堡按钮 -->
@@ -102,6 +102,12 @@
           <span class="dl-k">密度</span>
           <button class="density-btn" data-density="standard" aria-label="标准密度">标准</button>
           <button class="density-btn active" data-density="compact" aria-label="紧凑密度">紧凑</button>
+        </div>
+        <div class="theme-toggle">
+          <span class="dl-k">主题</span>
+          <button class="theme-btn" data-theme="light" aria-label="亮色">亮</button>
+          <button class="theme-btn" data-theme="dark" aria-label="暗色">暗</button>
+          <button class="theme-btn active" data-theme="bloomberg" aria-label="彭博终端">彭博</button>
         </div>
         <div class="dateline">
           <span class="dl-k">行情截至</span><span class="updated" id="updated">—</span>
