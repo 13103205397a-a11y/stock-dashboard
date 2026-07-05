@@ -881,9 +881,9 @@
           if (sentParts.length >= 2) {
             items = sentParts;
           } else {
-            // 斜杠分隔（sectors/downstream 等），排除日期 7/3 这种
-            const slashParts = t.split("/").map((x) => x.trim()).filter((x) => x && x.length >= 2 && !/^\d+$/.test(x));
-            if (slashParts.length >= 3) {
+            // 斜杠分隔（sectors/downstream 等），仅当每部分都是短词(≤10字)且排除日期 7/3 这种
+            const slashParts = t.split("/").map((x) => x.trim()).filter((x) => x && !/^\d+$/.test(x));
+            if (slashParts.length >= 3 && slashParts.every((x) => x.length <= 10)) {
               items = slashParts;
             } else {
               // 顿号分隔（products 等），仅当整段无其他分隔符时
@@ -901,14 +901,19 @@
     const lis = items.map((it, i) => `<li><span class="sum-idx">${i + 1}</span><span class="sum-txt">${esc(it)}</span></li>`).join("");
     return `<ol class="sd-field-list">${lis}</ol>`;
   }
-  // summaryHtml 保留为 fieldHtml 别名（summary 带背景色容器，复用列化逻辑）
+  // summaryHtml 概述文字保持段落，不列化（避免斜杠/句号被误拆）
   const summaryHtml = (s) => {
     if (!s) return "";
-    const inner = fieldHtml(s);
-    if (!inner) return "";
-    // 单段落用 div.sd-summary，列表用 div.sd-summary 包住 ol
-    if (inner.startsWith("<p")) return `<div class="sd-summary">${inner}</div>`;
-    return `<div class="sd-summary">${inner}</div>`;
+    if (Array.isArray(s)) {
+      const items = s.map((x) => String(x).trim()).filter(Boolean);
+      if (!items.length) return "";
+      if (items.length === 1) return `<div class="sd-summary"><p class="sd-v">${esc(items[0])}</p></div>`;
+      const lis = items.map((it, i) => `<li><span class="sum-idx">${i + 1}</span><span class="sum-txt">${esc(it)}</span></li>`).join("");
+      return `<div class="sd-summary"><ol class="sd-field-list">${lis}</ol></div>`;
+    }
+    const t = String(s).trim();
+    if (!t) return "";
+    return `<div class="sd-summary"><p class="sd-v">${esc(t)}</p></div>`;
   };
   // 亿/万 格式化
   const fmtYi = (n) => n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(2) + "亿";
