@@ -799,6 +799,79 @@
     });
   });
 
+  // 状态栏 + 命令栏（彭博终端风格）
+  const sbDateTime = $("#sbDateTime");
+  const sbMarket = $("#sbMarket");
+  const sbData = $("#sbData");
+  const bbClock = $("#bbClock");
+  const sbCmd = $("#sbCmd");
+  const isTrading = (d) => {
+    const day = d.getDay();
+    if (day === 0 || day === 6) return false;
+    const mins = d.getHours() * 60 + d.getMinutes();
+    return (mins >= 570 && mins <= 690) || (mins >= 780 && mins <= 900);
+  };
+  const updateClock = () => {
+    const d = new Date();
+    const dateStr = d.toLocaleDateString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" });
+    const timeStr = d.toLocaleTimeString("zh-CN", { hour12: false });
+    const wd = "日一二三四五六"[d.getDay()];
+    if (sbDateTime) sbDateTime.textContent = `${dateStr} 周${wd} ${timeStr}`;
+    if (bbClock) bbClock.textContent = "实时 " + timeStr;
+    if (sbMarket) {
+      const open = isTrading(d);
+      sbMarket.textContent = `● ${open ? "交易中" : "休市"}`;
+      sbMarket.classList.toggle("open", open);
+    }
+  };
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // 状态栏数据（北向/涨跌/涨停，从现有数据读取）
+  const updateSbData = () => {
+    if (!sbData) return;
+    const M = window.META || {};
+    const items = [];
+    // 北向资金
+    if (M.northbound) {
+      const nb = M.northbound;
+      const net = nb.net_total ?? nb.net;
+      if (net != null) {
+        const cls = net >= 0 ? "up" : "down";
+        const sign = net >= 0 ? "+" : "";
+        items.push(`<span class="sb-item"><span class="sb-lbl">北向</span><span class="sb-val ${cls}">${sign}${(net).toFixed(1)}亿</span></span>`);
+      }
+    }
+    // 涨跌家数
+    if (M.breadth) {
+      const b = M.breadth;
+      if (b.up != null) items.push(`<span class="sb-item"><span class="sb-lbl">▲</span><span class="sb-val up">${b.up}</span></span>`);
+      if (b.down != null) items.push(`<span class="sb-item"><span class="sb-lbl">▼</span><span class="sb-val down">${b.down}</span></span>`);
+    }
+    // 涨停/炸板
+    if (M.limitUp) {
+      const lu = M.limitUp;
+      if (lu.zt_count != null) items.push(`<span class="sb-item"><span class="sb-lbl">涨停</span><span class="sb-val up">${lu.zt_count}</span></span>`);
+      if (lu.zb_count != null) items.push(`<span class="sb-item"><span class="sb-lbl">炸板</span><span class="sb-val" style="color:var(--warn)">${lu.zb_count}</span></span>`);
+      if (lu.dt_count != null) items.push(`<span class="sb-item"><span class="sb-lbl">跌停</span><span class="sb-val down">${lu.dt_count}</span></span>`);
+    }
+    sbData.innerHTML = items.join("");
+  };
+  setTimeout(updateSbData, 300); // 等数据加载
+
+  // 命令行输入：输入股票代码回车打开抽屉
+  if (sbCmd) {
+    sbCmd.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const code = sbCmd.value.trim().replace(/[<>]/g, "").replace(/GO$/i, "").trim();
+        if (/^\d{6}$/.test(code) && typeof openMarketDrawer === "function") {
+          openMarketDrawer(code);
+          sbCmd.value = "";
+        }
+      }
+    });
+  }
+
   /* ===================================================================
      新增 6 个模块渲染: Home / 持仓决策 / 机会清单 / 逻辑链 / 产业雷达 / 事件概率 / 新闻
   =================================================================== */

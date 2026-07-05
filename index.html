@@ -6,8 +6,8 @@
   <title>A股盘面 · 巨头复盘 + 全市场异动</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=19" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20" />
 </head>
 <body>
   <!-- 移动端汉堡按钮 -->
@@ -120,6 +120,24 @@
 
     <!-- ===== 右侧展示区 ===== -->
     <main class="content-area">
+      <!-- 顶部状态栏（彭博终端风格） -->
+      <div class="status-bar" id="statusBar">
+        <div class="sb-left">
+          <span class="sb-brand">ASTOCK</span>
+          <span class="sb-sep">|</span>
+          <span class="sb-dim">终端</span>
+        </div>
+        <div class="sb-mid">
+          <span class="sb-dim" id="sbDateTime">—</span>
+          <span class="sb-market" id="sbMarket">● —</span>
+        </div>
+        <div class="sb-data" id="sbData"></div>
+        <div class="sb-right">
+          <span class="sb-cmd-prompt">&gt;</span>
+          <input class="sb-cmd" id="sbCmd" placeholder="输入股票代码 GO" spellcheck="false" />
+        </div>
+      </div>
+
       <div class="content-in">
 
         <!-- Home 首页总览 -->
@@ -226,6 +244,15 @@
             <span class="disclaimer">本看板数据自动整理/测算，仅供研究参考，<b>不构成任何投资建议</b>。投资有风险，决策需独立判断。</span>
           </div>
         </footer>
+      </div>
+      <!-- 底部命令栏（彭博终端风格） -->
+      <div class="bottom-bar">
+        <span class="bb-brand">DATA</span>
+        <span class="bb-src">东财·同花顺·通达信·巨潮</span>
+        <span class="bb-sep">|</span>
+        <span class="bb-dim" id="bbClock">—</span>
+        <div class="bb-flex"></div>
+        <span class="bb-hint">[ENTER] 查个股 · [ESC] 关闭 · 仅供研究，不构成投资建议</span>
       </div>
     </main>
   </div>
