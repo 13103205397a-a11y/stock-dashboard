@@ -511,6 +511,61 @@ body.density-standard { --card-min: 320px; }
 :root[data-theme="bloomberg"] .home-foot,
 :root[data-theme="bloomberg"] footer { display: none; }
 
+/* ============ 彭博主题手机端适配 ============ */
+@media (max-width: 980px) {
+  :root[data-theme="bloomberg"] .app-shell { height: auto; min-height: 100vh; overflow: auto; display: block; }
+  :root[data-theme="bloomberg"] .sidebar {
+    position: fixed; top: 0; left: 0; height: 100vh; width: 260px;
+    transform: translateX(-100%); transition: transform .25s cubic-bezier(.2,.6,.3,1);
+    z-index: 50; box-shadow: 4px 0 20px rgba(0,0,0,.5);
+  }
+  :root[data-theme="bloomberg"] body.sidebar-open .sidebar { transform: translateX(0); }
+  :root[data-theme="bloomberg"] .content-area {
+    margin-left: 0; height: auto; min-height: 100vh; display: block; overflow: visible;
+  }
+  :root[data-theme="bloomberg"] .content-in {
+    flex: none; overflow: visible; padding: var(--s-3) var(--s-3) var(--s-5);
+  }
+  /* 汉堡按钮：彭博主题手机端固定在状态栏左侧 */
+  :root[data-theme="bloomberg"] .menu-toggle {
+    position: fixed; top: 4px; left: 4px; z-index: 60;
+    width: 28px; height: 20px; border: none; background: transparent;
+    border-radius: 0; color: var(--accent);
+  }
+  :root[data-theme="bloomberg"] .menu-toggle svg { width: 16px; height: 16px; }
+  :root[data-theme="bloomberg"] .sb-brand { margin-left: 32px; }
+  /* 状态栏：手机端简化，隐藏部分数据 */
+  :root[data-theme="bloomberg"] .status-bar {
+    height: auto; min-height: 36px; flex-wrap: wrap; padding: 4px 8px; gap: 6px;
+    font-size: 10px; align-items: center;
+  }
+  :root[data-theme="bloomberg"] .sb-data { display: none; }
+  :root[data-theme="bloomberg"] .sb-right { margin-left: 0; flex: 1; }
+  :root[data-theme="bloomberg"] .sb-cmd { flex: 1; width: auto; }
+  /* 命令栏：手机端隐藏提示文字，只留数据源 */
+  :root[data-theme="bloomberg"] .bottom-bar { font-size: 9px; padding: 0 8px; }
+  :root[data-theme="bloomberg"] .bb-hint { display: none; }
+  :root[data-theme="bloomberg"] .bb-src { display: none; }
+}
+
+@media (max-width: 720px) {
+  :root[data-theme="bloomberg"] .status-bar { font-size: 9px; gap: 4px; }
+  :root[data-theme="bloomberg"] .sb-brand { font-size: 11px; }
+  :root[data-theme="bloomberg"] .sb-mid { gap: 4px; }
+  :root[data-theme="bloomberg"] .sb-cmd { font-size: 10px; }
+  :root[data-theme="bloomberg"] .content-in { padding: var(--s-2) var(--s-2) var(--s-4); }
+  /* 卡片网格手机端单列 */
+  :root[data-theme="bloomberg"] .sd-grid-cards,
+  :root[data-theme="bloomberg"] .we-grid,
+  :root[data-theme="bloomberg"] .lc-chain { grid-template-columns: 1fr !important; }
+  /* 面板标题手机端缩小 */
+  :root[data-theme="bloomberg"] .vsec-title { font-size: 10px; padding: 4px 8px; }
+  /* 表格手机端横向滚动 */
+  :root[data-theme="bloomberg"] table { font-size: 11px; }
+  :root[data-theme="bloomberg"] table th,
+  :root[data-theme="bloomberg"] table td { padding: 3px 4px; }
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ============ 苹果原生触感(全局) ============ */
