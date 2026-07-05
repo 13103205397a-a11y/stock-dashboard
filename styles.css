@@ -350,6 +350,167 @@ body.density-standard { --card-min: 320px; }
 :not([data-theme="bloomberg"]) .status-bar,
 :not([data-theme="bloomberg"]) .bottom-bar { display: none; }
 
+/* 彭博主题：表格行 hover 琥珀色 */
+:root[data-theme="bloomberg"] tr:hover,
+:root[data-theme="bloomberg"] .row-hover:hover {
+  background: rgba(255,149,0,.06);
+  cursor: pointer;
+}
+:root[data-theme="bloomberg"] table th {
+  background: #111;
+  color: var(--accent);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  font-size: 10px;
+  border-bottom: 1px solid var(--border-amber);
+  padding: 4px 8px;
+}
+:root[data-theme="bloomberg"] table td {
+  border-bottom: 1px solid rgba(31,31,31,.5);
+  padding: 4px 8px;
+  font-size: 12px;
+}
+:root[data-theme="bloomberg"] table tr:last-child td { border-bottom: none; }
+
+/* 彭博主题：数字等宽对齐 */
+:root[data-theme="bloomberg"] .tabular,
+:root[data-theme="bloomberg"] .chg,
+:root[data-theme="bloomberg"] .pct,
+:root[data-theme="bloomberg"] .num,
+:root[data-theme="bloomberg"] td[class*="right"],
+:root[data-theme="bloomberg"] .is-code {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* 彭博主题：涨跌闪烁动画 */
+:root[data-theme="bloomberg"] .flash-up { animation: flashUp .5s ease-out; }
+:root[data-theme="bloomberg"] .flash-down { animation: flashDown .5s ease-out; }
+@keyframes flashUp { 0% { background: rgba(255,59,48,.25); } 100% { background: transparent; } }
+@keyframes flashDown { 0% { background: rgba(52,199,89,.25); } 100% { background: transparent; } }
+
+/* 彭博主题：命令行光标闪烁 */
+:root[data-theme="bloomberg"] .cmd-cursor::after,
+:root[data-theme="bloomberg"] .sb-cmd-prompt::after {
+  content: "▋";
+  color: var(--accent);
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+:root[data-theme="bloomberg"] .sb-cmd:focus + .cmd-cursor,
+:root[data-theme="bloomberg"] .sb-cmd:focus::after { display: none; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* 彭博主题：面板标题（Panel 风格） */
+:root[data-theme="bloomberg"] .vsec-title,
+:root[data-theme="bloomberg"] .sec-title {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 5px 10px; margin-bottom: 0;
+  background: #111; border: 1px solid var(--border-amber);
+  border-bottom: 1px solid var(--border-amber);
+  font-family: "Space Mono", var(--mono);
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--accent);
+}
+:root[data-theme="bloomberg"] .vsec-title::before {
+  content: "▸ ";
+}
+:root[data-theme="bloomberg"] .vsec-sub {
+  color: var(--muted); font-size: 10px; font-weight: 400;
+  text-transform: none; letter-spacing: 0;
+}
+
+/* 彭博主题：卡片改为面板风格 */
+:root[data-theme="bloomberg"] .card,
+:root[data-theme="bloomberg"] .market-card,
+:root[data-theme="bloomberg"] .blk,
+:root[data-theme="bloomberg"] .lc-chain,
+:root[data-theme="bloomberg"] .hold-card,
+:root[data-theme="bloomberg"] .we-card,
+:root[data-theme="bloomberg"] .ind-card {
+  border: 1px solid #1F1F1F;
+  border-radius: 0;
+  background: #0A0A0A;
+}
+:root[data-theme="bloomberg"] .card:hover,
+:root[data-theme="bloomberg"] .blk:hover {
+  border-color: var(--border-amber);
+}
+
+/* 彭博主题：侧栏极窄化（字母导航风格） */
+:root[data-theme="bloomberg"] .sidebar {
+  width: 232px;
+  border-right: 1px solid rgba(255,149,0,.40);
+}
+:root[data-theme="bloomberg"] .side-logo {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255,149,0,.40);
+}
+:root[data-theme="bloomberg"] .logo-title {
+  font-family: "Space Mono", var(--mono);
+  font-weight: 700; font-size: 14px;
+  color: var(--accent); letter-spacing: 1.5px;
+}
+:root[data-theme="bloomberg"] .logo-sub {
+  color: var(--dim); font-size: 8px; letter-spacing: 1.5px;
+}
+:root[data-theme="bloomberg"] .nav-group-label {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--dim); text-transform: uppercase; letter-spacing: 1.5px;
+  padding: 8px 10px 4px;
+}
+:root[data-theme="bloomberg"] .nav-item {
+  font-family: var(--mono); font-size: 12px;
+  padding: 6px 10px; border-left: 2px solid transparent;
+  letter-spacing: .3px;
+}
+:root[data-theme="bloomberg"] .nav-item:hover {
+  background: rgba(255,149,0,.05);
+  color: var(--accent);
+}
+:root[data-theme="bloomberg"] .nav-item.active {
+  background: rgba(255,149,0,.12);
+  color: var(--accent);
+  border-left: 2px solid var(--accent);
+}
+:root[data-theme="bloomberg"] .nav-ico { width: 14px; height: 14px; opacity: .7; }
+:root[data-theme="bloomberg"] .nav-item.active .nav-ico { opacity: 1; color: var(--accent); }
+
+/* 彭博主题：侧栏底部 */
+:root[data-theme="bloomberg"] .side-foot {
+  border-top: 1px solid rgba(255,149,0,.40);
+  padding: 8px 10px;
+}
+:root[data-theme="bloomberg"] .dateline { font-family: var(--mono); font-size: 10px; }
+:root[data-theme="bloomberg"] .dl-k { color: var(--dim); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+:root[data-theme="bloomberg"] .updated { color: var(--accent); font-weight: 700; }
+
+/* 彭博主题：涨跌三角符号（全局） */
+:root[data-theme="bloomberg"] .chg.up::before,
+:root[data-theme="bloomberg"] .pct.up::before { content: "▲ "; font-size: .85em; }
+:root[data-theme="bloomberg"] .chg.down::before,
+:root[data-theme="bloomberg"] .pct.down::before { content: "▼ "; font-size: .85em; }
+
+/* 彭博主题：首页指标卡片 */
+:root[data-theme="bloomberg"] .idx-card,
+:root[data-theme="bloomberg"] .vm-item {
+  border: 1px solid #1F1F1F; background: #0A0A0A; border-radius: 0;
+}
+:root[data-theme="bloomberg"] .vm-l { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .5px; }
+:root[data-theme="bloomberg"] .vm-v { color: #FFF; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* 彭博主题：空态 */
+:root[data-theme="bloomberg"] .empty {
+  color: var(--dim); font-family: var(--mono); font-size: 12px;
+  padding: 40px 20px; text-align: center; letter-spacing: .5px;
+}
+
+/* 彭博主题：页脚隐藏（命令栏替代） */
+:root[data-theme="bloomberg"] .home-foot,
+:root[data-theme="bloomberg"] footer { display: none; }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ============ 苹果原生触感(全局) ============ */
