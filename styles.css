@@ -260,13 +260,6 @@ code,
 .sb-data .sb-val { font-weight: 700; }
 .sb-data .sb-val.up { color: var(--up); }
 .sb-data .sb-val.down { color: var(--down); }
-.sb-right { margin-left: auto; display: flex; align-items: center; gap: 4px; }
-.sb-cmd-prompt { color: var(--accent); font-weight: 700; }
-.sb-cmd {
-  width: 200px; background: transparent; border: none; outline: none;
-  color: var(--accent); font-family: var(--mono); font-size: 11px;
-}
-.sb-cmd::placeholder { color: var(--dim); }
 
 /* 彭博主题：命令栏（底部 20px） */
 .bottom-bar {
@@ -320,16 +313,6 @@ td[class*="right"],
 @keyframes flashUp { 0% { background: rgba(255,59,48,.25); } 100% { background: transparent; } }
 @keyframes flashDown { 0% { background: rgba(52,199,89,.25); } 100% { background: transparent; } }
 
-/* 彭博主题：命令行光标闪烁 */
-.cmd-cursor::after,
-.sb-cmd-prompt::after {
-  content: "▋";
-  color: var(--accent);
-  animation: blink 1s step-end infinite;
-  margin-left: 2px;
-}
-.sb-cmd:focus + .cmd-cursor,
-.sb-cmd:focus::after { display: none; }
 @keyframes blink { 50% { opacity: 0; } }
 
 /* 彭博主题：面板标题（Panel 风格） */
@@ -470,8 +453,6 @@ footer { display: none; }
     font-size: 10px; align-items: center;
   }
   .sb-data { display: none; }
-  .sb-right { margin-left: 0; flex: 1; }
-  .sb-cmd { flex: 1; width: auto; }
   /* 命令栏：手机端隐藏提示文字，只留数据源 */
   .bottom-bar { font-size: 9px; padding: 0 8px; }
   .bb-hint { display: none; }
@@ -482,7 +463,6 @@ footer { display: none; }
   .status-bar { font-size: 9px; gap: 4px; }
   .sb-brand { font-size: 11px; }
   .sb-mid { gap: 4px; }
-  .sb-cmd { font-size: 10px; }
   .content-in { padding: var(--s-2) var(--s-2) var(--s-4); }
   /* 卡片网格手机端单列 */
   .sd-grid-cards,

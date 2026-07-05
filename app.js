@@ -572,7 +572,7 @@
         <span class="sent-val">最高 ${s.max_height ?? "—"}连板</span>
       </div>
       <div class="sent-group lad">${ladHtml ? `<span class="sent-label">连板梯队</span>${ladHtml}` : ""}</div>
-      ${nb ? `<div class="sent-group"><span class="sent-label">北向资金</span><span class="sent-val ${sgn(nb.total_yi)}">净${nb.total_yi > 0 ? "流入" : "流出"} ${Math.abs(nb.total_yi).toFixed(2)}亿</span><span class="sent-mini">沪${nb.hgt_yi.toFixed(2)} 深${nb.sgt_yi.toFixed(2)}</span></div>` : ""}
+      ${nb && nb.total_yi != null ? `<div class="sent-group"><span class="sent-label">北向资金</span><span class="sent-val ${sgn(nb.total_yi)}">净${nb.total_yi > 0 ? "流入" : "流出"} ${Math.abs(nb.total_yi).toFixed(2)}亿</span><span class="sent-mini">沪${(nb.hgt_yi ?? 0).toFixed(2)} 深${(nb.sgt_yi ?? 0).toFixed(2)}</span></div>` : ""}
       <div class="sent-date">数据时点 ${esc(MARKET.date || "")}</div>
     `;
   }
@@ -674,7 +674,7 @@
         <span class="hc-rank">${h.rank}</span>
         <div class="hc-name-wrap">
           <span class="hc-name">${esc(h.name)}</span>
-          <span class="hc-code">${esc(h.code)}${h.board ? " · " + esc(h.board) : ""}${(h.industry || []).length ? " · " + esc(h.industry.join("/")) : ""}</span>
+          <span class="hc-code">${esc(h.code)}${h.board ? " · " + esc(h.board) : ""}${Array.isArray(h.industry) && h.industry.length ? " · " + esc(h.industry.join("/")) : (typeof h.industry === "string" && h.industry ? " · " + esc(h.industry) : "")}</span>
         </div>
         <div class="hc-px">
           <span class="hc-price">¥${h.price ?? "—"}</span>
@@ -791,7 +791,7 @@
   const sbMarket = $("#sbMarket");
   const sbData = $("#sbData");
   const bbClock = $("#bbClock");
-  const sbCmd = $("#sbCmd");
+
   const isTrading = (d) => {
     const day = d.getDay();
     if (day === 0 || day === 6) return false;
@@ -846,24 +846,13 @@
   };
   setTimeout(updateSbData, 300); // 等数据加载
 
-  // 命令行输入：输入股票代码回车打开抽屉
-  if (sbCmd) {
-    sbCmd.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const code = sbCmd.value.trim().replace(/[<>]/g, "").replace(/GO$/i, "").trim();
-        if (/^\d{6}$/.test(code) && typeof openMarketDrawer === "function") {
-          openMarketDrawer(code);
-          sbCmd.value = "";
-        }
-      }
-    });
-  }
-
   /* ===================================================================
      新增 6 个模块渲染: Home / 持仓决策 / 机会清单 / 逻辑链 / 产业雷达 / 事件概率 / 新闻
   =================================================================== */
   // 通用区块标题
   const secTitle = (t, sub) => `<h2 class="vsec-title">${esc(t)}${sub ? `<span class="vsec-sub">${esc(sub)}</span>` : ""}</h2>`;
+  // 安全截断：只对字符串截断，数组/其他类型返回原值交由 fieldHtml 处理
+  const trunc = (v, n = 60) => (typeof v === "string" && v.length > n ? v.slice(0, n) + "…" : v);
   // 通用空态
   const emptyState = (msg) => `<div class="empty">${esc(msg)}</div>`;
   // 通用长文本列化：支持数组/字符串，字符串智能按编号/分号/句号拆分
@@ -970,31 +959,31 @@
       bestOpp ? {
         tag: "机会清单", tagCls: "ok", go: "opportunities",
         title: bestOpp.name,
-        essence: bestOpp.logic ? (bestOpp.logic.length > 60 ? bestOpp.logic.slice(0, 60) + "…" : bestOpp.logic) : "—",
+        essence: bestOpp.logic ? trunc(bestOpp.logic) : "—",
         badge: bestOpp.stage || "", badgeCls: "warn"
       } : null,
       bestInd ? {
         tag: "产业雷达", tagCls: "up", go: "industry",
         title: bestInd.name,
-        essence: bestInd.price_signal ? (bestInd.price_signal.length > 60 ? bestInd.price_signal.slice(0, 60) + "…" : bestInd.price_signal) : "—",
+        essence: bestInd.price_signal ? trunc(bestInd.price_signal) : "—",
         badge: "置信度 " + (bestInd.confidence || "—"), badgeCls: "ok"
       } : null,
       bestMat ? {
         tag: "材料涨价", tagCls: "warn", go: "materials",
         title: bestMat.name,
-        essence: bestMat.price ? (bestMat.price.length > 60 ? bestMat.price.slice(0, 60) + "…" : bestMat.price) : "—",
+        essence: bestMat.price ? trunc(bestMat.price) : "—",
         badge: bestMat.intensity || "", badgeCls: "up"
       } : null,
       bestEvt ? {
         tag: "事件概率", tagCls: "up", go: "events",
         title: bestEvt.title,
-        essence: bestEvt.importance_reason ? (bestEvt.importance_reason.length > 60 ? bestEvt.importance_reason.slice(0, 60) + "…" : bestEvt.importance_reason) : "—",
+        essence: bestEvt.importance_reason ? trunc(bestEvt.importance_reason) : "—",
         badge: bestEvt.importance || "", badgeCls: "ok"
       } : null,
       bestLogic ? {
         tag: "逻辑链", tagCls: "ok", go: "logic",
         title: bestLogic.name,
-        essence: bestLogic.bottleneck ? (bestLogic.bottleneck.length > 60 ? bestLogic.bottleneck.slice(0, 60) + "…" : bestLogic.bottleneck) : "—",
+        essence: bestLogic.bottleneck ? trunc(bestLogic.bottleneck) : "—",
         badge: "卡点", badgeCls: "warn"
       } : null,
     ].filter(Boolean);
@@ -1022,7 +1011,7 @@
           <div class="sent-block down"><div class="sb-n">${s.dt_count ?? "—"}</div><div class="sb-l">跌停</div></div>
           <div class="sent-block"><div class="sb-n">${s.break_rate ?? "—"}<span class="sb-u">%</span></div><div class="sb-l">炸板率</div></div>
           <div class="sent-block"><div class="sb-n">${s.max_height ?? "—"}<span class="sb-u">板</span></div><div class="sb-l">最高连板</div></div>
-          ${nb ? `<div class="sent-block ${sgn(nb.total_yi)}"><div class="sb-n">${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}<span class="sb-u">亿</span></div><div class="sb-l">北向净额</div></div>` : ""}
+          ${nb && nb.total_yi != null ? `<div class="sent-block ${sgn(nb.total_yi)}"><div class="sb-n">${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}<span class="sb-u">亿</span></div><div class="sb-l">北向净额</div></div>` : ""}
         </div>
       </section>
       ${secTitle("今日最强", "5个分析模块各取第1 · 点击查看详情")}
@@ -1291,70 +1280,76 @@
   // 强信号关键词（好：成立强）
   const STRONG_POS = ["涨停", "成交最大", "全市场最大", "涨价落地", "正式落地", "紧缺加剧", "供不应求",
     "龙头确认", "产能停产", "停产", "2连板", "3连板", "4天3板", "暴涨", "爆发", "大幅上涨", "确认涨价",
-    "涨幅超", "涨幅已超", "创新高", "历史新高", "订单爆满", "满产满销", "量产交付", "量产元年"];
+    "涨幅超", "创新高", "历史新高", "订单爆满", "满产满销", "量产交付", "量产元年"];
   // 弱信号关键词（中：成立偏弱/预期）
   const WEAK_POS = ["偏紧", "预期", "有望", "预计", "反弹", "回暖", "复苏", "趋势", "拉动", "受益",
-    "高景气", "渗透率提升", "国产替代", "需求爆发", " climbing", "爬坡", "扩张"];
+    "高景气", "渗透率提升", "国产替代", "需求爆发", "爬坡", "扩张"];
   // 负面/风险关键词（坏：不成立或风险）
-  const NEGATIVE = ["自承不可持续", "不可持续", "透支", "下跌", "跌", "风险提示", "疲软", "调整",
-    "回落", "下修", "不及预期", "否认", "否认涨价", "占比小", "概念关联", "纯正标的稀缺",
-    "回调风险", "获利盘", "压力", "质疑", "预警", "亏损", "下滑", "减产", "退出"];
+  const NEGATIVE = ["自承不可持续", "不可持续", "透支", "下跌", "风险提示", "疲软", "调整",
+    "回落", "下修", "不及预期", "否认", "占比小", "概念关联", "纯正标的稀缺",
+    "回调风险", "获利盘", "压力", "质疑", "预警", "亏损", "下滑", "减产"];
+
+  // 提取关键词所在短句（按标点切分，取关键词所在那一句）
+  const extractSentence = (text, kw) => {
+    if (!text || !kw) return null;
+    // 按中文标点切分成短句
+    const sentences = text.split(/[，。；,;\n。]/).map(s => s.trim()).filter(s => s.length > 3);
+    for (const s of sentences) {
+      if (s.includes(kw) && s.length >= 4 && s.length <= 60) {
+        return s;
+      }
+    }
+    // 如果整句太长，截取关键词前后 12 字
+    const idx = text.indexOf(kw);
+    if (idx >= 0) {
+      const start = Math.max(0, idx - 8);
+      const end = Math.min(text.length, idx + kw.length + 12);
+      return text.slice(start, end).trim();
+    }
+    return null;
+  };
 
   const extractConditions = (chain) => {
     const logic = chain.logic || "";
     const bn = chain.bottleneck || "";
     const segs = chain.segments || [];
-    // 从 segments 的 supply 字段也提取
     const supplyTxt = segs.map((s) => s.supply || "").join(" ");
     const allText = logic + " " + bn + " " + supplyTxt;
 
     const conditions = [];
-    // 强成立条件
+    const seen = new Set();
+    const add = (text, type, score) => {
+      const t = (text || "").trim();
+      if (t.length < 4 || t.length > 60) return;
+      // 去重：相同或包含关系
+      const key = t.slice(0, 20);
+      if (seen.has(key)) return;
+      seen.add(key);
+      conditions.push({ text: t, type, score });
+    };
+
     STRONG_POS.forEach((kw) => {
-      const re = new RegExp("[^，。；,;.!。]{0,30}" + kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[^，。；,;.!。]{0,40}", "g");
-      const matches = allText.match(re);
-      if (matches) matches.slice(0, 2).forEach((m) => {
-        const cond = m.trim();
-        if (cond.length > 6 && !conditions.some((c) => c.text === cond)) {
-          conditions.push({ text: cond, type: "strong", score: 3 });
-        }
-      });
+      const s = extractSentence(allText, kw);
+      if (s) add(s, "strong", 3);
     });
-    // 弱成立条件
     WEAK_POS.forEach((kw) => {
-      const re = new RegExp("[^，。；,;.!。]{0,25}" + kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[^，。；,;.!。]{0,35}", "g");
-      const matches = allText.match(re);
-      if (matches) matches.slice(0, 1).forEach((m) => {
-        const cond = m.trim();
-        if (cond.length > 6 && !conditions.some((c) => c.text === cond)) {
-          conditions.push({ text: cond, type: "medium", score: 1 });
-        }
-      });
+      const s = extractSentence(allText, kw);
+      if (s) add(s, "medium", 1);
     });
-    // 风险/不成立条件
     NEGATIVE.forEach((kw) => {
-      const re = new RegExp("[^，。；,;.!。]{0,30}" + kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[^，。；,;.!。]{0,40}", "g");
-      const matches = allText.match(re);
-      if (matches) matches.slice(0, 2).forEach((m) => {
-        const cond = m.trim();
-        if (cond.length > 6 && !conditions.some((c) => c.text === cond)) {
-          conditions.push({ text: cond, type: "risk", score: -2 });
-        }
-      });
+      const s = extractSentence(allText, kw);
+      if (s) add(s, "risk", -2);
     });
     return conditions;
   };
 
   const scoreChain = (chain) => {
     const conds = extractConditions(chain);
-    const rawScore = conds.reduce((s, c) => s + c.score, 0);
-    // 归一化到 0-100：强成立多=高分
     const strongCnt = conds.filter((c) => c.type === "strong").length;
     const riskCnt = conds.filter((c) => c.type === "risk").length;
     const mediumCnt = conds.filter((c) => c.type === "medium").length;
-    // 基础分 = 强成立*15 + 中*5 - 风险*10
     let score = strongCnt * 15 + mediumCnt * 5 - riskCnt * 10;
-    score = Math.max(0, Math.min(100, score + 30)); // 基础 30 分
+    score = Math.max(0, Math.min(100, score + 30));
     return { conditions: conds, score, strongCnt, mediumCnt, riskCnt };
   };
 
@@ -1374,7 +1369,6 @@
       return;
     }
 
-    // 每条链评分 + 排序（成立强度从高到低）
     const scored = LOGIC.chains.map((c) => {
       const sc = scoreChain(c);
       return { chain: c, ...sc, strength: strengthLabel(sc.score) };
@@ -1393,11 +1387,9 @@
         </div>`;
       }).join("");
 
-      // 底层逻辑成立条件排序展示
-      const conds = item.conditions.sort((a, b) => b.score - a.score);
-      const strongList = conds.filter((x) => x.type === "strong");
-      const mediumList = conds.filter((x) => x.type === "medium");
-      const riskList = conds.filter((x) => x.type === "risk");
+      const strongList = item.conditions.filter((x) => x.type === "strong");
+      const mediumList = item.conditions.filter((x) => x.type === "medium");
+      const riskList = item.conditions.filter((x) => x.type === "risk");
       const condHtml = `
         <div class="lc-conditions">
           <div class="lc-cond-head">
@@ -1407,11 +1399,11 @@
           <div class="lc-cond-meta">
             <span class="lc-cond-cnt up">强成立 ${strongList.length}</span>
             <span class="lc-cond-cnt ok">弱成立 ${mediumList.length}</span>
-            <span class="lc-cond-cnt down">风险/不成立 ${riskList.length}</span>
+            <span class="lc-cond-cnt down">风险 ${riskList.length}</span>
           </div>
           ${strongList.length ? `<div class="lc-cond-group"><span class="lc-cond-lbl up">✓ 强成立</span><div class="lc-cond-items">${strongList.map((x) => `<div class="lc-cond-item up">${esc(x.text)}</div>`).join("")}</div></div>` : ""}
           ${mediumList.length ? `<div class="lc-cond-group"><span class="lc-cond-lbl ok">○ 弱成立</span><div class="lc-cond-items">${mediumList.map((x) => `<div class="lc-cond-item ok">${esc(x.text)}</div>`).join("")}</div></div>` : ""}
-          ${riskList.length ? `<div class="lc-cond-group"><span class="lc-cond-lbl down">✗ 风险/不成立</span><div class="lc-cond-items">${riskList.map((x) => `<div class="lc-cond-item down">${esc(x.text)}</div>`).join("")}</div></div>` : ""}
+          ${riskList.length ? `<div class="lc-cond-group"><span class="lc-cond-lbl down">✗ 风险</span><div class="lc-cond-items">${riskList.map((x) => `<div class="lc-cond-item down">${esc(x.text)}</div>`).join("")}</div></div>` : ""}
         </div>`;
 
       return `<article class="card blk lc-chain ${item.strength.cls}">
@@ -1426,7 +1418,7 @@
       </article>`;
     }).join("");
 
-    el.innerHTML = secTitle("逻辑链", `产业链上下游拆解 · 按底层逻辑成立强度排序 · ${esc(LOGIC.date || "")}`) +
+    el.innerHTML = secTitle("逻辑链", `产业链上下游拆解 · 按成立强度排序 · ${esc(LOGIC.date || "")}`) +
       (LOGIC.summary ? summaryHtml(LOGIC.summary) : "") +
       `<div class="sd-grid-cards">${cards}</div>`;
     el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
@@ -1471,7 +1463,7 @@
       return;
     }
     // 旧版兜底: 行业涨跌排名
-    const rowHtml = (r) => `<div class="ind-row ${r.change_pct > 0 ? "up" : r.change_pct < 0 ? "down" : ""}"><span class="ind-rank">${r.rank}</span><span class="ind-name">${esc(r.name)}</span><span class="ind-chg">${r.change_pct > 0 ? "+" : ""}${r.change_pct}%</span><span class="ind-cnt">↑${r.up_count} ↓${r.down_count}</span><span class="ind-leader">龙头 ${esc(r.leader || "—")}</span></div>`;
+    const rowHtml = (r) => `<div class="ind-row ${r.change_pct > 0 ? "up" : r.change_pct < 0 ? "down" : ""}"><span class="ind-rank">${esc(r.rank)}</span><span class="ind-name">${esc(r.name)}</span><span class="ind-chg">${r.change_pct > 0 ? "+" : ""}${esc(r.change_pct)}%</span><span class="ind-cnt">↑${esc(r.up_count)} ↓${esc(r.down_count)}</span><span class="ind-leader">龙头 ${esc(r.leader || "—")}</span></div>`;
     el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY.total || 0} 个行业`) +
       `<div class="ind-cols"><section class="card blk"><h3 class="blk-h">涨幅前 ${(INDUSTRY.top||[]).length}</h3><div class="ind-list">${(INDUSTRY.top||[]).map(rowHtml).join("")}</div></section></div>`;
   }
@@ -1547,7 +1539,7 @@
         ${h.interpretation ? `<div class="we-sec"><span class="sd-l">解读</span>${fieldHtml(h.interpretation)}</div>` : ""}
         ${h.falsifyRisk ? `<div class="we-sec we-risk"><span class="sd-l">证伪风险</span>${fieldHtml(h.falsifyRisk)}</div>` : ""}
         ${h.mondayStrategy ? `<div class="we-sec we-action"><span class="sd-l">周一策略</span>${fieldHtml(h.mondayStrategy)}</div>` : ""}
-        ${h.impactSectors && h.impactSectors.length ? `<div class="we-sectors">${h.impactSectors.map((s) => `<span class="we-sector">${esc(s)}</span>`).join("")}</div>` : ""}
+        ${Array.isArray(h.impactSectors) && h.impactSectors.length ? `<div class="we-sectors">${h.impactSectors.map((s) => `<span class="we-sector">${esc(s)}</span>`).join("")}</div>` : ""}
         ${stocks ? `<div class="we-stocks">${stocks}</div>` : ""}
       </article>`;
     }).join("");
