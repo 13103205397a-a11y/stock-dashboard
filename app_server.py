@@ -54,6 +54,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=HERE, **kwargs)
 
+    def end_headers(self):
+        # 静态文件 no-cache：手机端每次验证更新（304 仍可用，但不会拿到过期的 v=1）
+        self.send_header("Cache-Control", "no-cache, must-revalidate")
+        super().end_headers()
+
     def do_GET(self):
         # API：刷新数据
         if self.path == "/api/refresh":
