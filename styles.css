@@ -1,127 +1,61 @@
 /* ============================================================
-   自选股盘面 · 设计系统
-   原则：统一间距 / 克制配色 / 精致发丝线 / 呼吸感留白
+   ASTOCK TERMINAL · 彭博终端风格设计系统
+   纯黑底 + 琥珀色 + 红涨绿跌 + 等宽字体密集布局
    ============================================================ */
 :root {
-  /* —— 纸张与墨（白底系，符合 Mac 原生审美）—— */
-  --bg:        #FFFFFF;
-  --bg-2:      #F5F5F7;
-  --card:      #FFFFFF;
-  --line:      #E5E5EA;
-  --line-2:    #D1D1D6;
-  --ink:       #1D1D1F;
-  --text:      #1D1D1F;
-  --muted:     #6E6E73;
-  --dim:       #AEAEB2;
+  --bg:        #000000;
+  --bg-2:      #0A0A0A;
+  --card:      #0F0F0F;
+  --line:      #1F1F1F;
+  --line-2:    #2A2A2A;
+  --ink:       #FF9500;
+  --text:      #E8E8E8;
+  --muted:     #6A6A6A;
+  --dim:       #444444;
 
-  /* —— 强调：赭石（右侧/机会/激活态语义色，与左侧板岩蓝相对）—— */
-  --accent:       #B85C1F;
-  --accent-d:     #964816;
-  --accent-s:     rgba(184,92,31,.08);
-  --accent-l:     rgba(184,92,31,.24);
+  --accent:       #FF9500;
+  --accent-d:     #FFB84D;
+  --accent-s:     rgba(255,149,0,.12);
+  --accent-l:     rgba(255,149,0,.30);
+  --border-amber: #3A2A00;
 
-  /* —— 辅色：板岩蓝（左侧/逢低）—— */
-  --slate:        #4A6580;
-  --slate-s:      rgba(74,101,128,.07);
-  --slate-l:      rgba(74,101,128,.22);
+  --slate:        #4A9EFF;
+  --slate-s:      rgba(74,158,255,.08);
+  --slate-l:      rgba(74,158,255,.25);
 
-  /* —— A股语义：红涨绿跌 —— */
-  --up:    #C8392B;
-  --down:  #1E7A52;
-  --ok:    #2E7D52;
-  --warn:  #B07A14;
-  --bad:   #C8392B;
+  --up:    #FF3B30;
+  --down:  #34C759;
+  --ok:    #34C759;
+  --warn:  #FFD60A;
+  --bad:   #FF3B30;
 
-  /* —— 字体 —— */
-  --serif:   "Noto Serif SC", "Songti SC", Georgia, serif;
-  --sans:    "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", Roboto, sans-serif;
-  --mono:    ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  --serif:   "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --sans:    "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --mono:    "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
 
-  /* —— 间距系统（8 的倍数）—— */
   --s-1: 4px;  --s-2: 8px;  --s-3: 12px;  --s-4: 16px;  --s-5: 24px;  --s-6: 32px;
 
-  /* —— 圆角 —— */
-  --r-sm: 6px;  --r: 10px;  --r-lg: 14px;
+  --r-sm: 0px;  --r: 2px;  --r-lg: 2px;
 
-  /* —— 阴影（极淡）—— */
-  --shadow:    0 1px 2px rgba(0,0,0,.04), 0 2px 8px -4px rgba(0,0,0,.08);
-  --shadow-lg: 0 4px 16px -6px rgba(0,0,0,.12);
+  --shadow:    0 0 0 1px #1F1F1F;
+  --shadow-lg: 0 0 0 1px #2A2A2A;
 
   --maxw: 1380px;
   --gutter: clamp(16px, 4vw, 40px);
 
-  /* 卡片网格最小宽度（由密度切换控制） */
   --card-min: 280px;
 
-  /* iOS 安全区(刘海屏/Home 条) */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bot: env(safe-area-inset-bottom, 0px);
 }
-/* 紧凑密度：卡片更窄，一屏看更多 */
 body.density-compact { --card-min: 240px; }
-/* 标准密度：卡片更宽，留白更多 */
 body.density-standard { --card-min: 320px; }
-
-/* ============ 深色模式（Swift 主动设置 data-theme=dark / 系统自动）============ */
-:root[data-theme="dark"] {
-  --bg:        #1C1C1E;
-  --bg-2:      #2C2C2E;
-  --card:      #2C2C2E;
-  --line:      #3A3A3C;
-  --line-2:    #48484A;
-  --ink:       #FFFFFF;
-  --text:      #FFFFFF;
-  --muted:     #98989D;
-  --dim:       #636366;
-  --accent:       #FF9F0A;
-  --accent-d:     #FFB340;
-  --accent-s:     rgba(255,159,10,.12);
-  --accent-l:     rgba(255,159,10,.30);
-  --slate:        #5A9FD4;
-  --slate-s:      rgba(90,159,212,.10);
-  --slate-l:      rgba(90,159,212,.28);
-  --up:    #FF453A;
-  --down:  #30D158;
-  --ok:    #30D158;
-  --warn:  #FFD60A;
-  --bad:   #FF453A;
-  --shadow:    0 1px 2px rgba(0,0,0,.20), 0 2px 8px -4px rgba(0,0,0,.40);
-  --shadow-lg: 0 4px 16px -6px rgba(0,0,0,.50);
-}
-/* 浏览器里跟随系统(网页单独访问时) */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg:        #1C1C1E;
-    --bg-2:      #2C2C2E;
-    --card:      #2C2C2E;
-    --line:      #3A3A3C;
-    --line-2:    #48484A;
-    --ink:       #FFFFFF;
-    --text:      #FFFFFF;
-    --muted:     #98989D;
-    --dim:       #636366;
-    --accent:       #FF9F0A;
-    --accent-d:     #FFB340;
-    --accent-s:     rgba(255,159,10,.12);
-    --accent-l:     rgba(255,159,10,.30);
-    --slate:        #5A9FD4;
-    --slate-s:      rgba(90,159,212,.10);
-    --slate-l:      rgba(90,159,212,.28);
-    --up:    #FF453A;
-    --down:  #30D158;
-    --ok:    #30D158;
-    --warn:  #FFD60A;
-    --bad:   #FF453A;
-    --shadow:    0 1px 2px rgba(0,0,0,.20), 0 2px 8px -4px rgba(0,0,0,.40);
-    --shadow-lg: 0 4px 16px -6px rgba(0,0,0,.50);
-  }
-}
 
 /* ============================================================
    彭博终端主题（Bloomberg Terminal）
    纯黑底 + 琥珀色主文字 + 红绿涨跌 + 等宽字体密集布局
    ============================================================ */
-:root[data-theme="bloomberg"] {
+{
   --bg:        #000000;
   --bg-2:      #0A0A0A;
   --card:      #0F0F0F;
@@ -159,54 +93,54 @@ body.density-standard { --card-min: 320px; }
 }
 
 /* 彭博主题全局微调 */
-:root[data-theme="bloomberg"] body {
+body {
   background: #000;
   color: #E8E8E8;
   font-family: var(--mono);
   letter-spacing: .2px;
 }
 /* 彭博主题：卡片无圆角，细线边框 */
-:root[data-theme="bloomberg"] .card,
-:root[data-theme="bloomberg"] .market-card,
-:root[data-theme="bloomberg"] .blk {
+.card,
+.market-card,
+.blk {
   border-radius: 0;
   border: 1px solid #1A1A1A;
   background: #0F0F0F;
   box-shadow: none;
 }
 /* 彭博主题：标题用琥珀色等宽 */
-:root[data-theme="bloomberg"] h1,
-:root[data-theme="bloomberg"] h2,
-:root[data-theme="bloomberg"] h3,
-:root[data-theme="bloomberg"] .sd-name,
-:root[data-theme="bloomberg"] .sec-title,
-:root[data-theme="bloomberg"] .home-title {
+h1,
+h2,
+h3,
+.sd-name,
+.sec-title,
+.home-title {
   font-family: var(--mono);
   color: var(--accent-d);
   letter-spacing: .5px;
 }
 /* 彭博主题：侧栏黑底 */
-:root[data-theme="bloomberg"] .sidebar {
+.sidebar {
   background: #000;
   border-right: 1px solid #1A1A1A;
 }
-:root[data-theme="bloomberg"] .nav-item {
+.nav-item {
   font-family: var(--mono);
   letter-spacing: .3px;
 }
-:root[data-theme="bloomberg"] .nav-item.active {
+.nav-item.active {
   background: rgba(255,136,0,.12);
   color: var(--accent-d);
   border-left: 2px solid var(--accent);
 }
 /* 彭博主题：顶栏 */
-:root[data-theme="bloomberg"] .topbar {
+.topbar {
   background: #000;
   border-bottom: 1px solid #1A1A1A;
 }
 /* 彭博主题：表格表头 */
-:root[data-theme="bloomberg"] table th,
-:root[data-theme="bloomberg"] .table-head {
+table th,
+.table-head {
   background: #0A0A0A;
   color: var(--accent-d);
   font-family: var(--mono);
@@ -215,49 +149,49 @@ body.density-standard { --card-min: 320px; }
   font-size: 11px;
 }
 /* 彭博主题：涨跌闪烁高亮 */
-:root[data-theme="bloomberg"] .chg.up { color: var(--up); }
-:root[data-theme="bloomberg"] .chg.down { color: var(--down); }
+.chg.up { color: var(--up); }
+.chg.down { color: var(--down); }
 /* 彭博主题：链接/按钮 */
-:root[data-theme="bloomberg"] a { color: var(--accent-d); }
-:root[data-theme="bloomberg"] button { font-family: var(--mono); }
+a { color: var(--accent-d); }
+button { font-family: var(--mono); }
 
 /* 彭博主题：数据值高亮 */
-:root[data-theme="bloomberg"] .vm-v,
-:root[data-theme="bloomberg"] .hc-price,
-:root[data-theme="bloomberg"] .is-name,
-:root[data-theme="bloomberg"] .stock-name { color: #FFFFFF; font-weight: 500; }
-:root[data-theme="bloomberg"] .vm-l,
-:root[data-theme="bloomberg"] .is-code,
-:root[data-theme="bloomberg"] .is-role { color: #888; }
-:root[data-theme="bloomberg"] .chg { font-weight: 700; }
-:root[data-theme="bloomberg"] .chg.up::before { content: "▲ "; }
-:root[data-theme="bloomberg"] .chg.down::before { content: "▼ "; }
+.vm-v,
+.hc-price,
+.is-name,
+.stock-name { color: #FFFFFF; font-weight: 500; }
+.vm-l,
+.is-code,
+.is-role { color: #888; }
+.chg { font-weight: 700; }
+.chg.up::before { content: "▲ "; }
+.chg.down::before { content: "▼ "; }
 
 /* 彭博主题：面板/区块标题 */
-:root[data-theme="bloomberg"] .vsec-title,
-:root[data-theme="bloomberg"] .sec-title {
+.vsec-title,
+.sec-title {
   border-bottom: 1px solid #2A2A2A;
   padding-bottom: var(--s-2);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 14px;
 }
-:root[data-theme="bloomberg"] .vsec-sub { color: #888; font-size: 11px; }
+.vsec-sub { color: #888; font-size: 11px; }
 
 /* 彭博主题：输入框/搜索 */
-:root[data-theme="bloomberg"] input,
-:root[data-theme="bloomberg"] .search-input {
+input,
+.search-input {
   background: #0A0A0A;
   border: 1px solid #2A2A2A;
   color: #FFAA00;
   font-family: var(--mono);
 }
-:root[data-theme="bloomberg"] input:focus { border-color: var(--accent); outline: none; }
+input:focus { border-color: var(--accent); outline: none; }
 
 /* 彭博主题：徽章/标签 */
-:root[data-theme="bloomberg"] .chip,
-:root[data-theme="bloomberg"] .tag,
-:root[data-theme="bloomberg"] .badge {
+.chip,
+.tag,
+.badge {
   border-radius: 0;
   font-family: var(--mono);
   font-size: 10px;
@@ -266,97 +200,93 @@ body.density-standard { --card-min: 320px; }
 }
 
 /* 彭博主题：滚动条 */
-:root[data-theme="bloomberg"] ::-webkit-scrollbar { width: 8px; height: 8px; }
-:root[data-theme="bloomberg"] ::-webkit-scrollbar-track { background: #000; }
-:root[data-theme="bloomberg"] ::-webkit-scrollbar-thumb { background: #2A2A2A; }
-:root[data-theme="bloomberg"] ::-webkit-scrollbar-thumb:hover { background: #FF8800; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #2A2A2A; }
+::-webkit-scrollbar-thumb:hover { background: #FF8800; }
 
 /* 彭博主题：选中态 */
-:root[data-theme="bloomberg"] ::selection { background: rgba(255,136,0,.30); color: #FFF; }
+::selection { background: rgba(255,136,0,.30); color: #FFF; }
 
 /* 彭博主题：侧栏 logo */
-:root[data-theme="bloomberg"] .logo-title { color: var(--accent-d); font-family: var(--mono); }
-:root[data-theme="bloomberg"] .logo-sub { color: #555; }
+.logo-title { color: var(--accent-d); font-family: var(--mono); }
+.logo-sub { color: #555; }
 
 /* 彭博主题：分隔线增强 */
-:root[data-theme="bloomberg"] .lc-chain,
-:root[data-theme="bloomberg"] .hold-card,
-:root[data-theme="bloomberg"] .we-card,
-:root[data-theme="bloomberg"] .ind-card { border: 1px solid #1A1A1A; }
-:root[data-theme="bloomberg"] .lc-chain.up,
-:root[data-theme="bloomberg"] .we-card { border-top-width: 2px; }
+.lc-chain,
+.hold-card,
+.we-card,
+.ind-card { border: 1px solid #1A1A1A; }
+.lc-chain.up,
+.we-card { border-top-width: 2px; }
 
 /* 彭博主题：代码块 */
-:root[data-theme="bloomberg"] code,
-:root[data-theme="bloomberg"] .mono { color: var(--accent-d); background: #0A0A0A; }
+code,
+.mono { color: var(--accent-d); background: #0A0A0A; }
 
 /* 彭博主题：全屏分屏布局 */
-:root[data-theme="bloomberg"] .app-shell { height: 100vh; overflow: hidden; display: flex; }
-:root[data-theme="bloomberg"] .sidebar {
+.app-shell { height: 100vh; overflow: hidden; display: flex; }
+.sidebar {
   position: relative; height: 100vh; width: 232px; flex-shrink: 0;
   overflow-y: auto; overflow-x: hidden;
 }
-:root[data-theme="bloomberg"] .content-area {
+.content-area {
   margin-left: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; flex: 1; min-width: 0;
 }
-:root[data-theme="bloomberg"] .content-in {
+.content-in {
   flex: 1; overflow-y: auto; overflow-x: hidden;
   padding: var(--s-4) var(--gutter); max-width: none; margin: 0;
 }
 
 /* 彭博主题：状态栏（顶部 28px） */
-:root[data-theme="bloomberg"] .status-bar {
+.status-bar {
   display: flex; align-items: center; gap: var(--s-3);
   height: 28px; padding: 0 10px; flex-shrink: 0;
   background: #000; border-bottom: 1px solid rgba(255,149,0,.40);
   font-family: var(--mono); font-size: 11px; letter-spacing: .3px;
 }
-:root[data-theme="bloomberg"] .sb-brand {
+.sb-brand {
   font-family: "Space Mono", var(--mono); font-weight: 700;
   color: var(--accent); letter-spacing: 1.5px; font-size: 12px;
 }
-:root[data-theme="bloomberg"] .sb-sep { color: var(--muted); }
-:root[data-theme="bloomberg"] .sb-dim { color: var(--muted); }
-:root[data-theme="bloomberg"] .sb-mid { display: flex; align-items: center; gap: var(--s-3); margin-left: var(--s-3); }
-:root[data-theme="bloomberg"] .sb-market { color: var(--down); }
-:root[data-theme="bloomberg"] .sb-market.open { color: var(--up); }
-:root[data-theme="bloomberg"] .sb-data { display: flex; align-items: center; gap: var(--s-4); margin-left: var(--s-4); }
-:root[data-theme="bloomberg"] .sb-data .sb-item { display: flex; align-items: center; gap: 4px; }
-:root[data-theme="bloomberg"] .sb-data .sb-lbl { color: var(--muted); }
-:root[data-theme="bloomberg"] .sb-data .sb-val { font-weight: 700; }
-:root[data-theme="bloomberg"] .sb-data .sb-val.up { color: var(--up); }
-:root[data-theme="bloomberg"] .sb-data .sb-val.down { color: var(--down); }
-:root[data-theme="bloomberg"] .sb-right { margin-left: auto; display: flex; align-items: center; gap: 4px; }
-:root[data-theme="bloomberg"] .sb-cmd-prompt { color: var(--accent); font-weight: 700; }
-:root[data-theme="bloomberg"] .sb-cmd {
+.sb-sep { color: var(--muted); }
+.sb-dim { color: var(--muted); }
+.sb-mid { display: flex; align-items: center; gap: var(--s-3); margin-left: var(--s-3); }
+.sb-market { color: var(--down); }
+.sb-market.open { color: var(--up); }
+.sb-data { display: flex; align-items: center; gap: var(--s-4); margin-left: var(--s-4); }
+.sb-data .sb-item { display: flex; align-items: center; gap: 4px; }
+.sb-data .sb-lbl { color: var(--muted); }
+.sb-data .sb-val { font-weight: 700; }
+.sb-data .sb-val.up { color: var(--up); }
+.sb-data .sb-val.down { color: var(--down); }
+.sb-right { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.sb-cmd-prompt { color: var(--accent); font-weight: 700; }
+.sb-cmd {
   width: 200px; background: transparent; border: none; outline: none;
   color: var(--accent); font-family: var(--mono); font-size: 11px;
 }
-:root[data-theme="bloomberg"] .sb-cmd::placeholder { color: var(--dim); }
+.sb-cmd::placeholder { color: var(--dim); }
 
 /* 彭博主题：命令栏（底部 20px） */
-:root[data-theme="bloomberg"] .bottom-bar {
+.bottom-bar {
   display: flex; align-items: center; gap: var(--s-2);
   height: 20px; padding: 0 10px; flex-shrink: 0;
   background: #000; border-top: 1px solid rgba(255,149,0,.40);
   font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .3px;
 }
-:root[data-theme="bloomberg"] .bb-brand { color: var(--accent); font-weight: 700; }
-:root[data-theme="bloomberg"] .bb-sep { color: var(--dim); }
-:root[data-theme="bloomberg"] .bb-flex { flex: 1; }
-:root[data-theme="bloomberg"] .bb-hint { color: var(--dim); }
+.bb-brand { color: var(--accent); font-weight: 700; }
+.bb-sep { color: var(--dim); }
+.bb-flex { flex: 1; }
+.bb-hint { color: var(--dim); }
 
-/* 非彭博主题隐藏状态栏和命令栏 */
-:not([data-theme="bloomberg"]) .status-bar,
-:not([data-theme="bloomberg"]) .bottom-bar { display: none; }
-
-/* 彭博主题：表格行 hover 琥珀色 */
-:root[data-theme="bloomberg"] tr:hover,
-:root[data-theme="bloomberg"] .row-hover:hover {
+/* 表格行 hover 琥珀色 */
+tr:hover,
+.row-hover:hover {
   background: rgba(255,149,0,.06);
   cursor: pointer;
 }
-:root[data-theme="bloomberg"] table th {
+table th {
   background: #111;
   color: var(--accent);
   font-weight: 400;
@@ -366,45 +296,45 @@ body.density-standard { --card-min: 320px; }
   border-bottom: 1px solid var(--border-amber);
   padding: 4px 8px;
 }
-:root[data-theme="bloomberg"] table td {
+table td {
   border-bottom: 1px solid rgba(31,31,31,.5);
   padding: 4px 8px;
   font-size: 12px;
 }
-:root[data-theme="bloomberg"] table tr:last-child td { border-bottom: none; }
+table tr:last-child td { border-bottom: none; }
 
 /* 彭博主题：数字等宽对齐 */
-:root[data-theme="bloomberg"] .tabular,
-:root[data-theme="bloomberg"] .chg,
-:root[data-theme="bloomberg"] .pct,
-:root[data-theme="bloomberg"] .num,
-:root[data-theme="bloomberg"] td[class*="right"],
-:root[data-theme="bloomberg"] .is-code {
+.tabular,
+.chg,
+.pct,
+.num,
+td[class*="right"],
+.is-code {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1, "zero" 1;
 }
 
 /* 彭博主题：涨跌闪烁动画 */
-:root[data-theme="bloomberg"] .flash-up { animation: flashUp .5s ease-out; }
-:root[data-theme="bloomberg"] .flash-down { animation: flashDown .5s ease-out; }
+.flash-up { animation: flashUp .5s ease-out; }
+.flash-down { animation: flashDown .5s ease-out; }
 @keyframes flashUp { 0% { background: rgba(255,59,48,.25); } 100% { background: transparent; } }
 @keyframes flashDown { 0% { background: rgba(52,199,89,.25); } 100% { background: transparent; } }
 
 /* 彭博主题：命令行光标闪烁 */
-:root[data-theme="bloomberg"] .cmd-cursor::after,
-:root[data-theme="bloomberg"] .sb-cmd-prompt::after {
+.cmd-cursor::after,
+.sb-cmd-prompt::after {
   content: "▋";
   color: var(--accent);
   animation: blink 1s step-end infinite;
   margin-left: 2px;
 }
-:root[data-theme="bloomberg"] .sb-cmd:focus + .cmd-cursor,
-:root[data-theme="bloomberg"] .sb-cmd:focus::after { display: none; }
+.sb-cmd:focus + .cmd-cursor,
+.sb-cmd:focus::after { display: none; }
 @keyframes blink { 50% { opacity: 0; } }
 
 /* 彭博主题：面板标题（Panel 风格） */
-:root[data-theme="bloomberg"] .vsec-title,
-:root[data-theme="bloomberg"] .sec-title {
+.vsec-title,
+.sec-title {
   display: flex; align-items: center; justify-content: space-between;
   padding: 5px 10px; margin-bottom: 0;
   background: #111; border: 1px solid var(--border-amber);
@@ -414,156 +344,156 @@ body.density-standard { --card-min: 320px; }
   text-transform: uppercase; letter-spacing: 1px;
   color: var(--accent);
 }
-:root[data-theme="bloomberg"] .vsec-title::before {
+.vsec-title::before {
   content: "▸ ";
 }
-:root[data-theme="bloomberg"] .vsec-sub {
+.vsec-sub {
   color: var(--muted); font-size: 10px; font-weight: 400;
   text-transform: none; letter-spacing: 0;
 }
 
 /* 彭博主题：卡片改为面板风格 */
-:root[data-theme="bloomberg"] .card,
-:root[data-theme="bloomberg"] .market-card,
-:root[data-theme="bloomberg"] .blk,
-:root[data-theme="bloomberg"] .lc-chain,
-:root[data-theme="bloomberg"] .hold-card,
-:root[data-theme="bloomberg"] .we-card,
-:root[data-theme="bloomberg"] .ind-card {
+.card,
+.market-card,
+.blk,
+.lc-chain,
+.hold-card,
+.we-card,
+.ind-card {
   border: 1px solid #1F1F1F;
   border-radius: 0;
   background: #0A0A0A;
 }
-:root[data-theme="bloomberg"] .card:hover,
-:root[data-theme="bloomberg"] .blk:hover {
+.card:hover,
+.blk:hover {
   border-color: var(--border-amber);
 }
 
 /* 彭博主题：侧栏极窄化（字母导航风格） */
-:root[data-theme="bloomberg"] .sidebar {
+.sidebar {
   width: 232px;
   border-right: 1px solid rgba(255,149,0,.40);
 }
-:root[data-theme="bloomberg"] .side-logo {
+.side-logo {
   padding: 8px 10px;
   border-bottom: 1px solid rgba(255,149,0,.40);
 }
-:root[data-theme="bloomberg"] .logo-title {
+.logo-title {
   font-family: "Space Mono", var(--mono);
   font-weight: 700; font-size: 14px;
   color: var(--accent); letter-spacing: 1.5px;
 }
-:root[data-theme="bloomberg"] .logo-sub {
+.logo-sub {
   color: var(--dim); font-size: 8px; letter-spacing: 1.5px;
 }
-:root[data-theme="bloomberg"] .nav-group-label {
+.nav-group-label {
   font-family: var(--mono); font-size: 9px;
   color: var(--dim); text-transform: uppercase; letter-spacing: 1.5px;
   padding: 8px 10px 4px;
 }
-:root[data-theme="bloomberg"] .nav-item {
+.nav-item {
   font-family: var(--mono); font-size: 12px;
   padding: 6px 10px; border-left: 2px solid transparent;
   letter-spacing: .3px;
 }
-:root[data-theme="bloomberg"] .nav-item:hover {
+.nav-item:hover {
   background: rgba(255,149,0,.05);
   color: var(--accent);
 }
-:root[data-theme="bloomberg"] .nav-item.active {
+.nav-item.active {
   background: rgba(255,149,0,.12);
   color: var(--accent);
   border-left: 2px solid var(--accent);
 }
-:root[data-theme="bloomberg"] .nav-ico { width: 14px; height: 14px; opacity: .7; }
-:root[data-theme="bloomberg"] .nav-item.active .nav-ico { opacity: 1; color: var(--accent); }
+.nav-ico { width: 14px; height: 14px; opacity: .7; }
+.nav-item.active .nav-ico { opacity: 1; color: var(--accent); }
 
 /* 彭博主题：侧栏底部 */
-:root[data-theme="bloomberg"] .side-foot {
+.side-foot {
   border-top: 1px solid rgba(255,149,0,.40);
   padding: 8px 10px;
 }
-:root[data-theme="bloomberg"] .dateline { font-family: var(--mono); font-size: 10px; }
-:root[data-theme="bloomberg"] .dl-k { color: var(--dim); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
-:root[data-theme="bloomberg"] .updated { color: var(--accent); font-weight: 700; }
+.dateline { font-family: var(--mono); font-size: 10px; }
+.dl-k { color: var(--dim); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+.updated { color: var(--accent); font-weight: 700; }
 
 /* 彭博主题：涨跌三角符号（全局） */
-:root[data-theme="bloomberg"] .chg.up::before,
-:root[data-theme="bloomberg"] .pct.up::before { content: "▲ "; font-size: .85em; }
-:root[data-theme="bloomberg"] .chg.down::before,
-:root[data-theme="bloomberg"] .pct.down::before { content: "▼ "; font-size: .85em; }
+.chg.up::before,
+.pct.up::before { content: "▲ "; font-size: .85em; }
+.chg.down::before,
+.pct.down::before { content: "▼ "; font-size: .85em; }
 
 /* 彭博主题：首页指标卡片 */
-:root[data-theme="bloomberg"] .idx-card,
-:root[data-theme="bloomberg"] .vm-item {
+.idx-card,
+.vm-item {
   border: 1px solid #1F1F1F; background: #0A0A0A; border-radius: 0;
 }
-:root[data-theme="bloomberg"] .vm-l { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .5px; }
-:root[data-theme="bloomberg"] .vm-v { color: #FFF; font-weight: 700; font-variant-numeric: tabular-nums; }
+.vm-l { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .5px; }
+.vm-v { color: #FFF; font-weight: 700; font-variant-numeric: tabular-nums; }
 
 /* 彭博主题：空态 */
-:root[data-theme="bloomberg"] .empty {
+.empty {
   color: var(--dim); font-family: var(--mono); font-size: 12px;
   padding: 40px 20px; text-align: center; letter-spacing: .5px;
 }
 
 /* 彭博主题：页脚隐藏（命令栏替代） */
-:root[data-theme="bloomberg"] .home-foot,
-:root[data-theme="bloomberg"] footer { display: none; }
+.home-foot,
+footer { display: none; }
 
 /* ============ 彭博主题手机端适配 ============ */
 @media (max-width: 980px) {
-  :root[data-theme="bloomberg"] .app-shell { height: auto; min-height: 100vh; overflow: auto; display: block; }
-  :root[data-theme="bloomberg"] .sidebar {
+  .app-shell { height: auto; min-height: 100vh; overflow: auto; display: block; }
+  .sidebar {
     position: fixed; top: 0; left: 0; height: 100vh; width: 260px;
     transform: translateX(-100%); transition: transform .25s cubic-bezier(.2,.6,.3,1);
     z-index: 50; box-shadow: 4px 0 20px rgba(0,0,0,.5);
   }
-  :root[data-theme="bloomberg"] body.sidebar-open .sidebar { transform: translateX(0); }
-  :root[data-theme="bloomberg"] .content-area {
+  body.sidebar-open .sidebar { transform: translateX(0); }
+  .content-area {
     margin-left: 0; height: auto; min-height: 100vh; display: block; overflow: visible;
   }
-  :root[data-theme="bloomberg"] .content-in {
+  .content-in {
     flex: none; overflow: visible; padding: var(--s-3) var(--s-3) var(--s-5);
   }
   /* 汉堡按钮：彭博主题手机端固定在状态栏左侧 */
-  :root[data-theme="bloomberg"] .menu-toggle {
+  .menu-toggle {
     position: fixed; top: 4px; left: 4px; z-index: 60;
     width: 28px; height: 20px; border: none; background: transparent;
     border-radius: 0; color: var(--accent);
   }
-  :root[data-theme="bloomberg"] .menu-toggle svg { width: 16px; height: 16px; }
-  :root[data-theme="bloomberg"] .sb-brand { margin-left: 32px; }
+  .menu-toggle svg { width: 16px; height: 16px; }
+  .sb-brand { margin-left: 32px; }
   /* 状态栏：手机端简化，隐藏部分数据 */
-  :root[data-theme="bloomberg"] .status-bar {
+  .status-bar {
     height: auto; min-height: 36px; flex-wrap: wrap; padding: 4px 8px; gap: 6px;
     font-size: 10px; align-items: center;
   }
-  :root[data-theme="bloomberg"] .sb-data { display: none; }
-  :root[data-theme="bloomberg"] .sb-right { margin-left: 0; flex: 1; }
-  :root[data-theme="bloomberg"] .sb-cmd { flex: 1; width: auto; }
+  .sb-data { display: none; }
+  .sb-right { margin-left: 0; flex: 1; }
+  .sb-cmd { flex: 1; width: auto; }
   /* 命令栏：手机端隐藏提示文字，只留数据源 */
-  :root[data-theme="bloomberg"] .bottom-bar { font-size: 9px; padding: 0 8px; }
-  :root[data-theme="bloomberg"] .bb-hint { display: none; }
-  :root[data-theme="bloomberg"] .bb-src { display: none; }
+  .bottom-bar { font-size: 9px; padding: 0 8px; }
+  .bb-hint { display: none; }
+  .bb-src { display: none; }
 }
 
 @media (max-width: 720px) {
-  :root[data-theme="bloomberg"] .status-bar { font-size: 9px; gap: 4px; }
-  :root[data-theme="bloomberg"] .sb-brand { font-size: 11px; }
-  :root[data-theme="bloomberg"] .sb-mid { gap: 4px; }
-  :root[data-theme="bloomberg"] .sb-cmd { font-size: 10px; }
-  :root[data-theme="bloomberg"] .content-in { padding: var(--s-2) var(--s-2) var(--s-4); }
+  .status-bar { font-size: 9px; gap: 4px; }
+  .sb-brand { font-size: 11px; }
+  .sb-mid { gap: 4px; }
+  .sb-cmd { font-size: 10px; }
+  .content-in { padding: var(--s-2) var(--s-2) var(--s-4); }
   /* 卡片网格手机端单列 */
-  :root[data-theme="bloomberg"] .sd-grid-cards,
-  :root[data-theme="bloomberg"] .we-grid,
-  :root[data-theme="bloomberg"] .lc-chain { grid-template-columns: 1fr !important; }
+  .sd-grid-cards,
+  .we-grid,
+  .lc-chain { grid-template-columns: 1fr !important; }
   /* 面板标题手机端缩小 */
-  :root[data-theme="bloomberg"] .vsec-title { font-size: 10px; padding: 4px 8px; }
+  .vsec-title { font-size: 10px; padding: 4px 8px; }
   /* 表格手机端横向滚动 */
-  :root[data-theme="bloomberg"] table { font-size: 11px; }
-  :root[data-theme="bloomberg"] table th,
-  :root[data-theme="bloomberg"] table td { padding: 3px 4px; }
+  table { font-size: 11px; }
+  table th,
+  table td { padding: 3px 4px; }
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -689,16 +619,6 @@ body { padding-top: var(--titlebar-h); }
 }
 .density-btn:hover { color: var(--ink); border-color: var(--line-2); }
 .density-btn.active { color: #fff; background: var(--ink); border-color: var(--ink); font-weight: 600; }
-
-.theme-toggle { display: flex; align-items: center; gap: 4px; margin-top: var(--s-2); }
-.theme-btn {
-  font-size: 11px; color: var(--muted); background: transparent; border: 1px solid var(--line);
-  border-radius: var(--r-sm); padding: 3px 8px; cursor: pointer; transition: all .12s;
-  font-family: var(--mono); letter-spacing: .3px;
-}
-.theme-btn:hover { color: var(--ink); border-color: var(--line-2); }
-.theme-btn.active { color: var(--accent-d); background: var(--accent-s); border-color: var(--accent-l); font-weight: 700; }
-:root[data-theme="bloomberg"] .theme-btn.active { color: #FFAA00; background: rgba(255,136,0,.15); border-color: rgba(255,136,0,.4); }
 
 .content-area { min-width: 0; }
 .content-in { padding: calc(var(--s-5) + var(--safe-top)) var(--gutter) var(--s-6); max-width: var(--maxw); margin-inline: auto; }

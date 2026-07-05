@@ -786,20 +786,7 @@
     });
   });
 
-  // 主题切换（亮/暗/彭博）
-  const savedTheme = localStorage.getItem("theme") || "bloomberg";
-  document.documentElement.setAttribute("data-theme", savedTheme);
-  document.querySelectorAll(".theme-btn").forEach((b) => {
-    b.classList.toggle("active", b.dataset.theme === savedTheme);
-    b.addEventListener("click", () => {
-      const t = b.dataset.theme;
-      document.documentElement.setAttribute("data-theme", t);
-      localStorage.setItem("theme", t);
-      document.querySelectorAll(".theme-btn").forEach((c) => c.classList.toggle("active", c === b));
-    });
-  });
-
-  // 状态栏 + 命令栏（彭博终端风格）
+  // 状态栏 + 命令栏（终端风格）
   const sbDateTime = $("#sbDateTime");
   const sbMarket = $("#sbMarket");
   const sbData = $("#sbData");

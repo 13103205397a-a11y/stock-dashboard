@@ -7,11 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=22" />
+  <link rel="stylesheet" href="styles.css?v=23" />
 </head>
 <body>
-  <!-- 移动端汉堡按钮（彭博主题在状态栏内，亮/暗主题独立浮动） -->
-  <button class="menu-toggle menu-toggle-float" id="menuToggle" aria-label="菜单">
+  <!-- 移动端汉堡按钮 -->
+  <button class="menu-toggle" id="menuToggle" aria-label="菜单">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
   </button>
 
@@ -103,12 +103,6 @@
           <button class="density-btn" data-density="standard" aria-label="标准密度">标准</button>
           <button class="density-btn active" data-density="compact" aria-label="紧凑密度">紧凑</button>
         </div>
-        <div class="theme-toggle">
-          <span class="dl-k">主题</span>
-          <button class="theme-btn" data-theme="light" aria-label="亮色">亮</button>
-          <button class="theme-btn" data-theme="dark" aria-label="暗色">暗</button>
-          <button class="theme-btn active" data-theme="bloomberg" aria-label="彭博终端">彭博</button>
-        </div>
         <div class="dateline">
           <span class="dl-k">行情截至</span><span class="updated" id="updated">—</span>
         </div>
@@ -120,7 +114,7 @@
 
     <!-- ===== 右侧展示区 ===== -->
     <main class="content-area">
-      <!-- 顶部状态栏（彭博终端风格） -->
+      <!-- 顶部状态栏 -->
       <div class="status-bar" id="statusBar">
         <div class="sb-left">
           <span class="sb-brand">ASTOCK</span>
@@ -245,7 +239,7 @@
           </div>
         </footer>
       </div>
-      <!-- 底部命令栏（彭博终端风格） -->
+      <!-- 底部命令栏 -->
       <div class="bottom-bar">
         <span class="bb-brand">DATA</span>
         <span class="bb-src">东财·同花顺·通达信·巨潮</span>
