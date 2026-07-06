@@ -75,9 +75,7 @@ jobs:
         continue-on-error: true
 
       - name: 抓取今日热点 TOP30(同花顺问财:热度/题材) → 写回 hot.js
-        # 只在首次(15:20)和手动触发时跑，避免重复消耗问财配额。
-        # 判断依据：hot.js 里的日期是不是今天（不再依赖容器内的标记文件）。
-        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '20 7 * * *'
+        # 每次都尝试，fetch_hot.py 内部会判断 hot.js 日期是否今天，是则跳过（幂等）。
         continue-on-error: true
         env:
           IWENCAI_API_KEY: ${{ secrets.IWENCAI_API_KEY }}
