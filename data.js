@@ -3785,14 +3785,14 @@ window.STOCKS = [
         "content": ""
       },
       {
-        "title": "东材科技:四川东材科技集团股份有限公司关于高级管理人员辞职的公告",
-        "date": "2026-06-30",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601208",
-        "content": ""
+        "title": "东材科技：关于使用闲置募集资金进行现金管理的进展公告",
+        "date": "2026-07-06 19:42:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202607063795343267.html",
+        "content": "证券日报网讯 7月6日，东材科技发布公告称，公司本次使用闲置募集资金进行现金管理，受托方为中国工商银行股份有限公司绵阳游仙支行，产品名称为中国工商银行区间累计型法人人民币结构性存款产品-专户型2026年第412期A款，金额为10，000万元，期限为25天。"
       },
       {
-        "title": "东材科技:四川东材科技集团股份有限公司第七届董事会第六次会议决议公告",
+        "title": "东材科技:四川东材科技集团股份有限公司关于高级管理人员辞职的公告",
         "date": "2026-06-30",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601208",
