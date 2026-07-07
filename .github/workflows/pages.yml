@@ -3,28 +3,6 @@ name: 页面构建和部署
 on:
   push:
     branches: [main]
-    # 只在页面骨架变更时才部署;数据文件(AI复盘/行情刷新自动生成)
-    # 频繁变动但不影响页面结构,无需每次触发部署。
-    paths-ignore:
-      - 'data.js'
-      - 'meta.js'
-      - 'hot.js'
-      - 'market.js'
-      - 'holdings.js'
-      - 'industry.js'
-      - 'logic.js'
-      - 'events.js'
-      - 'opportunities.js'
-      - 'materials.js'
-      - 'newsall.js'
-      - 'reports.js'
-      - 'portfolio_analysis.js'
-      - 'weekend.js'
-  schedule:
-    # 每天北京 19:00(UTC 11:00)定时部署一次,
-    # 把当天收盘后(行情刷新兜底 18:10 + AI 复盘)更新的数据发布上线。
-    # 数据 push 本身不触发部署(见 paths-ignore),由这个定时统一发布。
-    - cron: "0 11 * * *"
   workflow_dispatch: {}
 
 permissions:
