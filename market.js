@@ -1,11 +1,11 @@
 /* 全市场异动扫描数据：涨停/炸板/TOP榜/热度/资金面
  * 由 scripts/fetch_market.py 生成（a-stock-pro,免 key）
- * 时点: 2026-07-07 10:39:38
+ * 时点: 2026-07-07 11:32:22
  * 仅供研究参考,非投资建议。
  */
 window.MARKET = {
   "date": "2026-07-07",
-  "generatedAt": "2026-07-07 10:39:38",
+  "generatedAt": "2026-07-07 11:32:22",
   "limitUp": [
     {
       "code": "002497",
@@ -2166,703 +2166,503 @@ window.MARKET = {
   "topGainers": [
     {
       "rank": 1,
+      "code": "920527",
+      "name": "夜光明",
+      "price": 17.02,
+      "chgPct": 25.05,
+      "turnover": 16.34,
+      "amount": 126673062.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 2,
       "code": "688432",
       "name": "有研硅",
       "price": 46.14,
       "chgPct": 20.0,
       "turnover": 6.12,
-      "netInflow": 189273744.0,
-      "amplitude": 20.83,
-      "volumeRatio": 0.92,
       "amount": 3389040404.0,
-      "industry": "半导体",
-      "mcap_yi": 576.89
+      "mcap_yi": 0.06
     },
     {
-      "rank": 2,
+      "rank": 3,
       "code": "301516",
       "name": "中远通",
       "price": 18.72,
       "chgPct": 20.0,
       "turnover": 33.32,
-      "netInflow": 84483431.0,
-      "amplitude": 19.29,
-      "volumeRatio": 3.49,
-      "amount": 417897946.14,
-      "industry": "其他电源设备Ⅱ",
-      "mcap_yi": 52.55
+      "amount": 417897946.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 3,
+      "rank": 4,
       "code": "301251",
       "name": "威尔高",
       "price": 50.77,
       "chgPct": 20.0,
       "turnover": 5.6,
-      "netInflow": 67599139.0,
-      "amplitude": 0.0,
-      "volumeRatio": 0.69,
-      "amount": 214899763.7,
-      "industry": "元件",
-      "mcap_yi": 95.73
+      "amount": 214899764.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 4,
+      "rank": 5,
       "code": "688261",
       "name": "东微半导",
       "price": 99.08,
       "chgPct": 16.33,
       "turnover": 15.83,
-      "netInflow": 98648560.0,
-      "amplitude": 16.21,
-      "volumeRatio": 1.75,
       "amount": 1902863506.0,
-      "industry": "半导体",
-      "mcap_yi": 121.45
-    },
-    {
-      "rank": 5,
-      "code": "688584",
-      "name": "上海合晶",
-      "price": 35.71,
-      "chgPct": 15.31,
-      "turnover": 9.72,
-      "netInflow": 67265991.0,
-      "amplitude": 17.53,
-      "volumeRatio": 1.09,
-      "amount": 1139623041.0,
-      "industry": "半导体",
-      "mcap_yi": 238.97
+      "mcap_yi": 0.01
     },
     {
       "rank": 6,
+      "code": "688584",
+      "name": "上海合晶",
+      "price": 35.71,
+      "chgPct": 15.3,
+      "turnover": 9.72,
+      "amount": 1139623041.0,
+      "mcap_yi": 0.01
+    },
+    {
+      "rank": 7,
       "code": "688605",
       "name": "先锋精科",
       "price": 113.05,
       "chgPct": 15.22,
       "turnover": 11.86,
-      "netInflow": 14756808.0,
-      "amplitude": 22.18,
-      "volumeRatio": 1.06,
       "amount": 1363704609.0,
-      "industry": "半导体",
-      "mcap_yi": 228.79
+      "mcap_yi": 0.01
     },
     {
-      "rank": 7,
+      "rank": 8,
       "code": "301237",
       "name": "和顺科技",
       "price": 85.0,
       "chgPct": 14.63,
       "turnover": 15.4,
-      "netInflow": -35234750.0,
-      "amplitude": 13.67,
-      "volumeRatio": 1.76,
-      "amount": 742801260.36,
-      "industry": "塑料",
-      "mcap_yi": 68.0
+      "amount": 742801260.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 8,
+      "rank": 9,
       "code": "300985",
       "name": "致远新能",
       "price": 56.47,
       "chgPct": 14.43,
       "turnover": 6.2,
-      "netInflow": 33849828.0,
-      "amplitude": 16.49,
-      "volumeRatio": 1.62,
-      "amount": 627669627.58,
-      "industry": "通用设备",
-      "mcap_yi": 105.32
+      "amount": 627669628.0,
+      "mcap_yi": 0.01
     },
     {
-      "rank": 9,
+      "rank": 10,
       "code": "300043",
       "name": "星辉娱乐",
       "price": 5.17,
       "chgPct": 14.13,
       "turnover": 14.13,
-      "netInflow": 109404471.0,
-      "amplitude": 20.09,
-      "volumeRatio": 4.04,
-      "amount": 900976500.88,
-      "industry": "游戏Ⅱ",
-      "mcap_yi": 64.33
-    },
-    {
-      "rank": 10,
-      "code": "688802",
-      "name": "沐曦股份-U",
-      "price": 833.99,
-      "chgPct": 14.09,
-      "turnover": 23.49,
-      "netInflow": 384986688.0,
-      "amplitude": 20.93,
-      "volumeRatio": 2.0,
-      "amount": 3575932767.0,
-      "industry": "半导体",
-      "mcap_yi": 3336.79
+      "amount": 900976501.0,
+      "mcap_yi": 0.01
     },
     {
       "rank": 11,
+      "code": "688802",
+      "name": "沐曦股份",
+      "price": 833.99,
+      "chgPct": 14.09,
+      "turnover": 23.49,
+      "amount": 3575932767.0,
+      "mcap_yi": 0.02
+    },
+    {
+      "rank": 12,
       "code": "300745",
       "name": "欣锐科技",
       "price": 56.01,
       "chgPct": 12.72,
-      "turnover": 14.49,
-      "netInflow": 23653881.0,
-      "amplitude": 15.7,
-      "volumeRatio": 1.39,
-      "amount": 1116287342.93,
-      "industry": "汽车零部件",
-      "mcap_yi": 94.41
+      "turnover": 14.5,
+      "amount": 1116287343.0,
+      "mcap_yi": 0.01
     },
     {
-      "rank": 12,
+      "rank": 13,
+      "code": "920627",
+      "name": "力王股份",
+      "price": 16.88,
+      "chgPct": 12.61,
+      "turnover": 12.82,
+      "amount": 103357264.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 14,
+      "code": "920122",
+      "name": "中纺标",
+      "price": 25.82,
+      "chgPct": 11.44,
+      "turnover": 9.84,
+      "amount": 92535119.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 15,
       "code": "300717",
       "name": "华信新材",
       "price": 23.86,
       "chgPct": 10.98,
       "turnover": 13.5,
-      "netInflow": 20662007.0,
-      "amplitude": 14.7,
-      "volumeRatio": 1.81,
-      "amount": 318167366.45,
-      "industry": "塑料",
-      "mcap_yi": 24.52
+      "amount": 318167366.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 13,
+      "rank": 16,
       "code": "300276",
       "name": "三丰智能",
       "price": 7.79,
       "chgPct": 10.97,
-      "turnover": 13.87,
-      "netInflow": 214619316.0,
-      "amplitude": 19.37,
-      "volumeRatio": 1.87,
-      "amount": 1171221990.12,
-      "industry": "自动化设备",
-      "mcap_yi": 109.14
+      "turnover": 13.84,
+      "amount": 1171221990.0,
+      "mcap_yi": 0.01
     },
     {
-      "rank": 14,
+      "rank": 17,
       "code": "688596",
       "name": "正帆科技",
       "price": 78.5,
       "chgPct": 10.56,
       "turnover": 13.78,
-      "netInflow": -175305184.0,
-      "amplitude": 19.93,
-      "volumeRatio": 0.9,
       "amount": 3131344597.0,
-      "industry": "专用设备",
-      "mcap_yi": 230.89
+      "mcap_yi": 0.02
     },
     {
-      "rank": 15,
+      "rank": 18,
       "code": "000973",
       "name": "佛塑科技",
       "price": 14.58,
       "chgPct": 10.04,
-      "turnover": 10.3,
-      "netInflow": 392193764.0,
-      "amplitude": 4.3,
-      "volumeRatio": 2.56,
-      "amount": 1442843985.56,
-      "industry": "塑料",
-      "mcap_yi": 358.41
+      "turnover": 14.06,
+      "amount": 1442843986.0,
+      "mcap_yi": 0.01
     },
     {
-      "rank": 16,
+      "rank": 19,
       "code": "601121",
       "name": "宝地矿业",
       "price": 6.47,
       "chgPct": 10.03,
       "turnover": 0.98,
-      "netInflow": 14013373.0,
-      "amplitude": 0.0,
-      "volumeRatio": 0.81,
       "amount": 50482822.0,
-      "industry": "冶钢原料",
-      "mcap_yi": 63.68
+      "mcap_yi": 0.01
     },
     {
-      "rank": 17,
+      "rank": 20,
       "code": "600094",
       "name": "大名城",
       "price": 3.84,
       "chgPct": 10.03,
       "turnover": 1.57,
-      "netInflow": 35355276.0,
-      "amplitude": 10.89,
-      "volumeRatio": 1.97,
       "amount": 122700371.0,
-      "industry": "房地产开发",
-      "mcap_yi": 89.28
+      "mcap_yi": 0.01
     },
     {
-      "rank": 18,
+      "rank": 21,
       "code": "603178",
       "name": "圣龙股份",
       "price": 16.35,
       "chgPct": 10.03,
       "turnover": 3.89,
-      "netInflow": 56002054.0,
-      "amplitude": 9.76,
-      "volumeRatio": 1.14,
       "amount": 147152966.0,
-      "industry": "汽车零部件",
-      "mcap_yi": 38.65
+      "mcap_yi": 0.0
     },
     {
-      "rank": 19,
+      "rank": 22,
       "code": "001206",
       "name": "依依股份",
       "price": 19.54,
       "chgPct": 10.02,
       "turnover": 7.6,
-      "netInflow": 63647432.0,
-      "amplitude": 11.49,
-      "volumeRatio": 1.18,
-      "amount": 154515203.12,
-      "industry": "个护用品",
-      "mcap_yi": 36.13
+      "amount": 154515203.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 20,
+      "rank": 23,
       "code": "001311",
       "name": "多利科技",
       "price": 19.67,
       "chgPct": 10.01,
       "turnover": 1.94,
-      "netInflow": 29676769.0,
-      "amplitude": 8.84,
-      "volumeRatio": 0.62,
-      "amount": 66098081.23,
-      "industry": "汽车零部件",
-      "mcap_yi": 79.4
+      "amount": 66098081.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 21,
-      "code": "002841",
-      "name": "视源股份",
-      "price": 43.08,
-      "chgPct": 10.01,
-      "turnover": 1.06,
-      "netInflow": 74007002.0,
-      "amplitude": 0.0,
-      "volumeRatio": 0.54,
-      "amount": 238093079.28,
-      "industry": "消费电子",
-      "mcap_yi": 301.21
-    },
-    {
-      "rank": 22,
+      "rank": 24,
       "code": "002137",
       "name": "实益达",
       "price": 11.43,
       "chgPct": 10.01,
       "turnover": 25.26,
-      "netInflow": 354042994.0,
-      "amplitude": 14.92,
-      "volumeRatio": 1.43,
-      "amount": 1120029795.38,
-      "industry": "光学光电子",
-      "mcap_yi": 66.01
+      "amount": 1120029795.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 23,
+      "rank": 25,
+      "code": "002841",
+      "name": "视源股份",
+      "price": 43.08,
+      "chgPct": 10.01,
+      "turnover": 1.06,
+      "amount": 238093079.0,
+      "mcap_yi": 0.02
+    },
+    {
+      "rank": 26,
       "code": "605399",
       "name": "晨光新材",
       "price": 14.51,
       "chgPct": 10.01,
       "turnover": 3.31,
-      "netInflow": 48215829.0,
-      "amplitude": 12.13,
-      "volumeRatio": 1.06,
       "amount": 144535988.0,
-      "industry": "化学制品",
-      "mcap_yi": 45.25
+      "mcap_yi": 0.0
     },
     {
-      "rank": 24,
+      "rank": 27,
       "code": "002951",
       "name": "金时科技",
       "price": 14.84,
       "chgPct": 10.01,
       "turnover": 1.5,
-      "netInflow": 38146802.0,
-      "amplitude": 9.27,
-      "volumeRatio": 0.86,
       "amount": 87552170.0,
-      "industry": "其他电源设备Ⅱ",
-      "mcap_yi": 60.1
+      "mcap_yi": 0.01
     },
     {
-      "rank": 25,
+      "rank": 28,
       "code": "603823",
       "name": "百合花",
       "price": 72.45,
       "chgPct": 10.01,
       "turnover": 7.22,
-      "netInflow": 48399168.0,
-      "amplitude": 12.88,
-      "volumeRatio": 1.32,
       "amount": 2118297989.0,
-      "industry": "化学制品",
-      "mcap_yi": 301.66
+      "mcap_yi": 0.03
     },
     {
-      "rank": 26,
+      "rank": 29,
       "code": "001229",
       "name": "魅视科技",
       "price": 38.82,
       "chgPct": 10.0,
       "turnover": 2.47,
-      "netInflow": 35203030.0,
-      "amplitude": 4.31,
-      "volumeRatio": 0.21,
-      "amount": 70328792.42,
-      "industry": "计算机设备",
-      "mcap_yi": 55.68
+      "amount": 70328792.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 27,
+      "rank": 30,
       "code": "003004",
       "name": "声迅股份",
       "price": 79.95,
       "chgPct": 10.0,
       "turnover": 4.91,
-      "netInflow": 30358814.0,
-      "amplitude": 11.6,
-      "volumeRatio": 0.86,
-      "amount": 259925160.1,
-      "industry": "计算机设备",
-      "mcap_yi": 65.45
+      "amount": 259925160.0,
+      "mcap_yi": 0.01
     },
     {
-      "rank": 28,
+      "rank": 31,
       "code": "600206",
       "name": "有研新材",
       "price": 55.98,
       "chgPct": 10.0,
       "turnover": 9.85,
-      "netInflow": 1147848416.0,
-      "amplitude": 10.85,
-      "volumeRatio": 0.62,
       "amount": 4559045958.0,
-      "industry": "半导体",
-      "mcap_yi": 473.9
+      "mcap_yi": 0.05
     },
     {
-      "rank": 29,
+      "rank": 32,
       "code": "603356",
       "name": "华菱精工",
       "price": 17.93,
       "chgPct": 10.0,
       "turnover": 3.74,
-      "netInflow": 28959854.0,
-      "amplitude": 9.63,
-      "volumeRatio": 0.75,
       "amount": 87877445.0,
-      "industry": "专用设备",
-      "mcap_yi": 23.91
+      "mcap_yi": 0.0
     },
     {
-      "rank": 30,
+      "rank": 33,
       "code": "001365",
       "name": "天海电子",
       "price": 43.46,
       "chgPct": 10.0,
       "turnover": 13.72,
-      "netInflow": 119972552.0,
-      "amplitude": 9.01,
-      "volumeRatio": 0.92,
-      "amount": 337661965.9,
-      "industry": "汽车零部件",
-      "mcap_yi": 228.16
+      "amount": 337661966.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 31,
+      "rank": 34,
       "code": "002497",
       "name": "雅化集团",
       "price": 24.65,
       "chgPct": 10.0,
       "turnover": 1.67,
-      "netInflow": 159994006.0,
-      "amplitude": 0.0,
-      "volumeRatio": 0.29,
-      "amount": 437457067.05,
-      "industry": "化学制品",
-      "mcap_yi": 284.11
+      "amount": 437457067.0,
+      "mcap_yi": 0.03
     },
     {
-      "rank": 32,
+      "rank": 35,
       "code": "603065",
       "name": "宿迁联盛",
       "price": 20.25,
       "chgPct": 9.99,
       "turnover": 16.49,
-      "netInflow": 22143070.0,
-      "amplitude": 10.48,
-      "volumeRatio": 1.77,
       "amount": 1350738531.0,
-      "industry": "化学制品",
-      "mcap_yi": 84.84
+      "mcap_yi": 0.01
     },
     {
-      "rank": 33,
-      "code": "600793",
-      "name": "宜宾纸业",
-      "price": 19.37,
-      "chgPct": 9.99,
-      "turnover": 9.55,
-      "netInflow": 10685331.0,
-      "amplitude": 9.77,
-      "volumeRatio": 2.19,
-      "amount": 321315285.0,
-      "industry": "造纸",
-      "mcap_yi": 34.27
-    },
-    {
-      "rank": 34,
-      "code": "605118",
-      "name": "力鼎光电",
-      "price": 38.08,
-      "chgPct": 9.99,
-      "turnover": 1.33,
-      "netInflow": 63560256.0,
-      "amplitude": 9.3,
-      "volumeRatio": 0.95,
-      "amount": 204689356.0,
-      "industry": "计算机设备",
-      "mcap_yi": 156.61
-    },
-    {
-      "rank": 35,
+      "rank": 36,
       "code": "600246",
       "name": "万通发展",
       "price": 18.6,
       "chgPct": 9.99,
       "turnover": 13.4,
-      "netInflow": 500989520.0,
-      "amplitude": 12.42,
-      "volumeRatio": 1.71,
       "amount": 4641981027.0,
-      "industry": "房地产开发",
-      "mcap_yi": 361.4
+      "mcap_yi": 0.04
     },
     {
-      "rank": 36,
+      "rank": 37,
+      "code": "600793",
+      "name": "宜宾纸业",
+      "price": 19.37,
+      "chgPct": 9.99,
+      "turnover": 9.55,
+      "amount": 321315285.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 38,
+      "code": "605118",
+      "name": "力鼎光电",
+      "price": 38.08,
+      "chgPct": 9.99,
+      "turnover": 1.33,
+      "amount": 204689356.0,
+      "mcap_yi": 0.02
+    },
+    {
+      "rank": 39,
       "code": "603861",
       "name": "白云电器",
       "price": 15.2,
       "chgPct": 9.99,
       "turnover": 8.51,
-      "netInflow": 132085593.0,
-      "amplitude": 11.58,
-      "volumeRatio": 2.48,
       "amount": 667597133.0,
-      "industry": "电网设备",
-      "mcap_yi": 82.16
+      "mcap_yi": 0.01
     },
     {
-      "rank": 37,
+      "rank": 40,
       "code": "002129",
       "name": "TCL中环",
       "price": 11.02,
       "chgPct": 9.98,
       "turnover": 8.74,
-      "netInflow": 804587696.0,
-      "amplitude": 11.38,
-      "volumeRatio": 0.94,
-      "amount": 3797452154.79,
-      "industry": "光伏设备",
-      "mcap_yi": 445.55
+      "amount": 3797452155.0,
+      "mcap_yi": 0.04
     },
     {
-      "rank": 38,
+      "rank": 41,
       "code": "002185",
       "name": "华天科技",
       "price": 21.93,
       "chgPct": 9.98,
       "turnover": 16.93,
-      "netInflow": 3525259680.0,
-      "amplitude": 12.39,
-      "volumeRatio": 1.34,
-      "amount": 11999102684.88,
-      "industry": "半导体",
-      "mcap_yi": 728.83
+      "amount": 11999102685.0,
+      "mcap_yi": 0.07
     },
     {
-      "rank": 39,
+      "rank": 42,
       "code": "603137",
       "name": "恒尚节能",
       "price": 20.83,
       "chgPct": 9.98,
       "turnover": 0.4,
-      "netInflow": 4767299.0,
-      "amplitude": 0.0,
-      "volumeRatio": 0.74,
       "amount": 15183966.0,
-      "industry": "装修装饰Ⅱ",
-      "mcap_yi": 38.11
+      "mcap_yi": 0.0
     },
     {
-      "rank": 40,
+      "rank": 43,
       "code": "600360",
       "name": "华微电子",
       "price": 15.32,
       "chgPct": 9.98,
       "turnover": 19.83,
-      "netInflow": 570016400.0,
-      "amplitude": 12.2,
-      "volumeRatio": 1.38,
       "amount": 2816069414.0,
-      "industry": "半导体",
-      "mcap_yi": 147.12
+      "mcap_yi": 0.01
     },
     {
-      "rank": 41,
+      "rank": 44,
       "code": "001230",
       "name": "劲旅环境",
       "price": 17.42,
       "chgPct": 9.97,
       "turnover": 5.32,
-      "netInflow": 31934992.0,
-      "amplitude": 12.82,
-      "volumeRatio": 1.74,
-      "amount": 97822555.32,
-      "industry": "环境治理",
-      "mcap_yi": 32.71
+      "amount": 97822555.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 42,
+      "rank": 45,
       "code": "600288",
       "name": "大恒科技",
       "price": 15.55,
       "chgPct": 9.97,
       "turnover": 27.84,
-      "netInflow": -25101776.0,
-      "amplitude": 6.01,
-      "volumeRatio": 8.23,
       "amount": 1869913047.0,
-      "industry": "软件开发",
-      "mcap_yi": 67.92
+      "mcap_yi": 0.01
     },
     {
-      "rank": 43,
+      "rank": 46,
       "code": "002585",
       "name": "双星新材",
       "price": 11.37,
       "chgPct": 9.96,
       "turnover": 4.92,
-      "netInflow": 191294762.0,
-      "amplitude": 10.83,
-      "volumeRatio": 0.48,
-      "amount": 481444990.29,
-      "industry": "塑料",
-      "mcap_yi": 129.77
+      "amount": 481444990.0,
+      "mcap_yi": 0.01
     },
     {
-      "rank": 44,
+      "rank": 47,
       "code": "600120",
       "name": "浙江东方",
       "price": 4.88,
       "chgPct": 9.91,
       "turnover": 0.85,
-      "netInflow": 62013629.0,
-      "amplitude": 0.0,
-      "volumeRatio": 0.83,
       "amount": 141849205.0,
-      "industry": "多元金融",
-      "mcap_yi": 166.67
+      "mcap_yi": 0.02
     },
     {
-      "rank": 45,
+      "rank": 48,
       "code": "000078",
       "name": "ST海王",
       "price": 1.8,
       "chgPct": 9.76,
       "turnover": 8.13,
-      "netInflow": 8024234.0,
-      "amplitude": 9.15,
-      "volumeRatio": 2.8,
-      "amount": 378279514.19,
-      "industry": "医药商业",
-      "mcap_yi": 47.36
+      "amount": 378279514.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 46,
+      "rank": 49,
       "code": "300103",
       "name": "达刚控股",
       "price": 7.88,
       "chgPct": 9.14,
       "turnover": 6.55,
-      "netInflow": 8391754.0,
-      "amplitude": 15.65,
-      "volumeRatio": 3.16,
       "amount": 163135799.0,
-      "industry": "专用设备",
-      "mcap_yi": 25.03
+      "mcap_yi": 0.0
     },
     {
-      "rank": 47,
+      "rank": 50,
       "code": "002266",
       "name": "浙富控股",
       "price": 5.75,
       "chgPct": 8.7,
       "turnover": 7.64,
-      "netInflow": 249859296.0,
-      "amplitude": 10.78,
-      "volumeRatio": 2.62,
-      "amount": 2092856082.5,
-      "industry": "环境治理",
-      "mcap_yi": 300.11
-    },
-    {
-      "rank": 48,
-      "code": "301053",
-      "name": "远信工业",
-      "price": 39.0,
-      "chgPct": 8.48,
-      "turnover": 6.67,
-      "netInflow": -15345559.0,
-      "amplitude": 11.91,
-      "volumeRatio": 2.0,
-      "amount": 307904052.48,
-      "industry": "专用设备",
-      "mcap_yi": 51.44
-    },
-    {
-      "rank": 49,
-      "code": "603893",
-      "name": "瑞芯微",
-      "price": 190.71,
-      "chgPct": 8.28,
-      "turnover": 6.15,
-      "netInflow": 588642992.0,
-      "amplitude": 8.93,
-      "volumeRatio": 1.89,
-      "amount": 4967289993.0,
-      "industry": "半导体",
-      "mcap_yi": 806.6
-    },
-    {
-      "rank": 50,
-      "code": "301068",
-      "name": "大地海洋",
-      "price": 30.68,
-      "chgPct": 8.26,
-      "turnover": 4.48,
-      "netInflow": 6436756.0,
-      "amplitude": 12.84,
-      "volumeRatio": 2.31,
-      "amount": 135234853.84,
-      "industry": "环境治理",
-      "mcap_yi": 43.36
+      "amount": 2092856083.0,
+      "mcap_yi": 0.03
     }
   ],
   "topLosers": [
@@ -2873,12 +2673,8 @@ window.MARKET = {
       "price": 5.18,
       "chgPct": -20.06,
       "turnover": 0.22,
-      "netInflow": -179067.0,
-      "amplitude": 0.0,
-      "volumeRatio": 0.03,
       "amount": 2265540.0,
-      "industry": "专用设备",
-      "mcap_yi": 12.1
+      "mcap_yi": 0.0
     },
     {
       "rank": 2,
@@ -2887,12 +2683,8 @@ window.MARKET = {
       "price": 23.27,
       "chgPct": -20.01,
       "turnover": 9.42,
-      "netInflow": -50943435.0,
-      "amplitude": 21.07,
-      "volumeRatio": 1.98,
-      "amount": 370763982.93,
-      "industry": "塑料",
-      "mcap_yi": 37.24
+      "amount": 370763983.0,
+      "mcap_yi": 0.0
     },
     {
       "rank": 3,
@@ -2900,13 +2692,9 @@ window.MARKET = {
       "name": "显盈科技",
       "price": 29.66,
       "chgPct": -19.73,
-      "turnover": 20.13,
-      "netInflow": -12004846.0,
-      "amplitude": 19.38,
-      "volumeRatio": 1.93,
-      "amount": 407261162.62,
-      "industry": "消费电子",
-      "mcap_yi": 28.84
+      "turnover": 19.46,
+      "amount": 407261163.0,
+      "mcap_yi": 0.0
     },
     {
       "rank": 4,
@@ -2915,656 +2703,468 @@ window.MARKET = {
       "price": 3.38,
       "chgPct": -16.34,
       "turnover": 25.51,
-      "netInflow": -6577859.0,
-      "amplitude": 15.59,
-      "volumeRatio": 1.2,
-      "amount": 67351455.64,
-      "industry": "通信服务",
-      "mcap_yi": 4.11
+      "amount": 67351456.0,
+      "mcap_yi": 0.0
     },
     {
       "rank": 5,
+      "code": "920072",
+      "name": "科莱瑞迪",
+      "price": 29.56,
+      "chgPct": -15.37,
+      "turnover": 26.3,
+      "amount": 116614387.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 6,
       "code": "301365",
       "name": "矩阵股份",
       "price": 35.57,
       "chgPct": -14.35,
       "turnover": 9.43,
-      "netInflow": 27663856.0,
-      "amplitude": 14.16,
-      "volumeRatio": 1.12,
-      "amount": 421302806.47,
-      "industry": "工程咨询服务Ⅱ",
-      "mcap_yi": 64.89
+      "amount": 421302806.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 6,
+      "rank": 7,
       "code": "688272",
       "name": "富吉瑞",
       "price": 37.2,
       "chgPct": -14.29,
       "turnover": 5.92,
-      "netInflow": -29145169.0,
-      "amplitude": 15.48,
-      "volumeRatio": 0.97,
       "amount": 178646163.0,
-      "industry": "军工电子Ⅱ",
-      "mcap_yi": 28.27
+      "mcap_yi": 0.0
     },
     {
-      "rank": 7,
+      "rank": 8,
       "code": "301418",
       "name": "协昌科技",
       "price": 45.5,
       "chgPct": -14.04,
       "turnover": 18.32,
-      "netInflow": -31691706.0,
-      "amplitude": 15.53,
-      "volumeRatio": 1.17,
-      "amount": 259659213.56,
-      "industry": "自动化设备",
-      "mcap_yi": 33.37
+      "amount": 259659214.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 8,
+      "rank": 9,
+      "code": "920083",
+      "name": "金戈新材",
+      "price": 43.3,
+      "chgPct": -13.85,
+      "turnover": 25.24,
+      "amount": 233747548.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 10,
+      "code": "920206",
+      "name": "彩客科技",
+      "price": 43.25,
+      "chgPct": -13.74,
+      "turnover": 18.83,
+      "amount": 121421119.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 11,
       "code": "688496",
       "name": "*ST清越",
       "price": 0.89,
       "chgPct": -13.59,
       "turnover": 7.97,
-      "netInflow": 1746641.0,
-      "amplitude": 20.39,
-      "volumeRatio": 1.98,
       "amount": 17184333.0,
-      "industry": "光学光电子",
-      "mcap_yi": 4.0
+      "mcap_yi": 0.0
     },
     {
-      "rank": 9,
+      "rank": 12,
       "code": "300938",
       "name": "信测标准",
       "price": 46.47,
       "chgPct": -12.57,
       "turnover": 8.85,
-      "netInflow": -103282716.0,
-      "amplitude": 11.55,
-      "volumeRatio": 1.37,
-      "amount": 1268943394.66,
-      "industry": "专业服务",
-      "mcap_yi": 158.4
+      "amount": 1268943395.0,
+      "mcap_yi": 0.01
     },
     {
-      "rank": 10,
+      "rank": 13,
       "code": "300401",
       "name": "花园生物",
       "price": 17.91,
       "chgPct": -12.42,
       "turnover": 12.46,
-      "netInflow": -170526914.0,
-      "amplitude": 15.89,
-      "volumeRatio": 1.26,
-      "amount": 1272740925.14,
-      "industry": "化学制药",
-      "mcap_yi": 97.58
+      "amount": 1272740925.0,
+      "mcap_yi": 0.01
     },
     {
-      "rank": 11,
+      "rank": 14,
+      "code": "920193",
+      "name": "吉和昌",
+      "price": 49.0,
+      "chgPct": -11.81,
+      "turnover": 48.37,
+      "amount": 612498122.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 15,
       "code": "301027",
       "name": "华蓝集团",
       "price": 18.81,
       "chgPct": -11.48,
-      "turnover": 10.12,
-      "netInflow": 4036456.0,
-      "amplitude": 6.96,
-      "volumeRatio": 1.82,
-      "amount": 236520471.96,
-      "industry": "工程咨询服务Ⅱ",
-      "mcap_yi": 27.65
+      "turnover": 9.7,
+      "amount": 236520472.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 12,
+      "rank": 16,
       "code": "301257",
       "name": "普蕊斯",
       "price": 48.31,
       "chgPct": -10.93,
       "turnover": 10.62,
-      "netInflow": -32742157.0,
-      "amplitude": 9.26,
-      "volumeRatio": 0.94,
-      "amount": 403939222.71,
-      "industry": "医疗服务",
-      "mcap_yi": 38.17
+      "amount": 403939223.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 13,
+      "rank": 17,
+      "code": "920090",
+      "name": "*ST同辉",
+      "price": 3.06,
+      "chgPct": -10.53,
+      "turnover": 4.22,
+      "amount": 18296344.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 18,
       "code": "301043",
       "name": "绿岛风",
       "price": 48.51,
       "chgPct": -10.5,
       "turnover": 3.74,
-      "netInflow": -8989668.0,
-      "amplitude": 11.33,
-      "volumeRatio": 0.91,
       "amount": 106329141.0,
-      "industry": "通用设备",
-      "mcap_yi": 32.99
+      "mcap_yi": 0.0
     },
     {
-      "rank": 14,
+      "rank": 19,
       "code": "300503",
       "name": "昊志机电",
       "price": 98.48,
       "chgPct": -10.31,
-      "turnover": 20.09,
-      "netInflow": -612828400.0,
-      "amplitude": 12.68,
-      "volumeRatio": 1.03,
-      "amount": 4968904702.46,
-      "industry": "通用设备",
-      "mcap_yi": 303.54
+      "turnover": 20.07,
+      "amount": 4968904702.0,
+      "mcap_yi": 0.02
     },
     {
-      "rank": 15,
+      "rank": 20,
       "code": "300808",
       "name": "久量股份",
       "price": 19.96,
       "chgPct": -10.29,
       "turnover": 3.45,
-      "netInflow": -11826853.0,
-      "amplitude": 11.19,
-      "volumeRatio": 2.52,
-      "amount": 84560477.4,
-      "industry": "光学光电子",
-      "mcap_yi": 31.94
+      "amount": 84560477.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 16,
+      "rank": 21,
       "code": "688418",
       "name": "震有科技",
       "price": 46.78,
       "chgPct": -10.28,
       "turnover": 3.71,
-      "netInflow": -17080887.0,
-      "amplitude": 9.55,
-      "volumeRatio": 0.77,
       "amount": 348989990.0,
-      "industry": "通信设备",
-      "mcap_yi": 90.08
+      "mcap_yi": 0.01
     },
     {
-      "rank": 17,
+      "rank": 22,
       "code": "600187",
       "name": "*ST国中",
       "price": 1.4,
       "chgPct": -10.26,
       "turnover": 3.72,
-      "netInflow": -22135846.0,
-      "amplitude": 7.69,
-      "volumeRatio": 1.52,
       "amount": 86393222.0,
-      "industry": "环境治理",
-      "mcap_yi": 22.59
+      "mcap_yi": 0.0
     },
     {
-      "rank": 18,
+      "rank": 23,
       "code": "002547",
       "name": "*ST春兴",
       "price": 2.21,
       "chgPct": -10.16,
       "turnover": 5.11,
-      "netInflow": -37326752.0,
-      "amplitude": 12.2,
-      "volumeRatio": 1.46,
-      "amount": 128756447.62,
-      "industry": "汽车零部件",
-      "mcap_yi": 24.93
+      "amount": 128756448.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 19,
+      "rank": 24,
       "code": "000677",
       "name": "ST海龙",
       "price": 1.51,
       "chgPct": -10.12,
       "turnover": 6.23,
-      "netInflow": -17144138.0,
-      "amplitude": 7.74,
-      "volumeRatio": 1.03,
-      "amount": 83849404.33,
-      "industry": "化学纤维",
-      "mcap_yi": 13.05
+      "amount": 83849404.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 20,
+      "rank": 25,
       "code": "600376",
       "name": "首开股份",
       "price": 3.57,
       "chgPct": -10.08,
       "turnover": 6.11,
-      "netInflow": -26195643.0,
-      "amplitude": 7.3,
-      "volumeRatio": 1.3,
       "amount": 577534096.0,
-      "industry": "房地产开发",
-      "mcap_yi": 92.09
+      "mcap_yi": 0.01
     },
     {
-      "rank": 21,
+      "rank": 26,
       "code": "600630",
       "name": "龙头股份",
       "price": 7.79,
       "chgPct": -10.05,
       "turnover": 8.26,
-      "netInflow": -2364936.0,
-      "amplitude": 3.81,
-      "volumeRatio": 0.97,
       "amount": 274169554.0,
-      "industry": "服装家纺",
-      "mcap_yi": 33.1
+      "mcap_yi": 0.0
     },
     {
-      "rank": 22,
+      "rank": 27,
       "code": "688266",
-      "name": "泽璟制药-U",
+      "name": "泽璟制药",
       "price": 128.68,
-      "chgPct": -10.05,
+      "chgPct": -10.04,
       "turnover": 4.79,
-      "netInflow": -99636240.0,
-      "amplitude": 7.83,
-      "volumeRatio": 0.96,
       "amount": 1679373707.0,
-      "industry": "化学制药",
-      "mcap_yi": 340.63
+      "mcap_yi": 0.03
     },
     {
-      "rank": 23,
+      "rank": 28,
       "code": "688500",
       "name": "慧辰股份",
       "price": 37.8,
       "chgPct": -10.04,
       "turnover": 4.56,
-      "netInflow": -9509405.0,
-      "amplitude": 10.07,
-      "volumeRatio": 1.46,
       "amount": 132773003.0,
-      "industry": "IT服务Ⅱ",
-      "mcap_yi": 28.72
+      "mcap_yi": 0.0
     },
     {
-      "rank": 24,
+      "rank": 29,
       "code": "688091",
       "name": "上海谊众",
       "price": 43.28,
       "chgPct": -10.04,
       "turnover": 3.92,
-      "netInflow": -3410247.0,
-      "amplitude": 11.74,
-      "volumeRatio": 1.12,
       "amount": 359461745.0,
-      "industry": "化学制药",
-      "mcap_yi": 89.46
+      "mcap_yi": 0.01
     },
     {
-      "rank": 25,
+      "rank": 30,
       "code": "000949",
       "name": "新乡化纤",
       "price": 5.56,
       "chgPct": -10.03,
       "turnover": 4.92,
-      "netInflow": -36326868.0,
-      "amplitude": 10.03,
-      "volumeRatio": 1.39,
-      "amount": 464105975.44,
-      "industry": "化学纤维",
-      "mcap_yi": 92.12
+      "amount": 464105975.0,
+      "mcap_yi": 0.01
     },
     {
-      "rank": 26,
+      "rank": 31,
       "code": "002038",
       "name": "双鹭药业",
       "price": 5.83,
       "chgPct": -10.03,
       "turnover": 6.33,
-      "netInflow": -25166379.0,
-      "amplitude": 6.02,
-      "volumeRatio": 0.65,
-      "amount": 321602512.91,
-      "industry": "化学制药",
-      "mcap_yi": 59.89
+      "amount": 321602513.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 27,
+      "rank": 32,
       "code": "002403",
       "name": "爱仕达",
       "price": 10.6,
       "chgPct": -10.02,
       "turnover": 6.35,
-      "netInflow": -7223677.0,
-      "amplitude": 8.32,
-      "volumeRatio": 1.77,
       "amount": 203514564.0,
-      "industry": "小家电",
-      "mcap_yi": 36.11
+      "mcap_yi": 0.0
     },
     {
-      "rank": 28,
+      "rank": 33,
       "code": "000007",
       "name": "全新好",
       "price": 11.59,
       "chgPct": -10.02,
       "turnover": 4.85,
-      "netInflow": -3791048.0,
-      "amplitude": 14.83,
-      "volumeRatio": 1.87,
       "amount": 203058414.0,
-      "industry": "一般零售",
-      "mcap_yi": 40.15
+      "mcap_yi": 0.0
     },
     {
-      "rank": 29,
+      "rank": 34,
       "code": "002148",
       "name": "北纬科技",
       "price": 6.29,
       "chgPct": -10.01,
       "turnover": 10.48,
-      "netInflow": -10812278.0,
-      "amplitude": 6.44,
-      "volumeRatio": 1.92,
-      "amount": 302904164.01,
-      "industry": "通信服务",
-      "mcap_yi": 35.15
+      "amount": 302904164.0,
+      "mcap_yi": 0.0
     },
     {
-      "rank": 30,
-      "code": "002729",
-      "name": "好利科技",
-      "price": 15.73,
-      "chgPct": -10.01,
-      "turnover": 7.76,
-      "netInflow": -44251092.0,
-      "amplitude": 8.12,
-      "volumeRatio": 1.35,
-      "amount": 221739061.71,
-      "industry": "其他电子Ⅱ",
-      "mcap_yi": 28.78
-    },
-    {
-      "rank": 31,
+      "rank": 35,
       "code": "600843",
       "name": "上工申贝",
       "price": 8.0,
       "chgPct": -10.01,
       "turnover": 5.29,
-      "netInflow": -38198780.0,
-      "amplitude": 9.67,
-      "volumeRatio": 1.14,
       "amount": 205233181.0,
-      "industry": "专用设备",
-      "mcap_yi": 57.05
+      "mcap_yi": 0.0
     },
     {
-      "rank": 32,
+      "rank": 36,
+      "code": "002729",
+      "name": "好利科技",
+      "price": 15.73,
+      "chgPct": -10.01,
+      "turnover": 7.76,
+      "amount": 221739062.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 37,
       "code": "603020",
       "name": "爱普股份",
       "price": 13.22,
       "chgPct": -10.01,
       "turnover": 5.47,
-      "netInflow": 27359955.0,
-      "amplitude": 10.01,
-      "volumeRatio": 2.16,
       "amount": 276914681.0,
-      "industry": "化学制品",
-      "mcap_yi": 49.66
+      "mcap_yi": 0.0
     },
     {
-      "rank": 33,
+      "rank": 38,
       "code": "600301",
       "name": "华锡有色",
       "price": 56.48,
       "chgPct": -10.01,
       "turnover": 5.39,
-      "netInflow": -121457371.0,
-      "amplitude": 6.41,
-      "volumeRatio": 0.86,
       "amount": 853563502.0,
-      "industry": "小金属",
-      "mcap_yi": 357.27
+      "mcap_yi": 0.02
     },
     {
-      "rank": 34,
+      "rank": 39,
       "code": "003009",
       "name": "中天火箭",
       "price": 57.93,
-      "chgPct": -10.0,
+      "chgPct": -10.01,
       "turnover": 5.52,
-      "netInflow": -32075017.0,
-      "amplitude": 6.32,
-      "volumeRatio": 0.82,
-      "amount": 532874044.69,
-      "industry": "航天装备Ⅱ",
-      "mcap_yi": 95.42
+      "amount": 532874045.0,
+      "mcap_yi": 0.01
     },
     {
-      "rank": 35,
+      "rank": 40,
       "code": "600397",
       "name": "江钨装备",
       "price": 20.78,
       "chgPct": -10.0,
       "turnover": 9.67,
-      "netInflow": -246949957.0,
-      "amplitude": 7.93,
-      "volumeRatio": 0.89,
       "amount": 2064847473.0,
-      "industry": "专用设备",
-      "mcap_yi": 205.71
+      "mcap_yi": 0.02
     },
     {
-      "rank": 36,
+      "rank": 41,
       "code": "603257",
       "name": "中国瑞林",
       "price": 72.15,
       "chgPct": -10.0,
       "turnover": 11.99,
-      "netInflow": -26071460.0,
-      "amplitude": 10.02,
-      "volumeRatio": 0.94,
       "amount": 222090372.0,
-      "industry": "工程咨询服务Ⅱ",
-      "mcap_yi": 86.58
+      "mcap_yi": 0.0
     },
     {
-      "rank": 37,
-      "code": "000838",
-      "name": "*ST发展",
-      "price": 1.71,
-      "chgPct": -10.0,
-      "turnover": 6.19,
-      "netInflow": -15658802.0,
-      "amplitude": 14.74,
-      "volumeRatio": 1.74,
-      "amount": 119960040.0,
-      "industry": "房地产开发",
-      "mcap_yi": 18.82
-    },
-    {
-      "rank": 38,
-      "code": "002719",
-      "name": "ST麦趣",
-      "price": 5.49,
-      "chgPct": -10.0,
-      "turnover": 6.47,
-      "netInflow": -21980690.0,
-      "amplitude": 10.0,
-      "volumeRatio": 1.58,
-      "amount": 58676489.15,
-      "industry": "休闲食品",
-      "mcap_yi": 9.56
-    },
-    {
-      "rank": 39,
-      "code": "002931",
-      "name": "锋龙股份",
-      "price": 71.64,
-      "chgPct": -10.0,
-      "turnover": 8.79,
-      "netInflow": -58677026.0,
-      "amplitude": 7.37,
-      "volumeRatio": 0.72,
-      "amount": 1303242528.54,
-      "industry": "通用设备",
-      "mcap_yi": 156.54
-    },
-    {
-      "rank": 40,
+      "rank": 42,
       "code": "600353",
       "name": "旭光电子",
       "price": 40.68,
       "chgPct": -10.0,
       "turnover": 5.51,
-      "netInflow": -131243056.0,
-      "amplitude": 11.77,
-      "volumeRatio": 0.9,
       "amount": 1920648042.0,
-      "industry": "其他电子Ⅱ",
-      "mcap_yi": 337.16
+      "mcap_yi": 0.03
     },
     {
-      "rank": 41,
+      "rank": 43,
       "code": "603272",
       "name": "*ST联翔",
       "price": 20.34,
       "chgPct": -10.0,
       "turnover": 4.59,
-      "netInflow": -5186157.0,
-      "amplitude": 6.42,
-      "volumeRatio": 1.91,
       "amount": 98316947.0,
-      "industry": "家居用品",
-      "mcap_yi": 21.08
+      "mcap_yi": 0.0
     },
     {
-      "rank": 42,
+      "rank": 44,
       "code": "603618",
       "name": "杭电股份",
       "price": 39.69,
       "chgPct": -10.0,
       "turnover": 8.33,
-      "netInflow": -225606659.0,
-      "amplitude": 5.24,
-      "volumeRatio": 0.89,
       "amount": 2318653783.0,
-      "industry": "电网设备",
-      "mcap_yi": 274.41
+      "mcap_yi": 0.03
     },
     {
-      "rank": 43,
+      "rank": 45,
       "code": "603843",
       "name": "*ST正平",
       "price": 7.11,
       "chgPct": -10.0,
       "turnover": 3.81,
-      "netInflow": -52268235.0,
-      "amplitude": 10.76,
-      "volumeRatio": 1.64,
       "amount": 195351429.0,
-      "industry": "基础建设",
-      "mcap_yi": 49.74
+      "mcap_yi": 0.0
     },
     {
-      "rank": 44,
+      "rank": 46,
+      "code": "000838",
+      "name": "*ST发展",
+      "price": 1.71,
+      "chgPct": -10.0,
+      "turnover": 6.19,
+      "amount": 119960040.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 47,
+      "code": "002719",
+      "name": "ST麦趣",
+      "price": 5.49,
+      "chgPct": -10.0,
+      "turnover": 6.47,
+      "amount": 58676489.0,
+      "mcap_yi": 0.0
+    },
+    {
+      "rank": 48,
+      "code": "002931",
+      "name": "锋龙股份",
+      "price": 71.64,
+      "chgPct": -10.0,
+      "turnover": 8.79,
+      "amount": 1303242529.0,
+      "mcap_yi": 0.01
+    },
+    {
+      "rank": 49,
       "code": "603629",
       "name": "DR利通电",
       "price": 111.07,
       "chgPct": -10.0,
       "turnover": 7.88,
-      "netInflow": -450687456.0,
-      "amplitude": 10.23,
-      "volumeRatio": 1.18,
       "amount": 3238401630.0,
-      "industry": "消费电子",
-      "mcap_yi": 407.32
+      "mcap_yi": 0.04
     },
     {
-      "rank": 45,
+      "rank": 50,
       "code": "603678",
       "name": "火炬电子",
       "price": 69.24,
       "chgPct": -10.0,
       "turnover": 7.82,
-      "netInflow": -302914496.0,
-      "amplitude": 8.79,
-      "volumeRatio": 0.9,
       "amount": 2694565115.0,
-      "industry": "军工电子Ⅱ",
-      "mcap_yi": 329.28
-    },
-    {
-      "rank": 46,
-      "code": "002856",
-      "name": "*ST美芝",
-      "price": 16.39,
-      "chgPct": -9.99,
-      "turnover": 5.88,
-      "netInflow": -18138658.0,
-      "amplitude": 8.24,
-      "volumeRatio": 1.32,
-      "amount": 121767244.9,
-      "industry": "装修装饰Ⅱ",
-      "mcap_yi": 22.18
-    },
-    {
-      "rank": 47,
-      "code": "002989",
-      "name": "中天精装",
-      "price": 30.17,
-      "chgPct": -9.99,
-      "turnover": 5.43,
-      "netInflow": 15277527.0,
-      "amplitude": 10.2,
-      "volumeRatio": 1.29,
-      "amount": 332222081.8,
-      "industry": "装修装饰Ⅱ",
-      "mcap_yi": 60.83
-    },
-    {
-      "rank": 48,
-      "code": "000301",
-      "name": "东方盛虹",
-      "price": 12.43,
-      "chgPct": -9.99,
-      "turnover": 1.34,
-      "netInflow": -41502676.0,
-      "amplitude": 10.57,
-      "volumeRatio": 1.91,
-      "amount": 1133871940.75,
-      "industry": "炼化及贸易",
-      "mcap_yi": 821.78
-    },
-    {
-      "rank": 49,
-      "code": "603001",
-      "name": "奥康国际",
-      "price": 9.28,
-      "chgPct": -9.99,
-      "turnover": 1.07,
-      "netInflow": -7784992.0,
-      "amplitude": 0.0,
-      "volumeRatio": 0.34,
-      "amount": 39718400.0,
-      "industry": "服装家纺",
-      "mcap_yi": 37.21
-    },
-    {
-      "rank": 50,
-      "code": "603033",
-      "name": "三维股份",
-      "price": 9.19,
-      "chgPct": -9.99,
-      "turnover": 2.71,
-      "netInflow": -20030204.0,
-      "amplitude": 11.36,
-      "volumeRatio": 0.92,
-      "amount": 262288338.0,
-      "industry": "橡胶",
-      "mcap_yi": 94.76
+      "mcap_yi": 0.03
     }
   ],
   "topTurnover": [
@@ -4122,19 +3722,19 @@ window.MARKET = {
     },
     {
       "rank": 7,
-      "code": "001248",
-      "name": "C华润",
-      "price": 18.51,
-      "pct": 0.76,
-      "rank_chg": 0
-    },
-    {
-      "rank": 8,
       "code": "002384",
       "name": "东山精密",
       "price": 236.87,
       "pct": 5.53,
-      "rank_chg": 68
+      "rank_chg": 69
+    },
+    {
+      "rank": 8,
+      "code": "001248",
+      "name": "C华润",
+      "price": 18.51,
+      "pct": 0.76,
+      "rank_chg": -1
     },
     {
       "rank": 9,
@@ -4202,51 +3802,51 @@ window.MARKET = {
     },
     {
       "rank": 17,
-      "code": "000066",
-      "name": "中国长城",
-      "price": 18.58,
-      "pct": -1.28,
-      "rank_chg": -12
-    },
-    {
-      "rank": 18,
       "code": "300059",
       "name": "东方财富",
       "price": 20.29,
       "pct": -4.2,
-      "rank_chg": -1
+      "rank_chg": 0
     },
     {
-      "rank": 19,
-      "code": "300308",
-      "name": "中际旭创",
-      "price": 1121.9,
-      "pct": 2.09,
-      "rank_chg": 13
-    },
-    {
-      "rank": 20,
+      "rank": 18,
       "code": "002137",
       "name": "实益达",
       "price": 11.43,
       "pct": 10.01,
-      "rank_chg": 588
+      "rank_chg": 590
+    },
+    {
+      "rank": 19,
+      "code": "000066",
+      "name": "中国长城",
+      "price": 18.58,
+      "pct": -1.28,
+      "rank_chg": -14
+    },
+    {
+      "rank": 20,
+      "code": "300308",
+      "name": "中际旭创",
+      "price": 1121.9,
+      "pct": 2.09,
+      "rank_chg": 12
     },
     {
       "rank": 21,
-      "code": "002354",
-      "name": "天娱数科",
-      "price": 8.71,
-      "pct": 3.32,
-      "rank_chg": 4
-    },
-    {
-      "rank": 22,
       "code": "600360",
       "name": "华微电子",
       "price": 15.32,
       "pct": 9.98,
-      "rank_chg": 341
+      "rank_chg": 342
+    },
+    {
+      "rank": 22,
+      "code": "002354",
+      "name": "天娱数科",
+      "price": 8.71,
+      "pct": 3.32,
+      "rank_chg": 3
     },
     {
       "rank": 23,
@@ -4258,51 +3858,51 @@ window.MARKET = {
     },
     {
       "rank": 24,
-      "code": "002156",
-      "name": "通富微电",
-      "price": 68.21,
-      "pct": 3.07,
-      "rank_chg": 32
-    },
-    {
-      "rank": 25,
-      "code": "600703",
-      "name": "三安光电",
-      "price": 17.78,
-      "pct": 2.48,
-      "rank_chg": 68
-    },
-    {
-      "rank": 26,
-      "code": "002281",
-      "name": "光迅科技",
-      "price": 221.67,
-      "pct": 6.05,
-      "rank_chg": 140
-    },
-    {
-      "rank": 27,
       "code": "603823",
       "name": "百合花",
       "price": 72.45,
       "pct": 10.01,
-      "rank_chg": 35
+      "rank_chg": 38
+    },
+    {
+      "rank": 25,
+      "code": "002156",
+      "name": "通富微电",
+      "price": 68.21,
+      "pct": 3.07,
+      "rank_chg": 31
+    },
+    {
+      "rank": 26,
+      "code": "600703",
+      "name": "三安光电",
+      "price": 17.78,
+      "pct": 2.48,
+      "rank_chg": 67
+    },
+    {
+      "rank": 27,
+      "code": "002281",
+      "name": "光迅科技",
+      "price": 221.67,
+      "pct": 6.05,
+      "rank_chg": 139
     },
     {
       "rank": 28,
-      "code": "002031",
-      "name": "巨轮智能",
-      "price": 6.04,
-      "pct": 7.47,
-      "rank_chg": 207
-    },
-    {
-      "rank": 29,
       "code": "600487",
       "name": "亨通光电",
       "price": 80.89,
       "pct": -4.39,
-      "rank_chg": 12
+      "rank_chg": 13
+    },
+    {
+      "rank": 29,
+      "code": "002031",
+      "name": "巨轮智能",
+      "price": 6.04,
+      "pct": 7.47,
+      "rank_chg": 206
     },
     {
       "rank": 30,
@@ -4346,131 +3946,131 @@ window.MARKET = {
     },
     {
       "rank": 35,
-      "code": "600522",
-      "name": "中天科技",
-      "price": 47.27,
-      "pct": -1.58,
-      "rank_chg": 14
-    },
-    {
-      "rank": 36,
-      "code": "603618",
-      "name": "杭电股份",
-      "price": 39.69,
-      "pct": -10.0,
-      "rank_chg": -26
-    },
-    {
-      "rank": 37,
       "code": "002585",
       "name": "双星新材",
       "price": 11.37,
       "pct": 9.96,
-      "rank_chg": 460
+      "rank_chg": 462
+    },
+    {
+      "rank": 36,
+      "code": "600522",
+      "name": "中天科技",
+      "price": 47.27,
+      "pct": -1.58,
+      "rank_chg": 13
+    },
+    {
+      "rank": 37,
+      "code": "603618",
+      "name": "杭电股份",
+      "price": 39.69,
+      "pct": -10.0,
+      "rank_chg": -27
     },
     {
       "rank": 38,
-      "code": "601991",
-      "name": "大唐发电",
-      "price": 7.0,
-      "pct": -5.28,
-      "rank_chg": 31
-    },
-    {
-      "rank": 39,
       "code": "600246",
       "name": "万通发展",
       "price": 18.6,
       "pct": 9.99,
-      "rank_chg": 27
+      "rank_chg": 28
     },
     {
-      "rank": 40,
-      "code": "002050",
-      "name": "三花智控",
-      "price": 45.51,
-      "pct": -1.39,
-      "rank_chg": -22
-    },
-    {
-      "rank": 41,
+      "rank": 39,
       "code": "002558",
       "name": "巨人网络",
       "price": 29.09,
       "pct": 6.01,
-      "rank_chg": 465
+      "rank_chg": 467
     },
     {
-      "rank": 42,
+      "rank": 40,
+      "code": "601991",
+      "name": "大唐发电",
+      "price": 7.0,
+      "pct": -5.28,
+      "rank_chg": 29
+    },
+    {
+      "rank": 41,
       "code": "603893",
       "name": "瑞芯微",
       "price": 190.71,
       "pct": 8.28,
-      "rank_chg": 871
+      "rank_chg": 872
     },
     {
-      "rank": 43,
-      "code": "600176",
-      "name": "中国巨石",
-      "price": 60.0,
-      "pct": -5.97,
-      "rank_chg": -16
-    },
-    {
-      "rank": 44,
+      "rank": 42,
       "code": "600793",
       "name": "宜宾纸业",
       "price": 19.37,
       "pct": 9.99,
-      "rank_chg": 2
+      "rank_chg": 4
     },
     {
-      "rank": 45,
+      "rank": 43,
+      "code": "002050",
+      "name": "三花智控",
+      "price": 45.51,
+      "pct": -1.39,
+      "rank_chg": -25
+    },
+    {
+      "rank": 44,
       "code": "603065",
       "name": "宿迁联盛",
       "price": 20.25,
       "pct": 9.99,
-      "rank_chg": 583
+      "rank_chg": 584
+    },
+    {
+      "rank": 45,
+      "code": "600176",
+      "name": "中国巨石",
+      "price": 60.0,
+      "pct": -5.97,
+      "rank_chg": -18
     },
     {
       "rank": 46,
-      "code": "603538",
-      "name": "美诺华",
-      "price": 43.7,
-      "pct": 5.1,
-      "rank_chg": 15
-    },
-    {
-      "rank": 47,
       "code": "600288",
       "name": "大恒科技",
       "price": 15.55,
       "pct": 9.97,
-      "rank_chg": 12
+      "rank_chg": 13
     },
     {
-      "rank": 48,
+      "rank": 47,
       "code": "000973",
       "name": "佛塑科技",
       "price": 14.58,
       "pct": 10.04,
-      "rank_chg": 1646
+      "rank_chg": 1647
     },
     {
-      "rank": 49,
-      "code": "002457",
-      "name": "青龙管业",
-      "price": 14.99,
-      "pct": 6.54,
-      "rank_chg": -23
-    },
-    {
-      "rank": 50,
+      "rank": 48,
       "code": "600120",
       "name": "浙江东方",
       "price": 4.88,
       "pct": 9.91,
-      "rank_chg": 217
+      "rank_chg": 219
+    },
+    {
+      "rank": 49,
+      "code": "603538",
+      "name": "美诺华",
+      "price": 43.7,
+      "pct": 5.1,
+      "rank_chg": 12
+    },
+    {
+      "rank": 50,
+      "code": "002457",
+      "name": "青龙管业",
+      "price": 14.99,
+      "pct": 6.54,
+      "rank_chg": -24
     }
   ],
   "thsHot": [
@@ -4478,7 +4078,7 @@ window.MARKET = {
       "rank": 1,
       "code": "002747",
       "name": "埃斯顿",
-      "heat": "1018923.0",
+      "heat": "987418.0",
       "pct": 6.4523,
       "rank_chg": 0,
       "concepts": [
@@ -4491,7 +4091,7 @@ window.MARKET = {
       "rank": 2,
       "code": "002185",
       "name": "华天科技",
-      "heat": "848810.0",
+      "heat": "890067.0",
       "pct": 9.9799,
       "rank_chg": 0,
       "concepts": [
@@ -4504,7 +4104,7 @@ window.MARKET = {
       "rank": 3,
       "code": "600584",
       "name": "长电科技",
-      "heat": "812194.0",
+      "heat": "734061.0",
       "pct": 6.2046,
       "rank_chg": 0,
       "concepts": [
@@ -4515,11 +4115,24 @@ window.MARKET = {
     },
     {
       "rank": 4,
+      "code": "603823",
+      "name": "百合花",
+      "heat": "560352.0",
+      "pct": 10.0061,
+      "rank_chg": 1,
+      "concepts": [
+        "光刻胶",
+        "PEEK材料"
+      ],
+      "tag": "首板涨停"
+    },
+    {
+      "rank": 5,
       "code": "000725",
       "name": "京东方A",
-      "heat": "659170.0",
+      "heat": "559015.0",
       "pct": -2.3196,
-      "rank_chg": 0,
+      "rank_chg": -1,
       "concepts": [
         "电子纸",
         "MicroLED概念"
@@ -4527,10 +4140,10 @@ window.MARKET = {
       "tag": "持续上榜"
     },
     {
-      "rank": 5,
+      "rank": 6,
       "code": "002384",
       "name": "东山精密",
-      "heat": "557915.0",
+      "heat": "473275.0",
       "pct": 5.5288,
       "rank_chg": 0,
       "concepts": [
@@ -4540,23 +4153,10 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 6,
-      "code": "603823",
-      "name": "百合花",
-      "heat": "541218.0",
-      "pct": 10.0061,
-      "rank_chg": 0,
-      "concepts": [
-        "光刻胶",
-        "PEEK材料"
-      ],
-      "tag": "首板涨停"
-    },
-    {
       "rank": 7,
       "code": "600667",
       "name": "太极实业",
-      "heat": "510516.0",
+      "heat": "454705.0",
       "pct": -3.9767,
       "rank_chg": 0,
       "concepts": [
@@ -4567,35 +4167,9 @@ window.MARKET = {
     },
     {
       "rank": 8,
-      "code": "600487",
-      "name": "亨通光电",
-      "heat": "452579.0",
-      "pct": -4.3853,
-      "rank_chg": 0,
-      "concepts": [
-        "光纤概念",
-        "F5G概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 9,
-      "code": "001248",
-      "name": "华润新能源",
-      "heat": "442278.0",
-      "pct": 0.7621,
-      "rank_chg": 0,
-      "concepts": [
-        "新股与次新股",
-        "注册制次新股"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 10,
       "code": "600206",
       "name": "有研新材",
-      "heat": "432299.0",
+      "heat": "439045.0",
       "pct": 10.002,
       "rank_chg": 0,
       "concepts": [
@@ -4605,114 +4179,36 @@ window.MARKET = {
       "tag": "首板涨停"
     },
     {
+      "rank": 9,
+      "code": "600487",
+      "name": "亨通光电",
+      "heat": "416301.0",
+      "pct": -4.3853,
+      "rank_chg": 0,
+      "concepts": [
+        "光纤概念",
+        "F5G概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 10,
+      "code": "001248",
+      "name": "华润新能源",
+      "heat": "367436.0",
+      "pct": 0.7621,
+      "rank_chg": 0,
+      "concepts": [
+        "新股与次新股",
+        "注册制次新股"
+      ],
+      "tag": ""
+    },
+    {
       "rank": 11,
-      "code": "600172",
-      "name": "黄河旋风",
-      "heat": "394102.0",
-      "pct": -1.0243,
-      "rank_chg": 0,
-      "concepts": [
-        "培育钻石",
-        "第三代半导体"
-      ],
-      "tag": "4天2板"
-    },
-    {
-      "rank": 12,
-      "code": "603986",
-      "name": "兆易创新",
-      "heat": "373242.0",
-      "pct": -5.2408,
-      "rank_chg": 0,
-      "concepts": [
-        "存储芯片",
-        "汽车芯片"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 13,
-      "code": "002354",
-      "name": "天娱数科",
-      "heat": "362761.0",
-      "pct": 3.3215,
-      "rank_chg": 0,
-      "concepts": [
-        "AI视频",
-        "虚拟数字人"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 14,
-      "code": "603629",
-      "name": "利通电子",
-      "heat": "336216.0",
-      "pct": -9.9992,
-      "rank_chg": 0,
-      "concepts": [
-        "算力租赁",
-        "英伟达概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 15,
-      "code": "603778",
-      "name": "国晟科技",
-      "heat": "335109.0",
-      "pct": 4.6845,
-      "rank_chg": 1,
-      "concepts": [
-        "硅能源",
-        "PPP概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 16,
-      "code": "000021",
-      "name": "深科技",
-      "heat": "331152.0",
-      "pct": 1.4447,
-      "rank_chg": 2,
-      "concepts": [
-        "存储芯片",
-        "先进封装"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 17,
-      "code": "002407",
-      "name": "多氟多",
-      "heat": "331059.0",
-      "pct": -1.1121,
-      "rank_chg": -2,
-      "concepts": [
-        "氟化工概念",
-        "PVDF概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 18,
-      "code": "002617",
-      "name": "露笑科技",
-      "heat": "320348.0",
-      "pct": 8.1382,
-      "rank_chg": -1,
-      "concepts": [
-        "第三代半导体",
-        "芯片概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 19,
       "code": "603618",
       "name": "杭电股份",
-      "heat": "319869.0",
+      "heat": "347115.0",
       "pct": -10.0,
       "rank_chg": 0,
       "concepts": [
@@ -4722,25 +4218,64 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 20,
-      "code": "601991",
-      "name": "大唐发电",
-      "heat": "310968.0",
-      "pct": -5.2774,
+      "rank": 12,
+      "code": "600172",
+      "name": "黄河旋风",
+      "heat": "336511.0",
+      "pct": -1.0243,
       "rank_chg": 0,
       "concepts": [
-        "绿色电力",
-        "风电"
+        "培育钻石",
+        "第三代半导体"
+      ],
+      "tag": "4天2板"
+    },
+    {
+      "rank": 13,
+      "code": "603986",
+      "name": "兆易创新",
+      "heat": "331765.0",
+      "pct": -5.2408,
+      "rank_chg": 0,
+      "concepts": [
+        "存储芯片",
+        "汽车芯片"
       ],
       "tag": ""
     },
     {
-      "rank": 21,
+      "rank": 14,
+      "code": "002354",
+      "name": "天娱数科",
+      "heat": "329979.0",
+      "pct": 3.3215,
+      "rank_chg": 0,
+      "concepts": [
+        "AI视频",
+        "虚拟数字人"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 15,
+      "code": "603629",
+      "name": "利通电子",
+      "heat": "325417.0",
+      "pct": -9.9992,
+      "rank_chg": 0,
+      "concepts": [
+        "算力租赁",
+        "英伟达概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 16,
       "code": "002129",
       "name": "TCL中环",
-      "heat": "298573.0",
+      "heat": "301054.0",
       "pct": 9.98,
-      "rank_chg": 0,
+      "rank_chg": 2,
       "concepts": [
         "BC电池",
         "硅能源"
@@ -4748,12 +4283,51 @@ window.MARKET = {
       "tag": "首板涨停"
     },
     {
-      "rank": 22,
+      "rank": 17,
+      "code": "000021",
+      "name": "深科技",
+      "heat": "298793.0",
+      "pct": 1.4447,
+      "rank_chg": -1,
+      "concepts": [
+        "存储芯片",
+        "先进封装"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 18,
+      "code": "002407",
+      "name": "多氟多",
+      "heat": "297418.0",
+      "pct": -1.1121,
+      "rank_chg": -1,
+      "concepts": [
+        "氟化工概念",
+        "PVDF概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 19,
+      "code": "600793",
+      "name": "宜宾纸业",
+      "heat": "297090.0",
+      "pct": 9.9943,
+      "rank_chg": 0,
+      "concepts": [
+        "西部大开发",
+        "国企改革"
+      ],
+      "tag": "5天5板"
+    },
+    {
+      "rank": 20,
       "code": "002558",
       "name": "巨人网络",
-      "heat": "281805.0",
+      "heat": "280264.0",
       "pct": 6.0131,
-      "rank_chg": 6,
+      "rank_chg": 0,
       "concepts": [
         "电子竞技",
         "云游戏"
@@ -4761,38 +4335,25 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 23,
-      "code": "603065",
-      "name": "宿迁联盛",
-      "heat": "281804.0",
-      "pct": 9.9946,
-      "rank_chg": -1,
+      "rank": 21,
+      "code": "002617",
+      "name": "露笑科技",
+      "heat": "276767.0",
+      "pct": 8.1382,
+      "rank_chg": 0,
       "concepts": [
-        "专精特新",
-        "光伏概念"
-      ],
-      "tag": "首板涨停"
-    },
-    {
-      "rank": 24,
-      "code": "300308",
-      "name": "中际旭创",
-      "heat": "280072.0",
-      "pct": 2.0911,
-      "rank_chg": -1,
-      "concepts": [
-        "共封装光学(CPO)",
-        "F5G概念"
+        "第三代半导体",
+        "芯片概念"
       ],
       "tag": ""
     },
     {
-      "rank": 25,
+      "rank": 22,
       "code": "600360",
       "name": "华微电子",
-      "heat": "276504.0",
+      "heat": "263736.0",
       "pct": 9.9785,
-      "rank_chg": -1,
+      "rank_chg": 0,
       "concepts": [
         "第三代半导体",
         "汽车电子"
@@ -4800,49 +4361,36 @@ window.MARKET = {
       "tag": "首板涨停"
     },
     {
-      "rank": 26,
-      "code": "600522",
-      "name": "中天科技",
-      "heat": "270618.0",
-      "pct": -1.5823,
-      "rank_chg": 0,
+      "rank": 23,
+      "code": "000566",
+      "name": "海南海药",
+      "heat": "260606.0",
+      "pct": -9.9533,
+      "rank_chg": 1,
       "concepts": [
-        "光纤概念",
-        "共封装光学(CPO)"
+        "猴痘概念",
+        "肝炎概念"
+      ],
+      "tag": "11天6板"
+    },
+    {
+      "rank": 24,
+      "code": "601991",
+      "name": "大唐发电",
+      "heat": "254575.0",
+      "pct": -5.2774,
+      "rank_chg": -1,
+      "concepts": [
+        "绿色电力",
+        "风电"
       ],
       "tag": ""
     },
     {
-      "rank": 27,
-      "code": "002428",
-      "name": "云南锗业",
-      "heat": "268366.0",
-      "pct": 4.4535,
-      "rank_chg": 0,
-      "concepts": [
-        "光纤概念",
-        "第三代半导体"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 28,
-      "code": "002281",
-      "name": "光迅科技",
-      "heat": "268270.0",
-      "pct": 6.047,
-      "rank_chg": -3,
-      "concepts": [
-        "F5G概念",
-        "光纤概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 29,
+      "rank": 25,
       "code": "000636",
       "name": "风华高科",
-      "heat": "264650.0",
+      "heat": "254326.0",
       "pct": 4.7179,
       "rank_chg": 0,
       "concepts": [
@@ -4852,36 +4400,88 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 30,
-      "code": "000938",
-      "name": "紫光股份",
-      "heat": "254257.0",
-      "pct": -5.4938,
+      "rank": 26,
+      "code": "300308",
+      "name": "中际旭创",
+      "heat": "243061.0",
+      "pct": 2.0911,
       "rank_chg": 0,
       "concepts": [
-        "WiFi 6",
-        "算力租赁"
+        "共封装光学(CPO)",
+        "F5G概念"
       ],
-      "tag": "2天1板"
+      "tag": ""
+    },
+    {
+      "rank": 27,
+      "code": "600522",
+      "name": "中天科技",
+      "heat": "237433.0",
+      "pct": -1.5823,
+      "rank_chg": 0,
+      "concepts": [
+        "光纤概念",
+        "共封装光学(CPO)"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 28,
+      "code": "600288",
+      "name": "大恒科技",
+      "heat": "234000.0",
+      "pct": 9.9717,
+      "rank_chg": 1,
+      "concepts": [
+        "太赫兹",
+        "量子科技"
+      ],
+      "tag": "2天2板"
+    },
+    {
+      "rank": 29,
+      "code": "002428",
+      "name": "云南锗业",
+      "heat": "232373.0",
+      "pct": 4.4535,
+      "rank_chg": -1,
+      "concepts": [
+        "光纤概念",
+        "第三代半导体"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 30,
+      "code": "603065",
+      "name": "宿迁联盛",
+      "heat": "227542.0",
+      "pct": 9.9946,
+      "rank_chg": 1,
+      "concepts": [
+        "专精特新",
+        "光伏概念"
+      ],
+      "tag": "首板涨停"
     },
     {
       "rank": 31,
-      "code": "000566",
-      "name": "海南海药",
-      "heat": "253023.0",
-      "pct": -9.9533,
-      "rank_chg": 0,
+      "code": "603778",
+      "name": "国晟科技",
+      "heat": "226494.0",
+      "pct": 4.6845,
+      "rank_chg": -1,
       "concepts": [
-        "猴痘概念",
-        "肝炎概念"
+        "硅能源",
+        "PPP概念"
       ],
-      "tag": "11天6板"
+      "tag": ""
     },
     {
       "rank": 32,
       "code": "600110",
       "name": "诺德股份",
-      "heat": "241820.0",
+      "heat": "224887.0",
       "pct": 5.8374,
       "rank_chg": 0,
       "concepts": [
@@ -4892,152 +4492,9 @@ window.MARKET = {
     },
     {
       "rank": 33,
-      "code": "600288",
-      "name": "大恒科技",
-      "heat": "235528.0",
-      "pct": 9.9717,
-      "rank_chg": 2,
-      "concepts": [
-        "太赫兹",
-        "量子科技"
-      ],
-      "tag": "2天2板"
-    },
-    {
-      "rank": 34,
-      "code": "000100",
-      "name": "TCL科技",
-      "heat": "235420.0",
-      "pct": 1.3487,
-      "rank_chg": -1,
-      "concepts": [
-        "MicroLED概念",
-        "柔性屏(折叠屏)"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 35,
-      "code": "002141",
-      "name": "贤丰控股",
-      "heat": "233807.0",
-      "pct": 3.5398,
-      "rank_chg": 2,
-      "concepts": [
-        "动物疫苗",
-        "广东自贸区"
-      ],
-      "tag": "15天8板"
-    },
-    {
-      "rank": 36,
-      "code": "600246",
-      "name": "万通发展",
-      "heat": "229204.0",
-      "pct": 9.9941,
-      "rank_chg": 0,
-      "concepts": [
-        "存储芯片",
-        "芯片概念"
-      ],
-      "tag": "2天2板"
-    },
-    {
-      "rank": 37,
-      "code": "600703",
-      "name": "三安光电",
-      "heat": "228108.0",
-      "pct": 2.4784,
-      "rank_chg": -3,
-      "concepts": [
-        "共封装光学(CPO)",
-        "第三代半导体"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 38,
-      "code": "002457",
-      "name": "青龙管业",
-      "heat": "224412.0",
-      "pct": 6.5387,
-      "rank_chg": 0,
-      "concepts": [
-        "地下管网",
-        "新型城镇化"
-      ],
-      "tag": "2天1板"
-    },
-    {
-      "rank": 39,
-      "code": "603906",
-      "name": "龙蟠科技",
-      "heat": "220369.0",
-      "pct": 4.8293,
-      "rank_chg": 3,
-      "concepts": [
-        "磷化工",
-        "钠离子电池"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 40,
-      "code": "301308",
-      "name": "江波龙",
-      "heat": "219249.0",
-      "pct": -7.9055,
-      "rank_chg": -1,
-      "concepts": [
-        "存储芯片",
-        "国家大基金持股"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 41,
-      "code": "603538",
-      "name": "美诺华",
-      "heat": "218849.0",
-      "pct": 5.0986,
-      "rank_chg": 0,
-      "concepts": [
-        "减肥药",
-        "CRO概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 42,
-      "code": "600176",
-      "name": "中国巨石",
-      "heat": "218727.0",
-      "pct": -5.9709,
-      "rank_chg": -2,
-      "concepts": [
-        "PCB概念",
-        "2026一季报预增"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 43,
-      "code": "600793",
-      "name": "宜宾纸业",
-      "heat": "203118.0",
-      "pct": 9.9943,
-      "rank_chg": 0,
-      "concepts": [
-        "西部大开发",
-        "国企改革"
-      ],
-      "tag": "5天5板"
-    },
-    {
-      "rank": 44,
       "code": "001399",
       "name": "惠科股份",
-      "heat": "201864.0",
+      "heat": "224504.0",
       "pct": -8.7618,
       "rank_chg": 1,
       "concepts": [
@@ -5047,23 +4504,192 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 45,
-      "code": "002156",
-      "name": "通富微电",
-      "heat": "199026.0",
-      "pct": 3.0674,
+      "rank": 34,
+      "code": "002281",
+      "name": "光迅科技",
+      "heat": "221688.0",
+      "pct": 6.047,
       "rank_chg": -1,
       "concepts": [
-        "国家大基金持股",
-        "存储芯片"
+        "F5G概念",
+        "光纤概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 35,
+      "code": "000938",
+      "name": "紫光股份",
+      "heat": "221665.0",
+      "pct": -5.4938,
+      "rank_chg": 0,
+      "concepts": [
+        "WiFi 6",
+        "算力租赁"
+      ],
+      "tag": "2天1板"
+    },
+    {
+      "rank": 36,
+      "code": "600246",
+      "name": "万通发展",
+      "heat": "213718.0",
+      "pct": 9.9941,
+      "rank_chg": 1,
+      "concepts": [
+        "存储芯片",
+        "芯片概念"
+      ],
+      "tag": "2天2板"
+    },
+    {
+      "rank": 37,
+      "code": "603137",
+      "name": "恒尚节能",
+      "heat": "212235.0",
+      "pct": 9.9789,
+      "rank_chg": 3,
+      "concepts": [
+        "装配式建筑",
+        "建筑节能"
+      ],
+      "tag": "5天5板"
+    },
+    {
+      "rank": 38,
+      "code": "002457",
+      "name": "青龙管业",
+      "heat": "211214.0",
+      "pct": 6.5387,
+      "rank_chg": -2,
+      "concepts": [
+        "地下管网",
+        "新型城镇化"
+      ],
+      "tag": "2天1板"
+    },
+    {
+      "rank": 39,
+      "code": "301308",
+      "name": "江波龙",
+      "heat": "208511.0",
+      "pct": -7.9055,
+      "rank_chg": 0,
+      "concepts": [
+        "存储芯片",
+        "国家大基金持股"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 40,
+      "code": "000100",
+      "name": "TCL科技",
+      "heat": "207976.0",
+      "pct": 1.3487,
+      "rank_chg": -2,
+      "concepts": [
+        "MicroLED概念",
+        "柔性屏(折叠屏)"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 41,
+      "code": "002497",
+      "name": "雅化集团",
+      "heat": "205133.0",
+      "pct": 9.9955,
+      "rank_chg": 1,
+      "concepts": [
+        "固态电池",
+        "锂电池概念"
+      ],
+      "tag": "首板涨停"
+    },
+    {
+      "rank": 42,
+      "code": "600176",
+      "name": "中国巨石",
+      "heat": "203967.0",
+      "pct": -5.9709,
+      "rank_chg": -1,
+      "concepts": [
+        "PCB概念",
+        "2026一季报预增"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 43,
+      "code": "603538",
+      "name": "美诺华",
+      "heat": "196450.0",
+      "pct": 5.0986,
+      "rank_chg": 0,
+      "concepts": [
+        "减肥药",
+        "CRO概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 44,
+      "code": "600703",
+      "name": "三安光电",
+      "heat": "188247.0",
+      "pct": 2.4784,
+      "rank_chg": 0,
+      "concepts": [
+        "共封装光学(CPO)",
+        "第三代半导体"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 45,
+      "code": "002050",
+      "name": "三花智控",
+      "heat": "184789.0",
+      "pct": -1.3868,
+      "rank_chg": 2,
+      "concepts": [
+        "人形机器人",
+        "汽车热管理"
       ],
       "tag": ""
     },
     {
       "rank": 46,
+      "code": "688126",
+      "name": "沪硅产业",
+      "heat": "183992.0",
+      "pct": 4.8252,
+      "rank_chg": 0,
+      "concepts": [
+        "国家大基金持股",
+        "中芯国际概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 47,
+      "code": "002141",
+      "name": "贤丰控股",
+      "heat": "183159.0",
+      "pct": 3.5398,
+      "rank_chg": -2,
+      "concepts": [
+        "动物疫苗",
+        "广东自贸区"
+      ],
+      "tag": "15天8板"
+    },
+    {
+      "rank": 48,
       "code": "001309",
       "name": "德明利",
-      "heat": "196989.0",
+      "heat": "180232.0",
       "pct": -8.984,
       "rank_chg": 0,
       "concepts": [
@@ -5073,88 +4699,10 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 47,
-      "code": "002050",
-      "name": "三花智控",
-      "heat": "191437.0",
-      "pct": -1.3868,
-      "rank_chg": 0,
-      "concepts": [
-        "人形机器人",
-        "汽车热管理"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 48,
-      "code": "002031",
-      "name": "巨轮智能",
-      "heat": "188573.0",
-      "pct": 7.4733,
-      "rank_chg": 0,
-      "concepts": [
-        "减速器",
-        "工业母机"
-      ],
-      "tag": ""
-    },
-    {
       "rank": 49,
-      "code": "002497",
-      "name": "雅化集团",
-      "heat": "183220.0",
-      "pct": 9.9955,
-      "rank_chg": 2,
-      "concepts": [
-        "固态电池",
-        "锂电池概念"
-      ],
-      "tag": "首板涨停"
-    },
-    {
-      "rank": 50,
-      "code": "600105",
-      "name": "永鼎股份",
-      "heat": "180913.0",
-      "pct": -1.998,
-      "rank_chg": 0,
-      "concepts": [
-        "共封装光学(CPO)",
-        "光纤概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 51,
-      "code": "688432",
-      "name": "有研硅",
-      "heat": "178179.0",
-      "pct": 20.0,
-      "rank_chg": -2,
-      "concepts": [
-        "中芯国际概念",
-        "存储芯片"
-      ],
-      "tag": "首板涨停"
-    },
-    {
-      "rank": 52,
-      "code": "001896",
-      "name": "豫能控股",
-      "heat": "167297.0",
-      "pct": -9.2671,
-      "rank_chg": 1,
-      "concepts": [
-        "抽水蓄能",
-        "超超临界发电"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 53,
       "code": "002137",
       "name": "实益达",
-      "heat": "165466.0",
+      "heat": "180040.0",
       "pct": 10.0096,
       "rank_chg": 2,
       "concepts": [
@@ -5164,51 +4712,12 @@ window.MARKET = {
       "tag": "首板涨停"
     },
     {
-      "rank": 54,
-      "code": "002709",
-      "name": "天赐材料",
-      "heat": "165401.0",
-      "pct": 1.102,
-      "rank_chg": 3,
-      "concepts": [
-        "氟化工概念",
-        "钠离子电池"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 55,
-      "code": "000066",
-      "name": "中国长城",
-      "heat": "164759.0",
-      "pct": -1.2752,
-      "rank_chg": -1,
-      "concepts": [
-        "东数西算(算力)",
-        "AI PC"
-      ],
-      "tag": "2天1板"
-    },
-    {
-      "rank": 56,
-      "code": "001339",
-      "name": "智微智能",
-      "heat": "164667.0",
-      "pct": 4.9301,
-      "rank_chg": -4,
-      "concepts": [
-        "算力租赁",
-        "东数西算(算力)"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 57,
+      "rank": 50,
       "code": "000973",
       "name": "佛塑科技",
-      "heat": "162620.0",
+      "heat": "178866.0",
       "pct": 10.0377,
-      "rank_chg": -1,
+      "rank_chg": 2,
       "concepts": [
         "固态电池",
         "锂电池概念"
@@ -5216,64 +4725,64 @@ window.MARKET = {
       "tag": "首板涨停"
     },
     {
-      "rank": 58,
-      "code": "603137",
-      "name": "恒尚节能",
-      "heat": "160521.0",
-      "pct": 9.9789,
-      "rank_chg": 0,
+      "rank": 51,
+      "code": "002156",
+      "name": "通富微电",
+      "heat": "178715.0",
+      "pct": 3.0674,
+      "rank_chg": -2,
       "concepts": [
-        "装配式建筑",
-        "建筑节能"
+        "国家大基金持股",
+        "存储芯片"
       ],
-      "tag": "5天5板"
+      "tag": ""
     },
     {
-      "rank": 59,
-      "code": "300502",
-      "name": "新易盛",
-      "heat": "160296.0",
-      "pct": 0.6333,
+      "rank": 52,
+      "code": "603906",
+      "name": "龙蟠科技",
+      "heat": "174938.0",
+      "pct": 4.8293,
+      "rank_chg": -2,
+      "concepts": [
+        "磷化工",
+        "钠离子电池"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 53,
+      "code": "688432",
+      "name": "有研硅",
+      "heat": "174577.0",
+      "pct": 20.0,
+      "rank_chg": 0,
+      "concepts": [
+        "中芯国际概念",
+        "存储芯片"
+      ],
+      "tag": "首板涨停"
+    },
+    {
+      "rank": 54,
+      "code": "600105",
+      "name": "永鼎股份",
+      "heat": "155613.0",
+      "pct": -1.998,
       "rank_chg": 0,
       "concepts": [
         "共封装光学(CPO)",
-        "芯片概念"
+        "光纤概念"
       ],
       "tag": ""
     },
     {
-      "rank": 60,
-      "code": "002202",
-      "name": "金风科技",
-      "heat": "156036.0",
-      "pct": -7.1936,
-      "rank_chg": 1,
-      "concepts": [
-        "商业航天",
-        "东数西算(算力)"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 61,
-      "code": "600460",
-      "name": "士兰微",
-      "heat": "155178.0",
-      "pct": 1.4372,
-      "rank_chg": -1,
-      "concepts": [
-        "国家大基金持股",
-        "汽车芯片"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 62,
+      "rank": 55,
       "code": "601138",
       "name": "工业富联",
-      "heat": "154096.0",
+      "heat": "155477.0",
       "pct": 0.2988,
-      "rank_chg": 1,
+      "rank_chg": 0,
       "concepts": [
         "同花顺果指数",
         "共封装光学(CPO)"
@@ -5281,23 +4790,75 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 63,
-      "code": "000988",
-      "name": "华工科技",
-      "heat": "153985.0",
-      "pct": 2.5985,
-      "rank_chg": -1,
+      "rank": 56,
+      "code": "002585",
+      "name": "双星新材",
+      "heat": "149117.0",
+      "pct": 9.9613,
+      "rank_chg": 1,
       "concepts": [
-        "F5G概念",
-        "共封装光学(CPO)"
+        "PET铜箔",
+        "OLED"
+      ],
+      "tag": "首板涨停"
+    },
+    {
+      "rank": 57,
+      "code": "000066",
+      "name": "中国长城",
+      "heat": "144665.0",
+      "pct": -1.2752,
+      "rank_chg": 2,
+      "concepts": [
+        "东数西算(算力)",
+        "AI PC"
+      ],
+      "tag": "2天1板"
+    },
+    {
+      "rank": 58,
+      "code": "002202",
+      "name": "金风科技",
+      "heat": "144098.0",
+      "pct": -7.1936,
+      "rank_chg": 0,
+      "concepts": [
+        "商业航天",
+        "东数西算(算力)"
       ],
       "tag": ""
     },
     {
-      "rank": 64,
+      "rank": 59,
+      "code": "002031",
+      "name": "巨轮智能",
+      "heat": "143719.0",
+      "pct": 7.4733,
+      "rank_chg": -3,
+      "concepts": [
+        "减速器",
+        "工业母机"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 60,
+      "code": "603178",
+      "name": "圣龙股份",
+      "heat": "142508.0",
+      "pct": 10.0269,
+      "rank_chg": 2,
+      "concepts": [
+        "减速器",
+        "汽车热管理"
+      ],
+      "tag": "3天2板"
+    },
+    {
+      "rank": 61,
       "code": "603893",
       "name": "瑞芯微",
-      "heat": "153619.0",
+      "heat": "141498.0",
       "pct": 8.2841,
       "rank_chg": 0,
       "concepts": [
@@ -5307,12 +4868,12 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 65,
+      "rank": 62,
       "code": "600707",
       "name": "彩虹股份",
-      "heat": "153035.0",
+      "heat": "140806.0",
       "pct": -4.216,
-      "rank_chg": 0,
+      "rank_chg": -2,
       "concepts": [
         "OLED",
         "人民币贬值受益"
@@ -5320,64 +4881,38 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 66,
-      "code": "300394",
-      "name": "天孚通信",
-      "heat": "151665.0",
-      "pct": 2.9916,
-      "rank_chg": 0,
+      "rank": 63,
+      "code": "603861",
+      "name": "白云电器",
+      "heat": "139302.0",
+      "pct": 9.9855,
+      "rank_chg": 3,
       "concepts": [
-        "共封装光学(CPO)",
-        "光纤概念"
+        "柔性直流输电",
+        "智能电网"
+      ],
+      "tag": "2天2板"
+    },
+    {
+      "rank": 64,
+      "code": "002709",
+      "name": "天赐材料",
+      "heat": "136907.0",
+      "pct": 1.102,
+      "rank_chg": -1,
+      "concepts": [
+        "氟化工概念",
+        "钠离子电池"
       ],
       "tag": ""
     },
     {
-      "rank": 67,
-      "code": "688146",
-      "name": "中船特气",
-      "heat": "150996.0",
-      "pct": 4.356,
-      "rank_chg": 4,
-      "concepts": [
-        "光刻机",
-        "中芯国际概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 68,
-      "code": "300390",
-      "name": "天华新能",
-      "heat": "148958.0",
-      "pct": 5.6641,
-      "rank_chg": 0,
-      "concepts": [
-        "固态电池",
-        "小金属概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 69,
-      "code": "600353",
-      "name": "旭光电子",
-      "heat": "147137.0",
-      "pct": -10.0,
-      "rank_chg": -2,
-      "concepts": [
-        "光刻机",
-        "第三代半导体"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 70,
+      "rank": 65,
       "code": "002396",
       "name": "星网锐捷",
-      "heat": "145573.0",
+      "heat": "136135.0",
       "pct": 2.7584,
-      "rank_chg": -1,
+      "rank_chg": 2,
       "concepts": [
         "WiFi 6",
         "F5G概念"
@@ -5385,10 +4920,62 @@ window.MARKET = {
       "tag": "6天4板"
     },
     {
-      "rank": 71,
+      "rank": 66,
+      "code": "300390",
+      "name": "天华新能",
+      "heat": "135788.0",
+      "pct": 5.6641,
+      "rank_chg": -1,
+      "concepts": [
+        "固态电池",
+        "小金属概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 67,
+      "code": "000988",
+      "name": "华工科技",
+      "heat": "130519.0",
+      "pct": 2.5985,
+      "rank_chg": 1,
+      "concepts": [
+        "F5G概念",
+        "共封装光学(CPO)"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 68,
+      "code": "688146",
+      "name": "中船特气",
+      "heat": "129284.0",
+      "pct": 4.356,
+      "rank_chg": -4,
+      "concepts": [
+        "光刻机",
+        "中芯国际概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 69,
+      "code": "300620",
+      "name": "光库科技",
+      "heat": "128525.0",
+      "pct": 0.0775,
+      "rank_chg": 1,
+      "concepts": [
+        "共封装光学(CPO)",
+        "光纤概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 70,
       "code": "000593",
       "name": "德龙汇能",
-      "heat": "143782.0",
+      "heat": "128341.0",
       "pct": 6.4477,
       "rank_chg": 1,
       "concepts": [
@@ -5398,24 +4985,89 @@ window.MARKET = {
       "tag": "2天1板"
     },
     {
-      "rank": 72,
-      "code": "002463",
-      "name": "沪电股份",
-      "heat": "143237.0",
-      "pct": 0.6908,
+      "rank": 71,
+      "code": "300502",
+      "name": "新易盛",
+      "heat": "126315.0",
+      "pct": 0.6333,
       "rank_chg": -2,
       "concepts": [
-        "PCB概念",
-        "毫米波雷达"
+        "共封装光学(CPO)",
+        "芯片概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 72,
+      "code": "600460",
+      "name": "士兰微",
+      "heat": "124984.0",
+      "pct": 1.4372,
+      "rank_chg": 0,
+      "concepts": [
+        "国家大基金持股",
+        "汽车芯片"
       ],
       "tag": ""
     },
     {
       "rank": 73,
-      "code": "300620",
-      "name": "光库科技",
-      "heat": "140023.0",
-      "pct": 0.0775,
+      "code": "601869",
+      "name": "长飞光纤",
+      "heat": "124676.0",
+      "pct": -2.8918,
+      "rank_chg": 1,
+      "concepts": [
+        "光纤概念",
+        "铜缆高速连接"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 74,
+      "code": "300433",
+      "name": "蓝思科技",
+      "heat": "123114.0",
+      "pct": 1.0524,
+      "rank_chg": -1,
+      "concepts": [
+        "同花顺果指数",
+        "AI手机"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 75,
+      "code": "603118",
+      "name": "共进股份",
+      "heat": "122602.0",
+      "pct": 0.6706,
+      "rank_chg": 1,
+      "concepts": [
+        "F5G概念",
+        "WiFi 6"
+      ],
+      "tag": "2天1板"
+    },
+    {
+      "rank": 76,
+      "code": "000858",
+      "name": "五粮液",
+      "heat": "119473.0",
+      "pct": -2.7657,
+      "rank_chg": 4,
+      "concepts": [
+        "白酒概念",
+        "超级品牌"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 77,
+      "code": "300394",
+      "name": "天孚通信",
+      "heat": "119306.0",
+      "pct": 2.9916,
       "rank_chg": 0,
       "concepts": [
         "共封装光学(CPO)",
@@ -5424,103 +5076,25 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 74,
-      "code": "002585",
-      "name": "双星新材",
-      "heat": "136300.0",
-      "pct": 9.9613,
+      "rank": 78,
+      "code": "002463",
+      "name": "沪电股份",
+      "heat": "118976.0",
+      "pct": 0.6908,
       "rank_chg": 0,
       "concepts": [
-        "PET铜箔",
-        "OLED"
-      ],
-      "tag": "首板涨停"
-    },
-    {
-      "rank": 75,
-      "code": "002636",
-      "name": "金安国纪",
-      "heat": "133455.0",
-      "pct": 3.3475,
-      "rank_chg": 2,
-      "concepts": [
         "PCB概念",
-        "消毒剂"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 76,
-      "code": "603178",
-      "name": "圣龙股份",
-      "heat": "132660.0",
-      "pct": 10.0269,
-      "rank_chg": -1,
-      "concepts": [
-        "减速器",
-        "汽车热管理"
-      ],
-      "tag": "3天2板"
-    },
-    {
-      "rank": 77,
-      "code": "603861",
-      "name": "白云电器",
-      "heat": "131132.0",
-      "pct": 9.9855,
-      "rank_chg": -1,
-      "concepts": [
-        "柔性直流输电",
-        "智能电网"
-      ],
-      "tag": "2天2板"
-    },
-    {
-      "rank": 78,
-      "code": "688017",
-      "name": "绿的谐波",
-      "heat": "129677.0",
-      "pct": 2.4428,
-      "rank_chg": 4,
-      "concepts": [
-        "减速器",
-        "人形机器人"
+        "毫米波雷达"
       ],
       "tag": ""
     },
     {
       "rank": 79,
-      "code": "601869",
-      "name": "长飞光纤",
-      "heat": "128337.0",
-      "pct": -2.8918,
-      "rank_chg": -1,
-      "concepts": [
-        "光纤概念",
-        "铜缆高速连接"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 80,
-      "code": "600601",
-      "name": "方正科技",
-      "heat": "127781.0",
-      "pct": -1.9346,
-      "rank_chg": 0,
-      "concepts": [
-        "PCB概念",
-        "共封装光学(CPO)"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 81,
       "code": "000970",
       "name": "中科三环",
-      "heat": "127072.0",
+      "heat": "118688.0",
       "pct": 6.2942,
-      "rank_chg": -2,
+      "rank_chg": 2,
       "concepts": [
         "稀土永磁",
         "机器人概念"
@@ -5528,142 +5102,12 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 82,
-      "code": "000977",
-      "name": "浪潮信息",
-      "heat": "127058.0",
-      "pct": 1.9366,
-      "rank_chg": 1,
-      "concepts": [
-        "中国AI 50",
-        "算力租赁"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 83,
-      "code": "300433",
-      "name": "蓝思科技",
-      "heat": "125491.0",
-      "pct": 1.0524,
-      "rank_chg": 2,
-      "concepts": [
-        "同花顺果指数",
-        "AI手机"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 84,
-      "code": "600183",
-      "name": "生益科技",
-      "heat": "123563.0",
-      "pct": -2.2687,
-      "rank_chg": 2,
-      "concepts": [
-        "PCB概念",
-        "先进封装"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 85,
-      "code": "688126",
-      "name": "沪硅产业",
-      "heat": "123238.0",
-      "pct": 4.8252,
-      "rank_chg": 10,
-      "concepts": [
-        "国家大基金持股",
-        "中芯国际概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 86,
-      "code": "300059",
-      "name": "东方财富",
-      "heat": "123078.0",
-      "pct": -4.2021,
-      "rank_chg": -5,
-      "concepts": [
-        "期货概念",
-        "互联网保险"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 87,
-      "code": "300821",
-      "name": "东岳硅材",
-      "heat": "122959.0",
-      "pct": 5.8129,
-      "rank_chg": -3,
-      "concepts": [
-        "有机硅概念",
-        "硅能源"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 88,
-      "code": "002714",
-      "name": "牧原股份",
-      "heat": "121099.0",
-      "pct": -0.4912,
-      "rank_chg": 1,
-      "concepts": [
-        "猪肉",
-        "同花顺漂亮100"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 89,
-      "code": "603078",
-      "name": "江化微",
-      "heat": "119665.0",
-      "pct": -8.1976,
-      "rank_chg": -1,
-      "concepts": [
-        "光刻胶",
-        "中芯国际概念"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 90,
-      "code": "603118",
-      "name": "共进股份",
-      "heat": "118741.0",
-      "pct": 0.6706,
-      "rank_chg": -3,
-      "concepts": [
-        "F5G概念",
-        "WiFi 6"
-      ],
-      "tag": "2天1板"
-    },
-    {
-      "rank": 91,
-      "code": "605358",
-      "name": "立昂微",
-      "heat": "118547.0",
-      "pct": 1.7482,
-      "rank_chg": -1,
-      "concepts": [
-        "中芯国际概念",
-        "第三代半导体"
-      ],
-      "tag": ""
-    },
-    {
-      "rank": 92,
+      "rank": 80,
       "code": "000078",
       "name": "ST海王",
-      "heat": "118073.0",
+      "heat": "118072.0",
       "pct": 9.7561,
-      "rank_chg": 0,
+      "rank_chg": 4,
       "concepts": [
         "医药电商",
         "仿制药一致性评价"
@@ -5671,23 +5115,114 @@ window.MARKET = {
       "tag": "5天5板"
     },
     {
-      "rank": 93,
-      "code": "000858",
-      "name": "五粮液",
-      "heat": "117730.0",
-      "pct": -2.7657,
+      "rank": 81,
+      "code": "001339",
+      "name": "智微智能",
+      "heat": "117236.0",
+      "pct": 4.9301,
       "rank_chg": -2,
       "concepts": [
-        "白酒概念",
-        "超级品牌"
+        "算力租赁",
+        "东数西算(算力)"
       ],
       "tag": ""
     },
     {
-      "rank": 94,
+      "rank": 82,
+      "code": "002636",
+      "name": "金安国纪",
+      "heat": "116666.0",
+      "pct": 3.3475,
+      "rank_chg": 0,
+      "concepts": [
+        "PCB概念",
+        "消毒剂"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 83,
+      "code": "600353",
+      "name": "旭光电子",
+      "heat": "116523.0",
+      "pct": -10.0,
+      "rank_chg": 0,
+      "concepts": [
+        "光刻机",
+        "第三代半导体"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 84,
+      "code": "300821",
+      "name": "东岳硅材",
+      "heat": "116023.0",
+      "pct": 5.8129,
+      "rank_chg": 1,
+      "concepts": [
+        "有机硅概念",
+        "硅能源"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 85,
+      "code": "001896",
+      "name": "豫能控股",
+      "heat": "116004.0",
+      "pct": -9.2671,
+      "rank_chg": -10,
+      "concepts": [
+        "抽水蓄能",
+        "超超临界发电"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 86,
+      "code": "000977",
+      "name": "浪潮信息",
+      "heat": "115054.0",
+      "pct": 1.9366,
+      "rank_chg": 0,
+      "concepts": [
+        "中国AI 50",
+        "算力租赁"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 87,
+      "code": "600601",
+      "name": "方正科技",
+      "heat": "112867.0",
+      "pct": -1.9346,
+      "rank_chg": 1,
+      "concepts": [
+        "PCB概念",
+        "共封装光学(CPO)"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 88,
+      "code": "603608",
+      "name": "天创时尚",
+      "heat": "112642.0",
+      "pct": 7.533,
+      "rank_chg": -1,
+      "concepts": [
+        "C2M概念",
+        "跨境电商"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 89,
       "code": "002475",
       "name": "立讯精密",
-      "heat": "115891.0",
+      "heat": "111979.0",
       "pct": 0.6361,
       "rank_chg": 0,
       "concepts": [
@@ -5697,12 +5232,25 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 95,
+      "rank": 90,
+      "code": "002714",
+      "name": "牧原股份",
+      "heat": "110446.0",
+      "pct": -0.4912,
+      "rank_chg": 0,
+      "concepts": [
+        "猪肉",
+        "同花顺漂亮100"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 91,
       "code": "002491",
       "name": "通鼎互联",
-      "heat": "115280.0",
+      "heat": "109047.0",
       "pct": -4.0199,
-      "rank_chg": -2,
+      "rank_chg": 0,
       "concepts": [
         "光纤概念",
         "5G"
@@ -5710,12 +5258,77 @@ window.MARKET = {
       "tag": ""
     },
     {
+      "rank": 92,
+      "code": "600641",
+      "name": "先导基电",
+      "heat": "108372.0",
+      "pct": 2.0948,
+      "rank_chg": 1,
+      "concepts": [
+        "第三代半导体",
+        "存储芯片"
+      ],
+      "tag": "6天3板"
+    },
+    {
+      "rank": 93,
+      "code": "603078",
+      "name": "江化微",
+      "heat": "107475.0",
+      "pct": -8.1976,
+      "rank_chg": -1,
+      "concepts": [
+        "光刻胶",
+        "中芯国际概念"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 94,
+      "code": "605358",
+      "name": "立昂微",
+      "heat": "106849.0",
+      "pct": 1.7482,
+      "rank_chg": 4,
+      "concepts": [
+        "中芯国际概念",
+        "第三代半导体"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 95,
+      "code": "002841",
+      "name": "视源股份",
+      "heat": "106181.0",
+      "pct": 10.0102,
+      "rank_chg": 5,
+      "concepts": [
+        "AI应用",
+        "人工智能"
+      ],
+      "tag": "首板涨停"
+    },
+    {
       "rank": 96,
+      "code": "600183",
+      "name": "生益科技",
+      "heat": "105903.0",
+      "pct": -2.2687,
+      "rank_chg": -1,
+      "concepts": [
+        "PCB概念",
+        "先进封装"
+      ],
+      "tag": ""
+    },
+    {
+      "rank": 97,
       "code": "002584",
       "name": "西陇科学",
-      "heat": "113325.0",
+      "heat": "105373.0",
       "pct": 5.9829,
-      "rank_chg": 0,
+      "rank_chg": 2,
       "concepts": [
         "光刻胶",
         "氟化工概念"
@@ -5723,12 +5336,12 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 97,
+      "rank": 98,
       "code": "600378",
       "name": "昊华科技",
-      "heat": "113142.0",
+      "heat": "103538.0",
       "pct": -4.1514,
-      "rank_chg": 0,
+      "rank_chg": -1,
       "concepts": [
         "氟化工概念",
         "PVDF概念"
@@ -5736,43 +5349,30 @@ window.MARKET = {
       "tag": ""
     },
     {
-      "rank": 98,
-      "code": "603608",
-      "name": "天创时尚",
-      "heat": "109970.0",
-      "pct": 7.533,
-      "rank_chg": 3,
-      "concepts": [
-        "C2M概念",
-        "跨境电商"
-      ],
-      "tag": ""
-    },
-    {
       "rank": 99,
-      "code": "001270",
-      "name": "铖昌科技",
-      "heat": "109810.0",
-      "pct": 3.8961,
-      "rank_chg": -1,
+      "code": "688017",
+      "name": "绿的谐波",
+      "heat": "102349.0",
+      "pct": 2.4428,
+      "rank_chg": -3,
       "concepts": [
-        "6G概念",
-        "卫星导航"
+        "减速器",
+        "人形机器人"
       ],
       "tag": ""
     },
     {
       "rank": 100,
-      "code": "600641",
-      "name": "先导基电",
-      "heat": "107685.0",
-      "pct": 2.0948,
-      "rank_chg": -1,
+      "code": "001229",
+      "name": "魅视科技",
+      "heat": "100840.0",
+      "pct": 10.0028,
+      "rank_chg": 1,
       "concepts": [
-        "第三代半导体",
-        "存储芯片"
+        "军工信息化",
+        "智慧城市"
       ],
-      "tag": "6天3板"
+      "tag": "首板涨停"
     }
   ],
   "thsStrong": [
@@ -7059,7 +6659,7 @@ window.MARKET = {
   "northbound": {
     "time": "15:00",
     "hgt_yi": -9.28,
-    "sgt_yi": -31.1,
-    "total_yi": -40.38
+    "sgt_yi": NaN,
+    "total_yi": NaN
   }
 };
