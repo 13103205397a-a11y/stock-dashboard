@@ -4,14 +4,14 @@
  * 仅供研究参考，非投资建议。
  */
 window.REPORTS = {
-  "updated": "2026-07-08 10:40",
+  "updated": "2026-07-08 11:57",
   "reports": [
     {
       "type": "盘初热点",
-      "title": "盘初热点扫描 · Jul 07 10:41",
-      "time": "2026-07-07 10:16",
-      "id": "cron_3619e65d3276_20260707_101615",
-      "content": "I'll start by checking if today is a trading day and running the data fetcher script. Let me do both in parallel."
+      "title": "盘初热点扫描 · Jul 08 11:13",
+      "time": "2026-07-08 09:51",
+      "id": "cron_3619e65d3276_20260708_095149",
+      "content": "我来执行 market-hotspot-scan 技能。今天是 2026 年 7 月 8 日，星期三。我先运行 `fetch_data.py` 脚本，检查今天是否为交易日。"
     },
     {
       "type": "收盘复盘",
