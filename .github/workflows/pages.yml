@@ -3,6 +3,12 @@ name: 页面构建和部署
 on:
   push:
     branches: [main]
+  schedule:
+    # 每天 19:00/20:00/21:00 北京时间定时保底部署（UTC 11/12/13 点）
+    # 防止 push 触发的部署偶发失败导致当天数据没上线
+    - cron: "0 11 * * *"
+    - cron: "0 12 * * *"
+    - cron: "0 13 * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -17,6 +23,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: 检出仓库
         uses: actions/checkout@v7
@@ -32,6 +39,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deploy1.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy3.outputs.page_url }}
