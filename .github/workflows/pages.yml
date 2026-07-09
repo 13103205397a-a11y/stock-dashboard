@@ -4,8 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    # 每天 19:00/20:00/21:00 北京时间定时保底部署（UTC 11/12/13 点）
-    # 防止 push 触发的部署偶发失败导致当天数据没上线
+    # 每天 19:00/20:00/21:00 北京时间保底部署
     - cron: "0 11 * * *"
     - cron: "0 12 * * *"
     - cron: "0 13 * * *"
@@ -16,42 +15,32 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: false
+# 不用 concurrency：多个 push 各自独立部署，互不取消
+# GitHub Pages 后端会自动处理并发部署（后者覆盖前者）
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: 检出仓库
-        uses: actions/checkout@v7
-
-      - name: 配置 Pages
-        uses: actions/configure-pages@v6
-
-      - name: 上传构建产物
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: .
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deploy1.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy3.outputs.page_url }}
     steps:
-      # GitHub Pages 后端偶发返回 "Deployment failed, try again later":
-      # 部署请求本身成功创建,但轮询到的最终状态是 failed。
-      # 这种失败与 deploy-pages 的 error_count 无关(状态请求本身没出错,
-      # 是后端把部署标记成了 failed),加大 error_count 救不了。
-      # 解法:多次重试,递增等待(30s → 60s → 90s),让后端有时间恢复。
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 配置 Pages
+        uses: actions/configure-pages@v5
+
+      - name: 上传构建产物
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .
+
+      # GitHub Pages 后端偶发返回 failed，多次重试递增等待
       - name: 部署尝试 1
         id: deploy1
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v4
         with:
           artifact_name: github-pages
         continue-on-error: true
@@ -59,13 +48,13 @@ jobs:
       - name: 等待重试 1
         if: steps.deploy1.outcome != 'success'
         run: |
-          echo "部署 1 失败(${{ steps.deploy1.outcome }}),等待 30 秒后重试"
+          echo "部署 1 失败(${{ steps.deploy1.outcome }})，等待 30 秒后重试"
           sleep 30
 
       - name: 部署尝试 2
         id: deploy2
         if: steps.deploy1.outcome != 'success'
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v4
         with:
           artifact_name: github-pages
         continue-on-error: true
@@ -73,13 +62,13 @@ jobs:
       - name: 等待重试 2
         if: steps.deploy1.outcome != 'success' && steps.deploy2.outcome != 'success'
         run: |
-          echo "部署 2 失败(${{ steps.deploy2.outcome }}),等待 60 秒后重试"
+          echo "部署 2 失败(${{ steps.deploy2.outcome }})，等待 60 秒后重试"
           sleep 60
 
       - name: 部署尝试 3
         id: deploy3
         if: steps.deploy1.outcome != 'success' && steps.deploy2.outcome != 'success'
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v4
         with:
           artifact_name: github-pages
 
