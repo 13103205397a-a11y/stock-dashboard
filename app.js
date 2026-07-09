@@ -768,8 +768,7 @@
   /* ---------- 事件 ---------- */
   $("#backdrop").addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
-  const searchEl = $("#search");
-  if (searchEl) searchEl.addEventListener("input", (e) => { state.q = e.target.value; render(); });
+  // 搜索功能已移除
   $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
   document.querySelectorAll(".verdict-chip").forEach((b) =>
     b.addEventListener("click", () => { state.verdict = b.dataset.verdict; renderChips(); render(); })

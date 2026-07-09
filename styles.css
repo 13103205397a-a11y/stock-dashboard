@@ -51,46 +51,6 @@
 body.density-compact { --card-min: 240px; }
 body.density-standard { --card-min: 320px; }
 
-/* ============================================================
-   彭博终端主题（Bloomberg Terminal）
-   纯黑底 + 琥珀色主文字 + 红绿涨跌 + 等宽字体密集布局
-   ============================================================ */
-{
-  --bg:        #000000;
-  --bg-2:      #0A0A0A;
-  --card:      #0F0F0F;
-  --line:      #1F1F1F;
-  --line-2:    #2A2A2A;
-  --ink:       #FF9500;
-  --text:      #E8E8E8;
-  --muted:     #6A6A6A;
-  --dim:       #444444;
-
-  --accent:       #FF9500;
-  --accent-d:     #FFB84D;
-  --accent-s:     rgba(255,149,0,.12);
-  --accent-l:     rgba(255,149,0,.30);
-  --border-amber: #3A2A00;
-
-  --slate:        #4A9EFF;
-  --slate-s:      rgba(74,158,255,.08);
-  --slate-l:      rgba(74,158,255,.25);
-
-  --up:    #FF3B30;
-  --down:  #34C759;
-  --ok:    #34C759;
-  --warn:  #FFD60A;
-  --bad:   #FF3B30;
-
-  --serif:   "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
-  --sans:    "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
-  --mono:    "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
-
-  --r-sm: 0px;  --r: 2px;  --r-lg: 2px;
-
-  --shadow:    0 0 0 1px #1A1A1A;
-  --shadow-lg: 0 0 0 1px #2A2A2A;
-}
 
 /* 彭博主题全局微调 */
 body {

@@ -26,7 +26,7 @@ import urllib.parse
 import webbrowser
 
 # 启动诊断日志(写到文件,排查卡在哪)
-_diag = open("/tmp/stock-dashboard-app.log", "a")
+_diag = open("/tmp/stock-dashboard-app.log", "a", encoding="utf-8")
 _diag.write(f"[{os.getpid()}] app_server 启动, cwd={os.getcwd()}\n")
 _diag.flush()
 
