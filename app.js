@@ -1039,6 +1039,7 @@
   // 持仓配置：优先 portfolio.json，降级 localStorage
   let PORTFOLIO_CFG = null;
   const PF_LS_KEY = "portfolio_cfg_v1";
+  const isLocalServer = () => location.origin === "http://localhost:8787" || location.origin === "http://127.0.0.1:8787";
   const loadPortfolio = async () => {
     try {
       const r = await fetch("portfolio.json?t=" + Date.now());
@@ -1058,8 +1059,11 @@
     data.updated = new Date().toISOString().slice(0, 10);
     PORTFOLIO_CFG = data;
     try { localStorage.setItem(PF_LS_KEY, JSON.stringify(data)); } catch {}
+    if (!isLocalServer()) {
+      return { ok: true, msg: "已保存到浏览器本地（如需写入文件，请从本地服务器打开）" };
+    }
     try {
-      const r = await fetch("http://localhost:8787/api/portfolio", {
+      const r = await fetch("/api/portfolio", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -1077,17 +1081,18 @@
   // 启动时同步：如果 localStorage 有数据但 portfolio.json 没有，推送上去
   const syncPortfolioToServer = async () => {
     try {
+      if (!isLocalServer()) return;
       const ls = localStorage.getItem(PF_LS_KEY);
       if (!ls) return;
       const lsData = JSON.parse(ls);
       if (!lsData.holdings || !lsData.holdings.length) return;
-      const r = await fetch("http://localhost:8787/api/portfolio");
+      const r = await fetch("/api/portfolio");
       if (!r.ok) return;
       const srv = await r.json();
       const srvList = srv.data?.holdings || [];
       // localStorage 比 server 多或不同，同步上去
       if (JSON.stringify(lsData.holdings) !== JSON.stringify(srvList)) {
-        await fetch("http://localhost:8787/api/portfolio", {
+        await fetch("/api/portfolio", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(lsData),

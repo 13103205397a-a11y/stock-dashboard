@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """持仓决策数据 → 写回 holdings.js (window.HOLDINGS)。
 
-聚焦德业股份(605117) + 信维通信(300136)两只持仓,采集:
+按本机 portfolio.json 中的持仓采集:
   - 实时行情(价格/涨跌幅/换手)
   - 估值面板(PE/PEG/市值/EPS/机构覆盖)
   - 资金流向(主力净流入)
@@ -27,11 +27,10 @@ sys.path.insert(0, ASTOCK_PATH)
 import astock as a  # noqa: E402
 
 TODAY = datetime.now().strftime("%Y-%m-%d")
-HOLDING_CODES = ["605117", "300136"]  # 默认持仓，portfolio.json 不存在时回退
 
 
 def load_portfolio():
-    """读取 portfolio.json 持仓配置，回退到默认硬编码列表"""
+    """读取 portfolio.json 持仓配置；不存在时返回空列表，避免默认持仓泄露。"""
     pf = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "portfolio.json")
     if os.path.exists(pf):
         try:
@@ -42,8 +41,8 @@ def load_portfolio():
                 print(f"  [portfolio.json] 读取 {len(codes)} 只持仓: {codes}", flush=True)
                 return codes
         except Exception as e:
-            print(f"  [WARN] portfolio.json 解析失败，回退默认: {e}", flush=True)
-    return HOLDING_CODES
+            print(f"  [WARN] portfolio.json 解析失败，跳过持仓刷新: {e}", flush=True)
+    return []
 
 
 def safe(fn, *args, default=None, **kw):
@@ -119,7 +118,7 @@ def main():
         time.sleep(1.2)
     data = {"date": TODAY, "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "list": items}
     content = (
-        "/* 持仓决策数据：德业股份 + 信维通信\n"
+        "/* 持仓决策数据（本地 portfolio.json 私有生成）\n"
         f" * 由 scripts/fetch_holdings.py 生成（a-stock-pro,免 key）\n"
         f" * 时点: {data['generatedAt']}\n"
         " * 仅供研究参考,非投资建议。\n"

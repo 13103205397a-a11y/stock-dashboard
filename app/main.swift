@@ -7,7 +7,7 @@ import Foundation
 
 // 项目根目录：优先环境变量 STOCK_DASHBOARD_DIR，否则用默认值（换机器时设环境变量覆盖）
 let PROJECT = ProcessInfo.processInfo.environment["STOCK_DASHBOARD_DIR"]
-    ?? "/Users/Admin/Documents/vscode claude/股市看板"
+    ?? "/Users/Admin/Documents/开发项目/股市看板"
 
 // 毛玻璃视图子类:允许鼠标拖拽穿透到窗口(解决拖不动问题)
 class VisualEffectView: NSVisualEffectView {

@@ -106,7 +106,7 @@
 - `targetBuy`/`targetSell`/`stopLoss`：具体价位（元），来自日K与估值，**不编造**；找不到合理依据时填 `null` 并在 `action` 里说明。
 - `summary`：一句话（≤40 字）总结该股当前状态与建议。
 
-### 第 4 步：写回并推送
+### 第 4 步：写回本地文件（不要提交）
 - 把 JSON 数组提取出来，写入 `股市看板/portfolio_analysis.js`，文件格式：
   ```js
   /* Hermes Agent 持仓综合分析（本机自动导出）
@@ -119,12 +119,12 @@
     "analyses": <上面的JSON数组>
   };
   ```
-- 提交并推送到 GitHub（本机已配免密 push）：
+- `portfolio_analysis.js` 包含个人持仓分析，只保留本地，不要 `git add` / commit / push。
+- 如需要确认没有误入 Git：
   ```bash
   cd 股市看板
-  git add portfolio_analysis.js
-  git commit -m "持仓综合分析更新 <日期>"
-  git push origin main
+  git status --short
+  git check-ignore -v portfolio_analysis.js
   ```
 - 最后给用户一段中文摘要：今天评了几只、升级/降级名单、最值得警惕的风险、过滤掉的关键噪音。
 

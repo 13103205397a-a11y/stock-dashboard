@@ -2,7 +2,6 @@
 
 const fs = require("fs");
 const path = require("path");
-const vm = require("vm");
 
 const ROOT = path.resolve(__dirname, "..");
 const OUT_DIR = path.join(ROOT, "xhs", "output");
@@ -10,10 +9,39 @@ const OUT_DIR = path.join(ROOT, "xhs", "output");
 function loadWindowData(file, key) {
   const fullPath = path.join(ROOT, file);
   const source = fs.readFileSync(fullPath, "utf8");
-  const sandbox = { window: {} };
-  vm.createContext(sandbox);
-  vm.runInContext(source, sandbox, { filename: file });
-  return sandbox.window[key];
+  const marker = `window.${key}`;
+  const start = source.indexOf(marker);
+  if (start === -1) throw new Error(`${file} 中未找到 ${marker}`);
+  const eq = source.indexOf("=", start);
+  if (eq === -1) throw new Error(`${file} 中 ${marker} 缺少赋值`);
+
+  let i = eq + 1;
+  while (/\s/.test(source[i] || "")) i += 1;
+  const open = source[i];
+  const close = open === "{" ? "}" : open === "[" ? "]" : "";
+  if (!close) throw new Error(`${file} 中 ${marker} 不是 JSON 对象/数组`);
+
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  for (; i < source.length; i += 1) {
+    const ch = source[i];
+    if (inString) {
+      if (escaped) escaped = false;
+      else if (ch === "\\") escaped = true;
+      else if (ch === "\"") inString = false;
+      continue;
+    }
+    if (ch === "\"") {
+      inString = true;
+    } else if (ch === open) {
+      depth += 1;
+    } else if (ch === close) {
+      depth -= 1;
+      if (depth === 0) return JSON.parse(source.slice(eq + 1, i + 1));
+    }
+  }
+  throw new Error(`${file} 中 ${marker} JSON 未闭合`);
 }
 
 function clean(text) {
