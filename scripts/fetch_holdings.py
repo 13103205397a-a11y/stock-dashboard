@@ -94,12 +94,13 @@ def build_one(code):
     # 5. 板块归属
     blocks = safe(a.eastmoney_concept_blocks, code, default={})
     concept = (blocks or {}).get("concept_tags", []) if blocks else []
+    industry = qd.get("industry") or (concept[0] if concept else "")
     return {
         "code": code,
         "name": qd.get("name", ""),
         "price": qd.get("price"),
         "lastClose": qd.get("last_close"),
-        "industry": qd.get("industry") or (blocks or {}).get("concept_tags", [""])[0] if blocks else "",
+        "industry": industry,
         "concept": concept,
         "valuation": valuation,
         "fund": fund,

@@ -22,6 +22,7 @@ import socketserver
 import subprocess
 import sys
 import threading
+import urllib.parse
 import webbrowser
 
 # 启动诊断日志(写到文件,排查卡在哪)
@@ -31,6 +32,12 @@ _diag.flush()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PORT = 8787
+ALLOWED_ORIGINS = {
+    f"http://localhost:{PORT}",
+    f"http://127.0.0.1:{PORT}",
+}
+MAX_PORTFOLIO_BYTES = 64 * 1024
+PORTFOLIO_FIELDS = {"code", "name", "buyPrice", "shares", "weight", "note", "addedAt"}
 # 数据刷新时各脚本的顺序（前者输出是后者输入）
 # ⚠️ 与 app/main.swift 的 steps 保持一致，改动需同步两端。
 REFRESH_STEPS = [
@@ -45,7 +52,35 @@ REFRESH_STEPS = [
 ]
 
 # 刷新状态（进程内共享）
-refresh_state = {"running": False, "log": [], "done": False, "error": None}
+refresh_state = {"running": False, "log": [], "done": False, "error": None, "failedSteps": []}
+
+
+def _validate_portfolio(data):
+    """校验持仓配置，只允许前端需要的字段落盘。"""
+    if not isinstance(data, dict) or not isinstance(data.get("holdings"), list):
+        raise ValueError("数据格式错误，需 {holdings: [...]}")
+    out = {"updated": str(data.get("updated") or "")[:10], "holdings": []}
+    for item in data["holdings"]:
+        if not isinstance(item, dict):
+            raise ValueError("持仓条目格式错误")
+        code = str(item.get("code") or "").strip()
+        name = str(item.get("name") or "").strip()
+        if not code.isdigit() or len(code) != 6:
+            raise ValueError("股票代码必须是 6 位数字")
+        if not name:
+            raise ValueError("股票名称不能为空")
+        clean = {k: item[k] for k in PORTFOLIO_FIELDS if k in item}
+        clean["code"] = code
+        clean["name"] = name
+        for key in ("buyPrice", "shares", "weight"):
+            if clean.get(key) in ("", None):
+                clean[key] = None
+            elif not isinstance(clean[key], (int, float)):
+                raise ValueError(f"{key} 必须是数字")
+        if clean.get("note") is not None:
+            clean["note"] = str(clean["note"])[:200]
+        out["holdings"].append(clean)
+    return out
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -59,22 +94,37 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Cache-Control", "no-cache, must-revalidate")
         super().end_headers()
 
+    def _origin_allowed(self):
+        origin = self.headers.get("Origin")
+        if not origin:
+            return True
+        return origin in ALLOWED_ORIGINS
+
+    def _require_local_origin(self):
+        if self._origin_allowed():
+            return True
+        self.send_error(403, "Origin not allowed")
+        return False
+
     def do_GET(self):
-        # API：刷新数据
-        if self.path == "/api/refresh":
-            self._handle_refresh()
-            return
-        if self.path == "/api/status":
+        parsed = urllib.parse.urlparse(self.path)
+        if parsed.path == "/api/status":
             self._handle_status()
             return
-        if self.path == "/api/portfolio":
+        if parsed.path == "/api/portfolio":
             self._handle_portfolio_get()
             return
         # 静态文件（网页本体）
         super().do_GET()
 
     def do_POST(self):
-        if self.path == "/api/portfolio":
+        parsed = urllib.parse.urlparse(self.path)
+        if not self._require_local_origin():
+            return
+        if parsed.path == "/api/refresh":
+            self._handle_refresh()
+            return
+        if parsed.path == "/api/portfolio":
             self._handle_portfolio_post()
             return
         self.send_error(404)
@@ -94,12 +144,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def _handle_portfolio_post(self):
         """写入 portfolio.json 持仓配置（整体覆盖）"""
         length = int(self.headers.get("Content-Length", 0))
+        if length > MAX_PORTFOLIO_BYTES:
+            self.send_error(413, "Portfolio payload too large")
+            return
         body = self.rfile.read(length).decode("utf-8")
         try:
-            data = json.loads(body)
-            if not isinstance(data, dict) or "holdings" not in data:
-                self._json({"ok": False, "msg": "数据格式错误，需 {holdings: [...]}"})
-                return
+            data = _validate_portfolio(json.loads(body))
             path = os.path.join(HERE, "portfolio.json")
             tmp = path + ".tmp"
             with open(tmp, "w", encoding="utf-8") as f:
@@ -108,6 +158,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._json({"ok": True, "msg": "持仓已保存"})
         except json.JSONDecodeError:
             self._json({"ok": False, "msg": "JSON 解析失败"})
+        except ValueError as e:
+            self._json({"ok": False, "msg": str(e)})
         except Exception as e:
             self._json({"ok": False, "msg": str(e)})
 
@@ -124,22 +176,31 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             "log": refresh_state["log"][-20:],
             "done": refresh_state["done"],
             "error": refresh_state["error"],
+            "failedSteps": refresh_state["failedSteps"],
         })
 
     def _json(self, obj):
         body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
         self.send_response(200)
         self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        origin = self.headers.get("Origin")
+        if origin in ALLOWED_ORIGINS:
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Vary", "Origin")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Content-Length", len(body))
         self.end_headers()
         self.wfile.write(body)
 
     def do_OPTIONS(self):
+        if not self._require_local_origin():
+            return
         self.send_response(204)
-        self.send_header("Access-Control-Allow-Origin", "*")
+        origin = self.headers.get("Origin")
+        if origin in ALLOWED_ORIGINS:
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Vary", "Origin")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
@@ -150,7 +211,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 def _run_refresh():
     """后台跑数据刷新脚本。"""
-    refresh_state.update(running=True, log=[], done=False, error=None)
+    refresh_state.update(running=True, log=[], done=False, error=None, failedSteps=[])
     try:
         for name, cmd in REFRESH_STEPS:
             refresh_state["log"].append(f"▶ {name}...")
@@ -175,8 +236,13 @@ def _run_refresh():
                     refresh_state["log"].append(f"  {out.strip()[:200]}")
             else:
                 refresh_state["log"].append(f"  ✗ {name} 失败: {(r.stderr or '')[:200]}")
-        refresh_state["log"].append("全部完成 ✓")
-        refresh_state["done"] = True
+                refresh_state["failedSteps"].append(name)
+        if refresh_state["failedSteps"]:
+            refresh_state["error"] = "部分步骤失败：" + "、".join(refresh_state["failedSteps"])
+            refresh_state["log"].append("刷新结束，但存在失败步骤 ✗")
+        else:
+            refresh_state["log"].append("全部完成 ✓")
+            refresh_state["done"] = True
     except Exception as e:
         refresh_state["error"] = str(e)
         refresh_state["log"].append(f"✗ 异常: {e}")

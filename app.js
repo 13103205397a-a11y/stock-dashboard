@@ -18,6 +18,14 @@
   const $ = (s) => document.querySelector(s);
   const grid = $("#grid");
   const esc = (s) => (s == null ? "" : String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])));
+  const safeUrl = (u) => {
+    try {
+      const url = new URL(String(u), location.href);
+      return url.protocol === "http:" || url.protocol === "https:" ? url.href : "";
+    } catch {
+      return "";
+    }
+  };
 
   /* ---------- 顶栏 / 统计 ---------- */
   function renderMeta() {
@@ -311,8 +319,9 @@
       const impTag = imp ? `<span class="nf-imp ${impCls}">${esc(imp)}</span>` : "";
       const src = it.source ? `<span class="nf-type">${esc(it.source)}</span>` : (it.type ? `<span class="nf-type">${esc(it.type)}</span>` : "");
       const conf = it.confirmed === false ? `<span class="nf-unconf">未证实</span>` : "";
-      const body = it.url
-        ? `<a class="nf-text nf-link" href="${esc(it.url)}" target="_blank" rel="noopener">${esc(title)}</a>`
+      const url = safeUrl(it.url);
+      const body = url
+        ? `<a class="nf-text nf-link" href="${esc(url)}" target="_blank" rel="noopener">${esc(title)}</a>`
         : `<div class="nf-text">${esc(title)}</div>`;
       return `<div class="nf-item">
         <div class="nf-meta"><span class="nf-date">${esc(it.date || "")}</span>${src}${impTag}${conf}</div>
@@ -664,10 +673,11 @@
     const netCls = h.netInflow > 0 ? "up" : h.netInflow < 0 ? "down" : "";
     const concepts = (h.concepts || []).slice(0, 6).map((c) => `<span class="hc-chip">${esc(c)}</span>`).join("");
     const boards = h.boards > 0 ? `<span class="hc-board">${h.boards}连板</span>` : "";
-    const news = (h.news || []).slice(0, 2).map((n) =>
-      n.url ? `<a class="hc-news" href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a>`
-            : `<span class="hc-news">${esc(n.title)}</span>`
-    ).join("");
+    const news = (h.news || []).slice(0, 2).map((n) => {
+      const url = safeUrl(n.url);
+      return url ? `<a class="hc-news" href="${esc(url)}" target="_blank" rel="noopener">${esc(n.title)}</a>`
+                 : `<span class="hc-news">${esc(n.title)}</span>`;
+    }).join("");
     const metric = (lab, val) => `<div class="hm"><span class="hm-l">${lab}</span><span class="hm-v">${val}</span></div>`;
     return `<article class="hotcard">
       <div class="hc-head">
@@ -1055,7 +1065,11 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (r.ok) return { ok: true, msg: "已保存（同步到文件）" };
+      if (r.ok) {
+        const res = await r.json().catch(() => null);
+        if (res && res.ok === false) return { ok: false, msg: res.msg || "保存失败" };
+        return { ok: true, msg: (res && res.msg) || "已保存（同步到文件）" };
+      }
       return { ok: true, msg: "已保存到本地（app_server 未启动）" };
     } catch {
       return { ok: true, msg: "已保存到本地（app_server 未启动）" };
