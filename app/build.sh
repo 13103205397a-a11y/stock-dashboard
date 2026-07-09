@@ -8,8 +8,16 @@ PROJ="$(dirname "$HERE")"
 APP="$PROJ/股市看板.app"
 
 echo "▶ 编译 Swift..."
-swiftc "$HERE/main.swift" -o "$HERE/stock-dashboard" \
-    -framework Cocoa -framework WebKit 2>&1 | grep -v "javaScriptEnabled.*deprecated" || true
+TMP_LOG="$(mktemp)"
+if swiftc "$HERE/main.swift" -o "$HERE/stock-dashboard" \
+    -framework Cocoa -framework WebKit >"$TMP_LOG" 2>&1; then
+  grep -v "javaScriptEnabled.*deprecated" "$TMP_LOG" || true
+  rm -f "$TMP_LOG"
+else
+  grep -v "javaScriptEnabled.*deprecated" "$TMP_LOG" || true
+  rm -f "$TMP_LOG"
+  exit 1
+fi
 
 echo "▶ 构建 .app 包..."
 rm -rf "$APP"
