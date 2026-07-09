@@ -2,28 +2,27 @@ name: 刷新行情技术信号
 
 # A 股收盘(15:00 北京)后,在 GitHub 服务器上抓真实日K并重算
 # 价格/均线/支撑/突破/止损/走势图,自动提交回仓库。
-# 与云端「叙事复盘」Agent(16:00 北京)分工:本工作流管行情,Agent 管叙事。
 on:
   schedule:
     # GitHub 定时器在高负载时会延迟甚至丢弃，故排 4 个时间点多次重试。
     # 周末 A 股无交易但跑了也无害（幂等，无新数据则不提交）。
     # 关键：周一早上补跑周末数据，避免断档。北京时间 = UTC + 8。
-    - cron: "20 7 * * *"     # 15:20 北京 — 收盘后首试
-    - cron: "40 8 * * *"      # 16:40 北京 — 备用
-    - cron: "10 10 * * *"     # 18:10 北京 — 兜底
-    - cron: "0 1 * * 1-5"     # 09:00 周一-周五 — 盘前补跑(防昨日漏跑)
-  workflow_dispatch: {}   # 支持手动触发(仓库 Actions 页面点 Run workflow)
+    - cron: "20 7 * * *"     # 15:20 北京 - 收盘后首试
+    - cron: "40 8 * * *"      # 16:40 北京 - 备用
+    - cron: "10 10 * * *"     # 18:10 北京 - 兜底
+    - cron: "0 1 * * 1-5"     # 09:00 周一-周五 - 盘前补跑(防昨日漏跑)
+  workflow_dispatch: {}
 
 permissions:
-  contents: write          # 允许用内置 GITHUB_TOKEN 推送
+  contents: write
 
-concurrency:
-  group: refresh-signals
-  cancel-in-progress: false
+# 不用 concurrency：多个定时任务各自独立运行，互不取消
+# 即使前一次还没跑完，下一次也会正常启动（git push 有锁保护）
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: 检出仓库
         uses: actions/checkout@v4
@@ -38,44 +37,40 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 安装 Python 依赖(问财技能 + a-stock-pro 用)
+      - name: 安装 Python 依赖
         run: pip install --quiet requests numpy pandas mootdx
 
       - name: 抓取日K(腾讯前复权)
         run: bash scripts/fetch_klines.sh
 
-      - name: 重算技术信号 → 写回 data.js / meta.js
+      - name: 重算技术信号 -> 写回 data.js / meta.js
         run: node scripts/fetch_signals.js
 
-      - name: 抓取新闻+公告(东方财富,免费,规则筛选) → 写回 data.js
+      - name: 抓取新闻+公告 -> 写回 data.js
         run: python3 scripts/fetch_news.py
-        continue-on-error: true        # 新闻抓取异常不阻断技术信号提交
+        continue-on-error: true
 
-      - name: 补齐资金面/研报/估值(a-stock-pro,免key) → 写回 data.js
-        # 用 vendored 的 a-stock-pro skill 填 fund/research/valuation 三类字段。
-        # 全部走东财/腾讯 HTTP 端点,免 key,海外机房可跑(不调 mootdx)。
+      - name: 补齐资金面/研报/估值 -> 写回 data.js
         run: python3 scripts/fetch_enhanced.py
-        continue-on-error: true        # 异常不阻断其他步骤提交
+        continue-on-error: true
 
-      - name: 全市场异动扫描(a-stock-pro,免key) → 写回 market.js
-        # 采集涨停/炸板/跌停/涨跌幅TOP/换手TOP/资金流TOP/人气榜/龙虎榜/北向,全免key。
+      - name: 全市场异动扫描 -> 写回 market.js
         run: python3 scripts/fetch_market.py
-        continue-on-error: true        # 异常不阻断其他步骤提交
+        continue-on-error: true
 
-      - name: 持仓决策数据(德业+信维,免key) → 写回 holdings.js
+      - name: 持仓决策数据 -> 写回 holdings.js
         run: python3 scripts/fetch_holdings.py
         continue-on-error: true
 
-      - name: 产业雷达数据(行业排名,免key) → 写回 industry.js
+      - name: 产业雷达数据 -> 写回 industry.js
         run: python3 scripts/fetch_industry.py
         continue-on-error: true
 
-      - name: 新闻全量数据(全球资讯+公告,免key) → 写回 newsall.js
+      - name: 新闻全量数据 -> 写回 newsall.js
         run: python3 scripts/fetch_news_all.py
         continue-on-error: true
 
-      - name: 抓取今日热点 TOP30(同花顺问财:热度/题材) → 写回 hot.js
-        # 每次都尝试，fetch_hot.py 内部会判断 hot.js 日期是否今天，是则跳过（幂等）。
+      - name: 抓取今日热点 TOP30 -> 写回 hot.js
         continue-on-error: true
         env:
           IWENCAI_API_KEY: ${{ secrets.IWENCAI_API_KEY }}
@@ -99,36 +94,3 @@ jobs:
             git push origin "HEAD:${GITHUB_REF_NAME}"
             echo "已推送行情更新。"
           fi
-
-      - name: 失败告警（创建 Issue）
-        if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const date = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
-            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            // 查找是否已有未关闭的同标签 issue，有则评论追加，无则新建
-            const label = 'ci-failed';
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: label,
-              state: 'open'
-            });
-            const body = `行情刷新工作流失败 @ ${date}\n\n运行链接：${runUrl}\n触发分支：${context.refName}\n\n请检查 Actions 日志，常见原因：数据源限流/改版、问财配额耗尽、网络抖动。`;
-            if (issues.data.length > 0) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issues.data[0].number,
-                body
-              });
-            } else {
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: `CI 失败：行情刷新工作流`,
-                body,
-                labels: [label]
-              });
-            }
