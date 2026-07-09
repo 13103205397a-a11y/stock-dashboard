@@ -29,6 +29,9 @@ jobs:
       - name: 检出仓库
         uses: actions/checkout@v4
 
+      - name: 校验公开数据结构
+        run: node scripts/validate_data.js
+
       - name: 筛选 web 文件
         run: |
           mkdir -p _site

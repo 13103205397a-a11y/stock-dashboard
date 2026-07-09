@@ -11,7 +11,7 @@
   python3 app_server.py            # 启动服务器并打开看板
   python3 app_server.py --no-open  # 只启动不打开浏览器
 
-数据刷新流程：抓日K → 算信号 → 抓新闻 → 同步Hermes复盘
+数据刷新流程：读取 scripts/refresh_plan.json 统一执行。
 全部本地运行，不依赖 GitHub。
 """
 import http.server
@@ -40,21 +40,48 @@ ALLOWED_ORIGINS = {
 }
 MAX_PORTFOLIO_BYTES = 64 * 1024
 PORTFOLIO_FIELDS = {"code", "name", "buyPrice", "shares", "weight", "note", "addedAt"}
-# 数据刷新时各脚本的顺序（前者输出是后者输入）
-# ⚠️ 与 app/main.swift 的 steps 保持一致，改动需同步两端。
-REFRESH_STEPS = [
-    ("抓日K(腾讯)", ["bash", "scripts/fetch_klines.sh"]),
-    ("算技术信号", ["node", "scripts/fetch_signals.js"]),
-    ("抓新闻(东方财富)", ["python3", "scripts/fetch_news.py"]),
-    ("补资金/研报/估值", ["python3", "scripts/fetch_enhanced.py"]),
-    ("全市场异动", ["python3", "scripts/fetch_market.py"]),
-    ("同步Hermes复盘", ["python3", "scripts/fetch_hermes.py"]),
-    ("同步持仓分析", ["python3", "scripts/fetch_portfolio_analysis.py"]),
-    ("同步周末发酵", ["python3", "scripts/fetch_weekend.py"]),
-]
+REFRESH_PLAN_PATH = os.path.join(HERE, "scripts", "refresh_plan.json")
 
 # 刷新状态（进程内共享）
 refresh_state = {"running": False, "log": [], "done": False, "error": None, "failedSteps": []}
+
+
+def _load_refresh_steps():
+    """读取统一刷新计划，返回 [{name, command, timeout}]。"""
+    with open(REFRESH_PLAN_PATH, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    steps = data.get("steps")
+    if not isinstance(steps, list) or not steps:
+        raise ValueError("refresh_plan.json 缺少 steps")
+    out = []
+    for step in steps:
+        name = step.get("name")
+        cmd = step.get("command")
+        if not name or not isinstance(cmd, list) or not all(isinstance(x, str) and x for x in cmd):
+            raise ValueError("refresh_plan.json 中存在无效步骤")
+        out.append({
+            "name": name,
+            "command": cmd,
+            "timeout": int(step.get("timeout") or 300),
+        })
+    return out
+
+
+def _env_with_iwencai():
+    env = os.environ.copy()
+    if env.get("IWENCAI_API_KEY"):
+        return env
+    try:
+        import subprocess as sp
+        account = env.get("IWENCAI_KEYCHAIN_ACCOUNT", "Admin")
+        key = sp.run(["security", "find-generic-password", "-a", account,
+                      "-s", "iwencai-api-key", "-w"],
+                     capture_output=True, text=True, timeout=10).stdout.strip()
+        if key:
+            env["IWENCAI_API_KEY"] = key
+    except Exception:
+        pass
+    return env
 
 
 def _validate_portfolio(data):
@@ -217,22 +244,12 @@ def _run_refresh():
     """后台跑数据刷新脚本。"""
     refresh_state.update(running=True, log=[], done=False, error=None, failedSteps=[])
     try:
-        for name, cmd in REFRESH_STEPS:
+        env = _env_with_iwencai()
+        for step in _load_refresh_steps():
+            name = step["name"]
+            cmd = step["command"]
             refresh_state["log"].append(f"▶ {name}...")
-            env = os.environ.copy()
-            # 问财密钥：优先环境变量，其次 macOS 钥匙串（账号名可配，默认 Admin）
-            if not env.get("IWENCAI_API_KEY"):
-                try:
-                    import subprocess as sp
-                    account = env.get("IWENCAI_KEYCHAIN_ACCOUNT", "Admin")
-                    key = sp.run(["security", "find-generic-password", "-a", account,
-                                  "-s", "iwencai-api-key", "-w"],
-                                 capture_output=True, text=True).stdout.strip()
-                    if key:
-                        env["IWENCAI_API_KEY"] = key
-                except Exception:
-                    pass
-            r = subprocess.run(cmd, capture_output=True, text=True, timeout=300, env=env, cwd=HERE)
+            r = subprocess.run(cmd, capture_output=True, text=True, timeout=step["timeout"], env=env, cwd=HERE)
             out = (r.stdout or "")[-500:]
             if r.returncode == 0:
                 refresh_state["log"].append(f"  ✓ {name} 完成")

@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "description": "本地全量刷新计划。app_server.py、Mac App 和命令行统一读取此文件。",
+  "steps": [
+    {
+      "name": "抓日K(腾讯)",
+      "command": ["bash", "scripts/fetch_klines.sh"],
+      "timeout": 300
+    },
+    {
+      "name": "算技术信号",
+      "command": ["node", "scripts/fetch_signals.js"],
+      "timeout": 300
+    },
+    {
+      "name": "抓新闻(东方财富)",
+      "command": ["python3", "scripts/fetch_news.py"],
+      "timeout": 300
+    },
+    {
+      "name": "补资金/研报/估值",
+      "command": ["python3", "scripts/fetch_enhanced.py"],
+      "timeout": 300
+    },
+    {
+      "name": "全市场异动",
+      "command": ["python3", "scripts/fetch_market.py"],
+      "timeout": 300
+    },
+    {
+      "name": "同步持仓行情",
+      "command": ["python3", "scripts/fetch_holdings.py"],
+      "timeout": 300,
+      "localPrivate": true
+    },
+    {
+      "name": "同步Hermes复盘",
+      "command": ["python3", "scripts/fetch_hermes.py"],
+      "timeout": 300,
+      "localOnly": true
+    },
+    {
+      "name": "同步持仓分析",
+      "command": ["python3", "scripts/fetch_portfolio_analysis.py"],
+      "timeout": 300,
+      "localPrivate": true
+    },
+    {
+      "name": "同步周末发酵",
+      "command": ["python3", "scripts/fetch_weekend.py"],
+      "timeout": 300,
+      "localOnly": true
+    }
+  ]
+}

@@ -6,22 +6,24 @@
 
 ## 在线访问
 - **GitHub Pages**：https://13103205397a-a11y.github.io/stock-dashboard/
-- **本地**：双击 `index.html` 用浏览器打开即可（无需后端、无需起服务器）。数据通过 `<script>` 注入 `window` 全局，避免 `file://` 下 `fetch` 本地 JSON 被浏览器拦截。
+- **本地静态**：双击 `index.html` 用浏览器打开即可（无需后端、无需起服务器）。数据通过 `<script>` 注入 `window` 全局，避免 `file://` 下 `fetch` 本地 JSON 被浏览器拦截。
+- **本地工作台**：运行 `python3 app_server.py` 后访问 `http://localhost:8787/index.html`，可写入持仓配置并从页面触发本地全量刷新。
 
 ## 功能
 - **今日复盘**：大盘真实指数（上证/深证/创业板/科创50）+ 市场环境综述 + 多空/左右侧统计。
 - **统计带**：总数 / 成立 / 存疑 / 今日叙事变化 / 多头排列 / 左侧已到逢低区 / 右侧突破·临近。
-- **筛选**：板块 + 结论（成立/存疑/证伪）+ **⚡今日买点**（左侧已到逢低区 或 右侧突破/临近）+ 叙事有变化 + 全局搜索。
+- **筛选 / 搜索**：板块 + 结论（成立/存疑/证伪）+ **⚡今日买点**（左侧已到逢低区 或 右侧突破/临近）+ 叙事有变化；顶部全局搜索支持代码、名称、题材、新闻、事件和跨模块跳转。
+- **数据健康**：首页展示各模块更新时间、条目数、数据源和过期状态；本地服务模式下可直接触发统一刷新计划并查看进度。
 - **排序**：今日涨幅 / 距突破(右侧最近) / 回踩距离(左侧最近) / 趋势强度。
 - **卡片**：现价+涨跌幅+趋势徽章 + **近60日迷你走势图** + 左/右买点与实时信号状态 + 主力资金 + 新消息角标 + 复盘徽章。
 - **详情抽屉**：技术信号(均线/高低/量比/ATR + 大走势图) + **风控(左侧止损/目标/盈亏比、右侧止损)** + 主力资金 + 完整叙事/驱动/左右计划/今日复盘/新闻流水/机构研报/证伪/增长点/小作文/复盘历史。
 - **今日热点 TOP30**：按个股热度排序，含涨跌/换手/量比/资金/连板/所属概念/行业/市值 + 炒作题材/技术面/情绪面规则化标签 + 催化新闻。
 
 ## 文件结构
-### 前端（12 个视图模块，对应 `index.html` 侧栏）
+### 前端（13 个视图模块，对应 `index.html` 侧栏）
 | 文件 | 作用 |
 |---|---|
-| `index.html` / `styles.css` / `app.js` | 页面结构 / 深色终端风样式 / 渲染·筛选·搜索·抽屉 |
+| `index.html` / `styles.css` / `app.js` | 页面结构 / 深色终端风样式 / 渲染·筛选·全局搜索·数据健康·抽屉 |
 | `data.js` | 自选股数据（`window.STOCKS`）：叙事 + 技术信号 + 消息面 |
 | `meta.js` | 全局元信息（行情时点 / 统计 / 大盘快照 `marketSnapshot`） |
 | `holdings.js` | 持仓决策（本地私有生成，`window.HOLDINGS`，不入库/不发布） |
@@ -45,6 +47,8 @@
 | `fetch_news_all.py` | a-stock-pro（免key） | `newsall.js` |
 | `fetch_hot.py` | 同花顺问财（需 `IWENCAI_API_KEY`） | `hot.js` |
 | `fetch_hermes.py` | Hermes 每日自动调度 | 触发各 AI 分析模块 |
+| `refresh_plan.json` / `run_refresh.py` | 本地统一刷新计划 / 命令行执行器 | 本地全量刷新 |
+| `validate_data.js` | 公开数据结构校验（不读取私有持仓） | 本地/CI 校验 |
 | `skills/` | a-stock-pro / hithink-astock-selector / hithink-market-query / news-search / report-search（vendored） | — |
 | `.github/workflows/refresh-signals.yml` | GitHub Actions：工作日收盘后自动刷新行情+消息面+异动 | data/meta/market/industry/newsall/hot.js（不含持仓） |
 | `agent/*.md` | 各模块 AI 分析提示词（daily-review / industry-radar / logic-chain / materials-analysis / events-analysis / opportunities-analysis） | 驱动 reports.js 等 |
@@ -90,6 +94,12 @@ python3 scripts/fetch_industry.py    # 产业雷达 → industry.js
 python3 scripts/fetch_news_all.py    # 全球资讯+公告 → newsall.js
 python3 scripts/fetch_hot.py         # 热点 TOP30 → hot.js（需问财 key）
 ```
+或直接执行统一刷新计划：
+```bash
+python3 scripts/run_refresh.py
+node scripts/validate_data.js
+```
+`app_server.py` 和 Mac App 的“刷新数据”也读取同一份 `scripts/refresh_plan.json`，避免多端刷新步骤漂移。
 - **左侧(逢低)**：支撑区 = MA60 / MA20 / 近 20–60 日低点构成的回踩带；状态分「已在支撑区·可分批左侧 / 高于支撑区·等回踩 / 跌破支撑·破位观望」。
 - **右侧(突破)**：突破位 = 近 60 日高（平台高）；状态分「已放量突破·右侧持有 / 临近突破 / 箱体内 / 创新高量能不足」，配合量比确认。
 - 趋势 = 均线多头/空头/震荡排列。

@@ -98,42 +98,67 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
     // ── 刷新数据(带进度反馈) ──
     @objc func refreshData() {
         if !refreshProcesses.isEmpty { return }
-        // 显示刷新中
         webView.evaluateJavaScript(
-            "document.body.insertAdjacentHTML('beforeend','<div id=\"refresh-overlay\" style=\"position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:9999;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-family:sans-serif\">🔄 刷新中… <span id=\"refresh-step\"></span></div>');",
+            "document.getElementById('refresh-overlay')?.remove();document.body.insertAdjacentHTML('beforeend','<div id=\"refresh-overlay\" style=\"position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:9999;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-family:sans-serif\">🔄 刷新中… <span id=\"refresh-step\"></span></div>');",
             completionHandler: nil)
 
         DispatchQueue.global().async {
-            // ⚠️ 与 app_server.py 的 REFRESH_STEPS 保持一致，改动需同步两端。
-            let steps: [(String, [String])] = [
-                ("抓日K", ["bash", "scripts/fetch_klines.sh"]),
-                ("算信号", ["node", "scripts/fetch_signals.js"]),
-                ("抓新闻", ["python3", "scripts/fetch_news.py"]),
-                ("市场异动", ["python3", "scripts/fetch_market.py"]),
-                ("同步复盘", ["python3", "scripts/fetch_hermes.py"]),
-            ]
             let env = self.getEnvWithIwencai()
-            for (name, cmd) in steps {
+            let task = Process()
+            task.launchPath = "/usr/bin/env"
+            task.arguments = ["python3", "scripts/run_refresh.py"]
+            task.currentDirectoryPath = PROJECT
+            task.environment = env
+            let pipe = Pipe()
+            task.standardOutput = pipe
+            task.standardError = pipe
+            pipe.fileHandleForReading.readabilityHandler = { handle in
+                let data = handle.availableData
+                guard data.count > 0,
+                      let text = String(data: data, encoding: .utf8) else { return }
+                let line = text.split(separator: "\n").last.map(String.init) ?? text
                 DispatchQueue.main.async {
-                    self.webView.evaluateJavaScript(
-                        "document.getElementById('refresh-step').textContent='· \(name)';", completionHandler: nil)
+                    self.setRefreshStep(line)
                 }
-                let task = Process()
-                task.launchPath = "/usr/bin/env"
-                task.arguments = cmd
-                task.currentDirectoryPath = PROJECT
-                task.environment = env
-                task.standardOutput = Pipe()
-                task.standardError = Pipe()
-                do { try task.run(); self.refreshProcesses.append(task); task.waitUntilExit() }
-                catch { continue }
-                self.refreshProcesses.removeAll { $0 == task }
             }
-            // 刷新完重新加载页面
+            do {
+                try task.run()
+                self.refreshProcesses.append(task)
+                task.waitUntilExit()
+            } catch {
+                DispatchQueue.main.async {
+                    self.setRefreshStep("刷新启动失败")
+                }
+            }
+            pipe.fileHandleForReading.readabilityHandler = nil
+            self.refreshProcesses.removeAll { $0 == task }
             DispatchQueue.main.async {
                 self.webView.reload()
             }
         }
+    }
+
+    func setRefreshStep(_ text: String) {
+        let literal = jsString("· " + text)
+        webView.evaluateJavaScript(
+            "var el=document.getElementById('refresh-step');if(el)el.textContent=\(literal);",
+            completionHandler: nil)
+    }
+
+    func jsString(_ text: String) -> String {
+        var out = "\""
+        for ch in text {
+            switch ch {
+            case "\\": out += "\\\\"
+            case "\"": out += "\\\""
+            case "\n": out += "\\n"
+            case "\r": out += "\\r"
+            case "\t": out += "\\t"
+            default: out.append(ch)
+            }
+        }
+        out += "\""
+        return out
     }
 
     func getEnvWithIwencai() -> [String: String] {

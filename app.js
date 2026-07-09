@@ -1,4 +1,4 @@
-/* A股盘面 · 左侧导航 12 模块 — 渲染 / 筛选 / 详情抽屉 */
+/* A股盘面 · 左侧导航 13 模块 — 渲染 / 筛选 / 搜索 / 详情抽屉 */
 (function () {
   const STOCKS = window.STOCKS || [];
   const META = window.META || {};
@@ -17,6 +17,7 @@
 
   const $ = (s) => document.querySelector(s);
   const grid = $("#grid");
+  const isLocalServer = () => location.origin === "http://localhost:8787" || location.origin === "http://127.0.0.1:8787";
   const esc = (s) => (s == null ? "" : String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])));
   const safeUrl = (u) => {
     try {
@@ -721,7 +722,7 @@
     if (hd) hd.textContent = HOT.date ? `更新于 ${HOT.generatedAt || HOT.date}` : "";
   }
 
-  // 11 个模块的视图切换 + 懒渲染调度
+  // 13 个模块的视图切换 + 懒渲染调度
   const VIEW_RENDER = {
     home: () => renderHome(),
     holdings: () => renderHoldings(),
@@ -767,8 +768,36 @@
 
   /* ---------- 事件 ---------- */
   $("#backdrop").addEventListener("click", closeDrawer);
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
-  // 搜索功能已移除
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeSearchPanel();
+      closeDrawer();
+    }
+    if ((e.key === "/" || (e.key === "k" && (e.metaKey || e.ctrlKey))) && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || "")) {
+      e.preventDefault();
+      $("#globalSearchInput")?.focus();
+    }
+  });
+  const gsInput = $("#globalSearchInput");
+  if (gsInput) {
+    gsInput.addEventListener("input", (e) => {
+      const q = e.target.value.trim();
+      state.q = q;
+      marketState.q = q;
+      if (curView === "watch") render();
+      if (curView === "market") renderMarket();
+      renderGlobalSearch(q);
+    });
+    gsInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const first = searchResults(gsInput.value)[0];
+        if (first) activateSearchResult(first);
+      }
+    });
+    document.addEventListener("click", (e) => {
+      if (!$("#globalSearch")?.contains(e.target)) closeSearchPanel();
+    });
+  }
   $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
   document.querySelectorAll(".verdict-chip").forEach((b) =>
     b.addEventListener("click", () => { state.verdict = b.dataset.verdict; renderChips(); render(); })
@@ -856,7 +885,7 @@
   setTimeout(updateSbData, 300); // 等数据加载
 
   /* ===================================================================
-     新增 6 个模块渲染: Home / 持仓决策 / 机会清单 / 逻辑链 / 产业雷达 / 事件概率 / 新闻
+     扩展模块渲染: Home / 持仓决策 / 机会清单 / 逻辑链 / 产业雷达 / 事件概率 / 新闻等
   =================================================================== */
   // 通用区块标题
   const secTitle = (t, sub) => `<h2 class="vsec-title">${esc(t)}${sub ? `<span class="vsec-sub">${esc(sub)}</span>` : ""}</h2>`;
@@ -927,6 +956,205 @@
   // 亿/万 格式化
   const fmtYi = (n) => n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(2) + "亿";
   const fmtWan = (n) => n == null ? "—" : (n > 0 ? "+" : "") + (n / 1e4).toFixed(0) + "万";
+
+  function dateToken(v) {
+    const s = v == null ? "" : String(v);
+    const m = s.match(/\d{4}-\d{2}-\d{2}/);
+    return m ? m[0] : "";
+  }
+
+  function daysSince(token) {
+    if (!token) return null;
+    const t = new Date(token + "T00:00:00").getTime();
+    if (!Number.isFinite(t)) return null;
+    return Math.floor((Date.now() - t) / 86400000);
+  }
+
+  function healthTone(item) {
+    if (item.missing) return item.optional ? "muted" : "bad";
+    const d = daysSince(dateToken(item.date));
+    if (d == null) return "warn";
+    const ok = item.weekly ? 7 : (item.relaxed ? 2 : 1);
+    const warn = item.weekly ? 14 : (item.relaxed ? 5 : 4);
+    return d <= ok ? "ok" : d <= warn ? "warn" : "bad";
+  }
+
+  function healthText(item) {
+    if (item.missing) return item.optional ? "本地未生成" : "缺失";
+    const d = daysSince(dateToken(item.date));
+    if (d == null) return "待核对";
+    if (d <= 0) return "今日";
+    return `${d}天前`;
+  }
+
+  function poolCount(obj, keys) {
+    return keys.reduce((sum, k) => sum + (Array.isArray(obj?.[k]) ? obj[k].length : 0), 0);
+  }
+
+  function dataHealthItems() {
+    const W = window.WEEKEND || null;
+    const MAT = window.MATERIALS || null;
+    const EV = window.EVENTS || null;
+    const OPP = window.OPPORTUNITIES || null;
+    const LOG = window.LOGIC || null;
+    const holdingPrivate = !isLocalServer() && location.protocol !== "file:";
+    return [
+      { name: "行情信号", date: META.signalDate || META.lastUpdated, count: `${STOCKS.length}只`, source: "data/meta", view: "watch" },
+      { name: "市场异动", date: MARKET.generatedAt || MARKET.date, count: `${poolCount(MARKET, ["topGainers","topLosers","topTurnover","topInflow","topOutflow","limitUp","limitDown","hotRank"])}条`, source: "market.js", view: "market" },
+      { name: "今日热点", date: HOT.generatedAt || HOT.date, count: `${(HOT.list || []).length}只`, source: "hot.js", view: "hot" },
+      { name: "新闻公告", date: NEWSALL?.generatedAt || NEWSALL?.date, count: `${(NEWSALL?.global || []).length + (NEWSALL?.announcements || []).length}条`, source: "newsall.js", view: "news", missing: !NEWSALL },
+      { name: "持仓决策", date: HOLDINGS?.generatedAt || HOLDINGS?.date, count: holdingPrivate ? "线上隐藏" : `${(HOLDINGS?.list || []).length}只`, source: "本地私有", view: "holdings", optional: true, missing: !HOLDINGS },
+      { name: "AI复盘", date: REPORTS.updated, count: `${(REPORTS.reports || []).length}篇`, source: "Hermes", view: "agent", relaxed: true, optional: true, missing: !(REPORTS.reports || []).length },
+      { name: "机会清单", date: OPP?.generatedAt || OPP?.date, count: `${(OPP?.directions || []).length}项`, source: "Hermes", view: "opportunities", relaxed: true, missing: !OPP },
+      { name: "逻辑链", date: LOG?.generatedAt || LOG?.date, count: `${(LOG?.chains || []).length}条`, source: "Hermes", view: "logic", relaxed: true, missing: !LOG },
+      { name: "产业雷达", date: INDUSTRY?.generatedAt || INDUSTRY?.date, count: `${(INDUSTRY?.directions || []).length}项`, source: "Hermes/a-stock", view: "industry", relaxed: true, missing: !INDUSTRY },
+      { name: "材料涨价", date: MAT?.generatedAt || MAT?.date, count: `${(MAT?.directions || []).length}项`, source: "Hermes", view: "materials", relaxed: true, missing: !MAT },
+      { name: "事件概率", date: EV?.generatedAt || EV?.date, count: `${(EV?.events || []).length}件`, source: "Hermes", view: "events", relaxed: true, missing: !EV },
+      { name: "周末发酵", date: W?.generatedAt || W?.date, count: `${(W?.hotspots || []).length}项`, source: "Hermes", view: "weekend", weekly: true, optional: true, missing: !W },
+    ];
+  }
+
+  function renderDataHealthPanel() {
+    const items = dataHealthItems();
+    const cards = items.map((it) => {
+      const tone = healthTone(it);
+      const date = dateToken(it.date) || "—";
+      return `<button class="health-card ${tone}" data-go="${esc(it.view)}">
+        <span class="health-dot"></span>
+        <span class="health-main">
+          <span class="health-name">${esc(it.name)}</span>
+          <span class="health-meta">${esc(date)} · ${esc(it.count)} · ${esc(it.source)}</span>
+        </span>
+        <span class="health-age">${esc(healthText(it))}</span>
+      </button>`;
+    }).join("");
+    const refresh = isLocalServer()
+      ? `<div class="refresh-panel">
+          <button class="refresh-btn" id="localRefreshBtn">刷新数据</button>
+          <div class="refresh-status" id="refreshStatus">本地服务已连接</div>
+        </div>`
+      : `<div class="refresh-panel muted"><div class="refresh-status">本地刷新需从 http://localhost:8787 打开</div></div>`;
+    return `${secTitle("数据健康", "更新时间 / 完整度 / 本地刷新")}
+      <div class="health-grid">${cards}</div>
+      ${refresh}`;
+  }
+
+  async function pollRefreshStatus(once = false) {
+    if (!isLocalServer()) return;
+    const el = $("#refreshStatus");
+    if (!el) return;
+    try {
+      const r = await fetch("/api/status?t=" + Date.now());
+      const st = await r.json();
+      const lines = st.log || [];
+      el.innerHTML = `
+        <div class="rs-line ${st.error ? "bad" : st.running ? "warn" : st.done ? "ok" : ""}">
+          ${st.running ? "刷新中" : st.error ? esc(st.error) : st.done ? "刷新完成" : "待刷新"}
+        </div>
+        ${lines.length ? `<pre>${esc(lines.slice(-6).join("\n"))}</pre>` : ""}`;
+      const btn = $("#localRefreshBtn");
+      if (btn) btn.disabled = !!st.running;
+      if (st.running) setTimeout(() => pollRefreshStatus(), 1500);
+      else if (!once && st.done) setTimeout(() => location.reload(), 800);
+    } catch {
+      el.textContent = "无法读取本地刷新状态";
+    }
+  }
+
+  async function startLocalRefresh() {
+    if (!isLocalServer()) return;
+    const btn = $("#localRefreshBtn");
+    if (btn) btn.disabled = true;
+    const el = $("#refreshStatus");
+    if (el) el.textContent = "正在启动刷新...";
+    try {
+      const r = await fetch("/api/refresh", { method: "POST" });
+      const res = await r.json().catch(() => null);
+      if (!r.ok || (res && res.ok === false)) {
+        if (el) el.textContent = (res && res.msg) || "刷新启动失败";
+        if (btn) btn.disabled = false;
+        return;
+      }
+      pollRefreshStatus();
+    } catch {
+      if (el) el.textContent = "刷新启动失败，请确认 app_server.py 正在运行";
+      if (btn) btn.disabled = false;
+    }
+  }
+
+  function bindHomeControls() {
+    $("#viewHome")?.querySelectorAll(".health-card").forEach((b) => b.addEventListener("click", () => switchView(b.dataset.go)));
+    $("#localRefreshBtn")?.addEventListener("click", startLocalRefresh);
+    pollRefreshStatus(true);
+  }
+
+  let searchIndex = null;
+  function addSearchItem(list, type, title, meta, text, view, code) {
+    const hay = [type, title, meta, text, code].filter(Boolean).join(" ").toLowerCase();
+    list.push({ type, title, meta, text, view, code, hay });
+  }
+
+  function buildSearchIndex() {
+    const list = [];
+    STOCKS.forEach((s) => {
+      addSearchItem(list, "自选股", s.name, `${s.code} · ${s.sector}`, [s.narrative, (s.tags || []).join(" "), s.review?.change].join(" "), "watch", s.code);
+      (s.news || []).slice(0, 3).forEach((n) => addSearchItem(list, "个股新闻", n.title, `${s.name} · ${n.date || ""}`, n.source || "", "watch", s.code));
+    });
+    ["topGainers","topLosers","topTurnover","topInflow","topOutflow","limitUp","limitDown","hotRank"].forEach((key) => {
+      (MARKET[key] || []).slice(0, 40).forEach((m) => addSearchItem(list, "市场异动", m.name, `${m.code} · ${m.industry || ""}`, m.reason || "", "market", m.code));
+    });
+    (HOT.list || []).forEach((h) => addSearchItem(list, "热点", h.name, `${h.code} · 热度${h.rank || ""}`, [h.reason, (h.concepts || []).join(" ")].join(" "), "hot", h.code));
+    (NEWSALL?.global || []).slice(0, 60).forEach((n) => addSearchItem(list, "新闻", n.title, n.time || n.date || "", "", "news"));
+    (NEWSALL?.announcements || []).slice(0, 60).forEach((n) => addSearchItem(list, "公告", n.title || n.announcementTitle, n.date || "", "", "news"));
+    (window.OPPORTUNITIES?.directions || []).forEach((d) => addSearchItem(list, "机会", d.name, d.stage || "", [d.logic, d.risk].join(" "), "opportunities"));
+    (window.LOGIC?.chains || []).forEach((c) => addSearchItem(list, "逻辑链", c.name, "", [c.logic, c.bottleneck].join(" "), "logic"));
+    (INDUSTRY?.directions || []).forEach((d) => addSearchItem(list, "产业", d.name, d.confidence || "", [d.price_signal, d.logic].join(" "), "industry"));
+    (window.MATERIALS?.directions || []).forEach((d) => addSearchItem(list, "材料", d.name, d.intensity || "", [d.price, d.logic].join(" "), "materials"));
+    (window.EVENTS?.events || []).forEach((e) => addSearchItem(list, "事件", e.title, e.importance || "", [e.content, e.sectors].join(" "), "events"));
+    return list;
+  }
+
+  function searchResults(q) {
+    const key = q.trim().toLowerCase();
+    if (!key) return [];
+    if (!searchIndex) searchIndex = buildSearchIndex();
+    return searchIndex.filter((x) => x.hay.includes(key)).slice(0, 12);
+  }
+
+  function activateSearchResult(item) {
+    if (!item) return;
+    switchView(item.view || "watch");
+    if (item.code) {
+      setTimeout(() => {
+        if (item.view === "market" || item.type === "热点") openMarketDrawer(item.code);
+        else openDrawer(item.code);
+      }, 80);
+    }
+    closeSearchPanel();
+  }
+
+  function closeSearchPanel() {
+    const panel = $("#searchPanel");
+    if (panel) {
+      panel.innerHTML = "";
+      panel.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  function renderGlobalSearch(q) {
+    const panel = $("#searchPanel");
+    if (!panel) return;
+    const results = searchResults(q);
+    if (!q.trim()) { closeSearchPanel(); return; }
+    panel.setAttribute("aria-hidden", "false");
+    panel.innerHTML = results.length
+      ? results.map((r, i) => `<button class="search-hit" data-i="${i}">
+          <span class="sh-type">${esc(r.type)}</span>
+          <span class="sh-main"><span class="sh-title">${esc(r.title || "—")}</span><span class="sh-meta">${esc(r.meta || "")}</span></span>
+        </button>`).join("")
+      : `<div class="search-empty">没有匹配结果</div>`;
+    panel.querySelectorAll(".search-hit").forEach((b) => b.addEventListener("click", () => activateSearchResult(results[Number(b.dataset.i)])));
+  }
 
   /* ---------- 1. Home 首页总览 ---------- */
   function renderHome() {
@@ -1028,18 +1256,19 @@
           ${nb && nb.total_yi != null ? `<div class="sent-block ${sgn(nb.total_yi)}"><div class="sb-n">${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}<span class="sb-u">亿</span></div><div class="sb-l">北向净额</div></div>` : ""}
         </div>
       </section>
+      ${renderDataHealthPanel()}
       ${secTitle("今日最强", "5个分析模块各取第1 · 点击查看详情")}
       <div class="home-best-grid">${cardHtml || emptyState("分析数据待生成")}</div>
       <div class="home-foot">数据时点 ${esc(MARKET.date || META.signalDate || "")} · 非投资建议</div>
     `;
     el.querySelectorAll(".home-best").forEach((c) => c.addEventListener("click", () => switchView(c.dataset.go)));
+    bindHomeControls();
   }
 
   /* ---------- 2. 持仓决策 ---------- */
   // 持仓配置：优先 portfolio.json，降级 localStorage
   let PORTFOLIO_CFG = null;
   const PF_LS_KEY = "portfolio_cfg_v1";
-  const isLocalServer = () => location.origin === "http://localhost:8787" || location.origin === "http://127.0.0.1:8787";
   const loadPortfolio = async () => {
     try {
       const r = await fetch("portfolio.json?t=" + Date.now());
