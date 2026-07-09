@@ -260,8 +260,18 @@
   <script src="meta.js?v=5" defer></script>
   <script src="hot.js?v=5" defer></script>
   <script src="market.js?v=5" defer></script>
-  <script src="holdings.js?v=5" onerror="window.HOLDINGS=null" defer></script>
-  <script src="portfolio_analysis.js?v=5" onerror="window.PORTFOLIO_ANALYSIS=null" defer></script>
+  <script>
+    (function () {
+      const isLocal = location.protocol === "file:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
+      if (isLocal) {
+        document.write('<script src="holdings.js?v=5" onerror="window.HOLDINGS=null"><\\/script>');
+        document.write('<script src="portfolio_analysis.js?v=5" onerror="window.PORTFOLIO_ANALYSIS=null"><\\/script>');
+      } else {
+        window.HOLDINGS = null;
+        window.PORTFOLIO_ANALYSIS = null;
+      }
+    })();
+  </script>
   <script src="weekend.js?v=5" onerror="window.WEEKEND=null" defer></script>
   <script src="industry.js?v=5" onerror="window.INDUSTRY=null" defer></script>
   <script src="materials.js?v=5" onerror="window.MATERIALS=null" defer></script>
