@@ -16,3 +16,7 @@ app/icon_assets/AppIcon.iconset/
 
 # 个人持仓配置（可能包含真实财务数据，不入库）
 portfolio.json
+
+# 小红书卡片生成临时文件
+xhs/output/
+xhs/*.png
