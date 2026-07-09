@@ -1575,7 +1575,11 @@
     // 噪音过滤
     const noiseHtml = W.noiseFilter ? `<div class="we-noise"><span class="sd-l">噪音过滤</span><p>${esc(W.noiseFilter)}</p></div>` : "";
 
-    el.innerHTML = secTitle("周末发酵", `周末 ${esc(W.weekendDate || "")} · ${hotspots.length} 个热点`) +
+    const wDate = W.weekendDate || "";
+      const daysAgo = wDate ? Math.floor((Date.now() - new Date(wDate).getTime()) / 86400000) : 0;
+      const stale = daysAgo > 4;
+      const dateHint = stale ? `周末 ${esc(wDate)} · ${hotspots.length} 个热点 · ⚠ ${daysAgo}天前数据` : `周末 ${esc(wDate)} · ${hotspots.length} 个热点`;
+      el.innerHTML = secTitle("周末发酵", dateHint) +
       (W.summary ? `<div class="we-summary">${esc(W.summary)}</div>` : "") +
       `<div class="we-grid">${cards}</div>` +
       scenarioHtml + noiseHtml +
@@ -1662,6 +1666,7 @@
     const flushList = () => { if (inList) { html += "</ul>"; inList = false; } };
     const flushTable = () => { if (inTable) { html += "</tbody></table>"; inTable = false; } };
     // 涨跌着色：单元格里的 +X%/-X% 或 利多/利空 标红绿
+    // toneCell: 对已转义的单元格内容着色，只匹配纯文本符号（不含 HTML 标签）
     const toneCell = (c) => c
       .replace(/(\+[\d.]+%)/g, '<span class="up">$1</span>')
       .replace(/(-[\d.]+%)/g, '<span class="down">$1</span>')

@@ -29,13 +29,20 @@ jobs:
       - name: 检出仓库
         uses: actions/checkout@v4
 
+      - name: 筛选 web 文件
+        run: |
+          mkdir -p _site
+          cp index.html app.js styles.css _site/
+          cp data.js meta.js hot.js market.js holdings.js industry.js logic.js events.js opportunities.js materials.js newsall.js weekend.js reports.js portfolio_analysis.js _site/ 2>/dev/null || true
+          touch _site/.nojekyll
+
       - name: 配置 Pages
         uses: actions/configure-pages@v5
 
       - name: 上传构建产物
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .
+          path: _site
 
       # GitHub Pages 后端偶发返回 failed，多次重试递增等待
       - name: 部署尝试 1

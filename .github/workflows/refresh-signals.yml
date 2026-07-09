@@ -85,6 +85,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # 注意：weekend.js / reports.js / portfolio_analysis.js 由本地 Hermes Agent 生成
+          # （非 GitHub Actions），不在此提交。如本地 Hermes 未运行，这三个文件会过期。
           git add data.js meta.js hot.js market.js holdings.js industry.js logic.js events.js opportunities.js materials.js newsall.js
           if git diff --cached --quiet; then
             echo "行情无变化,跳过提交。"

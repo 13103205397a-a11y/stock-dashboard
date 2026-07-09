@@ -26,9 +26,11 @@ import urllib.parse
 import webbrowser
 
 # 启动诊断日志(写到文件,排查卡在哪)
-_diag = open("/tmp/stock-dashboard-app.log", "a", encoding="utf-8")
-_diag.write(f"[{os.getpid()}] app_server 启动, cwd={os.getcwd()}\n")
-_diag.flush()
+def _log_diag(msg):
+    """按需写诊断日志，不保持文件句柄"""
+    with open("/tmp/stock-dashboard-app.log", "a", encoding="utf-8") as f:
+        f.write(f"[{os.getpid()}] {msg}\n")
+_log_diag(f"app_server 启动, cwd={os.getcwd()}")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PORT = 8787
@@ -90,8 +92,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory=HERE, **kwargs)
 
     def end_headers(self):
-        # 静态文件 no-cache：手机端每次验证更新（304 仍可用，但不会拿到过期的 v=1）
+        # 静态文件 no-cache + 安全头
         self.send_header("Cache-Control", "no-cache, must-revalidate")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
         super().end_headers()
 
     def _origin_allowed(self):
@@ -252,14 +256,14 @@ def _run_refresh():
 
 def main():
     no_open = "--no-open" in sys.argv
-    _diag.write(f"[{os.getpid()}] 进入 main, no_open={no_open}\n"); _diag.flush()
+    _log_diag(f"[{os.getpid()}] 进入 main, no_open={no_open}\n"); 
     socketserver.TCPServer.allow_reuse_address = True
     try:
-        _diag.write(f"[{os.getpid()}] 准备绑定 127.0.0.1:{PORT}\n"); _diag.flush()
+        _log_diag(f"[{os.getpid()}] 准备绑定 127.0.0.1:{PORT}\n"); 
         httpd = socketserver.TCPServer(("127.0.0.1", PORT), Handler)
-        _diag.write(f"[{os.getpid()}] ✓ 绑定成功\n"); _diag.flush()
+        _log_diag(f"[{os.getpid()}] ✓ 绑定成功\n"); 
     except OSError as e:
-        _diag.write(f"[{os.getpid()}] ✗ 绑定失败: {e}\n"); _diag.flush()
+        _log_diag(f"[{os.getpid()}] ✗ 绑定失败: {e}\n"); 
         if "Address already in use" in str(e):
             print(f"端口 {PORT} 已被占用,可能服务器已在运行")
             url = f"http://localhost:{PORT}/index.html"
@@ -272,7 +276,7 @@ def main():
     if not no_open:
         webbrowser.open(url)
     try:
-        _diag.write(f"[{os.getpid()}] 开始 serve_forever\n"); _diag.flush()
+        _log_diag(f"[{os.getpid()}] 开始 serve_forever\n"); 
         httpd.serve_forever()
     except KeyboardInterrupt:
         print("\n退出")
