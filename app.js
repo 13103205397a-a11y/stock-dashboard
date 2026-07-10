@@ -15,9 +15,18 @@
   // 视图滚动位置记忆(A2):curView 跟踪当前视图,viewScroll 存各视图上次 scrollY
   let curView = "home";
   const viewScroll = new Map();
+  let drawerReturnFocus = null;
+  let searchActiveIndex = -1;
+  let searchActiveResults = [];
 
   const $ = (s) => document.querySelector(s);
   const grid = $("#grid");
+  const viewScrollRoot = () => {
+    const content = $(".content-in");
+    return content && /auto|scroll/.test(getComputedStyle(content).overflowY)
+      ? content
+      : document.scrollingElement;
+  };
   const isLocalServer = () => location.origin === "http://localhost:8787" || location.origin === "http://127.0.0.1:8787";
   const esc = (s) => (s == null ? "" : String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])));
   const safeUrl = (u) => {
@@ -293,7 +302,7 @@
     const leftHit = /已回踩至逢低区/.test(g.leftState || "");
     const rightHit = /已放量突破|临近突破/.test(g.rightState || "");
     const hitTag = leftHit ? `<span class="hit-tag left-hit">左侧逢低</span>` : rightHit ? `<span class="hit-tag right-hit">右侧突破</span>` : "";
-    return `<article class="card v-${v}${feat}" data-code="${esc(s.code)}" style="--i:${i ?? 0}">
+    return `<article class="card v-${v}${feat}" data-code="${esc(s.code)}" role="button" tabindex="0" aria-label="打开 ${esc(s.name)} ${esc(s.code)} 详情" style="--i:${i ?? 0}">
       <div class="card-head">
         <div class="name-wrap">
           <span class="name">${esc(s.name)}</span>
@@ -340,6 +349,11 @@
       });
       // 点卡片其他区域：打开详情抽屉
       el.addEventListener("click", () => openDrawer(el.dataset.code));
+      el.addEventListener("keydown", (e) => {
+        if (e.target !== el || !["Enter", " "].includes(e.key)) return;
+        e.preventDefault();
+        openDrawer(el.dataset.code);
+      });
     });
     $("#count").textContent = `显示 ${list.length} / ${STOCKS.length} 只`;
   }
@@ -384,10 +398,22 @@
     }).join("")}</div>`;
   }
 
+  function showDrawer() {
+    const drawer = $("#drawer");
+    if (!drawer.classList.contains("show") && document.activeElement instanceof HTMLElement) {
+      drawerReturnFocus = document.activeElement;
+    }
+    document.body.style.overflow = "hidden";
+    drawer.classList.add("show");
+    drawer.setAttribute("aria-hidden", "false");
+    $("#backdrop").classList.add("show");
+    $("#dclose")?.addEventListener("click", closeDrawer);
+    requestAnimationFrame(() => $("#dclose")?.focus());
+  }
+
   function openDrawer(code) {
     const s = STOCKS.find((x) => x.code === code);
     if (!s) return;
-    document.body.style.overflow = "hidden";   // A1: 抽屉打开锁背景滚动
     const r = s.review || {};
     const hist = (s.history || []);
     const g = s.signal || {};
@@ -429,7 +455,7 @@
     $("#drawerInner").innerHTML = `
       <div class="dh">
         <div>
-          <div class="dname">${esc(s.name)} <span class="verdict-badge ${esc(r.verdict)}">${esc(r.verdict || "—")}</span></div>
+          <div class="dname" id="drawerTitle">${esc(s.name)} <span class="verdict-badge ${esc(r.verdict)}">${esc(r.verdict || "—")}</span></div>
           <div class="dcode">${esc(s.code)} · ${esc(s.sector)}</div>
         </div>
         <button class="dclose" id="dclose" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -521,17 +547,18 @@
           </div>`).join("")}</div>` : `<div class="li" style="color:var(--dim);border:none">暂无历史记录，每日复盘后自动累积。</div>`}
       </div>
     `;
-    $("#drawer").classList.add("show");
-    $("#drawer").setAttribute("aria-hidden", "false");
-    $("#backdrop").classList.add("show");
-    $("#dclose").addEventListener("click", closeDrawer);
+    showDrawer();
   }
 
   function closeDrawer() {
-    $("#drawer").classList.remove("show");
-    $("#drawer").setAttribute("aria-hidden", "true");
+    const drawer = $("#drawer");
+    const wasOpen = drawer.classList.contains("show");
+    drawer.classList.remove("show");
+    drawer.setAttribute("aria-hidden", "true");
     $("#backdrop").classList.remove("show");
     document.body.style.overflow = "";          // A1: 关闭恢复背景滚动
+    if (wasOpen && drawerReturnFocus?.isConnected) drawerReturnFocus.focus();
+    drawerReturnFocus = null;
   }
 
   /* ---------- 全市场异动视图 ---------- */
@@ -586,7 +613,7 @@
     const reason = m.reason ? `<div class="mc-reason">${esc(m.reason)}</div>` : "";
     // 龙虎榜特殊:reason 字段
     const dtReason = m.reason ? `<div class="mc-reason">${esc(m.reason)}</div>` : "";
-    return `<article class="market-card ${chgCls}" data-code="${esc(code)}">
+    return `<article class="market-card ${chgCls}" data-code="${esc(code)}" role="button" tabindex="0" aria-label="打开 ${esc(name)} ${esc(code)} 详情">
       <div class="mc-head">
         <span class="mc-name">${esc(name)}</span>
         <span class="mc-code">${esc(code)}</span>
@@ -649,9 +676,14 @@
     el.innerHTML = shown.length
       ? shown.map((m) => marketCard(m, def)).join("")
       : `<div class="empty">该异动类型暂无数据(非交易日或盘后未更新)。</div>`;
-    el.querySelectorAll(".market-card").forEach((c) =>
-      c.addEventListener("click", () => openMarketDrawer(c.dataset.code))
-    );
+    el.querySelectorAll(".market-card").forEach((c) => {
+      c.addEventListener("click", () => openMarketDrawer(c.dataset.code));
+      c.addEventListener("keydown", (e) => {
+        if (e.target !== c || !["Enter", " "].includes(e.key)) return;
+        e.preventDefault();
+        openMarketDrawer(c.dataset.code);
+      });
+    });
     const count = $("#count");
     if (count) count.textContent = `${def.title} · 显示 ${shown.length} / ${list.length} 只`;
   }
@@ -673,14 +705,13 @@
       portfolioToast(`暂未找到股票 ${code} 的详情数据`, "error");
       return;
     }
-    document.body.style.overflow = "hidden";   // A1: 抽屉打开锁背景滚动
     const chg = m.chgPct;
     const industry = typeof m.industry === "string" ? m.industry : (m.industry || []).join("/");
     const netflow = m.netInflow != null ? m.netInflow / 1e8 : null;
     $("#drawerInner").innerHTML = `
       <div class="dh">
         <div>
-          <div class="dname">${esc(m.name)} <span class="mc-hl up">${m.lbc ? m.lbc + "连板" : ""}</span></div>
+          <div class="dname" id="drawerTitle">${esc(m.name)} <span class="mc-hl up">${m.lbc ? m.lbc + "连板" : ""}</span></div>
           <div class="dcode">${esc(m.code)} · ${esc(industry || (m._sources || []).join(" / ") || "分析模块关联标的")}</div>
         </div>
         <button class="dclose" id="dclose" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -705,10 +736,7 @@
         <p class="dnarr" style="color:var(--muted)">此股票来自${esc((m._sources || ["市场异动"]).join("、"))}，不是巨头核心自选；当前仅展示已有的轻量信息。</p>
       </div>
     `;
-    $("#drawer").classList.add("show");
-    $("#drawer").setAttribute("aria-hidden", "false");
-    $("#backdrop").classList.add("show");
-    $("#dclose").addEventListener("click", closeDrawer);
+    showDrawer();
   }
 
   /* ---------- 今日热点 TOP30 ---------- */
@@ -782,21 +810,58 @@
     market: () => renderMarket(),
     hot: () => renderHot(),
   };
-  function switchView(view) {
+  const VIEW_TITLES = {
+    home: "首页",
+    holdings: "持仓决策",
+    watch: "巨头核心",
+    opportunities: "机会清单",
+    logic: "逻辑链",
+    market: "市场异动",
+    hot: "今日热点",
+    news: "新闻",
+    events: "事件概率",
+    agent: "AI 复盘",
+    industry: "产业雷达",
+    materials: "材料涨价",
+    weekend: "周末发酵",
+  };
+  function viewFromHash() {
+    try {
+      const value = decodeURIComponent(location.hash.replace(/^#/, "").split("/")[0]).trim();
+      return VIEW_RENDER[value] ? value : "home";
+    } catch {
+      return "home";
+    }
+  }
+  function syncViewLocation(view, replace = false) {
+    const hash = `#${view}`;
+    if (location.hash === hash) return;
+    history[replace ? "replaceState" : "pushState"](null, "", hash);
+  }
+  function switchView(view, options = {}) {
+    if (!VIEW_RENDER[view]) view = "home";
     // A2: 切走前记住当前视图滚动位置
-    viewScroll.set(curView, window.scrollY);
+    viewScroll.set(curView, viewScrollRoot()?.scrollTop || 0);
     // 清掉所有 view-* class,再设当前
     document.body.classList.forEach((c) => { if (c.startsWith("view-")) document.body.classList.remove(c); });
     document.body.classList.add("view-" + view);
-    document.querySelectorAll(".nav-item").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
+    document.querySelectorAll(".nav-item").forEach((b) => {
+      const active = b.dataset.view === view;
+      b.classList.toggle("active", active);
+      if (active) b.setAttribute("aria-current", "page");
+      else b.removeAttribute("aria-current");
+    });
     // 懒渲染:切到该视图才调对应 render(已有数据则重渲染,无数据则显示待生成)
     const fn = VIEW_RENDER[view];
     if (fn) { try { Promise.resolve(fn()).catch((e) => console.warn("render " + view + " failed", e)); } catch (e) { console.warn("render " + view + " failed", e); } }
     // 移动端:切完关侧栏
     document.body.classList.remove("sidebar-open");
     // A2: 恢复该视图上次滚动位置;首次访问回顶(与原行为一致)
-    window.scrollTo(0, viewScroll.get(view) ?? 0);
+    const scrollRoot = viewScrollRoot();
+    if (scrollRoot) scrollRoot.scrollTop = viewScroll.get(view) ?? 0;
     curView = view;
+    document.title = `${VIEW_TITLES[view] || "A股看板"} · A股盘面`;
+    if (options.syncHash !== false) syncViewLocation(view, Boolean(options.replaceHash));
     // 更新计数文案
     const cnt = $("#count");
     if (cnt && view === "watch") cnt.textContent = `显示 ${STOCKS.length} / ${STOCKS.length} 只`;
@@ -804,6 +869,7 @@
   document.querySelectorAll(".nav-item").forEach((b) =>
     b.addEventListener("click", () => switchView(b.dataset.view))
   );
+  window.addEventListener("hashchange", () => switchView(viewFromHash(), { syncHash: false }));
   // 汉堡菜单(移动端)
   const mt = $("#menuToggle");
   if (mt) mt.addEventListener("click", () => document.body.classList.toggle("sidebar-open"));
@@ -813,6 +879,22 @@
   /* ---------- 事件 ---------- */
   $("#backdrop").addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (e) => {
+    const drawer = $("#drawer");
+    if (e.key === "Tab" && drawer?.classList.contains("show")) {
+      const focusable = [...drawer.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+        .filter((el) => !el.hidden && el.getClientRects().length);
+      if (focusable.length) {
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && (document.activeElement === first || !drawer.contains(document.activeElement))) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && (document.activeElement === last || !drawer.contains(document.activeElement))) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
     if (e.key === "Escape") {
       closeSearchPanel();
       closeDrawer();
@@ -833,9 +915,16 @@
       renderGlobalSearch(q);
     });
     gsInput.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        const delta = e.key === "ArrowDown" ? 1 : -1;
+        setSearchActiveIndex(searchActiveIndex + delta);
+        return;
+      }
       if (e.key === "Enter") {
-        const first = searchResults(gsInput.value)[0];
-        if (first) activateSearchResult(first);
+        e.preventDefault();
+        const item = searchActiveResults[searchActiveIndex] || searchResults(gsInput.value)[0];
+        if (item) activateSearchResult(item);
       }
     });
     document.addEventListener("click", (e) => {
@@ -1193,12 +1282,34 @@
     closeSearchPanel();
   }
 
+  function setSearchActiveIndex(next) {
+    const hits = [...document.querySelectorAll("#searchPanel .search-hit")];
+    if (!hits.length) return;
+    const count = hits.length;
+    searchActiveIndex = ((next % count) + count) % count;
+    hits.forEach((hit, index) => {
+      const active = index === searchActiveIndex;
+      hit.classList.toggle("active", active);
+      hit.setAttribute("aria-selected", active ? "true" : "false");
+    });
+    const selected = hits[searchActiveIndex];
+    $("#globalSearchInput")?.setAttribute("aria-activedescendant", selected.id);
+    selected.scrollIntoView({ block: "nearest" });
+  }
+
   function closeSearchPanel() {
     const panel = $("#searchPanel");
     if (panel) {
       panel.innerHTML = "";
       panel.setAttribute("aria-hidden", "true");
     }
+    searchActiveIndex = -1;
+    searchActiveResults = [];
+    const input = $("#globalSearchInput");
+    input?.setAttribute("aria-expanded", "false");
+    input?.removeAttribute("aria-activedescendant");
+    const status = $("#searchStatus");
+    if (status) status.textContent = "";
   }
 
   function renderGlobalSearch(q) {
@@ -1206,9 +1317,14 @@
     if (!panel) return;
     const results = searchResults(q);
     if (!q.trim()) { closeSearchPanel(); return; }
+    searchActiveIndex = -1;
+    searchActiveResults = results;
     panel.setAttribute("aria-hidden", "false");
+    $("#globalSearchInput")?.setAttribute("aria-expanded", "true");
+    const status = $("#searchStatus");
+    if (status) status.textContent = results.length ? `${results.length} 个搜索结果` : "没有匹配结果";
     panel.innerHTML = results.length
-      ? results.map((r, i) => `<button class="search-hit" data-i="${i}">
+      ? results.map((r, i) => `<button class="search-hit" id="searchOption${i}" role="option" aria-selected="false" data-i="${i}">
           <span class="sh-type">${esc(r.type)}</span>
           <span class="sh-main"><span class="sh-title">${esc(r.title || "—")}</span><span class="sh-meta">${esc(r.meta || "")}</span></span>
         </button>`).join("")
@@ -1291,7 +1407,7 @@
     ].filter(Boolean);
 
     const cardHtml = cards.map((c) => `
-      <article class="home-best ${c.tagCls}" data-go="${esc(c.go)}">
+      <article class="home-best ${c.tagCls}" data-go="${esc(c.go)}" role="button" tabindex="0" aria-label="打开${esc(c.tag)}：${esc(c.title)}">
         <div class="hb-top">
           <span class="hb-tag ${c.tagCls}">${esc(c.tag)}</span>
           <span class="hb-badge ${c.badgeCls}">${esc(c.badge)}</span>
@@ -1321,7 +1437,14 @@
       <div class="home-best-grid">${cardHtml || emptyState("分析数据待生成")}</div>
       <div class="home-foot">数据时点 ${esc(MARKET.date || META.signalDate || "")} · 非投资建议</div>
     `;
-    el.querySelectorAll(".home-best").forEach((c) => c.addEventListener("click", () => switchView(c.dataset.go)));
+    el.querySelectorAll(".home-best").forEach((c) => {
+      c.addEventListener("click", () => switchView(c.dataset.go));
+      c.addEventListener("keydown", (e) => {
+        if (e.target !== c || !["Enter", " "].includes(e.key)) return;
+        e.preventDefault();
+        switchView(c.dataset.go);
+      });
+    });
     bindHomeControls();
   }
 
@@ -1915,17 +2038,32 @@
     const el = $("#viewNews");
     if (!el) return;
     if (!NEWSALL) { el.innerHTML = secTitle("新闻", "个股新闻 / 全球资讯 / 公告") + emptyState("新闻数据待生成(每日由 fetch_news_all.py 自动更新)。"); return; }
-    const globalHtml = (NEWSALL.global || []).slice(0, 20).map((n) =>
-      `<div class="nf-item"><div class="nf-meta"><span class="nf-date">${esc((n.time || n.date || "").toString().slice(0, 16))}</span></div><div class="nf-text">${esc(n.title || "")}</div></div>`
-    ).join("");
-    const annHtml = (NEWSALL.announcements || []).slice(0, 30).map((n) =>
-      `<div class="nf-item"><div class="nf-meta"><span class="nf-date">${esc((n.date || "").slice(0, 10))}</span><span class="nf-type">公告</span></div><div class="nf-text">${esc(n.title || n.announcementTitle || "")}</div></div>`
-    ).join("");
+    const globalHtml = (NEWSALL.global || []).slice(0, 20).map((n) => {
+      const title = n.title || "";
+      const summary = n.summary || n.content || "";
+      const url = safeUrl(n.url);
+      return `<div class="nf-item">
+        <div class="nf-meta"><span class="nf-date">${esc((n.time || n.date || "").toString().slice(0, 16))}</span>${n.source ? `<span class="nf-type">${esc(n.source)}</span>` : ""}${url ? `<a class="nf-source-link" href="${esc(url)}" target="_blank" rel="noopener">查看来源</a>` : ""}</div>
+        ${summary ? `<details class="nf-details"><summary class="nf-text">${esc(title)}</summary><div class="nf-summary">${esc(summary)}</div></details>` : `<div class="nf-text">${esc(title)}</div>`}
+      </div>`;
+    }).join("");
+    const annHtml = (NEWSALL.announcements || []).slice(0, 30).map((n) => {
+      const code = /^\d{6}$/.test(String(n.code || "")) ? String(n.code) : "";
+      const url = safeUrl(n.url);
+      const title = n.title || n.announcementTitle || "";
+      return `<div class="nf-item">
+        <div class="nf-meta"><span class="nf-date">${esc((n.date || "").slice(0, 10))}</span><span class="nf-type">公告</span>${code ? `<button class="ann-stock-link" data-code="${esc(code)}">${esc(code)}</button>` : ""}${url ? `<a class="nf-source-link" href="${esc(url)}" target="_blank" rel="noopener">查看原文</a>` : ""}</div>
+        <div class="nf-text">${esc(title)}</div>
+      </div>`;
+    }).join("");
     el.innerHTML = secTitle("新闻", "全球资讯 / 公告 · " + esc(NEWSALL.date || "")) +
       `<div class="news-cols">
         <section class="card blk"><h3 class="blk-h">全球资讯 7×24</h3><div class="newsfeed">${globalHtml || emptyState("无资讯")}</div></section>
         <section class="card blk"><h3 class="blk-h">近期公告</h3><div class="newsfeed">${annHtml || emptyState("无公告")}</div></section>
       </div>`;
+    el.querySelectorAll(".ann-stock-link[data-code]").forEach((button) =>
+      button.addEventListener("click", () => openMarketDrawer(button.dataset.code))
+    );
   }
 
 
@@ -2009,6 +2147,6 @@
   renderMeta();
   renderStats();
   renderChips();
-  // 默认进 Home 视图(其他视图切到时再懒渲染)
-  switchView("home");
+  // 支持直接打开 #market 等视图；无 hash 时用首页替换当前历史记录。
+  switchView(viewFromHash(), { replaceHash: !location.hash });
 })();

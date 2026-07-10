@@ -1,0 +1,62 @@
+name: 质量门禁
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 安装 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 语法和数据契约
+        run: |
+          node --check app.js
+          node scripts/validate_data.js
+          python3 -m py_compile app_server.py scripts/*.py
+          python3 scripts/build_site.py _site
+
+      - name: 技术信号测试
+        run: node scripts/test_signals.test.js
+
+      - name: 本地服务与刷新测试
+        run: python3 -m unittest -v scripts/test_app_server.py scripts/test_refresh.py scripts/test_public_build.py
+
+      - name: 安装浏览器测试依赖
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: 浏览器端到端测试
+        run: npm run test:e2e
+
+      - name: 上传失败证据
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7

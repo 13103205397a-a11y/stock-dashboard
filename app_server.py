@@ -43,14 +43,22 @@ ALLOWED_ORIGINS = {
 MAX_PORTFOLIO_BYTES = 64 * 1024
 PORTFOLIO_FIELDS = {"code", "name", "buyPrice", "shares", "weight", "note", "addedAt"}
 REFRESH_PLAN_PATH = os.path.join(HERE, "scripts", "refresh_plan.json")
-PUBLIC_STATIC_FILES = {
-    "/index.html", "/styles.css", "/design-system.css", "/app.js", "/data.js", "/meta.js",
-    "/market.js", "/hot.js", "/newsall.js", "/industry.js",
-    "/industry_market.js", "/materials.js", "/logic.js", "/events.js",
-    "/opportunities.js", "/weekend.js", "/reports.js",
-    # 本地页面需要的私有衍生快照；原始 portfolio.json 仅通过 API 读取。
-    "/holdings.js", "/portfolio_analysis.js",
-}
+PUBLIC_FILES_PATH = os.path.join(HERE, "public_files.json")
+
+
+def _load_public_static_files():
+    """共享 Pages 资源清单；本地额外允许忽略入库的私有衍生快照。"""
+    with open(PUBLIC_FILES_PATH, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    names = data.get("required", []) + data.get("localOptional", [])
+    if data.get("schemaVersion") != 1 or not names or any(
+        not isinstance(name, str) or not name or os.path.basename(name) != name for name in names
+    ):
+        raise ValueError("public_files.json 协议无效")
+    return {"/" + name for name in names}
+
+
+PUBLIC_STATIC_FILES = _load_public_static_files()
 
 # 刷新状态（进程内共享）
 refresh_state = {"running": False, "log": [], "done": False, "error": None, "failedSteps": []}
@@ -333,10 +341,11 @@ def _run_refresh():
 def main():
     no_open = "--no-open" in sys.argv
     _log_diag(f"[{os.getpid()}] 进入 main, no_open={no_open}\n"); 
-    socketserver.TCPServer.allow_reuse_address = True
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    socketserver.ThreadingTCPServer.daemon_threads = True
     try:
         _log_diag(f"[{os.getpid()}] 准备绑定 127.0.0.1:{PORT}\n"); 
-        httpd = socketserver.TCPServer(("127.0.0.1", PORT), Handler)
+        httpd = socketserver.ThreadingTCPServer(("127.0.0.1", PORT), Handler)
         _log_diag(f"[{os.getpid()}] ✓ 绑定成功\n"); 
     except OSError as e:
         _log_diag(f"[{os.getpid()}] ✗ 绑定失败: {e}\n"); 

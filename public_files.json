@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "required": [
+    "index.html",
+    "app.js",
+    "styles.css",
+    "design-system.css",
+    "data.js",
+    "meta.js",
+    "hot.js",
+    "market.js",
+    "industry.js",
+    "industry_market.js",
+    "logic.js",
+    "events.js",
+    "opportunities.js",
+    "materials.js",
+    "newsall.js",
+    "weekend.js",
+    "reports.js"
+  ],
+  "localOptional": [
+    "holdings.js",
+    "portfolio_analysis.js"
+  ]
+}

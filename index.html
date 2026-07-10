@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="design-system.css?v=1" />
 </head>
 <body>
+  <a class="skip-link" href="#mainContent">跳到主要内容</a>
   <!-- 移动端汉堡按钮 -->
   <button class="menu-toggle" id="menuToggle" aria-label="菜单">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -117,7 +118,7 @@
     <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <!-- ===== 右侧展示区 ===== -->
-    <main class="content-area">
+    <main class="content-area" id="mainContent" tabindex="-1">
       <!-- 顶部状态栏 -->
       <div class="status-bar" id="statusBar">
         <div class="sb-left">
@@ -129,10 +130,11 @@
           <span class="sb-dim" id="sbDateTime">—</span>
           <span class="sb-market" id="sbMarket">● —</span>
         </div>
-        <div class="global-search" id="globalSearch">
+        <div class="global-search" id="globalSearch" role="search">
           <svg class="gs-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-          <input id="globalSearchInput" type="search" autocomplete="off" placeholder="代码 / 名称 / 题材 / 新闻" aria-label="全局搜索" />
-          <div class="search-panel" id="searchPanel" aria-hidden="true"></div>
+          <input id="globalSearchInput" type="search" autocomplete="off" placeholder="代码 / 名称 / 题材 / 新闻" aria-label="全局搜索" role="combobox" aria-autocomplete="list" aria-controls="searchPanel" aria-expanded="false" />
+          <div class="search-panel" id="searchPanel" role="listbox" aria-label="搜索结果" aria-hidden="true"></div>
+          <div class="sr-only" id="searchStatus" role="status" aria-live="polite"></div>
         </div>
         <div class="sb-data" id="sbData"></div>
       </div>
@@ -258,7 +260,7 @@
 
   <!-- 详情抽屉 -->
   <div class="drawer-backdrop" id="backdrop"></div>
-  <aside class="drawer" id="drawer" aria-hidden="true">
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-hidden="true" tabindex="-1">
     <div class="drawer-inner" id="drawerInner"></div>
   </aside>
 

@@ -32,13 +32,13 @@ jobs:
       - name: 校验公开数据结构
         run: node scripts/validate_data.js
 
-      - name: 筛选 web 文件
+      - name: 核心回归测试
         run: |
-          mkdir -p _site
-          cp index.html app.js styles.css design-system.css _site/
-          # 只发布公共看板数据；持仓相关文件保留本地，不进入 Pages。
-          cp data.js meta.js hot.js market.js industry.js industry_market.js logic.js events.js opportunities.js materials.js newsall.js weekend.js reports.js _site/ 2>/dev/null || true
-          touch _site/.nojekyll
+          node scripts/test_signals.test.js
+          python3 -m unittest -v scripts/test_app_server.py scripts/test_refresh.py scripts/test_public_build.py
+
+      - name: 筛选 web 文件
+        run: python3 scripts/build_site.py _site
 
       - name: 配置 Pages
         uses: actions/configure-pages@v5
@@ -95,3 +95,17 @@ jobs:
             echo "✗ 三次部署全部失败"
             exit 1
           fi
+
+      - name: 线上资源探针
+        if: steps.deploy1.outcome == 'success' || steps.deploy2.outcome == 'success' || steps.deploy3.outcome == 'success'
+        env:
+          PAGE_URL: ${{ steps.deploy1.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy3.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          base="${PAGE_URL%/}"
+          for asset in index.html app.js design-system.css industry_market.js; do
+            curl --fail --silent --show-error \
+              --retry 5 --retry-delay 3 --retry-all-errors \
+              "$base/$asset" > /dev/null
+            echo "✓ $asset 可访问"
+          done
