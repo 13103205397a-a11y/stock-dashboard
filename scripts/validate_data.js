@@ -15,6 +15,7 @@ const files = [
   "hot.js",
   "newsall.js",
   "industry.js",
+  "industry_market.js",
   "materials.js",
   "logic.js",
   "events.js",
@@ -31,7 +32,7 @@ const fail = (msg) => errors.push(msg);
 for (const file of files) {
   const abs = path.join(ROOT, file);
   if (!fs.existsSync(abs)) {
-    warn.push(`${file}: 文件不存在`);
+    fail(`${file}: 文件不存在`);
     continue;
   }
   try {
@@ -70,9 +71,9 @@ if (!W.MARKET || !isDate(W.MARKET.date || W.MARKET.generatedAt)) {
   }
 }
 
-if (!W.HOT || !Array.isArray(W.HOT.list)) fail("hot.js: window.HOT.list 必须是数组");
-if (W.NEWSALL && !Array.isArray(W.NEWSALL.global) && !Array.isArray(W.NEWSALL.announcements)) {
-  warn.push("newsall.js: global/announcements 均不是数组");
+if (!W.HOT || !Array.isArray(W.HOT.list) || !W.HOT.list.length) fail("hot.js: window.HOT.list 必须是非空数组");
+if (!W.NEWSALL || !Array.isArray(W.NEWSALL.global) || !Array.isArray(W.NEWSALL.announcements)) {
+  fail("newsall.js: global/announcements 必须都是数组");
 }
 
 [
@@ -83,8 +84,55 @@ if (W.NEWSALL && !Array.isArray(W.NEWSALL.global) && !Array.isArray(W.NEWSALL.an
   ["OPPORTUNITIES", "directions"],
   ["WEEKEND", "hotspots"],
 ].forEach(([key, arr]) => {
-  if (W[key] && !Array.isArray(W[key][arr])) warn.push(`${key}: ${arr} 不是数组`);
+  if (!W[key] || !Array.isArray(W[key][arr]) || !W[key][arr].length) {
+    fail(`${key}: ${arr} 必须是非空数组`);
+  }
 });
+
+if (!W.REPORTS || !Array.isArray(W.REPORTS.reports)) {
+  fail("reports.js: window.REPORTS.reports 必须是数组");
+}
+
+if (!W.INDUSTRY_MARKET || !Array.isArray(W.INDUSTRY_MARKET.top) ||
+    !Array.isArray(W.INDUSTRY_MARKET.bottom) || typeof W.INDUSTRY_MARKET.total !== "number") {
+  fail("industry_market.js: INDUSTRY_MARKET 协议无效");
+} else if (!W.INDUSTRY_MARKET.top.length) {
+  warn.push("industry_market.js: 行业排行尚无数据");
+}
+
+const referenceArrays = new Set(["stocks", "impactStocks", "watchlist"]);
+function validateReferences(value, trail = "window", depth = 0) {
+  if (!value || typeof value !== "object" || depth > 8) return;
+  if (Array.isArray(value)) {
+    value.forEach((item, i) => validateReferences(item, `${trail}[${i}]`, depth + 1));
+    return;
+  }
+  Object.entries(value).forEach(([key, child]) => {
+    const next = `${trail}.${key}`;
+    if (referenceArrays.has(key) && Array.isArray(child)) {
+      child.forEach((item, i) => {
+        if (!item || !/^\d{6}$/.test(String(item.code || "")) || !String(item.name || "").trim()) {
+          fail(`${next}[${i}]: 可点击股票必须包含 6 位 code 和 name`);
+        }
+      });
+    }
+    validateReferences(child, next, depth + 1);
+  });
+}
+[
+  ["OPPORTUNITIES", W.OPPORTUNITIES], ["LOGIC", W.LOGIC], ["INDUSTRY", W.INDUSTRY],
+  ["MATERIALS", W.MATERIALS], ["EVENTS", W.EVENTS], ["WEEKEND", W.WEEKEND],
+].forEach(([name, value]) => validateReferences(value, name));
+
+const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+if (/document\.write\s*\(/.test(html)) fail("index.html: 禁止使用 document.write 动态注入脚本");
+for (const script of ["holdings.js", "portfolio_analysis.js", "weekend.js", "industry_market.js", "app.js"]) {
+  if (!html.includes(`src="${script}`)) fail(`index.html: 缺少 ${script} 脚本标签`);
+}
+const appPos = html.indexOf('src="app.js');
+for (const script of ["holdings.js", "portfolio_analysis.js", "weekend.js", "industry_market.js"]) {
+  if (html.indexOf(`src="${script}`) > appPos) fail(`index.html: ${script} 必须在 app.js 之前加载`);
+}
 
 if (warn.length) {
   console.warn(warn.map((x) => `WARN ${x}`).join("\n"));

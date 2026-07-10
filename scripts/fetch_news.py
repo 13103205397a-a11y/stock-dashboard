@@ -162,19 +162,23 @@ def main():
                     ok += 1
                 if i % 10 == 0 or i == len(stocks):
                     print(f"  进度: {i}/{len(stocks)}（有新闻 {ok}）", flush=True)
-        # 写回 data.js
+        if ok == 0:
+            print("✗ 所有股票均未获取到新闻，保留旧 data.js 不更新。", flush=True)
+            return 1
+        # 只用非空新结果覆盖，单只请求失败时保留旧新闻。
         updated = 0
         total = 0
         for s in stocks:
             c = s["code"]
-            if c in results:
+            if results.get(c):
                 s["news"] = results[c]
                 s["newsAsof"] = TODAY
                 updated += 1
                 total += len(results[c])
         write_stocks(stocks)
         print(f"\n完成：{updated}/{len(stocks)} 只更新，共保留 {total} 条新闻 → data.js")
+        return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

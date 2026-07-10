@@ -6,6 +6,7 @@
 
 import os
 import json
+from copy import deepcopy
 from pathlib import Path
 from typing import Dict, Any, Optional
 import logging
@@ -48,7 +49,7 @@ class Config:
             config_file: 配置文件路径，如果为None则使用默认配置
         """
         self.config_file = config_file
-        self.config = self.DEFAULT_CONFIG.copy()
+        self.config = deepcopy(self.DEFAULT_CONFIG)
         
         if config_file and Path(config_file).exists():
             self.load_config(config_file)
@@ -268,4 +269,4 @@ if __name__ == "__main__":
     config = get_config()
     print("API配置:", config.get_api_config())
     print("搜索配置:", config.get_search_config())
-    print("API密钥:", config.get_api_key())
+    print("API密钥:", "已设置" if config.get_api_key() else "未设置")

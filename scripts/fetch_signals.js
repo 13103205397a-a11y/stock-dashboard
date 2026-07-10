@@ -258,7 +258,11 @@ async function main() {
       }
     }
 
-    // 写回 data.js（原子写 + 统一头部）
+    if (fail.length) {
+      throw new Error(`技术信号不完整：成功 ${ok}/${STOCKS.length}；${fail.join("; ")}`);
+    }
+
+    // 全部股票成功后才写回，避免新旧日期混合。
     writeAtomic(DATA, DATA_HEADER + "window.STOCKS = " + JSON.stringify(STOCKS, null, 2) + ";\n");
 
     // 统计技术面，自动汇总进 meta（不覆盖复盘 Agent 维护的 marketRegime）
@@ -296,7 +300,6 @@ async function main() {
     writeAtomic(META, newMeta);
 
     console.log(`\n完成：成功 ${ok}/${STOCKS.length}`);
-    if (fail.length) console.log("失败：", fail.join("; "));
   } finally {
     releaseLock();
   }
@@ -307,4 +310,3 @@ if (require.main === module) {
 }
 
 module.exports = { computeSignal };
-

@@ -180,7 +180,7 @@ def main():
     rows = fetch_top()
     if not rows:
         print("⚠ 未取到热度榜数据(可能问财配额耗尽/异常),保留旧 hot.js 不更新。", file=sys.stderr)
-        return
+        return 1
     today = dt.date.today().isoformat()
     out = []
     for i, r in enumerate(rows[:TOPN], 1):
@@ -241,4 +241,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main() or 0)

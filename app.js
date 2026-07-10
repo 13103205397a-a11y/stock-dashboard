@@ -5,6 +5,7 @@
   const MARKET = window.MARKET || {};
   const HOLDINGS = window.HOLDINGS || null;
   const INDUSTRY = window.INDUSTRY || null;
+  const INDUSTRY_MARKET = window.INDUSTRY_MARKET || null;
   const NEWSALL = window.NEWSALL || null;
   const REPORTS = window.REPORTS || {};
   const HOT = window.HOT || {};
@@ -27,6 +28,45 @@
       return "";
     }
   };
+
+  let stockReferenceIndex = null;
+  function getStockReferenceIndex() {
+    if (stockReferenceIndex) return stockReferenceIndex;
+    const index = new Map();
+    const seen = new WeakSet();
+    const add = (item, source) => {
+      if (!item || typeof item !== "object") return;
+      const code = String(item.code || "").trim();
+      if (!/^\d{6}$/.test(code) || !item.name) return;
+      const prev = index.get(code) || {};
+      index.set(code, {
+        ...prev,
+        ...item,
+        code,
+        name: item.name || prev.name,
+        _sources: [...new Set([...(prev._sources || []), source].filter(Boolean))],
+      });
+    };
+    const walk = (value, source, depth = 0) => {
+      if (!value || typeof value !== "object" || depth > 7 || seen.has(value)) return;
+      seen.add(value);
+      if (Array.isArray(value)) {
+        value.forEach((item) => walk(item, source, depth + 1));
+        return;
+      }
+      add(value, source);
+      Object.values(value).forEach((item) => walk(item, source, depth + 1));
+    };
+    STOCKS.forEach((s) => add(s, "巨头核心"));
+    [
+      [MARKET, "市场异动"], [HOT, "今日热点"], [HOLDINGS, "持仓"],
+      [window.OPPORTUNITIES, "机会清单"], [window.LOGIC, "逻辑链"],
+      [INDUSTRY, "产业雷达"], [window.MATERIALS, "材料涨价"],
+      [window.EVENTS, "事件概率"], [window.WEEKEND, "周末发酵"],
+    ].forEach(([value, source]) => walk(value, source));
+    stockReferenceIndex = index;
+    return index;
+  }
 
   /* ---------- 顶栏 / 统计 ---------- */
   function renderMeta() {
@@ -345,9 +385,9 @@
   }
 
   function openDrawer(code) {
-    document.body.style.overflow = "hidden";   // A1: 抽屉打开锁背景滚动
     const s = STOCKS.find((x) => x.code === code);
     if (!s) return;
+    document.body.style.overflow = "hidden";   // A1: 抽屉打开锁背景滚动
     const r = s.review || {};
     const hist = (s.history || []);
     const g = s.signal || {};
@@ -618,7 +658,6 @@
 
   // 异动票详情抽屉(降级版:若在 STOCKS 里则用完整叙事抽屉,否则只显示行情)
   function openMarketDrawer(code) {
-    document.body.style.overflow = "hidden";   // A1: 抽屉打开锁背景滚动
     const inWatch = STOCKS.find((x) => x.code === code);
     if (inWatch) { openDrawer(code); return; }
     // 从 MARKET 各池里找这只票
@@ -629,7 +668,12 @@
       const found = (MARKET[p] || []).find((x) => x.code === code);
       if (found) { m = found; break; }
     }
-    if (!m) { closeDrawer(); return; }
+    if (!m) m = getStockReferenceIndex().get(String(code));
+    if (!m) {
+      portfolioToast(`暂未找到股票 ${code} 的详情数据`, "error");
+      return;
+    }
+    document.body.style.overflow = "hidden";   // A1: 抽屉打开锁背景滚动
     const chg = m.chgPct;
     const industry = typeof m.industry === "string" ? m.industry : (m.industry || []).join("/");
     const netflow = m.netInflow != null ? m.netInflow / 1e8 : null;
@@ -637,11 +681,11 @@
       <div class="dh">
         <div>
           <div class="dname">${esc(m.name)} <span class="mc-hl up">${m.lbc ? m.lbc + "连板" : ""}</span></div>
-          <div class="dcode">${esc(m.code)} · ${esc(industry || "—")}</div>
+          <div class="dcode">${esc(m.code)} · ${esc(industry || (m._sources || []).join(" / ") || "分析模块关联标的")}</div>
         </div>
         <button class="dclose" id="dclose" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
-      <div class="dsec">
+      ${(m.price != null || chg != null || m.turnover != null || netflow != null) ? `<div class="dsec">
         <h3>实时行情 <span class="src-note">东财 · ${esc(MARKET.date || "")}</span></h3>
         <div class="sig-top">
           <span class="sig-px">¥${m.price ?? "—"}</span>
@@ -654,11 +698,11 @@
         ${m.mcap_yi != null ? `<div class="fund-row"><span class="fr-lab">总市值</span><span class="fr-val">${m.mcap_yi.toFixed(0)} 亿</span></div>` : ""}
         ${m.zt_stat ? `<div class="fund-row"><span class="fr-lab">连板</span><span class="fr-val">${esc(m.zt_stat)}</span></div>` : ""}
         ${m.first_seal ? `<div class="fund-row"><span class="fr-lab">封板时间</span><span class="fr-val">${esc(m.first_seal)}</span></div>` : ""}
-      </div>
-      ${m.reason ? `<div class="dsec"><h3>异动原因 / 题材</h3><p class="dnarr">${esc(m.reason)}</p></div>` : ""}
+      </div>` : ""}
+      ${m.reason || m.role || m.detail || m.impact || m.position ? `<div class="dsec"><h3>关联信息</h3><p class="dnarr">${esc([m.reason, m.role, m.detail, m.impact, m.position].filter(Boolean).join(" · "))}</p></div>` : ""}
       <div class="dsec">
         <h3>说明</h3>
-        <p class="dnarr" style="color:var(--muted)">此为全市场异动池中的票,非巨头核心自选,仅展示轻量行情。如需深度叙事/买卖计划,需手动加入巨头清单。</p>
+        <p class="dnarr" style="color:var(--muted)">此股票来自${esc((m._sources || ["市场异动"]).join("、"))}，不是巨头核心自选；当前仅展示已有的轻量信息。</p>
       </div>
     `;
     $("#drawer").classList.add("show");
@@ -1118,7 +1162,23 @@
     const key = q.trim().toLowerCase();
     if (!key) return [];
     if (!searchIndex) searchIndex = buildSearchIndex();
-    return searchIndex.filter((x) => x.hay.includes(key)).slice(0, 12);
+    const score = (x) => {
+      const title = String(x.title || "").toLowerCase();
+      const code = String(x.code || "").toLowerCase();
+      if (code === key) return 1000;
+      if (title === key && x.type === "自选股") return 950;
+      if (title === key) return 900;
+      if (code.startsWith(key)) return 800;
+      if (title.startsWith(key)) return 700;
+      if (x.type === "自选股") return 500;
+      return 100;
+    };
+    return searchIndex
+      .filter((x) => x.hay.includes(key))
+      .map((x, order) => ({ x, order, score: score(x) }))
+      .sort((a, b) => b.score - a.score || a.order - b.order)
+      .slice(0, 12)
+      .map((item) => item.x);
   }
 
   function activateSearchResult(item) {
@@ -1126,8 +1186,8 @@
     switchView(item.view || "watch");
     if (item.code) {
       setTimeout(() => {
-        if (item.view === "market" || item.type === "热点") openMarketDrawer(item.code);
-        else openDrawer(item.code);
+        if (item.type === "自选股" || item.type === "个股新闻") openDrawer(item.code);
+        else openMarketDrawer(item.code);
       }, 80);
     }
     closeSearchPanel();
@@ -1266,17 +1326,28 @@
   }
 
   /* ---------- 2. 持仓决策 ---------- */
-  // 持仓配置：优先 portfolio.json，降级 localStorage
+  // 本地服务器以 portfolio.json API 为准；file/Pages 模式降级 localStorage。
   let PORTFOLIO_CFG = null;
   const PF_LS_KEY = "portfolio_cfg_v1";
   const loadPortfolio = async () => {
-    try {
-      const r = await fetch("portfolio.json?t=" + Date.now());
-      if (r.ok) {
-        const data = await r.json();
-        if (data.holdings && data.holdings.length) return data;
+    if (isLocalServer()) {
+      try {
+        const r = await fetch("/api/portfolio", { cache: "no-store" });
+        const body = await r.json();
+        if (!r.ok || !body.ok) throw new Error(body.msg || `HTTP ${r.status}`);
+        try { localStorage.setItem(PF_LS_KEY, JSON.stringify(body.data)); } catch {}
+        return body.data;
+      } catch (e) {
+        portfolioToast(`持仓文件读取失败：${e.message}`, "error");
+        return { holdings: [] };
       }
-    } catch {}
+    }
+    if (location.protocol === "file:") {
+      try {
+        const r = await fetch("portfolio.json?t=" + Date.now());
+        if (r.ok) return await r.json();
+      } catch {}
+    }
     // 降级 localStorage
     try {
       const ls = localStorage.getItem(PF_LS_KEY);
@@ -1286,9 +1357,9 @@
   };
   const savePortfolio = async (data) => {
     data.updated = new Date().toISOString().slice(0, 10);
-    PORTFOLIO_CFG = data;
-    try { localStorage.setItem(PF_LS_KEY, JSON.stringify(data)); } catch {}
     if (!isLocalServer()) {
+      PORTFOLIO_CFG = data;
+      try { localStorage.setItem(PF_LS_KEY, JSON.stringify(data)); } catch {}
       return { ok: true, msg: "已保存到浏览器本地（如需写入文件，请从本地服务器打开）" };
     }
     try {
@@ -1297,38 +1368,14 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (r.ok) {
-        const res = await r.json().catch(() => null);
-        if (res && res.ok === false) return { ok: false, msg: res.msg || "保存失败" };
-        return { ok: true, msg: (res && res.msg) || "已保存（同步到文件）" };
-      }
-      return { ok: true, msg: "已保存到本地（app_server 未启动）" };
-    } catch {
-      return { ok: true, msg: "已保存到本地（app_server 未启动）" };
+      const res = await r.json().catch(() => null);
+      if (!r.ok || !res?.ok) return { ok: false, msg: res?.msg || `保存失败 (HTTP ${r.status})` };
+      PORTFOLIO_CFG = res.data || data;
+      try { localStorage.setItem(PF_LS_KEY, JSON.stringify(PORTFOLIO_CFG)); } catch {}
+      return { ok: true, msg: res.msg || "已保存（同步到文件）" };
+    } catch (e) {
+      return { ok: false, msg: `保存失败：${e.message}` };
     }
-  };
-  // 启动时同步：如果 localStorage 有数据但 portfolio.json 没有，推送上去
-  const syncPortfolioToServer = async () => {
-    try {
-      if (!isLocalServer()) return;
-      const ls = localStorage.getItem(PF_LS_KEY);
-      if (!ls) return;
-      const lsData = JSON.parse(ls);
-      if (!lsData.holdings || !lsData.holdings.length) return;
-      const r = await fetch("/api/portfolio");
-      if (!r.ok) return;
-      const srv = await r.json();
-      const srvList = srv.data?.holdings || [];
-      // localStorage 比 server 多或不同，同步上去
-      if (JSON.stringify(lsData.holdings) !== JSON.stringify(srvList)) {
-        await fetch("/api/portfolio", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(lsData),
-        });
-        console.log("[portfolio] localStorage → portfolio.json 同步完成");
-      }
-    } catch {}
   };
   const portfolioToast = (msg, type = "info") => {
     const t = document.createElement("div");
@@ -1345,7 +1392,6 @@
     const el = $("#viewHoldings");
     if (!el) return;
     if (!PORTFOLIO_CFG) PORTFOLIO_CFG = await loadPortfolio();
-    syncPortfolioToServer(); // 后台同步，不阻塞渲染
     const cfg = PORTFOLIO_CFG || { holdings: [] };
     const cfgList = cfg.holdings || [];
     // 行情数据 map（holdings.js）
@@ -1680,13 +1726,13 @@
   function renderIndustry() {
     const el = $("#viewIndustry");
     if (!el) return;
-    // 兼容两种数据: 旧的行业排名(type无) + 新的供需调研(type=supply_demand)
-    if (!INDUSTRY || (!INDUSTRY.directions && !INDUSTRY.top)) {
+    const rowHtml = (r) => `<div class="ind-row ${r.change_pct > 0 ? "up" : r.change_pct < 0 ? "down" : ""}"><span class="ind-rank">${esc(r.rank)}</span><span class="ind-name">${esc(r.name)}</span><span class="ind-chg">${r.change_pct > 0 ? "+" : ""}${esc(r.change_pct)}%</span><span class="ind-cnt">↑${esc(r.up_count)} ↓${esc(r.down_count)}</span><span class="ind-leader">龙头 ${esc(r.leader || "—")}</span></div>`;
+    if ((!INDUSTRY || !Array.isArray(INDUSTRY.directions)) && (!INDUSTRY_MARKET || !Array.isArray(INDUSTRY_MARKET.top))) {
       el.innerHTML = secTitle("产业雷达", "供需紧张 / 涨价方向调研") + emptyState("产业调研数据待生成。");
       return;
     }
     // 新版: 供需调研卡片
-    if (INDUSTRY.directions) {
+    if (INDUSTRY?.directions) {
       const confCls = { "高": "up", "中高": "ok", "中": "warn", "低": "down" };
       const cards = INDUSTRY.directions.map((d) => {
         const stocks = (d.stocks || []).map((s) =>
@@ -1708,16 +1754,16 @@
           <div class="sd-foot">数据时点 ${esc(d.asof || "")} · 仅供研究参考,非投资建议</div>
         </article>`;
       }).join("");
+      const ranking = INDUSTRY_MARKET?.top?.length ? `<section class="card blk"><h3 class="blk-h">今日行业涨幅前 ${INDUSTRY_MARKET.top.length}</h3><div class="ind-list">${INDUSTRY_MARKET.top.map(rowHtml).join("")}</div></section>` : "";
       el.innerHTML = secTitle("产业雷达", `供需紧张 / 涨价方向调研 · ${esc(INDUSTRY.date || "")}`) +
         (INDUSTRY.summary ? summaryHtml(INDUSTRY.summary) : "") +
-        `<div class="sd-grid-cards">${cards}</div>`;
+        `<div class="sd-grid-cards">${cards}</div>${ranking}`;
       el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
       return;
     }
-    // 旧版兜底: 行业涨跌排名
-    const rowHtml = (r) => `<div class="ind-row ${r.change_pct > 0 ? "up" : r.change_pct < 0 ? "down" : ""}"><span class="ind-rank">${esc(r.rank)}</span><span class="ind-name">${esc(r.name)}</span><span class="ind-chg">${r.change_pct > 0 ? "+" : ""}${esc(r.change_pct)}%</span><span class="ind-cnt">↑${esc(r.up_count)} ↓${esc(r.down_count)}</span><span class="ind-leader">龙头 ${esc(r.leader || "—")}</span></div>`;
-    el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY.total || 0} 个行业`) +
-      `<div class="ind-cols"><section class="card blk"><h3 class="blk-h">涨幅前 ${(INDUSTRY.top||[]).length}</h3><div class="ind-list">${(INDUSTRY.top||[]).map(rowHtml).join("")}</div></section></div>`;
+    // AI 调研暂缺时，仍展示独立的行业涨跌排名。
+    el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY_MARKET.total || 0} 个行业`) +
+      `<div class="ind-cols"><section class="card blk"><h3 class="blk-h">涨幅前 ${(INDUSTRY_MARKET.top||[]).length}</h3><div class="ind-list">${(INDUSTRY_MARKET.top||[]).map(rowHtml).join("")}</div></section></div>`;
   }
 
   /* ---------- 6.5 材料涨价 ---------- */

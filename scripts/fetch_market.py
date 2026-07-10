@@ -168,9 +168,23 @@ def write_market_js(market):
     os.replace(tmp, MARKET_JS)
 
 
+def validate_market(market):
+    """核心行情池必须完整，否则保留上一份 market.js。"""
+    minimums = {"topGainers": 10, "topLosers": 10, "topTurnover": 10}
+    missing = [f"{key}<{minimum}" for key, minimum in minimums.items()
+               if len(market.get(key) or []) < minimum]
+    if missing:
+        raise ValueError("核心市场数据不足: " + "、".join(missing))
+
+
 def main():
     print(f"开始全市场异动扫描 ({TODAY_DASH})...", flush=True)
     market = collect_market()
+    try:
+        validate_market(market)
+    except ValueError as e:
+        print(f"✗ {e}，保留旧 market.js 不更新。", file=sys.stderr, flush=True)
+        return 1
     write_market_js(market)
     # 统计
     counts = {
@@ -188,7 +202,8 @@ def main():
     nb = market.get("northbound")
     nb_str = f"北向净{nb['total_yi']:.2f}亿" if nb else "北向无"
     print(f"\n完成: {counts} | {nb_str} → market.js", flush=True)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

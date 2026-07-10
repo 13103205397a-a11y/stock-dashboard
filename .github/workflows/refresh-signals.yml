@@ -16,8 +16,9 @@ on:
 permissions:
   contents: write
 
-# 不用 concurrency：多个定时任务各自独立运行，互不取消
-# 即使前一次还没跑完，下一次也会正常启动（git push 有锁保护）
+concurrency:
+  group: stock-dashboard-refresh-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   refresh:
@@ -56,9 +57,8 @@ jobs:
 
       - name: 全市场异动扫描 -> 写回 market.js
         run: python3 scripts/fetch_market.py
-        continue-on-error: true
 
-      - name: 产业雷达数据 -> 写回 industry.js
+      - name: 行业板块排行 -> 写回 industry_market.js
         run: python3 scripts/fetch_industry.py
         continue-on-error: true
 
@@ -84,14 +84,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # 注意：holdings.js / portfolio_analysis.js / weekend.js / reports.js 由本地生成或包含个人数据，
-          # 不在 GitHub Actions 中提交，也不发布到 Pages。
-          git add data.js meta.js hot.js market.js industry.js logic.js events.js opportunities.js materials.js newsall.js
+          # holdings.js / portfolio_analysis.js 含个人数据，不提交也不发布；
+          # weekend.js / reports.js 由本地生成，本工作流不改写，但 Pages 可发布仓库中的公开快照。
+          git add data.js meta.js hot.js market.js industry.js industry_market.js logic.js events.js opportunities.js materials.js newsall.js
           if git diff --cached --quiet; then
             echo "行情无变化,跳过提交。"
           else
             git commit -m "行情刷新 $(TZ=Asia/Shanghai date +%F)（GitHub Actions 自动）"
-            git pull --rebase origin "${GITHUB_REF_NAME}" || true
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
             echo "已推送行情更新。"
           fi

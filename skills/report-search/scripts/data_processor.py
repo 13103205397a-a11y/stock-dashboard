@@ -77,7 +77,7 @@ class DataProcessor:
                 from_date = datetime.strptime(date_from, "%Y-%m-%d")
             
             if date_to:
-                to_date = datetime.strptime(date_to, "%Y-%m-%d")
+                to_date = datetime.strptime(date_to, "%Y-%m-%d") + timedelta(days=1) - timedelta(microseconds=1)
             
             # 过滤文章
             for article in articles:

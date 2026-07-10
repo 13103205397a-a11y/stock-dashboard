@@ -47,7 +47,7 @@ def test_query_processor():
     for query, expected_prefix in test_cases:
         result = processor.split_complex_query(query)
         print(f"连接词测试 '{query}' -> {result}")
-        assert len(result) >= 2, f"期望至少2个子查询，得到 {len(result)}"
+        assert result == expected_prefix, f"期望 {expected_prefix}，得到 {result}"
     
     print("查询处理器测试通过！\n")
 

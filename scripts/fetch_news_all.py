@@ -65,6 +65,9 @@ def main():
             seen.add(an["title"])
             dedup.append(an)
     announcements = dedup[:50]
+    if not global_news and not announcements:
+        print("✗ 全球资讯和公告均为空，保留旧 newsall.js 不更新。", file=sys.stderr, flush=True)
+        return 1
     out = {
         "date": TODAY,
         "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -83,7 +86,8 @@ def main():
     open(tmp, "w", encoding="utf-8").write(content)
     os.replace(tmp, OUT)
     print(f"完成: 全球资讯{len(global_news)} 公告{len(announcements)} → newsall.js", flush=True)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

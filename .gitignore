@@ -22,3 +22,4 @@ portfolio_analysis.js
 # 小红书卡片生成临时文件
 xhs/output/
 xhs/*.png
+.refresh.lock

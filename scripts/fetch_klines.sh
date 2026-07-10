@@ -37,5 +37,8 @@ for code in $CODES; do
   sleep 0.3
 done
 echo "K线抓取完成：$ok 只成功"
-[ -n "$fail" ] && echo "数据不足：$fail"
+if [ -n "$fail" ]; then
+  echo "✗ 数据不足：$fail；保留对应旧缓存，但本次抓取标记失败。" >&2
+  exit 1
+fi
 exit 0

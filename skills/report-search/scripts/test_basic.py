@@ -6,10 +6,12 @@
 
 import os
 import sys
+import json
 import unittest
 import tempfile
 from pathlib import Path
 from unittest.mock import patch, MagicMock
+from requests.exceptions import ConnectionError as RequestsConnectionError
 
 # 添加当前目录到Python路径
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -245,7 +247,8 @@ class TestAPIClient(unittest.TestCase):
         mock_post.return_value = mock_response
         
         # 调用搜索
-        articles = self.client.search_reports("测试", limit=5)
+        response = self.client.search_reports("测试", limit=5)
+        articles = response["data"]
         
         # 验证结果
         self.assertEqual(len(articles), 1)
@@ -278,20 +281,17 @@ class TestAPIClient(unittest.TestCase):
         }
         mock_post.return_value = mock_response
         
-        # 验证抛出APIError
-        with self.assertRaises(APIError) as context:
-            self.client.search_reports("测试")
-        
-        self.assertIn("认证失败", str(context.exception))
+        # 网关响应必须透明传递，调用方按响应体处理业务错误。
+        response = self.client.search_reports("测试")
+        self.assertEqual(response["message"], "认证失败")
     
     @patch('requests.post')
     def test_search_reports_network_error(self, mock_post):
         """测试网络错误"""
         # 模拟网络错误
-        mock_post.side_effect = ConnectionError("网络连接失败")
+        mock_post.side_effect = RequestsConnectionError("网络连接失败")
         
-        # 验证抛出APIError
-        with self.assertRaises(APIError) as context:
+        with self.assertRaises(RequestsConnectionError) as context:
             self.client.search_reports("测试")
         
         self.assertIn("网络连接失败", str(context.exception))
@@ -362,7 +362,8 @@ class TestIntegration(unittest.TestCase):
         processor = DataProcessor()
         
         # 搜索研究报告
-        articles = client.search_reports("人工智能", limit=5)
+        response = client.search_reports("人工智能", limit=5)
+        articles = response["data"]
         
         # 数据处理
         processed = processor.extract_key_info(articles)

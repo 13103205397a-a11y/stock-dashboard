@@ -28,7 +28,8 @@
 | `meta.js` | 全局元信息（行情时点 / 统计 / 大盘快照 `marketSnapshot`） |
 | `holdings.js` | 持仓决策（本地私有生成，`window.HOLDINGS`，不入库/不发布） |
 | `opportunities.js` / `logic.js` | 机会清单 / 逻辑链（`window.OPPORTUNITIES` / `window.LOGIC`） |
-| `industry.js` / `materials.js` / `events.js` | 产业雷达 / 材料涨价 / 事件概率（`window.INDUSTRY` / `MATERIALS` / `EVENTS`） |
+| `industry.js` / `industry_market.js` | Hermes 产业调研 / 行业板块涨跌排名（两个独立数据协议） |
+| `materials.js` / `events.js` | 材料涨价 / 事件概率（`window.MATERIALS` / `EVENTS`） |
 | `newsall.js` / `hot.js` | 全球资讯+公告（`window.NEWSALL`）/ 今日热点 TOP30（`window.HOT`） |
 | `market.js` | 全市场异动扫描（`window.MARKET`） |
 | `reports.js` | AI 每日复盘报告（`window.REPORTS`） |
@@ -42,7 +43,7 @@
 | `fetch_enhanced.py` | 东财/腾讯 via a-stock-pro（免key） | `data.js` 的 fund/research/valuation |
 | `fetch_market.py` | a-stock-pro（免key） | `market.js` |
 | `fetch_holdings.py` | 腾讯实时（免key，本地私有） | `holdings.js`（不入库/不发布） |
-| `fetch_industry.py` | a-stock-pro 行业排名（免key） | `industry.js` |
+| `fetch_industry.py` | a-stock-pro 行业排名（免key） | `industry_market.js` |
 | `fetch_industry_ai.py` | Hermes Agent 会话（按 `agent/industry-radar.md`） | `industry.js`（AI 调研版） |
 | `fetch_news_all.py` | a-stock-pro（免key） | `newsall.js` |
 | `fetch_hot.py` | 同花顺问财（需 `IWENCAI_API_KEY`） | `hot.js` |
@@ -80,7 +81,7 @@
 | `scripts/fetch_signals.js` | 上述日K | `data.js` 的 signal/left/right、`meta.js` 的 marketSnapshot |
 | `scripts/fetch_enhanced.py` | 东财/腾讯 via a-stock-pro（免key） | `data.js` 的 fund/research/valuation |
 | `scripts/fetch_news.py` | 东方财富（免key） | `data.js` 的 news |
-| `scripts/fetch_market.py` / `fetch_holdings.py` / `fetch_industry.py` / `fetch_news_all.py` | a-stock-pro / 腾讯（均免key） | market.js / holdings.js（本地私有）/ industry.js / newsall.js |
+| `scripts/fetch_market.py` / `fetch_holdings.py` / `fetch_industry.py` / `fetch_news_all.py` | a-stock-pro / 腾讯（均免key） | market.js / holdings.js（本地私有）/ industry_market.js / newsall.js |
 | `scripts/fetch_hot.py` | 同花顺问财（需 `IWENCAI_API_KEY`） | `hot.js` |
 
 本地全量刷新（仅 `fetch_hot.py` 需 `IWENCAI_API_KEY`，其余免key）：
@@ -90,7 +91,7 @@ python3 scripts/fetch_news.py        # 新闻/公告 → data.js
 python3 scripts/fetch_enhanced.py    # 资金/研报/估值 → data.js
 python3 scripts/fetch_market.py      # 全市场异动 → market.js
 python3 scripts/fetch_holdings.py    # 持仓决策 → holdings.js（本地私有，不提交）
-python3 scripts/fetch_industry.py    # 产业雷达 → industry.js
+python3 scripts/fetch_industry.py    # 行业板块排行 → industry_market.js
 python3 scripts/fetch_news_all.py    # 全球资讯+公告 → newsall.js
 python3 scripts/fetch_hot.py         # 热点 TOP30 → hot.js（需问财 key）
 ```
