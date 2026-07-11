@@ -27,7 +27,7 @@ jobs:
       url: ${{ steps.deploy1.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy3.outputs.page_url }}
     steps:
       - name: 检出仓库
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: 校验公开数据结构
         run: node scripts/validate_data.js
@@ -41,17 +41,17 @@ jobs:
         run: python3 scripts/build_site.py _site
 
       - name: 配置 Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
       - name: 上传构建产物
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: _site
 
       # GitHub Pages 后端偶发返回 failed，多次重试递增等待
       - name: 部署尝试 1
         id: deploy1
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
         with:
           artifact_name: github-pages
         continue-on-error: true
@@ -65,7 +65,7 @@ jobs:
       - name: 部署尝试 2
         id: deploy2
         if: steps.deploy1.outcome != 'success'
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
         with:
           artifact_name: github-pages
         continue-on-error: true
@@ -79,7 +79,7 @@ jobs:
       - name: 部署尝试 3
         id: deploy3
         if: steps.deploy1.outcome != 'success' && steps.deploy2.outcome != 'success'
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
         with:
           artifact_name: github-pages
 
