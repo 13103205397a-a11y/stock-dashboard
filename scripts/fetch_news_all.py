@@ -26,6 +26,55 @@ import astock as a  # noqa: E402
 TODAY = datetime.now().strftime("%Y-%m-%d")
 
 
+def sanitize_cjk_brackets(text):
+    """修正常见截断导致的中文括号不完整，避免校验门禁误伤。
+
+    规则：
+    - 末尾附近未闭合的「（…」视为截断，丢掉残片
+    - 更早出现的未闭合「（」补全「）」
+    - 「【】」数量不平衡时补全缺失的闭括号
+    """
+    if not isinstance(text, str) or not text:
+        return text
+    t = text
+    depth = 0
+    last_open = -1
+    for i, ch in enumerate(t):
+        if ch == "（":
+            depth += 1
+            last_open = i
+        elif ch == "）" and depth > 0:
+            depth -= 1
+    if depth > 0 and last_open >= 0:
+        dangling = t[last_open + 1 :]
+        # 末尾残片：很短、或几乎没有实质内容 → 视为截断，丢掉「（…」
+        # 否则补全闭括号，保留已有正文
+        incomplete_tail = (
+            len(dangling) <= 8
+            or not any(ch.isalnum() or ("\u4e00" <= ch <= "\u9fff") for ch in dangling)
+            or (len(dangling) <= 12 and not any(ch in "，。；、,.!？" for ch in dangling))
+        )
+        if incomplete_tail:
+            t = t[:last_open].rstrip("，,、；;：: ")
+        else:
+            t = t + ("）" * depth)
+    square_open = t.count("【")
+    square_close = t.count("】")
+    if square_open > square_close:
+        t = t + ("】" * (square_open - square_close))
+    return t
+
+
+def sanitize_news_item(item):
+    if not isinstance(item, dict):
+        return item
+    out = dict(item)
+    for key in ("title", "summary", "content"):
+        if key in out and isinstance(out[key], str):
+            out[key] = sanitize_cjk_brackets(out[key])
+    return out
+
+
 def safe(fn, *args, default=None, **kw):
     try:
         return fn(*args, **kw)
@@ -38,6 +87,7 @@ def main():
     print(f"采集新闻全量数据 ({TODAY})...", flush=True)
     # 1. 全球资讯
     global_news = safe(a.eastmoney_global_news, default=[]) or []
+    global_news = [sanitize_news_item(x) for x in global_news]
     print(f"  全球资讯: {len(global_news)} 条", flush=True)
     time.sleep(1)
     # 2. 公告(从自选股里取,每只前 3 条,合并去重)
@@ -52,11 +102,11 @@ def main():
     for code in codes[:10]:
         anns = safe(a.cninfo_announcements, code, default=[])
         for an in (anns or [])[:2]:
-            announcements.append({
+            announcements.append(sanitize_news_item({
                 "title": an.get("announcementTitle") or an.get("title", ""),
                 "date": str(an.get("announcementTime") or an.get("date", ""))[:10],
                 "code": code,
-            })
+            }))
         time.sleep(0.8)
     # 去重(按标题)
     seen, dedup = set(), []

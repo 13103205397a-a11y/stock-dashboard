@@ -42,7 +42,7 @@ jobs:
         run: node scripts/test_signals.test.js
 
       - name: 本地服务与刷新测试
-        run: python3 -m unittest -v scripts/test_app_server.py scripts/test_refresh.py scripts/test_public_build.py
+        run: python3 -m unittest -v scripts/test_app_server.py scripts/test_refresh.py scripts/test_public_build.py scripts/test_news_sanitize.py
 
       - name: 安装浏览器测试依赖
         run: |

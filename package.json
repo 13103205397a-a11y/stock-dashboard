@@ -4,7 +4,7 @@
   "private": true,
   "description": "A 股研究看板的浏览器回归测试",
   "scripts": {
-    "test": "node scripts/test_signals.test.js && node scripts/test_portfolio_signals.test.js && python3 -m unittest -v scripts/test_app_server.py scripts/test_refresh.py scripts/test_public_build.py scripts/test_hermes_sync.py",
+    "test": "node scripts/test_signals.test.js && node scripts/test_portfolio_signals.test.js && python3 -m unittest -v scripts/test_app_server.py scripts/test_refresh.py scripts/test_public_build.py scripts/test_hermes_sync.py scripts/test_news_sanitize.py",
     "test:e2e": "playwright test",
     "test:e2e:update": "playwright test --update-snapshots"
   },
