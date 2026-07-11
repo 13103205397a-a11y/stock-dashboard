@@ -2847,7 +2847,7 @@ table tbody tr:hover td {
 
 .opp-block-b {
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
   max-height: 220px;
   overflow: auto;
@@ -2856,7 +2856,7 @@ table tbody tr:hover td {
 .opp-block-b .sd-v,
 .opp-block-b .sd-field-list,
 .opp-block-b .sum-txt {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
@@ -3170,7 +3170,7 @@ table tbody tr:hover td {
 
 .ev-block-b {
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
   max-height: 200px;
   overflow: auto;
@@ -3179,7 +3179,7 @@ table tbody tr:hover td {
 .ev-block-b .sd-v,
 .ev-block-b .sd-field-list,
 .ev-block-b .sum-txt {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
@@ -3478,7 +3478,7 @@ table tbody tr:hover td {
 
 .dir-block-b {
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
   max-height: 200px;
   overflow: auto;
@@ -3487,7 +3487,7 @@ table tbody tr:hover td {
 .dir-block-b .sd-v,
 .dir-block-b .sd-field-list,
 .dir-block-b .sum-txt {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
