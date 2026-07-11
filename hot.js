@@ -4,7 +4,7 @@
  */
 window.HOT = {
   "date": "2026-07-11",
-  "generatedAt": "2026-07-11 09:08",
+  "generatedAt": "2026-07-11 10:12",
   "list": [
     {
       "rank": 1,
@@ -492,12 +492,6 @@ window.HOT = {
           "date": "2026-07-10 20:49",
           "source": "同花顺问财",
           "url": "https://dcapp.netwin.cn/content/s6a50ea6de4b076cf9eeb3cde.html"
-        },
-        {
-          "title": "宇特光电 7 月 10 日迎北交所上会！数据中心光互连需求驱动业绩高增",
-          "date": "2026-07-10 17:49",
-          "source": "同花顺问财",
-          "url": "https://mp.weixin.qq.com/s?__biz=MzAxNTIzMjkwMw==&chksm=81f02bf0b82164e7cef25dd5ce444a4fc0e236e4eca8a304f3509d4012175ea7ffd1ea266e3a&idx=2&mid=2664508762&sn=708962a87e42236abbae06ec361f084d"
         }
       ],
       "tech": "冲高回落 · 分歧加大",
@@ -963,19 +957,19 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 13150.7,
-      "reason": "同花顺果指数｜共封装光学(CPO)｜富士康概念　催化：工业富联上半年净利预计最高244亿元 云服务商AI服务器营收同比增长超230%",
+      "reason": "同花顺果指数｜共封装光学(CPO)｜富士康概念　催化：AI服务器收入暴增230% 工业富联半年净利近翻倍",
       "news": [
+        {
+          "title": "AI服务器收入暴增230% 工业富联半年净利近翻倍",
+          "date": "2026-07-11 10:15",
+          "source": "同花顺问财",
+          "url": "https://stock.cfi.cn/p20260711000101.html"
+        },
         {
           "title": "工业富联上半年净利预计最高244亿元 云服务商AI服务器营收同比增长超230%",
           "date": "2026-07-10 19:56",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/20260710/c678105574.shtml"
-        },
-        {
-          "title": "万亿市值俱乐部里，为什么只有工业富联在翻倍增长？",
-          "date": "2026-07-10 17:22",
-          "source": "同花顺问财",
-          "url": "http://www.cctime.com/html/2026-7-10/1738786.htm"
         }
       ],
       "tech": "冲高回落 · 分歧加大",
@@ -1016,10 +1010,10 @@ window.HOT = {
           "url": "http://news.10jqka.com.cn/19700121/c678111019.shtml"
         },
         {
-          "title": "京东方A、中国卫星获机构买入评级",
-          "date": "2026-07-10 20:13",
+          "title": "2026-2030年中国卫星互联网行业市场前瞻分析与发展投资战略预测",
+          "date": "2026-07-10 16:37",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678106038.shtml"
+          "url": "http://news.10jqka.com.cn/19700121/c678098931.shtml"
         }
       ],
       "tech": "涨停 · 多方主导",
@@ -1143,9 +1137,9 @@ window.HOT = {
         },
         {
           "title": "募资不超过80亿元！大唐发电拟定增投向多个发电项目",
-          "date": "2026-07-10 17:46",
+          "date": "2026-07-10 18:54",
           "source": "同花顺问财",
-          "url": "https://cj.sina.com.cn/articles/view/6248544856/174713a5802003hjg0"
+          "url": "https://www.163.com/dy/article/L1GF103I05199NHJ.html"
         }
       ],
       "tech": "宽幅震荡 · 多空激烈",
