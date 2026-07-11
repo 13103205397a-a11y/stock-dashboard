@@ -50,7 +50,8 @@
 | `fetch_industry_ai.py` | Hermes Agent 会话（按 `agent/industry-radar.md`） | `industry.js`（AI 调研版） |
 | `fetch_news_all.py` | a-stock-pro（免key） | `newsall.js` |
 | `fetch_hot.py` | 同花顺问财（需 `IWENCAI_API_KEY`） | `hot.js` |
-| `fetch_hermes.py` | Hermes 每日自动调度 | 触发各 AI 分析模块 |
+| `fetch_hermes.py` | Hermes 会话导出 | `reports.js` |
+| `sync_hermes_dashboard.py` | Hermes 会话导出 + 公开 AI 数据定时发布 | reports/industry/logic/events/opportunities/materials/weekend.js |
 | `refresh_plan.json` / `run_refresh.py` | 本地统一刷新计划 / 命令行执行器 | 本地全量刷新 |
 | `validate_data.js` | 公开数据结构校验（不读取私有持仓） | 本地/CI 校验 |
 | `skills/` | a-stock-pro / hithink-astock-selector / hithink-market-query / news-search / report-search（vendored） | — |
@@ -135,6 +136,8 @@ python3 scripts/build_site.py _site
 
 **本地 Hermes Agent**（`reports.js`/`logic.js`/`events.js`/`opportunities.js`/`materials.js` 由它生成）：
 - `scripts/fetch_hermes.py` 依赖本机 `hermes` 命令行工具，从会话库导出复盘报告。
+- Hermes 的 `看板复盘同步` no-agent Cron 每 30 分钟调用 `scripts/sync_hermes_dashboard.py`，并只提交上述公开 AI 数据；`portfolio_analysis.js` 仍保持本地私有。
+- 所有项目 Cron 的 `workdir` 必须指向当前仓库根目录。主提供商不可用时应配置至少一个 `hermes fallback`，否则单个供应商额度耗尽会让全部 Agent 停摆。
 - 这 5 个数据文件不进 GitHub Actions，换机器后需自行安装 `hermes` 并配置定时任务（盘前/盘初/午间/收盘），否则这些模块显示"待生成"。
 - 前端对这 5 个文件有 `onerror` 兜底，缺失不会白屏。
 

@@ -75,7 +75,7 @@
   ```
 - 提交并推送：
   ```bash
-  cd 股市看板
+  cd "$(git rev-parse --show-toplevel)"
   git add logic.js
   git commit -m "逻辑链每日更新 <日期>"
   git push origin main

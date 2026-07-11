@@ -122,7 +122,7 @@
 - `portfolio_analysis.js` 包含个人持仓分析，只保留本地，不要 `git add` / commit / push。
 - 如需要确认没有误入 Git：
   ```bash
-  cd 股市看板
+  cd "$(git rev-parse --show-toplevel)"
   git status --short
   git check-ignore -v portfolio_analysis.js
   ```

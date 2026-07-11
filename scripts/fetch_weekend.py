@@ -103,27 +103,60 @@ def normalize_weekend(obj):
     """归一化周末发酵数据。期望含 hotspots 数组或 scenario 对象。"""
     if not isinstance(obj, dict):
         return None
-    if "hotspots" in obj or "scenario" in obj or "weekendDate" in obj:
+    hotspots = obj.get("hotspots")
+    summary = str(obj.get("summary") or "")
+    placeholder = re.compile(r"N 个|政策类 X|热点标题|板块A|偏多/偏空|关注理由|确认信号")
+    if not isinstance(hotspots, list) or len(hotspots) < 3 or placeholder.search(summary):
+        return None
+    if any(placeholder.search(str(item.get("title") or "")) for item in hotspots if isinstance(item, dict)):
+        return None
+    if "scenario" in obj and "weekendDate" in obj:
         return obj
     return None
 
 
 def extract_from_session(session):
-    """从后往前扫所有 assistant 消息，提取周末发酵 JSON。"""
+    """从后往前扫 assistant 与文件读取结果，提取周末发酵 JSON。"""
     msgs = session.get("messages", []) if session else []
     for m in reversed(msgs):
-        if m.get("role") != "assistant":
+        role = m.get("role")
+        if role not in ("assistant", "tool"):
             continue
-        content = _content_to_str(m.get("content", ""))
-        if len(content) < 20:
-            continue
-        j = extract_json_block(content)
-        if j is None:
-            continue
-        data = normalize_weekend(j)
-        if data:
-            snippet = content[:80].replace("\n", " ")
-            return data, snippet
+        candidates = [_content_to_str(m.get("content", ""))]
+        for call in m.get("tool_calls") or []:
+            try:
+                args = json.loads(call.get("function", {}).get("arguments", "{}"))
+                for key in ("content", "text", "new_string"):
+                    if isinstance(args.get(key), str):
+                        candidates.insert(0, args[key])
+            except Exception:
+                pass
+        for content in candidates:
+            if role == "tool":
+                try:
+                    decoded = json.loads(content)
+                    content = decoded.get("content", content) if isinstance(decoded, dict) else content
+                except Exception:
+                    pass
+                content = re.sub(r"(?m)^\s*\d+\|", "", content)
+                if "window.WEEKEND" not in content and '"hotspots"' not in content:
+                    continue
+            if len(content) < 20:
+                continue
+            marker = "window.WEEKEND = "
+            if marker in content:
+                try:
+                    j = json.loads(content[content.index(marker) + len(marker):].rsplit(";", 1)[0])
+                except Exception:
+                    j = extract_json_block(content)
+            else:
+                j = extract_json_block(content)
+            if j is None:
+                continue
+            data = normalize_weekend(j)
+            if data:
+                snippet = content[:80].replace("\n", " ")
+                return data, snippet
     return None, ""
 
 
@@ -139,6 +172,14 @@ def find_weekend_session(sessions):
 
 def write_weekend_js(data):
     """原子写入 weekend.js"""
+    try:
+        old = open(OUT, encoding="utf-8").read()
+        marker = "window.WEEKEND = "
+        old_data = json.loads(old[old.index(marker) + len(marker):].rsplit(";", 1)[0])
+        if old_data == data:
+            return False
+    except Exception:
+        pass
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     header = (
         f"/* Hermes Agent 周末发酵（本机自动导出，非 GitHub Actions）\n"
@@ -150,6 +191,7 @@ def write_weekend_js(data):
     with open(tmp, "w", encoding="utf-8") as f:
         f.write(header + body)
     os.replace(tmp, OUT)
+    return True
 
 
 def main():
@@ -181,8 +223,8 @@ def main():
         return
     print(f"[fetch_weekend] 提取成功: {snippet}", flush=True)
 
-    write_weekend_js(data)
-    print(f"[fetch_weekend] ✓ 已写入 {OUT}", flush=True)
+    changed = write_weekend_js(data)
+    print(f"[fetch_weekend] {'✓ 已写入' if changed else '内容无变化'} {OUT}", flush=True)
 
 
 if __name__ == "__main__":

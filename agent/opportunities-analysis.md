@@ -33,7 +33,7 @@
 ### 第 3 步：写回并推送
 写 `股市看板/opportunities.js`（window.OPPORTUNITIES = <JSON>），然后：
 ```bash
-cd 股市看板 && git add opportunities.js && git commit -m "机会清单每日更新 <日期>" && git push origin main
+cd "$(git rev-parse --show-toplevel)" && git add opportunities.js && git commit -m "机会清单每日更新 <日期>" && git push origin main
 ```
 最后给用户中文摘要：今天什么在发酵、哪个最值得关注、有什么风险。
 

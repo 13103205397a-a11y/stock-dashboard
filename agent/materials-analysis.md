@@ -36,7 +36,7 @@
 ### 第 3 步：写回并推送
 写 `股市看板/materials.js`（window.MATERIALS = <JSON>），然后：
 ```bash
-cd 股市看板 && git add materials.js && git commit -m "材料涨价每日更新 <日期>" && git push origin main
+cd "$(git rev-parse --show-toplevel)" && git add materials.js && git commit -m "材料涨价每日更新 <日期>" && git push origin main
 ```
 最后给用户中文摘要：今天哪些材料在涨、涨幅多少、哪个最值得关注、有什么风险。
 

@@ -130,7 +130,7 @@ def extract_last_assistant(session):
 
 
 def extract_analyses_from_session(session):
-    """从后往前扫所有 assistant 消息，提取第一个含有效持仓分析的 JSON。
+    """从后往前扫 assistant 与文件读取结果，提取有效持仓分析 JSON。
 
     agent 跑完后可能继续输出验证总结/commit 说明，真正的 JSON 代码块往往
     在倒数第 2~3 条 assistant 里。所以不能只看最后一条，要逐条尝试。
@@ -139,12 +139,29 @@ def extract_analyses_from_session(session):
     """
     msgs = session.get("messages", []) if session else []
     for m in reversed(msgs):
-        if m.get("role") != "assistant":
+        role = m.get("role")
+        if role not in ("assistant", "tool"):
             continue
         content = _content_to_str(m.get("content", ""))
+        if role == "tool":
+            try:
+                decoded = json.loads(content)
+                content = decoded.get("content", content) if isinstance(decoded, dict) else content
+            except Exception:
+                pass
+            content = re.sub(r"(?m)^\s*\d+\|", "", content)
+            if "window.PORTFOLIO_ANALYSIS" not in content and '"analyses"' not in content:
+                continue
         if len(content) < 20:
             continue
-        j = extract_json_block(content)
+        marker = "window.PORTFOLIO_ANALYSIS = "
+        if marker in content:
+            try:
+                j = json.loads(content[content.index(marker) + len(marker):].rsplit(";", 1)[0])
+            except Exception:
+                j = extract_json_block(content)
+        else:
+            j = extract_json_block(content)
         if j is None:
             continue
         analyses, _ = normalize_analyses(j)

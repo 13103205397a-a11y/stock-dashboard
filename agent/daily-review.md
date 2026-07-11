@@ -13,7 +13,7 @@
 ## 第 0 步：刷新真实技术信号（左/右侧买点）
 先更新行情，再做叙事复盘：
 ```bash
-cd 股市看板
+cd "$(git rev-parse --show-toplevel)"
 bash scripts/fetch_klines.sh      # curl 拉取全部日K(腾讯前复权)到 scripts/raw/
 node scripts/fetch_signals.js     # 计算均线/支撑/突破/量能 → 写回 data.js 的 signal 与 left/right.zone
 ```

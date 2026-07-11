@@ -91,6 +91,8 @@ def extract_report(session):
                 c.get("text", "") if isinstance(c, dict) else str(c) for c in content
             )
         content = str(content).strip()
+        if re.search(r"provider quota limit|fallback chain was exhausted|HTTP 429|monthly usage quota", content, re.I):
+            continue
         # 报告通常较长且有标题结构；过滤掉太短的过渡语（如"Let me compile..."）
         if len(content) >= 80:
             return content
@@ -113,18 +115,20 @@ def main():
 
     reports = []
     for label, keyword in REPORT_TYPES:
-        # 标题含关键词的，取最近一条（list 默认按时间倒序，第一个即最新）
-        match = next((s for s in sessions if keyword in s["title"]), None)
-        if not match:
+        # 最新会话可能因额度/网络失败；逐条回退，直到找到最近一条有效正文。
+        matches = [s for s in sessions if keyword in s["title"]]
+        if not matches:
             print(f"· {label}: 未找到含「{keyword}」的会话，跳过。")
             continue
-        sess = export_session(match["id"])
-        if not sess:
-            print(f"· {label}: 导出失败({match['id']})，跳过。")
-            continue
-        text = extract_report(sess)
-        if not text:
-            print(f"· {label}: 未提取到报告正文，跳过。")
+        match = sess = text = None
+        for candidate in matches:
+            candidate_session = export_session(candidate["id"])
+            candidate_text = extract_report(candidate_session or {})
+            if candidate_text:
+                match, sess, text = candidate, candidate_session, candidate_text
+                break
+        if not match:
+            print(f"· {label}: 最近 {len(matches)} 条会话均无有效正文，跳过。")
             continue
         reports.append({
             "type": label,
@@ -143,6 +147,15 @@ def main():
         "updated": time.strftime("%Y-%m-%d %H:%M", time.localtime()),
         "reports": reports,
     }
+    try:
+        old = open(OUT, encoding="utf-8").read()
+        marker = "window.REPORTS = "
+        old_payload = json.loads(old[old.index(marker) + len(marker):].rsplit(";", 1)[0])
+        if old_payload.get("reports") == reports:
+            print("Hermes 复盘内容无变化，跳过写入。")
+            return
+    except Exception:
+        pass
     header = (
         "/* Hermes Agent 盘面复盘报告（本机自动导出）\n"
         " * 数据来源：本地 Hermes sessions（盘前/盘初/午间/收盘复盘定时任务）。\n"

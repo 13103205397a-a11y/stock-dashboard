@@ -80,7 +80,7 @@
   ```
 - 提交并推送到 GitHub(本机已配免密 push)：
   ```bash
-  cd 股市看板
+  cd "$(git rev-parse --show-toplevel)"
   git add industry.js
   git commit -m "产业雷达每日更新 <日期>"
   git push origin main

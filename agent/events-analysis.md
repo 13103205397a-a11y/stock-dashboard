@@ -33,7 +33,7 @@
 ### 第 3 步：写回并推送
 写 `股市看板/events.js`（window.EVENTS = <JSON>），然后：
 ```bash
-cd 股市看板 && git add events.js && git commit -m "事件概率每日更新 <日期>" && git push origin main
+cd "$(git rev-parse --show-toplevel)" && git add events.js && git commit -m "事件概率每日更新 <日期>" && git push origin main
 ```
 最后给用户中文摘要：今天哪几条最重要、影响哪里、有什么利空要警惕。
 
