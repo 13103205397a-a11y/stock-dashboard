@@ -42,6 +42,10 @@ def main():
             print(f"→ 导出{label}")
             run([sys.executable, script])
 
+        # 发布前先做结构与内容质检；残缺括号等硬错误不得自动提交。
+        print("→ 校验公开数据与内容质量")
+        run(["node", "scripts/validate_data.js"], check=True)
+
         changed = run(["git", "diff", "--name-only", "--", *PUBLIC_AI_FILES]).stdout.splitlines()
         untracked = run(["git", "ls-files", "--others", "--exclude-standard", "--", *PUBLIC_AI_FILES]).stdout.splitlines()
         files = sorted(set(changed + untracked))

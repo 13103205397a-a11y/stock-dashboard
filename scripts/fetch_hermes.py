@@ -29,6 +29,21 @@ REPORT_TYPES = [
     ("收盘复盘", "收盘复盘"),
 ]
 
+PROCESS_OPENERS = re.compile(
+    r"^(?:I(?:'ll| will) (?:generate|prepare)|I (?:now )?have all the data|"
+    r"Let me |All data verified|Here(?:'s| is) the |"
+    r"现在我已经(?:获取|掌握).*(?:让我来|下面))",
+    re.I,
+)
+
+
+def sanitize_report(content):
+    """移除模型生成过程语，只保留面向用户的报告正文。"""
+    lines = str(content or "").strip().splitlines()
+    while lines and (not lines[0].strip() or PROCESS_OPENERS.search(lines[0].strip())):
+        lines.pop(0)
+    return "\n".join(lines).strip()
+
 
 def run(cmd, timeout=60):
     """运行子进程，返回 stdout。"""
@@ -90,7 +105,7 @@ def extract_report(session):
             content = "\n".join(
                 c.get("text", "") if isinstance(c, dict) else str(c) for c in content
             )
-        content = str(content).strip()
+        content = sanitize_report(content)
         if re.search(r"provider quota limit|fallback chain was exhausted|HTTP 429|monthly usage quota", content, re.I):
             continue
         # 报告通常较长且有标题结构；过滤掉太短的过渡语（如"Let me compile..."）

@@ -28,7 +28,32 @@
       : document.scrollingElement;
   };
   const isLocalServer = () => location.origin === "http://localhost:8787" || location.origin === "http://127.0.0.1:8787";
-  const esc = (s) => (s == null ? "" : String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])));
+  const cleanDisplayText = (value) => {
+    if (value == null) return "";
+    let text = String(value)
+      // 这些是采集/分析阶段的内部字段，不应直接出现在阅读界面。
+      .replace(/\b(?:thsStrong|thsHot)\b\s*[:：]?\s*/gi, " ")
+      .replace(/\bbreak\s*=\s*\d+\s*(?:次)?/gi, " ")
+      .replace(/\bconfidence\s*=\s*([\w\u4e00-\u9fff-]+)/gi, "置信度：$1")
+      // Hermes 偶尔把生成过程当成报告正文保存；只清理开头，避免误伤正文引用。
+      .replace(/^(?:I(?:'ll| will) (?:generate|prepare)[^\n]*|I (?:now )?have all the data[^\n]*|Let me [^\n]*|All data verified[^\n]*|Here(?:'s| is) the [^\n]*|现在我已经(?:获取|掌握)[^\n]*(?:让我来|下面)[^\n]*)\s*(?:\r?\n+|$)/i, "")
+      .replace(/[ \t]{2,}/g, " ");
+
+    // 上游摘要截断时，宁可隐藏残片，也不在界面留下半个括号。
+    const trimDanglingOpen = (open, close) => {
+      const opens = text.split(open).length - 1;
+      const closes = text.split(close).length - 1;
+      if (opens > closes) {
+        const at = text.lastIndexOf(open);
+        if (at >= 0 && text.length - at <= 56) text = text.slice(0, at).trimEnd();
+      }
+    };
+    trimDanglingOpen("（", "）");
+    trimDanglingOpen("【", "】");
+    if (!text.includes("【") && text.includes("】")) text = text.replace(/】/g, "");
+    return text;
+  };
+  const esc = (s) => cleanDisplayText(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const safeUrl = (u) => {
     try {
       const url = new URL(String(u), location.href);
@@ -1072,19 +1097,38 @@
     const lis = items.map((it, i) => `<li><span class="sum-idx">${i + 1}</span><span class="sum-txt">${esc(it)}</span></li>`).join("");
     return `<ol class="sd-field-list">${lis}</ol>`;
   }
-  // summaryHtml 概述文字保持段落，不列化（避免斜杠/句号被误拆）
+  const readableSummaryItems = (value) => {
+    const text = String(value || "").trim();
+    if (!text) return [];
+    const spacedSlash = text.split(/\s+\/\s+/).map((x) => x.trim()).filter(Boolean);
+    if (spacedSlash.length >= 2) return spacedSlash;
+    const sentences = text.split(/(?<=[。！？])\s*/).map((x) => x.trim()).filter(Boolean);
+    if (sentences.length >= 2 && text.length > 120) return sentences;
+    const semis = text.split(/[；;]/).map((x) => x.trim()).filter(Boolean);
+    if (semis.length >= 2 && text.length > 120) return semis;
+    return [text];
+  };
+
+  const summaryItemHtml = (item, index) => {
+    const text = cleanDisplayText(item).trim();
+    const body = text.length > 180
+      ? `<details class="summary-detail"><summary>${esc(trunc(text, 150))}</summary><p>${esc(text)}</p></details>`
+      : `<span class="sum-txt">${esc(text)}</span>`;
+    return `<li><span class="sum-idx">${index + 1}</span>${body}</li>`;
+  };
+
+  // 摘要优先呈现为可扫描的要点；短摘要仍保留自然段。
   const summaryHtml = (s) => {
     if (!s) return "";
-    if (Array.isArray(s)) {
-      const items = s.map((x) => String(x).trim()).filter(Boolean);
-      if (!items.length) return "";
-      if (items.length === 1) return `<div class="sd-summary"><p class="sd-v">${esc(items[0])}</p></div>`;
-      const lis = items.map((it, i) => `<li><span class="sum-idx">${i + 1}</span><span class="sum-txt">${esc(it)}</span></li>`).join("");
-      return `<div class="sd-summary"><ol class="sd-field-list">${lis}</ol></div>`;
+    const items = (Array.isArray(s) ? s.flatMap(readableSummaryItems) : readableSummaryItems(s)).filter(Boolean);
+    if (!items.length) return "";
+    if (items.length === 1) {
+      const text = cleanDisplayText(items[0]).trim();
+      if (text.length <= 240) return `<div class="sd-summary"><p class="sd-v">${esc(text)}</p></div>`;
+      return `<div class="sd-summary"><details class="summary-detail summary-detail-single"><summary>${esc(trunc(text, 180))}</summary><p>${esc(text)}</p></details></div>`;
     }
-    const t = String(s).trim();
-    if (!t) return "";
-    return `<div class="sd-summary"><p class="sd-v">${esc(t)}</p></div>`;
+    const lis = items.map(summaryItemHtml).join("");
+    return `<div class="sd-summary"><ol class="sd-field-list">${lis}</ol></div>`;
   };
   // 亿/万 格式化
   const fmtYi = (n) => n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(2) + "亿";
@@ -1750,35 +1794,74 @@
       el.innerHTML = secTitle("机会清单", "当日热点发酵分析") + emptyState("机会分析数据待生成。");
       return;
     }
+
+    const stageShort = (st) => {
+      const t = String(st || "");
+      const hit = t.match(/高潮期|扩散期|初起期|退潮期|高潮|扩散|初起|退潮/);
+      return hit ? hit[0] : trunc(t, 6);
+    };
     const stageCls = (st) => /初起/.test(st) ? "ok" : /扩散/.test(st) ? "warn" : /高潮/.test(st) ? "up" : /退潮/.test(st) ? "down" : "";
-    const cards = OPP.directions.map((d) => {
+    const titleShort = (name) => {
+      const t = String(name || "").trim();
+      const cut = t.split(/[（(]/)[0].trim();
+      return cut || t;
+    };
+    const leadOf = (text) => {
+      const t = cleanDisplayText(text || "").trim();
+      if (!t) return "";
+      const m = t.match(/^[\s\S]{12,110}?[。！？]/);
+      return m ? m[0] : trunc(t, 96);
+    };
+    const blockHtml = (label, body, kind) => {
+      const html = fieldHtml(body || "—");
+      if (!html) return "";
+      return `<section class="opp-block ${kind || ""}"><div class="opp-block-l">${esc(label)}</div><div class="opp-block-b">${html}</div></section>`;
+    };
+
+    const cards = OPP.directions.map((d, i) => {
+      const stage = stageShort(d.stage);
+      const title = titleShort(d.name);
+      const lead = leadOf(d.logic || d.opportunity || "");
       const stocks = (d.stocks || []).map((s) => {
-        const posCls = /龙头/.test(s.position) ? "up" : /二线/.test(s.position) ? "ok" : "";
-        return `<button class="ev-stock ${posCls}" data-code="${esc(s.code)}"><span class="is-name">${esc(s.name)}</span><span class="is-code">${esc(s.code)}</span><span class="ev-impact">${esc(s.position)}</span><span class="is-role">${esc(s.detail || "")}</span></button>`;
+        const posCls = /龙头/.test(s.position) ? "up" : /二线/.test(s.position) ? "ok" : /补涨/.test(s.position) ? "warn" : "";
+        const tip = [s.position, s.detail].filter(Boolean).join(" · ");
+        return `<button class="opp-chip ${posCls}" data-code="${esc(s.code)}" title="${esc(tip)}">
+          <span class="opp-chip-name">${esc(s.name)}</span>
+          <span class="opp-chip-pos">${esc(s.position || "")}</span>
+        </button>`;
       }).join("");
-      return `<article class="card blk opp-card">
-        <div class="opp-head">
-          <h3 class="sd-name">${esc(d.name)}</h3>
-          <div class="opp-badges">
-            <span class="ev-badge ev-stage ${stageCls(d.stage)}">${esc(d.stage || "")}</span>
-            <span class="ev-badge ev-priority">${esc(d.priority || "")}</span>
+
+      return `<article class="opp-row">
+        <header class="opp-row-head">
+          <div class="opp-rank">${String(i + 1).padStart(2, "0")}</div>
+          <div class="opp-row-main">
+            <div class="opp-row-meta">
+              <span class="opp-stage ${stageCls(d.stage)}">${esc(stage)}</span>
+              ${d.priority ? `<span class="opp-stars" title="优先级">${esc(d.priority)}</span>` : ""}
+              ${d.asof ? `<span class="opp-asof">${esc(d.asof)}</span>` : ""}
+            </div>
+            <h3 class="opp-title" title="${esc(d.name)}">${esc(title)}</h3>
+            ${lead ? `<p class="opp-lead">${esc(lead)}</p>` : ""}
           </div>
+        </header>
+        ${stocks ? `<div class="opp-stocks">${stocks}</div>` : ""}
+        <div class="opp-cols">
+          ${blockHtml("机会挖掘", d.opportunity, "pick")}
+          ${blockHtml("风险提示", d.risk, "risk")}
         </div>
-        <div class="sd-grid">
-          <div class="sd-item"><span class="sd-l">背后逻辑</span>${fieldHtml(d.logic || "—")}</div>
-          <div class="sd-item"><span class="sd-l">发酵信号</span>${fieldHtml(d.signals || "—")}</div>
-          <div class="sd-item sd-price"><span class="sd-l">机会挖掘</span>${fieldHtml(d.opportunity || "—")}</div>
-          <div class="sd-item sd-risk"><span class="sd-l">风险提示</span>${fieldHtml(d.risk || "—")}</div>
-        </div>
-        <div class="sd-stocks"><span class="sd-l">相关个股</span><div class="sd-stock-list">${stocks}</div></div>
-        <div class="sd-foot">数据时点 ${esc(d.asof || "")}</div>
+        <details class="opp-more">
+          <summary>背后逻辑与发酵信号</summary>
+          <div class="opp-more-body">
+            ${blockHtml("背后逻辑", d.logic, "logic")}
+            ${blockHtml("发酵信号", d.signals, "signal")}
+          </div>
+        </details>
       </article>`;
     }).join("");
-    el.innerHTML = secTitle("机会清单", `当日热点发酵分析 · ${esc(OPP.date || "")}`) +
-      (OPP.market_state ? summaryHtml(OPP.market_state) : "") +
-      (OPP.summary ? summaryHtml(OPP.summary) : "") +
-      `<div class="sd-grid-cards">${cards}</div>`;
-    el.querySelectorAll(".ev-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+
+    el.innerHTML = secTitle("机会清单", `${OPP.directions.length} 个方向 · ${esc(OPP.date || "")}`) +
+      `<div class="opp-board">${cards}</div>`;
+    el.querySelectorAll(".opp-chip").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
 
   /* ---------- 4. 逻辑链 ---------- */
@@ -1925,7 +2008,6 @@
     }).join("");
 
     el.innerHTML = secTitle("逻辑链", `产业链上下游拆解 · 按成立强度排序 · ${esc(LOGIC.date || "")}`) +
-      (LOGIC.summary ? summaryHtml(LOGIC.summary) : "") +
       `<div class="sd-grid-cards">${cards}</div>`;
     el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
@@ -1939,38 +2021,72 @@
       el.innerHTML = secTitle("产业雷达", "供需紧张 / 涨价方向调研") + emptyState("产业调研数据待生成。");
       return;
     }
-    // 新版: 供需调研卡片
     if (INDUSTRY?.directions) {
       const confCls = { "高": "up", "中高": "ok", "中": "warn", "低": "down" };
-      const cards = INDUSTRY.directions.map((d) => {
+      const confRank = { "高": 4, "中高": 3, "中": 2, "低": 1 };
+      const titleShort = (name) => {
+        const t = String(name || "").trim();
+        return trunc(t.split(/[（(]/)[0].trim() || t, 36);
+      };
+      const leadOf = (text) => {
+        const t = cleanDisplayText(text || "").trim();
+        if (!t) return "";
+        const m = t.match(/^[\s\S]{12,110}?[。！？；;]/);
+        return m ? m[0].replace(/[；;]$/, "。") : trunc(t, 96);
+      };
+      const blockHtml = (label, body, kind) => {
+        const html = fieldHtml(body || "—");
+        if (!html) return "";
+        return `<section class="dir-block ${kind || ""}"><div class="dir-block-l">${esc(label)}</div><div class="dir-block-b">${html}</div></section>`;
+      };
+
+      const ranked = INDUSTRY.directions.slice().sort((a, b) => (confRank[b.confidence] || 0) - (confRank[a.confidence] || 0));
+      const cards = ranked.map((d, i) => {
         const stocks = (d.stocks || []).map((s) =>
-          `<button class="ind-stock" data-code="${esc(s.code)}"><span class="is-name">${esc(s.name)}</span><span class="is-code">${esc(s.code)}</span><span class="is-role">${esc(s.role || "")}</span></button>`
+          `<button class="dir-chip" data-code="${esc(s.code)}" title="${esc(s.role || "")}">
+            <span class="dir-chip-name">${esc(s.name)}</span>
+            <span class="dir-chip-pos">${esc(trunc(s.role || "", 18))}</span>
+          </button>`
         ).join("");
-        return `<article class="card blk sd-card">
-          <div class="sd-head">
-            <h3 class="sd-name">${esc(d.name)}</h3>
-            <span class="sd-conf ${confCls[d.confidence] || ""}">置信度 ${esc(d.confidence || "—")}</span>
+        const lead = leadOf(d.price_signal || d.supply || d.driver || "");
+        return `<article class="dir-row">
+          <header class="dir-row-head">
+            <div class="dir-rank">${String(i + 1).padStart(2, "0")}</div>
+            <div class="dir-row-main">
+              <div class="dir-row-meta">
+                <span class="dir-badge ${confCls[d.confidence] || ""}">置信度 ${esc(d.confidence || "—")}</span>
+                ${d.asof ? `<span class="dir-asof">${esc(d.asof)}</span>` : ""}
+              </div>
+              <h3 class="dir-title" title="${esc(d.name)}">${esc(titleShort(d.name))}</h3>
+              ${lead ? `<p class="dir-lead">${esc(lead)}</p>` : ""}
+            </div>
+          </header>
+          ${stocks ? `<div class="dir-stocks">${stocks}</div>` : ""}
+          <div class="dir-cols">
+            ${blockHtml("涨价信号", d.price_signal, "pick")}
+            ${blockHtml("风险 / 反向", d.risk, "risk")}
           </div>
-          <div class="sd-grid">
-            <div class="sd-item"><span class="sd-l">供需状况</span>${fieldHtml(d.supply || "—")}</div>
-            <div class="sd-item sd-price"><span class="sd-l">涨价信号</span>${fieldHtml(d.price_signal || "—")}</div>
-            <div class="sd-item"><span class="sd-l">驱动因素</span>${fieldHtml(d.driver || "—")}</div>
-            <div class="sd-item"><span class="sd-l">关键证据</span>${fieldHtml(d.evidence || "—")}</div>
-            <div class="sd-item sd-risk"><span class="sd-l">风险 / 反向信号</span>${fieldHtml(d.risk || "—")}</div>
-          </div>
-          <div class="sd-stocks"><span class="sd-l">相关受益股</span><div class="sd-stock-list">${stocks}</div></div>
-          <div class="sd-foot">数据时点 ${esc(d.asof || "")} · 仅供研究参考,非投资建议</div>
+          <details class="dir-more">
+            <summary>供需、驱动与关键证据</summary>
+            <div class="dir-more-body">
+              ${blockHtml("供需状况", d.supply, "logic")}
+              ${blockHtml("驱动因素", d.driver, "logic")}
+              ${blockHtml("关键证据", d.evidence, "logic")}
+            </div>
+          </details>
         </article>`;
       }).join("");
+
       const sourceNote = INDUSTRY_MARKET?.source === "market-snapshot-fallback" ? ` · 异动样本 ${INDUSTRY_MARKET.coverage || 0} 只（非全市场）` : "";
-      const ranking = INDUSTRY_MARKET?.top?.length ? `<section class="card blk"><h3 class="blk-h">今日行业涨幅前 ${INDUSTRY_MARKET.top.length}<span class="pf-updated">${sourceNote}</span></h3><div class="ind-list">${INDUSTRY_MARKET.top.map(rowHtml).join("")}</div></section>` : "";
-      el.innerHTML = secTitle("产业雷达", `供需紧张 / 涨价方向调研 · ${esc(INDUSTRY.date || "")}`) +
-        (INDUSTRY.summary ? summaryHtml(INDUSTRY.summary) : "") +
-        `<div class="sd-grid-cards">${cards}</div>${ranking}`;
-      el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+      const ranking = INDUSTRY_MARKET?.top?.length
+        ? `<section class="dir-rank-panel"><h3 class="dir-rank-title">今日行业涨幅前 ${INDUSTRY_MARKET.top.length}<span class="dir-rank-note">${sourceNote}</span></h3><div class="ind-list">${INDUSTRY_MARKET.top.map(rowHtml).join("")}</div></section>`
+        : "";
+
+      el.innerHTML = secTitle("产业雷达", `${INDUSTRY.directions.length} 个方向 · ${esc(INDUSTRY.date || "")}`) +
+        `<div class="dir-board">${cards}</div>${ranking}`;
+      el.querySelectorAll(".dir-chip").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
       return;
     }
-    // AI 调研暂缺时，仍展示独立的行业涨跌排名。
     const sourceNote = INDUSTRY_MARKET?.source === "market-snapshot-fallback" ? ` · 异动样本 ${INDUSTRY_MARKET.coverage || 0} 只（非全市场）` : "";
     el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY_MARKET.total || 0} 个行业${sourceNote}`) +
       `<div class="ind-cols"><section class="card blk"><h3 class="blk-h">涨幅前 ${(INDUSTRY_MARKET.top||[]).length}</h3><div class="ind-list">${(INDUSTRY_MARKET.top||[]).map(rowHtml).join("")}</div></section></div>`;
@@ -1985,32 +2101,66 @@
       el.innerHTML = secTitle("材料涨价", "原材料/大宗商品涨价调研") + emptyState("材料涨价数据待生成。");
       return;
     }
+
     const intCls = { "极强": "up", "强": "ok", "中强": "warn", "中": "warn", "弱": "down" };
-    const cards = MAT.directions.map((d) => {
+    const intRank = { "极强": 5, "强": 4, "中强": 3, "中": 2, "弱": 1 };
+    const titleShort = (name) => {
+      const t = String(name || "").trim();
+      return trunc(t.split(/[（(]/)[0].trim() || t, 36);
+    };
+    const leadOf = (text) => {
+      const t = cleanDisplayText(text || "").trim();
+      if (!t) return "";
+      const m = t.match(/^[\s\S]{12,110}?[。！？；;]/);
+      return m ? m[0].replace(/[；;]$/, "。") : trunc(t, 96);
+    };
+    const blockHtml = (label, body, kind) => {
+      const html = fieldHtml(body || "—");
+      if (!html) return "";
+      return `<section class="dir-block ${kind || ""}"><div class="dir-block-l">${esc(label)}</div><div class="dir-block-b">${html}</div></section>`;
+    };
+
+    const ranked = MAT.directions.slice().sort((a, b) => (intRank[b.intensity] || 0) - (intRank[a.intensity] || 0));
+    const cards = ranked.map((d, i) => {
       const stocks = (d.stocks || []).map((s) =>
-        `<button class="ind-stock" data-code="${esc(s.code)}"><span class="is-name">${esc(s.name)}</span><span class="is-code">${esc(s.code)}</span><span class="is-role">${esc(s.role || "")}</span></button>`
+        `<button class="dir-chip" data-code="${esc(s.code)}" title="${esc(s.role || "")}">
+          <span class="dir-chip-name">${esc(s.name)}</span>
+          <span class="dir-chip-pos">${esc(trunc(s.role || "", 18))}</span>
+        </button>`
       ).join("");
-      return `<article class="card blk mat-card">
-        <div class="sd-head">
-          <h3 class="sd-name">${esc(d.name)}</h3>
-          <span class="sd-conf ${intCls[d.intensity] || ""}">涨价强度 ${esc(d.intensity || "—")}</span>
+      const lead = leadOf(d.timing || d.price || d.driver || "");
+      return `<article class="dir-row">
+        <header class="dir-row-head">
+          <div class="dir-rank">${String(i + 1).padStart(2, "0")}</div>
+          <div class="dir-row-main">
+            <div class="dir-row-meta">
+              <span class="dir-badge ${intCls[d.intensity] || ""}">涨价强度 ${esc(d.intensity || "—")}</span>
+              ${d.asof ? `<span class="dir-asof">${esc(d.asof)}</span>` : ""}
+            </div>
+            <h3 class="dir-title" title="${esc(d.name)}">${esc(titleShort(d.name))}</h3>
+            ${lead ? `<p class="dir-lead">${esc(lead)}</p>` : ""}
+          </div>
+        </header>
+        ${stocks ? `<div class="dir-stocks">${stocks}</div>` : ""}
+        <div class="dir-cols">
+          ${blockHtml("价格 / 涨幅", d.price, "pick")}
+          ${blockHtml("风险 / 反向", d.risk, "risk")}
         </div>
-        <div class="sd-grid">
-          <div class="sd-item sd-price"><span class="sd-l">价格/涨幅</span>${fieldHtml(d.price || "—")}</div>
-          <div class="sd-item"><span class="sd-l">涨价时点</span>${fieldHtml(d.timing || "—")}</div>
-          <div class="sd-item"><span class="sd-l">涨价驱动</span>${fieldHtml(d.driver || "—")}</div>
-          <div class="sd-item"><span class="sd-l">供需状况</span>${fieldHtml(d.supply || "—")}</div>
-          <div class="sd-item"><span class="sd-l">下游应用</span>${fieldHtml(d.downstream || "—")}</div>
-          <div class="sd-item sd-risk"><span class="sd-l">风险/反向信号</span>${fieldHtml(d.risk || "—")}</div>
-        </div>
-        <div class="sd-stocks"><span class="sd-l">相关受益股</span><div class="sd-stock-list">${stocks}</div></div>
-        <div class="sd-foot">数据时点 ${esc(d.asof || "")} · 仅供研究参考,非投资建议</div>
+        <details class="dir-more">
+          <summary>时点、驱动、供需与下游</summary>
+          <div class="dir-more-body">
+            ${blockHtml("涨价时点", d.timing, "logic")}
+            ${blockHtml("涨价驱动", d.driver, "logic")}
+            ${blockHtml("供需状况", d.supply, "logic")}
+            ${blockHtml("下游应用", d.downstream, "logic")}
+          </div>
+        </details>
       </article>`;
     }).join("");
-    el.innerHTML = secTitle("材料涨价", `原材料/大宗商品涨价调研 · ${esc(MAT.date || "")}`) +
-      (MAT.summary ? summaryHtml(MAT.summary) : "") +
-      `<div class="sd-grid-cards">${cards}</div>`;
-    el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+
+    el.innerHTML = secTitle("材料涨价", `${MAT.directions.length} 个方向 · ${esc(MAT.date || "")}`) +
+      `<div class="dir-board">${cards}</div>`;
+    el.querySelectorAll(".dir-chip").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
 
   /* ---------- 7b. 周末发酵 ---------- */
@@ -2087,37 +2237,83 @@
       el.innerHTML = secTitle("事件概率", "重要新闻影响分析") + emptyState("事件分析数据待生成。");
       return;
     }
+
     const impCls = { "高": "up", "中高": "ok", "中": "warn", "低": "dim" };
     const dirCls = (d) => /利好/.test(d) && !/谨慎|利空/.test(d) ? "up" : /利空/.test(d) && !/受益/.test(d) ? "down" : /结构性/.test(d) ? "warn" : "";
-    const cards = EVENTS.events.map((e) => {
+    const titleShort = (name) => {
+      const t = String(name || "").trim();
+      const cut = t.split(/[（(]/)[0].trim();
+      return trunc(cut || t, 42);
+    };
+    const leadOf = (text) => {
+      const t = cleanDisplayText(text || "").trim();
+      if (!t) return "";
+      const m = t.match(/^[\s\S]{12,110}?[。！？]/);
+      return m ? m[0] : trunc(t, 96);
+    };
+    const sectorChips = (sectors) => {
+      const parts = String(sectors || "")
+        .split(/[\/、,，]/)
+        .map((x) => x.trim())
+        .filter(Boolean);
+      if (!parts.length) return "";
+      return `<div class="ev-sectors">${parts.map((s) => `<span class="ev-sector">${esc(s)}</span>`).join("")}</div>`;
+    };
+    const blockHtml = (label, body, kind) => {
+      const html = fieldHtml(body || "—");
+      if (!html) return "";
+      return `<section class="ev-block ${kind || ""}"><div class="ev-block-l">${esc(label)}</div><div class="ev-block-b">${html}</div></section>`;
+    };
+
+    // 重要性：高 > 中高 > 中 > 低
+    const impRank = { "高": 4, "中高": 3, "中": 2, "低": 1 };
+    const ranked = EVENTS.events.slice().sort((a, b) => (impRank[b.importance] || 0) - (impRank[a.importance] || 0));
+
+    const cards = ranked.map((e, i) => {
+      const title = titleShort(e.title);
+      const lead = leadOf(e.importance_reason || e.content || "");
       const stocks = (e.stocks || []).map((s) => {
-        const impCls2 = s.impact === "受益" ? "up" : s.impact === "受损" ? "down" : "";
-        return `<button class="ev-stock ${impCls2}" data-code="${esc(s.code)}"><span class="is-name">${esc(s.name)}</span><span class="is-code">${esc(s.code)}</span><span class="ev-impact">${esc(s.impact)}</span><span class="is-role">${esc(s.role || "")}</span></button>`;
+        const tone = s.impact === "受益" ? "up" : s.impact === "受损" ? "down" : "";
+        const tip = [s.impact, s.role].filter(Boolean).join(" · ");
+        return `<button class="ev-chip ${tone}" data-code="${esc(s.code)}" title="${esc(tip)}">
+          <span class="ev-chip-name">${esc(s.name)}</span>
+          <span class="ev-chip-pos">${esc(s.impact || "")}</span>
+        </button>`;
       }).join("");
-      return `<article class="card blk ev-card">
-        <div class="ev-head">
-          <h3 class="ev-title">${esc(e.title)}</h3>
-          <div class="ev-badges">
-            <span class="ev-badge ev-cat">${esc(e.category || "")}</span>
-            <span class="ev-badge ev-imp ${impCls[e.importance] || ""}">${esc(e.importance || "")}</span>
-            <span class="ev-badge ev-dir ${dirCls(e.direction)}">${esc(e.direction || "")}</span>
-            <span class="ev-time">${esc(e.time || "")}</span>
+
+      return `<article class="ev-row">
+        <header class="ev-row-head">
+          <div class="ev-rank">${String(i + 1).padStart(2, "0")}</div>
+          <div class="ev-row-main">
+            <div class="ev-row-meta">
+              <span class="ev-imp ${impCls[e.importance] || ""}">重要度 ${esc(e.importance || "—")}</span>
+              ${e.direction ? `<span class="ev-dir ${dirCls(e.direction)}">${esc(e.direction)}</span>` : ""}
+              ${e.category ? `<span class="ev-cat">${esc(e.category)}</span>` : ""}
+              ${e.time ? `<span class="ev-asof">${esc(e.time)}</span>` : ""}
+            </div>
+            <h3 class="ev-title" title="${esc(e.title)}">${esc(title)}</h3>
+            ${lead ? `<p class="ev-lead">${esc(lead)}</p>` : ""}
           </div>
+        </header>
+        ${sectorChips(e.sectors)}
+        ${stocks ? `<div class="ev-stocks-row">${stocks}</div>` : ""}
+        <div class="ev-cols">
+          ${blockHtml("重要性原因", e.importance_reason, "why")}
+          ${blockHtml("影响时效", e.timeliness, "time")}
         </div>
-        <div class="ev-content">${fieldHtml(e.content || "")}</div>
-        <div class="ev-grid-info">
-          <div class="ev-info"><span class="sd-l">重要性原因</span>${fieldHtml(e.importance_reason || "—")}</div>
-          <div class="ev-info"><span class="sd-l">影响板块</span>${fieldHtml(e.sectors || "—")}</div>
-          <div class="ev-info"><span class="sd-l">影响时效</span>${fieldHtml(e.timeliness || "—")}</div>
-        </div>
-        ${stocks ? `<div class="ev-stocks"><span class="sd-l">受影响个股</span><div class="sd-stock-list">${stocks}</div></div>` : ""}
-        <div class="sd-foot">来源: ${esc(e.source || "—")}</div>
+        <details class="ev-more">
+          <summary>事件详情与来源</summary>
+          <div class="ev-more-body">
+            ${blockHtml("事件内容", e.content, "content")}
+            ${e.source ? `<div class="ev-source">来源：${esc(e.source)}</div>` : ""}
+          </div>
+        </details>
       </article>`;
     }).join("");
-    el.innerHTML = secTitle("事件概率", `重要新闻影响分析 · ${esc(EVENTS.date || "")}`) +
-      (EVENTS.summary ? summaryHtml(EVENTS.summary) : "") +
-      `<div class="sd-grid-cards">${cards}</div>`;
-    el.querySelectorAll(".ev-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+
+    el.innerHTML = secTitle("事件概率", `${EVENTS.events.length} 件 · ${esc(EVENTS.date || "")}`) +
+      `<div class="ev-board">${cards}</div>`;
+    el.querySelectorAll(".ev-chip").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
 
   /* ---------- 8. 新闻 ---------- */
@@ -2206,7 +2402,7 @@
   function renderReports() {
     const el = $("#reports");
     if (!el) return;
-    const list = REPORTS.reports || [];
+    const list = (REPORTS.reports || []).filter((report) => cleanDisplayText(report.content || "").trim().length >= 80);
     if (!list.length) { el.innerHTML = ""; return; }
     const tabs = list.map((r, i) =>
       `<button class="rep-tab ${i === 0 ? "active" : ""}" data-i="${i}">${esc(r.type)}<span class="rep-time">${esc((r.time || "").slice(5, 16))}</span></button>`

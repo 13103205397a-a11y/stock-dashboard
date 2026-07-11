@@ -101,6 +101,34 @@ test("新闻摘要可展开，公告股票代码可打开详情", async ({ page 
   await expect(page.locator("#drawer")).toHaveClass(/show/);
 });
 
+test("研究内容不会直出内部字段、生成过程语或残缺括号", async ({ page }) => {
+  for (const view of ["opportunities", "logic", "hot", "agent"]) {
+    await page.goto(`/index.html#${view}`, { waitUntil: "networkidle" });
+    const text = await page.locator("#mainContent").innerText();
+    expect(text).not.toMatch(/\b(?:thsStrong|thsHot|break\s*=\s*\d+)\b/i);
+    expect(text).not.toMatch(/^(?:I'll generate|现在我已经(?:获取|掌握))/m);
+    expect(text).not.toContain("京东方A（");
+  }
+});
+
+test("核心阅读文字保持可读字号和报告行宽", async ({ page }) => {
+  await page.goto("/index.html#opportunities", { waitUntil: "networkidle" });
+  const researchSize = await page.locator(".sd-v, .sd-field-list .sum-txt").first().evaluate((node) =>
+    Number.parseFloat(getComputedStyle(node).fontSize)
+  );
+  expect(researchSize).toBeGreaterThanOrEqual(14);
+
+  await page.goto("/index.html#agent", { waitUntil: "networkidle" });
+  const report = page.locator(".rep-md").first();
+  await expect(report).toBeVisible();
+  const reportStyle = await report.evaluate((node) => {
+    const style = getComputedStyle(node);
+    return { fontSize: Number.parseFloat(style.fontSize), width: node.getBoundingClientRect().width };
+  });
+  expect(reportStyle.fontSize).toBeGreaterThanOrEqual(15);
+  expect(reportStyle.width).toBeLessThanOrEqual(760);
+});
+
 test("自选支持添加、自动刷新后展示和删除", async ({ page }) => {
   let portfolio = { updated: "2026-07-11", holdings: [], watchlist: [] };
   await page.route(/\/api\/portfolio$/, async (route) => {

@@ -124,6 +124,47 @@ function validateReferences(value, trail = "window", depth = 0) {
   ["MATERIALS", W.MATERIALS], ["EVENTS", W.EVENTS], ["WEEKEND", W.WEEKEND],
 ].forEach(([name, value]) => validateReferences(value, name));
 
+const editorial = { processText: [], internalTokens: [], runOnText: [] };
+const aiProcessStart = /^(?:I(?:'ll| will) (?:generate|prepare)|I (?:now )?have all the data|Let me |All data verified|Here(?:'s| is) the |现在我已经(?:获取|掌握).*(?:让我来|下面))/i;
+const internalToken = /\b(?:thsStrong|thsHot|break\s*=\s*\d+)\b|\bconfidence\s*=/i;
+function validateEditorialText(value, trail = "window", depth = 0) {
+  if (value == null || depth > 10) return;
+  if (typeof value === "string") {
+    const roundOpen = (value.match(/（/g) || []).length;
+    const squareOpen = (value.match(/【/g) || []).length;
+    const squareClose = (value.match(/】/g) || []).length;
+    // “1）2）”属于正常编号，因此忽略多余右括号，但拦截没有闭合的左括号。
+    let roundDepth = 0;
+    for (const char of value) {
+      if (char === "（") roundDepth += 1;
+      else if (char === "）" && roundDepth > 0) roundDepth -= 1;
+    }
+    if (roundOpen > 0 && roundDepth > 0) fail(`${trail}: 中文圆括号不完整`);
+    if ((squareOpen || squareClose) && squareOpen !== squareClose) fail(`${trail}: 中文方括号不完整`);
+    if (aiProcessStart.test(value.trim())) editorial.processText.push(trail);
+    if (internalToken.test(value)) editorial.internalTokens.push(trail);
+    if (value.length > 420 && !/[。！？；;\n]/.test(value)) editorial.runOnText.push(trail);
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, i) => validateEditorialText(item, `${trail}[${i}]`, depth + 1));
+    return;
+  }
+  if (typeof value === "object") {
+    Object.entries(value).forEach(([key, child]) => validateEditorialText(child, `${trail}.${key}`, depth + 1));
+  }
+}
+validateEditorialText(W);
+if (editorial.processText.length) {
+  warn.push(`内容质检: ${editorial.processText.length} 处 AI 过程语将在前端隐藏；源头需清理 (${editorial.processText.slice(0, 3).join(", ")})`);
+}
+if (editorial.internalTokens.length) {
+  warn.push(`内容质检: ${editorial.internalTokens.length} 处内部字段将在前端转义 (${editorial.internalTokens.slice(0, 3).join(", ")})`);
+}
+if (editorial.runOnText.length) {
+  warn.push(`内容质检: ${editorial.runOnText.length} 处超长无断句文本 (${editorial.runOnText.slice(0, 3).join(", ")})`);
+}
+
 const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
 if (/document\.write\s*\(/.test(html)) fail("index.html: 禁止使用 document.write 动态注入脚本");
 for (const script of ["holdings.js", "portfolio_analysis.js", "weekend.js", "industry_market.js", "app.js"]) {

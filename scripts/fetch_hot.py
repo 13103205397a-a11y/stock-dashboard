@@ -98,6 +98,19 @@ def fetch_top():
 
 
 # ---------------- 每只取 1 条催化新闻 ----------------
+def clean_news_text(value):
+    """清掉上游截断造成的半个括号，不补写无法确认的新闻内容。"""
+    text = str(value or "").strip()
+    for opening, closing in (("（", "）"), ("【", "】")):
+        if text.count(opening) > text.count(closing):
+            pos = text.rfind(opening)
+            if 0 <= pos and len(text) - pos <= 56:
+                text = text[:pos].rstrip()
+    if "【" not in text and "】" in text:
+        text = text.replace("】", "")
+    return text
+
+
 def fetch_one_news(name):
     main = os.path.join(SKILLS, "news-search", "scripts", "__main__.py")
     with tempfile.NamedTemporaryFile("r", suffix=".json", delete=False) as tf:
@@ -120,7 +133,7 @@ def fetch_one_news(name):
     items = d if isinstance(d, list) else (d.get("articles") or d.get("results") or [])
     out = []
     for x in items[:2]:
-        t = (x.get("title") or "").strip()
+        t = clean_news_text(x.get("title"))
         if t:
             out.append({"title": t, "date": (x.get("publish_date") or "")[:16],
                         "source": x.get("source") or "", "url": x.get("url") or ""})
