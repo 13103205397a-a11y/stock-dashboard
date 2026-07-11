@@ -20,8 +20,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.dirname(HERE)
 OUT = os.path.join(PROJ, "newsall.js")
 ASTOCK_PATH = os.path.join(PROJ, "skills", "a-stock-pro", "scripts")
-sys.path.insert(0, ASTOCK_PATH)
-import astock as a  # noqa: E402
 
 TODAY = datetime.now().strftime("%Y-%m-%d")
 
@@ -84,6 +82,9 @@ def safe(fn, *args, default=None, **kw):
 
 
 def main():
+    sys.path.insert(0, ASTOCK_PATH)
+    import astock as a  # noqa: WPS433  延迟导入，避免单测依赖 mootdx
+
     print(f"采集新闻全量数据 ({TODAY})...", flush=True)
     # 1. 全球资讯
     global_news = safe(a.eastmoney_global_news, default=[]) or []
