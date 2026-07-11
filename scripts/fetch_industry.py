@@ -9,6 +9,7 @@ import json
 import os
 import sys
 import warnings
+from collections import defaultdict
 from datetime import datetime
 
 warnings.filterwarnings("ignore")
@@ -23,13 +24,59 @@ import astock as a  # noqa: E402
 TODAY = datetime.now().strftime("%Y-%m-%d")
 
 
+def fallback_from_market():
+    """上游板块接口不可用时，用同次全市场异动快照聚合，避免空白且标明覆盖范围。"""
+    path = os.path.join(PROJ, "market.js")
+    text = open(path, encoding="utf-8").read()
+    marker = "window.MARKET = "
+    data = json.loads(text[text.index(marker) + len(marker):].rsplit(";", 1)[0])
+    stocks = {}
+    for key in ("limitUp", "limitDown", "brokeUp", "yesterday"):
+        for row in data.get(key, []):
+            industry = row.get("industry")
+            change = row.get("pct", row.get("chgPct"))
+            if row.get("code") and industry and isinstance(change, (int, float)):
+                stocks[row["code"]] = {**row, "change": change}
+    groups = defaultdict(list)
+    for row in stocks.values():
+        groups[row["industry"]].append(row)
+    rows = []
+    for name, members in groups.items():
+        leader = max(members, key=lambda x: x["change"])
+        rows.append({
+            "name": name,
+            "change_pct": round(sum(x["change"] for x in members) / len(members), 2),
+            "up_count": sum(x["change"] > 0 for x in members),
+            "down_count": sum(x["change"] < 0 for x in members),
+            "leader": leader.get("name", ""),
+            "sample_count": len(members),
+        })
+    rows.sort(key=lambda x: x["change_pct"], reverse=True)
+    if len(rows) < 5:
+        raise ValueError("市场快照行业样本不足")
+    for index, row in enumerate(rows, 1):
+        row["rank"] = index
+    return {
+        "top": rows[:15],
+        "bottom": sorted(rows[-15:], key=lambda x: x["change_pct"]),
+        "total": len(rows),
+        "source": "market-snapshot-fallback",
+        "coverage": len(stocks),
+        "date": data.get("date") or TODAY,
+    }
+
+
 def main():
     print(f"采集产业雷达数据 ({TODAY})...", flush=True)
     try:
         data = a.industry_comparison(top_n=30)
     except Exception as e:
-        print(f"✗ 采集行业排名失败({type(e).__name__}: {e}),保留旧 industry_market.js 不更新。", file=sys.stderr, flush=True)
-        return 1
+        print(f"⚠ 行业接口失败({type(e).__name__}: {e})，改用同日市场快照聚合。", file=sys.stderr, flush=True)
+        try:
+            data = fallback_from_market()
+        except Exception as fallback_error:
+            print(f"✗ 行业回退也失败({fallback_error})，保留旧文件。", file=sys.stderr, flush=True)
+            return 1
     top = data.get("top", [])
     bottom = data.get("bottom", [])
     total = data.get("total", 0)
@@ -38,11 +85,13 @@ def main():
         return 1
     out = {
         "schemaVersion": 1,
-        "date": TODAY,
+        "date": data.get("date") or TODAY,
         "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "top": top,
         "bottom": bottom,
         "total": total,
+        "source": data.get("source", "eastmoney-industry"),
+        "coverage": data.get("coverage"),
     }
     content = (
         "/* 产业雷达数据：行业板块涨跌排名\n"

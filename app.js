@@ -1462,7 +1462,7 @@
         return body.data;
       } catch (e) {
         portfolioToast(`持仓文件读取失败：${e.message}`, "error");
-        return { holdings: [] };
+        return { holdings: [], watchlist: [] };
       }
     }
     if (location.protocol === "file:") {
@@ -1476,7 +1476,7 @@
       const ls = localStorage.getItem(PF_LS_KEY);
       if (ls) return JSON.parse(ls);
     } catch {}
-    return { holdings: [] };
+    return { holdings: [], watchlist: [] };
   };
   const savePortfolio = async (data) => {
     data.updated = new Date().toISOString().slice(0, 10);
@@ -1508,15 +1508,37 @@
     setTimeout(() => t.classList.add("show"), 10);
     setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 300); }, 3000);
   };
+  const refreshPortfolioData = async () => {
+    if (!isLocalServer()) return { ok: false, msg: "当前为静态页面，配置已保存；本地服务启动后可自动刷新行情" };
+    try {
+      const r = await fetch("/api/portfolio/refresh", { method: "POST" });
+      const body = await r.json().catch(() => null);
+      return r.ok && body?.ok ? body : { ok: false, msg: body?.msg || `刷新失败 (HTTP ${r.status})` };
+    } catch (e) {
+      return { ok: false, msg: `刷新失败：${e.message}` };
+    }
+  };
   // 评级 → 颜色 class
   const ratingClass = (r) => ({ "买入": "up", "增持": "up", "持有": "ok", "减持": "warn", "卖出": "down" }[r] || "");
+  const actionLead = (value) => {
+    if (Array.isArray(value)) return String(value[0] || "");
+    const text = String(value || "").trim();
+    return text.split(/(?<=[。！？；;])/)[0] || text.slice(0, 100);
+  };
+  const conceptSummary = (items, fallback = "") => {
+    const list = Array.isArray(items) ? items.filter(Boolean) : [];
+    if (!list.length) return fallback;
+    const shown = list.slice(0, 4).join(" / ");
+    return list.length > 4 ? `${shown} · 等 ${list.length} 个标签` : shown;
+  };
 
   async function renderHoldings() {
     const el = $("#viewHoldings");
     if (!el) return;
     if (!PORTFOLIO_CFG) PORTFOLIO_CFG = await loadPortfolio();
-    const cfg = PORTFOLIO_CFG || { holdings: [] };
+    const cfg = PORTFOLIO_CFG || { holdings: [], watchlist: [] };
     const cfgList = cfg.holdings || [];
+    const watchList = cfg.watchlist || [];
     // 行情数据 map（holdings.js）
     const hMap = {};
     (HOLDINGS?.list || []).forEach((h) => { hMap[h.code] = h; });
@@ -1524,12 +1546,16 @@
     const an = window.PORTFOLIO_ANALYSIS || { analyses: [] };
     const aMap = {};
     (an.analyses || []).forEach((a) => { aMap[a.code] = a; });
+    const screenData = window.PORTFOLIO_SIGNALS || { list: [] };
+    const screenMap = {};
+    (screenData.list || []).forEach((item) => { screenMap[item.code] = item; });
 
-    const addBtn = `<div class="pf-toolbar"><button class="pf-add-btn" id="pfAddBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> 加持仓</button><span class="pf-updated">配置更新于 ${esc(cfg.updated || "—")}</span></div>`;
+    const addBtn = `<div class="pf-toolbar"><button class="pf-add-btn" id="pfAddBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> 加持仓</button><button class="pf-add-btn secondary" id="pfWatchBtn">加自选</button><button class="pf-refresh-btn" id="pfRefreshBtn">刷新筛选</button><span class="pf-updated">配置 ${esc(cfg.updated || "—")} · 行情 ${esc(screenData.date || HOLDINGS?.date || "待刷新")}</span></div>`;
 
-    if (!cfgList.length) {
-      el.innerHTML = secTitle("持仓决策", "") + addBtn + emptyState("暂无持仓，点击「加持仓」添加");
+    if (!cfgList.length && !watchList.length) {
+      el.innerHTML = secTitle("持仓决策", "") + addBtn + emptyState("暂无持仓或自选，添加后将自动更新行情并按既有技术信号筛选");
       bindPfAdd(el);
+      bindPfRefresh(el);
       return;
     }
 
@@ -1552,12 +1578,14 @@
             <span class="pf-an-updated">${esc(an.updated || "")}</span>
           </div>
           ${a.summary ? `<div class="pf-an-summary">${esc(a.summary)}</div>` : ""}
-          ${a.fundamentals ? `<div class="pf-an-sec"><span class="sd-l">基本面+估值</span>${fieldHtml(a.fundamentals)}</div>` : ""}
-          ${a.capital ? `<div class="pf-an-sec"><span class="sd-l">资金面</span>${fieldHtml(a.capital)}</div>` : ""}
-          ${a.technicals ? `<div class="pf-an-sec"><span class="sd-l">技术面</span>${fieldHtml(a.technicals)}</div>` : ""}
-          ${a.risks ? `<div class="pf-an-sec"><span class="sd-l">风险</span>${fieldHtml(a.risks)}</div>` : ""}
-          ${a.noiseFilter ? `<div class="pf-an-sec"><span class="sd-l">市场噪音过滤</span>${fieldHtml(a.noiseFilter)}</div>` : ""}
-          ${a.action ? `<div class="pf-an-sec pf-an-action"><span class="sd-l">操作建议</span>${fieldHtml(a.action)}</div>` : ""}
+          ${(a.fundamentals || a.capital || a.technicals || a.risks || a.noiseFilter) ? `<details class="pf-an-details"><summary>展开分析依据</summary>
+            ${a.fundamentals ? `<div class="pf-an-sec"><span class="sd-l">基本面+估值</span>${fieldHtml(a.fundamentals)}</div>` : ""}
+            ${a.capital ? `<div class="pf-an-sec"><span class="sd-l">资金面</span>${fieldHtml(a.capital)}</div>` : ""}
+            ${a.technicals ? `<div class="pf-an-sec"><span class="sd-l">技术面</span>${fieldHtml(a.technicals)}</div>` : ""}
+            ${a.risks ? `<div class="pf-an-sec"><span class="sd-l">风险</span>${fieldHtml(a.risks)}</div>` : ""}
+            ${a.noiseFilter ? `<div class="pf-an-sec"><span class="sd-l">市场噪音过滤</span>${fieldHtml(a.noiseFilter)}</div>` : ""}
+          </details>` : ""}
+          ${a.action ? `<div class="pf-an-sec pf-an-action"><span class="sd-l">操作建议</span><div><p class="pf-action-lead">${esc(actionLead(a.action))}</p><details class="pf-action-details"><summary>展开完整操作计划</summary>${fieldHtml(a.action)}</details></div></div>` : ""}
           ${(a.targetBuy || a.targetSell || a.stopLoss) ? `<div class="pf-an-points">
             ${a.targetBuy ? `<span class="pf-pt buy">建议买点 ¥${a.targetBuy}</span>` : ""}
             ${a.targetSell ? `<span class="pf-pt sell">建议卖点 ¥${a.targetSell}</span>` : ""}
@@ -1567,7 +1595,7 @@
 
       return `<article class="card blk hold-card">
         <div class="hc-top">
-          <div><div class="hc-name">${esc(h.name || hd.name || code)} <span class="hc-code">${esc(code)}</span></div><div class="hc-sec">${esc((hd.concept || []).join(" / ") || hd.industry || h.note || "")}</div></div>
+          <div><div class="hc-name">${esc(h.name || hd.name || code)} <span class="hc-code">${esc(code)}</span></div><div class="hc-sec" title="${esc((hd.concept || []).join(" / "))}">${esc(conceptSummary(hd.concept, hd.industry || h.note || ""))}</div></div>
           <div class="hc-px"><span class="hc-price">¥${hd.price ?? "—"}</span>${chg != null ? `<span class="chg ${sgn(chg)}">${pct(chg)}</span>` : ""}</div>
         </div>
         ${h.buyPrice || h.shares || h.weight ? `<div class="pf-meta">
@@ -1580,7 +1608,7 @@
           <div class="vm"><span class="vm-l">前向PE</span><span class="vm-v">${v.pe_fwd ?? "—"}</span></div>
           <div class="vm"><span class="vm-l">PEG</span><span class="vm-v ${v.peg != null && v.peg < 1 ? "up" : v.peg != null && v.peg > 2 ? "down" : ""}">${v.peg ?? "—"}</span></div>
           <div class="vm"><span class="vm-l">市值</span><span class="vm-v">${v.mcap_yi != null ? v.mcap_yi + "亿" : "—"}</span></div>
-          <div class="vm"><span class="vm-l">主力净流入</span><span class="vm-v ${sgn(f.netInflow)}">${fmtYi(f.netInflow)}</span></div>
+          <div class="vm"><span class="vm-l">主力净流入</span><span class="vm-v ${sgn(f.netInflow)}">${f.available === false ? "接口暂不可用" : fmtYi(f.netInflow)}</span></div>
           <div class="vm"><span class="vm-l">换手率</span><span class="vm-v">${f.turnover != null ? f.turnover + "%" : "—"}</span></div>
         </div>
         ${analysisHtml}
@@ -1592,51 +1620,86 @@
       </article>`;
     }).join("");
 
-    el.innerHTML = secTitle("持仓决策", `${cfgList.length} 只持仓`) + addBtn + `<div class="hold-grid">${cards}</div>`;
+    const watchCards = watchList.map((item) => {
+      const quote = hMap[item.code] || {};
+      const screened = screenMap[item.code] || {};
+      const signal = screened.signal || {};
+      const screen = screened.screen || { status: "待刷新", tone: "neutral", reason: "添加后尚未生成筛选快照" };
+      const change = signal.chgPct ?? (quote.price != null && quote.lastClose ? (quote.price / quote.lastClose - 1) * 100 : null);
+      return `<article class="watch-row" data-status="${esc(screen.status)}">
+        <div class="watch-identity"><strong>${esc(item.name || quote.name || item.code)}</strong><span>${esc(item.code)}</span></div>
+        <div class="watch-quote"><strong>¥${signal.price ?? quote.price ?? "—"}</strong>${change != null ? `<span class="chg ${sgn(change)}">${pct(change)}</span>` : ""}</div>
+        <div class="watch-signal"><span class="screen-badge ${esc(screen.tone)}">${esc(screen.status)}</span><span>${esc(screen.reason)}</span></div>
+        <div class="watch-state"><span>${esc(signal.trend || "趋势待刷新")}</span><span>${esc(signal.leftState || "左侧信号待刷新")}</span><span>${esc(signal.rightState || "右侧信号待刷新")}</span></div>
+        <button class="pf-del-btn" data-scope="watch" data-code="${esc(item.code)}" data-name="${esc(item.name)}">删自选</button>
+      </article>`;
+    }).join("");
+    const watchSection = `<section class="watch-section"><div class="watch-head"><div><h3>自选筛选</h3><span>规则复用现有左侧 / 右侧 / 趋势信号，行情截至 ${esc(screenData.date || "待刷新")}</span></div><div class="watch-filters" role="group" aria-label="自选筛选"><button class="active" data-filter="全部">全部 ${watchList.length}</button><button data-filter="重点关注">重点关注</button><button data-filter="接近触发">接近触发</button><button data-filter="继续观察">继续观察</button><button data-filter="风险回避">风险回避</button></div></div><details class="screen-rules"><summary>查看筛选规则</summary><ol>${(screenData.rules || ["保存后自动刷新行情并生成筛选结果"]).map((rule) => `<li>${esc(rule)}</li>`).join("")}</ol></details><div class="watch-table">${watchCards || emptyState("暂无自选")}</div></section>`;
+
+    el.innerHTML = secTitle("持仓决策", `${cfgList.length} 只持仓 · ${watchList.length} 只自选`) + addBtn + (cfgList.length ? `<div class="hold-grid">${cards}</div>` : "") + watchSection;
     bindPfAdd(el);
     bindPfDel(el);
+    bindPfRefresh(el);
+    bindWatchFilters(el);
   }
 
   // 加持仓表单
   function bindPfAdd(el) {
-    const btn = el.querySelector("#pfAddBtn");
-    if (!btn) return;
-    btn.addEventListener("click", () => {
+    const openForm = (scope) => {
       const existing = el.querySelector("#pfAddForm");
       if (existing) { existing.remove(); return; }
+      const isWatch = scope === "watch";
       const form = document.createElement("div");
       form.id = "pfAddForm";
       form.className = "pf-add-form";
       form.innerHTML = `
         <input class="pf-input" id="pfCode" placeholder="股票代码（如 605117）" maxlength="6" />
         <input class="pf-input" id="pfName" placeholder="股票名称（如 德业股份）" />
-        <input class="pf-input" id="pfBuy" type="number" step="0.01" placeholder="买入价（可选）" />
-        <input class="pf-input" id="pfShares" type="number" placeholder="股数（可选）" />
-        <input class="pf-input" id="pfWeight" type="number" step="0.01" min="0" max="1" placeholder="仓位 0-1（可选）" />
+        ${isWatch ? "" : `<input class="pf-input" id="pfBuy" type="number" step="0.01" placeholder="买入价（可选）" /><input class="pf-input" id="pfShares" type="number" placeholder="股数（可选）" /><input class="pf-input" id="pfWeight" type="number" step="0.01" min="0" max="1" placeholder="仓位 0-1（可选）" />`}
         <input class="pf-input" id="pfNote" placeholder="备注（可选）" />
         <div class="pf-form-actions">
           <button class="pf-cancel" id="pfCancel">取消</button>
-          <button class="pf-save" id="pfSave">添加</button>
+          <button class="pf-save" id="pfSave">添加${isWatch ? "自选" : "持仓"}</button>
         </div>`;
-      btn.after(form);
+      el.querySelector(".pf-toolbar").after(form);
+      const codeInput = el.querySelector("#pfCode");
+      codeInput.focus();
+      codeInput.addEventListener("input", () => {
+        const ref = getStockReferenceIndex().get(codeInput.value.trim());
+        const nameInput = el.querySelector("#pfName");
+        if (ref?.name && !nameInput.value.trim()) nameInput.value = ref.name;
+      });
       el.querySelector("#pfCancel").addEventListener("click", () => form.remove());
       el.querySelector("#pfSave").addEventListener("click", async () => {
         const code = el.querySelector("#pfCode").value.trim();
         const name = el.querySelector("#pfName").value.trim();
         if (!code || !/^\d{6}$/.test(code)) { portfolioToast("请输入 6 位股票代码", "error"); return; }
         if (!name) { portfolioToast("请输入股票名称", "error"); return; }
-        if ((PORTFOLIO_CFG?.holdings || []).some((h) => h.code === code)) { portfolioToast("该股票已在持仓中", "error"); return; }
-        const buy = parseFloat(el.querySelector("#pfBuy").value) || null;
-        const shares = parseInt(el.querySelector("#pfShares").value) || null;
-        const weight = parseFloat(el.querySelector("#pfWeight").value) || null;
+        if ([...(PORTFOLIO_CFG?.holdings || []), ...(PORTFOLIO_CFG?.watchlist || [])].some((h) => h.code === code)) { portfolioToast("该股票已在持仓或自选中", "error"); return; }
         const note = el.querySelector("#pfNote").value.trim();
         const data = { ...PORTFOLIO_CFG };
-        data.holdings = [...(data.holdings || []), { code, name, buyPrice: buy, shares, weight, note, addedAt: new Date().toISOString().slice(0, 10) }];
+        if (isWatch) {
+          data.watchlist = [...(data.watchlist || []), { code, name, note, addedAt: new Date().toISOString().slice(0, 10) }];
+        } else {
+          const buy = parseFloat(el.querySelector("#pfBuy").value) || null;
+          const shares = parseInt(el.querySelector("#pfShares").value) || null;
+          const weight = parseFloat(el.querySelector("#pfWeight").value) || null;
+          data.holdings = [...(data.holdings || []), { code, name, buyPrice: buy, shares, weight, note, addedAt: new Date().toISOString().slice(0, 10) }];
+        }
         const r = await savePortfolio(data);
-        if (r.ok) { portfolioToast(r.msg || "持仓已添加", "success"); renderHoldings(); }
-        else portfolioToast(r.msg || "保存失败", "error");
+        if (!r.ok) { portfolioToast(r.msg || "保存失败", "error"); return; }
+        portfolioToast(`已添加${isWatch ? "自选" : "持仓"}，正在更新行情和筛选…`, "success");
+        form.remove();
+        el.setAttribute("aria-busy", "true");
+        const refreshButton = el.querySelector("#pfRefreshBtn");
+        if (refreshButton) { refreshButton.disabled = true; refreshButton.textContent = "正在更新…"; }
+        const refreshed = await refreshPortfolioData();
+        if (refreshed.ok) location.reload();
+        else { el.removeAttribute("aria-busy"); portfolioToast(refreshed.msg, "error"); renderHoldings(); }
       });
-    });
+    };
+    el.querySelector("#pfAddBtn")?.addEventListener("click", () => openForm("holding"));
+    el.querySelector("#pfWatchBtn")?.addEventListener("click", () => openForm("watch"));
   }
 
   // 删持仓
@@ -1648,12 +1711,34 @@
         const name = btn.dataset.name;
         if (!confirm(`确认删除 ${name}(${code})？`)) return;
         const data = { ...PORTFOLIO_CFG };
-        data.holdings = (data.holdings || []).filter((h) => h.code !== code);
+        if (btn.dataset.scope === "watch") data.watchlist = (data.watchlist || []).filter((h) => h.code !== code);
+        else data.holdings = (data.holdings || []).filter((h) => h.code !== code);
         const r = await savePortfolio(data);
-        if (r.ok) { portfolioToast(r.msg || "持仓已删除", "success"); renderHoldings(); }
+        if (r.ok) { portfolioToast(btn.dataset.scope === "watch" ? "自选已删除" : "持仓已删除", "success"); renderHoldings(); }
         else portfolioToast(r.msg || "删除失败", "error");
       });
     });
+  }
+
+  function bindPfRefresh(el) {
+    el.querySelector("#pfRefreshBtn")?.addEventListener("click", async (event) => {
+      const btn = event.currentTarget;
+      btn.disabled = true;
+      btn.textContent = "刷新中…";
+      const result = await refreshPortfolioData();
+      if (result.ok) location.reload();
+      else { btn.disabled = false; btn.textContent = "刷新筛选"; portfolioToast(result.msg, "error"); }
+    });
+  }
+
+  function bindWatchFilters(el) {
+    const buttons = el.querySelectorAll(".watch-filters button");
+    buttons.forEach((button) => button.addEventListener("click", () => {
+      buttons.forEach((item) => item.classList.toggle("active", item === button));
+      el.querySelectorAll(".watch-row").forEach((row) => {
+        row.hidden = button.dataset.filter !== "全部" && row.dataset.status !== button.dataset.filter;
+      });
+    }));
   }
 
   /* ---------- 3. 机会清单 ---------- */
@@ -1877,7 +1962,8 @@
           <div class="sd-foot">数据时点 ${esc(d.asof || "")} · 仅供研究参考,非投资建议</div>
         </article>`;
       }).join("");
-      const ranking = INDUSTRY_MARKET?.top?.length ? `<section class="card blk"><h3 class="blk-h">今日行业涨幅前 ${INDUSTRY_MARKET.top.length}</h3><div class="ind-list">${INDUSTRY_MARKET.top.map(rowHtml).join("")}</div></section>` : "";
+      const sourceNote = INDUSTRY_MARKET?.source === "market-snapshot-fallback" ? ` · 异动样本 ${INDUSTRY_MARKET.coverage || 0} 只（非全市场）` : "";
+      const ranking = INDUSTRY_MARKET?.top?.length ? `<section class="card blk"><h3 class="blk-h">今日行业涨幅前 ${INDUSTRY_MARKET.top.length}<span class="pf-updated">${sourceNote}</span></h3><div class="ind-list">${INDUSTRY_MARKET.top.map(rowHtml).join("")}</div></section>` : "";
       el.innerHTML = secTitle("产业雷达", `供需紧张 / 涨价方向调研 · ${esc(INDUSTRY.date || "")}`) +
         (INDUSTRY.summary ? summaryHtml(INDUSTRY.summary) : "") +
         `<div class="sd-grid-cards">${cards}</div>${ranking}`;
@@ -1885,7 +1971,8 @@
       return;
     }
     // AI 调研暂缺时，仍展示独立的行业涨跌排名。
-    el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY_MARKET.total || 0} 个行业`) +
+    const sourceNote = INDUSTRY_MARKET?.source === "market-snapshot-fallback" ? ` · 异动样本 ${INDUSTRY_MARKET.coverage || 0} 只（非全市场）` : "";
+    el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY_MARKET.total || 0} 个行业${sourceNote}`) +
       `<div class="ind-cols"><section class="card blk"><h3 class="blk-h">涨幅前 ${(INDUSTRY_MARKET.top||[]).length}</h3><div class="ind-list">${(INDUSTRY_MARKET.top||[]).map(rowHtml).join("")}</div></section></div>`;
   }
 

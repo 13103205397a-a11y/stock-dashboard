@@ -39,7 +39,7 @@ jobs:
           python-version: "3.11"
 
       - name: 安装 Python 依赖
-        run: pip install --quiet requests numpy pandas mootdx
+        run: pip install --quiet requests numpy pandas mootdx lxml
 
       - name: 抓取日K(腾讯前复权)
         run: bash scripts/fetch_klines.sh

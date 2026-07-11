@@ -6,6 +6,7 @@ import sys
 import tempfile
 import threading
 import unittest
+from unittest import mock
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -66,10 +67,12 @@ class AppServerTest(unittest.TestCase):
         valid = {
             "updated": "2026-07-10",
             "holdings": [{"code": "600000", "name": "浦发银行", "shares": 100}],
+            "watchlist": [{"code": "000001", "name": "平安银行"}],
         }
         status, body = self.request("/api/portfolio", valid)
         self.assertEqual(status, 200)
         self.assertEqual(json.loads(body)["data"]["holdings"][0]["code"], "600000")
+        self.assertEqual(json.loads(body)["data"]["watchlist"][0]["code"], "000001")
 
         invalid = {"holdings": [{"code": "600000", "name": "A", "weight": 2}]}
         status, body = self.request("/api/portfolio", invalid)
@@ -85,6 +88,17 @@ class AppServerTest(unittest.TestCase):
             app_server._validate_portfolio({"holdings": [
                 {"code": "600000", "name": "A", "buyPrice": math.nan},
             ]})
+        with self.assertRaisesRegex(ValueError, "已在持仓"):
+            app_server._validate_portfolio({
+                "holdings": [{"code": "600000", "name": "A"}],
+                "watchlist": [{"code": "600000", "name": "A"}],
+            })
+
+    def test_portfolio_refresh_endpoint_reports_completion(self):
+        with mock.patch.object(app_server, "_run_portfolio_refresh", return_value="done"):
+            status, body = self.request("/api/portfolio/refresh", {})
+        self.assertEqual(status, 200)
+        self.assertTrue(json.loads(body)["ok"])
 
 
 if __name__ == "__main__":

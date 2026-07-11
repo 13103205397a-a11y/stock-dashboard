@@ -42,6 +42,7 @@ ALLOWED_ORIGINS = {
 }
 MAX_PORTFOLIO_BYTES = 64 * 1024
 PORTFOLIO_FIELDS = {"code", "name", "buyPrice", "shares", "weight", "note", "addedAt"}
+WATCHLIST_FIELDS = {"code", "name", "note", "addedAt"}
 REFRESH_PLAN_PATH = os.path.join(HERE, "scripts", "refresh_plan.json")
 PUBLIC_FILES_PATH = os.path.join(HERE, "public_files.json")
 
@@ -104,13 +105,16 @@ def _env_with_iwencai():
 
 
 def _validate_portfolio(data):
-    """校验持仓配置，只允许前端需要的字段落盘。"""
+    """校验持仓/自选配置，只允许前端需要的字段落盘。"""
     if not isinstance(data, dict) or not isinstance(data.get("holdings"), list):
         raise ValueError("数据格式错误，需 {holdings: [...]}")
     updated = str(data.get("updated") or "")[:10]
     if updated and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", updated):
         raise ValueError("updated 必须是 YYYY-MM-DD 日期")
-    out = {"updated": updated, "holdings": []}
+    watchlist = data.get("watchlist", [])
+    if not isinstance(watchlist, list):
+        raise ValueError("watchlist 必须是数组")
+    out = {"updated": updated, "holdings": [], "watchlist": []}
     seen = set()
     for item in data["holdings"]:
         if not isinstance(item, dict):
@@ -146,7 +150,43 @@ def _validate_portfolio(data):
         if clean.get("note") is not None:
             clean["note"] = str(clean["note"])[:200]
         out["holdings"].append(clean)
+    for item in watchlist:
+        if not isinstance(item, dict):
+            raise ValueError("自选条目格式错误")
+        code = str(item.get("code") or "").strip()
+        name = str(item.get("name") or "").strip()
+        if not code.isdigit() or len(code) != 6:
+            raise ValueError("股票代码必须是 6 位数字")
+        if not name or len(name) > 40:
+            raise ValueError("股票名称不能为空且不能超过 40 个字符")
+        if code in seen:
+            raise ValueError(f"股票代码重复或已在持仓中: {code}")
+        seen.add(code)
+        clean = {k: item[k] for k in WATCHLIST_FIELDS if k in item}
+        clean.update(code=code, name=name)
+        added_at = str(clean.get("addedAt") or "")
+        if added_at and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", added_at):
+            raise ValueError("addedAt 必须是 YYYY-MM-DD 日期")
+        if clean.get("note") is not None:
+            clean["note"] = str(clean["note"])[:200]
+        out["watchlist"].append(clean)
     return out
+
+
+def _run_portfolio_refresh():
+    """刷新私有持仓行情与筛选快照；不启动全站刷新。"""
+    proc = subprocess.run(
+        [sys.executable, os.path.join(HERE, "scripts", "refresh_portfolio.py")],
+        cwd=HERE,
+        env=_env_with_iwencai(),
+        capture_output=True,
+        text=True,
+        timeout=240,
+    )
+    log = (proc.stdout + "\n" + proc.stderr).strip()[-4000:]
+    if proc.returncode:
+        raise RuntimeError(log or "持仓数据刷新失败")
+    return log
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -214,6 +254,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if parsed.path == "/api/portfolio":
             self._handle_portfolio_post()
             return
+        if parsed.path == "/api/portfolio/refresh":
+            self._handle_portfolio_refresh()
+            return
         self.send_error(404)
 
     def _handle_portfolio_get(self):
@@ -224,7 +267,16 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 data = json.load(f)
             self._json({"ok": True, "data": data})
         except FileNotFoundError:
-            self._json({"ok": True, "data": {"updated": "", "holdings": []}})
+            self._json({"ok": True, "data": {"updated": "", "holdings": [], "watchlist": []}})
+        except Exception as e:
+            self._json({"ok": False, "msg": str(e)}, status=500)
+
+    def _handle_portfolio_refresh(self):
+        try:
+            log = _run_portfolio_refresh()
+            self._json({"ok": True, "msg": "行情与筛选已更新", "log": log})
+        except subprocess.TimeoutExpired:
+            self._json({"ok": False, "msg": "刷新超时，请稍后重试"}, status=504)
         except Exception as e:
             self._json({"ok": False, "msg": str(e)}, status=500)
 

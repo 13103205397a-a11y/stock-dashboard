@@ -21,6 +21,7 @@
   ],
   "localOptional": [
     "holdings.js",
-    "portfolio_analysis.js"
+    "portfolio_analysis.js",
+    "portfolio_signals.js"
   ]
 }

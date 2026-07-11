@@ -59,6 +59,13 @@
       "localPrivate": true
     },
     {
+      "name": "计算持仓自选筛选",
+      "command": ["node", "scripts/fetch_portfolio_signals.js"],
+      "timeout": 300,
+      "required": false,
+      "localPrivate": true
+    },
+    {
       "name": "同步Hermes复盘",
       "command": ["python3", "scripts/fetch_hermes.py"],
       "timeout": 300,

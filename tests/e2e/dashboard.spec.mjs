@@ -100,3 +100,21 @@ test("新闻摘要可展开，公告股票代码可打开详情", async ({ page 
   await stockButton.click();
   await expect(page.locator("#drawer")).toHaveClass(/show/);
 });
+
+test("自选支持添加、自动刷新后展示和删除", async ({ page }) => {
+  let portfolio = { updated: "2026-07-11", holdings: [], watchlist: [] };
+  await page.route(/\/api\/portfolio$/, async (route) => {
+    if (route.request().method() === "POST") portfolio = JSON.parse(route.request().postData() || "{}");
+    await route.fulfill({ json: { ok: true, data: portfolio, msg: "已保存" } });
+  });
+  await page.route(/\/api\/portfolio\/refresh$/, (route) => route.fulfill({ json: { ok: true, msg: "已更新" } }));
+  await page.goto("/index.html#holdings", { waitUntil: "networkidle" });
+  await page.locator("#pfWatchBtn").click();
+  await page.locator("#pfCode").fill("000001");
+  await page.locator("#pfName").fill("平安银行");
+  await page.locator("#pfSave").click();
+  await expect(page.locator(".watch-row")).toContainText("平安银行");
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.locator('.pf-del-btn[data-scope="watch"]').click();
+  await expect(page.locator(".watch-row")).toHaveCount(0);
+});

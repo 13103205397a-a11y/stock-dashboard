@@ -1144,6 +1144,10 @@ a.hc-news:hover { color: var(--accent-d); }
 .pf-add-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; color: var(--accent-d); background: var(--accent-s); border: 1px solid var(--accent-l); border-radius: var(--r-sm); padding: 7px 14px; cursor: pointer; transition: all .15s; font-family: var(--mono); letter-spacing: .3px; }
 .pf-add-btn:hover { background: rgba(184,92,31,.15); border-color: var(--accent); }
 .pf-add-btn svg { width: 14px; height: 14px; }
+.pf-add-btn.secondary { color: var(--ink); background: var(--bg-2); border-color: var(--line-2); }
+.pf-refresh-btn { margin-left: auto; padding: 7px 12px; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--card); color: var(--muted); font: 600 12px var(--mono); cursor: pointer; }
+.pf-refresh-btn:hover { color: var(--ink); border-color: var(--line-2); }
+.pf-refresh-btn:disabled { opacity: .55; cursor: wait; }
 .pf-updated { font-size: 11px; color: var(--dim); font-family: var(--mono); letter-spacing: .3px; }
 
 /* 加持仓表单 */
@@ -1178,8 +1182,15 @@ a.hc-news:hover { color: var(--accent-d); }
 .pf-an-score b { color: var(--ink); font-size: 14px; }
 .pf-an-updated { font-size: 10px; color: var(--dim); font-family: var(--mono); margin-left: auto; letter-spacing: .3px; }
 .pf-an-summary { font-size: 14px; color: var(--ink); font-weight: 600; line-height: 1.6; margin-bottom: var(--s-3); padding: var(--s-2) var(--s-3); background: var(--card); border-left: 3px solid var(--accent); border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+.pf-an-details { margin: var(--s-3) 0; border-block: 1px solid var(--line); }
+.pf-an-details > summary, .screen-rules > summary { padding: 9px 0; color: var(--muted); font: 600 12px var(--mono); cursor: pointer; }
+.pf-an-details[open] > summary { color: var(--ink); margin-bottom: var(--s-2); }
 .pf-an-sec { display: grid; grid-template-columns: 92px 1fr; gap: var(--s-3); align-items: start; margin: var(--s-2) 0; }
 .pf-an-sec.pf-an-action { background: var(--card); padding: var(--s-3); border-radius: var(--r-sm); border: 1px solid var(--accent-l); }
+.pf-action-lead { margin: 0; color: var(--ink); font-size: 13px; line-height: 1.65; }
+.pf-action-details { margin-top: 8px; border-top: 1px solid var(--line); }
+.pf-action-details > summary { padding: 8px 0 2px; color: var(--muted); font: 600 11px var(--mono); cursor: pointer; }
+.pf-action-details .sd-field-list { margin-top: 9px; }
 .pf-an-sec .sd-field-list .sum-txt { font-size: 14px; line-height: 1.7; }
 /* 买卖点 */
 .pf-an-points { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px solid var(--line); }
@@ -1194,12 +1205,47 @@ a.hc-news:hover { color: var(--accent-d); }
 .pf-toast.success { border-color: var(--ok); color: var(--ok); }
 .pf-toast.error { border-color: var(--down); color: var(--down); }
 
+/* 自选筛选：桌面保持表格式密度，移动端转为可扫描的纵向行。 */
+.watch-section { margin-top: var(--s-5); border-top: 1px solid var(--line-2); padding-top: var(--s-4); }
+.watch-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-4); margin-bottom: var(--s-3); }
+.watch-head h3 { margin: 0 0 4px; font-size: 15px; color: var(--ink); }
+.watch-head > div > span { font-size: 11px; color: var(--dim); font-family: var(--mono); }
+.watch-filters { display: flex; flex-wrap: wrap; gap: 4px; }
+.watch-filters button { padding: 6px 9px; border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 3px; font: 600 11px var(--mono); cursor: pointer; }
+.watch-filters button.active { color: var(--ink); background: var(--bg-2); border-color: var(--accent); }
+.screen-rules { margin-bottom: var(--s-3); }
+.screen-rules ol { margin: 0 0 var(--s-2) 20px; color: var(--muted); font-size: 12px; line-height: 1.75; }
+.watch-table { border: 1px solid var(--line); border-radius: var(--r-sm); overflow: hidden; }
+.watch-row { display: grid; grid-template-columns: 130px 100px minmax(210px, .9fr) minmax(300px, 1.4fr) auto; align-items: center; gap: var(--s-3); min-height: 68px; padding: 10px 12px; background: var(--card); border-bottom: 1px solid var(--line); }
+.watch-row:last-child { border-bottom: 0; }
+.watch-row:hover { background: var(--bg-2); }
+.watch-identity, .watch-quote, .watch-signal, .watch-state { display: flex; min-width: 0; }
+.watch-identity, .watch-quote { flex-direction: column; gap: 3px; }
+.watch-identity strong, .watch-quote strong { color: var(--ink); font-size: 14px; }
+.watch-identity span { color: var(--dim); font: 11px var(--mono); }
+.watch-signal { align-items: center; gap: 8px; font-size: 12px; color: var(--muted); line-height: 1.45; }
+.screen-badge { flex: 0 0 auto; padding: 3px 7px; border-radius: 3px; border: 1px solid var(--line); font: 700 11px var(--mono); }
+.screen-badge.up { color: var(--up); border-color: color-mix(in srgb, var(--up) 35%, transparent); }
+.screen-badge.warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
+.screen-badge.down { color: var(--down); border-color: color-mix(in srgb, var(--down) 35%, transparent); }
+.watch-state { flex-direction: column; gap: 3px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+.watch-state span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 @media (max-width: 720px) {
+  .pf-toolbar { flex-wrap: wrap; }
+  .pf-refresh-btn { margin-left: 0; }
+  .pf-updated { width: 100%; }
   .pf-add-form { grid-template-columns: 1fr 1fr; }
   .pf-form-actions { grid-column: 1 / -1; justify-content: flex-end; }
   .pf-an-sec { grid-template-columns: 1fr; gap: var(--s-1); }
   .pf-an-sec .sd-l { margin-bottom: 2px; }
   .hc-foot { flex-direction: column; align-items: flex-start; gap: var(--s-2); }
+  .watch-head { flex-direction: column; }
+  .watch-row { grid-template-columns: 1fr auto; gap: 8px 12px; padding: 12px; }
+  .watch-quote { text-align: right; }
+  .watch-signal, .watch-state { grid-column: 1 / -1; }
+  .watch-state span { white-space: normal; }
+  .watch-row .pf-del-btn { grid-column: 2; grid-row: 3; align-self: end; }
 }
 
 /* ============ 周末发酵 ============ */

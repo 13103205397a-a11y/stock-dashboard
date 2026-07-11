@@ -18,6 +18,7 @@ app/icon_assets/AppIcon.iconset/
 portfolio.json
 holdings.js
 portfolio_analysis.js
+portfolio_signals.js
 
 # 小红书卡片生成临时文件
 xhs/output/

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """持仓决策数据 → 写回 holdings.js (window.HOLDINGS)。
 
-按本机 portfolio.json 中的持仓采集:
+按本机 portfolio.json 中的持仓与自选采集:
   - 实时行情(价格/涨跌幅/换手)
   - 估值面板(PE/PEG/市值/EPS/机构覆盖)
   - 资金流向(主力净流入)
@@ -30,16 +30,18 @@ TODAY = datetime.now().strftime("%Y-%m-%d")
 
 
 def load_portfolio():
-    """读取 portfolio.json 持仓配置；不存在时返回空列表，避免默认持仓泄露。"""
+    """读取 portfolio.json；给每只股票标明持仓或自选来源。"""
     pf = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "portfolio.json")
     if os.path.exists(pf):
         try:
             with open(pf, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            codes = [h["code"] for h in data.get("holdings", []) if h.get("code")]
-            if codes:
-                print(f"  [portfolio.json] 读取 {len(codes)} 只持仓: {codes}", flush=True)
-                return codes
+            entries = []
+            entries.extend({"code": h["code"], "scope": "holding"} for h in data.get("holdings", []) if h.get("code"))
+            entries.extend({"code": h["code"], "scope": "watch"} for h in data.get("watchlist", []) if h.get("code"))
+            if entries:
+                print(f"  [portfolio.json] 读取 {len(entries)} 只持仓/自选: {[x['code'] for x in entries]}", flush=True)
+                return entries
         except Exception as e:
             print(f"  [WARN] portfolio.json 解析失败，跳过持仓刷新: {e}", flush=True)
     return []
@@ -53,7 +55,18 @@ def safe(fn, *args, default=None, **kw):
         return default
 
 
-def build_one(code):
+def market_date():
+    """技术筛选的日 K 日期是权威交易日，避免周末把自然日写成行情日。"""
+    path = os.path.join(PROJ, "portfolio_signals.js")
+    try:
+        text = open(path, encoding="utf-8").read()
+        marker = "window.PORTFOLIO_SIGNALS = "
+        return json.loads(text[text.index(marker) + len(marker):].rsplit(";", 1)[0]).get("date") or TODAY
+    except Exception:
+        return TODAY
+
+
+def build_one(code, scope, quote_date):
     """采集单只持仓的全维度数据。"""
     # 1. 实时行情
     q = safe(a.tencent_quote, [code], default={})
@@ -79,7 +92,12 @@ def build_one(code):
     net_inflow = None
     if flow:
         net_inflow = round((flow[-1].get("main_net", 0) or 0) / 1e8, 2)
-    fund = {"netInflow": net_inflow, "turnover": qd.get("turnover_pct"), "date": TODAY}
+    fund = {
+        "netInflow": net_inflow,
+        "turnover": qd.get("turnover_pct"),
+        "date": quote_date,
+        "available": net_inflow is not None,
+    }
     # 4. 研报
     reps = safe(a.eastmoney_reports, code, default=[])
     research = []
@@ -96,6 +114,7 @@ def build_one(code):
     industry = qd.get("industry") or (concept[0] if concept else "")
     return {
         "code": code,
+        "scope": scope,
         "name": qd.get("name", ""),
         "price": qd.get("price"),
         "lastClose": qd.get("last_close"),
@@ -110,13 +129,15 @@ def build_one(code):
 def main():
     print(f"采集持仓数据 ({TODAY})...", flush=True)
     time.sleep(1)
-    codes = load_portfolio()
+    entries = load_portfolio()
+    quote_date = market_date()
     items = []
-    for code in codes:
+    for entry in entries:
+        code, scope = entry["code"], entry["scope"]
         print(f"  → {code}", flush=True)
-        items.append(build_one(code))
+        items.append(build_one(code, scope, quote_date))
         time.sleep(1.2)
-    data = {"date": TODAY, "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "list": items}
+    data = {"date": quote_date, "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "list": items}
     content = (
         "/* 持仓决策数据（本地 portfolio.json 私有生成）\n"
         f" * 由 scripts/fetch_holdings.py 生成（a-stock-pro,免 key）\n"
