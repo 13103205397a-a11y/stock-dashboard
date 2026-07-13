@@ -1,12 +1,12 @@
 /* 产业雷达数据：行业板块涨跌排名
  * 由 scripts/fetch_industry.py 生成（a-stock-pro,免 key）
- * 时点: 2026-07-13 11:47:46
+ * 时点: 2026-07-13 12:47:53
  * 仅供研究参考,非投资建议。
  */
 window.INDUSTRY_MARKET = {
   "schemaVersion": 1,
   "date": "2026-07-13",
-  "generatedAt": "2026-07-13 11:47:46",
+  "generatedAt": "2026-07-13 12:47:53",
   "top": [
     {
       "name": "中药Ⅱ",
