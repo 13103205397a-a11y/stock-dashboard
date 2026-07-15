@@ -41,6 +41,14 @@ def sanitize_file(path: Path) -> bool:
 
 def main() -> int:
     changed = [name for name in FILES if sanitize_file(ROOT / name)]
+    # data.js 是多个采集器共同写入的公开数据，校验前必须全量兜底，
+    # 不能只依赖某一个新闻入口的清洗。
+    from _dataio import DataLock, load_stocks, sanitize_stock_news, write_stocks
+    with DataLock():
+        stocks = load_stocks()
+        if sanitize_stock_news(stocks):
+            write_stocks(stocks)
+            changed.append("data.js")
     print("AI 内容清理: " + (", ".join(changed) if changed else "无需修改"))
     return 0
 

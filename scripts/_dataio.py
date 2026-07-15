@@ -27,6 +27,43 @@ _LOCK_TIMEOUT = 30   # 秒
 _LOCK_POLL = 0.2     # 秒
 
 
+def sanitize_square_brackets(text):
+    """修复「【】」截断：移除无左括号的右括号，并补齐未闭合的左括号。"""
+    if not isinstance(text, str) or not text:
+        return text
+    out = []
+    depth = 0
+    for char in text:
+        if char == "【":
+            depth += 1
+            out.append(char)
+        elif char == "】":
+            if depth > 0:
+                depth -= 1
+                out.append(char)
+        else:
+            out.append(char)
+    if depth:
+        out.extend("】" * depth)
+    return "".join(out)
+
+
+def sanitize_stock_news(stocks):
+    """在统一写盘层清理新闻文本，防止任一采集源绕过入口校验。"""
+    changed = 0
+    for stock in stocks if isinstance(stocks, list) else []:
+        for item in stock.get("news", []) if isinstance(stock, dict) else []:
+            if not isinstance(item, dict):
+                continue
+            for key in ("title", "summary", "content"):
+                original = item.get(key)
+                cleaned = sanitize_square_brackets(original)
+                if cleaned != original:
+                    item[key] = cleaned
+                    changed += 1
+    return changed
+
+
 def _pid_alive(pid):
     """PID 对应进程是否仍在运行（os.kill(pid, 0) 探活）。"""
     if not pid:
@@ -110,6 +147,7 @@ def load_stocks():
 
 def write_stocks(stocks):
     """原子写回 data.js（保留头部注释与其他 window.* 字段）。"""
+    sanitize_stock_news(stocks)
     txt = open(DATA, encoding="utf-8").read()
     brace, end = _slice_stocks_array(txt)
     new_txt = txt[:brace] + json.dumps(stocks, ensure_ascii=False, indent=2) + txt[end:]

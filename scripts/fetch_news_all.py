@@ -58,8 +58,19 @@ def sanitize_cjk_brackets(text):
             t = t + ("）" * depth)
     square_open = t.count("【")
     square_close = t.count("】")
-    if square_open > square_close:
-        t = t + ("】" * (square_open - square_close))
+    if square_open or square_close:
+        out, depth = [], 0
+        for ch in t:
+            if ch == "【":
+                depth += 1
+                out.append(ch)
+            elif ch == "】":
+                if depth > 0:
+                    depth -= 1
+                    out.append(ch)
+            else:
+                out.append(ch)
+        t = "".join(out) + ("】" * depth)
     return t
 
 
