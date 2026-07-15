@@ -19,6 +19,7 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from _dataio import DataLock, load_stocks, write_stocks
+from fetch_news_all import sanitize_news_item
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.dirname(HERE)
@@ -85,13 +86,13 @@ def fetch_search_news(name):
         items = data.get("result", {}).get("cmsArticleWebOld", []) or []
         for it in items:
             title = (it.get("title") or "").strip()
-            out.append({
+            out.append(sanitize_news_item({
                 "title": title,
                 "date": it.get("date", ""),
                 "source": it.get("mediaName", "东方财富"),
                 "url": it.get("url", ""),
                 "content": (it.get("content") or "").strip()[:200],
-            })
+            }))
     except Exception:
         pass
     return out
@@ -113,11 +114,11 @@ def fetch_announcements(code):
         for it in items[:5]:
             title = (it.get("title") or "").strip()
             date = (it.get("notice_date") or "")[:10]
-            out.append({
+            out.append(sanitize_news_item({
                 "title": title, "date": date, "source": "公司公告",
                 "url": f"https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list={code}",
                 "content": "",
-            })
+            }))
     except Exception:
         pass
     return out

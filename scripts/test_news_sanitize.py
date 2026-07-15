@@ -4,10 +4,12 @@
 import os
 import sys
 import unittest
+from unittest import mock
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from fetch_news_all import sanitize_cjk_brackets, sanitize_news_item  # noqa: E402
+from fetch_news import fetch_one  # noqa: E402
 
 
 class TestNewsSanitize(unittest.TestCase):
@@ -31,6 +33,13 @@ class TestNewsSanitize(unittest.TestCase):
     def test_news_item(self):
         item = sanitize_news_item({"title": "正常", "summary": "可能性很大（红色"})
         self.assertEqual(item["summary"], "可能性很大")
+
+    def test_stock_news_pipeline_sanitizes_incomplete_square_brackets(self):
+        item = {"title": "正常新闻", "date": "2026-07-15", "content": "内容【未完", "source": "test", "url": ""}
+        with mock.patch("fetch_news.fetch_search_news", return_value=[sanitize_news_item(item)]), \
+             mock.patch("fetch_news.fetch_announcements", return_value=[]):
+            _, _, news = fetch_one("600000", "浦发银行")
+        self.assertEqual(news[0]["content"], "内容【未完】")
 
 
 if __name__ == "__main__":
