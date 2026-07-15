@@ -160,6 +160,27 @@ def extract_from_session(session):
     return None, ""
 
 
+def session_failure_reason(session):
+    """识别 Hermes 表面成功但实际未执行的会话。"""
+    text = "\n".join(
+        _content_to_str(message.get("content", ""))
+        for message in (session or {}).get("messages", [])
+        if message.get("role") == "assistant"
+    )
+    patterns = [
+        r"未找到\s+agent/weekend_ferment\.md",
+        r"provider quota limit",
+        r"fallback chain was exhausted",
+        r"HTTP\s*429",
+        r"monthly usage quota",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, text, re.I)
+        if match:
+            return match.group(0)
+    return ""
+
+
 def find_weekend_session(sessions):
     """在 sessions 列表里找标题命中关键词的最近一条。"""
     for s in sessions:
@@ -216,6 +237,11 @@ def main():
     if not session:
         print("[fetch_weekend] 获取 session 详情失败，跳过", flush=True)
         return
+
+    failure = session_failure_reason(session)
+    if failure:
+        print(f"[fetch_weekend] Hermes 任务实际失败：{failure}", file=sys.stderr, flush=True)
+        raise SystemExit(1)
 
     data, snippet = extract_from_session(session)
     if not data:

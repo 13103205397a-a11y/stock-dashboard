@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: stock-dashboard-refresh-${{ github.ref }}
@@ -78,7 +79,10 @@ jobs:
           fi
 
       - name: 校验公开数据结构
-        run: node scripts/validate_data.js
+        run: |
+          python3 scripts/sanitize_ai_content.py
+          node scripts/validate_data.js
+          node scripts/check_freshness.js --strict
 
       - name: 提交并推送(仅在有变化时)
         run: |
@@ -94,4 +98,19 @@ jobs:
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
             echo "已推送行情更新。"
+          fi
+
+      - name: 刷新失败告警
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="自动行情刷新失败"
+          body="自动行情刷新在 $(TZ=Asia/Shanghai date '+%F %T') 失败。运行记录：${RUN_URL}"
+          issue_number="$(gh issue list --state open --search "${title} in:title" --json number --jq '.[0].number // empty')"
+          if [ -n "$issue_number" ]; then
+            gh issue comment "$issue_number" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body"
           fi

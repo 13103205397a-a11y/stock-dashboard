@@ -30,12 +30,13 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: 校验公开数据结构
-        run: node scripts/validate_data.js
+        run: |
+          node scripts/validate_data.js
+          node scripts/check_freshness.js --strict
 
       - name: 核心回归测试
         run: |
-          node scripts/test_signals.test.js
-          python3 -m unittest -v scripts/test_app_server.py scripts/test_refresh.py scripts/test_public_build.py scripts/test_news_sanitize.py
+          npm test
 
       - name: 筛选 web 文件
         run: python3 scripts/build_site.py _site
@@ -103,7 +104,7 @@ jobs:
         run: |
           set -euo pipefail
           base="${PAGE_URL%/}"
-          for asset in index.html app.js design-system.css industry_market.js; do
+          for asset in index.html app.js styles.css design-system.css data.js meta.js hot.js market.js industry.js industry_market.js logic.js events.js opportunities.js materials.js newsall.js weekend.js reports.js; do
             curl --fail --silent --show-error \
               --retry 5 --retry-delay 3 --retry-all-errors \
               "$base/$asset" > /dev/null

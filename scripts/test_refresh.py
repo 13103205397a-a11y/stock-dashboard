@@ -15,7 +15,8 @@ class RefreshPlanTest(unittest.TestCase):
         self.assertIn("scripts/fetch_industry.py", commands)
         self.assertIn("scripts/fetch_news_all.py", commands)
         self.assertIn("scripts/fetch_hot.py", commands)
-        self.assertEqual(commands[-1], "scripts/validate_data.js")
+        self.assertIn("scripts/validate_data.js", commands)
+        self.assertEqual(commands[-2:], ["scripts/validate_data.js", "--strict"])
         self.assertTrue(steps[-1]["required"])
 
     def test_refresh_lock_is_exclusive(self):

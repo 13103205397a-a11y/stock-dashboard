@@ -87,8 +87,20 @@
       "localOnly": true
     },
     {
+      "name": "清理AI公开内容",
+      "command": ["python3", "scripts/sanitize_ai_content.py"],
+      "timeout": 60,
+      "required": true
+    },
+    {
       "name": "校验公开数据契约",
       "command": ["node", "scripts/validate_data.js"],
+      "timeout": 60,
+      "required": true
+    },
+    {
+      "name": "校验数据新鲜度",
+      "command": ["node", "scripts/check_freshness.js", "--strict"],
       "timeout": 60,
       "required": true
     }

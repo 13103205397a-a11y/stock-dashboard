@@ -35,14 +35,12 @@ jobs:
         run: |
           node --check app.js
           node scripts/validate_data.js
+          node scripts/check_freshness.js --strict
           python3 -m py_compile app_server.py scripts/*.py
           python3 scripts/build_site.py _site
 
-      - name: 技术信号测试
-        run: node scripts/test_signals.test.js
-
-      - name: 本地服务与刷新测试
-        run: python3 -m unittest -v scripts/test_app_server.py scripts/test_refresh.py scripts/test_public_build.py scripts/test_news_sanitize.py
+      - name: 单元与集成测试
+        run: npm test
 
       - name: 安装浏览器测试依赖
         run: |

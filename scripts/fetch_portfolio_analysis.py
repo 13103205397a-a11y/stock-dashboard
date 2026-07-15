@@ -296,7 +296,11 @@ def main():
     analyzed_codes = {a.get("code", "") for a in analyses}
     missing = [c for c in holding_codes if c not in analyzed_codes]
     if missing:
-        print(f"  ⚠ 以下持仓未在分析结果中：{', '.join(missing)}", flush=True)
+        print(
+            f"  ⚠ 分析结果不完整，缺少持仓：{', '.join(missing)}；保留旧文件不覆盖。",
+            flush=True,
+        )
+        return
 
     # 6. 写回 portfolio_analysis.js
     updated = updated_from_json or time.strftime("%Y-%m-%d %H:%M", time.localtime())

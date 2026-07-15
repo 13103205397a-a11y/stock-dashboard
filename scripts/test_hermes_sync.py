@@ -1,6 +1,8 @@
 import json
 import sys
+import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 SCRIPTS = Path(__file__).resolve().parent
@@ -8,6 +10,8 @@ sys.path.insert(0, str(SCRIPTS))
 import fetch_hermes
 import fetch_portfolio_analysis
 import fetch_weekend
+import sanitize_ai_content
+import sync_hermes_dashboard
 
 
 class HermesSyncTest(unittest.TestCase):
@@ -37,6 +41,41 @@ class HermesSyncTest(unittest.TestCase):
             "hotspots": [{"title": f"真实热点{i}"} for i in range(3)], "scenario": {},
         }
         self.assertEqual(fetch_weekend.normalize_weekend(valid), valid)
+
+    def test_weekend_reports_missing_prompt_as_real_failure(self):
+        session = {"messages": [{
+            "role": "assistant",
+            "content": "未找到 agent/weekend_ferment.md，无法执行周末发酵。",
+        }]}
+        self.assertIn("weekend_ferment.md", fetch_weekend.session_failure_reason(session))
+
+    def test_ai_internal_fields_are_rewritten_for_readers(self):
+        source = "thsStrong confidence=高 break=14次 thsHot rank_chg"
+        cleaned = sanitize_ai_content.sanitize_text(source)
+        self.assertEqual(cleaned, "强势股数据 置信度高 开板14次 热度榜数据 排名变化")
+
+    def test_isolated_publish_checks_remote_even_without_root_diff(self):
+        calls = []
+        with tempfile.TemporaryDirectory() as temp:
+            worktree = Path(temp) / "repo"
+            worktree.mkdir()
+            for name in sync_hermes_dashboard.PUBLIC_AI_FILES:
+                (worktree / name).write_text("snapshot", encoding="utf-8")
+
+            def fake_run(command, **kwargs):
+                calls.append(command)
+                stdout = "" if command[:3] != ["git", "diff", "--name-only"] else ""
+                return mock.Mock(returncode=0, stdout=stdout, stderr="")
+
+            fake_tmp = mock.Mock()
+            fake_tmp.__enter__ = mock.Mock(return_value=temp)
+            fake_tmp.__exit__ = mock.Mock(return_value=False)
+            with mock.patch.object(sync_hermes_dashboard.tempfile, "TemporaryDirectory", return_value=fake_tmp), \
+                 mock.patch.object(sync_hermes_dashboard, "run", side_effect=fake_run), \
+                 mock.patch.object(sync_hermes_dashboard.shutil, "copy2"):
+                self.assertEqual(sync_hermes_dashboard.publish_public_files(), [])
+        self.assertIn(["git", "fetch", "origin", "main"], calls)
+        self.assertTrue(any(call[:3] == ["git", "worktree", "add"] for call in calls))
 
 
 if __name__ == "__main__":
