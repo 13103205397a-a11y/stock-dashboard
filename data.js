@@ -198,7 +198,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 2.76,
+      "netInflow": null,
       "turnover": 2.23,
       "date": "2026-07-15",
       "asof": "2026-07-15"
@@ -439,7 +439,7 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.66,
+      "netInflow": null,
       "turnover": 3.54,
       "date": "2026-07-15",
       "asof": "2026-07-15"
@@ -1917,13 +1917,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 304.39,
-      "pe_fwd": 54.5,
-      "peg": 1.43,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 24.75,
       "mcap_yi": 1728.77,
-      "eps_cur": 7.81,
-      "eps_next": 10.79,
-      "analyst_count": 7,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-07-15"
     }
   },
@@ -2157,13 +2157,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 669.98,
-      "pe_fwd": 147.1,
-      "peg": 0.78,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 20.87,
       "mcap_yi": 688.01,
-      "eps_cur": 0.32,
-      "eps_next": 0.92,
-      "analyst_count": 3,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-07-15"
     }
   },
@@ -2639,13 +2639,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 58.12,
-      "pe_fwd": null,
-      "peg": null,
+      "pe_fwd": 29.7,
+      "peg": 0.43,
       "pb": 17.37,
       "mcap_yi": 2394.6,
-      "eps_cur": null,
-      "eps_next": null,
-      "analyst_count": 0,
+      "eps_cur": 9.33,
+      "eps_next": 15.82,
+      "analyst_count": 17,
       "asof": "2026-07-15"
     }
   },
@@ -3840,13 +3840,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 136.74,
-      "pe_fwd": 71.5,
-      "peg": 1.39,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 8.54,
       "mcap_yi": 520.14,
-      "eps_cur": 0.72,
-      "eps_next": 1.09,
-      "analyst_count": 10,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-07-15"
     }
   },
@@ -4294,13 +4294,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": -121.28,
-      "pe_fwd": null,
-      "peg": null,
+      "pe_fwd": 435.0,
+      "peg": 2.22,
       "pb": 21.29,
       "mcap_yi": 224.79,
-      "eps_cur": null,
-      "eps_next": null,
-      "analyst_count": 0,
+      "eps_cur": 0.23,
+      "eps_next": 0.68,
+      "analyst_count": 2,
       "asof": "2026-07-15"
     }
   },
@@ -4714,6 +4714,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "蔚来登上长鑫科技IPO战投名单，李斌回应：合作进展顺利",
+        "date": "2026-07-15 19:27:19",
+        "source": "界面新闻",
+        "url": "http://finance.eastmoney.com/a/202607153807634871.html",
+        "content": "公司创始人朱一明曾创立兆易创新，后者亦持有长鑫科技部分股权。作为国内第一、全球第四的DRAM厂商，长鑫科技此次IPO受到了市场的高度关注。 　　蔚来汽车成立于2014年，总部位于上海，是一家全球化的智能电动汽车公司，注册地位于安徽合肥。"
+      },
+      {
         "title": "晚报丨特朗普被曝战情室讨论对伊“毁灭性打击”；伊朗称不会先低头要求与美国谈判；石油供应过剩预期或破灭；美国最大电网未达供电目标；国行苹果AI功能完成备案，合作方包括阿里；英特尔18A良率升至85%；阿斯麦Q2业绩全面超预期",
         "date": "2026-07-15 18:11:48",
         "source": "哈富证券",
@@ -4726,13 +4733,6 @@ window.STOCKS = [
         "source": "财联社",
         "url": "http://finance.eastmoney.com/a/202607153807572082.html",
         "content": "兆易创新今日跌4.64%，资金前5日加仓87万股，短线加速流入。 　　长飞光纤光缆今日涨1.62%，资金前5日减持1356万股，短线仍处流出趋势。 　　中芯国际今日跌2.62%，资金前5日减持837万股，短线形成流出趋势。"
-      },
-      {
-        "title": "半年报业绩预告密集披露，一批公司半年净利预计超去年全年",
-        "date": "2026-07-15 17:38:09",
-        "source": "中国证券报·中证金牛座",
-        "url": "http://finance.eastmoney.com/a/202607153807554565.html",
-        "content": "兆易创新预计上半年净利润为69亿元左右，较去年全年16.48亿元增长逾3倍。德明利预计上半年净利润上限为65亿元，是其去年全年6.88亿元的近10倍。此外，复旦微电、北京君正、通富微电、华天科技等上市公司预计上半年净利润均已超越去年全年。"
       }
     ],
     "fund": {
@@ -4954,6 +4954,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "蔚来登上长鑫科技IPO战投名单，李斌回应：合作进展顺利",
+        "date": "2026-07-15 19:27:19",
+        "source": "界面新闻",
+        "url": "http://finance.eastmoney.com/a/202607153807634871.html",
+        "content": "其中，半导体产业链公司包括中微公司、澜起科技、安集科技、通富微电、西安奕材、拓荆科技、屹唐股份、沪硅产业等。"
+      },
+      {
         "title": "半年报业绩预告密集披露，一批公司半年净利预计超去年全年",
         "date": "2026-07-15 17:38:09",
         "source": "中国证券报·中证金牛座",
@@ -4966,13 +4973,6 @@ window.STOCKS = [
         "source": "证券时报网",
         "url": "http://finance.eastmoney.com/a/202607153807513476.html",
         "content": "客户包括长电科技、华天科技、通富微电、拓荆科技、华海清科、迈为股份等，同时已经进入长存、北方华创、芯联集成等客户体系。"
-      },
-      {
-        "title": "AI需求传导至封测端 龙头业绩预增与扩产竞速并行",
-        "date": "2026-07-15 11:27:00",
-        "source": "证券时报网",
-        "url": "http://finance.eastmoney.com/a/202607153807240732.html",
-        "content": "长电科技、华天科技和通富微电近日相继预告2026年上半年业绩大幅增长，其中通富微电、华天科技预计归母净利润同比增幅均超过两倍，长电科技亦实现显著预增。 　　业绩改善背后，传统封装产能利用率回升与先进封装订单放量形成共振。"
       }
     ],
     "fund": {
@@ -5256,13 +5256,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 100.14,
-      "pe_fwd": null,
-      "peg": null,
+      "pe_fwd": 82.6,
+      "peg": 3.42,
       "pb": 5.79,
       "mcap_yi": 1654.49,
-      "eps_cur": null,
-      "eps_next": null,
-      "analyst_count": 0,
+      "eps_cur": 1.12,
+      "eps_next": 1.39,
+      "analyst_count": 14,
       "asof": "2026-07-15"
     }
   },
@@ -5496,13 +5496,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 94.14,
-      "pe_fwd": 72.2,
-      "peg": 3.3,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 4.3,
       "mcap_yi": 767.86,
-      "eps_cur": 0.32,
-      "eps_next": 0.39,
-      "analyst_count": 2,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-07-15"
     }
   },
@@ -6456,13 +6456,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 79.19,
-      "pe_fwd": null,
-      "peg": null,
+      "pe_fwd": 61.6,
+      "peg": 2.34,
       "pb": 10.58,
       "mcap_yi": 2142.8,
-      "eps_cur": null,
-      "eps_next": null,
-      "analyst_count": 0,
+      "eps_cur": 1.86,
+      "eps_next": 2.35,
+      "analyst_count": 15,
       "asof": "2026-07-15"
     }
   },
@@ -7896,13 +7896,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 85.31,
-      "pe_fwd": 45.6,
-      "peg": 0.87,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 5.75,
       "mcap_yi": 1094.11,
-      "eps_cur": 2.51,
-      "eps_next": 3.82,
-      "analyst_count": 14,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-07-15"
     }
   },
@@ -9293,11 +9293,11 @@ window.STOCKS = [
         "content": ""
       },
       {
-        "title": "中国西电：拟参与设立重庆西电开关公司 实施重庆高压开关智慧工厂项目",
-        "date": "2026-07-15 17:50:39",
-        "source": "财联社",
-        "url": "http://finance.eastmoney.com/a/202607153807561647.html",
-        "content": "中国西电(601179.SH)公告称，公司拟与中国电气装备集团西南有限公司（具体名称待定，最终以工商注册为准，简称“西南公司”）共同出资6.8亿元设立重庆西电开关公司，并实施重庆高压开关智慧工厂项目。其中，公司出资3.74亿元，持股55%；西南公司出资3.06亿元，持股45%。"
+        "title": "7月15日晚间沪深上市公司重大事项公告最新快递",
+        "date": "2026-07-15 19:32:43",
+        "source": "东方财富Choice数据",
+        "url": "http://finance.eastmoney.com/a/202607153807644463.html",
+        "content": "中国西电：拟参与设立重庆西电开关公司 实施重庆高压开关智慧工厂项目 　　中国西电(601179)7月15日公告，公司拟与中国电气装备集团西南有限公司（具体名称待定，最终以工商注册为准，简称“西南公司”）共同出资6.8亿元设立重庆西电开关公司，并实施重庆高压开关智慧工厂项目。"
       }
     ],
     "fund": {
@@ -10064,13 +10064,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 22.1,
-      "pe_fwd": 35.0,
-      "peg": 1.3,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 8.23,
       "mcap_yi": 1146.34,
-      "eps_cur": 2.0,
-      "eps_next": 2.54,
-      "analyst_count": 13,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-07-15"
     }
   },
@@ -11231,13 +11231,13 @@ window.STOCKS = [
     "newsAsof": "2026-07-15",
     "valuation": {
       "pe_ttm": 80.98,
-      "pe_fwd": 60.5,
-      "peg": 2.68,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 10.25,
       "mcap_yi": 545.63,
-      "eps_cur": 2.83,
-      "eps_next": 3.47,
-      "analyst_count": 9,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-07-15"
     }
   }
