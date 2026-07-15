@@ -23,12 +23,24 @@ class HermesSyncTest(unittest.TestCase):
         self.assertEqual(fetch_hermes.extract_report(session), "")
 
     def test_portfolio_can_be_recovered_from_file_tool_result(self):
-        payload = {"updated": "2026-07-10 15:35", "analyses": [{"code": "605117", "name": "德业股份"}]}
+        payload = {"updated": "2026-07-10 15:35", "analyses": [{
+            "code": "605117", "name": "德业股份", "fundamentals": "真实基本面数据与估值比较。" * 8,
+            "capital": "资金数据。" * 8, "technicals": "技术信号。" * 8, "risks": "风险说明。" * 8,
+            "noiseFilter": "噪音过滤。" * 8, "action": "操作计划。" * 8, "summary": "谨慎持有",
+        }]}
         content = "1|window.PORTFOLIO_ANALYSIS = " + json.dumps(payload, ensure_ascii=False) + ";"
         session = {"messages": [{"role": "tool", "content": json.dumps({"content": content})}]}
         analyses, found, _ = fetch_portfolio_analysis.extract_analyses_from_session(session)
         self.assertEqual(analyses[0]["code"], "605117")
         self.assertEqual(found["updated"], "2026-07-10 15:35")
+
+    def test_portfolio_template_placeholder_is_rejected(self):
+        placeholder = {"analyses": [{
+            "code": "605117", "fundamentals": "基本面+估值分析正文，100-200字中文",
+            "capital": "资金面分析正文，100-200字中文", "summary": "一句话总结",
+        }]}
+        analyses, _ = fetch_portfolio_analysis.normalize_analyses(placeholder)
+        self.assertEqual(analyses, [])
 
     def test_weekend_rejects_prompt_template(self):
         template = {

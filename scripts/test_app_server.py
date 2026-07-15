@@ -95,10 +95,14 @@ class AppServerTest(unittest.TestCase):
             })
 
     def test_portfolio_refresh_endpoint_reports_completion(self):
-        with mock.patch.object(app_server, "_run_portfolio_refresh", return_value="done"):
+        app_server.portfolio_refresh_state.update(running=False, done=False, error=None, log="")
+        with mock.patch.object(app_server, "_run_portfolio_refresh_background", return_value=None):
             status, body = self.request("/api/portfolio/refresh", {})
-        self.assertEqual(status, 200)
-        self.assertTrue(json.loads(body)["ok"])
+        payload = json.loads(body)
+        self.assertEqual(status, 202)
+        self.assertTrue(payload["ok"])
+        self.assertTrue(payload["running"])
+        app_server.portfolio_refresh_state.update(running=False, done=False, error=None, log="")
 
 
 if __name__ == "__main__":

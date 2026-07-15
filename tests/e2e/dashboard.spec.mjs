@@ -142,7 +142,24 @@ test("自选支持添加、自动刷新后展示和删除", async ({ page }) => 
   await page.locator("#pfName").fill("平安银行");
   await page.locator("#pfSave").click();
   await expect(page.locator(".watch-row")).toContainText("平安银行");
-  page.once("dialog", (dialog) => dialog.accept());
+  await page.locator('.pf-del-btn[data-scope="watch"]').click();
+  await expect(page.locator('.pf-del-btn[data-scope="watch"]')).toHaveText("再点一次确认");
   await page.locator('.pf-del-btn[data-scope="watch"]').click();
   await expect(page.locator(".watch-row")).toHaveCount(0);
+});
+
+test("自选可只填准确名称，并通过表单提交", async ({ page }) => {
+  let portfolio = { updated: "2026-07-11", holdings: [], watchlist: [] };
+  await page.route(/\/api\/portfolio$/, async (route) => {
+    if (route.request().method() === "POST") portfolio = JSON.parse(route.request().postData() || "{}");
+    await route.fulfill({ json: { ok: true, data: portfolio, msg: "已保存" } });
+  });
+  await page.route(/\/api\/portfolio\/refresh$/, (route) => route.fulfill({ status: 202, json: { ok: true, running: true, msg: "已开始更新" } }));
+  await page.route(/\/api\/portfolio\/refresh\/status/, (route) => route.fulfill({ json: { running: true, done: false, error: null } }));
+  await page.goto("/index.html#holdings", { waitUntil: "networkidle" });
+  await page.locator("#pfWatchBtn").click();
+  await page.locator("#pfName").fill("兆易创新");
+  await expect(page.locator("#pfCode")).toHaveValue("603986");
+  await page.locator("#pfAddForm").press("Enter");
+  await expect(page.locator(".watch-row")).toContainText("兆易创新");
 });

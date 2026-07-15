@@ -64,6 +64,8 @@ PUBLIC_STATIC_FILES = _load_public_static_files()
 # 刷新状态（进程内共享）
 refresh_state = {"running": False, "log": [], "done": False, "error": None, "failedSteps": []}
 refresh_state_lock = threading.Lock()
+portfolio_refresh_state = {"running": False, "done": False, "error": None, "log": ""}
+portfolio_refresh_lock = threading.Lock()
 
 
 def _load_refresh_steps():
@@ -181,12 +183,23 @@ def _run_portfolio_refresh():
         env=_env_with_iwencai(),
         capture_output=True,
         text=True,
-        timeout=240,
+        timeout=1200,
     )
     log = (proc.stdout + "\n" + proc.stderr).strip()[-4000:]
     if proc.returncode:
         raise RuntimeError(log or "持仓数据刷新失败")
     return log
+
+
+def _run_portfolio_refresh_background():
+    try:
+        log = _run_portfolio_refresh()
+        with portfolio_refresh_lock:
+            portfolio_refresh_state.update(running=False, done=True, error=None, log=log)
+    except Exception as e:
+        message = "刷新超时，请稍后查看" if isinstance(e, subprocess.TimeoutExpired) else str(e)
+        with portfolio_refresh_lock:
+            portfolio_refresh_state.update(running=False, done=True, error=message, log="")
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -224,6 +237,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return
         if parsed.path == "/api/portfolio":
             self._handle_portfolio_get()
+            return
+        if parsed.path == "/api/portfolio/refresh/status":
+            with portfolio_refresh_lock:
+                self._json(dict(portfolio_refresh_state))
             return
         path = urllib.parse.unquote(parsed.path)
         if path == "/":
@@ -272,13 +289,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._json({"ok": False, "msg": str(e)}, status=500)
 
     def _handle_portfolio_refresh(self):
-        try:
-            log = _run_portfolio_refresh()
-            self._json({"ok": True, "msg": "行情与筛选已更新", "log": log})
-        except subprocess.TimeoutExpired:
-            self._json({"ok": False, "msg": "刷新超时，请稍后重试"}, status=504)
-        except Exception as e:
-            self._json({"ok": False, "msg": str(e)}, status=500)
+        with portfolio_refresh_lock:
+            if portfolio_refresh_state["running"]:
+                self._json({"ok": True, "running": True, "msg": "行情与持仓分析正在更新"}, status=202)
+                return
+            portfolio_refresh_state.update(running=True, done=False, error=None, log="")
+        threading.Thread(target=_run_portfolio_refresh_background, daemon=True).start()
+        self._json({"ok": True, "running": True, "msg": "已开始更新行情、筛选和 Hermes 持仓分析"}, status=202)
 
     def _handle_portfolio_post(self):
         """写入 portfolio.json 持仓配置（整体覆盖）"""

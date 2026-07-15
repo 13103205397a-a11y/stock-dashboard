@@ -1,5 +1,5 @@
 // 股市看板 · 原生 Mac App
-// 毛玻璃窗口 + 跟随系统深浅色 + file:// 加载本地看板
+// 毛玻璃窗口 + 跟随系统深浅色 + 本地 API 服务
 
 import Cocoa
 import WebKit
@@ -19,6 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
     var webView: WKWebView!
     var statusItem: NSStatusItem?
     var refreshProcesses: [Process] = []
+    var serverProcess: Process?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // 1. 创建窗口(毛玻璃:NSVisualEffectView)
@@ -57,10 +58,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
 
         window?.makeKeyAndOrderFront(nil)
 
-        // 4. 加载本地看板
-        let indexPath = PROJECT + "/index.html"
-        webView.loadFileURL(URL(fileURLWithPath: indexPath),
-                            allowingReadAccessTo: URL(fileURLWithPath: PROJECT))
+        // 4. 启动本地 API 服务后加载看板；这样持仓增删和 Hermes 分析可以真正落盘。
+        startLocalServerAndLoad()
 
         // 5. 监听系统深浅色变化
         DistributedNotificationCenter.default.addObserver(
@@ -69,6 +68,58 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
 
         // 6. 状态栏图标
         setupStatusItem()
+    }
+
+    func serverIsReady() -> Bool {
+        guard let url = URL(string: "http://127.0.0.1:8787/api/status") else { return false }
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 0.5
+        let semaphore = DispatchSemaphore(value: 0)
+        var ready = false
+        URLSession.shared.dataTask(with: request) { _, response, _ in
+            if let http = response as? HTTPURLResponse, http.statusCode == 200 { ready = true }
+            semaphore.signal()
+        }.resume()
+        _ = semaphore.wait(timeout: .now() + 1)
+        return ready
+    }
+
+    func startLocalServerAndLoad() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            if !self.serverIsReady() {
+                let task = Process()
+                task.launchPath = "/usr/bin/env"
+                task.arguments = ["python3", "app_server.py", "--no-open"]
+                task.currentDirectoryPath = PROJECT
+                task.standardOutput = FileHandle.nullDevice
+                task.standardError = FileHandle.nullDevice
+                do {
+                    try task.run()
+                    self.serverProcess = task
+                } catch {
+                    self.loadFileFallback("本地服务启动失败：\(error.localizedDescription)")
+                    return
+                }
+                for _ in 0..<60 {
+                    if self.serverIsReady() { break }
+                    Thread.sleep(forTimeInterval: 0.1)
+                }
+            }
+            guard self.serverIsReady(), let url = URL(string: "http://127.0.0.1:8787/index.html") else {
+                self.loadFileFallback("本地服务未在规定时间内就绪")
+                return
+            }
+            DispatchQueue.main.async { self.webView.load(URLRequest(url: url)) }
+        }
+    }
+
+    func loadFileFallback(_ reason: String) {
+        print("⚠ \(reason)，降级为只读文件模式")
+        let indexPath = PROJECT + "/index.html"
+        DispatchQueue.main.async {
+            self.webView.loadFileURL(URL(fileURLWithPath: indexPath),
+                                     allowingReadAccessTo: URL(fileURLWithPath: PROJECT))
+        }
     }
 
     // ── 深浅色切换 ──
@@ -183,6 +234,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
 
     @objc func quitApp() {
         refreshProcesses.forEach { $0.terminate() }
+        serverProcess?.terminate()
         NSApplication.shared.terminate(nil)
     }
 
@@ -204,6 +256,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
 
     func applicationWillTerminate(_ notification: Notification) {
         refreshProcesses.forEach { $0.terminate() }
+        serverProcess?.terminate()
     }
 }
 

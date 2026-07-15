@@ -1562,8 +1562,38 @@
       return { ok: false, msg: `刷新失败：${e.message}` };
     }
   };
+  const monitorPortfolioRefresh = async () => {
+    const deadline = Date.now() + 20 * 60 * 1000;
+    while (Date.now() < deadline) {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      try {
+        const r = await fetch("/api/portfolio/refresh/status?t=" + Date.now(), { cache: "no-store" });
+        const state = await r.json();
+        if (state.running) continue;
+        if (state.error) { portfolioToast(`更新失败：${state.error}`, "error"); return false; }
+        if (state.done) { portfolioToast("行情、筛选和 Hermes 持仓分析已更新", "success"); location.reload(); return true; }
+      } catch (e) {
+        portfolioToast(`读取更新进度失败：${e.message}`, "error");
+        return false;
+      }
+    }
+    portfolioToast("分析仍在后台运行，请稍后刷新页面查看", "error");
+    return false;
+  };
+  const startPortfolioRefresh = async () => {
+    const result = await refreshPortfolioData();
+    if (!result.ok) { portfolioToast(result.msg, "error"); return false; }
+    portfolioToast(result.msg || "已开始更新行情和分析", "success");
+    monitorPortfolioRefresh();
+    return true;
+  };
   // 评级 → 颜色 class
   const ratingClass = (r) => ({ "买入": "up", "增持": "up", "持有": "ok", "减持": "warn", "卖出": "down" }[r] || "");
+  const usablePortfolioAnalysis = (analysis) => {
+    if (!analysis || !/^\d{6}$/.test(String(analysis.code || ""))) return false;
+    const text = [analysis.fundamentals, analysis.capital, analysis.technicals, analysis.risks, analysis.noiseFilter, analysis.action, analysis.summary].join(" ");
+    return text.length >= 120 && !/分析正文|一句话总结|100-200字|字段约束|示例/.test(text);
+  };
   const actionLead = (value) => {
     if (Array.isArray(value)) return String(value[0] || "");
     const text = String(value || "").trim();
@@ -1589,7 +1619,7 @@
     // 分析数据 map（portfolio_analysis.js）
     const an = window.PORTFOLIO_ANALYSIS || { analyses: [] };
     const aMap = {};
-    (an.analyses || []).forEach((a) => { aMap[a.code] = a; });
+    (an.analyses || []).filter(usablePortfolioAnalysis).forEach((a) => { aMap[a.code] = a; });
     const screenData = window.PORTFOLIO_SIGNALS || { list: [] };
     const screenMap = {};
     (screenData.list || []).forEach((item) => { screenMap[item.code] = item; });
@@ -1693,18 +1723,20 @@
       const existing = el.querySelector("#pfAddForm");
       if (existing) { existing.remove(); return; }
       const isWatch = scope === "watch";
-      const form = document.createElement("div");
+      const form = document.createElement("form");
       form.id = "pfAddForm";
       form.className = "pf-add-form";
       form.innerHTML = `
-        <input class="pf-input" id="pfCode" placeholder="股票代码（如 605117）" maxlength="6" />
-        <input class="pf-input" id="pfName" placeholder="股票名称（如 德业股份）" />
+        <div class="pf-form-title" style="grid-column:1/-1;font-weight:700">添加${isWatch ? "自选" : "持仓"} <span style="font-size:11px;font-weight:400;color:var(--muted)">输入代码或名称，已收录股票会自动补全</span></div>
+        <input class="pf-input" id="pfCode" inputmode="numeric" autocomplete="off" placeholder="股票代码（如 605117）" maxlength="6" />
+        <input class="pf-input" id="pfName" autocomplete="off" placeholder="股票名称（如 德业股份）" />
         ${isWatch ? "" : `<input class="pf-input" id="pfBuy" type="number" step="0.01" placeholder="买入价（可选）" /><input class="pf-input" id="pfShares" type="number" placeholder="股数（可选）" /><input class="pf-input" id="pfWeight" type="number" step="0.01" min="0" max="1" placeholder="仓位 0-1（可选）" />`}
         <input class="pf-input" id="pfNote" placeholder="备注（可选）" />
         <div class="pf-form-actions">
-          <button class="pf-cancel" id="pfCancel">取消</button>
-          <button class="pf-save" id="pfSave">添加${isWatch ? "自选" : "持仓"}</button>
-        </div>`;
+          <button type="button" class="pf-cancel" id="pfCancel">取消</button>
+          <button type="submit" class="pf-save" id="pfSave">添加${isWatch ? "自选" : "持仓"}</button>
+        </div>
+        <div class="pf-form-status" id="pfFormStatus" role="status" aria-live="polite" style="grid-column:1/-1;min-height:18px;font-size:12px"></div>`;
       el.querySelector(".pf-toolbar").after(form);
       const codeInput = el.querySelector("#pfCode");
       codeInput.focus();
@@ -1713,13 +1745,38 @@
         const nameInput = el.querySelector("#pfName");
         if (ref?.name && !nameInput.value.trim()) nameInput.value = ref.name;
       });
+      el.querySelector("#pfName").addEventListener("input", (event) => {
+        const wanted = event.currentTarget.value.trim().toLowerCase();
+        if (!wanted || codeInput.value.trim()) return;
+        const ref = [...getStockReferenceIndex().values()].find((item) => String(item.name || "").trim().toLowerCase() === wanted);
+        if (ref?.code) codeInput.value = ref.code;
+      });
       el.querySelector("#pfCancel").addEventListener("click", () => form.remove());
-      el.querySelector("#pfSave").addEventListener("click", async () => {
-        const code = el.querySelector("#pfCode").value.trim();
-        const name = el.querySelector("#pfName").value.trim();
-        if (!code || !/^\d{6}$/.test(code)) { portfolioToast("请输入 6 位股票代码", "error"); return; }
-        if (!name) { portfolioToast("请输入股票名称", "error"); return; }
-        if ([...(PORTFOLIO_CFG?.holdings || []), ...(PORTFOLIO_CFG?.watchlist || [])].some((h) => h.code === code)) { portfolioToast("该股票已在持仓或自选中", "error"); return; }
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const status = form.querySelector("#pfFormStatus");
+        const save = form.querySelector("#pfSave");
+        let code = form.querySelector("#pfCode").value.trim();
+        let name = form.querySelector("#pfName").value.trim();
+        if (!code && name) {
+          const wanted = name.toLowerCase();
+          const ref = [...getStockReferenceIndex().values()].find((item) => String(item.name || "").trim().toLowerCase() === wanted);
+          if (ref) code = ref.code;
+        }
+        const showError = (message, input) => {
+          status.textContent = message;
+          status.className = "pf-form-status error";
+          input?.focus();
+        };
+        if (!code || !/^\d{6}$/.test(code)) { showError("请输入 6 位股票代码；已收录股票也可以只填准确名称", form.querySelector("#pfCode")); return; }
+        const ref = getStockReferenceIndex().get(code);
+        if (!name && ref?.name) name = ref.name;
+        if (!name) { showError("请输入股票名称", form.querySelector("#pfName")); return; }
+        if ([...(PORTFOLIO_CFG?.holdings || []), ...(PORTFOLIO_CFG?.watchlist || [])].some((h) => h.code === code)) { showError("该股票已在持仓或自选中"); return; }
+        save.disabled = true;
+        save.textContent = "保存中…";
+        status.textContent = "正在保存配置";
+        status.className = "pf-form-status";
         const note = el.querySelector("#pfNote").value.trim();
         const data = { ...PORTFOLIO_CFG };
         if (isWatch) {
@@ -1731,15 +1788,11 @@
           data.holdings = [...(data.holdings || []), { code, name, buyPrice: buy, shares, weight, note, addedAt: new Date().toISOString().slice(0, 10) }];
         }
         const r = await savePortfolio(data);
-        if (!r.ok) { portfolioToast(r.msg || "保存失败", "error"); return; }
-        portfolioToast(`已添加${isWatch ? "自选" : "持仓"}，正在更新行情和筛选…`, "success");
+        if (!r.ok) { save.disabled = false; save.textContent = `添加${isWatch ? "自选" : "持仓"}`; showError(r.msg || "保存失败"); return; }
+        portfolioToast(`已添加${isWatch ? "自选" : "持仓"}`, "success");
         form.remove();
-        el.setAttribute("aria-busy", "true");
-        const refreshButton = el.querySelector("#pfRefreshBtn");
-        if (refreshButton) { refreshButton.disabled = true; refreshButton.textContent = "正在更新…"; }
-        const refreshed = await refreshPortfolioData();
-        if (refreshed.ok) location.reload();
-        else { el.removeAttribute("aria-busy"); portfolioToast(refreshed.msg, "error"); renderHoldings(); }
+        await renderHoldings();
+        startPortfolioRefresh();
       });
     };
     el.querySelector("#pfAddBtn")?.addEventListener("click", () => openForm("holding"));
@@ -1753,13 +1806,27 @@
         e.stopPropagation();
         const code = btn.dataset.code;
         const name = btn.dataset.name;
-        if (!confirm(`确认删除 ${name}(${code})？`)) return;
+        if (!btn.classList.contains("confirm-delete")) {
+          btn.classList.add("confirm-delete");
+          btn.textContent = "再点一次确认";
+          setTimeout(() => {
+            if (!btn.isConnected) return;
+            btn.classList.remove("confirm-delete");
+            btn.textContent = btn.dataset.scope === "watch" ? "删自选" : "删持仓";
+          }, 4000);
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = "删除中…";
         const data = { ...PORTFOLIO_CFG };
         if (btn.dataset.scope === "watch") data.watchlist = (data.watchlist || []).filter((h) => h.code !== code);
         else data.holdings = (data.holdings || []).filter((h) => h.code !== code);
         const r = await savePortfolio(data);
-        if (r.ok) { portfolioToast(btn.dataset.scope === "watch" ? "自选已删除" : "持仓已删除", "success"); renderHoldings(); }
-        else portfolioToast(r.msg || "删除失败", "error");
+        if (r.ok) {
+          portfolioToast(btn.dataset.scope === "watch" ? "自选已删除" : "持仓已删除", "success");
+          await renderHoldings();
+          startPortfolioRefresh();
+        } else { btn.disabled = false; portfolioToast(r.msg || "删除失败", "error"); }
       });
     });
   }
@@ -1769,9 +1836,8 @@
       const btn = event.currentTarget;
       btn.disabled = true;
       btn.textContent = "刷新中…";
-      const result = await refreshPortfolioData();
-      if (result.ok) location.reload();
-      else { btn.disabled = false; btn.textContent = "刷新筛选"; portfolioToast(result.msg, "error"); }
+      const result = await startPortfolioRefresh();
+      if (!result) { btn.disabled = false; btn.textContent = "刷新筛选"; }
     });
   }
 

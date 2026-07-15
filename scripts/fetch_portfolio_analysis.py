@@ -218,13 +218,21 @@ def normalize_analyses(found):
     """
     if found is None:
         return [], None
+    def usable(item):
+        if not isinstance(item, dict) or not item.get("code"):
+            return False
+        text = " ".join(str(item.get(key) or "") for key in (
+            "fundamentals", "capital", "technicals", "risks", "noiseFilter", "action", "summary"
+        ))
+        return len(text) >= 120 and not re.search(r"分析正文|一句话总结|100-200字|字段约束|示例", text)
+
     if isinstance(found, list):
         # 过滤掉非 dict 或缺 code 的项
-        return [x for x in found if isinstance(x, dict) and x.get("code")], None
+        return [x for x in found if usable(x)], None
     if isinstance(found, dict):
         if "analyses" in found and isinstance(found["analyses"], list):
-            return [x for x in found["analyses"] if isinstance(x, dict) and x.get("code")], found.get("updated")
-        if found.get("code"):
+            return [x for x in found["analyses"] if usable(x)], found.get("updated")
+        if usable(found):
             return [found], None
     return [], None
 
