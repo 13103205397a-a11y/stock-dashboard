@@ -14,9 +14,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import app_server
+from scripts import run_refresh
 
 
 class AppServerTest(unittest.TestCase):
+    def test_desktop_refresh_environment_includes_local_cli_bin(self):
+        with mock.patch.dict("os.environ", {"PATH": "/usr/bin:/bin"}, clear=True), \
+             mock.patch.object(run_refresh.sys, "platform", "linux"):
+            env = run_refresh.env_with_iwencai()
+        self.assertEqual(env["PATH"].split(":"), [str(Path.home() / ".local" / "bin"), "/usr/bin", "/bin"])
+
     @classmethod
     def setUpClass(cls):
         cls.tmp = tempfile.TemporaryDirectory()

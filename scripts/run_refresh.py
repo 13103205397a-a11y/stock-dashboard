@@ -51,6 +51,10 @@ def acquire_refresh_lock():
 
 def env_with_iwencai() -> dict[str, str]:
     env = os.environ.copy()
+    local_bin = str(Path.home() / ".local" / "bin")
+    path_entries = env.get("PATH", "").split(os.pathsep)
+    if local_bin not in path_entries:
+        env["PATH"] = os.pathsep.join([local_bin, *filter(None, path_entries)])
     if env.get("IWENCAI_API_KEY") or sys.platform != "darwin":
         return env
     account = env.get("IWENCAI_KEYCHAIN_ACCOUNT", "Admin")

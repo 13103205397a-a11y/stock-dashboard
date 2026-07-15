@@ -7,6 +7,12 @@ import sys
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOCAL_BIN = os.path.expanduser("~/.local/bin")
+# Finder/LaunchServices 启动的 Mac App 不会读取 shell PATH。Node 和 Hermes
+# 均由本地 CLI 安装到 ~/.local/bin，因此刷新任务必须自己补全运行环境。
+path_entries = os.environ.get("PATH", "").split(os.pathsep)
+if LOCAL_BIN not in path_entries:
+    os.environ["PATH"] = os.pathsep.join([LOCAL_BIN, *filter(None, path_entries)])
 STEPS = [
     ("计算自动筛选", ["node", "scripts/fetch_portfolio_signals.js"]),
     ("同步行情/估值", [sys.executable, "scripts/fetch_holdings.py"]),

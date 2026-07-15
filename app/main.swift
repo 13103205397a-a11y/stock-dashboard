@@ -21,6 +21,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
     var refreshProcesses: [Process] = []
     var serverProcess: Process?
 
+    func appEnvironment() -> [String: String] {
+        var env = ProcessInfo.processInfo.environment
+        let localBin = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent(".local/bin").path
+        let entries = (env["PATH"] ?? "").split(separator: ":").map(String.init)
+        if !entries.contains(localBin) {
+            env["PATH"] = ([localBin] + entries).joined(separator: ":")
+        }
+        return env
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         // 1. 创建窗口(毛玻璃:NSVisualEffectView)
         let contentRect = NSRect(x: 0, y: 0, width: 1280, height: 860)
@@ -91,6 +102,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
                 task.launchPath = "/usr/bin/env"
                 task.arguments = ["python3", "app_server.py", "--no-open"]
                 task.currentDirectoryPath = PROJECT
+                task.environment = self.appEnvironment()
                 task.standardOutput = FileHandle.nullDevice
                 task.standardError = FileHandle.nullDevice
                 do {
@@ -213,7 +225,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
     }
 
     func getEnvWithIwencai() -> [String: String] {
-        var env = ProcessInfo.processInfo.environment
+        var env = appEnvironment()
         if env["IWENCAI_API_KEY"] != nil { return env }
         let account = env["IWENCAI_KEYCHAIN_ACCOUNT"] ?? "Admin"
         let task = Process()
