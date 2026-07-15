@@ -42,6 +42,12 @@ def sanitize_report(content):
     lines = str(content or "").strip().splitlines()
     while lines and (not lines[0].strip() or PROCESS_OPENERS.search(lines[0].strip())):
         lines.pop(0)
+    if lines and re.fullmatch(r"```(?:markdown|md)?", lines[0].strip(), re.I):
+        lines.pop(0)
+    if lines and lines[-1].strip() == "```":
+        lines.pop()
+    if lines and "数据完整度" in lines[0] and "全部正常" in lines[0] and re.search(r"缺失|未能|失败|暂缺|报错", lines[0]):
+        lines[0] = re.sub(r"[\[［]全部正常[\]］]", "[部分缺失]", lines[0], count=1)
     return "\n".join(lines).strip()
 
 

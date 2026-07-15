@@ -1,5 +1,17 @@
 /* A股盘面 · 左侧导航 13 模块 — 渲染 / 筛选 / 搜索 / 详情抽屉 */
 (function () {
+  const readabilityCss = document.createElement("style");
+  readabilityCss.textContent = `
+    html,body,button,input,select,textarea{font-weight:500}
+    .rep-md{font-weight:500}
+    .rep-time,.rep-updated,.rep-foot,.logo-sub,.bb-hint,.bb-src{font-weight:500}
+    .rep-quality{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px;align-items:baseline;margin:0 0 20px;padding:11px 14px;border:1px solid var(--line);border-left-width:4px;border-radius:var(--r-sm);background:var(--card);font-size:13px;line-height:1.65}
+    .rep-quality strong{white-space:nowrap}
+    .rep-quality.is-partial{border-left-color:var(--warn);background:rgba(196,137,22,.06)}
+    .rep-quality.is-complete{border-left-color:var(--ok)}
+    @media(max-width:640px){.rep-quality{grid-template-columns:1fr;gap:4px}}
+  `;
+  document.head.appendChild(readabilityCss);
   const STOCKS = window.STOCKS || [];
   const META = window.META || {};
   const MARKET = window.MARKET || {};
@@ -2418,9 +2430,29 @@
 
 
   // 极简 markdown → HTML（标题/表格/加粗/列表/分隔线）。不引外部库，够用。
+  function normalizeReportText(value) {
+    let text = cleanDisplayText(value || "").trim();
+    text = text
+      .replace(/^\s*```(?:markdown|md)?\s*\r?\n/i, "")
+      .replace(/\r?\n\s*```\s*$/i, "")
+      .trim();
+    const lines = text.split("\n");
+    if (lines[0] && /\u6570\u636e\u5b8c\u6574\u5ea6/.test(lines[0]) && /\u5168\u90e8\u6b63\u5e38/.test(lines[0]) && /\u7f3a\u5931|\u672a\u80fd|\u5931\u8d25|\u6682\u7f3a|\u62a5\u9519/.test(lines[0])) {
+      lines[0] = lines[0].replace(/[\[\uff3b]\u5168\u90e8\u6b63\u5e38[\]\uff3d]/, "[部分缺失]");
+    }
+    return lines.join("\n");
+  }
+
+  function reportDisplayTitle(report) {
+    const time = String(report.time || "");
+    const match = time.match(/^\d{4}-(\d{2})-(\d{2})\s+(\d{2}:\d{2})/);
+    const label = report.type === "盘前简报" ? "每日盘前简报" : (report.type || "AI 复盘");
+    return match ? `${label} · ${match[1]}月${match[2]}日 ${match[3]}` : (report.title || label);
+  }
+
   function md2html(md) {
     // 去 AI 味：移除 emoji 和装饰性符号（📊🔥🔴🟢⭐⚠️等），保留文字内容
-    let text = (md || "")
+    let text = normalizeReportText(md)
       .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/gu, "")
       .replace(/[🔴🟢🟡⭐⚠️📊📈📉🔥✅❌➡️📍🎯🇺🇸🇨🇳]/g, "")
       // 去 AI 过渡语：报告开头的英文思考过程（Let me.../I have.../All data... 等）
@@ -2457,6 +2489,13 @@
       if (lm) { if (!inList) { html += "<ul>"; inList = true; } html += `<li>${lm[1]}</li>`; continue; }
       // 空行
       if (!line.trim()) { flushList(); continue; }
+      // 数据完整度是可信度状态，不应混在普通正文中。
+      if (/^数据完整度[\uff1a:]/.test(line.trim())) {
+        flushList();
+        const partial = /部分缺失|缺失|未能|失败|暂缺|报错/.test(line);
+        html += `<div class="rep-quality ${partial ? "is-partial" : "is-complete"}"><strong>${partial ? "数据部分缺失" : "数据完整"}</strong><span>${line.replace(/^数据完整度[\uff1a:]\s*/, "")}</span></div>`;
+        continue;
+      }
       // 普通段落（内联：加粗 **x** / `code`）
       flushList();
       html += `<p>${line.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>")}</p>`;
@@ -2475,7 +2514,7 @@
     ).join("");
     const bodies = list.map((r, i) =>
       `<div class="rep-body ${i === 0 ? "active" : ""}" data-i="${i}">
-        <div class="rep-head"><h2>${esc(r.title || "")}</h2><span class="rep-updated">Hermes · ${esc(r.time || "")}</span></div>
+        <div class="rep-head"><h2>${esc(reportDisplayTitle(r))}</h2><span class="rep-updated">Hermes · ${esc(r.time || "")}</span></div>
         <div class="rep-md">${md2html(r.content || "")}</div>
       </div>`
     ).join("");

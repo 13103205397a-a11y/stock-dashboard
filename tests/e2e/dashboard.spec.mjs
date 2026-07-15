@@ -121,11 +121,16 @@ test("核心阅读文字保持可读字号和报告行宽", async ({ page }) => 
   await page.goto("/index.html#agent", { waitUntil: "networkidle" });
   const report = page.locator(".rep-md").first();
   await expect(report).toBeVisible();
+  await expect(report).not.toContainText("```markdown");
+  await expect(report).not.toContainText("全部正常");
+  await expect(report.locator(".rep-quality.is-partial").first()).toBeVisible();
+  await expect(page.locator(".rep-head h2").first()).toContainText("07月14日 07:30");
   const reportStyle = await report.evaluate((node) => {
     const style = getComputedStyle(node);
-    return { fontSize: Number.parseFloat(style.fontSize), width: node.getBoundingClientRect().width };
+    return { fontSize: Number.parseFloat(style.fontSize), fontWeight: Number.parseFloat(style.fontWeight), width: node.getBoundingClientRect().width };
   });
   expect(reportStyle.fontSize).toBeGreaterThanOrEqual(15);
+  expect(reportStyle.fontWeight).toBeGreaterThanOrEqual(450);
   expect(reportStyle.width).toBeLessThanOrEqual(760);
 });
 

@@ -15,6 +15,13 @@ import sync_hermes_dashboard
 
 
 class HermesSyncTest(unittest.TestCase):
+    def test_report_strips_markdown_fence_and_corrects_completeness_conflict(self):
+        source = "```markdown\n数据完整度：[全部正常]（自选股数据未能获取）\n\n# 盘前简报\n正文\n```"
+        cleaned = fetch_hermes.sanitize_report(source)
+        self.assertFalse(cleaned.startswith("```"))
+        self.assertFalse(cleaned.endswith("```"))
+        self.assertIn("数据完整度：[部分缺失]", cleaned)
+
     def test_quota_failure_is_not_exported_as_report(self):
         session = {"messages": [{
             "role": "assistant",
