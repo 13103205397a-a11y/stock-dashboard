@@ -2489,11 +2489,12 @@
       if (lm) { if (!inList) { html += "<ul>"; inList = true; } html += `<li>${lm[1]}</li>`; continue; }
       // 空行
       if (!line.trim()) { flushList(); continue; }
-      // 数据完整度是可信度状态，不应混在普通正文中。
-      if (/^数据完整度[\uff1a:]/.test(line.trim())) {
+      // 数据完整度是可信度状态，不应混在普通正文中。模型有时会加粗该行。
+      const qualityLine = line.trim().replace(/^\*\*(.*?)\*\*$/, "$1").trim();
+      if (/^数据完整度[\uff1a:]/.test(qualityLine)) {
         flushList();
-        const partial = /部分缺失|缺失|未能|失败|暂缺|报错/.test(line);
-        html += `<div class="rep-quality ${partial ? "is-partial" : "is-complete"}"><strong>${partial ? "数据部分缺失" : "数据完整"}</strong><span>${line.replace(/^数据完整度[\uff1a:]\s*/, "")}</span></div>`;
+        const partial = /部分缺失|缺失|未能|失败|暂缺|报错/.test(qualityLine);
+        html += `<div class="rep-quality ${partial ? "is-partial" : "is-complete"}"><strong>${partial ? "数据部分缺失" : "数据完整"}</strong><span>${qualityLine.replace(/^数据完整度[\uff1a:]\s*/, "").replace(/^[\[［]|[\]］]$/g, "")}</span></div>`;
         continue;
       }
       // 普通段落（内联：加粗 **x** / `code`）

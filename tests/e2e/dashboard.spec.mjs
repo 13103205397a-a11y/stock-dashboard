@@ -111,7 +111,52 @@ test("研究内容不会直出内部字段、生成过程语或残缺括号", as
   }
 });
 
+// 报告断言使用固定夹具：AI 报告内容每天由 Hermes 重写，
+// 不 mock 的话测试会随当天数据（如完整度为“全部正常”）而失败。
+const REPORTS_FIXTURE = `window.REPORTS = ${JSON.stringify({
+  updated: "2026-07-14 07:35",
+  reports: [
+    {
+      type: "盘前简报",
+      title: "每日盘前简报 · Jul 14 07:30",
+      time: "2026-07-14 07:30",
+      id: "cron_fixture_20260714_0730",
+      content: [
+        "数据完整度：部分缺失（自选股行情接口超时，其余正常）",
+        "",
+        "# 盘前简报（2026-07-14）",
+        "",
+        "## 1. 隔夜美股",
+        "",
+        "| 指数 | 收盘 | 涨跌幅 |",
+        "|---|---|---|",
+        "| 道琼斯 | 52,000 | -0.20% |",
+        "",
+        `正文段落，用于测量报告的行宽与阅读字号。${"市场情绪偏谨慎，注意仓位控制。".repeat(12)}`,
+      ].join("\n"),
+    },
+    {
+      type: "收盘复盘",
+      title: "收盘复盘 · Jul 14 15:33",
+      time: "2026-07-14 15:33",
+      id: "cron_fixture_20260714_1533",
+      content: [
+        // 模型有时会把完整度行加粗，前端必须仍识别为状态条而非正文。
+        "**数据完整度：[全部正常]**",
+        "- 指数、板块、个股与龙虎榜数据均获取成功。",
+        "",
+        "## 1. 指数表现",
+        "",
+        `今日市场震荡整理，权重护盘、题材分化。${"成交额与昨日基本持平，情绪面中性。".repeat(6)}`,
+      ].join("\n"),
+    },
+  ],
+})};\n`;
+
 test("核心阅读文字保持可读字号和报告行宽", async ({ page }) => {
+  await page.route(/\/reports\.js(\?.*)?$/, (route) =>
+    route.fulfill({ contentType: "application/javascript", body: REPORTS_FIXTURE })
+  );
   await page.goto("/index.html#opportunities", { waitUntil: "networkidle" });
   const researchSize = await page.locator(".sd-v, .sd-field-list .sum-txt").first().evaluate((node) =>
     Number.parseFloat(getComputedStyle(node).fontSize)
@@ -125,6 +170,13 @@ test("核心阅读文字保持可读字号和报告行宽", async ({ page }) => 
   await expect(report).not.toContainText("全部正常");
   await expect(report.locator(".rep-quality.is-partial").first()).toBeVisible();
   await expect(page.locator(".rep-head h2").first()).toContainText("07月14日 07:30");
+
+  // 加粗的完整度行也应渲染成状态条，而不是混进正文段落。
+  const closingBody = page.locator(".rep-body").nth(1).locator(".rep-md");
+  await expect(closingBody.locator(".rep-quality.is-complete")).toHaveCount(1);
+  await expect(closingBody).not.toContainText("数据完整度");
+  await expect(closingBody).not.toContainText("**");
+
   const reportStyle = await report.evaluate((node) => {
     const style = getComputedStyle(node);
     return { fontSize: Number.parseFloat(style.fontSize), fontWeight: Number.parseFloat(style.fontWeight), width: node.getBoundingClientRect().width };

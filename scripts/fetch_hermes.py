@@ -46,6 +46,11 @@ def sanitize_report(content):
         lines.pop(0)
     if lines and lines[-1].strip() == "```":
         lines.pop()
+    if lines:
+        # 模型偶尔会把完整度状态行整体加粗，去掉包裹让前端按状态条渲染。
+        bold = re.fullmatch(r"\*\*(.+?)\*\*", lines[0].strip())
+        if bold and "数据完整度" in bold.group(1):
+            lines[0] = bold.group(1)
     if lines and "数据完整度" in lines[0] and "全部正常" in lines[0] and re.search(r"缺失|未能|失败|暂缺|报错", lines[0]):
         lines[0] = re.sub(r"[\[［]全部正常[\]］]", "[部分缺失]", lines[0], count=1)
     return "\n".join(lines).strip()

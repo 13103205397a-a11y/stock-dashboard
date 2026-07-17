@@ -22,6 +22,13 @@ class HermesSyncTest(unittest.TestCase):
         self.assertFalse(cleaned.endswith("```"))
         self.assertIn("数据完整度：[部分缺失]", cleaned)
 
+    def test_bold_completeness_line_is_unwrapped(self):
+        source = "**数据完整度：[全部正常]**  \n- 核心数据均获取成功。\n\n# 盘前简报\n正文"
+        cleaned = fetch_hermes.sanitize_report(source)
+        self.assertTrue(cleaned.startswith("数据完整度：[全部正常]"))
+        source_conflict = "**数据完整度：[全部正常]（自选股数据未能获取）**\n# 盘前简报\n正文"
+        self.assertIn("数据完整度：[部分缺失]", fetch_hermes.sanitize_report(source_conflict))
+
     def test_quota_failure_is_not_exported_as_report(self):
         session = {"messages": [{
             "role": "assistant",
