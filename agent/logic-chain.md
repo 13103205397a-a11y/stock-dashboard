@@ -10,6 +10,7 @@
 - 项目目录：`股市看板/`
 - 现有产业链数据：读取 `股市看板/logic.js`（`window.LOGIC.chains`，看上次拆了哪些链）。
 - 热度参考：读取 `股市看板/market.js`（`limitUp.industry` / `sentiment` 看当前什么题材热）。
+- 闭环对齐：再读 `股市看板/industry.js`、`股市看板/materials.js`。链条命名尽量与产业雷达/材料涨价方向名对齐，便于看板「关联模块」互跳。
 
 ## 每日任务
 

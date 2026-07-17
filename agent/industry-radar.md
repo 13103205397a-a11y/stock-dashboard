@@ -10,6 +10,7 @@
 - 项目目录：`股市看板/`
 - 现有产业数据：读取 `股市看板/industry.js`（`window.INDUSTRY.directions` 数组，看上次挖了哪些方向）。
 - 行情原料：读取 `股市看板/market.js`（涨停池 `limitUp` 看今日什么题材在涨、`sentiment` 看打板情绪）。
+- 闭环对齐：再读 `股市看板/logic.js`、`股市看板/materials.js`。方向命名尽量与逻辑链/材料涨价对齐。
 
 ## 每日任务
 

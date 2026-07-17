@@ -1,4 +1,4 @@
-/* A股盘面 · 左侧导航 13 模块 — 渲染 / 筛选 / 搜索 / 详情抽屉 */
+/* A股盘面 · 左侧导航 14 模块 — 渲染 / 筛选 / 搜索 / 详情抽屉 */
 (function () {
   const readabilityCss = document.createElement("style");
   readabilityCss.textContent = `
@@ -266,6 +266,7 @@
     if (state.sector !== "全部" && s.sector !== state.sector) return false;
     if (state.verdict === "changed") { if (!isChanged(s)) return false; }
     else if (state.verdict === "opportunity") { if (!isOpportunity(s)) return false; }
+    else if (state.verdict === "drawdown") { if (!isDeepDrawdown(s)) return false; }
     else if (state.verdict !== "all" && s.review?.verdict !== state.verdict) return false;
     if (state.q) {
       const hay = [s.name, s.code, s.sector, (s.tags || []).join(" "), s.narrative].join(" ").toLowerCase();
@@ -283,7 +284,10 @@
     if (by === "chg") arr.sort((a, b) => (g(b).chgPct ?? -99) - (g(a).chgPct ?? -99));
     else if (by === "toBreakout") arr.sort((a, b) => (g(a).toBreakoutPct ?? 999) - (g(b).toBreakoutPct ?? 999));
     else if (by === "pullback") arr.sort((a, b) => (g(a).pullbackPct ?? 999) - (g(b).pullbackPct ?? 999));
+    else if (by === "drawdown") arr.sort((a, b) => (drawdownPct(g(b)) ?? -1) - (drawdownPct(g(a)) ?? -1));
     else if (by === "trend") arr.sort((a, b) => (trendRank[g(b).trend] ?? -1) - (trendRank[g(a).trend] ?? -1) || (g(b).posPct ?? -99) - (g(a).posPct ?? -99));
+    // 「跌超25%」筛选时默认按回撤从深到浅排，方便先看最惨的
+    else if (state.verdict === "drawdown") arr.sort((a, b) => (drawdownPct(g(b)) ?? -1) - (drawdownPct(g(a)) ?? -1));
     return arr;
   }
 
@@ -322,10 +326,14 @@
     if (!(mx > 0)) return null;
     return ((mx - g.price) / mx) * 100;
   }
+  const isDeepDrawdown = (s) => {
+    const dd = drawdownPct(s.signal || {});
+    return dd != null && dd >= 25;
+  };
   const drawdownFlag = (g) => {
     const dd = drawdownPct(g);
     return dd != null && dd >= 25
-      ? `<span class="dd-flag" title="现价距近60日最高收盘价的回撤幅度">距60日高点 -${dd.toFixed(0)}%</span>`
+      ? `<span class="dd-flag" title="现价距近60日最高收盘价回撤 ≥25%">跌超25% · -${dd.toFixed(0)}%</span>`
       : "";
   };
   // 左/右信号状态 → 强度色：可介入=亮，观望/不足=暗
@@ -517,6 +525,8 @@
       </div>
 
       ${sigBlock}
+
+      ${codeModulesHtml(s.code)}
 
       ${s.valuation ? `<div class="dsec">
         <h3>估值面板 <span class="src-note">机构一致预期 · ${esc(s.valuation.asof || "")}</span></h3>
@@ -1412,31 +1422,31 @@
     // 精华卡: 标签 + 标题 + 一句话精华 + 强度徽章 + 跳转目标
     const cards = [
       bestOpp ? {
-        tag: "机会清单", tagCls: "ok", go: "opportunities",
+        tag: "机会清单", tagCls: "ok", go: "opportunities", xname: bestOpp.name,
         title: bestOpp.name,
         essence: bestOpp.logic ? trunc(bestOpp.logic) : "—",
         badge: bestOpp.stage || "", badgeCls: "warn"
       } : null,
       bestInd ? {
-        tag: "产业雷达", tagCls: "up", go: "industry",
+        tag: "产业雷达", tagCls: "up", go: "industry", xname: bestInd.name,
         title: bestInd.name,
         essence: bestInd.price_signal ? trunc(bestInd.price_signal) : "—",
         badge: "置信度 " + (bestInd.confidence || "—"), badgeCls: "ok"
       } : null,
       bestMat ? {
-        tag: "材料涨价", tagCls: "warn", go: "materials",
+        tag: "材料涨价", tagCls: "warn", go: "materials", xname: bestMat.name,
         title: bestMat.name,
         essence: bestMat.price ? trunc(bestMat.price) : "—",
         badge: bestMat.intensity || "", badgeCls: "up"
       } : null,
       bestEvt ? {
-        tag: "事件概率", tagCls: "up", go: "events",
+        tag: "事件概率", tagCls: "up", go: "events", xname: bestEvt.title,
         title: bestEvt.title,
         essence: bestEvt.importance_reason ? trunc(bestEvt.importance_reason) : "—",
         badge: bestEvt.importance || "", badgeCls: "ok"
       } : null,
       bestLogic ? {
-        tag: "逻辑链", tagCls: "ok", go: "logic",
+        tag: "逻辑链", tagCls: "ok", go: "logic", xname: bestLogic.name,
         title: bestLogic.name,
         essence: bestLogic.bottleneck ? trunc(bestLogic.bottleneck) : "—",
         badge: "卡点", badgeCls: "warn"
@@ -1444,7 +1454,7 @@
     ].filter(Boolean);
 
     const cardHtml = cards.map((c) => `
-      <article class="home-best ${c.tagCls}" data-go="${esc(c.go)}" role="button" tabindex="0" aria-label="打开${esc(c.tag)}：${esc(c.title)}">
+      <article class="home-best ${c.tagCls}" data-go="${esc(c.go)}" data-xname="${esc(c.xname || "")}" role="button" tabindex="0" aria-label="打开${esc(c.tag)}：${esc(c.title)}">
         <div class="hb-top">
           <span class="hb-tag ${c.tagCls}">${esc(c.tag)}</span>
           <span class="hb-badge ${c.badgeCls}">${esc(c.badge)}</span>
@@ -1452,6 +1462,15 @@
         <h3 class="hb-title">${esc(c.title)}</h3>
         <p class="hb-essence">${esc(c.essence)}</p>
       </article>`).join("");
+
+    const ddHits = STOCKS.filter(isDeepDrawdown);
+    const ddStrip = ddHits.length
+      ? `<button class="home-dd-strip" id="homeDdStrip" type="button">
+          <span class="hdd-n">${ddHits.length}</span>
+          <span class="hdd-t">只巨头距 60 日高点跌超 25%</span>
+          <span class="hdd-go">去筛选 ↗</span>
+        </button>`
+      : "";
 
     el.innerHTML = `
       <section class="home-market">
@@ -1469,18 +1488,26 @@
           ${nb && Number.isFinite(nb.total_yi) ? `<div class="sent-block ${sgn(nb.total_yi)}"><div class="sb-n">${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}<span class="sb-u">亿</span></div><div class="sb-l">北向净额</div></div>` : ""}
         </div>
       </section>
+      ${ddStrip}
       ${renderDataHealthPanel()}
-      ${secTitle("今日最强", "5个分析模块各取第1 · 点击查看详情")}
+      ${secTitle("今日最强", "5个分析模块各取第1 · 点击定位到对应条目")}
       <div class="home-best-grid">${cardHtml || emptyState("分析数据待生成")}</div>
       <div class="home-foot">数据时点 ${esc(MARKET.date || META.signalDate || "")} · 非投资建议</div>
     `;
     el.querySelectorAll(".home-best").forEach((c) => {
-      c.addEventListener("click", () => switchView(c.dataset.go));
+      const go = () => jumpToModuleItem(c.dataset.go, c.dataset.xname);
+      c.addEventListener("click", go);
       c.addEventListener("keydown", (e) => {
         if (e.target !== c || !["Enter", " "].includes(e.key)) return;
         e.preventDefault();
-        switchView(c.dataset.go);
+        go();
       });
+    });
+    $("#homeDdStrip")?.addEventListener("click", () => {
+      state.verdict = "drawdown";
+      renderChips();
+      switchView("watch");
+      render();
     });
     bindHomeControls();
   }
@@ -1845,13 +1872,15 @@
   }
 
   /* ---------- 跨模块闭环：同一方向出现在多个 AI 模块时互相跳转 ---------- */
-  // 关联判定以「共享股票代码」为准（客观），辅以方向名互相包含。
+  // 关联判定：方向名互相包含，或共享 ≥2 个股票代码（单票共现易误连，故收紧）。
   const XMODULES = [
     { view: "opportunities", label: "机会清单", items: () => (window.OPPORTUNITIES?.directions || []).map((d) => ({ name: d.name, codes: (d.stocks || []).map((s) => String(s.code)) })) },
     { view: "logic", label: "逻辑链", items: () => (window.LOGIC?.chains || []).map((d) => ({ name: d.name, codes: (d.segments || []).flatMap((s) => (s.stocks || []).map((x) => String(x.code))) })) },
     { view: "industry", label: "产业雷达", items: () => (window.INDUSTRY?.directions || []).map((d) => ({ name: d.name, codes: (d.stocks || []).map((s) => String(s.code)) })) },
     { view: "materials", label: "材料涨价", items: () => (window.MATERIALS?.directions || []).map((d) => ({ name: d.name, codes: (d.stocks || []).map((s) => String(s.code)) })) },
     { view: "events", label: "事件概率", items: () => (window.EVENTS?.events || []).map((d) => ({ name: d.title, codes: (d.stocks || []).map((s) => String(s.code)) })) },
+    { view: "weekend", label: "周末发酵", items: () => (window.WEEKEND?.hotspots || []).map((d) => ({ name: d.title, codes: (d.impactStocks || []).map((s) => String(s.code)) })) },
+    { view: "xpulse", label: "X 热议", items: () => (window.XFEED?.topics || []).map((d) => ({ name: d.title, codes: (d.stocks || []).map((s) => String(s.code)) })) },
   ];
   let xmoduleIndex = null;
   function getXmoduleIndex() {
@@ -1871,12 +1900,27 @@
     for (const mod of getXmoduleIndex()) {
       if (mod.view === selfView) continue;
       for (const it of mod.items) {
-        const shared = it.codes.some((c) => codeSet.has(c));
+        const sharedN = it.codes.filter((c) => codeSet.has(c)).length;
         const itName = xNorm(it.name);
         const nameHit = selfName.length >= 3 && itName.length >= 3 && (selfName.includes(itName) || itName.includes(selfName));
-        if (shared || nameHit) {
+        // 名称命中，或至少两只共享票（避免「同一龙头」把无关题材串起来）
+        if (nameHit || sharedN >= 2) {
           out.push({ view: mod.view, label: mod.label, name: it.name });
-          break; // 每个模块最多列一条最相关的
+          break;
+        }
+      }
+    }
+    return out;
+  }
+  function modulesForCode(code) {
+    const key = String(code || "");
+    if (!key) return [];
+    const out = [];
+    for (const mod of getXmoduleIndex()) {
+      for (const it of mod.items) {
+        if (it.codes.includes(key)) {
+          out.push({ view: mod.view, label: mod.label, name: it.name });
+          break;
         }
       }
     }
@@ -1890,21 +1934,34 @@
     ).join("");
     return `<div class="xlink-row"><span class="xlink-lbl">关联模块</span>${chips}</div>`;
   }
-  // 点击关联跳转：切视图后定位并高亮目标卡片
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest?.(".xlink");
-    if (!btn) return;
-    const { view, name } = btn.dataset;
+  function codeModulesHtml(code) {
+    const rel = modulesForCode(code);
+    if (!rel.length) return "";
+    const chips = rel.map((r) =>
+      `<button class="xlink" data-view="${esc(r.view)}" data-name="${esc(r.name)}"><span class="xl-mod">${esc(r.label)}</span>${esc(trunc(xNorm(r.name), 14))} ↗</button>`
+    ).join("");
+    return `<div class="dsec"><h3>出现在分析模块</h3><div class="xlink-row">${chips}</div></div>`;
+  }
+  function jumpToModuleItem(view, name) {
     switchView(view);
-    requestAnimationFrame(() => {
+    if (!name) return;
+    const tryFocus = (attempt) => {
       const target = [...document.querySelectorAll(`.${view}-only [data-xname]`)]
         .find((node) => node.dataset.xname === name);
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
         target.classList.add("flash-target");
         setTimeout(() => target.classList.remove("flash-target"), 1800);
+        return;
       }
-    });
+      if (attempt < 8) requestAnimationFrame(() => tryFocus(attempt + 1));
+    };
+    requestAnimationFrame(() => tryFocus(0));
+  }
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest?.(".xlink");
+    if (!btn) return;
+    jumpToModuleItem(btn.dataset.view, btn.dataset.name);
   });
 
   /* ---------- 3. 机会清单 ---------- */
@@ -2315,7 +2372,7 @@
       const stocks = (h.impactStocks || []).map((s) =>
         `<button class="we-stock" data-code="${esc(s.code)}">${esc(s.name)} <span class="we-dir ${s.direction === "利好" ? "up" : s.direction === "利空" ? "down" : ""}">${esc(s.direction || "")}</span></button>`
       ).join("");
-      return `<article class="card blk we-card">
+      return `<article class="card blk we-card" data-xname="${esc(h.title || "")}">
         <div class="we-top">
           <span class="we-cat ${catClass(h.category)}">${esc(h.category || "—")}</span>
           <span class="we-ferment ${fermentClass(h.fermentLevel)}">发酵 ${esc(h.fermentLevel || "—")}</span>
@@ -2328,6 +2385,7 @@
         ${h.mondayStrategy ? `<div class="we-sec we-action"><span class="sd-l">周一策略</span>${fieldHtml(h.mondayStrategy)}</div>` : ""}
         ${Array.isArray(h.impactSectors) && h.impactSectors.length ? `<div class="we-sectors">${h.impactSectors.map((s) => `<span class="we-sector">${esc(s)}</span>`).join("")}</div>` : ""}
         ${stocks ? `<div class="we-stocks">${stocks}</div>` : ""}
+        ${xlinkRowHtml("weekend", h.title, (h.impactStocks || []).map((s) => s.code))}
       </article>`;
     }).join("");
     // 周一盘面推演
@@ -2378,7 +2436,7 @@
       `<button class="dir-chip" data-code="${esc(s.code)}"><span class="dir-chip-name">${esc(s.name)}</span></button>`
     ).join("");
 
-    const topicCards = topics.map((t, i) => `<article class="dir-row">
+    const topicCards = topics.map((t, i) => `<article class="dir-row" data-xname="${esc(t.title || "")}">
       <header class="dir-row-head">
         <div class="dir-rank">${String(i + 1).padStart(2, "0")}</div>
         <div class="dir-row-main">
@@ -2394,6 +2452,7 @@
       ${Array.isArray(t.sectors) && t.sectors.length ? `<div class="we-sectors">${t.sectors.map((s) => `<span class="we-sector">${esc(s)}</span>`).join("")}</div>` : ""}
       ${stockChips(t.stocks) ? `<div class="dir-stocks">${stockChips(t.stocks)}</div>` : ""}
       ${linkHtml(t.links) ? `<div class="xp-links">${linkHtml(t.links)}</div>` : ""}
+      ${xlinkRowHtml("xpulse", t.title, (t.stocks || []).map((s) => s.code))}
     </article>`).join("");
 
     const watchHtml = watch.length
