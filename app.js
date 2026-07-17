@@ -175,8 +175,8 @@
         <div class="gauge-sub">炸${zb} 跌${dt}</div>
       </div>`;
     }
-    // 2. 北向资金流向条
-    if (nb.total_yi != null) {
+    // 2. 北向资金流向条（NaN/null 都不画）
+    if (Number.isFinite(nb.total_yi)) {
       const val = nb.total_yi;
       const cls = val > 0 ? "up" : val < 0 ? "down" : "";
       const sign = val > 0 ? "+" : "";
@@ -314,6 +314,20 @@
     return `<span class="fund ${cls}" title="主力净流入 · 同花顺问财（${esc(f.date || "")}）">主力 ${n > 0 ? "+" : ""}${n}亿</span>`;
   };
   const trendCls = (t) => (t === "多头排列" ? "t-up" : t === "空头排列" ? "t-down" : "t-flat");
+  // 距近 60 日高点的回撤百分比（spark 为 60 日收盘序列）；跌超 25% 需要显式提示
+  function drawdownPct(g) {
+    const sp = (g && g.spark) || [];
+    if (!sp.length || g.price == null) return null;
+    const mx = Math.max(...sp, g.price);
+    if (!(mx > 0)) return null;
+    return ((mx - g.price) / mx) * 100;
+  }
+  const drawdownFlag = (g) => {
+    const dd = drawdownPct(g);
+    return dd != null && dd >= 25
+      ? `<span class="dd-flag" title="现价距近60日最高收盘价的回撤幅度">距60日高点 -${dd.toFixed(0)}%</span>`
+      : "";
+  };
   // 左/右信号状态 → 强度色：可介入=亮，观望/不足=暗
   function stateTone(txt, side) {
     if (!txt) return "";
@@ -335,6 +349,7 @@
         <span class="px">¥${g.price}</span>
         <span class="chg ${sgn(g.chgPct)}">${pct(g.chgPct)}</span>
         <span class="trend ${trendCls(g.trend)}">${esc(g.trend)}</span>
+        ${drawdownFlag(g)}
         ${sparkline(g.spark, g.trend)}
       </div>` : "";
     // 买点状态：左侧命中/右侧命中/无 → 一句话
@@ -464,6 +479,7 @@
           <span class="sig-px">¥${g.price}</span>
           <span class="chg ${sgn(g.chgPct)}">${pct(g.chgPct)}</span>
           <span class="trend ${trendCls(g.trend)}">${esc(g.trend)}</span>
+          ${drawdownFlag(g)}
           <span class="sig-pos">距MA60 ${g.posPct == null ? "—" : (g.posPct > 0 ? "+" : "") + g.posPct + "%"}</span>
           <span class="sig-pos">量比 ${g.volRatio ?? "—"}</span>
         </div>
@@ -689,7 +705,7 @@
         <span class="sent-val">最高 ${s.max_height ?? "—"}连板</span>
       </div>
       <div class="sent-group lad">${ladHtml ? `<span class="sent-label">连板梯队</span>${ladHtml}` : ""}</div>
-      ${nb && nb.total_yi != null ? `<div class="sent-group"><span class="sent-label">北向资金</span><span class="sent-val ${sgn(nb.total_yi)}">净${nb.total_yi > 0 ? "流入" : "流出"} ${Math.abs(nb.total_yi).toFixed(2)}亿</span><span class="sent-mini">沪${(nb.hgt_yi ?? 0).toFixed(2)} 深${(nb.sgt_yi ?? 0).toFixed(2)}</span></div>` : ""}
+      ${nb && Number.isFinite(nb.total_yi) ? `<div class="sent-group"><span class="sent-label">北向资金</span><span class="sent-val ${sgn(nb.total_yi)}">净${nb.total_yi > 0 ? "流入" : "流出"} ${Math.abs(nb.total_yi).toFixed(2)}亿</span><span class="sent-mini">沪${(Number.isFinite(nb.hgt_yi) ? nb.hgt_yi : 0).toFixed(2)} 深${(Number.isFinite(nb.sgt_yi) ? nb.sgt_yi : 0).toFixed(2)}</span></div>` : ""}
       <div class="sent-date">数据时点 ${esc(MARKET.date || "")}</div>
     `;
   }
@@ -843,6 +859,7 @@
     industry: () => renderIndustry(),
     materials: () => renderMaterials(),
     weekend: () => renderWeekend(),
+    xpulse: () => renderXpulse(),
     events: () => renderEvents(),
     news: () => renderNewsAll(),
     watch: () => render(),
@@ -863,6 +880,7 @@
     industry: "产业雷达",
     materials: "材料涨价",
     weekend: "周末发酵",
+    xpulse: "X 热议",
   };
   function viewFromHash() {
     try {
@@ -1032,7 +1050,7 @@
     const M = window.MARKET || {};
     const items = [];
     const nb = M.northbound;
-    const net = nb ? (nb.total_yi ?? nb.hgt_yi) : null;
+    const net = nb ? [nb.total_yi, nb.hgt_yi].find(Number.isFinite) : null;
     if (net != null) {
       const cls = net >= 0 ? "up" : "down";
       items.push(`<span class="sb-item"><span class="sb-lbl">北向</span><span class="sb-val ${cls}">${net >= 0 ? "+" : ""}${net.toFixed(1)}亿</span></span>`);
@@ -1156,6 +1174,7 @@
       { name: "材料涨价", date: MAT?.generatedAt || MAT?.date, count: `${(MAT?.directions || []).length}项`, source: "Hermes", view: "materials", relaxed: true, missing: !MAT },
       { name: "事件概率", date: EV?.generatedAt || EV?.date, count: `${(EV?.events || []).length}件`, source: "Hermes", view: "events", relaxed: true, missing: !EV },
       { name: "周末发酵", date: W?.generatedAt || W?.weekendDate || W?.date, count: `${(W?.hotspots || []).length}项`, source: "Hermes", view: "weekend", weekly: true, optional: true, missing: !W },
+      { name: "X 热议", date: window.XFEED?.generatedAt || window.XFEED?.date, count: `${(window.XFEED?.topics || []).length}题`, source: "Hermes/X", view: "xpulse", relaxed: true, optional: true, missing: !(window.XFEED?.topics || []).length },
     ];
   }
 
@@ -1261,6 +1280,7 @@
     (INDUSTRY?.directions || []).forEach((d) => addSearchItem(list, "产业", d.name, d.confidence || "", [d.price_signal, d.logic].join(" "), "industry"));
     (window.MATERIALS?.directions || []).forEach((d) => addSearchItem(list, "材料", d.name, d.intensity || "", [d.price, d.logic].join(" "), "materials"));
     (window.EVENTS?.events || []).forEach((e) => addSearchItem(list, "事件", e.title, e.importance || "", [e.content, e.sectors].join(" "), "events"));
+    (window.XFEED?.topics || []).forEach((t) => addSearchItem(list, "X热议", t.title, t.sentiment || "", [t.summary, t.impact].join(" "), "xpulse"));
     return list;
   }
 
@@ -1446,7 +1466,7 @@
           <div class="sent-block down"><div class="sb-n">${s.dt_count ?? "—"}</div><div class="sb-l">跌停</div></div>
           <div class="sent-block"><div class="sb-n">${s.break_rate ?? "—"}<span class="sb-u">%</span></div><div class="sb-l">炸板率</div></div>
           <div class="sent-block"><div class="sb-n">${s.max_height ?? "—"}<span class="sb-u">板</span></div><div class="sb-l">最高连板</div></div>
-          ${nb && nb.total_yi != null ? `<div class="sent-block ${sgn(nb.total_yi)}"><div class="sb-n">${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}<span class="sb-u">亿</span></div><div class="sb-l">北向净额</div></div>` : ""}
+          ${nb && Number.isFinite(nb.total_yi) ? `<div class="sent-block ${sgn(nb.total_yi)}"><div class="sb-n">${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}<span class="sb-u">亿</span></div><div class="sb-l">北向净额</div></div>` : ""}
         </div>
       </section>
       ${renderDataHealthPanel()}
@@ -1824,6 +1844,69 @@
     }));
   }
 
+  /* ---------- 跨模块闭环：同一方向出现在多个 AI 模块时互相跳转 ---------- */
+  // 关联判定以「共享股票代码」为准（客观），辅以方向名互相包含。
+  const XMODULES = [
+    { view: "opportunities", label: "机会清单", items: () => (window.OPPORTUNITIES?.directions || []).map((d) => ({ name: d.name, codes: (d.stocks || []).map((s) => String(s.code)) })) },
+    { view: "logic", label: "逻辑链", items: () => (window.LOGIC?.chains || []).map((d) => ({ name: d.name, codes: (d.segments || []).flatMap((s) => (s.stocks || []).map((x) => String(x.code))) })) },
+    { view: "industry", label: "产业雷达", items: () => (window.INDUSTRY?.directions || []).map((d) => ({ name: d.name, codes: (d.stocks || []).map((s) => String(s.code)) })) },
+    { view: "materials", label: "材料涨价", items: () => (window.MATERIALS?.directions || []).map((d) => ({ name: d.name, codes: (d.stocks || []).map((s) => String(s.code)) })) },
+    { view: "events", label: "事件概率", items: () => (window.EVENTS?.events || []).map((d) => ({ name: d.title, codes: (d.stocks || []).map((s) => String(s.code)) })) },
+  ];
+  let xmoduleIndex = null;
+  function getXmoduleIndex() {
+    if (xmoduleIndex) return xmoduleIndex;
+    xmoduleIndex = XMODULES.map((m) => ({
+      view: m.view,
+      label: m.label,
+      items: m.items().filter((it) => it.name),
+    }));
+    return xmoduleIndex;
+  }
+  const xNorm = (s) => String(s || "").split(/[（(]/)[0].trim();
+  function relatedAcrossModules(selfView, name, codes) {
+    const codeSet = new Set((codes || []).map(String));
+    const selfName = xNorm(name);
+    const out = [];
+    for (const mod of getXmoduleIndex()) {
+      if (mod.view === selfView) continue;
+      for (const it of mod.items) {
+        const shared = it.codes.some((c) => codeSet.has(c));
+        const itName = xNorm(it.name);
+        const nameHit = selfName.length >= 3 && itName.length >= 3 && (selfName.includes(itName) || itName.includes(selfName));
+        if (shared || nameHit) {
+          out.push({ view: mod.view, label: mod.label, name: it.name });
+          break; // 每个模块最多列一条最相关的
+        }
+      }
+    }
+    return out;
+  }
+  function xlinkRowHtml(selfView, name, codes) {
+    const rel = relatedAcrossModules(selfView, name, codes);
+    if (!rel.length) return "";
+    const chips = rel.map((r) =>
+      `<button class="xlink" data-view="${esc(r.view)}" data-name="${esc(r.name)}"><span class="xl-mod">${esc(r.label)}</span>${esc(trunc(xNorm(r.name), 14))} ↗</button>`
+    ).join("");
+    return `<div class="xlink-row"><span class="xlink-lbl">关联模块</span>${chips}</div>`;
+  }
+  // 点击关联跳转：切视图后定位并高亮目标卡片
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest?.(".xlink");
+    if (!btn) return;
+    const { view, name } = btn.dataset;
+    switchView(view);
+    requestAnimationFrame(() => {
+      const target = [...document.querySelectorAll(`.${view}-only [data-xname]`)]
+        .find((node) => node.dataset.xname === name);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        target.classList.add("flash-target");
+        setTimeout(() => target.classList.remove("flash-target"), 1800);
+      }
+    });
+  });
+
   /* ---------- 3. 机会清单 ---------- */
   function renderOpportunities() {
     const el = $("#viewOpportunities");
@@ -1870,7 +1953,7 @@
         </button>`;
       }).join("");
 
-      return `<article class="opp-row">
+      return `<article class="opp-row" data-xname="${esc(d.name)}">
         <header class="opp-row-head">
           <div class="opp-rank">${String(i + 1).padStart(2, "0")}</div>
           <div class="opp-row-main">
@@ -1884,6 +1967,7 @@
           </div>
         </header>
         ${stocks ? `<div class="opp-stocks">${stocks}</div>` : ""}
+        ${xlinkRowHtml("opportunities", d.name, (d.stocks || []).map((s) => s.code))}
         <div class="opp-cols">
           ${blockHtml("机会挖掘", d.opportunity, "pick")}
           ${blockHtml("风险提示", d.risk, "risk")}
@@ -2034,11 +2118,12 @@
           ${riskList.length ? `<div class="lc-cond-group"><span class="lc-cond-lbl down">✗ 风险</span><div class="lc-cond-items">${riskList.map((x) => `<div class="lc-cond-item down">${esc(x.text)}</div>`).join("")}</div></div>` : ""}
         </div>`;
 
-      return `<article class="card blk lc-chain ${item.strength.cls}">
+      return `<article class="card blk lc-chain ${item.strength.cls}" data-xname="${esc(c.name)}">
         <div class="lc-chain-head">
           <div class="lc-chain-title"><span class="lc-rank">#${idx + 1}</span><h3 class="sd-name">${esc(c.name)}</h3></div>
           <span class="lc-asof">${esc(c.asof || "")}</span>
         </div>
+        ${xlinkRowHtml("logic", c.name, (c.segments || []).flatMap((s) => (s.stocks || []).map((x) => x.code)))}
         ${condHtml}
         <div class="lc-logic"><span class="sd-l">核心逻辑</span>${fieldHtml(c.logic || "—")}</div>
         <div class="lc-bottleneck"><span class="sd-l">卡脖子环节</span>${fieldHtml(c.bottleneck || "—")}</div>
@@ -2088,7 +2173,7 @@
           </button>`
         ).join("");
         const lead = leadOf(d.price_signal || d.supply || d.driver || "");
-        return `<article class="dir-row">
+        return `<article class="dir-row" data-xname="${esc(d.name)}">
           <header class="dir-row-head">
             <div class="dir-rank">${String(i + 1).padStart(2, "0")}</div>
             <div class="dir-row-main">
@@ -2101,6 +2186,7 @@
             </div>
           </header>
           ${stocks ? `<div class="dir-stocks">${stocks}</div>` : ""}
+          ${xlinkRowHtml("industry", d.name, (d.stocks || []).map((s) => s.code))}
           <div class="dir-cols">
             ${blockHtml("涨价信号", d.price_signal, "pick")}
             ${blockHtml("风险 / 反向", d.risk, "risk")}
@@ -2171,7 +2257,7 @@
         </button>`
       ).join("");
       const lead = leadOf(d.timing || d.price || d.driver || "");
-      return `<article class="dir-row">
+      return `<article class="dir-row" data-xname="${esc(d.name)}">
         <header class="dir-row-head">
           <div class="dir-rank">${String(i + 1).padStart(2, "0")}</div>
           <div class="dir-row-main">
@@ -2184,6 +2270,7 @@
           </div>
         </header>
         ${stocks ? `<div class="dir-stocks">${stocks}</div>` : ""}
+        ${xlinkRowHtml("materials", d.name, (d.stocks || []).map((s) => s.code))}
         <div class="dir-cols">
           ${blockHtml("价格 / 涨幅", d.price, "pick")}
           ${blockHtml("风险 / 反向", d.risk, "risk")}
@@ -2270,6 +2357,69 @@
     el.querySelectorAll(".we-stock[data-code]").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
 
+  /* ---------- 6.8 X 热议（海外社媒风向） ---------- */
+  function renderXpulse() {
+    const el = $("#viewXpulse");
+    if (!el) return;
+    const X = window.XFEED || null;
+    const topics = (X && X.topics) || [];
+    const watch = (X && X.watchlist) || [];
+    if (!X || (!topics.length && !watch.length)) {
+      el.innerHTML = secTitle("X 热议", "海外社媒（X/Twitter）与 A 股相关的讨论风向 · 工作日 07:05 / 23:00 自动更新") +
+        emptyState("X 热议数据待生成（由 Hermes 通过 X 搜索自动采集，交易日早晚各一次）。");
+      return;
+    }
+    const sentCls = (s) => /利好/.test(s || "") ? "up" : /警惕|利空/.test(s || "") ? "down" : "warn";
+    const linkHtml = (links) => (links || []).slice(0, 3).map((l) => {
+      const u = safeUrl(l.url);
+      return u ? `<a class="xp-link" href="${u}" target="_blank" rel="noopener noreferrer">${esc(trunc(l.title || "原帖", 40))} ↗</a>` : "";
+    }).join("");
+    const stockChips = (stocks) => (stocks || []).map((s) =>
+      `<button class="dir-chip" data-code="${esc(s.code)}"><span class="dir-chip-name">${esc(s.name)}</span></button>`
+    ).join("");
+
+    const topicCards = topics.map((t, i) => `<article class="dir-row">
+      <header class="dir-row-head">
+        <div class="dir-rank">${String(i + 1).padStart(2, "0")}</div>
+        <div class="dir-row-main">
+          <div class="dir-row-meta">
+            <span class="dir-badge ${sentCls(t.sentiment)}">${esc(t.sentiment || "中性")}</span>
+            ${t.heat ? `<span class="dir-asof">热度 ${esc(t.heat)}</span>` : ""}
+          </div>
+          <h3 class="dir-title" title="${esc(t.title)}">${esc(trunc(t.title || "—", 42))}</h3>
+          ${t.summary ? `<p class="dir-lead">${esc(trunc(cleanDisplayText(t.summary), 140))}</p>` : ""}
+        </div>
+      </header>
+      ${t.impact ? `<section class="dir-block pick"><div class="dir-block-l">对 A 股影响</div><div class="dir-block-b">${fieldHtml(t.impact)}</div></section>` : ""}
+      ${Array.isArray(t.sectors) && t.sectors.length ? `<div class="we-sectors">${t.sectors.map((s) => `<span class="we-sector">${esc(s)}</span>`).join("")}</div>` : ""}
+      ${stockChips(t.stocks) ? `<div class="dir-stocks">${stockChips(t.stocks)}</div>` : ""}
+      ${linkHtml(t.links) ? `<div class="xp-links">${linkHtml(t.links)}</div>` : ""}
+    </article>`).join("");
+
+    const watchHtml = watch.length
+      ? watch.map((w) => `<article class="card blk xp-watch">
+          <div class="xp-watch-head">
+            <button class="dir-chip" data-code="${esc(w.code)}"><span class="dir-chip-name">${esc(w.name)}</span><span class="dir-chip-pos">${esc(w.code)}</span></button>
+            <span class="dir-badge ${sentCls(w.sentiment)}">${esc(w.sentiment || "中性")}</span>
+          </div>
+          ${w.summary ? `<p class="dnarr">${esc(cleanDisplayText(w.summary))}</p>` : ""}
+          ${linkHtml(w.links) ? `<div class="xp-links">${linkHtml(w.links)}</div>` : ""}
+        </article>`).join("")
+      : `<div class="empty">今日自选股在 X 上无有效讨论（不硬凑内容）。</div>`;
+
+    const moodHtml = X.mood && X.mood.label
+      ? `<div class="we-summary"><strong>中概情绪：${esc(X.mood.label)}</strong>${X.mood.note ? ` · ${esc(X.mood.note)}` : ""}</div>`
+      : "";
+
+    el.innerHTML = secTitle("X 热议", `${esc(X.slot || "")} · ${esc(X.generatedAt || X.date || "")} · 社媒观点仅供参考，非投资建议`) +
+      (X.summary ? `<div class="we-summary">${esc(X.summary)}</div>` : "") + moodHtml +
+      `<div class="dir-board">${topicCards}</div>` +
+      secTitle("自选股海外讨论", "重点自选在 X 上的产业链相关声音") +
+      `<div class="we-grid">${watchHtml}</div>` +
+      `<div class="home-foot">由 Hermes Agent 通过 X 搜索采集（交易日 07:05 盘前 / 23:00 晚间） · 仅供研究参考，非投资建议</div>`;
+    el.querySelectorAll(".dir-chip[data-code]").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+  }
+
   /* ---------- 7. 事件概率 ---------- */
   function renderEvents() {
     const el = $("#viewEvents");
@@ -2323,7 +2473,7 @@
         </button>`;
       }).join("");
 
-      return `<article class="ev-row">
+      return `<article class="ev-row" data-xname="${esc(e.title)}">
         <header class="ev-row-head">
           <div class="ev-rank">${String(i + 1).padStart(2, "0")}</div>
           <div class="ev-row-main">
@@ -2339,6 +2489,7 @@
         </header>
         ${sectorChips(e.sectors)}
         ${stocks ? `<div class="ev-stocks-row">${stocks}</div>` : ""}
+        ${xlinkRowHtml("events", e.title, (e.stocks || []).map((s) => s.code))}
         <div class="ev-cols">
           ${blockHtml("重要性原因", e.importance_reason, "why")}
           ${blockHtml("影响时效", e.timeliness, "time")}

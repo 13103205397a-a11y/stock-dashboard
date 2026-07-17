@@ -21,6 +21,7 @@ const files = [
   "events.js",
   "opportunities.js",
   "weekend.js",
+  "x_feed.js",
   "reports.js",
 ];
 
@@ -93,6 +94,11 @@ if (!W.REPORTS || !Array.isArray(W.REPORTS.reports)) {
   fail("reports.js: window.REPORTS.reports 必须是数组");
 }
 
+// X 热议允许为空（首次运行前 / 无有效讨论），但结构必须正确
+if (!W.XFEED || !Array.isArray(W.XFEED.topics) || !Array.isArray(W.XFEED.watchlist)) {
+  fail("x_feed.js: XFEED.topics/watchlist 必须都是数组");
+}
+
 if (!W.INDUSTRY_MARKET || !Array.isArray(W.INDUSTRY_MARKET.top) ||
     !Array.isArray(W.INDUSTRY_MARKET.bottom) || typeof W.INDUSTRY_MARKET.total !== "number") {
   fail("industry_market.js: INDUSTRY_MARKET 协议无效");
@@ -122,6 +128,7 @@ function validateReferences(value, trail = "window", depth = 0) {
 [
   ["OPPORTUNITIES", W.OPPORTUNITIES], ["LOGIC", W.LOGIC], ["INDUSTRY", W.INDUSTRY],
   ["MATERIALS", W.MATERIALS], ["EVENTS", W.EVENTS], ["WEEKEND", W.WEEKEND],
+  ["XFEED", W.XFEED],
 ].forEach(([name, value]) => validateReferences(value, name));
 
 const editorial = { processText: [], internalTokens: [], runOnText: [] };

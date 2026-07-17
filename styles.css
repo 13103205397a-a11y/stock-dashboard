@@ -376,6 +376,7 @@ body.view-agent .agent-only,
 body.view-industry .industry-only,
 body.view-materials .materials-only,
 body.view-weekend .weekend-only,
+body.view-xpulse .xpulse-only,
 body.view-events .events-only,
 body.view-news .news-only,
 body.view-watch .watch-only,
@@ -1413,3 +1414,21 @@ a.hc-news:hover { color: var(--accent-d); }
   /* 手机端网格纹理更淡 */
   .home-market::before { opacity: .2; }
 }
+
+/* ============ X 热议 ============ */
+.xp-links { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-2); }
+.xp-link { font-size: 11px; color: var(--accent); text-decoration: none; border: 1px solid var(--line); border-radius: var(--r-sm); padding: 2px 8px; background: var(--bg-2); }
+.xp-link:hover { border-color: var(--accent); }
+.xp-watch-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); margin-bottom: var(--s-2); }
+
+/* ============ 跌超25% 回撤提示 ============ */
+.dd-flag { font-size: 10px; font-weight: 700; color: var(--bad); border: 1px solid rgba(200,57,43,.3); background: rgba(200,57,43,.07); border-radius: var(--r-sm); padding: 1px 6px; white-space: nowrap; }
+
+/* ============ 跨模块关联跳转 ============ */
+.xlink-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); margin-top: var(--s-2); }
+.xlink-lbl { font-size: 10px; color: var(--dim); }
+.xlink { font-size: 11px; color: var(--muted); border: 1px dashed var(--line); border-radius: var(--r-sm); padding: 2px 8px; background: transparent; cursor: pointer; }
+.xlink:hover { color: var(--accent); border-color: var(--accent); }
+.xlink .xl-mod { color: var(--accent); font-weight: 600; margin-right: 3px; }
+.flash-target { animation: flashTarget 1.6s ease-out 1; }
+@keyframes flashTarget { 0% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }

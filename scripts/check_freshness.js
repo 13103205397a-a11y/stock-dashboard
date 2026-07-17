@@ -19,7 +19,7 @@ vm.createContext(context);
 for (const file of [
   "data.js", "meta.js", "market.js", "hot.js", "newsall.js", "industry.js",
   "industry_market.js", "materials.js", "logic.js", "events.js",
-  "opportunities.js", "weekend.js", "reports.js",
+  "opportunities.js", "weekend.js", "x_feed.js", "reports.js",
 ]) {
   vm.runInContext(fs.readFileSync(path.join(ROOT, file), "utf8"), context, { filename: file });
 }
@@ -51,6 +51,7 @@ const checks = [
   ["机会清单", W.OPPORTUNITIES?.date || W.OPPORTUNITIES?.generatedAt, 7, "ai"],
   ["材料涨价", W.MATERIALS?.date || W.MATERIALS?.generatedAt, 7, "ai"],
   ["周末发酵", W.WEEKEND?.weekendDate || W.WEEKEND?.generatedAt, 12, "ai"],
+  ["X 热议", W.XFEED?.date || W.XFEED?.generatedAt, 5, "ai"],
 ];
 const stale = [];
 const softStale = [];

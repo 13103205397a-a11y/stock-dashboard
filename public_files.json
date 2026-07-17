@@ -17,6 +17,7 @@
     "materials.js",
     "newsall.js",
     "weekend.js",
+    "x_feed.js",
     "reports.js"
   ],
   "localOptional": [

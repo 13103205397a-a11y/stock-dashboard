@@ -22,7 +22,7 @@
 - **今日热点 TOP30**：按个股热度排序，含涨跌/换手/量比/资金/连板/所属概念/行业/市值 + 炒作题材/技术面/情绪面规则化标签 + 催化新闻。
 
 ## 文件结构
-### 前端（13 个视图模块，对应 `index.html` 侧栏）
+### 前端（14 个视图模块，对应 `index.html` 侧栏）
 | 文件 | 作用 |
 |---|---|
 | `index.html` / `styles.css` / `design-system.css` / `app.js` | 页面结构 / 基础样式 / 机构级 Design Token 与组件覆盖层 / 渲染·筛选·全局搜索·数据健康·抽屉 |
@@ -35,6 +35,7 @@
 | `materials.js` / `events.js` | 材料涨价 / 事件概率（`window.MATERIALS` / `EVENTS`） |
 | `newsall.js` / `hot.js` | 全球资讯+公告（`window.NEWSALL`）/ 今日热点 TOP30（`window.HOT`） |
 | `market.js` | 全市场异动扫描（`window.MARKET`） |
+| `x_feed.js` | X 热议：海外社媒与 A 股相关的讨论风向（`window.XFEED`） |
 | `reports.js` | AI 每日复盘报告（`window.REPORTS`） |
 
 ### 抓取脚本（`scripts/`）
@@ -51,12 +52,12 @@
 | `fetch_news_all.py` | a-stock-pro（免key） | `newsall.js` |
 | `fetch_hot.py` | 同花顺问财（需 `IWENCAI_API_KEY`） | `hot.js` |
 | `fetch_hermes.py` | Hermes 会话导出 | `reports.js` |
-| `sync_hermes_dashboard.py` | Hermes 会话导出 + 公开 AI 数据定时发布 | reports/industry/logic/events/opportunities/materials/weekend.js |
+| `sync_hermes_dashboard.py` | Hermes 会话导出 + 公开 AI 数据定时发布 | reports/industry/logic/events/opportunities/materials/weekend/x_feed.js |
 | `refresh_plan.json` / `run_refresh.py` | 本地统一刷新计划 / 命令行执行器 | 本地全量刷新 |
 | `sanitize_ai_content.py` / `validate_data.js` / `check_freshness.js` | AI 内部字段清理、公开数据结构与新鲜度校验（不读取私有持仓） | 本地/CI 校验 |
 | `skills/` | a-stock-pro / hithink-astock-selector / hithink-market-query / news-search / report-search（vendored） | — |
 | `.github/workflows/refresh-signals.yml` | GitHub Actions：收盘后自动刷新行情+消息面+异动 | data/meta/market/industry_market/newsall/hot.js（不含持仓与 AI 文件） |
-| `agent/*.md` | 各模块 AI 分析提示词（daily-review / industry-radar / logic-chain / materials-analysis / events-analysis / opportunities-analysis） | 驱动 reports.js 等 |
+| `agent/*.md` | 各模块 AI 分析提示词（daily-review / industry-radar / logic-chain / materials-analysis / events-analysis / opportunities-analysis / x-pulse） | 驱动 reports.js 等 |
 ## 数据字段（`data.js` 每条）
 - `code` `name` `sector` `tags`：代码 / 名称 / 板块 / 标签
 - `narrative`：叙事逻辑
@@ -137,11 +138,12 @@ python3 scripts/build_site.py _site
 - 对全部自选股逐一调研（公告/研报/产业链/舆情），更新 `review`/`history`/`news`/`meta.marketRegime`。
 - 沙箱无外网时仅能用 WebSearch；消息面已由上述 Actions 在 15:00 后补入，Agent 可直接读取后再补充。
 
-**本地 Hermes Agent**（`reports.js`/`industry.js`/`logic.js`/`events.js`/`opportunities.js`/`materials.js`/`weekend.js` 这 7 个文件由它生成发布）：
+**本地 Hermes Agent**（`reports.js`/`industry.js`/`logic.js`/`events.js`/`opportunities.js`/`materials.js`/`weekend.js`/`x_feed.js` 这 8 个文件由它生成发布）：
 - `scripts/fetch_hermes.py` 依赖本机 `hermes` 命令行工具，从会话库导出复盘报告；产业雷达/逻辑链/事件/机会/材料由对应 Hermes 定时任务（工作日 16:30–16:50）在仓库 workdir 直写。
 - Hermes 的 `看板复盘同步` no-agent Cron 每 30 分钟调用 `scripts/sync_hermes_dashboard.py`。发布使用基于最新 `origin/main` 的隔离临时 worktree，不受当前开发工作区未提交改动影响，并会在远端竞争时自动重试；`portfolio_analysis.js` 仍保持本地私有。
 - 所有项目 Cron 的 `workdir` 必须指向当前仓库根目录。主提供商不可用时应配置至少一个 `hermes fallback`，否则单个供应商额度耗尽会让全部 Agent 停摆。
-- 这 7 个数据文件不进 GitHub Actions，换机器后需自行安装 `hermes` 并配置定时任务（盘前/盘初/午间/收盘），否则这些模块显示"待生成"。
+- 这 8 个数据文件不进 GitHub Actions，换机器后需自行安装 `hermes` 并配置定时任务（盘前/盘初/午间/收盘/X热议早晚），否则这些模块显示"待生成"。
+- `x_feed.js` 由「X热议·盘前」（工作日 07:05）与「X热议·晚间」（工作日 23:00）两个 Hermes 定时任务用 `x_search` 工具生成，任务只写文件不推送，发布统一走「看板复盘同步」。
 - 前端对这些文件有 `onerror` 兜底，缺失不会白屏。
 
 > 注：GitHub PAT 若只有 `repo` scope，本地无法 push `.github/workflows/` 改动（HTTP 422），需在 GitHub 网页 UI 编辑 workflow。

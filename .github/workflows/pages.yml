@@ -116,7 +116,7 @@ jobs:
         run: |
           set -euo pipefail
           base="${PAGE_URL%/}"
-          for asset in index.html app.js styles.css design-system.css data.js meta.js hot.js market.js industry.js industry_market.js logic.js events.js opportunities.js materials.js newsall.js weekend.js reports.js; do
+          for asset in index.html app.js styles.css design-system.css data.js meta.js hot.js market.js industry.js industry_market.js logic.js events.js opportunities.js materials.js newsall.js weekend.js x_feed.js reports.js; do
             curl --fail --silent --show-error \
               --retry 5 --retry-delay 3 --retry-all-errors \
               "$base/$asset" > /dev/null

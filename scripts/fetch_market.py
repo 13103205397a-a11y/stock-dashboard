@@ -136,16 +136,30 @@ def collect_market():
     market["dragonTiger"] = safe(a.daily_dragon_tiger, TODAY_DASH, default={})
     time.sleep(1.0)
     market["northbound"] = None
+
+    def _num(value):
+        """pandas 缺失值是 NaN，float(NaN) 仍是 NaN，写进 JS 会显示 NaN——统一转 None。"""
+        try:
+            f = float(value)
+        except (TypeError, ValueError):
+            return None
+        return f if f == f else None
+
     try:
         df = a.hsgt_realtime()
         if df is not None and not df.empty:
             # 取最新一行(收盘价) + 整体走势
             latest = df.iloc[-1]
+            hgt = _num(latest.get("hgt_yi"))
+            sgt = _num(latest.get("sgt_yi"))
+            total = None
+            if hgt is not None and sgt is not None:
+                total = round(hgt + sgt, 2)
             market["northbound"] = {
                 "time": str(latest.get("time", "")),
-                "hgt_yi": float(latest.get("hgt_yi", 0)) if latest.get("hgt_yi") is not None else 0,
-                "sgt_yi": float(latest.get("sgt_yi", 0)) if latest.get("sgt_yi") is not None else 0,
-                "total_yi": (float(latest.get("hgt_yi", 0) or 0) + float(latest.get("sgt_yi", 0) or 0)),
+                "hgt_yi": hgt,
+                "sgt_yi": sgt,
+                "total_yi": total,
             }
     except Exception as e:
         print(f"  [WARN] hsgt_realtime 失败: {e}", flush=True)
@@ -200,7 +214,7 @@ def main():
         "强势股": len(market.get("thsStrong", [])),
     }
     nb = market.get("northbound")
-    nb_str = f"北向净{nb['total_yi']:.2f}亿" if nb else "北向无"
+    nb_str = f"北向净{nb['total_yi']:.2f}亿" if nb and nb.get("total_yi") is not None else "北向无"
     print(f"\n完成: {counts} | {nb_str} → market.js", flush=True)
     return 0
 
