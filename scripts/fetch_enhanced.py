@@ -148,12 +148,17 @@ def main():
                     print(f"  [WARN] {futs[fut]['code']} 失败: {e}")
                 if i % 10 == 0 or i == len(stocks):
                     print(f"  进度: {i}/{len(stocks)} (fund {ok_fund}/research {ok_research}/val {ok_val})", flush=True)
-        # 写回
+        # 数据源整体故障时不写回，避免把已有 fund/research 抹成空值。
+        if stocks and ok_fund == 0 and ok_research == 0 and ok_val == 0:
+            print("\n[WARN] 全部股票的 fund/research/valuation 均采集失败，保留旧数据不写回。", file=sys.stderr)
+            sys.exit(1)
+        # 写回；单只失败保留该票旧值
         for s in stocks:
             code = s["code"]
             if code in results:
                 fund, research, valuation = results[code]
-                s["fund"] = fund
+                if fund.get("netInflow") is not None:
+                    s["fund"] = fund
                 if research:
                     s["research"] = research
                 if valuation:

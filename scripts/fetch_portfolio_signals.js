@@ -29,7 +29,7 @@ async function fetchJson(url, retries = 3) {
   let last;
   for (let i = 0; i < retries; i++) {
     try {
-      const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+      const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" }, signal: AbortSignal.timeout(15000) });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch (error) {

@@ -25,6 +25,9 @@ xhs/output/
 xhs/*.png
 .refresh.lock
 node_modules/
+# 环境变量/密钥文件，防误提交
+.env
+.env.*
 playwright-report/
 test-results/
 _site/

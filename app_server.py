@@ -43,7 +43,6 @@ ALLOWED_ORIGINS = {
 MAX_PORTFOLIO_BYTES = 64 * 1024
 PORTFOLIO_FIELDS = {"code", "name", "buyPrice", "shares", "weight", "note", "addedAt"}
 WATCHLIST_FIELDS = {"code", "name", "note", "addedAt"}
-REFRESH_PLAN_PATH = os.path.join(HERE, "scripts", "refresh_plan.json")
 PUBLIC_FILES_PATH = os.path.join(HERE, "public_files.json")
 
 
@@ -66,27 +65,6 @@ refresh_state = {"running": False, "log": [], "done": False, "error": None, "fai
 refresh_state_lock = threading.Lock()
 portfolio_refresh_state = {"running": False, "done": False, "error": None, "log": ""}
 portfolio_refresh_lock = threading.Lock()
-
-
-def _load_refresh_steps():
-    """读取统一刷新计划，返回 [{name, command, timeout}]。"""
-    with open(REFRESH_PLAN_PATH, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    steps = data.get("steps")
-    if not isinstance(steps, list) or not steps:
-        raise ValueError("refresh_plan.json 缺少 steps")
-    out = []
-    for step in steps:
-        name = step.get("name")
-        cmd = step.get("command")
-        if not name or not isinstance(cmd, list) or not all(isinstance(x, str) and x for x in cmd):
-            raise ValueError("refresh_plan.json 中存在无效步骤")
-        out.append({
-            "name": name,
-            "command": cmd,
-            "timeout": int(step.get("timeout") or 300),
-        })
-    return out
 
 
 def _env_with_iwencai():

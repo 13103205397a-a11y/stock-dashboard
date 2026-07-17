@@ -31,6 +31,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: 安装依赖
+        run: npm ci
+
       - name: 语法和数据契约
         run: |
           node --check app.js
@@ -42,10 +45,8 @@ jobs:
       - name: 单元与集成测试
         run: npm test
 
-      - name: 安装浏览器测试依赖
-        run: |
-          npm ci
-          npx playwright install --with-deps chromium
+      - name: 安装浏览器
+        run: npx playwright install --with-deps chromium
 
       - name: 浏览器端到端测试
         run: npm run test:e2e

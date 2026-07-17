@@ -44,7 +44,8 @@ const INDEX_CODES = [
 async function fetchWithRetry(url, opts = {}, retries = 3) {
   for (let i = 0; i < retries; i++) {
     try {
-      const res = await fetch(url, opts);
+      // 弱网时无超时的 fetch 会挂死整个刷新流程
+      const res = await fetch(url, { signal: AbortSignal.timeout(15000), ...opts });
       if (res.ok) return res;
       throw new Error(`HTTP ${res.status}`);
     } catch (e) {

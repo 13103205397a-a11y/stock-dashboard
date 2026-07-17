@@ -6,8 +6,14 @@ const vm = require("vm");
 
 const ROOT = path.resolve(__dirname, "..");
 const strict = process.argv.includes("--strict");
+// --scope=market: 只对行情类数据严格把关（AI 模块由本地 Hermes 维护，
+// GitHub Actions 无法自行修复其过期，不应因此阻断行情提交）。
+const scopeArg = process.argv.find((arg) => arg.startsWith("--scope="));
+const scope = scopeArg ? scopeArg.slice(8) : "all";
 const nowArg = process.argv.find((arg) => arg.startsWith("--now="));
-const now = new Date((nowArg ? nowArg.slice(6) : new Date().toISOString().slice(0, 10)) + "T12:00:00+08:00");
+// 「今天」按北京时间取日历日；toISOString 是 UTC，北京 0:00-8:00 会差一天。
+const todayCn = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Shanghai" });
+const now = new Date((nowArg ? nowArg.slice(6) : todayCn) + "T12:00:00+08:00");
 const context = { window: {} };
 vm.createContext(context);
 for (const file of [
@@ -33,29 +39,37 @@ function businessDaysSince(value) {
 
 const W = context.window;
 const checks = [
-  ["行情信号", W.META?.signalDate || W.META?.lastUpdated, 3],
-  ["市场异动", W.MARKET?.date || W.MARKET?.generatedAt, 3],
-  ["今日热点", W.HOT?.date || W.HOT?.generatedAt, 5],
-  ["新闻公告", W.NEWSALL?.date || W.NEWSALL?.generatedAt, 5],
-  ["行业排行", W.INDUSTRY_MARKET?.date || W.INDUSTRY_MARKET?.generatedAt, 5],
-  ["AI复盘", W.REPORTS?.updated, 5],
-  ["产业雷达", W.INDUSTRY?.date || W.INDUSTRY?.generatedAt, 7],
-  ["逻辑链", W.LOGIC?.date || W.LOGIC?.generatedAt, 7],
-  ["事件概率", W.EVENTS?.date || W.EVENTS?.generatedAt, 7],
-  ["机会清单", W.OPPORTUNITIES?.date || W.OPPORTUNITIES?.generatedAt, 7],
-  ["材料涨价", W.MATERIALS?.date || W.MATERIALS?.generatedAt, 7],
-  ["周末发酵", W.WEEKEND?.weekendDate || W.WEEKEND?.generatedAt, 12],
+  ["行情信号", W.META?.signalDate || W.META?.lastUpdated, 3, "market"],
+  ["市场异动", W.MARKET?.date || W.MARKET?.generatedAt, 3, "market"],
+  ["今日热点", W.HOT?.date || W.HOT?.generatedAt, 5, "market"],
+  ["新闻公告", W.NEWSALL?.date || W.NEWSALL?.generatedAt, 5, "market"],
+  ["行业排行", W.INDUSTRY_MARKET?.date || W.INDUSTRY_MARKET?.generatedAt, 5, "market"],
+  ["AI复盘", W.REPORTS?.updated, 5, "ai"],
+  ["产业雷达", W.INDUSTRY?.date || W.INDUSTRY?.generatedAt, 7, "ai"],
+  ["逻辑链", W.LOGIC?.date || W.LOGIC?.generatedAt, 7, "ai"],
+  ["事件概率", W.EVENTS?.date || W.EVENTS?.generatedAt, 7, "ai"],
+  ["机会清单", W.OPPORTUNITIES?.date || W.OPPORTUNITIES?.generatedAt, 7, "ai"],
+  ["材料涨价", W.MATERIALS?.date || W.MATERIALS?.generatedAt, 7, "ai"],
+  ["周末发酵", W.WEEKEND?.weekendDate || W.WEEKEND?.generatedAt, 12, "ai"],
 ];
 const stale = [];
-for (const [name, date, limit] of checks) {
+const softStale = [];
+for (const [name, date, limit, group] of checks) {
   const age = businessDaysSince(date);
   const line = `${name}: ${date || "缺失"}（${Number.isFinite(age) ? age : "∞"} 个工作日）`;
-  if (age > limit) stale.push(`${line}，上限 ${limit}`);
-  else console.log(`OK ${line}`);
+  if (age > limit) {
+    const enforced = scope === "all" || scope === group;
+    (enforced ? stale : softStale).push(`${line}，上限 ${limit}`);
+  } else {
+    console.log(`OK ${line}`);
+  }
+}
+if (softStale.length) {
+  console.warn(softStale.map((item) => `WARN(scope外) ${item}`).join("\n"));
 }
 if (stale.length) {
   const message = stale.map((item) => `STALE ${item}`).join("\n");
   (strict ? console.error : console.warn)(message);
   if (strict) process.exit(1);
 }
-console.log(`freshness ok: ${checks.length - stale.length}/${checks.length}`);
+console.log(`freshness ok: ${checks.length - stale.length - softStale.length}/${checks.length}`);

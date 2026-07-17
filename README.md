@@ -55,7 +55,7 @@
 | `refresh_plan.json` / `run_refresh.py` | 本地统一刷新计划 / 命令行执行器 | 本地全量刷新 |
 | `sanitize_ai_content.py` / `validate_data.js` / `check_freshness.js` | AI 内部字段清理、公开数据结构与新鲜度校验（不读取私有持仓） | 本地/CI 校验 |
 | `skills/` | a-stock-pro / hithink-astock-selector / hithink-market-query / news-search / report-search（vendored） | — |
-| `.github/workflows/refresh-signals.yml` | GitHub Actions：工作日收盘后自动刷新行情+消息面+异动 | data/meta/market/industry/newsall/hot.js（不含持仓） |
+| `.github/workflows/refresh-signals.yml` | GitHub Actions：收盘后自动刷新行情+消息面+异动 | data/meta/market/industry_market/newsall/hot.js（不含持仓与 AI 文件） |
 | `agent/*.md` | 各模块 AI 分析提示词（daily-review / industry-radar / logic-chain / materials-analysis / events-analysis / opportunities-analysis） | 驱动 reports.js 等 |
 ## 数据字段（`data.js` 每条）
 - `code` `name` `sector` `tags`：代码 / 名称 / 板块 / 标签
@@ -126,8 +126,10 @@ python3 scripts/build_site.py _site
 > 指标为机械计算，**非投资建议**。
 
 ## 自动化架构（无人值守）
-**GitHub Actions**（`.github/workflows/refresh-signals.yml`，工作日收盘后跑 3 次以对冲 GitHub 定时器的延迟/丢弃）：
-- 15:20 / 16:40 / 18:10 北京：抓日K → 重算技术信号 → 问财补消息面 → 问财取热点 → 自动 commit/push。
+**GitHub Actions**（`.github/workflows/refresh-signals.yml`，每天跑 4 次以对冲 GitHub 定时器的延迟/丢弃）：
+- 15:20 / 16:40 / 18:10 每日 + 工作日 09:00 盘前补跑（北京时间）：抓日K → 重算技术信号 → 补消息面 → 问财取热点 → 自动 commit/push。
+- 只提交行情类文件（data/meta/hot/market/industry_market/newsall），AI 分析文件由本地 Hermes 独立发布，两边不争推。
+- 新鲜度门禁按域分离：Actions 只对行情数据 `--scope=market` 严格把关，AI 模块过期只告警不阻断。
 - 问财消息面/热点步骤 `continue-on-error: true`：问财异常（如**当日配额耗尽**）不阻断技术信号提交，且失败时不覆盖已有数据。
 - 需在仓库 Settings → Secrets 配置 `IWENCAI_API_KEY`。
 
@@ -135,12 +137,12 @@ python3 scripts/build_site.py _site
 - 对全部自选股逐一调研（公告/研报/产业链/舆情），更新 `review`/`history`/`news`/`meta.marketRegime`。
 - 沙箱无外网时仅能用 WebSearch；消息面已由上述 Actions 在 15:00 后补入，Agent 可直接读取后再补充。
 
-**本地 Hermes Agent**（`reports.js`/`logic.js`/`events.js`/`opportunities.js`/`materials.js` 由它生成）：
-- `scripts/fetch_hermes.py` 依赖本机 `hermes` 命令行工具，从会话库导出复盘报告。
+**本地 Hermes Agent**（`reports.js`/`industry.js`/`logic.js`/`events.js`/`opportunities.js`/`materials.js`/`weekend.js` 这 7 个文件由它生成发布）：
+- `scripts/fetch_hermes.py` 依赖本机 `hermes` 命令行工具，从会话库导出复盘报告；产业雷达/逻辑链/事件/机会/材料由对应 Hermes 定时任务（工作日 16:30–16:50）在仓库 workdir 直写。
 - Hermes 的 `看板复盘同步` no-agent Cron 每 30 分钟调用 `scripts/sync_hermes_dashboard.py`。发布使用基于最新 `origin/main` 的隔离临时 worktree，不受当前开发工作区未提交改动影响，并会在远端竞争时自动重试；`portfolio_analysis.js` 仍保持本地私有。
 - 所有项目 Cron 的 `workdir` 必须指向当前仓库根目录。主提供商不可用时应配置至少一个 `hermes fallback`，否则单个供应商额度耗尽会让全部 Agent 停摆。
-- 这 5 个数据文件不进 GitHub Actions，换机器后需自行安装 `hermes` 并配置定时任务（盘前/盘初/午间/收盘），否则这些模块显示"待生成"。
-- 前端对这 5 个文件有 `onerror` 兜底，缺失不会白屏。
+- 这 7 个数据文件不进 GitHub Actions，换机器后需自行安装 `hermes` 并配置定时任务（盘前/盘初/午间/收盘），否则这些模块显示"待生成"。
+- 前端对这些文件有 `onerror` 兜底，缺失不会白屏。
 
 > 注：GitHub PAT 若只有 `repo` scope，本地无法 push `.github/workflows/` 改动（HTTP 422），需在 GitHub 网页 UI 编辑 workflow。
 

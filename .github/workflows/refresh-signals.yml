@@ -82,22 +82,34 @@ jobs:
         run: |
           python3 scripts/sanitize_ai_content.py
           node scripts/validate_data.js
-          node scripts/check_freshness.js --strict
+          # 只对本工作流负责的行情数据严格把关；AI 模块由本地 Hermes 维护，
+          # 其过期不应阻断行情提交（Actions 也无法自行修复它们）。
+          node scripts/check_freshness.js --strict --scope=market
 
       - name: 提交并推送(仅在有变化时)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # holdings.js / portfolio_analysis.js 含个人数据，不提交也不发布；
-          # weekend.js / reports.js 由本地生成，本工作流不改写，但 Pages 可发布仓库中的公开快照。
-          git add data.js meta.js hot.js market.js industry.js industry_market.js logic.js events.js opportunities.js materials.js newsall.js
+          # reports/industry/logic/events/opportunities/materials/weekend 由本地
+          # Hermes 独立发布，本工作流不提交，避免与其推送互相覆盖。
+          git add data.js meta.js hot.js market.js industry_market.js newsall.js
           if git diff --cached --quiet; then
             echo "行情无变化,跳过提交。"
           else
             git commit -m "行情刷新 $(TZ=Asia/Shanghai date +%F)（GitHub Actions 自动）"
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-            echo "已推送行情更新。"
+            # 与 Hermes 本地发布争推 main 时，rebase 后重试最多 3 次
+            for attempt in 1 2 3; do
+              git pull --rebase origin "${GITHUB_REF_NAME}"
+              if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                echo "已推送行情更新（第 ${attempt} 次尝试）。"
+                exit 0
+              fi
+              echo "推送被拒绝，${attempt}/3 次，重试..."
+              sleep 5
+            done
+            echo "::error::行情推送连续 3 次失败"
+            exit 1
           fi
 
       - name: 刷新失败告警

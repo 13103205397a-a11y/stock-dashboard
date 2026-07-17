@@ -322,7 +322,9 @@
   }
 
   function card(s, i) {
-    const v = s.review?.verdict || "—";
+    const rawVerdict = s.review?.verdict || "—";
+    // class 只接受白名单值，防止数据字段破坏 HTML 属性
+    const v = /^(成立|存疑|证伪|未跟踪)$/.test(rawVerdict) ? rawVerdict : "—";
     const changed = isChanged(s);
     const g = s.signal || {};
     const feat = isOpportunity(s) ? " feature" : "";
@@ -345,7 +347,7 @@
           <span class="name">${esc(s.name)}</span>
           <span class="code">${esc(s.code)} · <span class="sector-tag">${esc(s.sector)}</span></span>
         </div>
-        <span class="verdict-badge ${v}">${esc(v)}</span>
+        <span class="verdict-badge ${v}">${esc(rawVerdict)}</span>
       </div>
       ${priceRow}
       <div class="card-hit">${hitTag}${hitTag ? ` <span class="hit-detail">${esc(featReason)}</span>` : `<span class="hit-detail">${esc(g.leftState || g.rightState || "暂无买点信号")}</span>`}</div>
@@ -618,7 +620,8 @@
     const code = m.code || "";
     const name = m.name || "—";
     const price = m.price != null ? `¥${m.price}` : "—";
-    const chg = m.chgPct;
+    // 涨停/跌停/炸板池的涨跌幅字段是 pct，其余池是 chgPct
+    const chg = m.chgPct ?? m.pct;
     const chgCls = sgn(chg);
     // 高亮字段
     let hl = "";
@@ -729,7 +732,7 @@
   function openMarketDrawer(code) {
     const inWatch = STOCKS.find((x) => x.code === code);
     if (inWatch) { openDrawer(code); return; }
-    // 从 MARKET 各池里找这只票
+    // 从 MARKET 各池里找这只票（含龙虎榜）
     const pools = ["topGainers","topLosers","topTurnover","topInflow","topOutflow",
                    "limitUp","limitDown","brokeUp","hotRank"];
     let m = null;
@@ -737,12 +740,13 @@
       const found = (MARKET[p] || []).find((x) => x.code === code);
       if (found) { m = found; break; }
     }
+    if (!m) m = ((MARKET.dragonTiger && MARKET.dragonTiger.stocks) || []).find((x) => x.code === code) || null;
     if (!m) m = getStockReferenceIndex().get(String(code));
     if (!m) {
       portfolioToast(`暂未找到股票 ${code} 的详情数据`, "error");
       return;
     }
-    const chg = m.chgPct;
+    const chg = m.chgPct ?? m.pct;
     const industry = typeof m.industry === "string" ? m.industry : (m.industry || []).join("/");
     const netflow = m.netInflow != null ? m.netInflow / 1e8 : null;
     $("#drawerInner").innerHTML = `
@@ -827,8 +831,6 @@
     el.innerHTML = list.length
       ? list.map(hotCard).join("")
       : `<div class="empty">热点数据待生成（每日收盘后由问财自动更新）。</div>`;
-    const hd = $("#hotDate");
-    if (hd) hd.textContent = HOT.date ? `更新于 ${HOT.generatedAt || HOT.date}` : "";
   }
 
   // 13 个模块的视图切换 + 懒渲染调度
@@ -880,7 +882,7 @@
     // A2: 切走前记住当前视图滚动位置
     viewScroll.set(curView, viewScrollRoot()?.scrollTop || 0);
     // 清掉所有 view-* class,再设当前
-    document.body.classList.forEach((c) => { if (c.startsWith("view-")) document.body.classList.remove(c); });
+    [...document.body.classList].forEach((c) => { if (c.startsWith("view-")) document.body.classList.remove(c); });
     document.body.classList.add("view-" + view);
     document.querySelectorAll(".nav-item").forEach((b) => {
       const active = b.dataset.view === view;
@@ -899,9 +901,6 @@
     curView = view;
     document.title = `${VIEW_TITLES[view] || "A股看板"} · A股盘面`;
     if (options.syncHash !== false) syncViewLocation(view, Boolean(options.replaceHash));
-    // 更新计数文案
-    const cnt = $("#count");
-    if (cnt && view === "watch") cnt.textContent = `显示 ${STOCKS.length} / ${STOCKS.length} 只`;
   }
   document.querySelectorAll(".nav-item").forEach((b) =>
     b.addEventListener("click", () => switchView(b.dataset.view))
@@ -943,13 +942,18 @@
   });
   const gsInput = $("#globalSearchInput");
   if (gsInput) {
+    // 搜索面板即时响应；网格重渲染防抖，避免每个按键全量重建卡片
+    let gridFilterTimer = null;
     gsInput.addEventListener("input", (e) => {
       const q = e.target.value.trim();
       state.q = q;
       marketState.q = q;
-      if (curView === "watch") render();
-      if (curView === "market") renderMarket();
       renderGlobalSearch(q);
+      clearTimeout(gridFilterTimer);
+      gridFilterTimer = setTimeout(() => {
+        if (curView === "watch") render();
+        if (curView === "market") renderMarket();
+      }, 200);
     });
     gsInput.addEventListener("keydown", (e) => {
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -1022,34 +1026,21 @@
   updateClock();
   setInterval(updateClock, 1000);
 
-  // 状态栏数据（北向/涨跌/涨停，从现有数据读取）
+  // 状态栏数据（北向/涨停跌停炸板，读 market.js 的实际字段）
   const updateSbData = () => {
     if (!sbData) return;
-    const M = window.META || {};
+    const M = window.MARKET || {};
     const items = [];
-    // 北向资金
-    if (M.northbound) {
-      const nb = M.northbound;
-      const net = nb.net_total ?? nb.net;
-      if (net != null) {
-        const cls = net >= 0 ? "up" : "down";
-        const sign = net >= 0 ? "+" : "";
-        items.push(`<span class="sb-item"><span class="sb-lbl">北向</span><span class="sb-val ${cls}">${sign}${(net).toFixed(1)}亿</span></span>`);
-      }
+    const nb = M.northbound;
+    const net = nb ? (nb.total_yi ?? nb.hgt_yi) : null;
+    if (net != null) {
+      const cls = net >= 0 ? "up" : "down";
+      items.push(`<span class="sb-item"><span class="sb-lbl">北向</span><span class="sb-val ${cls}">${net >= 0 ? "+" : ""}${net.toFixed(1)}亿</span></span>`);
     }
-    // 涨跌家数
-    if (M.breadth) {
-      const b = M.breadth;
-      if (b.up != null) items.push(`<span class="sb-item"><span class="sb-lbl">▲</span><span class="sb-val up">${b.up}</span></span>`);
-      if (b.down != null) items.push(`<span class="sb-item"><span class="sb-lbl">▼</span><span class="sb-val down">${b.down}</span></span>`);
-    }
-    // 涨停/炸板
-    if (M.limitUp) {
-      const lu = M.limitUp;
-      if (lu.zt_count != null) items.push(`<span class="sb-item"><span class="sb-lbl">涨停</span><span class="sb-val up">${lu.zt_count}</span></span>`);
-      if (lu.zb_count != null) items.push(`<span class="sb-item"><span class="sb-lbl">炸板</span><span class="sb-val" style="color:var(--warn)">${lu.zb_count}</span></span>`);
-      if (lu.dt_count != null) items.push(`<span class="sb-item"><span class="sb-lbl">跌停</span><span class="sb-val down">${lu.dt_count}</span></span>`);
-    }
+    const s = M.sentiment || {};
+    if (s.zt_count != null) items.push(`<span class="sb-item"><span class="sb-lbl">涨停</span><span class="sb-val up">${s.zt_count}</span></span>`);
+    if (s.zb_count != null) items.push(`<span class="sb-item"><span class="sb-lbl">炸板</span><span class="sb-val" style="color:var(--warn)">${s.zb_count}</span></span>`);
+    if (s.dt_count != null) items.push(`<span class="sb-item"><span class="sb-lbl">跌停</span><span class="sb-val down">${s.dt_count}</span></span>`);
     sbData.innerHTML = items.join("");
   };
   setTimeout(updateSbData, 300); // 等数据加载
@@ -1109,42 +1100,7 @@
     const lis = items.map((it, i) => `<li><span class="sum-idx">${i + 1}</span><span class="sum-txt">${esc(it)}</span></li>`).join("");
     return `<ol class="sd-field-list">${lis}</ol>`;
   }
-  const readableSummaryItems = (value) => {
-    const text = String(value || "").trim();
-    if (!text) return [];
-    const spacedSlash = text.split(/\s+\/\s+/).map((x) => x.trim()).filter(Boolean);
-    if (spacedSlash.length >= 2) return spacedSlash;
-    const sentences = text.split(/(?<=[。！？])\s*/).map((x) => x.trim()).filter(Boolean);
-    if (sentences.length >= 2 && text.length > 120) return sentences;
-    const semis = text.split(/[；;]/).map((x) => x.trim()).filter(Boolean);
-    if (semis.length >= 2 && text.length > 120) return semis;
-    return [text];
-  };
-
-  const summaryItemHtml = (item, index) => {
-    const text = cleanDisplayText(item).trim();
-    const body = text.length > 180
-      ? `<details class="summary-detail"><summary>${esc(trunc(text, 150))}</summary><p>${esc(text)}</p></details>`
-      : `<span class="sum-txt">${esc(text)}</span>`;
-    return `<li><span class="sum-idx">${index + 1}</span>${body}</li>`;
-  };
-
-  // 摘要优先呈现为可扫描的要点；短摘要仍保留自然段。
-  const summaryHtml = (s) => {
-    if (!s) return "";
-    const items = (Array.isArray(s) ? s.flatMap(readableSummaryItems) : readableSummaryItems(s)).filter(Boolean);
-    if (!items.length) return "";
-    if (items.length === 1) {
-      const text = cleanDisplayText(items[0]).trim();
-      if (text.length <= 240) return `<div class="sd-summary"><p class="sd-v">${esc(text)}</p></div>`;
-      return `<div class="sd-summary"><details class="summary-detail summary-detail-single"><summary>${esc(trunc(text, 180))}</summary><p>${esc(text)}</p></details></div>`;
-    }
-    const lis = items.map(summaryItemHtml).join("");
-    return `<div class="sd-summary"><ol class="sd-field-list">${lis}</ol></div>`;
-  };
-  // 亿/万 格式化
   const fmtYi = (n) => n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(2) + "亿";
-  const fmtWan = (n) => n == null ? "—" : (n > 0 ? "+" : "") + (n / 1e4).toFixed(0) + "万";
 
   function dateToken(v) {
     const s = v == null ? "" : String(v);
@@ -1199,7 +1155,7 @@
       { name: "产业雷达", date: INDUSTRY?.generatedAt || INDUSTRY?.date, count: `${(INDUSTRY?.directions || []).length}项`, source: "Hermes/a-stock", view: "industry", relaxed: true, missing: !INDUSTRY },
       { name: "材料涨价", date: MAT?.generatedAt || MAT?.date, count: `${(MAT?.directions || []).length}项`, source: "Hermes", view: "materials", relaxed: true, missing: !MAT },
       { name: "事件概率", date: EV?.generatedAt || EV?.date, count: `${(EV?.events || []).length}件`, source: "Hermes", view: "events", relaxed: true, missing: !EV },
-      { name: "周末发酵", date: W?.generatedAt || W?.date, count: `${(W?.hotspots || []).length}项`, source: "Hermes", view: "weekend", weekly: true, optional: true, missing: !W },
+      { name: "周末发酵", date: W?.generatedAt || W?.weekendDate || W?.date, count: `${(W?.hotspots || []).length}项`, source: "Hermes", view: "weekend", weekly: true, optional: true, missing: !W },
     ];
   }
 
@@ -1228,10 +1184,13 @@
       ${refresh}`;
   }
 
+  let refreshPollTimer = null;
   async function pollRefreshStatus(once = false) {
     if (!isLocalServer()) return;
     const el = $("#refreshStatus");
     if (!el) return;
+    // 单一轮询链：重复进入首页时不叠加定时器
+    clearTimeout(refreshPollTimer);
     try {
       const r = await fetch("/api/status?t=" + Date.now());
       const st = await r.json();
@@ -1243,7 +1202,7 @@
         ${lines.length ? `<pre>${esc(lines.slice(-6).join("\n"))}</pre>` : ""}`;
       const btn = $("#localRefreshBtn");
       if (btn) btn.disabled = !!st.running;
-      if (st.running) setTimeout(() => pollRefreshStatus(), 1500);
+      if (st.running) refreshPollTimer = setTimeout(() => pollRefreshStatus(), 1500);
       else if (!once && st.done) setTimeout(() => location.reload(), 800);
     } catch {
       el.textContent = "无法读取本地刷新状态";
@@ -1289,9 +1248,11 @@
       addSearchItem(list, "自选股", s.name, `${s.code} · ${s.sector}`, [s.narrative, (s.tags || []).join(" "), s.review?.change].join(" "), "watch", s.code);
       (s.news || []).slice(0, 3).forEach((n) => addSearchItem(list, "个股新闻", n.title, `${s.name} · ${n.date || ""}`, n.source || "", "watch", s.code));
     });
-    ["topGainers","topLosers","topTurnover","topInflow","topOutflow","limitUp","limitDown","hotRank"].forEach((key) => {
+    ["topGainers","topLosers","topTurnover","topInflow","topOutflow","limitUp","limitDown","brokeUp","hotRank"].forEach((key) => {
       (MARKET[key] || []).slice(0, 40).forEach((m) => addSearchItem(list, "市场异动", m.name, `${m.code} · ${m.industry || ""}`, m.reason || "", "market", m.code));
     });
+    ((MARKET.dragonTiger && MARKET.dragonTiger.stocks) || []).slice(0, 40).forEach((m) =>
+      addSearchItem(list, "龙虎榜", m.name, `${m.code} · ${m.industry || ""}`, m.reason || "", "market", m.code));
     (HOT.list || []).forEach((h) => addSearchItem(list, "热点", h.name, `${h.code} · 热度${h.rank || ""}`, [h.reason, (h.concepts || []).join(" ")].join(" "), "hot", h.code));
     (NEWSALL?.global || []).slice(0, 60).forEach((n) => addSearchItem(list, "新闻", n.title, n.time || n.date || "", "", "news"));
     (NEWSALL?.announcements || []).slice(0, 60).forEach((n) => addSearchItem(list, "公告", n.title || n.announcementTitle, n.date || "", "", "news"));
@@ -1425,8 +1386,8 @@
     // 事件概率: importance 最高
     const impRank = { "高": 3, "中高": 2, "中": 1 };
     const bestEvt = (E && E.events || []).slice().sort((a, b) => (impRank[b.importance] || 0) - (impRank[a.importance] || 0))[0];
-    // 逻辑链: 取第一个(产业链本身无强弱,取首位)
-    const bestLogic = (L && L.chains || [])[0];
+    // 逻辑链: 与逻辑链页一致，按成立强度取最高分
+    const bestLogic = (L && L.chains || []).slice().sort((a, b) => scoreChain(b).score - scoreChain(a).score)[0];
 
     // 精华卡: 标签 + 标题 + 一句话精华 + 强度徽章 + 跳转目标
     const cards = [
@@ -2159,9 +2120,12 @@
       const ranking = INDUSTRY_MARKET?.top?.length
         ? `<section class="dir-rank-panel"><h3 class="dir-rank-title">今日行业涨幅前 ${INDUSTRY_MARKET.top.length}<span class="dir-rank-note">${sourceNote}</span></h3><div class="ind-list">${INDUSTRY_MARKET.top.map(rowHtml).join("")}</div></section>`
         : "";
+      const rankingBottom = INDUSTRY_MARKET?.bottom?.length
+        ? `<section class="dir-rank-panel"><h3 class="dir-rank-title">今日行业跌幅前 ${INDUSTRY_MARKET.bottom.length}<span class="dir-rank-note">${sourceNote}</span></h3><div class="ind-list">${INDUSTRY_MARKET.bottom.map(rowHtml).join("")}</div></section>`
+        : "";
 
       el.innerHTML = secTitle("产业雷达", `${INDUSTRY.directions.length} 个方向 · ${esc(INDUSTRY.date || "")}`) +
-        `<div class="dir-board">${cards}</div>${ranking}`;
+        `<div class="dir-board">${cards}</div>${ranking}${rankingBottom}`;
       el.querySelectorAll(".dir-chip").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
       return;
     }

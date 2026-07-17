@@ -15,8 +15,10 @@ permissions:
   pages: write
   id-token: write
 
-# 不用 concurrency：多个 push 各自独立部署，互不取消
-# GitHub Pages 后端会自动处理并发部署（后者覆盖前者）
+# 同一时间只保留最新一次部署：并行部署可能出现旧提交后完成、覆盖新站点
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -28,6 +30,16 @@ jobs:
     steps:
       - name: 检出仓库
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: 安装 Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "20"
+
+      - name: 安装 Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.11"
 
       - name: 校验公开数据结构
         run: |

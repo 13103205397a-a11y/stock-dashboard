@@ -30,21 +30,26 @@ TODAY = datetime.now().strftime("%Y-%m-%d")
 
 
 def load_portfolio():
-    """读取 portfolio.json；给每只股票标明持仓或自选来源。"""
+    """读取 portfolio.json；给每只股票标明持仓或自选来源。
+
+    返回 None 表示配置读取失败（此时不应改写 holdings.js）；
+    返回 [] 表示确实没有持仓/自选（写空是合法状态）。
+    """
     pf = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "portfolio.json")
-    if os.path.exists(pf):
-        try:
-            with open(pf, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            entries = []
-            entries.extend({"code": h["code"], "scope": "holding"} for h in data.get("holdings", []) if h.get("code"))
-            entries.extend({"code": h["code"], "scope": "watch"} for h in data.get("watchlist", []) if h.get("code"))
-            if entries:
-                print(f"  [portfolio.json] 读取 {len(entries)} 只持仓/自选: {[x['code'] for x in entries]}", flush=True)
-                return entries
-        except Exception as e:
-            print(f"  [WARN] portfolio.json 解析失败，跳过持仓刷新: {e}", flush=True)
-    return []
+    if not os.path.exists(pf):
+        return []
+    try:
+        with open(pf, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception as e:
+        print(f"  [WARN] portfolio.json 解析失败，保留旧 holdings.js: {e}", flush=True)
+        return None
+    entries = []
+    entries.extend({"code": h["code"], "scope": "holding"} for h in data.get("holdings", []) if h.get("code"))
+    entries.extend({"code": h["code"], "scope": "watch"} for h in data.get("watchlist", []) if h.get("code"))
+    if entries:
+        print(f"  [portfolio.json] 读取 {len(entries)} 只持仓/自选: {[x['code'] for x in entries]}", flush=True)
+    return entries
 
 
 def safe(fn, *args, default=None, **kw):
@@ -130,6 +135,8 @@ def main():
     print(f"采集持仓数据 ({TODAY})...", flush=True)
     time.sleep(1)
     entries = load_portfolio()
+    if entries is None:
+        sys.exit(1)
     quote_date = market_date()
     items = []
     for entry in entries:
@@ -137,6 +144,10 @@ def main():
         print(f"  → {code}", flush=True)
         items.append(build_one(code, scope, quote_date))
         time.sleep(1.2)
+    # 行情源整体故障时全部条目无名无价，写盘只会抹掉可用数据。
+    if items and all(not it.get("name") and it.get("price") is None for it in items):
+        print("  [WARN] 全部持仓行情采集失败，保留旧 holdings.js。", flush=True)
+        sys.exit(1)
     data = {"date": quote_date, "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "list": items}
     content = (
         "/* 持仓决策数据（本地 portfolio.json 私有生成）\n"

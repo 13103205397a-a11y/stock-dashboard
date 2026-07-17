@@ -123,18 +123,37 @@ class DataLock:
 
 
 def _slice_stocks_array(txt):
-    """定位 txt 中 window.STOCKS = [ ... ] 的数组区间，返回 (brace, end)。"""
+    """定位 txt 中 window.STOCKS = [ ... ] 的数组区间，返回 (brace, end)。
+
+    括号深度计数时跳过 JSON 字符串内部字符——新闻标题中可能出现
+    不成对的 [ 或 ]，按裸字符计数会切错区间、写坏 data.js。
+    """
     start = txt.index("window.STOCKS")
     brace = txt.index("[", start)
     depth, end = 0, brace
+    in_string = False
+    escaped = False
     for i in range(brace, len(txt)):
-        if txt[i] == "[":
+        char = txt[i]
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char == "[":
             depth += 1
-        elif txt[i] == "]":
+        elif char == "]":
             depth -= 1
             if depth == 0:
                 end = i + 1
                 break
+    if depth != 0 or end == brace:
+        raise ValueError("data.js 的 window.STOCKS 数组未正确闭合，拒绝切片以免写坏文件")
     return brace, end
 
 

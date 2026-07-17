@@ -29,11 +29,19 @@ ok=0; fail=""
 for code in $CODES; do
   case "$code" in 6*) m="sh";; 8*|4*) m="bj";; *) m="sz";; esac
   url="https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=${m}${code},day,,,330,qfq"
+  # 先写临时文件，校验行数达标才替换，失败不覆盖旧缓存
+  tmp="$RAW/${code}.json.tmp"
   # --retry 3: 网络抖动自动重试 3 次；--retry-delay 1: 每次间隔 1s
   curl -s --max-time 18 --retry 3 --retry-delay 1 --retry-connrefused \
-    -H "User-Agent: Mozilla/5.0" "$url" -o "$RAW/${code}.json"
-  rows=$(node -e "try{const j=require('$RAW/${code}.json');const d=j.data['${m}${code}'];const k=d.qfqday||d.day;process.stdout.write(String(k?k.length:0))}catch(e){process.stdout.write('0')}")
-  if [ "${rows:-0}" -ge 20 ] 2>/dev/null; then ok=$((ok+1)); else fail="$fail ${code}(${rows})"; fi
+    -H "User-Agent: Mozilla/5.0" "$url" -o "$tmp"
+  rows=$(node -e "try{const j=require('$tmp');const d=j.data['${m}${code}'];const k=d.qfqday||d.day;process.stdout.write(String(k?k.length:0))}catch(e){process.stdout.write('0')}")
+  if [ "${rows:-0}" -ge 20 ] 2>/dev/null; then
+    mv "$tmp" "$RAW/${code}.json"
+    ok=$((ok+1))
+  else
+    rm -f "$tmp"
+    fail="$fail ${code}(${rows})"
+  fi
   sleep 0.3
 done
 echo "K线抓取完成：$ok 只成功"

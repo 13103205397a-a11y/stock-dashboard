@@ -476,6 +476,7 @@ body.view-hot .hot-only { display: block; }
 .card.v-成立::before { background: var(--ok); }
 .card.v-存疑::before { background: var(--warn); }
 .card.v-证伪::before { background: var(--bad); }
+.card.v-未跟踪::before { background: var(--dim); }
 .card.feature { box-shadow: var(--shadow); background: linear-gradient(180deg, var(--accent-s), var(--card) 40%); }
 .card.feature::before { width: 4px; background: var(--accent); }
 
@@ -488,6 +489,7 @@ body.view-hot .hot-only { display: block; }
 .verdict-badge.成立 { color: var(--ok); border-color: rgba(46,125,82,.25); background: rgba(46,125,82,.06); }
 .verdict-badge.存疑 { color: var(--warn); border-color: rgba(176,122,20,.25); background: rgba(176,122,20,.07); }
 .verdict-badge.证伪 { color: var(--bad); border-color: rgba(200,57,43,.25); background: rgba(200,57,43,.05); }
+.verdict-badge.未跟踪 { color: var(--dim); border-color: rgba(139,147,163,.25); background: rgba(139,147,163,.06); }
 
 .px-row { display: flex; align-items: baseline; gap: var(--s-2); flex-wrap: wrap; }
 .px { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: -.3px; }
