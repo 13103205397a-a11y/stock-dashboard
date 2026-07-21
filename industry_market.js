@@ -1,287 +1,287 @@
 /* 产业雷达数据：行业板块涨跌排名
  * 由 scripts/fetch_industry.py 生成（a-stock-pro,免 key）
- * 时点: 2026-07-20 12:32:08
+ * 时点: 2026-07-21 04:23:20
  * 仅供研究参考,非投资建议。
  */
 window.INDUSTRY_MARKET = {
   "schemaVersion": 1,
-  "date": "2026-07-20",
-  "generatedAt": "2026-07-20 12:32:08",
+  "date": "2026-07-21",
+  "generatedAt": "2026-07-21 04:23:20",
   "top": [
     {
-      "name": "农化制品",
-      "change_pct": 10.13,
+      "name": "电子化学",
+      "change_pct": 19.99,
       "up_count": 1,
       "down_count": 0,
-      "leader": "赤天化",
+      "leader": "国瓷材料",
       "sample_count": 1,
       "rank": 1
     },
     {
-      "name": "普钢",
-      "change_pct": 10.07,
-      "up_count": 1,
+      "name": "汽车零部",
+      "change_pct": 15.02,
+      "up_count": 2,
       "down_count": 0,
-      "leader": "杭钢股份",
-      "sample_count": 1,
+      "leader": "万通智控",
+      "sample_count": 2,
       "rank": 2
     },
     {
-      "name": "非白酒",
-      "change_pct": 10.01,
-      "up_count": 1,
+      "name": "半导体",
+      "change_pct": 15.0,
+      "up_count": 8,
       "down_count": 0,
-      "leader": "威龙股份",
-      "sample_count": 1,
+      "leader": "格科微",
+      "sample_count": 8,
       "rank": 3
     },
     {
-      "name": "油气开采",
-      "change_pct": 10.01,
+      "name": "通信服务",
+      "change_pct": 10.14,
       "up_count": 1,
       "down_count": 0,
-      "leader": "中国海油",
+      "leader": "中嘉博创",
       "sample_count": 1,
       "rank": 4
     },
     {
-      "name": "数字媒体",
-      "change_pct": 10.0,
+      "name": "软件开发",
+      "change_pct": 10.04,
       "up_count": 1,
       "down_count": 0,
-      "leader": "掌阅科技",
+      "leader": "京北方",
       "sample_count": 1,
       "rank": 5
     },
     {
-      "name": "油服工程",
-      "change_pct": 10.0,
-      "up_count": 2,
+      "name": "多元金融",
+      "change_pct": 10.03,
+      "up_count": 1,
       "down_count": 0,
-      "leader": "博迈科",
-      "sample_count": 2,
+      "leader": "翠微股份",
+      "sample_count": 1,
       "rank": 6
     },
     {
-      "name": "白酒Ⅱ",
-      "change_pct": 10.0,
+      "name": "通信设备",
+      "change_pct": 10.02,
       "up_count": 1,
       "down_count": 0,
-      "leader": "古井贡酒",
+      "leader": "共进股份",
       "sample_count": 1,
       "rank": 7
     },
     {
-      "name": "煤炭开采",
-      "change_pct": 9.43,
-      "up_count": 8,
+      "name": "工业金属",
+      "change_pct": 10.02,
+      "up_count": 1,
       "down_count": 0,
-      "leader": "大有能源",
-      "sample_count": 8,
+      "leader": "海亮股份",
+      "sample_count": 1,
       "rank": 8
     },
     {
-      "name": "电力",
-      "change_pct": 8.91,
-      "up_count": 20,
-      "down_count": 1,
-      "leader": "华能蒙电",
-      "sample_count": 21,
+      "name": "教育",
+      "change_pct": 10.01,
+      "up_count": 1,
+      "down_count": 0,
+      "leader": "学大教育",
+      "sample_count": 1,
       "rank": 9
     },
     {
-      "name": "通信服务",
-      "change_pct": 6.92,
-      "up_count": 3,
+      "name": "医疗器械",
+      "change_pct": 10.0,
+      "up_count": 1,
       "down_count": 0,
-      "leader": "中嘉博创",
-      "sample_count": 3,
+      "leader": "九安医疗",
+      "sample_count": 1,
       "rank": 10
     },
     {
-      "name": "专业服务",
-      "change_pct": 6.18,
-      "up_count": 2,
+      "name": "自动化设",
+      "change_pct": 10.0,
+      "up_count": 1,
       "down_count": 0,
-      "leader": "安邦护卫",
-      "sample_count": 2,
+      "leader": "大族激光",
+      "sample_count": 1,
       "rank": 11
     },
     {
-      "name": "证券Ⅱ",
-      "change_pct": 4.95,
+      "name": "金属新材",
+      "change_pct": 10.0,
       "up_count": 1,
       "down_count": 0,
-      "leader": "湘财股份",
+      "leader": "江南新材",
       "sample_count": 1,
       "rank": 12
     },
     {
-      "name": "软件开发",
-      "change_pct": 3.66,
-      "up_count": 2,
-      "down_count": 1,
-      "leader": "行云科技",
-      "sample_count": 3,
+      "name": "其他电源",
+      "change_pct": 10.0,
+      "up_count": 1,
+      "down_count": 0,
+      "leader": "麦格米特",
+      "sample_count": 1,
       "rank": 13
     },
     {
-      "name": "化学纤维",
-      "change_pct": 2.08,
-      "up_count": 1,
+      "name": "电池",
+      "change_pct": 10.0,
+      "up_count": 2,
       "down_count": 0,
-      "leader": "双欣材料",
-      "sample_count": 1,
+      "leader": "蔚蓝锂芯",
+      "sample_count": 2,
       "rank": 14
     },
     {
-      "name": "中药Ⅱ",
-      "change_pct": 1.8,
+      "name": "玻璃玻纤",
+      "change_pct": 10.0,
       "up_count": 1,
-      "down_count": 2,
-      "leader": "陇神戎发",
-      "sample_count": 3,
+      "down_count": 0,
+      "leader": "宏和科技",
+      "sample_count": 1,
       "rank": 15
     }
   ],
   "bottom": [
     {
-      "name": "医疗服务",
-      "change_pct": -19.99,
+      "name": "农化制品",
+      "change_pct": -10.09,
       "up_count": 0,
       "down_count": 1,
-      "leader": "万邦医药",
+      "leader": "赤天化",
       "sample_count": 1,
-      "rank": 76
+      "rank": 50
     },
     {
-      "name": "服装家纺",
-      "change_pct": -14.57,
+      "name": "厨卫电器",
+      "change_pct": -10.06,
       "up_count": 0,
-      "down_count": 3,
-      "leader": "开润股份",
-      "sample_count": 3,
-      "rank": 75
+      "down_count": 1,
+      "leader": "浙江美大",
+      "sample_count": 1,
+      "rank": 49
+    },
+    {
+      "name": "综合Ⅱ",
+      "change_pct": -10.05,
+      "up_count": 0,
+      "down_count": 1,
+      "leader": "亚泰集团",
+      "sample_count": 1,
+      "rank": 48
+    },
+    {
+      "name": "装修建材",
+      "change_pct": -10.0,
+      "up_count": 0,
+      "down_count": 1,
+      "leader": "友邦吊顶",
+      "sample_count": 1,
+      "rank": 45
+    },
+    {
+      "name": "照明设备",
+      "change_pct": -10.0,
+      "up_count": 0,
+      "down_count": 1,
+      "leader": "小崧股份",
+      "sample_count": 1,
+      "rank": 46
+    },
+    {
+      "name": "家电零部",
+      "change_pct": -10.0,
+      "up_count": 0,
+      "down_count": 1,
+      "leader": "立霸股份",
+      "sample_count": 1,
+      "rank": 47
+    },
+    {
+      "name": "个护用品",
+      "change_pct": -9.98,
+      "up_count": 0,
+      "down_count": 1,
+      "leader": "依依股份",
+      "sample_count": 1,
+      "rank": 43
     },
     {
       "name": "塑料",
-      "change_pct": -13.0,
+      "change_pct": -9.98,
       "up_count": 0,
-      "down_count": 10,
-      "leader": "圣泉集团",
-      "sample_count": 10,
-      "rank": 74
+      "down_count": 2,
+      "leader": "道明光学",
+      "sample_count": 2,
+      "rank": 44
     },
     {
-      "name": "电池",
-      "change_pct": -12.49,
+      "name": "化学制药",
+      "change_pct": -7.87,
       "up_count": 0,
-      "down_count": 4,
-      "leader": "诺德股份",
+      "down_count": 3,
+      "leader": "海正药业",
+      "sample_count": 3,
+      "rank": 42
+    },
+    {
+      "name": "环境治理",
+      "change_pct": -7.44,
+      "up_count": 0,
+      "down_count": 1,
+      "leader": "金达莱",
+      "sample_count": 1,
+      "rank": 41
+    },
+    {
+      "name": "家居用品",
+      "change_pct": -4.55,
+      "up_count": 1,
+      "down_count": 3,
+      "leader": "爱丽家居",
       "sample_count": 4,
-      "rank": 73
+      "rank": 40
     },
     {
-      "name": "电子化学",
-      "change_pct": -11.66,
+      "name": "油服工程",
+      "change_pct": -3.68,
+      "up_count": 0,
+      "down_count": 2,
+      "leader": "中曼石油",
+      "sample_count": 2,
+      "rank": 39
+    },
+    {
+      "name": "煤炭开采",
+      "change_pct": -3.21,
       "up_count": 0,
       "down_count": 6,
-      "leader": "宏昌电子",
+      "leader": "中煤能源",
       "sample_count": 6,
-      "rank": 72
+      "rank": 38
     },
     {
-      "name": "元件",
-      "change_pct": -11.0,
-      "up_count": 0,
-      "down_count": 20,
-      "leader": "贤丰控股",
-      "sample_count": 20,
-      "rank": 71
-    },
-    {
-      "name": "造纸",
-      "change_pct": -10.04,
+      "name": "油气开采",
+      "change_pct": -3.11,
       "up_count": 0,
       "down_count": 1,
-      "leader": "安妮股份",
+      "leader": "中国海油",
       "sample_count": 1,
-      "rank": 70
+      "rank": 37
     },
     {
-      "name": "医药商业",
-      "change_pct": -10.03,
+      "name": "非白酒",
+      "change_pct": -2.76,
       "up_count": 0,
       "down_count": 1,
-      "leader": "鹭燕医药",
+      "leader": "威龙股份",
       "sample_count": 1,
-      "rank": 69
-    },
-    {
-      "name": "食品加工",
-      "change_pct": -10.02,
-      "up_count": 0,
-      "down_count": 1,
-      "leader": "技源集团",
-      "sample_count": 1,
-      "rank": 67
-    },
-    {
-      "name": "纺织制造",
-      "change_pct": -10.02,
-      "up_count": 0,
-      "down_count": 1,
-      "leader": "兴业科技",
-      "sample_count": 1,
-      "rank": 68
-    },
-    {
-      "name": "文娱用品",
-      "change_pct": -10.01,
-      "up_count": 0,
-      "down_count": 2,
-      "leader": "高乐股份",
-      "sample_count": 2,
-      "rank": 63
-    },
-    {
-      "name": "互联网电",
-      "change_pct": -10.01,
-      "up_count": 0,
-      "down_count": 1,
-      "leader": "狮头股份",
-      "sample_count": 1,
-      "rank": 64
-    },
-    {
-      "name": "影视院线",
-      "change_pct": -10.01,
-      "up_count": 0,
-      "down_count": 1,
-      "leader": "儒意电影",
-      "sample_count": 1,
-      "rank": 65
-    },
-    {
-      "name": "多元金融",
-      "change_pct": -10.01,
-      "up_count": 0,
-      "down_count": 1,
-      "leader": "四川双马",
-      "sample_count": 1,
-      "rank": 66
-    },
-    {
-      "name": "工程咨询",
-      "change_pct": -10.0,
-      "up_count": 0,
-      "down_count": 2,
-      "leader": "甘咨询",
-      "sample_count": 2,
-      "rank": 62
+      "rank": 36
     }
   ],
-  "total": 76,
+  "total": 50,
   "source": "market-snapshot-fallback",
-  "coverage": 315
+  "coverage": 118
 };
