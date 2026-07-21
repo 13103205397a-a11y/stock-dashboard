@@ -176,13 +176,6 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "公募“顶流”二季度调仓路径曝光：张坤大举减持白酒，李晓星“追光”，刘格菘增持寒武纪",
-        "date": "2026-07-21 18:21:00",
-        "source": "时代财经",
-        "url": "http://finance.eastmoney.com/a/202607213815727786.html",
-        "content": "前十大重仓股仅保留了东山精密，其他9只个股全部被换，深南电路、三环集团、中际旭创、中天科技、亨通光电、新易盛、源杰科技、永鼎股份和德福科技均为新进，可谓是“站在光里”。"
-      },
-      {
         "title": "中际旭创:第六届董事会第二次会议决议公告",
         "date": "2026-07-18",
         "source": "公司公告",
@@ -192,6 +185,13 @@ window.STOCKS = [
       {
         "title": "中际旭创:关于境外发行股份(H股)并在香港联交所上市进展的公告",
         "date": "2026-07-18",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300308",
+        "content": ""
+      },
+      {
+        "title": "中际旭创:关于使用部分自有资金进行现金管理的进展公告",
+        "date": "2026-07-10",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300308",
         "content": ""
@@ -417,25 +417,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "公募“顶流”二季度调仓路径曝光：张坤大举减持白酒，李晓星“追光”，刘格菘增持寒武纪",
-        "date": "2026-07-21 18:21:00",
-        "source": "时代财经",
-        "url": "http://finance.eastmoney.com/a/202607213815727786.html",
-        "content": "前十大重仓股仅保留了东山精密，其他9只个股全部被换，深南电路、三环集团、中际旭创、中天科技、亨通光电、新易盛、源杰科技、永鼎股份和德福科技均为新进，可谓是“站在光里”。"
+        "title": "新易盛:2026年半年度业绩预告",
+        "date": "2026-07-20",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300502",
+        "content": ""
       },
       {
-        "title": "光芯片龙头源杰科技业绩预告：上半年净利预增最高超13倍",
-        "date": "2026-07-21 18:06:59",
-        "source": "科创板日报",
-        "url": "http://finance.eastmoney.com/a/202607213815721768.html",
-        "content": "光模块环节，新易盛预计上半年归母净利润70亿元至80亿元，同比增长77.56%至102.93%；剑桥科技预计盈利3.10亿元至3.59亿元，同比增长156.65%至197.18%；光迅科技预计盈利5.59亿元至6.15亿元，同比增长50%至65.15%； 　　光器件与光芯片环节，天孚通信预计盈利"
+        "title": "新易盛:关于完成工商登记变更并换发营业执照的公告",
+        "date": "2026-07-09",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300502",
+        "content": ""
       },
       {
-        "title": "22倍大牛股，半年净利最高预增1305％",
-        "date": "2026-07-21 17:35:31",
-        "source": "大河财立方",
-        "url": "http://finance.eastmoney.com/a/202607213815697248.html",
-        "content": "光通信赛道在AI算力驱动下呈现高景气度，新易盛、天孚通信、光迅科技、长飞光纤等上市公司披露的上半年业绩预告，净利均不同程度上涨。"
+        "title": "新易盛:关于完成更换公司董事的公告",
+        "date": "2026-06-26",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300502",
+        "content": ""
       }
     ],
     "fund": {
@@ -719,13 +719,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 116.02,
-      "pe_fwd": null,
-      "peg": null,
+      "pe_fwd": 73.3,
+      "peg": 2.16,
       "pb": 46.09,
       "mcap_yi": 2514.18,
-      "eps_cur": null,
-      "eps_next": null,
-      "analyst_count": 0,
+      "eps_cur": 3.15,
+      "eps_next": 4.22,
+      "analyst_count": 23,
       "asof": "2026-07-21"
     }
   },
@@ -1143,18 +1143,18 @@ window.STOCKS = [
         "content": ""
       },
       {
-        "title": "30倍大牛股，业绩预增超1100%！",
-        "date": "2026-07-21 18:24:00",
-        "source": "证券时报网",
-        "url": "http://finance.eastmoney.com/a/202607213815731344.html",
-        "content": "在AI主题行情推动下，源杰科技的股价持续攀升，自2025年4月60元的阶段低位以来，一直上涨至2026年6月的历史最高位1968.14元，累计涨幅超30倍。"
+        "title": "源杰科技：上半年净利润同比预增1197%—1305%",
+        "date": "2026-07-21 19:48:13",
+        "source": "中国证券报·中证金牛座",
+        "url": "http://finance.eastmoney.com/a/202607213815803761.html",
+        "content": "第一季度源杰科技实现净利润1.79亿元，据此计算，公司第二季度净利润预计为4.21亿元-4.71亿元，预计环比增长135%—163%。"
       },
       {
-        "title": "公募“顶流”二季度调仓路径曝光：张坤大举减持白酒，李晓星“追光”，刘格菘增持寒武纪",
-        "date": "2026-07-21 18:21:00",
-        "source": "时代财经",
-        "url": "http://finance.eastmoney.com/a/202607213815727786.html",
-        "content": "前十大重仓股仅保留了东山精密，其他9只个股全部被换，深南电路、三环集团、中际旭创、中天科技、亨通光电、新易盛、源杰科技、永鼎股份和德福科技均为新进，可谓是“站在光里”。"
+        "title": "【财闻联播】民众强烈抵制，韩国5400亿美元半导体项目遇阻！A股公司又现大笔分红",
+        "date": "2026-07-21 19:38:00",
+        "source": "券商中国",
+        "url": "http://finance.eastmoney.com/a/202607213815806377.html",
+        "content": "★ 　　公司动态 　　★ 　　源杰科技：上半年净利润同比预增1196.91%至1304.98% 　　源杰科技(688498)7月21日披露业绩预告，预计公司2026年半年度实现归属于母公司所有者的净利润6亿元至6.5亿元，同比增加1196.91%至1304.98%。"
       }
     ],
     "fund": {
@@ -1678,13 +1678,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 37.01,
-      "pe_fwd": null,
-      "peg": null,
+      "pe_fwd": 19.0,
+      "peg": 0.89,
       "pb": 3.18,
       "mcap_yi": 1181.9,
-      "eps_cur": null,
-      "eps_next": null,
-      "analyst_count": 0,
+      "eps_cur": 1.82,
+      "eps_next": 2.21,
+      "analyst_count": 10,
       "asof": "2026-07-21"
     }
   },
@@ -1917,13 +1917,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 290.75,
-      "pe_fwd": null,
-      "peg": null,
+      "pe_fwd": 52.0,
+      "peg": 1.36,
       "pb": 23.64,
       "mcap_yi": 1651.28,
-      "eps_cur": null,
-      "eps_next": null,
-      "analyst_count": 0,
+      "eps_cur": 7.81,
+      "eps_next": 10.79,
+      "analyst_count": 7,
       "asof": "2026-07-21"
     }
   },
@@ -2865,13 +2865,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 54.84,
-      "pe_fwd": null,
-      "peg": null,
+      "pe_fwd": 40.9,
+      "peg": 0.78,
       "pb": 14.91,
       "mcap_yi": 2357.37,
-      "eps_cur": null,
-      "eps_next": null,
-      "analyst_count": 0,
+      "eps_cur": 3.0,
+      "eps_next": 4.57,
+      "analyst_count": 22,
       "asof": "2026-07-21"
     }
   },
@@ -3291,18 +3291,18 @@ window.STOCKS = [
         "content": ""
       },
       {
-        "title": "不再爱酒？张坤、刘彦春等知名基金经理最新调仓曝光，主要减持这些白酒股",
-        "date": "2026-07-21 18:22:56",
-        "source": "每日经济新闻",
-        "url": "http://finance.eastmoney.com/a/202607213815730435.html",
-        "content": "易方达蓝筹精选基金二季度前十大重仓股 　　当然，除了大幅减持白酒股外，易方达蓝筹精选基金还大举减持了腾讯控股、百胜中国、阿里巴巴等港股，同时新买入中芯国际、东山精密。"
+        "title": "东山精密:第七届董事会第三次会议决议公告",
+        "date": "2026-07-21",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002384",
+        "content": ""
       },
       {
-        "title": "公募“顶流”二季度调仓路径曝光：张坤大举减持白酒，李晓星“追光”，刘格菘增持寒武纪",
-        "date": "2026-07-21 18:21:00",
-        "source": "时代财经",
-        "url": "http://finance.eastmoney.com/a/202607213815727786.html",
-        "content": "前十大重仓股仅保留了东山精密，其他9只个股全部被换，深南电路、三环集团、中际旭创、中天科技、亨通光电、新易盛、源杰科技、永鼎股份和德福科技均为新进，可谓是“站在光里”。"
+        "title": "东山精密:关于回购公司股份方案的公告暨回购报告书",
+        "date": "2026-07-21",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002384",
+        "content": ""
       }
     ],
     "fund": {
@@ -3524,13 +3524,6 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "公募“顶流”二季度调仓路径曝光：张坤大举减持白酒，李晓星“追光”，刘格菘增持寒武纪",
-        "date": "2026-07-21 18:21:00",
-        "source": "时代财经",
-        "url": "http://finance.eastmoney.com/a/202607213815727786.html",
-        "content": "规模最大的广发科技先锋混合由刘格菘独自管理，截至二季度末，前十大重仓股分别是兆易创新、寒武纪、新易盛、东山精密、中际旭创、中芯国际、圣邦股份、生益科技、中微公司和北方华创，集中于AI算力以及半导体产业链。"
-      },
-      {
         "title": "生益科技:生益科技关于2024年度限制性股票激励计划第二个解除限售期解除限售暨上市的公告",
         "date": "2026-07-17",
         "source": "公司公告",
@@ -3539,6 +3532,13 @@ window.STOCKS = [
       },
       {
         "title": "生益科技:生益科技第十一届董事会第十八次会议决议公告",
+        "date": "2026-07-15",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600183",
+        "content": ""
+      },
+      {
+        "title": "生益科技:生益科技关于拟处置持有的江苏联瑞新材料股份有限公司可转换公司债券的公告",
         "date": "2026-07-15",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600183",
@@ -3826,13 +3826,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 114.19,
-      "pe_fwd": null,
-      "peg": null,
+      "pe_fwd": 59.7,
+      "peg": 1.16,
       "pb": 7.14,
       "mcap_yi": 434.38,
-      "eps_cur": null,
-      "eps_next": null,
-      "analyst_count": 0,
+      "eps_cur": 0.72,
+      "eps_next": 1.09,
+      "analyst_count": 10,
       "asof": "2026-07-21"
     }
   },
@@ -4460,11 +4460,11 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "公募“顶流”二季度调仓路径曝光：张坤大举减持白酒，李晓星“追光”，刘格菘增持寒武纪",
-        "date": "2026-07-21 18:21:00",
-        "source": "时代财经",
-        "url": "http://finance.eastmoney.com/a/202607213815727786.html",
-        "content": "规模最大的广发科技先锋混合由刘格菘独自管理，截至二季度末，前十大重仓股分别是兆易创新、寒武纪、新易盛、东山精密、中际旭创、中芯国际、圣邦股份、生益科技、中微公司和北方华创，集中于AI算力以及半导体产业链。"
+        "title": "重磅收购落地！大模型龙头股价一度涨超40%！",
+        "date": "2026-07-21 19:15:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202607213815782097.html",
+        "content": "“中科加禾依托中国科学院计算所的编译技术积累，能够搭建统一的中间软件层，化解国内各类国产AI芯片生态割裂的难题，把昇腾、寒武纪等不同架构的硬件整合为一体化集群，有效提升硬件实际利用效率。”"
       },
       {
         "title": "寒武纪:股票交易风险提示公告",
@@ -4700,22 +4700,22 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "公募“顶流”二季度调仓路径曝光：张坤大举减持白酒，李晓星“追光”，刘格菘增持寒武纪",
-        "date": "2026-07-21 18:21:00",
-        "source": "时代财经",
-        "url": "http://finance.eastmoney.com/a/202607213815727786.html",
-        "content": "规模最大的广发科技先锋混合由刘格菘独自管理，截至二季度末，前十大重仓股分别是兆易创新、寒武纪、新易盛、东山精密、中际旭创、中芯国际、圣邦股份、生益科技、中微公司和北方华创，集中于AI算力以及半导体产业链。"
-      },
-      {
-        "title": "兆易创新:兆易创新关于参与投资私募股权投资基金的进展公告",
-        "date": "2026-07-21",
+        "title": "兆易创新:兆易创新第五届董事会第十三次会议决议公告",
+        "date": "2026-07-22",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
         "content": ""
       },
       {
-        "title": "兆易创新:兆易创新关于股票交易异常波动的公告",
-        "date": "2026-07-21",
+        "title": "兆易创新:兆易创新关于使用自有资金、外汇等方式支付募投项目部分款项并以A股募集资金等额置换的公告",
+        "date": "2026-07-22",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
+        "content": ""
+      },
+      {
+        "title": "兆易创新:兆易创新关于使用A股部分募集资金向全资子公司增资以实施DRAM募投项目的公告",
+        "date": "2026-07-22",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
         "content": ""
@@ -6380,22 +6380,22 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "公募“顶流”二季度调仓路径曝光：张坤大举减持白酒，李晓星“追光”，刘格菘增持寒武纪",
-        "date": "2026-07-21 18:21:00",
-        "source": "时代财经",
-        "url": "http://finance.eastmoney.com/a/202607213815727786.html",
-        "content": "前十大重仓股仅保留了东山精密，其他9只个股全部被换，深南电路、三环集团、中际旭创、中天科技、亨通光电、新易盛、源杰科技、永鼎股份和德福科技均为新进，可谓是“站在光里”。"
+        "title": "三环集团:H股公告-翌日披露报表",
+        "date": "2026-07-22",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300408",
+        "content": ""
       },
       {
-        "title": "深市回购增持行动不断 7月以来新增计划金额上限超116亿元",
-        "date": "2026-07-21 17:31:07",
-        "source": "央广财经",
-        "url": "http://finance.eastmoney.com/a/202607213815694643.html",
-        "content": "三环集团7月21日发布回购报告书，基于对公司的价值判断和未来发展前景的坚定信心，拟使用不超过9亿元回购公司股份，用于股权激励或员工持股计划、维护公司价值及股东权益。"
+        "title": "三环集团:关于回购股份事项前十名股东和前十名无限售条件股东持股情况的公告",
+        "date": "2026-07-22",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300408",
+        "content": ""
       },
       {
-        "title": "三环集团:第十一届董事会第二十二次会议决议公告",
-        "date": "2026-07-21",
+        "title": "三环集团:关于首次回购公司股份的公告",
+        "date": "2026-07-22",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300408",
         "content": ""
@@ -6682,13 +6682,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 166.87,
-      "pe_fwd": null,
-      "peg": null,
+      "pe_fwd": 76.4,
+      "peg": 3.69,
       "pb": 4.15,
       "mcap_yi": 512.79,
-      "eps_cur": null,
-      "eps_next": null,
-      "analyst_count": 0,
+      "eps_cur": 0.58,
+      "eps_next": 0.7,
+      "analyst_count": 3,
       "asof": "2026-07-21"
     }
   },
@@ -8070,15 +8070,15 @@ window.STOCKS = [
         "content": "无独有偶，银华心佳两年持有期混合，报告期内净值增长率达39.17%，前十大重仓股半数“换血”，包括海光信息、阿里巴巴-W、章源钨业、中煤能源、兆易创新退出前十大重仓股之列，而新易盛、中际旭创、立讯精密、工业富联、深南电路则为新进。"
       },
       {
-        "title": "AI基建订单潮涌 算力硬件业绩集体兑现产业景气",
-        "date": "2026-07-21 16:58:00",
-        "source": "证券时报网",
-        "url": "http://finance.eastmoney.com/a/202607213815620790.html",
-        "content": "工业富联预计上半年净利润为234亿至244亿元，同比增长93%至101%，公司披露云服务商AI服务器营业收入同比增长超过230%，已成为主营业务的核心增长引擎。公司在主要客户的市场份额稳步提升，与大客户联合研发设计的下一代产品进展顺利，预计下半年逐步进入量产阶段。"
-      },
-      {
         "title": "工业富联:富士康工业互联网股份有限公司2026年半年度业绩预增公告",
         "date": "2026-07-10",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601138",
+        "content": ""
+      },
+      {
+        "title": "工业富联:富士康工业互联网股份有限公司第四届董事会第一次会议决议公告",
+        "date": "2026-07-08",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601138",
         "content": ""
@@ -8305,25 +8305,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "阳光电源董事长曹仁贤提议5亿—10亿元回购公司股份",
-        "date": "2026-07-21 17:52:24",
-        "source": "北京商报",
-        "url": "http://finance.eastmoney.com/a/202607213815701431.html",
-        "content": "北京商报讯（记者马换换李佳雪）7月21日晚间，阳光电源（300274）披露公告称，公司当日收到公司董事长曹仁贤《关于提议阳光电源股份有限公司回购公司股份的函》，公司拟使用自有或自筹资金以集中竞价交易方式回购公司已发行的部分人民币普通股（A股）股票。"
+        "title": "A股又一波增持回购来了！近20家公司今日公布最新计划",
+        "date": "2026-07-21 19:48:51",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202607213815805118.html",
+        "content": "阳光电源：董事长曹仁贤提议回购5亿至10亿元股份 　　阳光电源公告称，公司收到董事长曹仁贤提议，拟使用自有或自筹资金以集中竞价方式回购公司股份，回购资金总额不低于5亿元且不超过10亿元，回购股份将用于股权激励或员工持股计划。"
       },
       {
-        "title": "阳光电源：董事长提议以5.00亿—10.00亿元回购公司股份",
-        "date": "2026-07-21 17:31:00",
-        "source": "南方财经网",
-        "url": "http://finance.eastmoney.com/a/202607213815695136.html",
-        "content": "南财智讯7月21日电，阳光电源公告，公司于2026年7月21日收到董事长曹仁贤提议，拟使用自有或自筹资金通过深交所集中竞价交易方式回购公司A股股份，回购资金总额不低于5.00亿元且不超过10.00亿元，回购股份将用于股权激励或员工持股计划；若三年内未使用完毕，则予以注销。"
+        "title": "【财闻联播】民众强烈抵制，韩国5400亿美元半导体项目遇阻！A股公司又现大笔分红",
+        "date": "2026-07-21 19:38:00",
+        "source": "券商中国",
+        "url": "http://finance.eastmoney.com/a/202607213815806377.html",
+        "content": "阳光电源：董事长提议5亿元—10亿元回购公司股份 　　阳光电源(300274)7月21日公告，董事长曹仁贤提议5亿元—10亿元回购公司股份，用于股权激励或员工持股计划。"
       },
       {
-        "title": "阳光电源：董事长曹仁贤提议回购5亿至10亿元股份",
-        "date": "2026-07-21 17:30:38",
-        "source": "科创板日报",
-        "url": "http://finance.eastmoney.com/a/202607213815690993.html",
-        "content": "阳光电源(300274.SZ)公告称，公司收到董事长曹仁贤提议，拟使用自有或自筹资金以集中竞价方式回购公司股份，回购资金总额不低于5亿元且不超过10亿元，回购股份将用于股权激励或员工持股计划。"
+        "title": "阳光电源：董事长提议公司以5亿至10亿元回购股份",
+        "date": "2026-07-21 19:36:00",
+        "source": "上海证券报·中国证券网",
+        "url": "http://finance.eastmoney.com/a/202607213815791653.html",
+        "content": "上证报中国证券网讯阳光电源公告，公司董事长曹仁贤提议公司使用自有或自筹资金通过深圳证券交易所交易系统以集中竞价交易方式回购公司已发行的部分人民币普通股（A股）股票，并在未来适宜时机用于股权激励或员工持股计划，回购资金总额不低于5亿元且不超过10亿元。"
       }
     ],
     "fund": {
@@ -8545,25 +8545,25 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "德业股份:关于收到控股股东2026年中期分红提议的提示性公告",
+        "date": "2026-07-22",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=605117",
+        "content": ""
+      },
+      {
+        "title": "7月21日晚间沪深上市公司重大事项公告最新快递",
+        "date": "2026-07-21 19:32:00",
+        "source": "东方财富Choice数据",
+        "url": "http://finance.eastmoney.com/a/202607213815792580.html",
+        "content": "德业股份：控股股东提议2026年中期每10股派发现金红利16元 　　德业股份(605117)7月21日公告，公司控股股东宁波梅山保税港区艾思睿投资管理有限公司（简称“艾思睿投资”）提议，以公司实施2026年中期利润分配方案的股权登记日的总股本为基数，向全体股东每10股派发现金红利16"
+      },
+      {
         "title": "大洋电机宣布终止H股发行 招股书已失效数月，公司回应：短期内无再融资需求",
         "date": "2026-07-21 13:44:24",
         "source": "每日经济新闻",
         "url": "http://finance.eastmoney.com/a/202607213815380753.html",
         "content": "据Wind金融终端，截至发稿，目前港交所共有387家公司尚在排队（状态为“处理中”），其中还包括多家A股上市公司，例如新泉股份、德业股份、新宙邦、伊戈尔、海亮股份等。"
-      },
-      {
-        "title": "4GWh！亿纬锂能涨超4%，储能再下一城！宁德时代签署5GWh钠电储能项目，电池ETF汇添富(159796)一度涨超3%，电池消费税征收落地，有何影响?",
-        "date": "2026-07-21 10:24:07",
-        "source": "界面新闻",
-        "url": "http://stock.eastmoney.com/a/202607213814702338.html",
-        "content": "电池ETF汇添富（159796）标的指数成分股多数冲高，亿纬锂能涨超4%，宁德时代、天赐材料、银轮股份涨等超3%，三花智控等涨超2%，阳光电源、德业股份等微涨。"
-      },
-      {
-        "title": "德业股份:2026年半年度业绩预增公告",
-        "date": "2026-07-09",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=605117",
-        "content": ""
       }
     ],
     "fund": {
@@ -10250,10 +10250,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 8.05,
-      "date": "2026-07-17",
-      "asof": "2026-07-17"
+      "netInflow": 1.82,
+      "turnover": 15.03,
+      "date": "2026-07-21",
+      "asof": "2026-07-21"
     },
     "newsAsof": "2026-07-21",
     "research": [
@@ -10490,10 +10490,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 11.49,
-      "date": "2026-07-17",
-      "asof": "2026-07-17"
+      "netInflow": 1.52,
+      "turnover": 17.62,
+      "date": "2026-07-21",
+      "asof": "2026-07-21"
     },
     "newsAsof": "2026-07-21",
     "research": [
@@ -10730,10 +10730,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": null,
-      "turnover": 6.28,
-      "date": "2026-07-17",
-      "asof": "2026-07-17"
+      "netInflow": -0.32,
+      "turnover": 7.96,
+      "date": "2026-07-21",
+      "asof": "2026-07-21"
     },
     "newsAsof": "2026-07-21",
     "research": [
