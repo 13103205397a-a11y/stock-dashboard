@@ -1,12 +1,12 @@
 /* 产业雷达数据：行业板块涨跌排名
  * 由 scripts/fetch_industry.py 生成（a-stock-pro,免 key）
- * 时点: 2026-07-22 10:47:49
+ * 时点: 2026-07-22 12:07:52
  * 仅供研究参考,非投资建议。
  */
 window.INDUSTRY_MARKET = {
   "schemaVersion": 1,
   "date": "2026-07-22",
-  "generatedAt": "2026-07-22 10:47:49",
+  "generatedAt": "2026-07-22 12:07:52",
   "top": [
     {
       "name": "环境治理",
