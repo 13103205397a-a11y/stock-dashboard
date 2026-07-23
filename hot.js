@@ -4,7 +4,7 @@
  */
 window.HOT = {
   "date": "2026-07-23",
-  "generatedAt": "2026-07-23 09:46",
+  "generatedAt": "2026-07-23 10:57",
   "list": [
     {
       "rank": 1,
@@ -12,7 +12,7 @@ window.HOT = {
       "name": "德明利",
       "price": 435.0,
       "chgPct": -4.86,
-      "heat": 500444,
+      "heat": 426800,
       "turnover": 15.87,
       "volRatio": 1.5,
       "amplitude": 8.14,
@@ -32,19 +32,19 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 718.0,
-      "reason": "存储芯片｜中芯国际概念｜共封装光学(CPO)　催化：德明利预计上半年净利超57亿 却连遭5个跌停 市值仍超千亿",
+      "reason": "存储芯片｜中芯国际概念｜共封装光学(CPO)　催化：德明利8天6次跌停，存储概念震荡回调",
       "news": [
-        {
-          "title": "德明利预计上半年净利超57亿 却连遭5个跌停 市值仍超千亿",
-          "date": "2026-07-22 18:31",
-          "source": "同花顺问财",
-          "url": "https://baijiahao.baidu.com/s?for=pc&id=1871415845111094515&wfr=spider"
-        },
         {
           "title": "德明利8天6次跌停，存储概念震荡回调",
           "date": "2026-07-22 13:37",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c678348032.shtml"
+        },
+        {
+          "title": "8天6跌停！德明利深夜紧急澄清，市场为何仍不买账？",
+          "date": "2026-07-22 13:34",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678348003.shtml"
         }
       ],
       "tech": "冲高回落 · 分歧加大",
@@ -56,7 +56,7 @@ window.HOT = {
       "name": "紫光股份",
       "price": 42.45,
       "chgPct": -5.46,
-      "heat": 349971,
+      "heat": 351789,
       "turnover": 18.24,
       "volRatio": 1.09,
       "amplitude": 10.47,
@@ -100,7 +100,7 @@ window.HOT = {
       "name": "立新能源",
       "price": 12.11,
       "chgPct": 9.99,
-      "heat": 317022,
+      "heat": 282760,
       "turnover": 11.3,
       "volRatio": 1.29,
       "amplitude": 4.27,
@@ -144,7 +144,7 @@ window.HOT = {
       "name": "华电辽能",
       "price": 16.41,
       "chgPct": 9.99,
-      "heat": 293888,
+      "heat": 276751,
       "turnover": 23.21,
       "volRatio": 1.29,
       "amplitude": 10.46,
@@ -164,19 +164,19 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 241.7,
-      "reason": "超超临界发电｜绿色电力｜碳交易　催化：4天3板华电辽能：股票交易异常波动 市盈率远高于行业平均水平",
+      "reason": "超超临界发电｜绿色电力｜碳交易　催化：华电辽能风险提示：不涉算电协同 氢能收入仅126万元",
       "news": [
+        {
+          "title": "华电辽能风险提示：不涉算电协同 氢能收入仅126万元",
+          "date": "2026-07-23 17:42",
+          "source": "同花顺问财",
+          "url": "https://www.caizhongshe.cn/article-7485992551259501857.html"
+        },
         {
           "title": "4天3板华电辽能：股票交易异常波动 市盈率远高于行业平均水平",
           "date": "2026-07-23 17:36",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c678387791.shtml"
-        },
-        {
-          "title": "华电辽能：股票异常波动 提醒投资者注意交易风险",
-          "date": "2026-07-23 17:32",
-          "source": "同花顺问财",
-          "url": "https://finance.sina.cn/7x24/2026-07-23/detail-iniiusme9521318.d.html"
         }
       ],
       "tech": "2连板 · 强势趋势",
@@ -188,7 +188,7 @@ window.HOT = {
       "name": "东山精密",
       "price": 206.65,
       "chgPct": -4.99,
-      "heat": 233344,
+      "heat": 211070,
       "turnover": 8.88,
       "volRatio": 1.0,
       "amplitude": 11.51,
@@ -228,55 +228,11 @@ window.HOT = {
     },
     {
       "rank": 6,
-      "code": "603629",
-      "name": "利通电子",
-      "price": 120.68,
-      "chgPct": 1.98,
-      "heat": 221100,
-      "turnover": 17.97,
-      "volRatio": 2.0,
-      "amplitude": 9.16,
-      "netInflow": 3.86,
-      "boards": 0,
-      "concepts": [
-        "算力租赁",
-        "英伟达概念",
-        "东数西算(算力)",
-        "液冷服务器",
-        "腾讯概念",
-        "云计算"
-      ],
-      "industry": [
-        "计算机",
-        "IT服务"
-      ],
-      "board": "主板",
-      "floatCap": 435.3,
-      "reason": "算力租赁｜英伟达概念｜东数西算(算力)　催化：涨停雷达：算力租赁+英伟达合作+中报预增 利通电子触及涨停",
-      "news": [
-        {
-          "title": "涨停雷达：算力租赁+英伟达合作+中报预增 利通电子触及涨停",
-          "date": "2026-07-23 09:58",
-          "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678374857.shtml"
-        },
-        {
-          "title": "利通电子连续3个交易日收盘价格涨幅偏离值累计达20%",
-          "date": "2026-07-22 18:00",
-          "source": "同花顺问财",
-          "url": "https://www.caizhongshe.cn/article-7485632796418569276.html"
-        }
-      ],
-      "tech": "宽幅震荡 · 多空激烈",
-      "senti": "资金净流入 · 情绪亢奋 · 换手过热"
-    },
-    {
-      "rank": 7,
       "code": "000815",
       "name": "美利云",
       "price": 17.74,
       "chgPct": 9.98,
-      "heat": 211200,
+      "heat": 210121,
       "turnover": 17.62,
       "volRatio": 3.14,
       "amplitude": 9.98,
@@ -315,12 +271,12 @@ window.HOT = {
       "senti": "情绪中性 · 换手过热"
     },
     {
-      "rank": 8,
+      "rank": 7,
       "code": "600664",
       "name": "哈药股份",
       "price": 6.0,
       "chgPct": 0.33,
-      "heat": 193091,
+      "heat": 193451,
       "turnover": 21.44,
       "volRatio": 0.82,
       "amplitude": 6.69,
@@ -340,67 +296,111 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 151.1,
-      "reason": "流感｜医药电商｜维生素　催化：哈药股份连续10个交易日收盘价格涨幅偏离值累计达100%",
+      "reason": "流感｜医药电商｜维生素　催化：[异常波动]哈药股份(600664):哈药集团股份有限公司股票交易严重异常波动暨风险提示公告",
       "news": [
+        {
+          "title": "[异常波动]哈药股份(600664):哈药集团股份有限公司股票交易严重异常波动暨风险提示公告",
+          "date": "2026-07-23 17:45",
+          "source": "同花顺问财",
+          "url": "https://stock.cfi.cn/p20260723001103.html"
+        },
         {
           "title": "哈药股份连续10个交易日收盘价格涨幅偏离值累计达100%",
           "date": "2026-07-23 17:17",
           "source": "同花顺问财",
           "url": "https://www.caizhongshe.cn/article-7485984732472866756.html"
-        },
-        {
-          "title": "股价10天接近翻倍！哈药股份：股票交易显著放量，未来可能存在股价快速回落的风险",
-          "date": "2026-07-23 17:14",
-          "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678387054.shtml"
         }
       ],
       "tech": "横盘整理 · 方向待选",
       "senti": "资金净流入 · 情绪亢奋 · 换手过热"
     },
     {
-      "rank": 9,
-      "code": "600744",
-      "name": "华银电力",
-      "price": 7.88,
-      "chgPct": -0.76,
-      "heat": 167685,
-      "turnover": 19.9,
-      "volRatio": 1.9,
-      "amplitude": 15.74,
-      "netInflow": 0.7,
+      "rank": 8,
+      "code": "603629",
+      "name": "利通电子",
+      "price": 120.68,
+      "chgPct": 1.98,
+      "heat": 189586,
+      "turnover": 17.97,
+      "volRatio": 2.0,
+      "amplitude": 9.16,
+      "netInflow": 3.86,
       "boards": 0,
       "concepts": [
-        "超超临界发电",
-        "虚拟电厂",
-        "绿色电力",
-        "碳交易",
-        "煤炭概念",
-        "风电"
+        "算力租赁",
+        "英伟达概念",
+        "东数西算(算力)",
+        "液冷服务器",
+        "腾讯概念",
+        "云计算"
       ],
       "industry": [
-        "公用事业",
-        "电力"
+        "计算机",
+        "IT服务"
       ],
       "board": "主板",
-      "floatCap": 160.1,
-      "reason": "超超临界发电｜虚拟电厂｜绿色电力　催化：利好传来，电力板块掀涨停潮",
+      "floatCap": 435.3,
+      "reason": "算力租赁｜英伟达概念｜东数西算(算力)　催化：涨停雷达：算力租赁+英伟达合作+中报预增 利通电子触及涨停",
       "news": [
         {
-          "title": "利好传来，电力板块掀涨停潮",
-          "date": "2026-07-20 18:34",
+          "title": "涨停雷达：算力租赁+英伟达合作+中报预增 利通电子触及涨停",
+          "date": "2026-07-23 09:58",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678295951.shtml"
+          "url": "http://news.10jqka.com.cn/19700121/c678374857.shtml"
         },
         {
-          "title": "华银电力涨停",
-          "date": "2026-07-20 15:44",
+          "title": "利通电子2026年7月23日涨停分析：AI算力转型+业绩增长+融资充足",
+          "date": "2026-07-23 09:58",
           "source": "同花顺问财",
-          "url": "https://baijiahao.baidu.com/s?for=pc&id=1871218955007655967&wfr=spider"
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1871468991524419903&wfr=spider"
         }
       ],
       "tech": "宽幅震荡 · 多空激烈",
-      "senti": "跌但主力回补 · 有承接 · 换手过热"
+      "senti": "资金净流入 · 情绪亢奋 · 换手过热"
+    },
+    {
+      "rank": 9,
+      "code": "000636",
+      "name": "风华高科",
+      "price": 43.21,
+      "chgPct": 4.62,
+      "heat": 182531,
+      "turnover": 12.25,
+      "volRatio": 1.23,
+      "amplitude": 7.14,
+      "netInflow": -2.53,
+      "boards": 0,
+      "concepts": [
+        "超级电容",
+        "共封装光学(CPO)",
+        "AI眼镜",
+        "5G",
+        "液冷服务器",
+        "汽车电子"
+      ],
+      "industry": [
+        "电子",
+        "元件"
+      ],
+      "board": "主板",
+      "floatCap": 499.9,
+      "reason": "超级电容｜共封装光学(CPO)｜AI眼镜　催化：风华高科公司级项目P2高效创新：让创新方法论深度赋能科技创新实践",
+      "news": [
+        {
+          "title": "风华高科公司级项目P2高效创新：让创新方法论深度赋能科技创新实践",
+          "date": "2026-07-23 18:06",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678388877.shtml"
+        },
+        {
+          "title": "涨停雷达：MLCC+半年报预增+广东国资 风华高科触及涨停",
+          "date": "2026-07-23 09:41",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678374436.shtml"
+        }
+      ],
+      "tech": "横盘整理 · 方向待选",
+      "senti": "涨但主力流出 · 分歧加剧"
     },
     {
       "rank": 10,
@@ -408,7 +408,7 @@ window.HOT = {
       "name": "长电科技",
       "price": 80.81,
       "chgPct": -5.79,
-      "heat": 165831,
+      "heat": 164348,
       "turnover": 9.42,
       "volRatio": 0.72,
       "amplitude": 7.67,
@@ -448,11 +448,42 @@ window.HOT = {
     },
     {
       "rank": 11,
+      "code": "002156",
+      "name": "通富微电",
+      "price": 69.82,
+      "chgPct": -6.78,
+      "heat": 159120,
+      "turnover": 13.56,
+      "volRatio": 0.94,
+      "amplitude": 9.99,
+      "netInflow": -8.36,
+      "boards": 0,
+      "concepts": [
+        "国家大基金持股",
+        "存储芯片",
+        "先进封装",
+        "共封装光学(CPO)",
+        "汽车芯片",
+        "华为海思概念股"
+      ],
+      "industry": [
+        "电子",
+        "半导体"
+      ],
+      "board": "主板",
+      "floatCap": 1059.5,
+      "reason": "国家大基金持股｜存储芯片｜先进封装",
+      "news": [],
+      "tech": "高位跳水 · 趋势走坏",
+      "senti": "资金流出 · 情绪转弱"
+    },
+    {
+      "rank": 12,
       "code": "601991",
       "name": "大唐发电",
       "price": 6.99,
       "chgPct": 0.58,
-      "heat": 158468,
+      "heat": 158392,
       "turnover": 7.93,
       "volRatio": 1.28,
       "amplitude": 12.52,
@@ -491,12 +522,100 @@ window.HOT = {
       "senti": "涨但主力流出 · 分歧加剧"
     },
     {
-      "rank": 12,
+      "rank": 13,
+      "code": "000977",
+      "name": "浪潮信息",
+      "price": 87.96,
+      "chgPct": -2.77,
+      "heat": 155355,
+      "turnover": 10.86,
+      "volRatio": 0.94,
+      "amplitude": 9.96,
+      "netInflow": 3.1,
+      "boards": 0,
+      "concepts": [
+        "中国AI 50",
+        "算力租赁",
+        "东数西算(算力)",
+        "数据中心(AIDC)",
+        "液冷服务器",
+        "云计算"
+      ],
+      "industry": [
+        "计算机",
+        "计算机设备"
+      ],
+      "board": "主板",
+      "floatCap": 1290.2,
+      "reason": "中国AI 50｜算力租赁｜东数西算(算力)　催化：出资1亿元！浪潮信息拟参与设立AI大模型领域基金",
+      "news": [
+        {
+          "title": "出资1亿元！浪潮信息拟参与设立AI大模型领域基金",
+          "date": "2026-07-23 15:31",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678381696.shtml"
+        },
+        {
+          "title": "浪潮信息发布原生液冷设计理念，支撑MW级整机柜实现算力密度10倍提升",
+          "date": "2026-07-22 22:30",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678364523.shtml"
+        }
+      ],
+      "tech": "冲高回落 · 分歧加大",
+      "senti": "跌但主力回补 · 有承接"
+    },
+    {
+      "rank": 14,
+      "code": "600744",
+      "name": "华银电力",
+      "price": 7.88,
+      "chgPct": -0.76,
+      "heat": 154977,
+      "turnover": 19.9,
+      "volRatio": 1.9,
+      "amplitude": 15.74,
+      "netInflow": 0.7,
+      "boards": 0,
+      "concepts": [
+        "超超临界发电",
+        "虚拟电厂",
+        "绿色电力",
+        "碳交易",
+        "煤炭概念",
+        "风电"
+      ],
+      "industry": [
+        "公用事业",
+        "电力"
+      ],
+      "board": "主板",
+      "floatCap": 160.1,
+      "reason": "超超临界发电｜虚拟电厂｜绿色电力　催化：利好传来，电力板块掀涨停潮",
+      "news": [
+        {
+          "title": "利好传来，电力板块掀涨停潮",
+          "date": "2026-07-20 18:34",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678295951.shtml"
+        },
+        {
+          "title": "华银电力涨停",
+          "date": "2026-07-20 15:44",
+          "source": "同花顺问财",
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1871218955007655967&wfr=spider"
+        }
+      ],
+      "tech": "宽幅震荡 · 多空激烈",
+      "senti": "跌但主力回补 · 有承接 · 换手过热"
+    },
+    {
+      "rank": 15,
       "code": "603118",
       "name": "共进股份",
       "price": 16.6,
       "chgPct": 1.1,
-      "heat": 152474,
+      "heat": 143726,
       "turnover": 27.18,
       "volRatio": 1.65,
       "amplitude": 9.99,
@@ -529,87 +648,12 @@ window.HOT = {
       "senti": "涨但主力流出 · 分歧加剧 · 换手过热"
     },
     {
-      "rank": 13,
-      "code": "002156",
-      "name": "通富微电",
-      "price": 69.82,
-      "chgPct": -6.78,
-      "heat": 152038,
-      "turnover": 13.56,
-      "volRatio": 0.94,
-      "amplitude": 9.99,
-      "netInflow": -8.36,
-      "boards": 0,
-      "concepts": [
-        "国家大基金持股",
-        "存储芯片",
-        "先进封装",
-        "共封装光学(CPO)",
-        "汽车芯片",
-        "华为海思概念股"
-      ],
-      "industry": [
-        "电子",
-        "半导体"
-      ],
-      "board": "主板",
-      "floatCap": 1059.5,
-      "reason": "国家大基金持股｜存储芯片｜先进封装",
-      "news": [],
-      "tech": "高位跳水 · 趋势走坏",
-      "senti": "资金流出 · 情绪转弱"
-    },
-    {
-      "rank": 14,
-      "code": "000977",
-      "name": "浪潮信息",
-      "price": 87.96,
-      "chgPct": -2.77,
-      "heat": 145893,
-      "turnover": 10.86,
-      "volRatio": 0.94,
-      "amplitude": 9.96,
-      "netInflow": 3.1,
-      "boards": 0,
-      "concepts": [
-        "中国AI 50",
-        "算力租赁",
-        "东数西算(算力)",
-        "数据中心(AIDC)",
-        "液冷服务器",
-        "云计算"
-      ],
-      "industry": [
-        "计算机",
-        "计算机设备"
-      ],
-      "board": "主板",
-      "floatCap": 1290.2,
-      "reason": "中国AI 50｜算力租赁｜东数西算(算力)　催化：出资1亿元！浪潮信息拟参与设立AI大模型领域基金",
-      "news": [
-        {
-          "title": "出资1亿元！浪潮信息拟参与设立AI大模型领域基金",
-          "date": "2026-07-23 15:31",
-          "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678381696.shtml"
-        },
-        {
-          "title": "浪潮信息(000977):公司与专业机构共同投资",
-          "date": "2026-07-22 19:53",
-          "source": "同花顺问财",
-          "url": "https://stock.cfi.cn/p20260722001562.html"
-        }
-      ],
-      "tech": "冲高回落 · 分歧加大",
-      "senti": "跌但主力回补 · 有承接"
-    },
-    {
-      "rank": 15,
+      "rank": 16,
       "code": "002185",
       "name": "华天科技",
       "price": 17.69,
       "chgPct": -3.96,
-      "heat": 144571,
+      "heat": 139432,
       "turnover": 12.54,
       "volRatio": 0.73,
       "amplitude": 7.06,
@@ -642,56 +686,12 @@ window.HOT = {
       "senti": "资金流出 · 情绪转弱"
     },
     {
-      "rank": 16,
-      "code": "000636",
-      "name": "风华高科",
-      "price": 43.21,
-      "chgPct": 4.62,
-      "heat": 141017,
-      "turnover": 12.25,
-      "volRatio": 1.23,
-      "amplitude": 7.14,
-      "netInflow": -2.53,
-      "boards": 0,
-      "concepts": [
-        "超级电容",
-        "共封装光学(CPO)",
-        "AI眼镜",
-        "5G",
-        "液冷服务器",
-        "汽车电子"
-      ],
-      "industry": [
-        "电子",
-        "元件"
-      ],
-      "board": "主板",
-      "floatCap": 499.9,
-      "reason": "超级电容｜共封装光学(CPO)｜AI眼镜　催化：涨停雷达：MLCC+半年报预增+广东国资 风华高科触及涨停",
-      "news": [
-        {
-          "title": "涨停雷达：MLCC+半年报预增+广东国资 风华高科触及涨停",
-          "date": "2026-07-23 09:41",
-          "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678374436.shtml"
-        },
-        {
-          "title": "风华高科与华南理工大学制造业联合创新中心理事会顺利召开",
-          "date": "2026-07-20 18:38",
-          "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678295991.shtml"
-        }
-      ],
-      "tech": "横盘整理 · 方向待选",
-      "senti": "涨但主力流出 · 分歧加剧"
-    },
-    {
       "rank": 17,
       "code": "000725",
       "name": "京东方A",
       "price": 6.06,
       "chgPct": 0.33,
-      "heat": 129793,
+      "heat": 130786,
       "turnover": 4.45,
       "volRatio": 0.57,
       "amplitude": 3.15,
@@ -729,7 +729,7 @@ window.HOT = {
       "name": "星网锐捷",
       "price": 33.93,
       "chgPct": -1.91,
-      "heat": 127086,
+      "heat": 121939,
       "turnover": 22.93,
       "volRatio": 0.85,
       "amplitude": 12.95,
@@ -763,11 +763,42 @@ window.HOT = {
     },
     {
       "rank": 19,
+      "code": "600487",
+      "name": "亨通光电",
+      "price": 55.67,
+      "chgPct": 1.0,
+      "heat": 116343,
+      "turnover": 7.49,
+      "volRatio": 0.74,
+      "amplitude": 5.77,
+      "netInflow": -0.91,
+      "boards": 0,
+      "concepts": [
+        "光纤概念",
+        "F5G概念",
+        "共封装光学(CPO)",
+        "太赫兹",
+        "6G概念",
+        "液冷服务器"
+      ],
+      "industry": [
+        "通信",
+        "通信设备"
+      ],
+      "board": "主板",
+      "floatCap": 1365.9,
+      "reason": "光纤概念｜F5G概念｜共封装光学(CPO)",
+      "news": [],
+      "tech": "横盘整理 · 方向待选",
+      "senti": "涨但主力流出 · 分歧加剧"
+    },
+    {
+      "rank": 20,
       "code": "603986",
       "name": "兆易创新",
       "price": 451.96,
       "chgPct": -3.84,
-      "heat": 123880,
+      "heat": 114920,
       "turnover": 7.05,
       "volRatio": 0.69,
       "amplitude": 8.29,
@@ -806,12 +837,12 @@ window.HOT = {
       "senti": "资金流出 · 情绪转弱"
     },
     {
-      "rank": 20,
+      "rank": 21,
       "code": "300308",
       "name": "中际旭创",
       "price": 1072.52,
       "chgPct": 1.1,
-      "heat": 116917,
+      "heat": 114075,
       "turnover": 2.46,
       "volRatio": 0.63,
       "amplitude": 5.18,
@@ -831,52 +862,21 @@ window.HOT = {
       ],
       "board": "创业板",
       "floatCap": 11904.3,
-      "reason": "共封装光学(CPO)｜F5G概念｜芯片概念　催化：中际旭创赴港二次上市 募资金额上限约550亿港元",
+      "reason": "共封装光学(CPO)｜F5G概念｜芯片概念　催化：中际旭创启动招股，或成港股年内最大IPO",
       "news": [
+        {
+          "title": "中际旭创启动招股，或成港股年内最大IPO",
+          "date": "2026-07-23 11:53",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678378374.shtml"
+        },
         {
           "title": "中际旭创赴港二次上市 募资金额上限约550亿港元",
           "date": "2026-07-23 11:29",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c678377742.shtml"
-        },
-        {
-          "title": "最高1010港元/股！中际旭创，或成港股年内最大IPO！",
-          "date": "2026-07-22 21:58",
-          "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678364246.shtml"
         }
       ],
-      "tech": "横盘整理 · 方向待选",
-      "senti": "涨但主力流出 · 分歧加剧"
-    },
-    {
-      "rank": 21,
-      "code": "600487",
-      "name": "亨通光电",
-      "price": 55.67,
-      "chgPct": 1.0,
-      "heat": 112162,
-      "turnover": 7.49,
-      "volRatio": 0.74,
-      "amplitude": 5.77,
-      "netInflow": -0.91,
-      "boards": 0,
-      "concepts": [
-        "光纤概念",
-        "F5G概念",
-        "共封装光学(CPO)",
-        "太赫兹",
-        "6G概念",
-        "液冷服务器"
-      ],
-      "industry": [
-        "通信",
-        "通信设备"
-      ],
-      "board": "主板",
-      "floatCap": 1365.9,
-      "reason": "光纤概念｜F5G概念｜共封装光学(CPO)",
-      "news": [],
       "tech": "横盘整理 · 方向待选",
       "senti": "涨但主力流出 · 分歧加剧"
     },
@@ -886,7 +886,7 @@ window.HOT = {
       "name": "紫金矿业",
       "price": 33.06,
       "chgPct": 2.67,
-      "heat": 91183,
+      "heat": 87355,
       "turnover": 2.13,
       "volRatio": 1.29,
       "amplitude": 5.47,
@@ -926,99 +926,143 @@ window.HOT = {
     },
     {
       "rank": 23,
-      "code": "002353",
-      "name": "杰瑞股份",
-      "price": 135.11,
-      "chgPct": 10.0,
-      "heat": 88251,
-      "turnover": 0.42,
-      "volRatio": 0.11,
-      "amplitude": 0.0,
-      "netInflow": -2.15,
-      "boards": 1,
+      "code": "601138",
+      "name": "工业富联",
+      "price": 62.88,
+      "chgPct": 3.57,
+      "heat": 84628,
+      "turnover": 0.81,
+      "volRatio": 1.07,
+      "amplitude": 5.21,
+      "netInflow": 6.88,
+      "boards": 0,
       "concepts": [
-        "数据中心(AIDC)",
-        "核电",
-        "高端装备",
-        "海工装备",
-        "储能",
-        "同花顺出海50"
+        "同花顺果指数",
+        "共封装光学(CPO)",
+        "富士康概念",
+        "英伟达概念",
+        "液冷服务器",
+        "5G"
       ],
       "industry": [
-        "机械设备",
-        "专用设备"
+        "电子",
+        "消费电子"
       ],
       "board": "主板",
-      "floatCap": 933.7,
-      "reason": "数据中心(AIDC)｜核电｜高端装备　催化：杰瑞股份签14.65亿美元（约合99.5亿元人民币）燃气轮机大单 占2025年度经审计营收61.33%",
+      "floatCap": 12478.0,
+      "reason": "同花顺果指数｜共封装光学(CPO)｜富士康概念　催化：工业富联派发百亿红包 年度分红194亿创历史新高",
       "news": [
         {
-          "title": "杰瑞股份签14.65亿美元（约合99.5亿元人民币）燃气轮机大单 占2025年度经审计营收61.33%",
-          "date": "2026-07-23 11:19",
+          "title": "工业富联派发百亿红包 年度分红194亿创历史新高",
+          "date": "2026-07-23 18:35",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678377447.shtml"
+          "url": "http://news.10jqka.com.cn/19700121/c678389482.shtml"
         },
         {
-          "title": "签署14.65亿美元供应合同！杰瑞股份一字涨停",
-          "date": "2026-07-23 09:32",
+          "title": "大手笔！工业富联派发百亿红包 年度分红194亿创历史新高",
+          "date": "2026-07-23 17:58",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678374185.shtml"
+          "url": "https://www.ithome.com/0/980/789.htm"
         }
       ],
-      "tech": "涨停 · 多方主导",
-      "senti": "涨但主力流出 · 分歧加剧"
+      "tech": "横盘整理 · 方向待选",
+      "senti": "资金净流入 · 情绪偏暖"
     },
     {
       "rank": 24,
-      "code": "002197",
-      "name": "证通电子",
-      "price": 7.67,
-      "chgPct": 10.04,
-      "heat": 85583,
-      "turnover": 20.37,
-      "volRatio": 2.94,
-      "amplitude": 9.61,
-      "netInflow": -0.53,
-      "boards": 3,
+      "code": "600726",
+      "name": "华电能源",
+      "price": 6.98,
+      "chgPct": 5.76,
+      "heat": 81997,
+      "turnover": 5.85,
+      "volRatio": 1.88,
+      "amplitude": 11.97,
+      "netInflow": -0.45,
+      "boards": 0,
       "concepts": [
-        "云计算",
-        "算力租赁",
-        "数据安全",
-        "网络安全",
-        "智慧政务",
-        "信创"
+        "超超临界发电",
+        "煤炭概念",
+        "绿色电力",
+        "国企改革",
+        "央企国企改革",
+        "黑龙江自贸区"
       ],
       "industry": [
-        "计算机",
-        "IT服务"
+        "煤炭",
+        "煤炭开采加工"
       ],
       "board": "主板",
-      "floatCap": 41.0,
-      "reason": "云计算｜算力租赁｜数据安全　催化：涨停雷达：算力租赁+数据中心REITs+金融科技+中报扭亏 证通电子触及涨停",
+      "floatCap": 521.8,
+      "reason": "超超临界发电｜煤炭概念｜绿色电力　催化：华电能源录得4天3板",
       "news": [
         {
-          "title": "涨停雷达：算力租赁+数据中心REITs+金融科技+中报扭亏 证通电子触及涨停",
-          "date": "2026-07-23 09:35",
+          "title": "华电能源录得4天3板",
+          "date": "2026-07-23 18:13",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678374262.shtml"
+          "url": "https://www.stcn.com/article/detail/4037115.html"
         },
         {
-          "title": "深圳市证通电子股份有限公司股票交易异常波动公告",
+          "title": "证券代码：600726 900937 证券简称：华电能源 华电B股 公告编号：2026-029 华电能源股份有限公司关于股票交易异常波动的公告",
           "date": "2026-07-23 00:00",
           "source": "同花顺问财",
-          "url": "https://paper.cnstock.com/html/2026-07/23/content_2247612.htm"
+          "url": "https://epaper.cs.com.cn/zgzqb/html/2026-07/23/nw.D110000zgzqb_20260723_4-B028.htm"
         }
       ],
-      "tech": "3连板 · 强势趋势",
-      "senti": "涨但主力流出 · 分歧加剧 · 换手过热"
+      "tech": "放量大涨",
+      "senti": "涨但主力流出 · 分歧加剧"
     },
     {
       "rank": 25,
+      "code": "300502",
+      "name": "新易盛",
+      "price": 497.3,
+      "chgPct": -2.26,
+      "heat": 80803,
+      "turnover": 3.53,
+      "volRatio": 0.68,
+      "amplitude": 5.99,
+      "netInflow": -19.47,
+      "boards": 0,
+      "concepts": [
+        "共封装光学(CPO)",
+        "芯片概念",
+        "5G",
+        "中国AI 50",
+        "数据中心(AIDC)",
+        "西部大开发"
+      ],
+      "industry": [
+        "通信",
+        "通信设备"
+      ],
+      "board": "创业板",
+      "floatCap": 6237.4,
+      "reason": "共封装光学(CPO)｜芯片概念｜5G　催化：7月机构调研升温！电子赛道领跑，新易盛获417家机构扎堆调研",
+      "news": [
+        {
+          "title": "7月机构调研升温！电子赛道领跑，新易盛获417家机构扎堆调研",
+          "date": "2026-07-22 08:16",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678339045.shtml"
+        },
+        {
+          "title": "新易盛成交额超300亿元",
+          "date": "2026-07-20 15:35",
+          "source": "同花顺问财",
+          "url": "https://www.sohu.com/a/1052488251_115433"
+        }
+      ],
+      "tech": "冲高回落 · 分歧加大",
+      "senti": "资金流出 · 情绪转弱"
+    },
+    {
+      "rank": 26,
       "code": "601869",
       "name": "长飞光纤",
       "price": 356.12,
       "chgPct": -2.71,
-      "heat": 81081,
+      "heat": 79561,
       "turnover": 3.11,
       "volRatio": 0.66,
       "amplitude": 7.39,
@@ -1057,56 +1101,56 @@ window.HOT = {
       "senti": "跌但主力回补 · 有承接"
     },
     {
-      "rank": 26,
-      "code": "603823",
-      "name": "百合花",
-      "price": 73.74,
-      "chgPct": -10.0,
-      "heat": 80531,
-      "turnover": 4.46,
-      "volRatio": 0.63,
-      "amplitude": 8.74,
-      "netInflow": -0.8,
-      "boards": 0,
+      "rank": 27,
+      "code": "002197",
+      "name": "证通电子",
+      "price": 7.67,
+      "chgPct": 10.04,
+      "heat": 78588,
+      "turnover": 20.37,
+      "volRatio": 2.94,
+      "amplitude": 9.61,
+      "netInflow": -0.53,
+      "boards": 3,
       "concepts": [
-        "光刻胶",
-        "PEEK材料",
-        "钠离子电池",
-        "沪股通",
-        "基础化工",
-        "化学制品"
+        "云计算",
+        "算力租赁",
+        "数据安全",
+        "网络安全",
+        "智慧政务",
+        "信创"
       ],
       "industry": [
-        "基础化工",
-        "化学制品"
+        "计算机",
+        "IT服务"
       ],
       "board": "主板",
-      "floatCap": 307.0,
-      "reason": "光刻胶｜PEEK材料｜钠离子电池　催化：4倍牛股百合花回调！高管及配偶拟减持，光刻胶占比低",
+      "floatCap": 41.0,
+      "reason": "云计算｜算力租赁｜数据安全　催化：涨停雷达：算力租赁+数据中心REITs+金融科技+中报扭亏 证通电子触及涨停",
       "news": [
         {
-          "title": "4倍牛股百合花回调！高管及配偶拟减持，光刻胶占比低",
-          "date": "2026-07-23 11:53",
+          "title": "涨停雷达：算力租赁+数据中心REITs+金融科技+中报扭亏 证通电子触及涨停",
+          "date": "2026-07-23 09:35",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678378377.shtml"
+          "url": "http://news.10jqka.com.cn/19700121/c678374262.shtml"
         },
         {
-          "title": "百合花：董事及高管拟合计减持不超90.84万股",
-          "date": "2026-07-22 20:59",
+          "title": "深圳市证通电子股份有限公司股票交易异常波动公告",
+          "date": "2026-07-23 00:00",
           "source": "同花顺问财",
-          "url": "https://www.sohu.com/a/1053527510_114984"
+          "url": "https://paper.cnstock.com/html/2026-07/23/content_2247612.htm"
         }
       ],
-      "tech": "高位跳水 · 趋势走坏",
-      "senti": "资金流出 · 情绪转弱"
+      "tech": "3连板 · 强势趋势",
+      "senti": "涨但主力流出 · 分歧加剧 · 换手过热"
     },
     {
-      "rank": 27,
+      "rank": 28,
       "code": "000021",
       "name": "深科技",
       "price": 39.09,
       "chgPct": -2.81,
-      "heat": 80393,
+      "heat": 77841,
       "turnover": 8.46,
       "volRatio": 0.74,
       "amplitude": 5.67,
@@ -1132,12 +1176,56 @@ window.HOT = {
       "senti": "资金流出 · 情绪转弱"
     },
     {
-      "rank": 28,
+      "rank": 29,
+      "code": "600667",
+      "name": "太极实业",
+      "price": 16.23,
+      "chgPct": -2.76,
+      "heat": 77160,
+      "turnover": 10.76,
+      "volRatio": 0.79,
+      "amplitude": 6.83,
+      "netInflow": -0.41,
+      "boards": 0,
+      "concepts": [
+        "存储芯片",
+        "先进封装",
+        "OLED",
+        "芯片概念",
+        "光伏建筑一体化",
+        "国企改革"
+      ],
+      "industry": [
+        "建筑装饰",
+        "建筑装饰"
+      ],
+      "board": "主板",
+      "floatCap": 339.5,
+      "reason": "存储芯片｜先进封装｜OLED　催化：龙虎榜｜太极实业涨停",
+      "news": [
+        {
+          "title": "龙虎榜｜太极实业涨停",
+          "date": "2026-07-21 18:01",
+          "source": "同花顺问财",
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1871318212124006730&wfr=spider"
+        },
+        {
+          "title": "太极实业旗下苏州半导体公司注册资本增至10.2亿元",
+          "date": "2026-07-20 14:46",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678287501.shtml"
+        }
+      ],
+      "tech": "冲高回落 · 分歧加大",
+      "senti": "资金流出 · 情绪转弱"
+    },
+    {
+      "rank": 30,
       "code": "002432",
       "name": "九安医疗",
       "price": 73.48,
       "chgPct": -10.0,
-      "heat": 80134,
+      "heat": 76853,
       "turnover": 10.87,
       "volRatio": 0.73,
       "amplitude": 7.97,
@@ -1166,102 +1254,14 @@ window.HOT = {
           "url": "http://news.10jqka.com.cn/19700121/c678386967.shtml"
         },
         {
-          "title": "Kimi和DeepSeek的隐形股东，7天拿下4个涨停",
-          "date": "2026-07-22 18:14",
+          "title": "九安医疗，投了DeepSeek",
+          "date": "2026-07-22 16:04",
           "source": "同花顺问财",
-          "url": "https://app.myzaker.com/news/article.php?pk=6a6096b98e9f0930361d9b07"
+          "url": "https://mp.weixin.qq.com/s?__biz=Mzg3NTczNDg0Mw==&chksm=ceaf576698670255703b619fc08861711e81ed35c3466cd2f4088845ade62d0803dbd6402642&idx=4&mid=2247753862&sn=be3f79171f6875cba770c60ca7332a6b"
         }
       ],
       "tech": "高位跳水 · 趋势走坏",
       "senti": "资金流出 · 情绪转弱"
-    },
-    {
-      "rank": 29,
-      "code": "600726",
-      "name": "华电能源",
-      "price": 6.98,
-      "chgPct": 5.76,
-      "heat": 77864,
-      "turnover": 5.85,
-      "volRatio": 1.88,
-      "amplitude": 11.97,
-      "netInflow": -0.45,
-      "boards": 0,
-      "concepts": [
-        "超超临界发电",
-        "煤炭概念",
-        "绿色电力",
-        "国企改革",
-        "央企国企改革",
-        "黑龙江自贸区"
-      ],
-      "industry": [
-        "煤炭",
-        "煤炭开采加工"
-      ],
-      "board": "主板",
-      "floatCap": 521.8,
-      "reason": "超超临界发电｜煤炭概念｜绿色电力　催化：证券代码：600726 900937 证券简称：华电能源 华电B股 公告编号：2026-029 华电能源股份有限公司关于股票交易异常波动的公告",
-      "news": [
-        {
-          "title": "证券代码：600726 900937 证券简称：华电能源 华电B股 公告编号：2026-029 华电能源股份有限公司关于股票交易异常波动的公告",
-          "date": "2026-07-23 00:00",
-          "source": "同花顺问财",
-          "url": "https://epaper.cs.com.cn/zgzqb/html/2026-07/23/nw.D110000zgzqb_20260723_4-B028.htm"
-        },
-        {
-          "title": "华电能源股份有限公司关于股票交易异常波动的公告",
-          "date": "2026-07-23 00:00",
-          "source": "同花顺问财",
-          "url": "http://paper.cnstock.com/html/2026-07/23/content_2247727.htm"
-        }
-      ],
-      "tech": "放量大涨",
-      "senti": "涨但主力流出 · 分歧加剧"
-    },
-    {
-      "rank": 30,
-      "code": "301165",
-      "name": "锐捷网络",
-      "price": 126.8,
-      "chgPct": 0.63,
-      "heat": 76377,
-      "turnover": 4.04,
-      "volRatio": 1.25,
-      "amplitude": 12.21,
-      "netInflow": -1.82,
-      "boards": 0,
-      "concepts": [
-        "WiFi 6",
-        "共封装光学(CPO)",
-        "6G概念",
-        "5G",
-        "液冷服务器",
-        "中国AI 50"
-      ],
-      "industry": [
-        "通信",
-        "通信设备"
-      ],
-      "board": "创业板",
-      "floatCap": 1412.1,
-      "reason": "WiFi 6｜共封装光学(CPO)｜6G概念　催化：锐捷网络-场景创新，驱动数字未来",
-      "news": [
-        {
-          "title": "锐捷网络-场景创新，驱动数字未来",
-          "date": "2026-07-20 17:21",
-          "source": "同花顺问财",
-          "url": "https://www.ruijie.com.cn/"
-        },
-        {
-          "title": "锐捷网络以超节点能力，构筑AI算力新底座",
-          "date": "2026-07-20 16:08",
-          "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678290824.shtml"
-        }
-      ],
-      "tech": "宽幅震荡 · 多空激烈",
-      "senti": "涨但主力流出 · 分歧加剧"
     }
   ]
 };
