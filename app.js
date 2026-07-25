@@ -2144,12 +2144,15 @@
 
     const cards = scored.map((item, idx) => {
       const c = item.chain;
-      const segs = (c.segments || []).map((s) => {
+      const segs = (c.segments || []).map((s, segIdx) => {
         const stocks = (s.stocks || []).map((st) =>
           `<button class="ind-stock" data-code="${esc(st.code)}"><span class="is-name">${esc(st.name)}</span><span class="is-code">${esc(st.code)}</span><span class="is-role">${esc(st.role || "")}</span></button>`
         ).join("");
         return `<div class="lc-seg">
-          <div class="lc-seg-head"><span class="lc-stage">${esc(s.stage)}</span><span class="lc-supply ${s.supply && /紧|缺/.test(s.supply) ? "warn" : ""}">${esc((s.supply || "").slice(0, 30))}</span></div>
+          <div class="lc-seg-head">
+            <div class="lc-stage-title"><span class="lc-stage-no">${String(segIdx + 1).padStart(2, "0")}</span><span class="lc-stage">${esc(s.stage)}</span></div>
+            <span class="lc-supply ${s.supply && /紧|缺/.test(s.supply) ? "warn" : ""}">${esc(s.supply || "")}</span>
+          </div>
           <div class="lc-products">${fieldHtml(s.products || "—")}</div>
           ${stocks ? `<div class="sd-stock-list">${stocks}</div>` : '<div class="lc-no-stock">未点名核心A股</div>'}
         </div>`;
@@ -2162,7 +2165,6 @@
         <div class="lc-conditions">
           <div class="lc-cond-head">
             <span class="lc-cond-title">底层逻辑成立条件</span>
-            <span class="lc-strength ${item.strength.cls}">${item.strength.label} ${item.score}</span>
           </div>
           <div class="lc-cond-meta">
             <span class="lc-cond-cnt up">强成立 ${strongList.length}</span>
@@ -2177,18 +2179,26 @@
       return `<article class="card blk lc-chain ${item.strength.cls}" data-xname="${esc(c.name)}">
         <div class="lc-chain-head">
           <div class="lc-chain-title"><span class="lc-rank">#${idx + 1}</span><h3 class="sd-name">${esc(c.name)}</h3></div>
-          <span class="lc-asof">${esc(c.asof || "")}</span>
+          <div class="lc-head-meta">
+            <span class="lc-strength ${item.strength.cls}">${item.strength.label} ${item.score}</span>
+            <span class="lc-asof">${esc(c.asof || "")}</span>
+          </div>
         </div>
         ${xlinkRowHtml("logic", c.name, (c.segments || []).flatMap((s) => (s.stocks || []).map((x) => x.code)))}
-        ${condHtml}
-        <div class="lc-logic"><span class="sd-l">核心逻辑</span>${fieldHtml(c.logic || "—")}</div>
-        <div class="lc-bottleneck"><span class="sd-l">卡脖子环节</span>${fieldHtml(c.bottleneck || "—")}</div>
-        <div class="lc-segs"><span class="sd-l">上下游拆解</span>${segs}</div>
+        <div class="lc-overview">
+          ${condHtml}
+          <div class="lc-thesis">
+            <div class="lc-logic"><span class="sd-l">核心逻辑</span>${fieldHtml(c.logic || "—")}</div>
+            <div class="lc-bottleneck"><span class="sd-l">卡脖子环节</span>${fieldHtml(c.bottleneck || "—")}</div>
+          </div>
+        </div>
+        <div class="lc-flow-head"><span class="sd-l">上下游拆解</span><span class="lc-flow-hint">从供给端到需求端</span></div>
+        <div class="lc-segs">${segs}</div>
       </article>`;
     }).join("");
 
     el.innerHTML = secTitle("逻辑链", `产业链上下游拆解 · 按成立强度排序 · ${esc(LOGIC.date || "")}`) +
-      `<div class="sd-grid-cards">${cards}</div>`;
+      `<div class="sd-grid-cards lc-board">${cards}</div>`;
     el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
 
