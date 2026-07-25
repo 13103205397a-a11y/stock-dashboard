@@ -2643,7 +2643,7 @@ button.chip,
 .nf-details > summary,
 .nf-summary {
   font-family: var(--text) !important;
-  font-size: 13.5px !important;
+  font-size: 14px !important;
   font-weight: 400 !important;
   line-height: 1.75 !important;
   letter-spacing: 0 !important;
@@ -2652,7 +2652,7 @@ button.chip,
 .rep-md {
   font-family: var(--text) !important;
   font-size: 15px !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   line-height: 1.88 !important;
   letter-spacing: 0 !important;
 }
@@ -2730,7 +2730,7 @@ td {
   }
 
   .rep-md {
-    font-size: 14.5px !important;
+    font-size: 15px !important;
     line-height: 1.84 !important;
   }
 
