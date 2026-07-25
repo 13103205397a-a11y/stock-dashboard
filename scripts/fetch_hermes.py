@@ -32,6 +32,10 @@ REPORT_TYPES = [
 PROCESS_OPENERS = re.compile(
     r"^(?:I(?:'ll| will) (?:generate|prepare)|I (?:now )?have all the data|"
     r"Let me |All data verified|Here(?:'s| is) the |"
+    r"[\w.-]+\.py\b|"  # “fetch_market.py 成功了。” 这类工具流水账
+    r"web_search\b|"
+    r"数据已全部?到位|现在综合|让我重试|我将使用|"
+    r"我(?:已经)?获取了所有|现在让我来|让我来(?:汇总|撰写)|"
     r"现在我已经(?:获取|掌握).*(?:让我来|下面))",
     re.I,
 )
@@ -41,6 +45,9 @@ def sanitize_report(content):
     """移除模型生成过程语，只保留面向用户的报告正文。"""
     lines = str(content or "").strip().splitlines()
     while lines and (not lines[0].strip() or PROCESS_OPENERS.search(lines[0].strip())):
+        lines.pop(0)
+    # 过程语剥掉后常残留一个孤立的分隔线,一并去掉
+    while lines and (not lines[0].strip() or lines[0].strip() == "---"):
         lines.pop(0)
     if lines and re.fullmatch(r"```(?:markdown|md)?", lines[0].strip(), re.I):
         lines.pop(0)

@@ -107,6 +107,8 @@ test("研究内容不会直出内部字段、生成过程语或残缺括号", as
     const text = await page.locator("#mainContent").innerText();
     expect(text).not.toMatch(/\b(?:thsStrong|thsHot|break\s*=\s*\d+)\b/i);
     expect(text).not.toMatch(/^(?:I'll generate|现在我已经(?:获取|掌握))/m);
+    // 生成过程语(工具流水账)不应出现在用户可见正文里
+    expect(text).not.toMatch(/(?:[\w-]+\.py\b|web_search|让我重试|数据已全部?到位|现在综合所有信息|获取了所有所需数据|现在让我来)/i);
     expect(text).not.toContain("京东方A（");
   }
 });
