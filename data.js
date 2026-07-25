@@ -1158,10 +1158,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.52,
-      "turnover": 3.42,
-      "date": "2026-07-23",
-      "asof": "2026-07-23"
+      "netInflow": 0.27,
+      "turnover": 3.32,
+      "date": "2026-07-25",
+      "asof": "2026-07-25"
     },
     "newsAsof": "2026-07-25",
     "research": [
@@ -1398,10 +1398,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -17.61,
-      "turnover": 5.38,
-      "date": "2026-07-23",
-      "asof": "2026-07-23"
+      "netInflow": -6.46,
+      "turnover": 5.88,
+      "date": "2026-07-25",
+      "asof": "2026-07-25"
     },
     "newsAsof": "2026-07-25",
     "research": [

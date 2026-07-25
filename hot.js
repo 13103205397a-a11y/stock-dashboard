@@ -4,7 +4,7 @@
  */
 window.HOT = {
   "date": "2026-07-25",
-  "generatedAt": "2026-07-25 18:20",
+  "generatedAt": "2026-07-25 19:39",
   "list": [
     {
       "rank": 1,
@@ -422,19 +422,19 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 3055.0,
-      "reason": "存储芯片｜汽车芯片｜MCU芯片　催化：兆易创新与东软智行达成战略合作，协同赋能智能汽车产业未来",
+      "reason": "存储芯片｜汽车芯片｜MCU芯片　催化：兆易创新与东软智行达成战略合作",
       "news": [
+        {
+          "title": "兆易创新与东软智行达成战略合作",
+          "date": "2026-07-23 16:08",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678384191.shtml"
+        },
         {
           "title": "兆易创新与东软智行达成战略合作，协同赋能智能汽车产业未来",
           "date": "2026-07-23 16:08",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c678384030.shtml"
-        },
-        {
-          "title": "兆易创新与东软智行达成战略合作",
-          "date": "2026-07-23 16:08",
-          "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678384062.shtml"
         }
       ],
       "tech": "横盘整理 · 方向待选",
@@ -623,8 +623,15 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 2077.2,
-      "reason": "电子纸｜MicroLED概念｜同花顺果指数",
-      "news": [],
+      "reason": "电子纸｜MicroLED概念｜同花顺果指数　催化：京东方A：7月22日获融资买入16.30亿元",
+      "news": [
+        {
+          "title": "京东方A：7月22日获融资买入16.30亿元",
+          "date": "2026-07-23 09:18",
+          "source": "同花顺问财",
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1871466474091981767&wfr=spider"
+        }
+      ],
       "tech": "冲高回落 · 分歧加大",
       "senti": "资金流出 · 情绪转弱"
     },
@@ -988,19 +995,19 @@ window.HOT = {
       ],
       "board": "创业板",
       "floatCap": 5970.4,
-      "reason": "共封装光学(CPO)｜芯片概念｜5G　催化：未来是否会深度参与国内AI的发展？新易盛回应",
+      "reason": "共封装光学(CPO)｜芯片概念｜5G　催化：新易盛(300502)：供应链紧张逐步缓解 订单交付快速增长",
       "news": [
+        {
+          "title": "新易盛(300502)：供应链紧张逐步缓解 订单交付快速增长",
+          "date": "2026-07-25 00:00",
+          "source": "同花顺问财",
+          "url": "http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/lastest/rptid/838319014698/index.phtml"
+        },
         {
           "title": "未来是否会深度参与国内AI的发展？新易盛回应",
           "date": "2026-07-24 11:46",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c678409640.shtml"
-        },
-        {
-          "title": "新易盛跌7.79%",
-          "date": "2026-07-22 15:28",
-          "source": "同花顺问财",
-          "url": "https://baijiahao.baidu.com/s?for=pc&id=1871399180012535328&wfr=spider"
         }
       ],
       "tech": "冲高回落 · 分歧加大",
