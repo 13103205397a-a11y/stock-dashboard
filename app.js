@@ -869,7 +869,6 @@
     industry: () => renderIndustry(),
     materials: () => renderMaterials(),
     weekend: () => renderWeekend(),
-    xpulse: () => renderXpulse(),
     events: () => renderEvents(),
     news: () => renderNewsAll(),
     watch: () => render(),
@@ -890,7 +889,6 @@
     industry: "产业雷达",
     materials: "材料涨价",
     weekend: "周末发酵",
-    xpulse: "X 热议",
   };
   function viewFromHash() {
     try {
@@ -1184,7 +1182,6 @@
       { name: "材料涨价", date: MAT?.generatedAt || MAT?.date, count: `${(MAT?.directions || []).length}项`, source: "Hermes", view: "materials", relaxed: true, missing: !MAT },
       { name: "事件概率", date: EV?.generatedAt || EV?.date, count: `${(EV?.events || []).length}件`, source: "Hermes", view: "events", relaxed: true, missing: !EV },
       { name: "周末发酵", date: W?.generatedAt || W?.weekendDate || W?.date, count: `${(W?.hotspots || []).length}项`, source: "Hermes", view: "weekend", weekly: true, optional: true, missing: !W },
-      { name: "X 热议", date: window.XFEED?.generatedAt || window.XFEED?.date, count: `${(window.XFEED?.topics || []).length}题`, source: "Hermes/X", view: "xpulse", relaxed: true, optional: true, missing: !(window.XFEED?.topics || []).length },
     ];
   }
 
@@ -1290,7 +1287,6 @@
     (INDUSTRY?.directions || []).forEach((d) => addSearchItem(list, "产业", d.name, d.confidence || "", [d.price_signal, d.logic].join(" "), "industry"));
     (window.MATERIALS?.directions || []).forEach((d) => addSearchItem(list, "材料", d.name, d.intensity || "", [d.price, d.logic].join(" "), "materials"));
     (window.EVENTS?.events || []).forEach((e) => addSearchItem(list, "事件", e.title, e.importance || "", [e.content, e.sectors].join(" "), "events"));
-    (window.XFEED?.topics || []).forEach((t) => addSearchItem(list, "X热议", t.title, t.sentiment || "", [t.summary, t.impact].join(" "), "xpulse"));
     return list;
   }
 
@@ -1880,7 +1876,6 @@
     { view: "materials", label: "材料涨价", items: () => (window.MATERIALS?.directions || []).map((d) => ({ name: d.name, codes: (d.stocks || []).map((s) => String(s.code)) })) },
     { view: "events", label: "事件概率", items: () => (window.EVENTS?.events || []).map((d) => ({ name: d.title, codes: (d.stocks || []).map((s) => String(s.code)) })) },
     { view: "weekend", label: "周末发酵", items: () => (window.WEEKEND?.hotspots || []).map((d) => ({ name: d.title, codes: (d.impactStocks || []).map((s) => String(s.code)) })) },
-    { view: "xpulse", label: "X 热议", items: () => (window.XFEED?.topics || []).map((d) => ({ name: d.title, codes: (d.stocks || []).map((s) => String(s.code)) })) },
   ];
   let xmoduleIndex = null;
   function getXmoduleIndex() {
@@ -2413,70 +2408,6 @@
       `<div class="home-foot">由 Hermes Agent 每周日下午 21:00 自动搜集周末热点并解读 · 仅供研究参考，非投资建议</div>`;
     // 个股点击
     el.querySelectorAll(".we-stock[data-code]").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
-  }
-
-  /* ---------- 6.8 X 热议（海外社媒风向） ---------- */
-  function renderXpulse() {
-    const el = $("#viewXpulse");
-    if (!el) return;
-    const X = window.XFEED || null;
-    const topics = (X && X.topics) || [];
-    const watch = (X && X.watchlist) || [];
-    if (!X || (!topics.length && !watch.length)) {
-      el.innerHTML = secTitle("X 热议", "海外社媒（X/Twitter）与 A 股相关的讨论风向 · 工作日 07:05 / 23:00 自动更新") +
-        emptyState("X 热议数据待生成（由 Hermes 通过 X 搜索自动采集，交易日早晚各一次）。");
-      return;
-    }
-    const sentCls = (s) => /利好/.test(s || "") ? "up" : /警惕|利空/.test(s || "") ? "down" : "warn";
-    const linkHtml = (links) => (links || []).slice(0, 3).map((l) => {
-      const u = safeUrl(l.url);
-      return u ? `<a class="xp-link" href="${u}" target="_blank" rel="noopener noreferrer">${esc(trunc(l.title || "原帖", 40))} ↗</a>` : "";
-    }).join("");
-    const stockChips = (stocks) => (stocks || []).map((s) =>
-      `<button class="dir-chip" data-code="${esc(s.code)}"><span class="dir-chip-name">${esc(s.name)}</span></button>`
-    ).join("");
-
-    const topicCards = topics.map((t, i) => `<article class="dir-row" data-xname="${esc(t.title || "")}">
-      <header class="dir-row-head">
-        <div class="dir-rank">${String(i + 1).padStart(2, "0")}</div>
-        <div class="dir-row-main">
-          <div class="dir-row-meta">
-            <span class="dir-badge ${sentCls(t.sentiment)}">${esc(t.sentiment || "中性")}</span>
-            ${t.heat ? `<span class="dir-asof">热度 ${esc(t.heat)}</span>` : ""}
-          </div>
-          <h3 class="dir-title" title="${esc(t.title)}">${esc(trunc(t.title || "—", 42))}</h3>
-          ${t.summary ? `<p class="dir-lead">${esc(trunc(cleanDisplayText(t.summary), 140))}</p>` : ""}
-        </div>
-      </header>
-      ${t.impact ? `<section class="dir-block pick"><div class="dir-block-l">对 A 股影响</div><div class="dir-block-b">${fieldHtml(t.impact)}</div></section>` : ""}
-      ${Array.isArray(t.sectors) && t.sectors.length ? `<div class="we-sectors">${t.sectors.map((s) => `<span class="we-sector">${esc(s)}</span>`).join("")}</div>` : ""}
-      ${stockChips(t.stocks) ? `<div class="dir-stocks">${stockChips(t.stocks)}</div>` : ""}
-      ${linkHtml(t.links) ? `<div class="xp-links">${linkHtml(t.links)}</div>` : ""}
-      ${xlinkRowHtml("xpulse", t.title, (t.stocks || []).map((s) => s.code))}
-    </article>`).join("");
-
-    const watchHtml = watch.length
-      ? watch.map((w) => `<article class="card blk xp-watch">
-          <div class="xp-watch-head">
-            <button class="dir-chip" data-code="${esc(w.code)}"><span class="dir-chip-name">${esc(w.name)}</span><span class="dir-chip-pos">${esc(w.code)}</span></button>
-            <span class="dir-badge ${sentCls(w.sentiment)}">${esc(w.sentiment || "中性")}</span>
-          </div>
-          ${w.summary ? `<p class="dnarr">${esc(cleanDisplayText(w.summary))}</p>` : ""}
-          ${linkHtml(w.links) ? `<div class="xp-links">${linkHtml(w.links)}</div>` : ""}
-        </article>`).join("")
-      : `<div class="empty">今日自选股在 X 上无有效讨论（不硬凑内容）。</div>`;
-
-    const moodHtml = X.mood && X.mood.label
-      ? `<div class="we-summary"><strong>中概情绪：${esc(X.mood.label)}</strong>${X.mood.note ? ` · ${esc(X.mood.note)}` : ""}</div>`
-      : "";
-
-    el.innerHTML = secTitle("X 热议", `${esc(X.slot || "")} · ${esc(X.generatedAt || X.date || "")} · 社媒观点仅供参考，非投资建议`) +
-      (X.summary ? `<div class="we-summary">${esc(X.summary)}</div>` : "") + moodHtml +
-      `<div class="dir-board">${topicCards}</div>` +
-      secTitle("自选股海外讨论", "重点自选在 X 上的产业链相关声音") +
-      `<div class="we-grid">${watchHtml}</div>` +
-      `<div class="home-foot">由 Hermes Agent 通过 X 搜索采集（交易日 07:05 盘前 / 23:00 晚间） · 仅供研究参考，非投资建议</div>`;
-    el.querySelectorAll(".dir-chip[data-code]").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
   }
 
   /* ---------- 7. 事件概率 ---------- */

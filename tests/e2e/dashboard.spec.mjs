@@ -14,10 +14,9 @@ const VIEWS = [
   "industry",
   "materials",
   "weekend",
-  "xpulse",
 ];
 
-test("14 个视图可深链接且无页面级横向溢出", async ({ page }) => {
+test("13 个视图可深链接且无页面级横向溢出", async ({ page }) => {
   for (const view of VIEWS) {
     await page.goto(`/index.html#${view}`, { waitUntil: "networkidle" });
     await expect(page.locator("body")).toHaveClass(new RegExp(`view-${view}`));
