@@ -34,7 +34,36 @@ for code in $CODES; do
   # --retry 3: 网络抖动自动重试 3 次；--retry-delay 1: 每次间隔 1s
   curl -s --max-time 18 --retry 3 --retry-delay 1 --retry-connrefused \
     -H "User-Agent: Mozilla/5.0" "$url" -o "$tmp"
-  rows=$(node -e "try{const j=JSON.parse(require('fs').readFileSync('$tmp','utf8'));const d=j.data['${m}${code}'];const k=d.qfqday||d.day;process.stdout.write(String(k?k.length:0))}catch(e){process.stdout.write('0')}")
+  # 校验：行数≥20 + 无未来日期 + 末尾日期在7天内 + 无单日>30%异常跳价
+  rows=$(node -e "
+    try {
+      const j = JSON.parse(require('fs').readFileSync('$tmp','utf8'));
+      const d = j.data['${m}${code}'];
+      const k = d.qfqday || d.day;
+      if (!k || k.length < 20) { process.stdout.write('0'); process.exit(0); }
+      const today = new Date().toISOString().slice(0, 10);
+      const weekAgo = new Date(Date.now() - 7*86400000).toISOString().slice(0, 10);
+      // 过滤掉未来日期的脏数据
+      const clean = k.filter(p => p[0] <= today);
+      if (clean.length < 20) { process.stdout.write('0'); process.exit(0); }
+      // 末尾日期必须在 7 天内（防 API 返回全量旧数据）
+      const lastDate = clean[clean.length - 1][0];
+      if (lastDate < weekAgo) { process.stdout.write('0'); process.exit(0); }
+      // 价格连续性：单日涨跌幅不超过 30%（A股有涨跌停限制）
+      for (let i = 1; i < clean.length; i++) {
+        const prev = +clean[i-1][2], curr = +clean[i][2];
+        if (prev > 0 && Math.abs((curr - prev) / prev) > 0.30) {
+          process.stdout.write('0'); process.exit(0);
+        }
+      }
+      // 校验通过，写回过滤后的干净数据
+      if (clean.length < k.length) {
+        d.qfqday ? (d.qfqday = clean) : (d.day = clean);
+        require('fs').writeFileSync('$tmp', JSON.stringify(j));
+      }
+      process.stdout.write(String(clean.length));
+    } catch(e) { process.stdout.write('0'); }
+  ")
   if [ "${rows:-0}" -ge 20 ] 2>/dev/null; then
     mv "$tmp" "$RAW/${code}.json"
     ok=$((ok+1))

@@ -78,7 +78,19 @@ function klines(code) {
   const d = j?.data?.[mk(code)];
   const arr = d?.qfqday || d?.day;
   if (!arr || !arr.length) return null;
-  return arr.map((p) => ({ date: p[0], open: +p[1], close: +p[2], high: +p[3], low: +p[4], vol: +p[5] }));
+  const today = new Date().toISOString().slice(0, 10);
+  // 防御：过滤未来日期 + 价格连续性校验（与 fetch_klines.sh 一致）
+  const clean = arr.filter((p) => p[0] <= today);
+  const mapped = clean.map((p) => ({ date: p[0], open: +p[1], close: +p[2], high: +p[3], low: +p[4], vol: +p[5] }));
+  for (let i = 1; i < mapped.length; i++) {
+    const prev = mapped[i - 1].close, curr = mapped[i].close;
+    if (prev > 0 && Math.abs((curr - prev) / prev) > 0.30) {
+      // 异常跳价：截断到前一日，不整条丢弃（避免一只坏数据阻断全量）
+      console.error(`⚠ ${code} 异常跳价 ${prev}→${curr} @${mapped[i].date}，截断该条之后`);
+      return mapped.slice(0, i);
+    }
+  }
+  return mapped.length >= 20 ? mapped : null;
 }
 
 const mean = (a) => a.reduce((x, y) => x + y, 0) / a.length;
