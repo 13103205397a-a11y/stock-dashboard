@@ -194,7 +194,7 @@ def main():
     if not rows:
         print("⚠ 未取到热度榜数据(可能问财配额耗尽/异常),保留旧 hot.js 不更新。", file=sys.stderr)
         return 1
-    today = dt.date.today().isoformat()
+    today = dt.datetime.now(dt.timezone(dt.timedelta(hours=8))).date().isoformat()  # 北京时间
     out = []
     for i, r in enumerate(rows[:TOPN], 1):
         code = (r.get("股票代码") or "").split(".")[0]
@@ -241,7 +241,7 @@ def main():
               f"{rec['boards']}板 资金{rec['netInflow']}亿 新闻{len(news)}", flush=True)
         time.sleep(0.15)
 
-    payload = {"date": today, "generatedAt": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "list": out}
+    payload = {"date": today, "generatedAt": dt.datetime.now(dt.timezone(dt.timedelta(hours=8))).strftime("%Y-%m-%d %H:%M"), "list": out}  # 北京时间
     header = ("/* 市场热点 TOP30（按个股热度/人气排序）\n"
               " * 数据来源：同花顺问财；scripts/fetch_hot.py 每日收盘后生成。\n"
               " * 技术面/情绪面为规则化标签。仅供研究参考，非投资建议。\n */\n")

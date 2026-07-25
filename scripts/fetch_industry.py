@@ -10,7 +10,9 @@ import os
 import sys
 import warnings
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+
+_CN = timezone(timedelta(hours=8))  # 统一按北京时间打戳
 
 warnings.filterwarnings("ignore")
 
@@ -21,7 +23,7 @@ ASTOCK_PATH = os.path.join(PROJ, "skills", "a-stock-pro", "scripts")
 sys.path.insert(0, ASTOCK_PATH)
 import astock as a  # noqa: E402
 
-TODAY = datetime.now().strftime("%Y-%m-%d")
+TODAY = datetime.now(_CN).strftime("%Y-%m-%d")
 
 
 def fallback_from_market():
@@ -86,7 +88,7 @@ def main():
     out = {
         "schemaVersion": 1,
         "date": data.get("date") or TODAY,
-        "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "generatedAt": datetime.now(_CN).strftime("%Y-%m-%d %H:%M:%S"),
         "top": top,
         "bottom": bottom,
         "total": total,

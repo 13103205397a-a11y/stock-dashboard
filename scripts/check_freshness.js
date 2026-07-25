@@ -44,13 +44,13 @@ const checks = [
   ["今日热点", W.HOT?.date || W.HOT?.generatedAt, 5, "market"],
   ["新闻公告", W.NEWSALL?.date || W.NEWSALL?.generatedAt, 5, "market"],
   ["行业排行", W.INDUSTRY_MARKET?.date || W.INDUSTRY_MARKET?.generatedAt, 5, "market"],
-  ["AI复盘", W.REPORTS?.updated, 5, "ai"],
-  ["产业雷达", W.INDUSTRY?.date || W.INDUSTRY?.generatedAt, 7, "ai"],
-  ["逻辑链", W.LOGIC?.date || W.LOGIC?.generatedAt, 7, "ai"],
-  ["事件概率", W.EVENTS?.date || W.EVENTS?.generatedAt, 7, "ai"],
-  ["机会清单", W.OPPORTUNITIES?.date || W.OPPORTUNITIES?.generatedAt, 7, "ai"],
-  ["材料涨价", W.MATERIALS?.date || W.MATERIALS?.generatedAt, 7, "ai"],
-  ["周末发酵", W.WEEKEND?.weekendDate || W.WEEKEND?.generatedAt, 12, "ai"],
+  ["AI复盘", W.REPORTS?.updated, 3, "ai"],
+  ["产业雷达", W.INDUSTRY?.date || W.INDUSTRY?.generatedAt, 3, "ai"],
+  ["逻辑链", W.LOGIC?.date || W.LOGIC?.generatedAt, 3, "ai"],
+  ["事件概率", W.EVENTS?.date || W.EVENTS?.generatedAt, 3, "ai"],
+  ["机会清单", W.OPPORTUNITIES?.date || W.OPPORTUNITIES?.generatedAt, 3, "ai"],
+  ["材料涨价", W.MATERIALS?.date || W.MATERIALS?.generatedAt, 3, "ai"],
+  ["周末发酵", W.WEEKEND?.weekendDate || W.WEEKEND?.generatedAt, 9, "ai"],
 ];
 const stale = [];
 const softStale = [];

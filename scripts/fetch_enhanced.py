@@ -23,7 +23,7 @@ import sys
 import time
 import warnings
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 from _dataio import DataLock, load_stocks, write_stocks
 
@@ -32,7 +32,7 @@ warnings.filterwarnings("ignore")
 HERE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.dirname(HERE)
 DATA = os.path.join(PROJ, "data.js")
-TODAY = time.strftime("%Y-%m-%d")
+TODAY = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d")  # 北京时间
 
 # a-stock-pro vendored 在项目内 skills/a-stock-pro/scripts/astock.py
 ASTOCK_PATH = os.path.join(PROJ, "skills", "a-stock-pro", "scripts")

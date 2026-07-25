@@ -26,7 +26,7 @@ PROJ = os.path.dirname(HERE)
 DATA = os.path.join(PROJ, "data.js")
 SEARCH_URL = "https://search-api-web.eastmoney.com/search/jsonp"
 ANN_URL = "https://np-anotice-stock.eastmoney.com/api/security/ann"
-TODAY = time.strftime("%Y-%m-%d")
+TODAY = time.strftime("%Y-%m-%d", time.gmtime(time.time() + 8 * 3600))  # 北京时间
 
 # 垃圾新闻：命中丢弃（纯涨跌/成交额/盘面快讯）
 GARBAGE_RE = re.compile(

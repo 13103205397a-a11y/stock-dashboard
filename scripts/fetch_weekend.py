@@ -16,7 +16,7 @@ import re
 import shutil
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.dirname(HERE)
@@ -201,7 +201,7 @@ def write_weekend_js(data):
             return False
     except Exception:
         pass
-    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    now = datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M")  # 北京时间
     header = (
         f"/* Hermes Agent 周末发酵（本机自动导出，非 GitHub Actions）\n"
         f"   导出于 {now}，由 scripts/fetch_weekend.py 从 Hermes sessions 提取。\n"

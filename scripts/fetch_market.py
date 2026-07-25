@@ -16,7 +16,7 @@ import os
 import sys
 import time
 import warnings
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 warnings.filterwarnings("ignore")
 
@@ -29,8 +29,9 @@ ASTOCK_PATH = os.path.join(PROJ, "skills", "a-stock-pro", "scripts")
 sys.path.insert(0, ASTOCK_PATH)
 import astock as a  # noqa: E402
 
-TODAY = datetime.now().strftime("%Y%m%d")
-TODAY_DASH = datetime.now().strftime("%Y-%m-%d")
+_CN = timezone(timedelta(hours=8))  # 统一按北京时间打戳（GitHub runner 是 UTC，不转换会差 8 小时）
+TODAY = datetime.now(_CN).strftime("%Y%m%d")
+TODAY_DASH = datetime.now(_CN).strftime("%Y-%m-%d")
 
 
 def safe(fn, *args, default=None, **kw):
@@ -87,7 +88,7 @@ def collect_market():
     """采集全市场异动数据。"""
     market = {
         "date": TODAY_DASH,
-        "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "generatedAt": datetime.now(_CN).strftime("%Y-%m-%d %H:%M:%S"),
     }
 
     # ===== 1. 打板情绪池 =====

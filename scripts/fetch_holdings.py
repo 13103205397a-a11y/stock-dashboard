@@ -15,7 +15,9 @@ import os
 import sys
 import time
 import warnings
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+
+_CN = timezone(timedelta(hours=8))  # 统一按北京时间打戳
 
 warnings.filterwarnings("ignore")
 
@@ -26,7 +28,7 @@ ASTOCK_PATH = os.path.join(PROJ, "skills", "a-stock-pro", "scripts")
 sys.path.insert(0, ASTOCK_PATH)
 import astock as a  # noqa: E402
 
-TODAY = datetime.now().strftime("%Y-%m-%d")
+TODAY = datetime.now(_CN).strftime("%Y-%m-%d")
 
 
 def load_portfolio():
@@ -148,7 +150,7 @@ def main():
     if items and all(not it.get("name") and it.get("price") is None for it in items):
         print("  [WARN] 全部持仓行情采集失败，保留旧 holdings.js。", flush=True)
         sys.exit(1)
-    data = {"date": quote_date, "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "list": items}
+    data = {"date": quote_date, "generatedAt": datetime.now(_CN).strftime("%Y-%m-%d %H:%M:%S"), "list": items}
     content = (
         "/* 持仓决策数据（本地 portfolio.json 私有生成）\n"
         f" * 由 scripts/fetch_holdings.py 生成（a-stock-pro,免 key）\n"

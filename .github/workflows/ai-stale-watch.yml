@@ -1,0 +1,57 @@
+name: AI 模块断更巡检
+
+# AI 分析类模块（AI复盘/产业雷达/逻辑链/事件概率/机会清单/材料涨价/周末发酵）
+# 由本地 Hermes 生成推送，GitHub 无法自行修复其断更。
+# 本巡检每个交易日晚间检查一次：发现断更就开/更新 issue 提醒，而不是静默过期；
+# 恢复新鲜后自动关闭告警 issue。只告警，不阻断部署。
+on:
+  schedule:
+    # 21:35 北京时间（= 13:35 UTC），在当日全部刷新任务完成后巡检
+    - cron: "35 13 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: 检查 AI 模块新鲜度并在断更时告警
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set +e
+          output="$(node scripts/check_freshness.js --strict --scope=ai 2>&1)"
+          code=$?
+          set -e
+          echo "$output"
+          title="AI 模块数据断更提醒"
+          issue_number="$(gh issue list --state open --search "${title} in:title" --json number --jq '.[0].number // empty')"
+          if [ "$code" -ne 0 ]; then
+            {
+              echo "以下 AI 模块数据超过新鲜度上限（$(TZ=Asia/Shanghai date '+%F %T') 巡检）："
+              echo ""
+              echo '```'
+              echo "$output" | grep '^STALE' || echo "$output"
+              echo '```'
+              echo "请在本机（Hermes）补跑对应模块的生成任务后推送。巡检记录：${RUN_URL}"
+            } > /tmp/stale_body.md
+            if [ -n "$issue_number" ]; then
+              gh issue comment "$issue_number" --body-file /tmp/stale_body.md
+            else
+              gh issue create --title "$title" --body-file /tmp/stale_body.md
+            fi
+            echo "::warning::存在断更 AI 模块，已记录 issue（不阻断部署）。"
+          else
+            if [ -n "$issue_number" ]; then
+              gh issue close "$issue_number" --comment "数据已恢复新鲜，自动关闭。"
+            fi
+            echo "AI 模块全部新鲜。"
+          fi

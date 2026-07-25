@@ -12,7 +12,9 @@ import os
 import sys
 import time
 import warnings
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+
+_CN = timezone(timedelta(hours=8))  # 统一按北京时间打戳
 
 warnings.filterwarnings("ignore")
 
@@ -21,7 +23,7 @@ PROJ = os.path.dirname(HERE)
 OUT = os.path.join(PROJ, "newsall.js")
 ASTOCK_PATH = os.path.join(PROJ, "skills", "a-stock-pro", "scripts")
 
-TODAY = datetime.now().strftime("%Y-%m-%d")
+TODAY = datetime.now(_CN).strftime("%Y-%m-%d")
 
 
 def sanitize_cjk_brackets(text):
@@ -132,7 +134,7 @@ def main():
         return 1
     out = {
         "date": TODAY,
-        "generatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "generatedAt": datetime.now(_CN).strftime("%Y-%m-%d %H:%M:%S"),
         "global": global_news,
         "announcements": announcements,
     }

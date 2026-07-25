@@ -311,7 +311,7 @@ def main():
         return
 
     # 6. 写回 portfolio_analysis.js
-    updated = updated_from_json or time.strftime("%Y-%m-%d %H:%M", time.localtime())
+    updated = updated_from_json or time.strftime("%Y-%m-%d %H:%M", time.gmtime(time.time() + 8 * 3600))  # 北京时间
     payload = {"updated": updated, "analyses": analyses}
 
     header = (
