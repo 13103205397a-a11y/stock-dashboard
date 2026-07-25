@@ -20,7 +20,7 @@ test("13 个视图可深链接且无页面级横向溢出", async ({ page }) => 
   for (const view of VIEWS) {
     await page.goto(`/index.html#${view}`, { waitUntil: "networkidle" });
     await expect(page.locator("body")).toHaveClass(new RegExp(`view-${view}`));
-    await expect(page.locator(`.nav-item[data-view="${view}"]`)).toHaveAttribute("aria-current", "page");
+    await expect(page.locator(`#sidebar .nav-item[data-view="${view}"]`)).toHaveAttribute("aria-current", "page");
     const metrics = await page.evaluate(() => ({
       viewport: window.innerWidth,
       scrollWidth: document.documentElement.scrollWidth,

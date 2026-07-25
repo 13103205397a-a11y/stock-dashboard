@@ -6,37 +6,46 @@
 :root {
   color-scheme: light;
 
-  --bg: #eef1f6;
-  --bg-2: #e4e8ef;
+  /* —— 纸面(内容区) —— */
+  --bg: #f1f3f7;
+  --bg-2: #e7eaf0;
   --card: #ffffff;
   --surface-raised: #ffffff;
   --surface-hover: #f5f7fb;
-  --line: #dde3ec;
-  --line-2: #c8d0dc;
-  --divider: #e8ecf2;
+  --line: #dfe4ec;
+  --line-2: #c9d1dd;
+  --divider: #e9edf3;
 
-  --ink: #141820;
-  --text: #3b4354;
-  --muted: #6a7386;
-  --dim: #8b93a3;
+  --ink: #0f141d;
+  --text: #333c4c;
+  --muted: #667085;
+  --dim: #8a93a4;
 
-  --accent: #2557d6;
-  --accent-d: #1a46b8;
-  --accent-s: rgba(37, 87, 214, 0.10);
-  --accent-l: rgba(37, 87, 214, 0.28);
+  /* —— 墨色侧栏(rail) —— */
+  --rail: #0e131c;
+  --rail-2: #161d2a;
+  --rail-line: rgba(255, 255, 255, 0.08);
+  --rail-text: #98a2b3;
+  --rail-dim: #5c6675;
+  --rail-active: #7c9bff;
+
+  --accent: #2b54e5;
+  --accent-d: #1d3fc0;
+  --accent-s: rgba(43, 84, 229, 0.10);
+  --accent-l: rgba(43, 84, 229, 0.28);
   --accent-ink: #ffffff;
-  --border-amber: rgba(37, 87, 214, 0.28);
+  --border-amber: rgba(43, 84, 229, 0.28);
   --border-accent: var(--border-amber);
 
   --slate: #3b6fd4;
   --slate-s: rgba(59, 111, 212, 0.08);
   --slate-l: rgba(59, 111, 212, 0.24);
 
-  --up: #d93838;
-  --down: #0f9b6c;
-  --ok: #0f9b6c;
+  --up: #e0231f;
+  --down: #0a9950;
+  --ok: #0a9950;
   --warn: #c48916;
-  --bad: #d93838;
+  --bad: #e0231f;
 
   --sans: "IBM Plex Sans", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   --serif: "Fraunces", "Noto Serif SC", "Songti SC", serif;
@@ -50,17 +59,18 @@
   --s-6: 24px;
   --space-7: 32px;
 
-  --r-sm: 8px;
-  --r: 10px;
-  --r-lg: 14px;
+  --r-sm: 9px;
+  --r: 12px;
+  --r-lg: 16px;
 
-  --shadow: 0 1px 2px rgba(20, 24, 32, 0.04), 0 6px 18px rgba(20, 24, 32, 0.05);
-  --shadow-lg: 0 18px 40px rgba(20, 24, 32, 0.12);
+  --shadow: 0 1px 2px rgba(15, 20, 29, 0.04), 0 8px 20px rgba(15, 20, 29, 0.05);
+  --shadow-lg: 0 18px 44px rgba(15, 20, 29, 0.13);
 
   --maxw: 1560px;
   --gutter: clamp(14px, 1.4vw, 22px);
   --card-min: 260px;
   --titlebar-h: 0px;
+  --tabbar-h: 62px;
 
   --motion-press: 120ms;
   --motion-hover: 180ms;
@@ -3602,6 +3612,223 @@ table tbody tr:hover td {
   .dir-asof {
     margin-left: 0;
     width: 100%;
+  }
+}
+
+/* ============================================================
+   Redesign 2026 · 墨白终端
+   墨色侧栏 + 纸面内容 + 手机底部导航。覆盖层,置于文件末尾。
+   ============================================================ */
+
+/* —— 侧栏:墨 —— */
+.sidebar {
+  background: var(--rail);
+  border-right: 1px solid var(--rail-line);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+
+.sidebar::after {
+  opacity: 0;
+  background-image: none;
+}
+
+.side-logo {
+  border-bottom: 1px solid var(--rail-line);
+}
+
+.side-logo svg {
+  color: var(--rail-active);
+  background: rgba(124, 155, 255, 0.12);
+  border-color: rgba(124, 155, 255, 0.30);
+}
+
+.logo-title {
+  color: #f2f5fa;
+}
+
+.logo-sub,
+.side-logo .dateline {
+  color: var(--rail-dim);
+}
+
+.nav-group-label {
+  color: var(--rail-dim);
+}
+
+.nav-item {
+  color: var(--rail-text);
+}
+
+.nav-item:hover {
+  color: #e8edf5;
+  background: var(--rail-2);
+}
+
+.nav-item.active {
+  color: #ffffff;
+  background: rgba(124, 155, 255, 0.14);
+  box-shadow: inset 3px 0 0 var(--rail-active);
+}
+
+.nav-item.active .nav-ico {
+  color: var(--rail-active);
+}
+
+.density-toggle {
+  border-top: 1px solid var(--rail-line);
+}
+
+.density-btn {
+  color: var(--rail-dim);
+  background: transparent;
+  border-color: var(--rail-line);
+}
+
+.density-btn:hover {
+  color: var(--rail-text);
+  background: var(--rail-2);
+}
+
+.density-btn.active {
+  color: var(--rail-active);
+  background: rgba(124, 155, 255, 0.12);
+  border-color: rgba(124, 155, 255, 0.35);
+}
+
+.side-foot,
+.side-foot .updated {
+  color: var(--rail-dim);
+  border-top: 1px solid var(--rail-line);
+}
+
+/* —— 卡片与筹码:纸 —— */
+.card {
+  border-radius: var(--r);
+}
+
+.chip {
+  border-radius: 999px;
+}
+
+.sector-list .chip {
+  border-radius: 999px;
+}
+
+/* —— 首页头版微调 —— */
+.home-market {
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.idx-card {
+  border-radius: var(--r);
+}
+
+.home-best {
+  border-radius: var(--r);
+}
+
+/* —— 底部导航(手机) —— */
+.tabbar {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  /* 顶栏:不再给汉堡按钮留位,隐藏次要信息,数据条可横滑;
+     高度必须放开(上文润色层固定 48px 会把换行内容挤出重叠) */
+  .status-bar {
+    height: auto;
+    min-height: 46px;
+    padding: 6px 12px;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  #sbDateTime,
+  .sb-dim {
+    display: none;
+  }
+
+  .sb-data {
+    display: flex; /* styles.css 移动端默认整行隐藏,恢复为可横滑数据条 */
+    order: 4;
+    width: 100%;
+    margin-left: 0;
+    gap: 14px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .sb-data::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 内容区给底部导航让位 */
+  .content-in {
+    padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px) + 16px);
+  }
+
+  /* 底部标签栏 */
+  .tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 32; /* 低于侧栏抽屉(40)与遮罩(35),「更多」打开时盖住它 */
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    height: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-top: 1px solid var(--line);
+  }
+
+  .tabbar .tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    font-size: 10.5px;
+    color: var(--muted);
+    box-shadow: none;
+  }
+
+  .tabbar .tab-item:hover {
+    color: var(--ink);
+    background: none;
+  }
+
+  .tabbar .tab-item.active {
+    color: var(--accent);
+    background: none;
+    box-shadow: none;
+    font-weight: 600;
+  }
+
+  .tabbar .tab-item.active::before {
+    display: none;
+  }
+
+  .tabbar .tab-item svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .tabbar .tab-item.active svg {
+    color: var(--accent);
   }
 }
 

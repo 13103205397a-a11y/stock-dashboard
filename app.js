@@ -913,7 +913,8 @@
     document.querySelectorAll(".nav-item").forEach((b) => {
       const active = b.dataset.view === view;
       b.classList.toggle("active", active);
-      if (active) b.setAttribute("aria-current", "page");
+      // aria-current 只标在侧栏导航上;底部 tabbar 是同一导航的副本,避免页面出现多个 current
+      if (active && !b.classList.contains("tab-item")) b.setAttribute("aria-current", "page");
       else b.removeAttribute("aria-current");
     });
     // 懒渲染:切到该视图才调对应 render(已有数据则重渲染,无数据则显示待生成)
@@ -935,6 +936,9 @@
   // 汉堡菜单(移动端)
   const mt = $("#menuToggle");
   if (mt) mt.addEventListener("click", () => document.body.classList.toggle("sidebar-open"));
+  // 底部导航「更多」(移动端):同样开合侧栏抽屉
+  const tm = $("#tabMore");
+  if (tm) tm.addEventListener("click", () => document.body.classList.toggle("sidebar-open"));
   const sb = $("#sidebarBackdrop");
   if (sb) sb.addEventListener("click", () => document.body.classList.remove("sidebar-open"));
 
