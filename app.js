@@ -76,6 +76,16 @@
     }
   };
 
+  // 轻量提示条（与 app_holdings.js 共用 .pf-toast 样式；主模块自用，如 openDrawer 的"找不到股票"提示）
+  const portfolioToast = (msg, type = "info") => {
+    const t = document.createElement("div");
+    t.className = "pf-toast " + type;
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.classList.add("show"), 10);
+    setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 300); }, 3000);
+  };
+
   let stockReferenceIndex = null;
   function getStockReferenceIndex() {
     if (stockReferenceIndex) return stockReferenceIndex;
@@ -1562,7 +1572,7 @@
     renderGlobalSearch, closeSearchPanel,
   };
 
-  // 启动函数：由最后一个同步加载的模块(app_ai_modules.js)末尾调用，
+  // 启动函数：由最后加载的模块(app_ai_modules.js)末尾调用，
   // 确保 holdings/opportunities/logic/chain/... 都已注册到 App 后再渲染。
   window.App.start = function () {
     renderMeta();
@@ -1571,7 +1581,8 @@
     // 支持直接打开 #market 等视图；无 hash 时用首页替换当前历史记录。
     switchView(viewFromHash(), { replaceHash: !location.hash });
 
-    // 数据脚本是 defer，首次渲染时可能尚未就绪；DOMContentLoaded 后数据已可用，再刷新一次当前视图。
+    // 全部脚本均为 defer，首屏渲染时数据已就绪；下方 DOMContentLoaded 重绑仅在
+    // 脚本被以非 defer 方式加载（如测试夹具）时兜底，正常页面不会进入。
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", () => {
         // defer 数据脚本已执行，重新绑定到最新全局数据并重置缓存索引
