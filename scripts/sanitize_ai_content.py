@@ -19,6 +19,10 @@ REPLACEMENTS = [
     (re.compile(r"confidence\s*=\s*", re.I), "置信度"),
     (re.compile(r"break\s*=\s*(\d+)\s*次?", re.I), r"开板\1次"),
     (re.compile(r"rank_chg", re.I), "排名变化"),
+    # 正文里嵌着的内部工具名,换成用户能懂的说法(纯过程语整行由下面的报告级清洗删除;
+    # scripts/xxx.py 路径出处合法保留:要求 .py 前不是字母/下划线/斜杠,只替换独立的工具名)
+    (re.compile(r"(?<![\w/])[\w.-]+\.py"), "数据接口"),
+    (re.compile(r"tenacity\s*库?版本冲突", re.I), "组件版本冲突"),
 ]
 
 # —— reports.js 过程语兜底(导出层 fetch_hermes.py 已拦一道,这里再拦) ——
@@ -106,10 +110,14 @@ def sanitize_file(path: Path) -> bool:
 
 
 def main() -> int:
-    changed = [name for name in FILES if sanitize_file(ROOT / name)]
-    # 文本替换之后再做报告级结构化清洗(过程语剥离/残篇剔除)
-    if sanitize_reports(ROOT / "reports.js") and "reports.js" not in changed:
+    # 先做报告级结构化清洗(过程语剥离/残篇剔除),此时工具名仍是原文,模式最准;
+    # 再做文本级替换,兜住嵌在正文句子里的工具名残留。
+    changed = []
+    if sanitize_reports(ROOT / "reports.js"):
         changed.append("reports.js")
+    for name in FILES:
+        if sanitize_file(ROOT / name) and name not in changed:
+            changed.append(name)
     # data.js 是多个采集器共同写入的公开数据，校验前必须全量兜底，
     # 不能只依赖某一个新闻入口的清洗。
     from _dataio import DataLock, load_stocks, sanitize_stock_news, write_stocks
