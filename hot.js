@@ -4,7 +4,7 @@
  */
 window.HOT = {
   "date": "2026-07-26",
-  "generatedAt": "2026-07-26 17:32",
+  "generatedAt": "2026-07-26 18:27",
   "list": [
     {
       "rank": 1,
@@ -290,8 +290,14 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 617.7,
-      "reason": "国家大基金持股｜先进封装｜存储芯片　催化：华天科技跌3.96%",
+      "reason": "国家大基金持股｜先进封装｜存储芯片　催化：华天科技，350亿砸向金陵！",
       "news": [
+        {
+          "title": "华天科技，350亿砸向金陵！",
+          "date": "2026-07-25 20:05",
+          "source": "同花顺问财",
+          "url": "https://baijiahao.baidu.com/s?for=pc&id=1871688393922608774&wfr=spider"
+        },
         {
           "title": "华天科技跌3.96%",
           "date": "2026-07-23 15:20",
@@ -498,15 +504,8 @@ window.HOT = {
       ],
       "board": "主板",
       "floatCap": 152.9,
-      "reason": "超超临界发电｜虚拟电厂｜绿色电力　催化：华银电力股价涨5.16%",
-      "news": [
-        {
-          "title": "华银电力股价涨5.16%",
-          "date": "2026-07-23 09:57",
-          "source": "同花顺问财",
-          "url": "https://baijiahao.baidu.com/s?for=pc&id=1871468951744705718&wfr=spider"
-        }
-      ],
+      "reason": "超超临界发电｜虚拟电厂｜绿色电力",
+      "news": [],
       "tech": "冲高回落 · 分歧加大",
       "senti": "跌但主力回补 · 有承接 · 换手过热"
     },
@@ -648,7 +647,7 @@ window.HOT = {
           "title": "计算机行业周报：从云业务到资本开支：谷歌财报验证AI产业景气度",
           "date": "2026-07-26 00:00",
           "source": "同花顺问财",
-          "url": "http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/industry/rptid/838397307963/index.phtml"
+          "url": "http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/lastest/rptid/838397307963/index.phtml"
         },
         {
           "title": "昨日估值：美利云 市盈率（TTM）158.39倍，处于分位77.6%（2026年7月23日）",
@@ -724,13 +723,13 @@ window.HOT = {
       ],
       "board": "创业板",
       "floatCap": 53.6,
-      "reason": "芯片概念｜新股与次新股｜存储芯片　催化：直线拉升！半导体设备龙头大涨超13%",
+      "reason": "芯片概念｜新股与次新股｜存储芯片　催化：托伦斯4天3涨停，市值突破300亿，背后原因几何？",
       "news": [
         {
-          "title": "直线拉升！半导体设备龙头大涨超13%",
-          "date": "2026-07-24 10:01",
+          "title": "托伦斯4天3涨停，市值突破300亿，背后原因几何？",
+          "date": "2026-07-26 18:20",
           "source": "同花顺问财",
-          "url": "http://news.10jqka.com.cn/19700121/c678405880.shtml"
+          "url": "http://news.10jqka.com.cn/19700121/c678436831.shtml"
         }
       ],
       "tech": "涨停 · 多方主导",
@@ -1108,19 +1107,19 @@ window.HOT = {
       ],
       "board": "科创板",
       "floatCap": 2674.9,
-      "reason": "存储芯片｜中芯国际概念｜芯片概念　催化：澜起科技十年ROE与估值解读",
+      "reason": "存储芯片｜中芯国际概念｜芯片概念　催化：澜起科技：拟以3亿元-6亿元回购A股股份",
       "news": [
-        {
-          "title": "澜起科技十年ROE与估值解读",
-          "date": "2026-07-26 15:28",
-          "source": "同花顺问财",
-          "url": "https://www.tgb.cn/a/2tKhMCezVRu"
-        },
         {
           "title": "澜起科技：拟以3亿元-6亿元回购A股股份",
           "date": "2026-07-24 12:25",
           "source": "同花顺问财",
           "url": "http://news.10jqka.com.cn/19700121/c678410503.shtml"
+        },
+        {
+          "title": "澜起科技盘中涨超7% 拟以集中竞价交易方式回购3亿至6亿元A股股份",
+          "date": "2026-07-24 11:03",
+          "source": "同花顺问财",
+          "url": "http://news.10jqka.com.cn/19700121/c678408041.shtml"
         }
       ],
       "tech": "横盘整理 · 方向待选",
@@ -1161,10 +1160,10 @@ window.HOT = {
           "url": "https://news.smm.cn/news/104024226"
         },
         {
-          "title": "耐普矿机：紫金矿业已稳居公司前三大客户",
-          "date": "2026-07-23 22:15",
+          "title": "【环球财经】刚果（金）认证紫金矿业马诺诺项目首批出口锂矿产品",
+          "date": "2026-07-23 20:55",
           "source": "同花顺问财",
-          "url": "https://baijiahao.baidu.com/s?for=pc&id=1871515338990580048&wfr=spider"
+          "url": "http://news.10jqka.com.cn/19700121/c678394932.shtml"
         }
       ],
       "tech": "冲高回落 · 分歧加大",
