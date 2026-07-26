@@ -38,6 +38,9 @@ function businessDaysSince(value) {
 }
 
 const W = context.window;
+// 叙事复盘：逐股 review.date 的中位数——个别漏复盘不误报，Agent 全面停摆才告警
+const reviewDates = (W.STOCKS || []).map((s) => s && s.review && s.review.date).filter(Boolean).sort();
+const medianReview = reviewDates.length ? reviewDates[Math.floor(reviewDates.length / 2)] : null;
 const checks = [
   ["行情信号", W.META?.signalDate || W.META?.lastUpdated, 3, "market"],
   ["市场异动", W.MARKET?.date || W.MARKET?.generatedAt, 3, "market"],
@@ -51,6 +54,7 @@ const checks = [
   ["机会清单", W.OPPORTUNITIES?.date || W.OPPORTUNITIES?.generatedAt, 3, "ai"],
   ["材料涨价", W.MATERIALS?.date || W.MATERIALS?.generatedAt, 3, "ai"],
   ["周末发酵", W.WEEKEND?.weekendDate || W.WEEKEND?.generatedAt, 9, "ai"],
+  ["叙事复盘", medianReview, 5, "ai"],
 ];
 const stale = [];
 const softStale = [];

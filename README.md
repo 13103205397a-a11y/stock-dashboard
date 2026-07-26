@@ -68,7 +68,7 @@
 - `signal`：**真实行情技术信号**（由 `fetch_signals.js` 用真实日K计算）
   `{ date, price, chgPct, ma5/10/20/60/120/250, high20/low20/high60/low60, volRatio, atr, trend, posPct, supportZone, deepSupport, pullbackPct, breakout, toBreakoutPct, leftStop, leftTarget, leftRR, rightStop, leftState, rightState, spark }`
 - `fund`：**主力资金流向**（问财）`{ netInflow 亿, turnover %, date, asof }`
-- `news`：**新闻/传闻流水**（问财，最新在前）`[{ title, date, source, url }]`
+- `news`：**新闻/公告流水**（东财，`fetch_news.py` 独占维护，最新在前，最多 3 条；Agent 的传闻/小作文写 `review.rumors`，不入此字段）`[{ title, date, source, url }]`
 - `research`：**机构研报**（问财）`[{ org, rating, title, date }]`
 - `newsAsof`：消息面抓取时点
 
@@ -131,9 +131,9 @@ python3 scripts/build_site.py _site
 - 问财消息面/热点步骤 `continue-on-error: true`：问财异常（如**当日配额耗尽**）不阻断技术信号提交，且失败时不覆盖已有数据。
 - 需在仓库 Settings → Secrets 配置 `IWENCAI_API_KEY`。
 
-**云端「叙事复盘」Agent**（约 16:00 北京，见 `agent/daily-review.md`）：
-- 对全部自选股逐一调研（公告/研报/产业链/舆情），更新 `review`/`history`/`news`/`meta.marketRegime`。
-- 沙箱无外网时仅能用 WebSearch；消息面已由上述 Actions 在 15:00 后补入，Agent 可直接读取后再补充。
+**本地 Hermes「叙事复盘」Agent**（工作日收盘后 16:20，见 `agent/daily-review.md`）：
+- 对全部自选股逐一调研（公告/研报/产业链/舆情），更新 `review`/`history` 与叙事字段、`meta.marketRegime`/`meta.summary`。
+- 字段所有权纪律：行情/消息面字段（`signal`/`news`/`fund`/`research`）归对应脚本独占，Agent 只读；传闻与新增长点写 `review.rumors`/`review.newPoints`（前端展示且无脚本覆盖）。逐股 `review.date` 中位数纳入新鲜度门禁，停摆会通过 ai-stale-watch 告警。
 
 **本地 Hermes Agent**（`reports.js`/`industry.js`/`logic.js`/`events.js`/`opportunities.js`/`materials.js`/`weekend.js` 这 7 个文件由它生成发布）：
 - `scripts/fetch_hermes.py` 依赖本机 `hermes` 命令行工具，从会话库导出复盘报告；产业雷达/逻辑链/事件/机会/材料由对应 Hermes 定时任务（工作日 16:30–16:50）在仓库 workdir 直写。
@@ -150,8 +150,8 @@ python3 scripts/build_site.py _site
 4. `git add data.js meta.js && git commit && git push`。前端 `app.js` 按数组动态渲染，无需改。
 
 ## 每日复盘
-- **自动**：GitHub Actions 收盘后刷新行情/消息面/热点；云端 Claude 复盘 Agent 在 16:00 前后更新叙事（需另行调度）。
-- **手动**：需要时直接让 Claude 执行 `agent/daily-review.md` 的流程。
+- **自动**：GitHub Actions 收盘后刷新行情/消息面/热点；本地 Hermes 复盘 Agent 在工作日 16:20 更新叙事复盘（`agent/daily-review.md`，需本地 Hermes cron 调度）。
+- **手动**：需要时直接让 Agent 执行 `agent/daily-review.md` 的流程。
 每次复盘后刷新浏览器即可看到徽章、今日变化、历史时间轴的更新。
 
 ## 自定义
