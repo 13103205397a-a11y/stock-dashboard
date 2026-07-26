@@ -1,3 +1,5 @@
+> ⚠️ 已废弃(阶段5期B):本 prompt 已合并入 `agent/chain-radar.md`(产业链涨价雷达,AI 算力主线 + 新模型 driver_type/bottleneck/chain/category)。保留仅供历史参考,新数据请用 chain-radar.md。
+
 # 每日产业雷达 Agent — 供需紧张 / 涨价方向挖掘
 
 > 用途：每个 A 股交易日盘后运行，挖掘当前供需紧张或涨价的关键产业方向，更新 `股市看板/industry.js`。

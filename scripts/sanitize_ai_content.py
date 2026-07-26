@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 FILES = [
     "reports.js", "industry.js", "logic.js", "events.js",
-    "opportunities.js", "materials.js", "weekend.js",
+    "opportunities.js", "materials.js", "weekend.js", "chain.js",
 ]
 REPLACEMENTS = [
     (re.compile(r"thsStrong", re.I), "强势股数据"),

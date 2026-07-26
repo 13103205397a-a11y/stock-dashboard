@@ -17,10 +17,11 @@ EXPORTERS = [
     ("盘面复盘", "scripts/fetch_hermes.py"),
     ("持仓分析", "scripts/fetch_portfolio_analysis.py"),
     ("周末发酵", "scripts/fetch_weekend.py"),
+    ("产业链涨价", "scripts/fetch_chain_ai.py"),
 ]
 PUBLIC_AI_FILES = [
     "reports.js", "industry.js", "logic.js", "events.js",
-    "opportunities.js", "materials.js", "weekend.js",
+    "opportunities.js", "materials.js", "weekend.js", "chain.js",
 ]
 MAX_PUBLISH_ATTEMPTS = 3
 
