@@ -116,7 +116,7 @@ function extractRiskFacts(text, limit = 4) {
 }
 
 function chainMetrics(chain) {
-  const text = clean(`${chain.logic} ${chain.bottleneck}`);
+  const text = clean(`${chain.event || ""} ${chain.logic} ${chain.invalidation || ""} ${(chain.path || []).map((p) => p.detail || "").join(" ")}`);
   return {
     limitUps: (text.match(/涨停/g) || []).length,
     turnoverMax: firstMatch(text, /成交[\d.]+亿/),
@@ -128,8 +128,8 @@ function chainMetrics(chain) {
 }
 
 function segmentLine(seg) {
-  const label = String(seg.stage || "").replace(/上游·|中游·|下游·/g, "");
-  const supply = truncate(seg.supply || seg.products || "", 40);
+  const label = String(seg.step || seg.stage || "").replace(/上游·|中游·|下游·/g, "");
+  const supply = truncate(seg.detail || seg.supply || seg.products || "", 40);
   const names = (seg.stocks || []).map((s) => s.name).filter(Boolean).slice(0, 2).join("/");
   return `${label}｜${supply}${names ? `｜${names}` : ""}`;
 }
@@ -146,8 +146,8 @@ function stockFactsFromSegments(segments, limit = 5) {
 }
 
 function scoreChain(chain) {
-  const text = `${chain.name} ${chain.logic} ${chain.bottleneck}`;
-  let score = 0;
+  const text = `${chain.name} ${chain.event || ""} ${chain.logic}`;
+  let score = { "强": 9, "中": 5, "弱": 2 }[chain.strength] || 0;
   for (const word of ["涨停", "20cm", "最强", "爆发", "紧缺", "涨价", "主线", "高景气"]) {
     score += (text.match(new RegExp(word, "g")) || []).length * 3;
   }
@@ -202,13 +202,13 @@ function buildFromChain(topic, logic) {
   const name = chain.name.replace(/产业链$/, "");
   const compactName = compactTheme(name);
   const metrics = chainMetrics(chain);
-  const risks = extractRiskFacts(chain.bottleneck, 4);
-  const segments = (chain.segments || []).slice(0, 4);
+  const risks = extractRiskFacts(chain.invalidation || "", 4);
+  const segments = (chain.path || []).slice(0, 4);
   const evidence = [
     ...stockFactsFromSegments(segments, 5),
-    ...extractQuotedFacts(chain.logic, 3),
+    ...extractQuotedFacts(`${chain.event || ""} ${chain.logic}`, 3),
   ].slice(0, 5);
-  const stocks = stockNamesFromSegments(chain.segments);
+  const stocks = stockNamesFromSegments(chain.path);
   const mainRisk = risks[0] || "短线热度已经抬高，次日最怕高开后承接不足。";
   const verdict = metrics.instSell ? "强主线里有分歧，明天先看承接质量" : "强主线成立，明天看扩散和放量承接";
 

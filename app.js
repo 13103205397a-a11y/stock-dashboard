@@ -1304,7 +1304,7 @@
     (NEWSALL?.global || []).slice(0, 60).forEach((n) => addSearchItem(list, "新闻", n.title, n.time || n.date || "", "", "news"));
     (NEWSALL?.announcements || []).slice(0, 60).forEach((n) => addSearchItem(list, "公告", n.title || n.announcementTitle, n.date || "", "", "news"));
     (window.OPPORTUNITIES?.directions || []).forEach((d) => addSearchItem(list, "机会", d.name, d.stage || "", [d.logic, d.risk].join(" "), "opportunities"));
-    (window.LOGIC?.chains || []).forEach((c) => addSearchItem(list, "逻辑链", c.name, "", [c.logic, c.bottleneck].join(" "), "logic"));
+    (window.LOGIC?.chains || []).forEach((c) => addSearchItem(list, "逻辑链", c.name, c.event_type || "", [c.event, c.logic, c.invalidation].filter(Boolean).join(" "), "logic"));
     const chainDirs = (window.CHAIN?.directions && window.CHAIN.directions.length ? window.CHAIN.directions : [...(INDUSTRY?.directions || []), ...(window.MATERIALS?.directions || [])].map((d) => d.driver_type ? d : { ...d, driver_type: [], bottleneck: "", chain: "", category: "", intensity: d.intensity || ({ "高": "强", "中高": "中强", "中": "中", "低": "弱" })[d.confidence] || "中", price_signal: d.price_signal || d.price || "" }));
     chainDirs.forEach((d) => addSearchItem(list, "产业链", d.name, d.intensity || "", [d.price_signal, d.bottleneck, d.driver, d.risk].filter(Boolean).join(" "), "chain"));
     (window.EVENTS?.events || []).forEach((e) => addSearchItem(list, "事件", e.title, e.importance || "", [e.content, e.sectors].join(" "), "events"));
@@ -1431,8 +1431,9 @@
     // 事件概率: importance 最高
     const impRank = { "高": 3, "中高": 2, "中": 1 };
     const bestEvt = (E && E.events || []).slice().sort((a, b) => (impRank[b.importance] || 0) - (impRank[a.importance] || 0))[0];
-    // 逻辑链: 与逻辑链页一致，按成立强度取最高分
-    const bestLogic = (L && L.chains || []).slice().sort((a, b) => App.scoreChain(b).score - App.scoreChain(a).score)[0];
+    // 逻辑链: 按 Agent 给出的强度评级取最强
+    const logicStrRank = { "强": 3, "中": 2, "弱": 1 };
+    const bestLogic = (L && L.chains || []).slice().sort((a, b) => (logicStrRank[b.strength] || 0) - (logicStrRank[a.strength] || 0))[0];
 
     // 精华卡: 标签 + 标题 + 一句话精华 + 强度徽章 + 跳转目标
     const cards = [
@@ -1457,8 +1458,8 @@
       bestLogic ? {
         tag: "逻辑链", tagCls: "ok", go: "logic", xname: bestLogic.name,
         title: bestLogic.name,
-        essence: bestLogic.bottleneck ? trunc(bestLogic.bottleneck) : "—",
-        badge: "卡点", badgeCls: "warn"
+        essence: bestLogic.logic ? trunc(bestLogic.logic) : "—",
+        badge: bestLogic.strength || "", badgeCls: "warn"
       } : null,
     ].filter(Boolean);
 
@@ -1541,7 +1542,7 @@
   }
 
   // 暴露核心到 window.App，供 src/ 下拆分模块(holdings.js / ai-modules.js)解构使用。
-  // scoreChain / strengthLabel / renderHoldings / renderOpportunities 等由各 src 模块自行注册。
+  // renderHoldings / renderOpportunities 等由各 src 模块自行注册。
   window.App = {
     STOCKS, META, MARKET, HOLDINGS, INDUSTRY, INDUSTRY_MARKET, CHAIN, NEWSALL, REPORTS, HOT,
     state, marketState, viewScroll,
