@@ -18,6 +18,7 @@
   const HOLDINGS = window.HOLDINGS || null;
   const INDUSTRY = window.INDUSTRY || null;
   const INDUSTRY_MARKET = window.INDUSTRY_MARKET || null;
+  const CHAIN = window.CHAIN || null;
   const NEWSALL = window.NEWSALL || null;
   const REPORTS = window.REPORTS || {};
   const HOT = window.HOT || {};
@@ -107,7 +108,7 @@
     [
       [MARKET, "市场异动"], [HOT, "今日热点"], [HOLDINGS, "持仓"],
       [window.OPPORTUNITIES, "机会清单"], [window.LOGIC, "逻辑链"],
-      [INDUSTRY, "产业雷达"], [window.MATERIALS, "材料涨价"],
+      [window.CHAIN, "产业链涨价"], [INDUSTRY, "产业雷达"], [window.MATERIALS, "材料涨价"],
       [window.EVENTS, "事件概率"], [window.WEEKEND, "周末发酵"],
     ].forEach(([value, source]) => walk(value, source));
     stockReferenceIndex = index;
@@ -866,8 +867,7 @@
     opportunities: () => renderOpportunities(),
     logic: () => renderLogic(),
     agent: () => renderReports(),
-    industry: () => renderIndustry(),
-    materials: () => renderMaterials(),
+    chain: () => renderChain(),
     weekend: () => renderWeekend(),
     events: () => renderEvents(),
     news: () => renderNewsAll(),
@@ -886,8 +886,7 @@
     news: "新闻",
     events: "事件概率",
     agent: "AI 复盘",
-    industry: "产业雷达",
-    materials: "材料涨价",
+    chain: "产业链涨价",
     weekend: "周末发酵",
   };
   function viewFromHash() {
@@ -1201,8 +1200,7 @@
       { name: "AI复盘", date: REPORTS.updated, count: `${(REPORTS.reports || []).length}篇`, source: "Hermes", view: "agent", relaxed: true, optional: true, missing: !(REPORTS.reports || []).length },
       { name: "机会清单", date: OPP?.generatedAt || OPP?.date, count: `${(OPP?.directions || []).length}项`, source: "Hermes", view: "opportunities", relaxed: true, missing: !OPP },
       { name: "逻辑链", date: LOG?.generatedAt || LOG?.date, count: `${(LOG?.chains || []).length}条`, source: "Hermes", view: "logic", relaxed: true, missing: !LOG },
-      { name: "产业雷达", date: INDUSTRY?.generatedAt || INDUSTRY?.date, count: `${(INDUSTRY?.directions || []).length}项`, source: "Hermes/a-stock", view: "industry", relaxed: true, missing: !INDUSTRY },
-      { name: "材料涨价", date: MAT?.generatedAt || MAT?.date, count: `${(MAT?.directions || []).length}项`, source: "Hermes", view: "materials", relaxed: true, missing: !MAT },
+      { name: "产业链涨价", date: window.CHAIN?.generatedAt || window.CHAIN?.date || INDUSTRY?.generatedAt || INDUSTRY?.date || MAT?.generatedAt || MAT?.date, count: `${(window.CHAIN?.directions || INDUSTRY?.directions || []).length + (MAT?.directions || []).length}项`, source: "Hermes", view: "chain", relaxed: true, missing: !(window.CHAIN?.directions?.length || INDUSTRY?.directions?.length || MAT?.directions?.length) },
       { name: "事件概率", date: EV?.generatedAt || EV?.date, count: `${(EV?.events || []).length}件`, source: "Hermes", view: "events", relaxed: true, missing: !EV },
       { name: "周末发酵", date: W?.generatedAt || W?.weekendDate || W?.date, count: `${(W?.hotspots || []).length}项`, source: "Hermes", view: "weekend", weekly: true, optional: true, missing: !W },
     ];
@@ -1307,8 +1305,8 @@
     (NEWSALL?.announcements || []).slice(0, 60).forEach((n) => addSearchItem(list, "公告", n.title || n.announcementTitle, n.date || "", "", "news"));
     (window.OPPORTUNITIES?.directions || []).forEach((d) => addSearchItem(list, "机会", d.name, d.stage || "", [d.logic, d.risk].join(" "), "opportunities"));
     (window.LOGIC?.chains || []).forEach((c) => addSearchItem(list, "逻辑链", c.name, "", [c.logic, c.bottleneck].join(" "), "logic"));
-    (INDUSTRY?.directions || []).forEach((d) => addSearchItem(list, "产业", d.name, d.confidence || "", [d.price_signal, d.logic].join(" "), "industry"));
-    (window.MATERIALS?.directions || []).forEach((d) => addSearchItem(list, "材料", d.name, d.intensity || "", [d.price, d.logic].join(" "), "materials"));
+    const chainDirs = (window.CHAIN?.directions && window.CHAIN.directions.length ? window.CHAIN.directions : [...(INDUSTRY?.directions || []), ...(window.MATERIALS?.directions || [])].map((d) => d.driver_type ? d : { ...d, driver_type: [], bottleneck: "", chain: "", category: "", intensity: d.intensity || ({ "高": "强", "中高": "中强", "中": "中", "低": "弱" })[d.confidence] || "中", price_signal: d.price_signal || d.price || "" }));
+    chainDirs.forEach((d) => addSearchItem(list, "产业链", d.name, d.intensity || "", [d.price_signal, d.bottleneck, d.driver, d.risk].filter(Boolean).join(" "), "chain"));
     (window.EVENTS?.events || []).forEach((e) => addSearchItem(list, "事件", e.title, e.importance || "", [e.content, e.sectors].join(" "), "events"));
     return list;
   }
@@ -1424,12 +1422,10 @@
     const M = window.MATERIALS;
 
     // 各模块"最强"选取规则
-    // 产业雷达: confidence 最高(高>中高>中),取第一个
-    const confRank = { "高": 3, "中高": 2, "中": 1 };
-    const bestInd = (I && I.directions || []).slice().sort((a, b) => (confRank[b.confidence] || 0) - (confRank[a.confidence] || 0))[0];
-    // 材料涨价: intensity 最高(极强>强>中强)
-    const intRank = { "极强": 4, "强": 3, "中强": 2, "中": 1 };
-    const bestMat = (M && M.directions || []).slice().sort((a, b) => (intRank[b.intensity] || 0) - (intRank[a.intensity] || 0))[0];
+    // 产业链涨价: CHAIN 优先, 否则旧 industry+materials 合并映射, 取 intensity 最高
+    const intRankChain = { "极强": 5, "强": 4, "中强": 3, "中": 2, "弱": 1 };
+    const chainDirsAll = (window.CHAIN?.directions && window.CHAIN.directions.length ? window.CHAIN.directions : [...(I && I.directions || []), ...(M && M.directions || [])].map((d) => d.driver_type ? d : { ...d, driver_type: [], intensity: d.intensity || ({ "高": "强", "中高": "中强", "中": "中", "低": "弱" })[d.confidence] || "中", price_signal: d.price_signal || d.price || "" }));
+    const bestChain = chainDirsAll.slice().sort((a, b) => (intRankChain[b.intensity] || 0) - (intRankChain[a.intensity] || 0))[0];
     // 机会清单: priority 星最多
     const bestOpp = (O && O.directions || []).slice().sort((a, b) => (b.priority || "").length - (a.priority || "").length)[0];
     // 事件概率: importance 最高
@@ -1446,17 +1442,11 @@
         essence: bestOpp.logic ? trunc(bestOpp.logic) : "—",
         badge: bestOpp.stage || "", badgeCls: "warn"
       } : null,
-      bestInd ? {
-        tag: "产业雷达", tagCls: "up", go: "industry", xname: bestInd.name,
-        title: bestInd.name,
-        essence: bestInd.price_signal ? trunc(bestInd.price_signal) : "—",
-        badge: "置信度 " + (bestInd.confidence || "—"), badgeCls: "ok"
-      } : null,
-      bestMat ? {
-        tag: "材料涨价", tagCls: "warn", go: "materials", xname: bestMat.name,
-        title: bestMat.name,
-        essence: bestMat.price ? trunc(bestMat.price) : "—",
-        badge: bestMat.intensity || "", badgeCls: "up"
+      bestChain ? {
+        tag: "产业链涨价", tagCls: "up", go: "chain", xname: bestChain.name,
+        title: bestChain.name,
+        essence: bestChain.bottleneck ? ("卡脖子:" + trunc(bestChain.bottleneck)) : (bestChain.price_signal ? trunc(bestChain.price_signal) : "—"),
+        badge: bestChain.intensity || "", badgeCls: "ok"
       } : null,
       bestEvt ? {
         tag: "事件概率", tagCls: "up", go: "events", xname: bestEvt.title,
@@ -2130,21 +2120,64 @@
     el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
 
-  /* ---------- 6. 产业雷达 ---------- */
-  function renderIndustry() {
-    const el = $("#viewIndustry");
+  /* ---------- 6.4 产业链涨价(合并原产业雷达+材料涨价) ---------- */
+  // 旧 industry/materials direction -> 新 chain 模型(过渡期 CHAIN 为空时兜底)
+  const confToIntensity = { "高": "强", "中高": "中强", "中": "中", "低": "弱" };
+  function normalizeChainDir(d, src) {
+    if (src === "chain" || d.driver_type) return d;
+    if (src === "industry") {
+      return { name: d.name, category: d.category || "", chain: d.chain || "",
+        driver_type: d.driver_type || [], bottleneck: d.bottleneck || "",
+        price_signal: d.price_signal || "", driver: d.driver || "",
+        supply: d.supply || "", evidence: d.evidence || "", downstream: d.downstream || "",
+        stocks: d.stocks || [], risk: d.risk || "",
+        intensity: d.intensity || confToIntensity[d.confidence] || "中", asof: d.asof || "" };
+    }
+    // materials
+    return { name: d.name, category: d.category || "",
+      chain: d.chain || (d.downstream ? `-> ${d.downstream}` : ""),
+      driver_type: d.driver_type || [], bottleneck: d.bottleneck || "",
+      price_signal: d.price_signal || d.price || "", driver: d.driver || "",
+      supply: d.supply || "", evidence: d.evidence || "", downstream: d.downstream || "",
+      stocks: d.stocks || [], risk: d.risk || "",
+      intensity: d.intensity || "中", asof: d.asof || "" };
+  }
+  // 合并数据源: CHAIN 优先, 否则 INDUSTRY+MATERIALS 映射
+  function getChainDirections() {
+    if (CHAIN && Array.isArray(CHAIN.directions) && CHAIN.directions.length) {
+      return { dirs: CHAIN.directions.map((d) => normalizeChainDir(d, "chain")), date: CHAIN.date, summary: CHAIN.summary, src: "chain" };
+    }
+    const merged = [];
+    let date = "", summary = "";
+    if (INDUSTRY && Array.isArray(INDUSTRY.directions)) {
+      INDUSTRY.directions.forEach((d) => merged.push(normalizeChainDir(d, "industry")));
+      date = INDUSTRY.date || date; summary = INDUSTRY.summary || summary;
+    }
+    if (window.MATERIALS && Array.isArray(window.MATERIALS.directions)) {
+      window.MATERIALS.directions.forEach((d) => merged.push(normalizeChainDir(d, "materials")));
+      date = date || window.MATERIALS.date; summary = summary || window.MATERIALS.summary;
+    }
+    return { dirs: merged, date, summary, src: "legacy" };
+  }
+  function renderChain() {
+    const el = $("#viewChain");
     if (!el) return;
-    const rowHtml = (r) => `<div class="ind-row ${r.change_pct > 0 ? "up" : r.change_pct < 0 ? "down" : ""}"><span class="ind-rank">${esc(r.rank)}</span><span class="ind-name">${esc(r.name)}</span><span class="ind-chg">${r.change_pct > 0 ? "+" : ""}${esc(r.change_pct)}%</span><span class="ind-cnt">↑${esc(r.up_count)} ↓${esc(r.down_count)}</span><span class="ind-leader">龙头 ${esc(r.leader || "—")}</span></div>`;
-    if ((!INDUSTRY || !Array.isArray(INDUSTRY.directions)) && (!INDUSTRY_MARKET || !Array.isArray(INDUSTRY_MARKET.top))) {
-      el.innerHTML = secTitle("产业雷达", "供需紧张 / 涨价方向调研") + emptyState("产业调研数据待生成。");
+    const { dirs, date, summary, src } = getChainDirections();
+    if (!dirs.length && (!INDUSTRY_MARKET || !Array.isArray(INDUSTRY_MARKET.top))) {
+      el.innerHTML = secTitle("产业链涨价", "供需紧张 / 涨价方向 · 卡脖子与产业链逻辑") + emptyState("产业链涨价数据待生成。");
       return;
     }
-    if (INDUSTRY?.directions) {
-      const confCls = { "高": "up", "中高": "ok", "中": "warn", "低": "down" };
-      const confRank = { "高": 4, "中高": 3, "中": 2, "低": 1 };
+    const intCls = { "极强": "up", "强": "ok", "中强": "warn", "中": "warn", "弱": "down" };
+    const intRank = { "极强": 5, "强": 4, "中强": 3, "中": 2, "弱": 1 };
+    const driverCls = { "卡脖子": "driver-bottleneck", "政策": "driver-policy", "事件": "driver-event", "供需": "driver-supply", "成本": "driver-cost", "技术": "driver-tech" };
+    const rowHtml = (r) => `<div class="ind-row ${r.change_pct > 0 ? "up" : r.change_pct < 0 ? "down" : ""}"><span class="ind-rank">${esc(r.rank)}</span><span class="ind-name">${esc(r.name)}</span><span class="ind-chg">${r.change_pct > 0 ? "+" : ""}${esc(r.change_pct)}%</span><span class="ind-cnt">↑${esc(r.up_count)} ↓${esc(r.down_count)}</span><span class="ind-leader">龙头 ${esc(r.leader || "-")}</span></div>`;
 
-      const ranked = INDUSTRY.directions.slice().sort((a, b) => (confRank[b.confidence] || 0) - (confRank[a.confidence] || 0));
-      const cards = ranked.map((d, i) => {
+    let filters = "", cards = "";
+    if (dirs.length) {
+      const ranked = dirs.slice().sort((a, b) => (intRank[b.intensity] || 0) - (intRank[a.intensity] || 0));
+      const cats = [...new Set(ranked.map((d) => d.category).filter(Boolean))].sort();
+      const drivers = [...new Set(ranked.flatMap((d) => d.driver_type || []).filter(Boolean))];
+      cards = ranked.map((d, i) => {
         const stocks = (d.stocks || []).map((s) =>
           `<button class="dir-chip" data-code="${esc(s.code)}" title="${esc(s.role || "")}">
             <span class="dir-chip-name">${esc(s.name)}</span>
@@ -2152,106 +2185,74 @@
           </button>`
         ).join("");
         const lead = leadOf(d.price_signal || d.supply || d.driver || "", true);
-        return `<article class="dir-row" data-xname="${esc(d.name)}">
+        const drvTags = (d.driver_type || []).map((t) => `<span class="chain-driver ${driverCls[t] || ""}">${esc(t)}</span>`).join("");
+        const drvData = (d.driver_type || []).join(" ");
+        return `<article class="chain-card" data-driver="${esc(drvData)}" data-cat="${esc(d.category || "")}">
           <header class="dir-row-head">
             <div class="dir-rank">${String(i + 1).padStart(2, "0")}</div>
             <div class="dir-row-main">
               <div class="dir-row-meta">
-                <span class="dir-badge ${confCls[d.confidence] || ""}">置信度 ${esc(d.confidence || "—")}</span>
+                <span class="dir-badge ${intCls[d.intensity] || ""}">强度 ${esc(d.intensity || "-")}</span>
                 ${d.asof ? `<span class="dir-asof">${esc(d.asof)}</span>` : ""}
               </div>
               <h3 class="dir-title" title="${esc(d.name)}">${esc(titleShort(d.name, 36))}</h3>
+              ${d.chain ? `<p class="chain-chain">${esc(d.chain)}</p>` : ""}
               ${lead ? `<p class="dir-lead">${esc(lead)}</p>` : ""}
             </div>
           </header>
+          ${drvTags ? `<div class="chain-drivers">${drvTags}</div>` : ""}
+          ${d.bottleneck ? `<div class="chain-bottleneck"><span class="chain-bottleneck-lbl">卡脖子</span><p>${esc(d.bottleneck)}</p></div>` : ""}
           ${stocks ? `<div class="dir-stocks">${stocks}</div>` : ""}
           <div class="dir-cols">
-            ${blockHtml("涨价信号", d.price_signal, "pick", "dir")}
+            ${blockHtml("价格信号", d.price_signal, "pick", "dir")}
             ${blockHtml("风险 / 反向", d.risk, "risk", "dir")}
           </div>
           <details class="dir-more">
-            <summary>供需、驱动与关键证据</summary>
+            <summary>供需、驱动与证据</summary>
             <div class="dir-more-body">
               ${blockHtml("供需状况", d.supply, "logic", "dir")}
-              ${blockHtml("驱动因素", d.driver, "logic", "dir")}
-              ${blockHtml("关键证据", d.evidence, "logic", "dir")}
+              ${blockHtml("涨价驱动", d.driver, "logic", "dir")}
+              ${d.evidence ? blockHtml("关键证据", d.evidence, "logic", "dir") : ""}
+              ${d.downstream ? blockHtml("下游应用", d.downstream, "logic", "dir") : ""}
             </div>
           </details>
         </article>`;
       }).join("");
-
-      const sourceNote = INDUSTRY_MARKET?.source === "market-snapshot-fallback" ? ` · 异动样本 ${INDUSTRY_MARKET.coverage || 0} 只（非全市场）` : "";
-      const ranking = INDUSTRY_MARKET?.top?.length
-        ? `<section class="dir-rank-panel"><h3 class="dir-rank-title">今日行业涨幅前 ${INDUSTRY_MARKET.top.length}<span class="dir-rank-note">${sourceNote}</span></h3><div class="ind-list">${INDUSTRY_MARKET.top.map(rowHtml).join("")}</div></section>`
-        : "";
-      const rankingBottom = INDUSTRY_MARKET?.bottom?.length
-        ? `<section class="dir-rank-panel"><h3 class="dir-rank-title">今日行业跌幅前 ${INDUSTRY_MARKET.bottom.length}<span class="dir-rank-note">${sourceNote}</span></h3><div class="ind-list">${INDUSTRY_MARKET.bottom.map(rowHtml).join("")}</div></section>`
-        : "";
-
-      el.innerHTML = secTitle("产业雷达", `${INDUSTRY.directions.length} 个方向 · ${esc(INDUSTRY.date || "")}`) +
-        `<div class="dir-board">${cards}</div>${ranking}${rankingBottom}`;
-      el.querySelectorAll(".dir-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
-      return;
+      const driverFilters = ["全部", ...drivers].map((t) =>
+        `<button class="chain-filter ${t === "全部" ? "active" : ""}" data-driver="${t === "全部" ? "all" : esc(t)}">${esc(t)}</button>`
+      ).join("");
+      const catFilters = ["全部", ...cats].map((t) =>
+        `<button class="chain-filter ${t === "全部" ? "active" : ""}" data-cat="${t === "全部" ? "all" : esc(t)}">${esc(t)}</button>`
+      ).join("");
+      filters = `<div class="chain-filters">` +
+        (drivers.length ? `<div class="chain-filter-group"><span class="chain-filter-lbl">驱动</span>${driverFilters}</div>` : "") +
+        (cats.length ? `<div class="chain-filter-group"><span class="chain-filter-lbl">行业</span>${catFilters}</div>` : "") +
+        `</div>`;
     }
     const sourceNote = INDUSTRY_MARKET?.source === "market-snapshot-fallback" ? ` · 异动样本 ${INDUSTRY_MARKET.coverage || 0} 只（非全市场）` : "";
-    el.innerHTML = secTitle("产业雷达", `行业板块涨跌排名 · 共 ${INDUSTRY_MARKET.total || 0} 个行业${sourceNote}`) +
-      `<div class="ind-cols"><section class="card blk"><h3 class="blk-h">涨幅前 ${(INDUSTRY_MARKET.top||[]).length}</h3><div class="ind-list">${(INDUSTRY_MARKET.top||[]).map(rowHtml).join("")}</div></section></div>`;
-  }
-
-  /* ---------- 6.5 材料涨价 ---------- */
-  function renderMaterials() {
-    const el = $("#viewMaterials");
-    if (!el) return;
-    const MAT = window.MATERIALS || null;
-    if (!MAT || !MAT.directions || !MAT.directions.length) {
-      el.innerHTML = secTitle("材料涨价", "原材料/大宗商品涨价调研") + emptyState("材料涨价数据待生成。");
-      return;
-    }
-
-    const intCls = { "极强": "up", "强": "ok", "中强": "warn", "中": "warn", "弱": "down" };
-    const intRank = { "极强": 5, "强": 4, "中强": 3, "中": 2, "弱": 1 };
-
-    const ranked = MAT.directions.slice().sort((a, b) => (intRank[b.intensity] || 0) - (intRank[a.intensity] || 0));
-    const cards = ranked.map((d, i) => {
-      const stocks = (d.stocks || []).map((s) =>
-        `<button class="dir-chip" data-code="${esc(s.code)}" title="${esc(s.role || "")}">
-          <span class="dir-chip-name">${esc(s.name)}</span>
-          <span class="dir-chip-pos">${esc(trunc(s.role || "", 18))}</span>
-        </button>`
-      ).join("");
-      const lead = leadOf(d.timing || d.price || d.driver || "", true);
-      return `<article class="dir-row" data-xname="${esc(d.name)}">
-        <header class="dir-row-head">
-          <div class="dir-rank">${String(i + 1).padStart(2, "0")}</div>
-          <div class="dir-row-main">
-            <div class="dir-row-meta">
-              <span class="dir-badge ${intCls[d.intensity] || ""}">涨价强度 ${esc(d.intensity || "—")}</span>
-              ${d.asof ? `<span class="dir-asof">${esc(d.asof)}</span>` : ""}
-            </div>
-            <h3 class="dir-title" title="${esc(d.name)}">${esc(titleShort(d.name, 36))}</h3>
-            ${lead ? `<p class="dir-lead">${esc(lead)}</p>` : ""}
-          </div>
-        </header>
-        ${stocks ? `<div class="dir-stocks">${stocks}</div>` : ""}
-        <div class="dir-cols">
-          ${blockHtml("价格 / 涨幅", d.price, "pick", "dir")}
-          ${blockHtml("风险 / 反向", d.risk, "risk", "dir")}
-        </div>
-        <details class="dir-more">
-          <summary>时点、驱动、供需与下游</summary>
-          <div class="dir-more-body">
-            ${blockHtml("涨价时点", d.timing, "logic", "dir")}
-            ${blockHtml("涨价驱动", d.driver, "logic", "dir")}
-            ${blockHtml("供需状况", d.supply, "logic", "dir")}
-            ${blockHtml("下游应用", d.downstream, "logic", "dir")}
-          </div>
-        </details>
-      </article>`;
-    }).join("");
-
-    el.innerHTML = secTitle("材料涨价", `${MAT.directions.length} 个方向 · ${esc(MAT.date || "")}`) +
-      `<div class="dir-board">${cards}</div>`;
+    const ranking = INDUSTRY_MARKET?.top?.length
+      ? `<section class="dir-rank-panel"><h3 class="dir-rank-title">今日行业涨幅前 ${INDUSTRY_MARKET.top.length}<span class="dir-rank-note">${sourceNote}</span></h3><div class="ind-list">${INDUSTRY_MARKET.top.map(rowHtml).join("")}</div></section>`
+      : "";
+    const rankingBottom = INDUSTRY_MARKET?.bottom?.length
+      ? `<section class="dir-rank-panel"><h3 class="dir-rank-title">今日行业跌幅前 ${INDUSTRY_MARKET.bottom.length}<span class="dir-rank-note">${sourceNote}</span></h3><div class="ind-list">${INDUSTRY_MARKET.bottom.map(rowHtml).join("")}</div></section>`
+      : "";
+    const srcNote = src === "legacy" ? " · 旧数据兼容映射(待 Hermes 产出新模型)" : "";
+    el.innerHTML = secTitle("产业链涨价", `${dirs.length} 个方向 · ${esc(date || "")}${srcNote}`) +
+      (summary ? `<p class="sec-summary">${esc(summary)}</p>` : "") +
+      filters + `<div class="chain-board">${cards}</div>${ranking}${rankingBottom}`;
     el.querySelectorAll(".dir-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
+    let curDriver = "all", curCat = "all";
+    el.querySelectorAll(".chain-filter").forEach((b) => {
+      b.addEventListener("click", () => {
+        if (b.dataset.driver) { curDriver = b.dataset.driver; el.querySelectorAll('.chain-filter[data-driver]').forEach((x) => x.classList.toggle("active", x === b)); }
+        if (b.dataset.cat) { curCat = b.dataset.cat; el.querySelectorAll('.chain-filter[data-cat]').forEach((x) => x.classList.toggle("active", x === b)); }
+        el.querySelectorAll(".chain-card").forEach((c) => {
+          const drvOk = curDriver === "all" || (c.dataset.driver || "").split(" ").includes(curDriver);
+          const catOk = curCat === "all" || c.dataset.cat === curCat;
+          c.style.display = drvOk && catOk ? "" : "none";
+        });
+      });
+    });
   }
 
   /* ---------- 7b. 周末发酵 ---------- */

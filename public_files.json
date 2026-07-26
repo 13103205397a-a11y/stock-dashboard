@@ -14,6 +14,7 @@
     "meta.js",
     "hot.js",
     "market.js",
+    "chain.js",
     "industry.js",
     "industry_market.js",
     "logic.js",

@@ -3832,6 +3832,27 @@ table tbody tr:hover td {
   }
 }
 
+/* 产业链涨价(阶段5) */
+.chain-filters { display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 0 16px; }
+.chain-filter-group { display: flex; align-wrap: wrap; align-items: center; gap: 6px; flex-wrap: wrap; }
+.chain-filter-lbl { font-size: 12px; color: var(--muted, #6a7386); margin-right: 2px; }
+.chain-filter { padding: 3px 10px; font-size: 12px; border: 1px solid var(--line-2, #c8d0dc); border-radius: 12px; background: var(--card, #fff); color: var(--text, #3b4354); cursor: pointer; }
+.chain-filter.active { background: var(--accent, #2557d6); color: #fff; border-color: var(--accent, #2557d6); }
+.chain-board { display: flex; flex-direction: column; gap: 12px; }
+.chain-card { background: var(--card, #fff); border: 1px solid var(--line, #dde3ec); border-radius: 10px; padding: 14px 16px; }
+.chain-chain { font-size: 12px; color: var(--muted, #6a7386); margin: 2px 0 0; }
+.chain-drivers { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.chain-driver { padding: 2px 8px; font-size: 11px; border-radius: 8px; font-weight: 600; }
+.chain-driver.driver-bottleneck { background: rgba(220,38,38,.12); color: #dc2626; }
+.chain-driver.driver-policy { background: rgba(37,87,214,.12); color: #2557d6; }
+.chain-driver.driver-event { background: rgba(217,119,6,.12); color: #d97706; }
+.chain-driver.driver-supply { background: rgba(22,163,74,.12); color: #16a34a; }
+.chain-driver.driver-cost { background: rgba(148,163,184,.18); color: #475569; }
+.chain-driver.driver-tech { background: rgba(147,51,234,.12); color: #9333ea; }
+.chain-bottleneck { display: flex; gap: 8px; align-items: flex-start; background: rgba(220,38,38,.06); border-left: 3px solid #dc2626; padding: 8px 10px; border-radius: 6px; margin: 8px 0; }
+.chain-bottleneck-lbl { font-size: 11px; font-weight: 700; color: #dc2626; white-space: nowrap; padding-top: 1px; }
+.chain-bottleneck p { margin: 0; font-size: 13px; color: var(--text, #3b4354); line-height: 1.5; }
+
 
 
 
