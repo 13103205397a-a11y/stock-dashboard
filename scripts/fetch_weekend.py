@@ -110,6 +110,18 @@ def normalize_weekend(obj):
         return None
     if any(placeholder.search(str(item.get("title") or "")) for item in hotspots if isinstance(item, dict)):
         return None
+    # 兜底:过滤非 A 股代码(港股/美股等非 6 位),并把 impactStocks 统一成 stocks
+    code_ok = lambda c: bool(re.match(r"^\d{6}$", str(c or "")))
+    for hp in hotspots:
+        if not isinstance(hp, dict):
+            continue
+        arr = hp.get("stocks") if "stocks" in hp else hp.get("impactStocks")
+        if isinstance(arr, list):
+            hp["stocks"] = [s for s in arr if isinstance(s, dict) and code_ok(s.get("code"))]
+            hp.pop("impactStocks", None)
+    sc = obj.get("scenario")
+    if isinstance(sc, dict) and isinstance(sc.get("watchlist"), list):
+        sc["watchlist"] = [w for w in sc["watchlist"] if isinstance(w, dict) and code_ok(w.get("code"))]
     if "scenario" in obj and "weekendDate" in obj:
         return obj
     return None

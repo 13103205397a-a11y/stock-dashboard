@@ -1930,11 +1930,12 @@
       const title = titleShort(d.name);
       const lead = leadOf(d.logic || d.opportunity || "");
       const stocks = (d.stocks || []).map((s) => {
-        const posCls = /龙头/.test(s.position) ? "up" : /二线/.test(s.position) ? "ok" : /补涨/.test(s.position) ? "warn" : "";
-        const tip = [s.position, s.detail].filter(Boolean).join(" · ");
+        const role = s.role || s.position;  // 统一字段 role,兜底旧 position
+        const posCls = /龙头/.test(role) ? "up" : /二线/.test(role) ? "ok" : /补涨/.test(role) ? "warn" : "";
+        const tip = [role, s.note || s.detail].filter(Boolean).join(" · ");
         return `<button class="opp-chip ${posCls}" data-code="${esc(s.code)}" title="${esc(tip)}">
           <span class="opp-chip-name">${esc(s.name)}</span>
-          <span class="opp-chip-pos">${esc(s.position || "")}</span>
+          <span class="opp-chip-pos">${esc(role || "")}</span>
         </button>`;
       }).join("");
 
@@ -2273,7 +2274,7 @@
     const sc = W.scenario || {};
     // 热点卡片
     const cards = hotspots.map((h) => {
-      const stocks = (h.impactStocks || []).map((s) =>
+      const stocks = ((h.stocks || h.impactStocks) || []).map((s) =>  // 统一字段 stocks,兜底旧 impactStocks
         `<button class="we-stock" data-code="${esc(s.code)}">${esc(s.name)} <span class="we-dir ${s.direction === "利好" ? "up" : s.direction === "利空" ? "down" : ""}">${esc(s.direction || "")}</span></button>`
       ).join("");
       return `<article class="card blk we-card" data-xname="${esc(h.title || "")}">
@@ -2347,11 +2348,12 @@
       const title = titleShort(e.title, 42);
       const lead = leadOf(e.importance_reason || e.content || "");
       const stocks = (e.stocks || []).map((s) => {
-        const tone = s.impact === "受益" ? "up" : s.impact === "受损" ? "down" : "";
-        const tip = [s.impact, s.role].filter(Boolean).join(" · ");
+        const dir = s.direction || s.impact;  // 统一字段 direction,兜底旧 impact
+        const tone = dir === "受益" ? "up" : dir === "受损" ? "down" : "";
+        const tip = [dir, s.note || s.role].filter(Boolean).join(" · ");
         return `<button class="ev-chip ${tone}" data-code="${esc(s.code)}" title="${esc(tip)}">
           <span class="ev-chip-name">${esc(s.name)}</span>
-          <span class="ev-chip-pos">${esc(s.impact || "")}</span>
+          <span class="ev-chip-pos">${esc(dir || "")}</span>
         </button>`;
       }).join("");
 

@@ -28,7 +28,7 @@
 
 ### 第 2 步：输出 JSON
 ```json
-{"date":"<YYYY-MM-DD>","generatedAt":"<时间>","market_state":"<盘面格局一句话>","summary":"<5个方向优先级排序>","directions":[{"name":"","stage":"初起|扩散|高潮|退潮","logic":"","signals":"","opportunity":"","stocks":[{"code":"","name":"","position":"龙头|二线|补涨","detail":""}],"risk":"","priority":"★★★","asof":""}]}
+{"date":"<YYYY-MM-DD>","generatedAt":"<时间>","market_state":"<盘面格局一句话>","summary":"<5个方向优先级排序>","directions":[{"name":"","stage":"初起|扩散|高潮|退潮","logic":"","signals":"","opportunity":"","stocks":[{"code":"","name":"","role":"龙头|二线|补涨","note":""}],"risk":"","priority":"★★★","asof":""}]}
 ```
 
 ### 第 3 步：写回并推送

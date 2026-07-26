@@ -59,7 +59,7 @@
       "signalType": "真信号",
       "event": "事件描述（含时间来源）",
       "impactSectors": ["板块A", "板块B"],
-      "impactStocks": [{"code": "605117", "name": "德业股份", "direction": "利好"}],
+      "stocks": [{"code": "605117", "name": "德业股份", "direction": "利好"}],
       "interpretation": "解读正文（100-200字）",
       "falsifyRisk": "证伪风险与陷阱",
       "mondayStrategy": "周一策略"
@@ -80,7 +80,7 @@
 - `fermentLevel` 枚举：高 / 中 / 低
 - `signalType` 枚举：真信号 / 待验证 / 噪音
 - `direction` 枚举：利好 / 利空 / 中性
-- `impactStocks` 只列 A 股已上市个股，code 必须 6 位数字
+- `stocks` 只列 A 股已上市个股，code 必须 6 位数字
 - 所有正文用中文，每段 100-200 字
 - `summary` 控制在 150 字内
 

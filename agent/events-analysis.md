@@ -27,7 +27,7 @@
 
 ### 第 2 步：输出 JSON
 ```json
-{"date":"<YYYY-MM-DD>","generatedAt":"<时间>","summary":"<一句话总览>","events":[{"title":"","category":"","time":"","content":"","importance":"高|中高|中","importance_reason":"","direction":"利好|利空|中性|结构性","sectors":"","stocks":[{"code":"","name":"","impact":"受益|受损","role":""}],"timeliness":"","source":""}]}
+{"date":"<YYYY-MM-DD>","generatedAt":"<时间>","summary":"<一句话总览>","events":[{"title":"","category":"","time":"","content":"","importance":"高|中高|中","importance_reason":"","direction":"利好|利空|中性|结构性","sectors":"","stocks":[{"code":"","name":"","direction":"受益|受损","note":""}],"timeliness":"","source":""}]}
 ```
 
 ### 第 3 步：写回并推送
