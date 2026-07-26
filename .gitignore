@@ -31,3 +31,10 @@ node_modules/
 playwright-report/
 test-results/
 _site/
+
+# 本地工作产物（防 git add -A 误发布，配合 agent 提示词的直推场景）
+# UI 审查截图（未来可能含持仓画面）/ 本地复盘 md / 主题备份 / 嵌套杂项目录
+audit-assets/
+reports/
+claude-theme.css.backup
+股市看板/
