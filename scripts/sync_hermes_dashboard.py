@@ -17,7 +17,8 @@ EXPORTERS = [
     ("盘面复盘", "scripts/fetch_hermes.py"),
     ("持仓分析", "scripts/fetch_portfolio_analysis.py"),
     ("周末发酵", "scripts/fetch_weekend.py"),
-    ("产业链涨价", "scripts/fetch_chain_ai.py"),
+    # 产业链涨价(chain.js)由 cron 任务直接写文件,不走 EXPORTERS;
+    # scripts/fetch_chain_ai.py 仅作手动备用(从 session 提取),不自动跑,避免 fallback 误匹配旧 session 污染。
 ]
 PUBLIC_AI_FILES = [
     "reports.js", "industry.js", "logic.js", "events.js",
