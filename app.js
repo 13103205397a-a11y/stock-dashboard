@@ -526,8 +526,6 @@
 
       ${sigBlock}
 
-      ${codeModulesHtml(s.code)}
-
       ${s.valuation ? `<div class="dsec">
         <h3>估值面板 <span class="src-note">机构一致预期 · ${esc(s.valuation.asof || "")}</span></h3>
         <div class="val-grid">
@@ -1871,76 +1869,7 @@
     }));
   }
 
-  /* ---------- 跨模块闭环：同一方向出现在多个 AI 模块时互相跳转 ---------- */
-  // 关联判定：方向名互相包含，或共享 ≥2 个股票代码（单票共现易误连，故收紧）。
-  const XMODULES = [
-    { view: "opportunities", label: "机会清单", items: () => (window.OPPORTUNITIES?.directions || []).map((d) => ({ name: d.name, codes: (d.stocks || []).map((s) => String(s.code)) })) },
-    { view: "logic", label: "逻辑链", items: () => (window.LOGIC?.chains || []).map((d) => ({ name: d.name, codes: (d.segments || []).flatMap((s) => (s.stocks || []).map((x) => String(x.code))) })) },
-    { view: "industry", label: "产业雷达", items: () => (window.INDUSTRY?.directions || []).map((d) => ({ name: d.name, codes: (d.stocks || []).map((s) => String(s.code)) })) },
-    { view: "materials", label: "材料涨价", items: () => (window.MATERIALS?.directions || []).map((d) => ({ name: d.name, codes: (d.stocks || []).map((s) => String(s.code)) })) },
-    { view: "events", label: "事件概率", items: () => (window.EVENTS?.events || []).map((d) => ({ name: d.title, codes: (d.stocks || []).map((s) => String(s.code)) })) },
-    { view: "weekend", label: "周末发酵", items: () => (window.WEEKEND?.hotspots || []).map((d) => ({ name: d.title, codes: (d.impactStocks || []).map((s) => String(s.code)) })) },
-  ];
-  let xmoduleIndex = null;
-  function getXmoduleIndex() {
-    if (xmoduleIndex) return xmoduleIndex;
-    xmoduleIndex = XMODULES.map((m) => ({
-      view: m.view,
-      label: m.label,
-      items: m.items().filter((it) => it.name),
-    }));
-    return xmoduleIndex;
-  }
-  const xNorm = (s) => String(s || "").split(/[（(]/)[0].trim();
-  function relatedAcrossModules(selfView, name, codes) {
-    const codeSet = new Set((codes || []).map(String));
-    const selfName = xNorm(name);
-    const out = [];
-    for (const mod of getXmoduleIndex()) {
-      if (mod.view === selfView) continue;
-      for (const it of mod.items) {
-        const sharedN = it.codes.filter((c) => codeSet.has(c)).length;
-        const itName = xNorm(it.name);
-        const nameHit = selfName.length >= 3 && itName.length >= 3 && (selfName.includes(itName) || itName.includes(selfName));
-        // 名称命中，或至少两只共享票（避免「同一龙头」把无关题材串起来）
-        if (nameHit || sharedN >= 2) {
-          out.push({ view: mod.view, label: mod.label, name: it.name });
-          break;
-        }
-      }
-    }
-    return out;
-  }
-  function modulesForCode(code) {
-    const key = String(code || "");
-    if (!key) return [];
-    const out = [];
-    for (const mod of getXmoduleIndex()) {
-      for (const it of mod.items) {
-        if (it.codes.includes(key)) {
-          out.push({ view: mod.view, label: mod.label, name: it.name });
-          break;
-        }
-      }
-    }
-    return out;
-  }
-  function xlinkRowHtml(selfView, name, codes) {
-    const rel = relatedAcrossModules(selfView, name, codes);
-    if (!rel.length) return "";
-    const chips = rel.map((r) =>
-      `<button class="xlink" data-view="${esc(r.view)}" data-name="${esc(r.name)}"><span class="xl-mod">${esc(r.label)}</span>${esc(trunc(xNorm(r.name), 14))} ↗</button>`
-    ).join("");
-    return `<div class="xlink-row"><span class="xlink-lbl">关联模块</span>${chips}</div>`;
-  }
-  function codeModulesHtml(code) {
-    const rel = modulesForCode(code);
-    if (!rel.length) return "";
-    const chips = rel.map((r) =>
-      `<button class="xlink" data-view="${esc(r.view)}" data-name="${esc(r.name)}"><span class="xl-mod">${esc(r.label)}</span>${esc(trunc(xNorm(r.name), 14))} ↗</button>`
-    ).join("");
-    return `<div class="dsec"><h3>出现在分析模块</h3><div class="xlink-row">${chips}</div></div>`;
-  }
+  /* ---------- 跨条目定位：首页「今日最强」点击后跳到对应模块并高亮 ---------- */
   function jumpToModuleItem(view, name) {
     switchView(view);
     if (!name) return;
@@ -1957,11 +1886,6 @@
     };
     requestAnimationFrame(() => tryFocus(0));
   }
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest?.(".xlink");
-    if (!btn) return;
-    jumpToModuleItem(btn.dataset.view, btn.dataset.name);
-  });
 
   /* ---------- 3. 机会清单 ---------- */
   function renderOpportunities() {
@@ -2023,7 +1947,6 @@
           </div>
         </header>
         ${stocks ? `<div class="opp-stocks">${stocks}</div>` : ""}
-        ${xlinkRowHtml("opportunities", d.name, (d.stocks || []).map((s) => s.code))}
         <div class="opp-cols">
           ${blockHtml("机会挖掘", d.opportunity, "pick")}
           ${blockHtml("风险提示", d.risk, "risk")}
@@ -2184,7 +2107,6 @@
             <span class="lc-asof">${esc(c.asof || "")}</span>
           </div>
         </div>
-        ${xlinkRowHtml("logic", c.name, (c.segments || []).flatMap((s) => (s.stocks || []).map((x) => x.code)))}
         <div class="lc-overview">
           ${condHtml}
           <div class="lc-thesis">
@@ -2252,7 +2174,6 @@
             </div>
           </header>
           ${stocks ? `<div class="dir-stocks">${stocks}</div>` : ""}
-          ${xlinkRowHtml("industry", d.name, (d.stocks || []).map((s) => s.code))}
           <div class="dir-cols">
             ${blockHtml("涨价信号", d.price_signal, "pick")}
             ${blockHtml("风险 / 反向", d.risk, "risk")}
@@ -2336,7 +2257,6 @@
           </div>
         </header>
         ${stocks ? `<div class="dir-stocks">${stocks}</div>` : ""}
-        ${xlinkRowHtml("materials", d.name, (d.stocks || []).map((s) => s.code))}
         <div class="dir-cols">
           ${blockHtml("价格 / 涨幅", d.price, "pick")}
           ${blockHtml("风险 / 反向", d.risk, "risk")}
@@ -2394,7 +2314,6 @@
         ${h.mondayStrategy ? `<div class="we-sec we-action"><span class="sd-l">周一策略</span>${fieldHtml(h.mondayStrategy)}</div>` : ""}
         ${Array.isArray(h.impactSectors) && h.impactSectors.length ? `<div class="we-sectors">${h.impactSectors.map((s) => `<span class="we-sector">${esc(s)}</span>`).join("")}</div>` : ""}
         ${stocks ? `<div class="we-stocks">${stocks}</div>` : ""}
-        ${xlinkRowHtml("weekend", h.title, (h.impactStocks || []).map((s) => s.code))}
       </article>`;
     }).join("");
     // 周一盘面推演
@@ -2493,7 +2412,6 @@
         </header>
         ${sectorChips(e.sectors)}
         ${stocks ? `<div class="ev-stocks-row">${stocks}</div>` : ""}
-        ${xlinkRowHtml("events", e.title, (e.stocks || []).map((s) => s.code))}
         <div class="ev-cols">
           ${blockHtml("重要性原因", e.importance_reason, "why")}
           ${blockHtml("影响时效", e.timeliness, "time")}

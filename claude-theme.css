@@ -1445,8 +1445,7 @@ button.chip:hover,
 
 .opp-stocks,
 .ev-stocks-row,
-.dir-stocks,
-.xlink-row {
+.dir-stocks {
   display: flex;
   align-items: center;
   gap: 7px !important;
@@ -1459,7 +1458,6 @@ button.chip:hover,
 .dir-chip,
 .ind-stock,
 .we-stock,
-.xlink,
 .ann-stock-link {
   color: var(--ink-soft) !important;
   background: var(--paper-muted) !important;
@@ -1473,7 +1471,6 @@ button.chip:hover,
 .dir-chip:hover,
 .ind-stock:hover,
 .we-stock:hover,
-.xlink:hover,
 .ann-stock-link:hover {
   color: var(--ink) !important;
   background: #ebe8e0 !important;
@@ -1493,8 +1490,7 @@ button.chip:hover,
 .ev-chip-pos,
 .dir-chip-pos,
 .is-code,
-.is-role,
-.xl-mod {
+.is-role {
   color: var(--ink-faint) !important;
   font-size: 10px !important;
 }
@@ -2793,11 +2789,6 @@ td {
 
 .logic-only .lc-asof {
   white-space: nowrap;
-}
-
-.logic-only .xlink-row {
-  padding: 0 !important;
-  margin: -2px 0 0 !important;
 }
 
 .logic-only .lc-overview {

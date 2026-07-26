@@ -1429,11 +1429,5 @@ a.hc-news:hover { color: var(--accent-d); }
 .home-dd-strip .hdd-t { flex: 1; font-size: 13px; color: var(--muted); }
 .home-dd-strip .hdd-go { font-size: 12px; color: var(--bad); font-weight: 600; white-space: nowrap; }
 
-/* ============ 跨模块关联跳转 ============ */
-.xlink-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); margin-top: var(--s-2); }
-.xlink-lbl { font-size: 10px; color: var(--dim); }
-.xlink { font-size: 11px; color: var(--muted); border: 1px dashed var(--line); border-radius: var(--r-sm); padding: 2px 8px; background: transparent; cursor: pointer; }
-.xlink:hover { color: var(--accent); border-color: var(--accent); }
-.xlink .xl-mod { color: var(--accent); font-weight: 600; margin-right: 3px; }
 .flash-target { animation: flashTarget 1.6s ease-out 1; }
 @keyframes flashTarget { 0% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
