@@ -133,37 +133,37 @@ function computeSignal(k) {
   }
   const posPct = ma60 ? (close / ma60 - 1) * 100 : null; // 现价相对MA60
 
-  // ---- 左侧(逢低回踩带)：始终贴近现价，最多 -10% 深；有均线落在窗口内则对齐均线，否则用浅回撤带 ----
+  // ---- 左侧(逢低回踩带)：锚定历史支撑位（均线 + 近20/60日低，不含当日，
+  // 避免当日暴跌把自己的低点算成支撑）。现价下方无历史支撑 = 破位观望 ----
   const upTrend = ma20 && ma60 && close > ma20 && ma20 > ma60;
   const maxDepth = 0.10;                       // 逢低带下沿最多低于现价 10%
   const floorP = close * (1 - maxDepth);
-  // 落在 [floorP, 现价) 的均线作为近支撑候选（从高到低）
-  const nearMAs = [ma5, ma10, ma20, ma60].filter((m) => m && m < close * 0.995 && m >= floorP).sort((a, b) => b - a);
-  let supHi, supLo, anchor;
-  if (nearMAs.length) {
-    supHi = nearMAs[0];                        // 最近(最高)的均线
-    supLo = nearMAs.length > 1 ? nearMAs[nearMAs.length - 1] : Math.max(supHi * 0.97, floorP);
-    anchor = "均线";
-  } else if (ma20 && close < ma20) {
-    // 跌破 MA20：用 MA20 上沿（在现价上方时退化为浅带）
-    supHi = Math.min(ma20, close * 0.99);
-    supLo = floorP;
-    anchor = "跌破MA20";
+  const prevLow20 = loOf(k.slice(0, -1), 20);  // 历史低（不含当日）
+  const prevLow60 = loOf(k.slice(0, -1), 60);
+  // 现价下方（含贴近，0.2% 容差）的历史支撑候选，从高到低
+  const supCands = [ma5, ma10, ma20, ma60, prevLow20, prevLow60]
+    .filter((m) => m && m <= close * 1.002)
+    .sort((a, b) => b - a);
+  const nearestSup = supCands.length ? supCands[0] : null;
+  const broken = nearestSup == null;           // 跌穿全部历史支撑
+
+  let supHi, supLo;
+  if (nearestSup != null) {
+    supHi = nearestSup;                        // 最近的历史支撑
+    const inBand = supCands.filter((m) => m >= floorP);
+    supLo = inBand.length ? inBand[inBand.length - 1] : floorP; // 窗口内最深支撑
   } else {
-    // 急涨无近支撑：固定浅回撤带 -3% ~ -8%
+    // 破位：无可靠逢低区，仅给深度参考带
     supHi = close * 0.97;
-    supLo = close * 0.92;
-    anchor = "浅回撤";
+    supLo = floorP;
   }
-  supLo = Math.max(supLo, floorP);             // 下沿不超过 -10%
-  supHi = Math.min(supHi, close * 0.995);      // 上沿略低于现价
   if (supLo >= supHi) supLo = supHi * 0.96;    // 兜底
   const deepSupport = r2(ma60 ?? low60);       // 更深的强支撑（破位才考虑）
 
   const distToZone = ((close - supHi) / supHi) * 100; // 现价距逢低带上沿(>0 需回踩)
   let leftState;
-  if (close <= supHi * 1.015) leftState = "已回踩至逢低区 · 可分批左侧";
-  else if (close < supLo) leftState = "已跌破逢低区 · 转弱观望";
+  if (broken) leftState = "已跌破逢低区 · 转弱观望";
+  else if (close <= supHi * 1.015) leftState = "已回踩至逢低区 · 可分批左侧";
   else leftState = `回踩约 ${distToZone.toFixed(1)}% 入场（逢低区）`;
 
   // ---- 右侧(突破/动量)位 ----
@@ -302,9 +302,11 @@ async function main() {
       console.log("指数抓取失败，保留旧快照：" + e.message);
     }
 
+    // 合并写 meta：只更新行情程序负责的字段，保留复盘 Agent 维护的 marketRegime 等其余字段
     const newMeta =
-      "/* 全局元信息：signalDate/signalStat/marketSnapshot 由行情程序自动统计 */\n" +
+      "/* 全局元信息：signalDate/signalStat/marketSnapshot 由行情程序自动统计；marketRegime 等由复盘 Agent 维护 */\n" +
       "window.META = " + JSON.stringify({
+        ...m,
         lastUpdated: latestDate,
         signalDate: latestDate,
         signalStat: `多头 ${bull} / 空头 ${bear} · 左侧已到逢低区 ${leftReady} · 右侧突破或临近 ${rightReady}（共 ${STOCKS.length} 只，行情截至 ${latestDate}，刷新于 ${today}）`,

@@ -23,8 +23,8 @@ window.STOCKS = [
       "硅光自研降本"
     ],
     "left": {
-      "zone": "941.9–1036.0",
-      "trigger": "回踩 1036.0 缩量企稳；失守 941.9 转弱；强支撑 1118.4，止损 913.6",
+      "zone": "912.5–950.5",
+      "trigger": "回踩 950.5 缩量企稳；失守 912.5 转弱；强支撑 1118.4，止损 889.5",
       "logic": "产业景气与订单未证伪前，回调即是上车成本，趋势中枢支撑有效。"
     },
     "right": {
@@ -98,18 +98,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -6.43,
       "supportZone": [
-        941.86,
-        1036.04
+        912.53,
+        950.55
       ],
       "deepSupport": 1118.43,
-      "pullbackPct": 1.01,
+      "pullbackPct": 10.1,
       "breakout": 1416.88,
       "toBreakoutPct": 35.39,
-      "leftStop": 913.6,
+      "leftStop": 889.53,
       "leftTarget": 1416.88,
-      "leftRR": 5.68,
+      "leftRR": 10,
       "rightStop": 1360.2,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 10.1% 入场（逢低区）",
       "rightState": "远离突破 35.4% · 暂无右侧",
       "spark": [
         824,
@@ -266,8 +266,8 @@ window.STOCKS = [
       "泰国产能释放"
     ],
     "left": {
-      "zone": "428.4–471.3",
-      "trigger": "回踩 471.3 缩量企稳；失守 428.4 转弱；强支撑 500.4，止损 415.6",
+      "zone": "434.8–453.0",
+      "trigger": "回踩 453.0 缩量企稳；失守 434.8 转弱；强支撑 500.4，止损 421.8",
       "logic": "高盈利弹性的二线龙头，回调时性价比凸显。"
     },
     "right": {
@@ -339,18 +339,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -4.88,
       "supportZone": [
-        428.42,
-        471.26
+        434.84,
+        452.96
       ],
       "deepSupport": 500.44,
-      "pullbackPct": 1.01,
+      "pullbackPct": 5.09,
       "breakout": 618.87,
       "toBreakoutPct": 30.01,
-      "leftStop": 415.57,
+      "leftStop": 421.8,
       "leftTarget": 618.87,
-      "leftRR": 4.93,
+      "leftRR": 7.92,
       "rightStop": 594.12,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 5.1% 入场（逢低区）",
       "rightState": "远离突破 30.0% · 暂无右侧",
       "spark": [
         381.98,
@@ -507,8 +507,8 @@ window.STOCKS = [
       "客户份额提升"
     ],
     "left": {
-      "zone": "183.1–201.4",
-      "trigger": "回踩 201.4 缩量企稳；失守 183.1 转弱；强支撑 275.4，止损 177.6",
+      "zone": "180.6–188.1",
+      "trigger": "回踩 188.1 缩量企稳；失守 180.6 转弱；强支撑 275.4，止损 175.1",
       "logic": "上游平台壁垒高，回调承接确定性较强。"
     },
     "right": {
@@ -579,18 +579,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -26.15,
       "supportZone": [
-        183.07,
-        201.38
+        180.56,
+        188.08
       ],
       "deepSupport": 275.44,
-      "pullbackPct": 1.01,
+      "pullbackPct": 8.15,
       "breakout": 374.36,
       "toBreakoutPct": 84.04,
-      "leftStop": 177.58,
+      "leftStop": 175.14,
       "leftTarget": 374.36,
       "leftRR": 10,
       "rightStop": 359.39,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 8.2% 入场（逢低区）",
       "rightState": "远离突破 84.0% · 暂无右侧",
       "spark": [
         220.91,
@@ -746,8 +746,8 @@ window.STOCKS = [
       "国资订单"
     ],
     "left": {
-      "zone": "179.8–185.3",
-      "trigger": "回踩 185.3 缩量企稳；失守 179.8 转弱；强支撑 212.5，止损 174.4",
+      "zone": "177.9–185.3",
+      "trigger": "回踩 185.3 缩量企稳；失守 177.9 转弱；强支撑 212.5，止损 172.6",
       "logic": "国产替代主线，回调补涨属性。"
     },
     "right": {
@@ -818,14 +818,14 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -12.08,
       "supportZone": [
-        179.78,
+        177.92,
         185.34
       ],
       "deepSupport": 212.48,
       "pullbackPct": 0.79,
       "breakout": 279,
       "toBreakoutPct": 49.36,
-      "leftStop": 174.38,
+      "leftStop": 172.58,
       "leftTarget": 279,
       "leftRR": 10,
       "rightStop": 267.84,
@@ -986,8 +986,8 @@ window.STOCKS = [
       "良率爬坡"
     ],
     "left": {
-      "zone": "1251.0–1376.1",
-      "trigger": "回踩 1376.1 缩量企稳；失守 1251.0 转弱；强支撑 1414.6，止损 1213.5",
+      "zone": "1140.5–1188.0",
+      "trigger": "回踩 1188.0 缩量企稳；失守 1140.5 转弱；强支撑 1414.6，止损 1181.5",
       "logic": "稀缺上游，逻辑未破时回调即布局。"
     },
     "right": {
@@ -1058,18 +1058,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -1.74,
       "supportZone": [
-        1251,
-        1376.1
+        1140.48,
+        1188
       ],
       "deepSupport": 1414.6,
-      "pullbackPct": 1.01,
+      "pullbackPct": 17,
       "breakout": 1968.14,
       "toBreakoutPct": 41.59,
-      "leftStop": 1213.47,
+      "leftStop": 1181.5,
       "leftTarget": 1968.14,
-      "leftRR": 6.54,
+      "leftRR": null,
       "rightStop": 1889.41,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 17.0% 入场（逢低区）",
       "rightState": "远离突破 41.6% · 暂无右侧",
       "spark": [
         994.52,
@@ -1226,8 +1226,8 @@ window.STOCKS = [
       "出海"
     ],
     "left": {
-      "zone": "47.19–51.91",
-      "trigger": "回踩 51.91 缩量企稳；失守 47.19 转弱；强支撑 83.41，止损 45.77",
+      "zone": "48.86–50.90",
+      "trigger": "回踩 50.90 缩量企稳；失守 48.86 转弱；强支撑 83.41，止损 47.40",
       "logic": "低估值蓝筹，回调安全边际高。"
     },
     "right": {
@@ -1298,18 +1298,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -37.14,
       "supportZone": [
-        47.19,
-        51.91
+        48.86,
+        50.9
       ],
       "deepSupport": 83.41,
-      "pullbackPct": 1.01,
+      "pullbackPct": 3.01,
       "breakout": 124.89,
       "toBreakoutPct": 138.19,
-      "leftStop": 45.77,
+      "leftStop": 47.4,
       "leftTarget": 124.89,
       "leftRR": 10,
       "rightStop": 119.89,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 3.0% 入场（逢低区）",
       "rightState": "远离突破 138.2% · 暂无右侧",
       "spark": [
         68.14,
@@ -1466,8 +1466,8 @@ window.STOCKS = [
       "电网投资"
     ],
     "left": {
-      "zone": "28.25–31.08",
-      "trigger": "回踩 31.08 缩量企稳；失守 28.25 转弱；强支撑 45.22，止损 27.40",
+      "zone": "27.84–29.00",
+      "trigger": "回踩 29.00 缩量企稳；失守 27.84 转弱；强支撑 45.22，止损 27.00",
       "logic": "低估值多元龙头，回调承接。"
     },
     "right": {
@@ -1538,18 +1538,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -30.58,
       "supportZone": [
-        28.25,
-        31.08
+        27.84,
+        29
       ],
       "deepSupport": 45.22,
-      "pullbackPct": 1.01,
+      "pullbackPct": 8.24,
       "breakout": 67.67,
       "toBreakoutPct": 115.58,
-      "leftStop": 27.4,
+      "leftStop": 27,
       "leftTarget": 67.67,
       "leftRR": 10,
       "rightStop": 64.96,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 8.2% 入场（逢低区）",
       "rightState": "远离突破 115.6% · 暂无右侧",
       "spark": [
         34.78,
@@ -1705,8 +1705,8 @@ window.STOCKS = [
       "AIDC 互联"
     ],
     "left": {
-      "zone": "298.5–328.3",
-      "trigger": "回踩 328.3 缩量企稳；失守 298.5 转弱；强支撑 426.3，止损 289.5",
+      "zone": "298.5–321.7",
+      "trigger": "回踩 321.7 缩量企稳；失守 298.5 转弱；强支撑 426.3，止损 289.5",
       "logic": "一体化龙头，回调布局空芯期权。"
     },
     "right": {
@@ -1778,17 +1778,17 @@ window.STOCKS = [
       "posPct": -22.2,
       "supportZone": [
         298.49,
-        328.33
+        321.7
       ],
       "deepSupport": 426.28,
-      "pullbackPct": 1.01,
+      "pullbackPct": 3.09,
       "breakout": 600,
       "toBreakoutPct": 80.91,
       "leftStop": 289.53,
       "leftTarget": 600,
       "leftRR": 10,
       "rightStop": 576,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "已跌破逢低区 · 转弱观望",
       "rightState": "远离突破 80.9% · 暂无右侧",
       "spark": [
         373.49,
@@ -1945,8 +1945,8 @@ window.STOCKS = [
       "汽车线束"
     ],
     "left": {
-      "zone": "30.21–33.23",
-      "trigger": "回踩 33.23 缩量企稳；失守 30.21 转弱；强支撑 51.08，止损 29.31",
+      "zone": "31.16–32.46",
+      "trigger": "回踩 32.46 缩量企稳；失守 31.16 转弱；强支撑 51.08，止损 30.23",
       "logic": "题材弹性票，回调博弈超导主题。"
     },
     "right": {
@@ -2017,18 +2017,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -34.28,
       "supportZone": [
-        30.21,
-        33.23
+        31.16,
+        32.46
       ],
       "deepSupport": 51.08,
-      "pullbackPct": 1.01,
+      "pullbackPct": 3.42,
       "breakout": 73.97,
       "toBreakoutPct": 120.35,
-      "leftStop": 29.31,
+      "leftStop": 30.23,
       "leftTarget": 73.97,
       "leftRR": 10,
       "rightStop": 71.01,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 3.4% 入场（逢低区）",
       "rightState": "远离突破 120.3% · 暂无右侧",
       "spark": [
         44.84,
@@ -2185,8 +2185,8 @@ window.STOCKS = [
       "PLC/硅光"
     ],
     "left": {
-      "zone": "97.37–107.1",
-      "trigger": "回踩 107.1 缩量企稳；失守 97.37 转弱；强支撑 149.2，止损 94.45",
+      "zone": "91.46–95.27",
+      "trigger": "回踩 95.27 缩量企稳；失守 91.46 转弱；强支撑 149.2，止损 91.96",
       "logic": "多元龙头，光模块逻辑支撑回调承接。"
     },
     "right": {
@@ -2257,18 +2257,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -27.48,
       "supportZone": [
-        97.37,
-        107.11
+        91.46,
+        95.27
       ],
       "deepSupport": 149.18,
-      "pullbackPct": 1.01,
+      "pullbackPct": 13.56,
       "breakout": 187.66,
       "toBreakoutPct": 73.45,
-      "leftStop": 94.45,
+      "leftStop": 91.96,
       "leftTarget": 187.66,
       "leftRR": 10,
       "rightStop": 180.15,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 13.6% 入场（逢低区）",
       "rightState": "远离突破 73.5% · 暂无右侧",
       "spark": [
         115.4,
@@ -2397,7 +2397,7 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 64.02,
-      "pe_fwd": 46.0,
+      "pe_fwd": 46,
       "peg": 1.55,
       "pb": 9.51,
       "mcap_yi": 1087.29,
@@ -2425,8 +2425,8 @@ window.STOCKS = [
       "产能扩张"
     ],
     "left": {
-      "zone": "207.0–227.7",
-      "trigger": "回踩 227.7 缩量企稳；失守 207.0 转弱；强支撑 325.9，止损 200.8",
+      "zone": "197.8–206.0",
+      "trigger": "回踩 206.0 缩量企稳；失守 197.8 转弱；强支撑 325.9，止损 195.5",
       "logic": "业绩高增龙头，回调即布局。"
     },
     "right": {
@@ -2499,18 +2499,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -29.41,
       "supportZone": [
-        207.01,
-        227.71
+        197.76,
+        206
       ],
       "deepSupport": 325.86,
-      "pullbackPct": 1.01,
+      "pullbackPct": 11.66,
       "breakout": 402.6,
       "toBreakoutPct": 75.04,
-      "leftStop": 200.8,
+      "leftStop": 195.51,
       "leftTarget": 402.6,
       "leftRR": 10,
       "rightStop": 386.5,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 11.7% 入场（逢低区）",
       "rightState": "远离突破 75.0% · 暂无右侧",
       "spark": [
         313.06,
@@ -2667,8 +2667,8 @@ window.STOCKS = [
       "黄石产能"
     ],
     "left": {
-      "zone": "101.0–111.1",
-      "trigger": "回踩 111.1 缩量企稳；失守 101.0 转弱；强支撑 126.0，止损 97.97",
+      "zone": "100.0–104.2",
+      "trigger": "回踩 104.2 缩量企稳；失守 100.0 转弱；强支撑 126.0，止损 97.03",
       "logic": "稳健龙头，回调承接确定性高。"
     },
     "right": {
@@ -2739,18 +2739,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -10.95,
       "supportZone": [
-        101,
-        111.1
+        100.03,
+        104.2
       ],
       "deepSupport": 126.01,
-      "pullbackPct": 1.01,
+      "pullbackPct": 7.7,
       "breakout": 158.2,
       "toBreakoutPct": 40.97,
-      "leftStop": 97.97,
+      "leftStop": 97.03,
       "leftTarget": 158.2,
-      "leftRR": 6.46,
+      "leftRR": 10,
       "rightStop": 151.87,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 7.7% 入场（逢低区）",
       "rightState": "远离突破 41.0% · 暂无右侧",
       "spark": [
         101.39,
@@ -2883,7 +2883,7 @@ window.STOCKS = [
       "peg": 0.71,
       "pb": 13.64,
       "mcap_yi": 2157.78,
-      "eps_cur": 3.0,
+      "eps_cur": 3,
       "eps_next": 4.57,
       "analyst_count": 22,
       "asof": "2026-07-26"
@@ -2907,8 +2907,8 @@ window.STOCKS = [
       "折叠屏"
     ],
     "left": {
-      "zone": "79.55–87.51",
-      "trigger": "回踩 87.51 缩量企稳；失守 79.55 转弱；强支撑 97.88，止损 77.16",
+      "zone": "78.53–81.80",
+      "trigger": "回踩 81.80 缩量企稳；失守 78.53 转弱；强支撑 97.88，止损 76.17",
       "logic": "龙头估值低位，回调布局转型期权。"
     },
     "right": {
@@ -2979,18 +2979,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -9.7,
       "supportZone": [
-        79.55,
-        87.51
+        78.53,
+        81.8
       ],
       "deepSupport": 97.88,
-      "pullbackPct": 1.01,
+      "pullbackPct": 8.06,
       "breakout": 123.1,
       "toBreakoutPct": 39.27,
-      "leftStop": 77.16,
+      "leftStop": 76.17,
       "leftTarget": 123.1,
-      "leftRR": 6.21,
+      "leftRR": 10,
       "rightStop": 118.18,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 8.1% 入场（逢低区）",
       "rightState": "远离突破 39.3% · 暂无右侧",
       "spark": [
         73.95,
@@ -3147,8 +3147,8 @@ window.STOCKS = [
       "光模块/光通信"
     ],
     "left": {
-      "zone": "179.3–197.2",
-      "trigger": "回踩 197.2 缩量企稳；失守 179.3 转弱；强支撑 228.2，止损 173.9",
+      "zone": "188.1–196.0",
+      "trigger": "回踩 196.0 缩量企稳；失守 188.1 转弱；强支撑 228.2，止损 182.5",
       "logic": "多元龙头，回调布局算力弹性。"
     },
     "right": {
@@ -3220,18 +3220,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -12.71,
       "supportZone": [
-        179.26,
-        197.19
+        188.12,
+        195.96
       ],
       "deepSupport": 228.19,
-      "pullbackPct": 1.01,
+      "pullbackPct": 1.64,
       "breakout": 280.08,
       "toBreakoutPct": 40.62,
-      "leftStop": 173.88,
+      "leftStop": 182.48,
       "leftTarget": 280.08,
-      "leftRR": 6.4,
+      "leftRR": 9.21,
       "rightStop": 268.88,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 1.6% 入场（逢低区）",
       "rightState": "远离突破 40.6% · 暂无右侧",
       "spark": [
         183.9,
@@ -3388,8 +3388,8 @@ window.STOCKS = [
       "高端料占比提升"
     ],
     "left": {
-      "zone": "106.8–117.5",
-      "trigger": "回踩 117.5 缩量企稳；失守 106.8 转弱；强支撑 133.7，止损 103.6",
+      "zone": "112.8–117.5",
+      "trigger": "回踩 117.5 缩量企稳；失守 112.8 转弱；强支撑 133.7，止损 109.4",
       "logic": "上游材料龙头，回调承接确定性强。"
     },
     "right": {
@@ -3460,16 +3460,16 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -11.22,
       "supportZone": [
-        106.84,
-        117.52
+        112.8,
+        117.5
       ],
       "deepSupport": 133.72,
-      "pullbackPct": 1.01,
+      "pullbackPct": 1.03,
       "breakout": 191.88,
       "toBreakoutPct": 61.64,
-      "leftStop": 103.63,
+      "leftStop": 109.42,
       "leftTarget": 191.88,
-      "leftRR": 9.32,
+      "leftRR": 10,
       "rightStop": 184.2,
       "leftState": "已回踩至逢低区 · 可分批左侧",
       "rightState": "远离突破 61.6% · 暂无右侧",
@@ -3628,8 +3628,8 @@ window.STOCKS = [
       "光学膜"
     ],
     "left": {
-      "zone": "40.18–41.42",
-      "trigger": "回踩 41.42 缩量企稳；失守 40.18 转弱；强支撑 55.04，止损 38.97",
+      "zone": "39.76–41.42",
+      "trigger": "回踩 41.42 缩量企稳；失守 39.76 转弱；强支撑 55.04，止损 38.57",
       "logic": "上游材料弹性，回调布局国产替代。"
     },
     "right": {
@@ -3700,14 +3700,14 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -24.2,
       "supportZone": [
-        40.18,
+        39.76,
         41.42
       ],
       "deepSupport": 55.04,
       "pullbackPct": 0.72,
       "breakout": 80.46,
       "toBreakoutPct": 92.86,
-      "leftStop": 38.97,
+      "leftStop": 38.57,
       "leftTarget": 80.46,
       "leftRR": 10,
       "rightStop": 77.24,
@@ -3867,8 +3867,8 @@ window.STOCKS = [
       "智算中心"
     ],
     "left": {
-      "zone": "104.6–107.8",
-      "trigger": "回踩 107.8 缩量企稳；失守 104.6 转弱；强支撑 123.3，止损 101.4",
+      "zone": "103.5–107.8",
+      "trigger": "回踩 107.8 缩量企稳；失守 103.5 转弱；强支撑 123.3，止损 100.4",
       "logic": "题材弹性票，回调博弈算力运营。"
     },
     "right": {
@@ -3938,14 +3938,14 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -11.9,
       "supportZone": [
-        104.56,
+        103.48,
         107.79
       ],
       "deepSupport": 123.28,
       "pullbackPct": 0.76,
       "breakout": 171.67,
       "toBreakoutPct": 58.06,
-      "leftStop": 101.42,
+      "leftStop": 100.38,
       "leftTarget": 171.67,
       "leftRR": 10,
       "rightStop": 164.8,
@@ -4088,8 +4088,8 @@ window.STOCKS = [
       "Mini/Micro LED"
     ],
     "left": {
-      "zone": "71.89–79.08",
-      "trigger": "回踩 79.08 缩量企稳；失守 71.89 转弱；强支撑 112.5，止损 69.74",
+      "zone": "66.49–69.26",
+      "trigger": "回踩 69.26 缩量企稳；失守 66.49 转弱；强支撑 112.5，止损 67.90",
       "logic": "稀缺主题，回调博弈玻璃基板产业化。"
     },
     "right": {
@@ -4160,18 +4160,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -29.02,
       "supportZone": [
-        71.89,
-        79.08
+        66.49,
+        69.26
       ],
       "deepSupport": 112.54,
-      "pullbackPct": 1.01,
+      "pullbackPct": 15.33,
       "breakout": 188,
       "toBreakoutPct": 135.35,
-      "leftStop": 69.74,
+      "leftStop": 67.9,
       "leftTarget": 188,
-      "leftRR": 10,
+      "leftRR": null,
       "rightStop": 180.48,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 15.3% 入场（逢低区）",
       "rightState": "远离突破 135.4% · 暂无右侧",
       "spark": [
         63.4,
@@ -4321,8 +4321,8 @@ window.STOCKS = [
       "新品迭代"
     ],
     "left": {
-      "zone": "1102.5–1212.8",
-      "trigger": "回踩 1212.8 缩量企稳；失守 1102.5 转弱；强支撑 1319.4，止损 1069.4",
+      "zone": "1109.8–1156.0",
+      "trigger": "回踩 1156.0 缩量企稳；失守 1109.8 转弱；强支撑 1319.4，止损 1076.5",
       "logic": "国产算力主线，回调博弈订单兑现。"
     },
     "right": {
@@ -4396,18 +4396,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -7.16,
       "supportZone": [
-        1102.5,
-        1212.75
+        1109.76,
+        1156
       ],
       "deepSupport": 1319.42,
-      "pullbackPct": 1.01,
+      "pullbackPct": 5.97,
       "breakout": 1620,
       "toBreakoutPct": 32.24,
-      "leftStop": 1069.43,
+      "leftStop": 1076.47,
       "leftTarget": 1620,
-      "leftRR": 5.24,
+      "leftRR": 8.64,
       "rightStop": 1555.2,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 6.0% 入场（逢低区）",
       "rightState": "远离突破 32.2% · 暂无右侧",
       "spark": [
         921.73,
@@ -4564,8 +4564,8 @@ window.STOCKS = [
       "自研 DRAM"
     ],
     "left": {
-      "zone": "411.3–452.4",
-      "trigger": "回踩 452.4 缩量企稳；失守 411.3 转弱；强支撑 517.6，止损 399.0",
+      "zone": "439.1–457.4",
+      "trigger": "回踩 457.4 缩量企稳；失守 439.1 转弱；强支撑 517.6，止损 425.9",
       "logic": "存储周期上行，回调布局周期弹性。"
     },
     "right": {
@@ -4636,14 +4636,14 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -11.72,
       "supportZone": [
-        411.3,
-        452.43
+        439.06,
+        457.36
       ],
       "deepSupport": 517.65,
-      "pullbackPct": 1.01,
+      "pullbackPct": -0.08,
       "breakout": 846.66,
       "toBreakoutPct": 85.26,
-      "leftStop": 398.96,
+      "leftStop": 425.89,
       "leftTarget": 846.66,
       "leftRR": 10,
       "rightStop": 812.79,
@@ -5256,7 +5256,7 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 89.79,
-      "pe_fwd": 74.0,
+      "pe_fwd": 74,
       "peg": 3.07,
       "pb": 5.19,
       "mcap_yi": 1483.42,
@@ -5523,8 +5523,8 @@ window.STOCKS = [
       "12 寸放量"
     ],
     "left": {
-      "zone": "37.58–41.33",
-      "trigger": "回踩 41.33 缩量企稳；失守 37.58 转弱；强支撑 57.87，止损 36.45",
+      "zone": "35.39–36.86",
+      "trigger": "回踩 36.86 缩量企稳；失守 35.39 转弱；强支撑 57.87，止损 35.49",
       "logic": "国产替代 + 周期复苏，回调布局。"
     },
     "right": {
@@ -5595,18 +5595,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -27.86,
       "supportZone": [
-        37.58,
-        41.33
+        35.39,
+        36.86
       ],
       "deepSupport": 57.87,
-      "pullbackPct": 1.01,
+      "pullbackPct": 13.27,
       "breakout": 83.08,
       "toBreakoutPct": 98.99,
-      "leftStop": 36.45,
+      "leftStop": 35.49,
       "leftTarget": 83.08,
       "leftRR": 10,
       "rightStop": 79.75,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 13.3% 入场（逢低区）",
       "rightState": "远离突破 99.0% · 暂无右侧",
       "spark": [
         38.84,
@@ -5734,7 +5734,7 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": -595.0,
+      "pe_ttm": -595,
       "pe_fwd": 119.3,
       "peg": 1.1,
       "pb": 4.7,
@@ -5763,8 +5763,8 @@ window.STOCKS = [
       "自有品牌+收购"
     ],
     "left": {
-      "zone": "333.0–366.3",
-      "trigger": "回踩 366.3 缩量企稳；失守 333.0 转弱；强支撑 541.2，止损 323.0",
+      "zone": "325.1–338.7",
+      "trigger": "回踩 338.7 缩量企稳；失守 325.1 转弱；强支撑 541.2，止损 315.4",
       "logic": "存储周期弹性，回调布局上行周期。"
     },
     "right": {
@@ -5835,18 +5835,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -31.63,
       "supportZone": [
-        333.01,
-        366.31
+        325.11,
+        338.66
       ],
       "deepSupport": 541.19,
-      "pullbackPct": 1.01,
+      "pullbackPct": 9.26,
       "breakout": 749.88,
       "toBreakoutPct": 102.66,
-      "leftStop": 323.02,
+      "leftStop": 315.36,
       "leftTarget": 749.88,
       "leftRR": 10,
       "rightStop": 719.88,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 9.3% 入场（逢低区）",
       "rightState": "远离突破 102.7% · 暂无右侧",
       "spark": [
         381.26,
@@ -6003,8 +6003,8 @@ window.STOCKS = [
       "AI 存储"
     ],
     "left": {
-      "zone": "359.9–395.9",
-      "trigger": "回踩 395.9 缩量企稳；失守 359.9 转弱；强支撑 681.3，止损 349.1",
+      "zone": "359.9–387.9",
+      "trigger": "回踩 387.9 缩量企稳；失守 359.9 转弱；强支撑 681.3，止损 349.1",
       "logic": "高弹性存储票，回调博弈周期。"
     },
     "right": {
@@ -6076,17 +6076,17 @@ window.STOCKS = [
       "posPct": -41.3,
       "supportZone": [
         359.9,
-        395.89
+        387.89
       ],
       "deepSupport": 681.27,
-      "pullbackPct": 1.01,
+      "pullbackPct": 3.09,
       "breakout": 980,
       "toBreakoutPct": 145.07,
       "leftStop": 349.1,
       "leftTarget": 980,
       "leftRR": 10,
       "rightStop": 940.8,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "已跌破逢低区 · 转弱观望",
       "rightState": "远离突破 145.1% · 暂无右侧",
       "spark": [
         496.39,
@@ -6243,8 +6243,8 @@ window.STOCKS = [
       "固态电解质"
     ],
     "left": {
-      "zone": "90.76–99.83",
-      "trigger": "回踩 99.83 缩量企稳；失守 90.76 转弱；强支撑 121.6，止损 88.03",
+      "zone": "82.59–86.03",
+      "trigger": "回踩 86.03 缩量企稳；失守 82.59 转弱；强支撑 121.6，止损 85.71",
       "logic": "陶瓷平台龙头，回调承接确定性强。"
     },
     "right": {
@@ -6316,18 +6316,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -17.07,
       "supportZone": [
-        90.76,
-        99.83
+        82.59,
+        86.03
       ],
       "deepSupport": 121.6,
-      "pullbackPct": 1.01,
+      "pullbackPct": 17.21,
       "breakout": 180.35,
       "toBreakoutPct": 78.85,
-      "leftStop": 88.03,
+      "leftStop": 85.71,
       "leftTarget": 180.35,
-      "leftRR": 10,
+      "leftRR": null,
       "rightStop": 173.14,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 17.2% 入场（逢低区）",
       "rightState": "远离突破 78.8% · 暂无右侧",
       "spark": [
         81.26,
@@ -6484,8 +6484,8 @@ window.STOCKS = [
       "产能爬坡"
     ],
     "left": {
-      "zone": "36.20–39.82",
-      "trigger": "回踩 39.82 缩量企稳；失守 36.20 转弱；强支撑 51.36，止损 35.11",
+      "zone": "36.18–37.69",
+      "trigger": "回踩 37.69 缩量企稳；失守 36.18 转弱；强支撑 51.36，止损 35.10",
       "logic": "周期弹性龙头，回调布局上行。"
     },
     "right": {
@@ -6556,18 +6556,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -21.68,
       "supportZone": [
-        36.2,
-        39.82
+        36.18,
+        37.69
       ],
       "deepSupport": 51.36,
-      "pullbackPct": 1.01,
+      "pullbackPct": 6.71,
       "breakout": 83.86,
       "toBreakoutPct": 108.51,
-      "leftStop": 35.11,
+      "leftStop": 35.1,
       "leftTarget": 83.86,
       "leftRR": 10,
       "rightStop": 80.51,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 6.7% 入场（逢低区）",
       "rightState": "远离突破 108.5% · 暂无右侧",
       "spark": [
         24.4,
@@ -6724,8 +6724,8 @@ window.STOCKS = [
       "新材料"
     ],
     "left": {
-      "zone": "37.82–41.60",
-      "trigger": "回踩 41.60 缩量企稳；失守 37.82 转弱；强支撑 53.45，止损 36.68",
+      "zone": "36.77–38.30",
+      "trigger": "回踩 38.30 缩量企稳；失守 36.77 转弱；强支撑 53.45，止损 35.72",
       "logic": "军工复苏 + 材料成长，回调布局。"
     },
     "right": {
@@ -6796,18 +6796,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -21.38,
       "supportZone": [
-        37.82,
-        41.6
+        36.77,
+        38.3
       ],
       "deepSupport": 53.45,
-      "pullbackPct": 1.01,
+      "pullbackPct": 9.71,
       "breakout": 91.3,
       "toBreakoutPct": 117.28,
-      "leftStop": 36.68,
+      "leftStop": 35.72,
       "leftTarget": 91.3,
       "leftRR": 10,
       "rightStop": 87.65,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 9.7% 入场（逢低区）",
       "rightState": "远离突破 117.3% · 暂无右侧",
       "spark": [
         35.16,
@@ -6964,8 +6964,8 @@ window.STOCKS = [
       "新材料平台"
     ],
     "left": {
-      "zone": "51.49–56.64",
-      "trigger": "回踩 56.64 缩量企稳；失守 51.49 转弱；强支撑 63.14，止损 49.94",
+      "zone": "45.86–47.77",
+      "trigger": "回踩 47.77 缩量企稳；失守 45.86 转弱；强支撑 63.14，止损 48.63",
       "logic": "材料平台龙头，回调承接。"
     },
     "right": {
@@ -7036,18 +7036,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -9.39,
       "supportZone": [
-        51.49,
-        56.64
+        45.86,
+        47.77
       ],
       "deepSupport": 63.14,
-      "pullbackPct": 1.01,
+      "pullbackPct": 19.76,
       "breakout": 112.88,
       "toBreakoutPct": 97.31,
-      "leftStop": 49.94,
+      "leftStop": 48.63,
       "leftTarget": 112.88,
-      "leftRR": 10,
+      "leftRR": null,
       "rightStop": 108.36,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 19.8% 入场（逢低区）",
       "rightState": "远离突破 97.3% · 暂无右侧",
       "spark": [
         36.98,
@@ -7204,8 +7204,8 @@ window.STOCKS = [
       "汽车射频"
     ],
     "left": {
-      "zone": "56.31–61.94",
-      "trigger": "回踩 61.94 缩量企稳；失守 56.31 转弱；强支撑 98.49，止损 54.62",
+      "zone": "53.55–55.78",
+      "trigger": "回踩 55.78 缩量企稳；失守 53.55 转弱；强支撑 98.49，止损 53.18",
       "logic": "估值低位龙头，回调布局复苏。"
     },
     "right": {
@@ -7276,18 +7276,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -36.47,
       "supportZone": [
-        56.31,
-        61.94
+        53.55,
+        55.78
       ],
       "deepSupport": 98.49,
-      "pullbackPct": 1.01,
+      "pullbackPct": 12.17,
       "breakout": 129.44,
       "toBreakoutPct": 106.87,
-      "leftStop": 54.62,
+      "leftStop": 53.18,
       "leftTarget": 129.44,
       "leftRR": 10,
       "rightStop": 124.26,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 12.2% 入场（逢低区）",
       "rightState": "远离突破 106.9% · 暂无右侧",
       "spark": [
         87.45,
@@ -7444,8 +7444,8 @@ window.STOCKS = [
       "海外需求"
     ],
     "left": {
-      "zone": "241.5–249.0",
-      "trigger": "回踩 249.0 缩量企稳；失守 241.5 转弱；强支撑 281.3，止损 234.3",
+      "zone": "239.0–249.0",
+      "trigger": "回踩 249.0 缩量企稳；失守 239.0 转弱；强支撑 281.3，止损 231.9",
       "logic": "受益 PCB 扩产，回调布局设备需求。"
     },
     "right": {
@@ -7516,14 +7516,14 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -7.47,
       "supportZone": [
-        241.52,
+        239.03,
         248.99
       ],
       "deepSupport": 281.34,
       "pullbackPct": 4.56,
       "breakout": 395.36,
       "toBreakoutPct": 51.86,
-      "leftStop": 234.27,
+      "leftStop": 231.86,
       "leftTarget": 395.36,
       "leftRR": 10,
       "rightStop": 379.55,
@@ -7656,7 +7656,7 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 123.55,
-      "pe_fwd": 68.0,
+      "pe_fwd": 68,
       "peg": 1.25,
       "pb": 11.56,
       "mcap_yi": 1107.06,
@@ -7684,8 +7684,8 @@ window.STOCKS = [
       "大客户 capex"
     ],
     "left": {
-      "zone": "97.89–100.9",
-      "trigger": "回踩 100.9 缩量企稳；失守 97.89 转弱；强支撑 127.6，止损 94.96",
+      "zone": "96.88–100.9",
+      "trigger": "回踩 100.9 缩量企稳；失守 96.88 转弱；强支撑 127.6，止损 93.98",
       "logic": "设备龙头估值修复，回调布局复苏。"
     },
     "right": {
@@ -7756,14 +7756,14 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -20.26,
       "supportZone": [
-        97.89,
+        96.88,
         100.92
       ],
       "deepSupport": 127.62,
       "pullbackPct": 0.83,
       "breakout": 168.08,
       "toBreakoutPct": 65.17,
-      "leftStop": 94.96,
+      "leftStop": 93.98,
       "leftTarget": 168.08,
       "leftRR": 10,
       "rightStop": 161.36,
@@ -7924,8 +7924,8 @@ window.STOCKS = [
       "液冷整柜"
     ],
     "left": {
-      "zone": "54.23–59.65",
-      "trigger": "回踩 59.65 缩量企稳；失守 54.23 转弱；强支撑 68.73，止损 52.60",
+      "zone": "55.04–60.26",
+      "trigger": "回踩 60.26 缩量企稳；失守 55.04 转弱；强支撑 68.73，止损 53.39",
       "logic": "算力总装龙头，回调即布局。"
     },
     "right": {
@@ -7999,16 +7999,16 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -12.33,
       "supportZone": [
-        54.23,
-        59.65
+        55.04,
+        60.26
       ],
       "deepSupport": 68.73,
-      "pullbackPct": 1.01,
+      "pullbackPct": -0.02,
       "breakout": 84.95,
       "toBreakoutPct": 41,
-      "leftStop": 52.6,
+      "leftStop": 53.39,
       "leftTarget": 84.95,
-      "leftRR": 6.46,
+      "leftRR": 6.4,
       "rightStop": 81.55,
       "leftState": "已回踩至逢低区 · 可分批左侧",
       "rightState": "远离突破 41.0% · 暂无右侧",
@@ -8649,8 +8649,8 @@ window.STOCKS = [
       "平台多元"
     ],
     "left": {
-      "zone": "110.0–121.0",
-      "trigger": "回踩 121.0 缩量企稳；失守 110.0 转弱；强支撑 143.6，止损 106.7",
+      "zone": "117.1–122.0",
+      "trigger": "回踩 122.0 缩量企稳；失守 117.1 转弱；强支撑 143.6，止损 113.6",
       "logic": "平台型成长，回调布局算力电源。"
     },
     "right": {
@@ -8705,7 +8705,7 @@ window.STOCKS = [
     "signal": {
       "date": "2026-07-24",
       "price": 122.27,
-      "chgPct": -4.31,
+      "chgPct": -4.3,
       "ma5": 127.97,
       "ma10": 142.75,
       "ma20": 148.71,
@@ -8721,16 +8721,16 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -14.85,
       "supportZone": [
-        110.04,
-        121.05
+        117.09,
+        121.97
       ],
       "deepSupport": 143.6,
-      "pullbackPct": 1.01,
+      "pullbackPct": 0.24,
       "breakout": 189.94,
       "toBreakoutPct": 55.34,
-      "leftStop": 106.74,
+      "leftStop": 113.58,
       "leftTarget": 189.94,
-      "leftRR": 8.45,
+      "leftRR": 10,
       "rightStop": 182.34,
       "leftState": "已回踩至逢低区 · 可分批左侧",
       "rightState": "远离突破 55.3% · 暂无右侧",
@@ -8759,7 +8759,7 @@ window.STOCKS = [
         134.47,
         147.92,
         157.94,
-        154.08,
+        154.07,
         146.47,
         148.97,
         161.75,
@@ -8780,7 +8780,7 @@ window.STOCKS = [
         156.41,
         146.94,
         147.59,
-        151.56,
+        151.55,
         149.52,
         145.05,
         159.55,
@@ -8788,7 +8788,7 @@ window.STOCKS = [
         158.65,
         172.12,
         168.59,
-        151.74,
+        151.73,
         136.56,
         122.9,
         135.19,
@@ -8889,8 +8889,8 @@ window.STOCKS = [
       "电力信息化"
     ],
     "left": {
-      "zone": "32.72–36.00",
-      "trigger": "回踩 36.00 缩量企稳；失守 32.72 转弱；强支撑 49.74，止损 31.74",
+      "zone": "32.63–33.99",
+      "trigger": "回踩 33.99 缩量企稳；失守 32.63 转弱；强支撑 49.74，止损 31.65",
       "logic": "算力供电纯标的，回调博弈 HVDC 放量。"
     },
     "right": {
@@ -8961,18 +8961,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -26.9,
       "supportZone": [
-        32.72,
-        36
+        32.63,
+        33.99
       ],
       "deepSupport": 49.74,
-      "pullbackPct": 1.01,
+      "pullbackPct": 6.97,
       "breakout": 59.86,
       "toBreakoutPct": 64.63,
-      "leftStop": 31.74,
+      "leftStop": 31.65,
       "leftTarget": 59.86,
-      "leftRR": 9.73,
+      "leftRR": 10,
       "rightStop": 57.47,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 7.0% 入场（逢低区）",
       "rightState": "远离突破 64.6% · 暂无右侧",
       "spark": [
         39.92,
@@ -9101,7 +9101,7 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 156.4,
-      "pe_fwd": 79.0,
+      "pe_fwd": 79,
       "peg": 1.35,
       "pb": 8.38,
       "mcap_yi": 202.93,
@@ -9369,8 +9369,8 @@ window.STOCKS = [
       "新能源并网"
     ],
     "left": {
-      "zone": "37.55–41.30",
-      "trigger": "回踩 41.30 缩量企稳；失守 37.55 转弱；强支撑 65.46，止损 36.42",
+      "zone": "36.44–37.96",
+      "trigger": "回踩 37.96 缩量企稳；失守 36.44 转弱；强支撑 65.46，止损 35.46",
       "logic": "电网+储能双轮，回调布局。"
     },
     "right": {
@@ -9441,18 +9441,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -36.26,
       "supportZone": [
-        37.55,
-        41.3
+        36.44,
+        37.96
       ],
       "deepSupport": 65.46,
-      "pullbackPct": 1.01,
+      "pullbackPct": 9.91,
       "breakout": 88.09,
       "toBreakoutPct": 111.14,
-      "leftStop": 36.42,
+      "leftStop": 35.46,
       "leftTarget": 88.09,
       "leftRR": 10,
       "rightStop": 84.57,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 9.9% 入场（逢低区）",
       "rightState": "远离突破 111.1% · 暂无右侧",
       "spark": [
         51.75,
@@ -9609,8 +9609,8 @@ window.STOCKS = [
       "整柜液冷方案"
     ],
     "left": {
-      "zone": "52.83–58.11",
-      "trigger": "回踩 58.11 缩量企稳；失守 52.83 转弱；强支撑 72.69，止损 51.25",
+      "zone": "48.00–50.00",
+      "trigger": "回踩 50.00 缩量企稳；失守 48.00 转弱；强支撑 72.69，止损 49.90",
       "logic": "液冷主线龙头，回调即布局渗透红利。"
     },
     "right": {
@@ -9683,18 +9683,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -19.24,
       "supportZone": [
-        52.83,
-        58.11
+        48,
+        50
       ],
       "deepSupport": 72.69,
-      "pullbackPct": 1.01,
+      "pullbackPct": 17.4,
       "breakout": 89.69,
       "toBreakoutPct": 52.79,
-      "leftStop": 51.25,
+      "leftStop": 49.9,
       "leftTarget": 89.69,
-      "leftRR": 8.11,
+      "leftRR": null,
       "rightStop": 86.1,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 17.4% 入场（逢低区）",
       "rightState": "远离突破 52.8% · 暂无右侧",
       "spark": [
         71.29,
@@ -9851,8 +9851,8 @@ window.STOCKS = [
       "液冷数据中心"
     ],
     "left": {
-      "zone": "58.32–64.15",
-      "trigger": "回踩 64.15 缩量企稳；失守 58.32 转弱；强支撑 83.13，止损 56.57",
+      "zone": "59.17–61.64",
+      "trigger": "回踩 61.64 缩量企稳；失守 59.17 转弱；强支撑 83.13，止损 57.40",
       "logic": "IDC 龙头，回调博弈上架率与算力放量。"
     },
     "right": {
@@ -9924,18 +9924,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -22.05,
       "supportZone": [
-        58.32,
-        64.15
+        59.17,
+        61.64
       ],
       "deepSupport": 83.13,
-      "pullbackPct": 1.01,
+      "pullbackPct": 5.13,
       "breakout": 110.66,
       "toBreakoutPct": 70.76,
-      "leftStop": 56.57,
+      "leftStop": 57.4,
       "leftTarget": 110.66,
       "leftRR": 10,
       "rightStop": 106.23,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 5.1% 入场（逢低区）",
       "rightState": "远离突破 70.8% · 暂无右侧",
       "spark": [
         88.05,
@@ -10068,7 +10068,7 @@ window.STOCKS = [
       "peg": 1.2,
       "pb": 7.61,
       "mcap_yi": 1060.28,
-      "eps_cur": 2.0,
+      "eps_cur": 2,
       "eps_next": 2.54,
       "analyst_count": 13,
       "asof": "2026-07-26"
@@ -10092,8 +10092,8 @@ window.STOCKS = [
       "AI 应用"
     ],
     "left": {
-      "zone": "161.4–177.6",
-      "trigger": "回踩 177.6 缩量企稳；失守 161.4 转弱；强支撑 225.6，止损 156.6",
+      "zone": "158.4–165.0",
+      "trigger": "回踩 165.0 缩量企稳；失守 158.4 转弱；强支撑 225.6，止损 153.7",
       "logic": "题材弹性票，回调博弈智算订单。"
     },
     "right": {
@@ -10164,18 +10164,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -20.49,
       "supportZone": [
-        161.41,
-        177.55
+        158.4,
+        165
       ],
       "deepSupport": 225.55,
-      "pullbackPct": 1.01,
+      "pullbackPct": 8.69,
       "breakout": 339.38,
       "toBreakoutPct": 89.24,
-      "leftStop": 156.56,
+      "leftStop": 153.65,
       "leftTarget": 339.38,
       "leftRR": 10,
       "rightStop": 325.8,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 8.7% 入场（逢低区）",
       "rightState": "远离突破 89.2% · 暂无右侧",
       "spark": [
         239.81,
@@ -10332,8 +10332,8 @@ window.STOCKS = [
       "EPC 总包"
     ],
     "left": {
-      "zone": "14.66–16.13",
-      "trigger": "回踩 16.13 缩量企稳；失守 14.66 转弱；强支撑 17.73，止损 14.22",
+      "zone": "15.57–16.21",
+      "trigger": "回踩 16.21 缩量企稳；失守 15.57 转弱；强支撑 17.73，止损 15.10",
       "logic": "工程+封测双轮，低估值回调布局。"
     },
     "right": {
@@ -10404,14 +10404,14 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -8.14,
       "supportZone": [
-        14.66,
-        16.13
+        15.57,
+        16.21
       ],
       "deepSupport": 17.73,
-      "pullbackPct": 1.01,
+      "pullbackPct": 0.47,
       "breakout": 32.1,
       "toBreakoutPct": 97.05,
-      "leftStop": 14.22,
+      "leftStop": 15.1,
       "leftTarget": 32.1,
       "leftRR": 10,
       "rightStop": 30.82,
@@ -10544,7 +10544,7 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 74.18,
-      "pe_fwd": 74.0,
+      "pe_fwd": 74,
       "peg": 8.15,
       "pb": 3.96,
       "mcap_yi": 340.71,
@@ -10572,8 +10572,8 @@ window.STOCKS = [
       "高端装备"
     ],
     "left": {
-      "zone": "28.92–31.81",
-      "trigger": "回踩 31.81 缩量企稳；失守 28.92 转弱；强支撑 55.72，止损 28.05",
+      "zone": "27.26–28.40",
+      "trigger": "回踩 28.40 缩量企稳；失守 27.26 转弱；强支撑 55.72，止损 27.31",
       "logic": "高端材料平台，回调布局军工/高端制造。"
     },
     "right": {
@@ -10644,18 +10644,18 @@ window.STOCKS = [
       "trend": "空头排列",
       "posPct": -42.33,
       "supportZone": [
-        28.92,
-        31.81
+        27.26,
+        28.4
       ],
       "deepSupport": 55.72,
-      "pullbackPct": 1.01,
+      "pullbackPct": 13.13,
       "breakout": 78.68,
       "toBreakoutPct": 144.88,
-      "leftStop": 28.05,
+      "leftStop": 27.31,
       "leftTarget": 78.68,
       "leftRR": 10,
       "rightStop": 75.53,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 13.1% 入场（逢低区）",
       "rightState": "远离突破 144.9% · 暂无右侧",
       "spark": [
         56.46,
@@ -10812,8 +10812,8 @@ window.STOCKS = [
       "锰系"
     ],
     "left": {
-      "zone": "26.64–29.30",
-      "trigger": "回踩 29.30 缩量企稳；失守 26.64 转弱；强支撑 39.67，止损 25.84",
+      "zone": "25.56–26.63",
+      "trigger": "回踩 26.63 缩量企稳；失守 25.56 转弱；强支撑 39.67，止损 25.16",
       "logic": "化工+新材料题材，回调博弈材料延伸。"
     },
     "right": {
@@ -10884,18 +10884,18 @@ window.STOCKS = [
       "trend": "震荡",
       "posPct": -25.38,
       "supportZone": [
-        26.64,
-        29.3
+        25.56,
+        26.63
       ],
       "deepSupport": 39.67,
-      "pullbackPct": 1.01,
+      "pullbackPct": 11.15,
       "breakout": 66.39,
       "toBreakoutPct": 124.29,
-      "leftStop": 25.84,
+      "leftStop": 25.16,
       "leftTarget": 66.39,
       "leftRR": 10,
       "rightStop": 63.73,
-      "leftState": "已回踩至逢低区 · 可分批左侧",
+      "leftState": "回踩约 11.2% 入场（逢低区）",
       "rightState": "远离突破 124.3% · 暂无右侧",
       "spark": [
         21.1,
