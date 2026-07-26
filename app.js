@@ -473,9 +473,39 @@
     requestAnimationFrame(() => $("#dclose")?.focus());
   }
 
+  // 抽屉公共头部(两套渲染共用,保留 id=drawerTitle / id=dclose 供 showDrawer 绑定)
+  const drawerHeadHtml = (name, code, sub, badgeHtml = "") => `
+      <div class="dh">
+        <div>
+          <div class="dname" id="drawerTitle">${esc(name)} ${badgeHtml}</div>
+          <div class="dcode">${esc(code)} · ${esc(sub)}</div>
+        </div>
+        <button class="dclose" id="dclose" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>`;
+
+  // 统一入口:自选股走叙事版,非自选走轻量版,都找不到给提示
   function openDrawer(code) {
     const s = STOCKS.find((x) => x.code === code);
-    if (!s) return;
+    if (s) return renderWatchDrawer(s);
+    const m = findMarketStock(code);
+    if (m) return renderMarketDrawer(m);
+    portfolioToast(`暂未找到股票 ${code} 的详情数据`, "error");
+  }
+
+  // 从 MARKET 各池里找这只票(含龙虎榜 + 全局引用索引)
+  function findMarketStock(code) {
+    const pools = ["topGainers","topLosers","topTurnover","topInflow","topOutflow",
+                   "limitUp","limitDown","brokeUp","hotRank"];
+    for (const p of pools) {
+      const found = (MARKET[p] || []).find((x) => x.code === code);
+      if (found) return found;
+    }
+    const dt = ((MARKET.dragonTiger && MARKET.dragonTiger.stocks) || []).find((x) => x.code === code);
+    if (dt) return dt;
+    return getStockReferenceIndex().get(String(code)) || null;
+  }
+
+  function renderWatchDrawer(s) {
     const r = s.review || {};
     const hist = (s.history || []);
     const g = s.signal || {};
@@ -516,13 +546,7 @@
         </div>` : ""}
       </div>` : "";
     $("#drawerInner").innerHTML = `
-      <div class="dh">
-        <div>
-          <div class="dname" id="drawerTitle">${esc(s.name)} <span class="verdict-badge ${esc(r.verdict)}">${esc(r.verdict || "—")}</span></div>
-          <div class="dcode">${esc(s.code)} · ${esc(s.sector)}</div>
-        </div>
-        <button class="dclose" id="dclose" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-      </div>
+      ${drawerHeadHtml(s.name, s.code, s.sector, `<span class="verdict-badge ${esc(r.verdict)}">${esc(r.verdict || "—")}</span>`)}
 
       ${sigBlock}
 
@@ -741,46 +765,24 @@
       ? shown.map((m) => marketCard(m, def)).join("")
       : `<div class="empty">该异动类型暂无数据(非交易日或盘后未更新)。</div>`;
     el.querySelectorAll(".market-card").forEach((c) => {
-      c.addEventListener("click", () => openMarketDrawer(c.dataset.code));
+      c.addEventListener("click", () => openDrawer(c.dataset.code));
       c.addEventListener("keydown", (e) => {
         if (e.target !== c || !["Enter", " "].includes(e.key)) return;
         e.preventDefault();
-        openMarketDrawer(c.dataset.code);
+        openDrawer(c.dataset.code);
       });
     });
     const count = $("#count");
     if (count) count.textContent = `${def.title} · 显示 ${shown.length} / ${list.length} 只`;
   }
 
-  // 异动票详情抽屉(降级版:若在 STOCKS 里则用完整叙事抽屉,否则只显示行情)
-  function openMarketDrawer(code) {
-    const inWatch = STOCKS.find((x) => x.code === code);
-    if (inWatch) { openDrawer(code); return; }
-    // 从 MARKET 各池里找这只票（含龙虎榜）
-    const pools = ["topGainers","topLosers","topTurnover","topInflow","topOutflow",
-                   "limitUp","limitDown","brokeUp","hotRank"];
-    let m = null;
-    for (const p of pools) {
-      const found = (MARKET[p] || []).find((x) => x.code === code);
-      if (found) { m = found; break; }
-    }
-    if (!m) m = ((MARKET.dragonTiger && MARKET.dragonTiger.stocks) || []).find((x) => x.code === code) || null;
-    if (!m) m = getStockReferenceIndex().get(String(code));
-    if (!m) {
-      portfolioToast(`暂未找到股票 ${code} 的详情数据`, "error");
-      return;
-    }
+  // 非自选票详情抽屉(轻量版:行情 + 关联信息 + 说明;自选股由 openDrawer 路由转 renderWatchDrawer)
+  function renderMarketDrawer(m) {
     const chg = m.chgPct ?? m.pct;
     const industry = typeof m.industry === "string" ? m.industry : (m.industry || []).join("/");
     const netflow = m.netInflow != null ? m.netInflow / 1e8 : null;
     $("#drawerInner").innerHTML = `
-      <div class="dh">
-        <div>
-          <div class="dname" id="drawerTitle">${esc(m.name)} <span class="mc-hl up">${m.lbc ? m.lbc + "连板" : ""}</span></div>
-          <div class="dcode">${esc(m.code)} · ${esc(industry || (m._sources || []).join(" / ") || "分析模块关联标的")}</div>
-        </div>
-        <button class="dclose" id="dclose" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-      </div>
+      ${drawerHeadHtml(m.name, m.code, industry || (m._sources || []).join(" / ") || "分析模块关联标的", m.lbc ? `<span class="mc-hl up">${m.lbc}连板</span>` : "")}
       ${(m.price != null || chg != null || m.turnover != null || netflow != null) ? `<div class="dsec">
         <h3>实时行情 <span class="src-note">东财 · ${esc(MARKET.date || "")}</span></h3>
         <div class="sig-top">
@@ -1340,7 +1342,7 @@
     if (item.code) {
       setTimeout(() => {
         if (item.type === "自选股" || item.type === "个股新闻") openDrawer(item.code);
-        else openMarketDrawer(item.code);
+        else openDrawer(item.code);
       }, 80);
     }
     closeSearchPanel();
@@ -1966,7 +1968,7 @@
 
     el.innerHTML = secTitle("机会清单", `${OPP.directions.length} 个方向 · ${esc(OPP.date || "")}`) +
       `<div class="opp-board">${cards}</div>`;
-    el.querySelectorAll(".opp-chip").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+    el.querySelectorAll(".opp-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
 
   /* ---------- 4. 逻辑链 ---------- */
@@ -2124,7 +2126,7 @@
 
     el.innerHTML = secTitle("逻辑链", `产业链上下游拆解 · 按成立强度排序 · ${esc(LOGIC.date || "")}`) +
       `<div class="sd-grid-cards lc-board">${cards}</div>`;
-    el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+    el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
 
   /* ---------- 6. 产业雷达 ---------- */
@@ -2187,7 +2189,7 @@
 
       el.innerHTML = secTitle("产业雷达", `${INDUSTRY.directions.length} 个方向 · ${esc(INDUSTRY.date || "")}`) +
         `<div class="dir-board">${cards}</div>${ranking}${rankingBottom}`;
-      el.querySelectorAll(".dir-chip").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+      el.querySelectorAll(".dir-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
       return;
     }
     const sourceNote = INDUSTRY_MARKET?.source === "market-snapshot-fallback" ? ` · 异动样本 ${INDUSTRY_MARKET.coverage || 0} 只（非全市场）` : "";
@@ -2248,7 +2250,7 @@
 
     el.innerHTML = secTitle("材料涨价", `${MAT.directions.length} 个方向 · ${esc(MAT.date || "")}`) +
       `<div class="dir-board">${cards}</div>`;
-    el.querySelectorAll(".dir-chip").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+    el.querySelectorAll(".dir-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
 
   /* ---------- 7b. 周末发酵 ---------- */
@@ -2313,7 +2315,7 @@
       scenarioHtml + noiseHtml +
       `<div class="home-foot">由 Hermes Agent 每周日下午 21:00 自动搜集周末热点并解读 · 仅供研究参考，非投资建议</div>`;
     // 个股点击
-    el.querySelectorAll(".we-stock[data-code]").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+    el.querySelectorAll(".we-stock[data-code]").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
 
   /* ---------- 7. 事件概率 ---------- */
@@ -2385,7 +2387,7 @@
 
     el.innerHTML = secTitle("事件概率", `${EVENTS.events.length} 件 · ${esc(EVENTS.date || "")}`) +
       `<div class="ev-board">${cards}</div>`;
-    el.querySelectorAll(".ev-chip").forEach((b) => b.addEventListener("click", () => openMarketDrawer(b.dataset.code)));
+    el.querySelectorAll(".ev-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
 
   /* ---------- 8. 新闻 ---------- */
@@ -2417,7 +2419,7 @@
         <section class="card blk"><h3 class="blk-h">近期公告</h3><div class="newsfeed">${annHtml || emptyState("无公告")}</div></section>
       </div>`;
     el.querySelectorAll(".ann-stock-link[data-code]").forEach((button) =>
-      button.addEventListener("click", () => openMarketDrawer(button.dataset.code))
+      button.addEventListener("click", () => openDrawer(button.dataset.code))
     );
   }
 
