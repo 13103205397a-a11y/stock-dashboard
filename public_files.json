@@ -3,6 +3,8 @@
   "required": [
     "index.html",
     "app.js",
+    "app_holdings.js",
+    "app_ai_modules.js",
     "styles.css",
     "design-system.css",
     "claude-theme.css",
