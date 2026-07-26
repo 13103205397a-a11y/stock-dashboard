@@ -135,7 +135,7 @@ def main():
     raw_dir.mkdir(parents=True, exist_ok=True)
 
     codes = args.codes if args.codes else load_codes()
-    print(f"自选股 {len(codes)} 只,开始抓取(TickFlow 免费档,前复权日K 330根,节流 {THROTTLE_SEC}s/只)...")
+    print(f"自选股 {len(codes)} 只,开始批量抓取(TickFlow 免费档,前复权日K 330根,batch并发)...")
 
     tf = TickFlow.free()
 
@@ -150,33 +150,43 @@ def main():
         if removed:
             print(f"清理 {removed} 个已删股票的旧K线缓存")
 
+    syms = [tf_symbol(c) for c in codes]
+
+    # 一次性批量抓取(免费档 batch 内部并发,47只实测3.7s且不触发 60次/分钟 限流)
+    dfs = None
+    err = None
+    for attempt in range(MAX_ATTEMPTS):  # 整体限流自动重试,最多 MAX_ATTEMPTS 次
+        try:
+            dfs = tf.klines.batch(syms, period="1d", count=330, adjust="forward",
+                                  as_dataframe=True, show_progress=True, max_workers=5)
+            err = None
+            break
+        except RateLimitError as e:
+            err = e
+            if attempt < MAX_ATTEMPTS - 1:
+                print(f"  ⏳ batch 限流,等 {RATELIMIT_WAIT_SEC}s 重试({attempt + 2}/{MAX_ATTEMPTS})...", file=sys.stderr)
+                time.sleep(RATELIMIT_WAIT_SEC)
+            else:
+                break
+        except Exception as e:
+            err = e
+            break
+    if err is not None:
+        print(f"  ✗ 批量抓取失败: {type(err).__name__}: {err},保留所有旧缓存", file=sys.stderr)
+        print(f"K线抓取完成:0/{len(codes)} 只成功")
+        print("✗ 失败:批量请求异常(" + type(err).__name__ + ")", file=sys.stderr)
+        sys.exit(1)
+
     ok = 0
     fail = []
     for code in codes:
         sym = tf_symbol(code)
-        rows = None
-        err = None
-        for attempt in range(MAX_ATTEMPTS):  # 限流自动重试,最多 MAX_ATTEMPTS 次
-            try:
-                df = tf.klines.get(sym, period="1d", count=330, adjust="forward", as_dataframe=True)
-                rows = df_to_qfqday(df)
-                err = None
-                break
-            except RateLimitError as e:
-                err = e
-                if attempt < MAX_ATTEMPTS - 1:
-                    print(f"  ⏳ {code} 限流,等 {RATELIMIT_WAIT_SEC}s 重试({attempt + 2}/{MAX_ATTEMPTS})...", file=sys.stderr)
-                    time.sleep(RATELIMIT_WAIT_SEC)
-                else:
-                    break
-            except Exception as e:
-                err = e
-                break
-        if err is not None:
-            fail.append(f"{code}({type(err).__name__})")
-            print(f"  ✗ {code} 抓取失败: {type(err).__name__}: {err},保留旧缓存")
-            time.sleep(THROTTLE_SEC)
+        df = dfs.get(sym)
+        if df is None or len(df) == 0:
+            fail.append(f"{code}(无数据)")
+            print(f"  ✗ {code} 抓取失败:无数据,保留旧缓存")
             continue
+        rows = df_to_qfqday(df)
         valid, clean, reason = validate(rows)
         if not valid:
             fail.append(f"{code}({reason})")
@@ -185,7 +195,6 @@ def main():
             write_raw(raw_dir, code, clean)
             ok += 1
             print(f"  ✓ {code} {len(clean)}根 末:{clean[-1][0]} 收:{clean[-1][2]}")
-        time.sleep(THROTTLE_SEC)  # 节流,避免触发免费档 60次/分钟 限流
 
     print(f"K线抓取完成:{ok}/{len(codes)} 只成功")
     if fail:
