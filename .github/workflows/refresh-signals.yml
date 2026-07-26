@@ -40,10 +40,10 @@ jobs:
           python-version: "3.11"
 
       - name: 安装 Python 依赖
-        run: pip install --quiet requests numpy pandas mootdx lxml
+        run: pip install --quiet requests numpy pandas mootdx lxml tickflow
 
-      - name: 抓取日K(腾讯前复权)
-        run: bash scripts/fetch_klines.sh
+      - name: 抓取日K(TickFlow免费档)
+        run: python3 scripts/fetch_klines_tf.py
 
       - name: 重算技术信号 -> 写回 data.js / meta.js
         run: node scripts/fetch_signals.js

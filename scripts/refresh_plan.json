@@ -3,8 +3,8 @@
   "description": "本地全量刷新计划。app_server.py、Mac App 和命令行统一读取此文件。",
   "steps": [
     {
-      "name": "抓日K(腾讯)",
-      "command": ["bash", "scripts/fetch_klines.sh"],
+      "name": "抓日K(TickFlow免费档)",
+      "command": ["python3", "scripts/fetch_klines_tf.py"],
       "timeout": 300,
       "required": true
     },
