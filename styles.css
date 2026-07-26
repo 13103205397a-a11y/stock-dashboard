@@ -366,15 +366,14 @@ body { padding-top: var(--titlebar-h); }
 .menu-toggle svg { width: 20px; height: 20px; }
 .sidebar-backdrop { display: none; }
 
-/* ============ 视图显隐(11模块) ============ */
+/* ============ 视图显隐(12模块) ============ */
 .view { display: none; }
 body.view-home .home-only,
 body.view-holdings .holdings-only,
 body.view-opportunities .opportunities-only,
 body.view-logic .logic-only,
 body.view-agent .agent-only,
-body.view-industry .industry-only,
-body.view-materials .materials-only,
+body.view-chain .chain-only,
 body.view-weekend .weekend-only,
 body.view-events .events-only,
 body.view-news .news-only,
