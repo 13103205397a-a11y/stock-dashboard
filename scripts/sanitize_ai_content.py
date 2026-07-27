@@ -19,9 +19,10 @@ REPLACEMENTS = [
     (re.compile(r"confidence\s*=\s*", re.I), "置信度"),
     (re.compile(r"break\s*=\s*(\d+)\s*次?", re.I), r"开板\1次"),
     (re.compile(r"rank_chg", re.I), "排名变化"),
-    # 正文里嵌着的内部工具名,换成用户能懂的说法(纯过程语整行由下面的报告级清洗删除;
-    # scripts/xxx.py 路径出处合法保留:要求 .py 前不是字母/下划线/斜杠,只替换独立的工具名)
-    (re.compile(r"(?<![\w/])[\w.-]+\.py"), "数据接口"),
+    # 正文里嵌着的内部工具名,换成用户能懂的说法(纯过程语整行由下面的报告级清洗删除)。
+    # e2e 门禁对任何 .py 字样一律判失败,故不保留 scripts/xxx.py 路径出处,全部替换。
+    (re.compile(r"(?<!\w)[\w.-]+\.py"), "数据接口"),
+    (re.compile(r"web_search", re.I), "网页搜索"),
     (re.compile(r"tenacity\s*库?版本冲突", re.I), "组件版本冲突"),
 ]
 
@@ -31,12 +32,12 @@ REPORT_START = re.compile(r"^(#{1,3}\s|[-*]*\s*数据完整度|\|)", re.M)
 # 过程语特征:工具文件名、搜索工具名、生成流程自述
 PROCESS_HINT = re.compile(
     r"\.py\b|web_search|让我重试|我将使用|现在综合|数据已全部?到位|撰写报告|"
-    r"我(?:已经)?获取了所有|现在让我来|让我来(?:汇总|撰写)|成功了|不可用|解析 market\.js",
+    r"我(?:已经)?获取了|现在让我来|让我来(?:汇总|撰写|整理|综合|分析)|成功了|不可用|解析 market\.js",
     re.I,
 )
 PROCESS_LINE = re.compile(
     r"^\s*(?:[\w.-]+\.py\b|web_search\b|数据已全部?到位|现在综合|让我重试|我将使用|"
-    r"我(?:已经)?获取了所有|现在让我来|让我来(?:汇总|撰写))",
+    r"我(?:已经)?获取了|现在让我来|让我来(?:汇总|撰写|整理|综合|分析))",
     re.I,
 )
 MIN_REPORT_CHARS = 80

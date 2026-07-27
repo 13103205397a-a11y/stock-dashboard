@@ -1,5 +1,5 @@
 /* Hermes Agent 周末发酵（本机自动导出，非 GitHub Actions）
-   导出于 2026-07-26 21:08，由 scripts/fetch_weekend.py 从 Hermes sessions 提取。
+   导出于 2026-07-26 21:08，由 scripts/数据接口 从 Hermes sessions 提取。
    仅供研究参考，非投资建议。 */
 window.WEEKEND = {
   "weekendDate": "2026-07-26",
