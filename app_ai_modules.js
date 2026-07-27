@@ -432,6 +432,44 @@
     );
   }
 
+  /* ---------- 8b. X 简报（每 2 小时推送，早上看隔夜完整流水） ---------- */
+  function renderXBriefs() {
+    const el = $("#viewXbrief");
+    if (!el) return;
+    const XB = window.XBRIEFS || null;
+    const list = (XB && Array.isArray(XB.briefs)) ? XB.briefs.filter((b) => cleanDisplayText(b.content || "").trim().length >= 40) : [];
+    if (!list.length) {
+      el.innerHTML = secTitle("X 简报", "AI + 股市 · 每 2 小时筛选推送") +
+        emptyState("暂无简报。定时任务搜完会自动写入，早上打开本页即可看到一整晚的内容。");
+      return;
+    }
+    const overnightHint = `<p class="xb-hint">中国早晨 ≈ 美国交易时段刚过完。下面按时间倒序，最新在最上；往下翻就是整晚流水。</p>`;
+    const tabs = list.map((b, i) => {
+      const t = String(b.time || "").slice(5, 16);
+      const focus = b.hasFocusStock ? " · 重点票" : "";
+      return `<button class="rep-tab ${i === 0 ? "active" : ""}" data-i="${i}">${esc(t || "—")}<span class="rep-time">AI${b.aiCount || 0}/市${b.marketCount || 0}${esc(focus)}</span></button>`;
+    }).join("");
+    const bodies = list.map((b, i) => {
+      const head = `${b.title || "X资讯简报"} · ${b.time || ""}${b.period ? " · " + b.period : ""}`;
+      return `<div class="rep-body ${i === 0 ? "active" : ""}" data-i="${i}">
+        <div class="rep-head"><h2>${esc(head)}</h2><span class="rep-updated">X 筛选 · ${esc(b.time || "")}</span></div>
+        <div class="rep-md">${md2html(b.content || "")}</div>
+      </div>`;
+    }).join("");
+    el.innerHTML = secTitle("X 简报", `${list.length} 期 · 更新 ${esc(XB.updated || XB.generatedAt || "")}`) +
+      overnightHint +
+      `<div class="rep-tabs">${tabs}</div>
+      <div class="rep-bodies">${bodies}</div>
+      <div class="rep-foot">来源：X 公开讨论，经垃圾筛选后推送（scripts/push_xbrief.py）。保留最近约 4 天。仅供研究参考，非投资建议。</div>`;
+    el.querySelectorAll(".rep-tab").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const i = btn.dataset.i;
+        el.querySelectorAll(".rep-tab").forEach((t) => t.classList.toggle("active", t.dataset.i === i));
+        el.querySelectorAll(".rep-body").forEach((d) => d.classList.toggle("active", d.dataset.i === i));
+      })
+    );
+  }
+
 
 
   // 极简 markdown → HTML（标题/表格/加粗/列表/分隔线）。不引外部库，够用。
@@ -543,6 +581,7 @@
   App.renderWeekend = renderWeekend;
   App.renderEvents = renderEvents;
   App.renderNewsAll = renderNewsAll;
+  App.renderXBriefs = renderXBriefs;
   App.renderReports = renderReports;
   if (window.App.start) window.App.start();
 })(window.App);

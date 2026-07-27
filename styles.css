@@ -377,10 +377,22 @@ body.view-chain .chain-only,
 body.view-weekend .weekend-only,
 body.view-events .events-only,
 body.view-news .news-only,
+body.view-xbrief .xbrief-only,
 body.view-watch .watch-only,
 body.view-market .market-only,
 body.view-hot .hot-only { display: block; }
 .hot-date { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--dim); }
+.xb-hint {
+  margin: 0 0 var(--s-3);
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent, #1768ac);
+  border-radius: var(--r-sm);
+  background: var(--card);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
 
 /* ============ 市场速览条 ============ */
 .market-bar {

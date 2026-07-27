@@ -74,6 +74,10 @@
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h13v16H6a2 2 0 01-2-2V4z"/><path d="M17 8h3v8a2 2 0 01-2 2M8 8h5M8 12h5M8 16h3"/></svg>
             <span>新闻</span>
           </button>
+          <button class="nav-item" data-view="xbrief">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/><circle cx="17" cy="16" r="3"/><path d="M17 15v2l1.2.8"/></svg>
+            <span>X 简报</span>
+          </button>
           <button class="nav-item" data-view="events">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l4-4 4 4 4-8 4 8"/><circle cx="3" cy="17" r="1"/><circle cx="7" cy="13" r="1"/><circle cx="11" cy="17" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="19" cy="17" r="1"/></svg>
             <span>事件概率</span>
@@ -161,6 +165,9 @@
 
         <!-- 新闻 -->
         <section class="view news-only" id="viewNews"></section>
+
+        <!-- X 简报（AI + 股市，每 2 小时推送） -->
+        <section class="view xbrief-only" id="viewXbrief"></section>
 
         <!-- 巨头核心(原 watch) -->
         <section class="view watch-only">
@@ -299,9 +306,10 @@
   <script src="events.js?v=5" onerror="window.EVENTS=null" defer></script>
   <script src="opportunities.js?v=5" onerror="window.OPPORTUNITIES=null" defer></script>
   <script src="newsall.js?v=5" onerror="window.NEWSALL=null" defer></script>
+  <script src="xbriefs.js?v=1" onerror="window.XBRIEFS=null" defer></script>
   <script src="reports.js?v=5" onerror="window.REPORTS=null" defer></script>
-  <script src="app.js?v=13" defer></script>
+  <script src="app.js?v=14" defer></script>
   <script src="app_holdings.js?v=1" defer></script>
-  <script src="app_ai_modules.js?v=1" defer></script>
+  <script src="app_ai_modules.js?v=2" defer></script>
 </body>
 </html>
