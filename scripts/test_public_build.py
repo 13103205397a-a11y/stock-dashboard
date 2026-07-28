@@ -13,11 +13,16 @@ class PublicBuildTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp) / "site"
             copied = build_site.build_site(output)
-            self.assertEqual(copied, manifest["required"])
+            report_html = sorted(f"reports/{f.name}" for f in (build_site.ROOT / "reports").glob("*.html"))
+            self.assertEqual(copied, manifest["required"] + report_html)
             self.assertTrue((output / "index.html").is_file())
             self.assertTrue((output / "design-system.css").is_file())
             self.assertTrue((output / "industry_market.js").is_file())
             self.assertTrue((output / ".nojekyll").is_file())
+            for name in report_html:
+                self.assertTrue((output / name).is_file())
+            # reports/ 下的旧 md 等非 html 文件不发布
+            self.assertFalse(list((output / "reports").glob("*.md")))
             for private in ["portfolio.json", *manifest["localOptional"]]:
                 self.assertFalse((output / private).exists())
 
