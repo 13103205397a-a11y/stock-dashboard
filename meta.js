@@ -1,4 +1,4 @@
-/* 全局元信息：signalDate/signalStat/marketSnapshot 由行情程序自动统计：marketRegime 等由复盘 Agent 维护 */
+/* 全局元信息：signalDate/signalStat/marketSnapshot 由行情程序自动统计；marketRegime 等由复盘 Agent 维护 */
 window.META = {
   "lastUpdated": "2026-07-28",
   "signalDate": "2026-07-28",
