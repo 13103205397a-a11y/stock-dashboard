@@ -4,7 +4,7 @@
 
 数据源：东方财富 push2delay（免 key）
   - 行业板块主力净流入排行（日累计）
-  - 头部板块分钟级资金流（盘中分时曲线，与 vip001 同类）
+  - 头部板块分钟级资金流（盘中分时曲线）
 
 用法：
   python3 scripts/fetch_fundflow.py
@@ -170,7 +170,7 @@ def fetch_minute(code: str) -> list[dict]:
 
 
 def pick_series_boards(boards: list[dict], n: int) -> list[dict]:
-    """选曲线板块：优先流出端大户 + 流入端头部，更接近 vip001 对照图。"""
+    """选曲线板块：优先流出端大户 + 流入端头部，便于对照强弱。"""
     pos = sorted(
         [b for b in boards if b["netInflowYi"] > 0],
         key=lambda x: x["netInflowYi"],
