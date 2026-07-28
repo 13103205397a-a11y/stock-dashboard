@@ -33,6 +33,12 @@
       "required": true
     },
     {
+      "name": "板块资金流向",
+      "command": ["python3", "scripts/fetch_fundflow.py"],
+      "timeout": 180,
+      "required": false
+    },
+    {
       "name": "行业板块排行",
       "command": ["python3", "scripts/fetch_industry.py"],
       "timeout": 300,

@@ -753,6 +753,206 @@
     `;
   }
 
+  /* ---------- 板块资金流向（东财，类似 vip001 盘中曲线） ---------- */
+  const FF_COLORS = [
+    "#2557d6", "#d93838", "#0f9b6c", "#c48916", "#7c3aed",
+    "#0891b2", "#db2777", "#65a30d", "#ea580c", "#4f46e5",
+    "#0d9488", "#b45309",
+  ];
+
+  function renderFundFlow() {
+    const el = $("#viewFundflow");
+    if (!el) return;
+    const FF = window.FUNDFLOW || null;
+    const boards = (FF && Array.isArray(FF.boards)) ? FF.boards : [];
+    const series = (FF && Array.isArray(FF.series))
+      ? FF.series.filter((s) => (s.points || []).length > 2)
+      : [];
+    const inflow = (FF && Array.isArray(FF.inflow))
+      ? FF.inflow
+      : boards.filter((b) => b.netInflowYi > 0).slice(0, 12);
+    const outflow = (FF && Array.isArray(FF.outflow))
+      ? FF.outflow
+      : boards.filter((b) => b.netInflowYi < 0).slice(0, 12);
+
+    if (!boards.length && !series.length) {
+      el.innerHTML = secTitle("资金流向", "板块主力净流入 · 盘中分时") +
+        emptyState("暂无资金流数据。运行 python3 scripts/fetch_fundflow.py 或点「刷新数据」。");
+      return;
+    }
+
+    const updated = (FF && (FF.generatedAt || FF.date)) || "—";
+    const maxAbs = Math.max(
+      0.01,
+      ...inflow.map((b) => Math.abs(b.netInflowYi || 0)),
+      ...outflow.map((b) => Math.abs(b.netInflowYi || 0))
+    );
+
+    const rowHtml = (b, dir) => {
+      const v = Number(b.netInflowYi) || 0;
+      const pct = Math.min(100, (Math.abs(v) / maxAbs) * 100);
+      const chg = Number(b.chgPct) || 0;
+      return `<div class="ff-row ${dir}">
+        <span class="ff-name" title="${esc(b.rawName || b.name)}">${esc(b.name)}</span>
+        <span class="ff-bar-wrap"><span class="ff-bar" style="width:${pct.toFixed(1)}%"></span></span>
+        <span class="ff-val ${v >= 0 ? "up" : "down"}">${v >= 0 ? "+" : ""}${v.toFixed(2)}</span>
+        <span class="ff-chg ${chg >= 0 ? "up" : "down"}">${chg >= 0 ? "+" : ""}${chg.toFixed(2)}%</span>
+      </div>`;
+    };
+
+    const legend = series.map((s, i) => {
+      const v = Number(s.netInflowYi) || 0;
+      return `<button type="button" class="ff-leg active" data-i="${i}" style="--c:${FF_COLORS[i % FF_COLORS.length]}">
+        <i></i>${esc(s.name)}
+        <span class="${v >= 0 ? "up" : "down"}">${v >= 0 ? "+" : ""}${v.toFixed(1)}亿</span>
+      </button>`;
+    }).join("");
+
+    el.innerHTML = `<div class="ff-page">
+      <div class="ff-hero">
+        <div class="ff-hero-top">
+          <span class="ff-badge">板块资金 · 东财</span>
+          <span class="ff-updated">更新 ${esc(String(updated))}</span>
+        </div>
+        <h1 class="ff-title">盘中资金流向</h1>
+        <p class="ff-desc">主力净流入（亿元，日累计）。曲线为分时累计，类似 vip001 板块资金；盘中刷新可更新。仅供研究参考。</p>
+      </div>
+      <div class="ff-chart-card">
+        <div class="ff-chart-head">
+          <h2>分时曲线</h2>
+          <div class="ff-legs" id="ffLegs">${legend || "<span class='ff-empty-leg'>暂无分时序列</span>"}</div>
+        </div>
+        <div class="ff-canvas-wrap">
+          <canvas id="ffCanvas" width="960" height="360" aria-label="板块资金分时图"></canvas>
+          <div class="ff-y-unit">亿元</div>
+        </div>
+      </div>
+      <div class="ff-cols">
+        <section class="ff-col in">
+          <h3>净流入 TOP</h3>
+          <div class="ff-list">${inflow.length ? inflow.slice(0, 12).map((b) => rowHtml(b, "in")).join("") : "<div class='empty'>暂无</div>"}</div>
+        </section>
+        <section class="ff-col out">
+          <h3>净流出 TOP</h3>
+          <div class="ff-list">${outflow.length ? outflow.slice(0, 12).map((b) => rowHtml(b, "out")).join("") : "<div class='empty'>暂无</div>"}</div>
+        </section>
+      </div>
+      <div class="ff-foot">数据源：东方财富板块资金 · scripts/fetch_fundflow.py · 单位亿元 · 非投资建议</div>
+    </div>`;
+
+    const canvas = el.querySelector("#ffCanvas");
+    if (canvas && series.length) {
+      const hidden = new Set();
+      const draw = () => drawFundFlowChart(canvas, series, hidden);
+      draw();
+      el.querySelectorAll(".ff-leg").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const i = btn.dataset.i;
+          if (hidden.has(i)) { hidden.delete(i); btn.classList.add("active"); }
+          else { hidden.add(i); btn.classList.remove("active"); }
+          draw();
+        });
+      });
+      if (el._ffResize) window.removeEventListener("resize", el._ffResize);
+      el._ffResize = () => draw();
+      window.addEventListener("resize", el._ffResize);
+    }
+  }
+
+  function drawFundFlowChart(canvas, series, hidden) {
+    const wrap = canvas.parentElement;
+    const dpr = window.devicePixelRatio || 1;
+    const cssW = Math.max(320, wrap.clientWidth - 8);
+    const cssH = Math.min(400, Math.max(260, Math.round(cssW * 0.38)));
+    canvas.style.width = cssW + "px";
+    canvas.style.height = cssH + "px";
+    canvas.width = Math.floor(cssW * dpr);
+    canvas.height = Math.floor(cssH * dpr);
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const pad = { t: 16, r: 16, b: 28, l: 48 };
+    const W = cssW - pad.l - pad.r;
+    const H = cssH - pad.t - pad.b;
+    ctx.clearRect(0, 0, cssW, cssH);
+    ctx.fillStyle = "#fafbfd";
+    ctx.fillRect(0, 0, cssW, cssH);
+
+    const visible = series.filter((_, i) => !hidden.has(String(i)));
+    let allPts = [];
+    visible.forEach((s) => { allPts = allPts.concat(s.points || []); });
+    if (!allPts.length) {
+      ctx.fillStyle = "#8b93a3";
+      ctx.font = "13px sans-serif";
+      ctx.fillText("暂无分时点", pad.l, pad.t + 24);
+      return;
+    }
+
+    let timeAxis = [];
+    series.forEach((s) => {
+      if ((s.points || []).length > timeAxis.length) timeAxis = s.points.map((p) => p.t);
+    });
+    const ys = allPts.map((p) => Number(p.mainYi) || 0);
+    let yMin = Math.min(0, ...ys);
+    let yMax = Math.max(0, ...ys);
+    if (yMin === yMax) { yMin -= 1; yMax += 1; }
+    const yPad = (yMax - yMin) * 0.08;
+    yMin -= yPad; yMax += yPad;
+
+    const xAt = (i, n) => pad.l + (n <= 1 ? W / 2 : (i / (n - 1)) * W);
+    const yAt = (v) => pad.t + ((yMax - v) / (yMax - yMin)) * H;
+
+    ctx.strokeStyle = "#e4e8ef";
+    ctx.lineWidth = 1;
+    for (let g = 0; g <= 4; g++) {
+      const y = pad.t + (H * g) / 4;
+      ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + W, y); ctx.stroke();
+      const val = yMax - ((yMax - yMin) * g) / 4;
+      ctx.fillStyle = "#8b93a3";
+      ctx.font = "10px monospace";
+      ctx.textAlign = "right";
+      ctx.fillText(val.toFixed(1), pad.l - 8, y + 3);
+    }
+    const y0 = yAt(0);
+    ctx.strokeStyle = "#c8d0dc";
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(pad.l, y0); ctx.lineTo(pad.l + W, y0); ctx.stroke();
+    ctx.setLineDash([]);
+
+    series.forEach((s, si) => {
+      if (hidden.has(String(si))) return;
+      const pts = s.points || [];
+      if (pts.length < 2) return;
+      const color = FF_COLORS[si % FF_COLORS.length];
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      pts.forEach((p, i) => {
+        const x = xAt(i, pts.length);
+        const y = yAt(Number(p.mainYi) || 0);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      const last = pts[pts.length - 1];
+      const lx = xAt(pts.length - 1, pts.length);
+      const ly = yAt(Number(last.mainYi) || 0);
+      ctx.fillStyle = color;
+      ctx.beginPath(); ctx.arc(lx, ly, 3, 0, Math.PI * 2); ctx.fill();
+    });
+
+    ctx.fillStyle = "#8b93a3";
+    ctx.font = "10px monospace";
+    ctx.textAlign = "center";
+    const step = Math.max(1, Math.floor(timeAxis.length / 6));
+    for (let i = 0; i < timeAxis.length; i += step) {
+      ctx.fillText(timeAxis[i], xAt(i, timeAxis.length), cssH - 8);
+    }
+    if (timeAxis.length) {
+      ctx.fillText(timeAxis[timeAxis.length - 1], xAt(timeAxis.length - 1, timeAxis.length), cssH - 8);
+    }
+  }
+
   function renderMarket() {
     renderSentiment();
     const el = $("#marketGrid");
@@ -882,6 +1082,7 @@
     events: () => App.renderEvents(),
     news: () => App.renderNewsAll(),
     xbrief: () => App.renderXBriefs(),
+    fundflow: () => renderFundFlow(),
     watch: () => renderWatch(),
     market: () => renderMarket(),
     hot: () => renderHot(),
@@ -893,6 +1094,7 @@
     opportunities: "机会清单",
     logic: "逻辑链",
     market: "市场异动",
+    fundflow: "资金流向",
     hot: "今日热点",
     news: "新闻",
     xbrief: "X 简报",
@@ -1206,6 +1408,7 @@
     return [
       { name: "行情信号", date: META.signalDate || META.lastUpdated, count: `${STOCKS.length}只`, source: "data/meta", view: "watch" },
       { name: "市场异动", date: MARKET.generatedAt || MARKET.date, count: `${poolCount(MARKET, ["topGainers","topLosers","topTurnover","topInflow","topOutflow","limitUp","limitDown","hotRank"])}条`, source: "market.js", view: "market" },
+      { name: "资金流向", date: (window.FUNDFLOW || {}).generatedAt || (window.FUNDFLOW || {}).date, count: `${((window.FUNDFLOW || {}).boards || []).length}板块`, source: "东财→fundflow", view: "fundflow", relaxed: true, optional: true, missing: !((window.FUNDFLOW || {}).boards || []).length },
       { name: "今日热点", date: HOT.generatedAt || HOT.date, count: `${(HOT.list || []).length}只`, source: "hot.js", view: "hot" },
       { name: "新闻公告", date: NEWSALL?.generatedAt || NEWSALL?.date, count: `${(NEWSALL?.global || []).length + (NEWSALL?.announcements || []).length}条`, source: "newsall.js", view: "news", missing: !NEWSALL },
       { name: "X简报", date: (window.XBRIEFS || {}).updated || (window.XBRIEFS || {}).generatedAt, count: `${((window.XBRIEFS || {}).briefs || []).length}期`, source: "X→push_xbrief", view: "xbrief", relaxed: true, optional: true, missing: !((window.XBRIEFS || {}).briefs || []).length },
