@@ -433,40 +433,130 @@
   }
 
   /* ---------- 8b. X 简报（每 2 小时推送，早上看隔夜完整流水） ---------- */
+  function xbFormatTime(t) {
+    const s = String(t || "");
+    const m = s.match(/(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/) || s.match(/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})/);
+    if (m) return { day: `${m[1]}/${m[2]}`, clock: `${m[3]}:${m[4]}`, full: s };
+    if (s.length >= 16) return { day: s.slice(5, 10).replace("-", "/"), clock: s.slice(11, 16), full: s };
+    return { day: "—", clock: s || "—", full: s || "—" };
+  }
+
+  function xbMdHtml(md) {
+    // 在通用 md 渲染上，给「可信度」打标签，并强化编号条目
+    let html = md2html(md);
+    html = html
+      .replace(/(可信度[：:]\s*)(高|中高|中|中低|低)/g, (_, p, level) => {
+        const cls =
+          level === "高" || level === "中高" ? "high" :
+          level === "中" ? "mid" : "low";
+        return `${p}<span class="xb-cred xb-cred-${cls}">${level}</span>`;
+      })
+      .replace(/(【未证实】|未证实)/g, '<span class="xb-flag">$1</span>');
+    return html;
+  }
+
   function renderXBriefs() {
     const el = $("#viewXbrief");
     if (!el) return;
     const XB = window.XBRIEFS || null;
-    const list = (XB && Array.isArray(XB.briefs)) ? XB.briefs.filter((b) => cleanDisplayText(b.content || "").trim().length >= 40) : [];
+    const list = (XB && Array.isArray(XB.briefs))
+      ? XB.briefs.filter((b) => cleanDisplayText(b.content || "").trim().length >= 40)
+      : [];
     if (!list.length) {
-      el.innerHTML = secTitle("X 简报", "AI + 股市 · 每 2 小时筛选推送") +
-        emptyState("暂无简报。定时任务搜完会自动写入，早上打开本页即可看到一整晚的内容。");
+      el.innerHTML =
+        `<div class="xb-page">` +
+        `<div class="xb-hero">
+          <div class="xb-hero-top">
+            <span class="xb-live">X · 资讯流水</span>
+            <span class="xb-hero-sub">AI + 股市 · 每 2 小时筛选</span>
+          </div>
+          <h1 class="xb-hero-title">X 简报</h1>
+          <p class="xb-hero-desc">定时从 X 抓取并过滤情绪帖后写入。暂无内容，跑完一期会自动出现。</p>
+        </div>` +
+        emptyState("暂无简报。早上打开可见一整晚流水。") +
+        `</div>`;
       return;
     }
-    const overnightHint = `<p class="xb-hint">中国早晨 ≈ 美国交易时段刚过完。下面按时间倒序，最新在最上；往下翻就是整晚流水。</p>`;
-    const tabs = list.map((b, i) => {
-      const t = String(b.time || "").slice(5, 16);
-      const focus = b.hasFocusStock ? " · 重点票" : "";
-      return `<button class="rep-tab ${i === 0 ? "active" : ""}" data-i="${i}">${esc(t || "—")}<span class="rep-time">AI${b.aiCount || 0}/市${b.marketCount || 0}${esc(focus)}</span></button>`;
+
+    const updated = XB.updated || XB.generatedAt || "";
+    const totalAi = list.reduce((n, b) => n + (Number(b.aiCount) || 0), 0);
+    const totalMkt = list.reduce((n, b) => n + (Number(b.marketCount) || 0), 0);
+    const focusN = list.filter((b) => b.hasFocusStock).length;
+
+    const rail = list.map((b, i) => {
+      const ft = xbFormatTime(b.time);
+      const focus = b.hasFocusStock ? `<span class="xb-dot focus" title="含重点票"></span>` : "";
+      return `<button type="button" class="xb-rail-item ${i === 0 ? "active" : ""}" data-i="${i}" aria-label="第 ${i + 1} 期 ${ft.full}">
+        <span class="xb-rail-day">${esc(ft.day)}</span>
+        <span class="xb-rail-clock">${esc(ft.clock)}</span>
+        <span class="xb-rail-meta">
+          <span class="xb-pill ai">AI ${b.aiCount || 0}</span>
+          <span class="xb-pill mkt">市 ${b.marketCount || 0}</span>
+          ${focus}
+        </span>
+      </button>`;
     }).join("");
+
     const bodies = list.map((b, i) => {
-      const head = `${b.title || "X资讯简报"} · ${b.time || ""}${b.period ? " · " + b.period : ""}`;
-      return `<div class="rep-body ${i === 0 ? "active" : ""}" data-i="${i}">
-        <div class="rep-head"><h2>${esc(head)}</h2><span class="rep-updated">X 筛选 · ${esc(b.time || "")}</span></div>
-        <div class="rep-md">${md2html(b.content || "")}</div>
-      </div>`;
+      const ft = xbFormatTime(b.time);
+      const title = b.title || "X 资讯简报 · AI & 股市";
+      return `<article class="xb-article ${i === 0 ? "active" : ""}" data-i="${i}">
+        <header class="xb-article-head">
+          <div class="xb-article-kicker">
+            <span class="xb-badge">第 ${list.length - i} / ${list.length} 期</span>
+            <span class="xb-badge soft">${esc(b.period || "近约 2 小时")}</span>
+            ${b.hasFocusStock ? `<span class="xb-badge focus">重点票</span>` : ""}
+          </div>
+          <h2 class="xb-article-title">${esc(title)}</h2>
+          <div class="xb-article-meta">
+            <span><i class="xb-ico">⏱</i>${esc(ft.full || "—")}</span>
+            <span><i class="xb-ico">◎</i>AI ${b.aiCount || 0} · 市 ${b.marketCount || 0}</span>
+            <span><i class="xb-ico">⌘</i>X 公开讨论 · 筛选推送</span>
+          </div>
+        </header>
+        <div class="xb-article-body rep-md xb-md">${xbMdHtml(b.content || "")}</div>
+      </article>`;
     }).join("");
-    el.innerHTML = secTitle("X 简报", `${list.length} 期 · 更新 ${esc(XB.updated || XB.generatedAt || "")}`) +
-      overnightHint +
-      `<div class="rep-tabs">${tabs}</div>
-      <div class="rep-bodies">${bodies}</div>
-      <div class="rep-foot">来源：X 公开讨论，经垃圾筛选后推送（scripts/push_xbrief.py）。保留最近约 4 天。仅供研究参考，非投资建议。</div>`;
-    el.querySelectorAll(".rep-tab").forEach((btn) =>
-      btn.addEventListener("click", () => {
-        const i = btn.dataset.i;
-        el.querySelectorAll(".rep-tab").forEach((t) => t.classList.toggle("active", t.dataset.i === i));
-        el.querySelectorAll(".rep-body").forEach((d) => d.classList.toggle("active", d.dataset.i === i));
-      })
+
+    el.innerHTML = `<div class="xb-page">
+      <div class="xb-hero">
+        <div class="xb-hero-top">
+          <span class="xb-live"><span class="xb-pulse"></span>X · 资讯流水</span>
+          <span class="xb-hero-sub">每 2 小时 · 倒序最新在前</span>
+        </div>
+        <h1 class="xb-hero-title">X 简报</h1>
+        <p class="xb-hero-desc">中国早晨 ≈ 美股时段刚过完。情绪帖/喊单已剔除；盘中价格以交易所为准，X 数字仅作线索。</p>
+        <div class="xb-stats">
+          <div class="xb-stat"><span class="xb-stat-k">${list.length}</span><span class="xb-stat-l">期流水</span></div>
+          <div class="xb-stat"><span class="xb-stat-k">${totalAi}</span><span class="xb-stat-l">AI 要闻条</span></div>
+          <div class="xb-stat"><span class="xb-stat-k">${totalMkt}</span><span class="xb-stat-l">股市条</span></div>
+          <div class="xb-stat"><span class="xb-stat-k">${focusN}</span><span class="xb-stat-l">含重点票</span></div>
+          <div class="xb-stat wide"><span class="xb-stat-k mono">${esc(String(updated).slice(5, 16) || "—")}</span><span class="xb-stat-l">最近更新</span></div>
+        </div>
+      </div>
+
+      <div class="xb-layout">
+        <aside class="xb-rail" aria-label="简报时间轴">
+          <div class="xb-rail-label">时间轴</div>
+          <div class="xb-rail-list">${rail}</div>
+        </aside>
+        <div class="xb-main">
+          <div class="xb-bodies">${bodies}</div>
+          <footer class="xb-foot">
+            来源：X 公开讨论 · <code>push_xbrief.py</code> 推送 · 保留约 4 天 · 仅供研究参考，非投资建议
+          </footer>
+        </div>
+      </div>
+    </div>`;
+
+    const activate = (i) => {
+      el.querySelectorAll(".xb-rail-item").forEach((t) => t.classList.toggle("active", t.dataset.i === i));
+      el.querySelectorAll(".xb-article").forEach((d) => d.classList.toggle("active", d.dataset.i === i));
+      const main = el.querySelector(".xb-main");
+      if (main) main.scrollTop = 0;
+    };
+    el.querySelectorAll(".xb-rail-item").forEach((btn) =>
+      btn.addEventListener("click", () => activate(btn.dataset.i))
     );
   }
 
@@ -504,8 +594,11 @@
       .replace(/^(All data verified[^\n]*\n)/, "")
       .replace(/^(Here(?:'s| is) the [^\n]*:\s*\n)/, "");
     const lines = esc(text).split("\n");
-    let html = "", inTable = false, inList = false;
-    const flushList = () => { if (inList) { html += "</ul>"; inList = false; } };
+    let html = "", inTable = false, inList = false, inOl = false;
+    const flushList = () => {
+      if (inList) { html += "</ul>"; inList = false; }
+      if (inOl) { html += "</ol>"; inOl = false; }
+    };
     const flushTable = () => { if (inTable) { html += "</tbody></table>"; inTable = false; } };
     // 涨跌着色：单元格里的 +X%/-X% 或 利多/利空 标红绿
     // toneCell: 对已转义的单元格内容着色，只匹配纯文本符号（不含 HTML 标签）
@@ -527,9 +620,22 @@
       // 标题
       const hm = line.match(/^(#{1,4})\s+(.*)/);
       if (hm) { flushList(); html += `<h${hm[1].length + 2}>${hm[2].trim()}</h${hm[1].length + 2}>`; continue; }
-      // 列表
+      // 无序列表
       const lm = line.match(/^[-*]\s+(.*)/);
-      if (lm) { if (!inList) { html += "<ul>"; inList = true; } html += `<li>${lm[1]}</li>`; continue; }
+      if (lm) {
+        if (inOl) { html += "</ol>"; inOl = false; }
+        if (!inList) { html += "<ul>"; inList = true; }
+        html += `<li>${lm[1].replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>")}</li>`;
+        continue;
+      }
+      // 有序列表（X 简报主结构：1. **标题**）
+      const om = line.match(/^\d+\.\s+(.*)/);
+      if (om) {
+        if (inList) { html += "</ul>"; inList = false; }
+        if (!inOl) { html += '<ol class="xb-ol">'; inOl = true; }
+        html += `<li>${om[1].replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>")}</li>`;
+        continue;
+      }
       // 空行
       if (!line.trim()) { flushList(); continue; }
       // 数据完整度是可信度状态，不应混在普通正文中。模型有时会加粗该行。
