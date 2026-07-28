@@ -50,7 +50,7 @@ window.EVENTS = {
         }
       ],
       "timeliness": "存储链情绪观察3-5个交易日;关键看长鑫科技次日走势及半导体材料链扩散是否延续",
-      "source": "market.js topGainers/topTurnover/thsHot/thsStrong/dragonTiger 2026-07-27;newsall.js长鑫科技相关 2026-07-22"
+      "source": "market.js topGainers/topTurnover/热度榜数据/强势股数据/dragonTiger 2026-07-27;newsall.js长鑫科技相关 2026-07-22"
     },
     {
       "title": "PCB/电子布/玻纤集群大爆发:中国巨石/中材科技/景旺电子/金安国纪/宏和科技等集体涨停",
@@ -100,7 +100,7 @@ window.EVENTS = {
         }
       ],
       "timeliness": "主线延续观察3-5个交易日;关键看中国巨石能否连板及电子布/覆铜板涨价能否持续验证",
-      "source": "market.js limitUp/thsStrong/dragonTiger/thsHot 2026-07-27"
+      "source": "market.js limitUp/强势股数据/dragonTiger/热度榜数据 2026-07-27"
     },
     {
       "title": "布伦特原油跌破86美元/桶(WTI跌6.48%),油气油服重灾、航空潜在受益",
@@ -176,7 +176,7 @@ window.EVENTS = {
         }
       ],
       "timeliness": "主线延续观察1-5个交易日;关键看长缆科技能否6板及扩散是否再放大,5板后断板风险上升",
-      "source": "market.js limitUp/yesterday/thsHot/thsStrong 2026-07-27"
+      "source": "market.js limitUp/yesterday/热度榜数据/强势股数据 2026-07-27"
     },
     {
       "title": "化工涨价链活跃:多氟多/滨化股份/日科化学/孚日股份涨停,氟化工+电解液添加剂+氢氟酸",
@@ -208,7 +208,7 @@ window.EVENTS = {
         }
       ],
       "timeliness": "涨价与中报验证跟踪数周;消费税9/1生效前备货逻辑窗口",
-      "source": "market.js limitUp/thsStrong/dragonTiger/thsHot 2026-07-27"
+      "source": "market.js limitUp/强势股数据/dragonTiger/热度榜数据 2026-07-27"
     },
     {
       "title": "立新能源8天7板但已澄清无算力供电业务,高度标杆与证伪风险并存",
@@ -234,7 +234,7 @@ window.EVENTS = {
         }
       ],
       "timeliness": "连板退潮观察3-10个交易日;7板断板信号为关键",
-      "source": "market.js limitUp/thsHot 2026-07-27;前日公司澄清声明"
+      "source": "market.js limitUp/热度榜数据 2026-07-27;前日公司澄清声明"
     },
     {
       "title": "兵装重组主题延续:长城军工3天3板,湖南天雁/建设工业跟涨",
@@ -260,7 +260,7 @@ window.EVENTS = {
         }
       ],
       "timeliness": "主题持续性取决于是否有官方重组消息落地;无据催化退潮风险高,观察1-3日",
-      "source": "market.js limitUp/thsHot/dragonTiger 2026-07-27(催化新闻待核实)"
+      "source": "market.js limitUp/热度榜数据/dragonTiger 2026-07-27(催化新闻待核实)"
     },
     {
       "title": "利空风险释放:金牛化工跌停、华安证券-9.43%、百合花跌停、武汉天源-20%",
