@@ -658,20 +658,22 @@
     const el = $("#reports");
     if (!el) return;
     const REPORTS = window.REPORTS || {};
-    const list = (REPORTS.reports || []).filter((report) => cleanDisplayText(report.content || "").trim().length >= 80);
+    const list = (REPORTS.reports || []).filter((report) => report.html || cleanDisplayText(report.content || "").trim().length >= 80);
     if (!list.length) { el.innerHTML = ""; return; }
     const tabs = list.map((r, i) =>
       `<button class="rep-tab ${i === 0 ? "active" : ""}" data-i="${i}">${esc(r.type)}<span class="rep-time">${esc((r.time || "").slice(5, 16))}</span></button>`
     ).join("");
     const bodies = list.map((r, i) =>
       `<div class="rep-body ${i === 0 ? "active" : ""}" data-i="${i}">
-        <div class="rep-head"><h2>${esc(reportDisplayTitle(r))}</h2><span class="rep-updated">Hermes · ${esc(r.time || "")}</span></div>
-        <div class="rep-md">${md2html(r.content || "")}</div>
+        <div class="rep-head"><h2>${esc(reportDisplayTitle(r))}</h2><span class="rep-updated">Kimi · ${esc(r.time || "")}</span></div>
+        ${r.html
+          ? `<iframe src="${esc(r.html)}" style="width:100%;border:0;min-height:75vh;border-radius:8px;background:#f5f6f8" loading="lazy"></iframe>`
+          : `<div class="rep-md">${md2html(r.content || "")}</div>`}
       </div>`
     ).join("");
     el.innerHTML = `<div class="rep-tabs">${tabs}</div>
       <div class="rep-bodies" id="repBodies">${bodies}</div>
-      <div class="rep-foot">报告由本地 Hermes Agent 定时任务生成（全网搜索调研），scripts/fetch_hermes.py 导出。仅供研究参考，非投资建议。更新于 ${esc(REPORTS.updated || "")}</div>`;
+      <div class="rep-foot">报告由 Kimi 生成（桌面复盘文件夹同步）。仅供研究参考，非投资建议。更新于 ${esc(REPORTS.updated || "")}</div>`;
     // tab 切换
     el.querySelectorAll(".rep-tab").forEach((b) =>
       b.addEventListener("click", () => {
