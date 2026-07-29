@@ -1210,6 +1210,10 @@ body.view-weekend .weekend-only { display: block; }
 .lc-asof { font-size: 11px; color: var(--dim); font-family: var(--mono); }
 .lc-head-meta { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; }
 .lc-etype { font-size: 11px; font-family: var(--mono); font-weight: 700; padding: 4px 10px; border-radius: 3px; border: 1px solid var(--line); background: var(--bg-2); color: var(--muted); }
+.lc-dir { font-size: 11px; font-family: var(--mono); font-weight: 700; padding: 4px 10px; border-radius: 3px; border: 1px solid var(--line); }
+.lc-dir.up { background: rgba(200,57,43,.1); color: var(--up); border-color: rgba(200,57,43,.25); }
+.lc-dir.down { background: rgba(30,122,82,.1); color: var(--down); border-color: rgba(30,122,82,.25); }
+.lc-dir.warn { background: rgba(176,122,20,.1); color: var(--warn); border-color: rgba(176,122,20,.25); }
 .lc-strength { font-family: var(--mono); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 3px; border: 1px solid var(--line); }
 .lc-strength.up { background: rgba(200,57,43,.1); color: var(--up); border-color: rgba(200,57,43,.2); }
 .lc-strength.ok { background: rgba(46,125,82,.1); color: var(--ok); border-color: rgba(46,125,82,.2); }

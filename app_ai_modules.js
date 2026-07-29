@@ -37,6 +37,7 @@
         <div class="lc-chain-head">
           <div class="lc-chain-title"><span class="lc-rank">#${idx + 1}</span><h3 class="sd-name">${esc(c.name)}</h3></div>
           <div class="lc-head-meta">
+            ${c.direction ? `<span class="lc-dir ${c.direction === "受益" ? "up" : c.direction === "受损" ? "down" : "warn"}">${esc(c.direction)}</span>` : ""}
             ${c.event_type ? `<span class="lc-etype">${esc(c.event_type)}</span>` : ""}
             ${c.strength ? `<span class="lc-strength ${sCls}">${esc(c.strength)}</span>` : ""}
             <span class="lc-asof">${esc(c.event_date || c.asof || "")}</span>
