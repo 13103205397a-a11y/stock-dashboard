@@ -23,7 +23,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     environment:
       name: github-pages
       url: ${{ steps.deploy1.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy3.outputs.page_url }}
@@ -41,14 +41,22 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: 安装依赖
+        run: npm ci
+
       - name: 校验公开数据结构
         run: |
           node scripts/validate_data.js
           node scripts/check_freshness.js --strict --scope=market
 
       - name: 核心回归测试
-        run: |
-          npm test
+        run: npm test
+
+      - name: 安装浏览器
+        run: npx playwright install --with-deps chromium
+
+      - name: 完整浏览器端到端门禁
+        run: npm run test:e2e
 
       - name: 筛选 web 文件
         run: python3 scripts/build_site.py _site
@@ -116,9 +124,10 @@ jobs:
         run: |
           set -euo pipefail
           base="${PAGE_URL%/}"
-          for asset in index.html app.js styles.css design-system.css data.js meta.js hot.js market.js industry.js industry_market.js logic.js events.js materials.js newsall.js weekend.js; do
+          python3 scripts/build_site.py --list-files > /tmp/public-assets.txt
+          while IFS= read -r asset; do
             curl --fail --silent --show-error \
               --retry 5 --retry-delay 3 --retry-all-errors \
               "$base/$asset" > /dev/null
             echo "✓ $asset 可访问"
-          done
+          done < /tmp/public-assets.txt

@@ -10,7 +10,6 @@ python3 xhs/render_cards.py
 脚本会读取：
 
 - `logic.js`：产业链主线、瓶颈、风险
-- `materials.js`：涨价方向、供需、下游、风险
 
 输出：
 

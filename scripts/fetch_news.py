@@ -18,8 +18,7 @@ import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from _dataio import DataLock, load_stocks, write_stocks
-from fetch_news_all import sanitize_news_item
+from _dataio import DataLock, load_stocks, sanitize_news_item, write_stocks
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.dirname(HERE)

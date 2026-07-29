@@ -31,7 +31,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,23 +61,121 @@ def now_local() -> datetime:
     return datetime.now().astimezone()
 
 
+def _empty_xbriefs() -> dict:
+    return {"updated": "", "generatedAt": "", "briefs": []}
+
+
+def load_xbriefs(path: Path, *, strict: bool = False) -> dict:
+    """读取一个 xbriefs.js；发布路径使用 strict=True，损坏时拒绝覆盖远端。"""
+    if not path.is_file():
+        if strict:
+            raise ValueError(f"{path}: 文件不存在")
+        return _empty_xbriefs()
+    text = path.read_text(encoding="utf-8")
+    match = re.search(r"window\.XBRIEFS\s*=\s*(\{.*\})\s*;?\s*$", text, re.S)
+    if not match:
+        if strict:
+            raise ValueError(f"{path}: 缺少有效 window.XBRIEFS")
+        return _empty_xbriefs()
+    try:
+        data = json.loads(match.group(1))
+    except json.JSONDecodeError as exc:
+        if strict:
+            raise ValueError(f"{path}: XBRIEFS JSON 无效: {exc}") from exc
+        return _empty_xbriefs()
+    if not isinstance(data, dict):
+        if strict:
+            raise ValueError(f"{path}: window.XBRIEFS 必须是对象")
+        return _empty_xbriefs()
+    briefs = data.get("briefs")
+    if not isinstance(briefs, list):
+        if strict:
+            raise ValueError(f"{path}: XBRIEFS.briefs 必须是数组")
+        data["briefs"] = []
+    return data
+
+
 def load_existing() -> dict:
     if not OUT.is_file():
         return {"updated": "", "generatedAt": "", "briefs": []}
-    text = OUT.read_text(encoding="utf-8")
-    m = re.search(r"window\.XBRIEFS\s*=\s*(\{.*\})\s*;?\s*$", text, re.S)
-    if not m:
-        return {"updated": "", "generatedAt": "", "briefs": []}
+    return load_xbriefs(OUT)
+
+
+def _parse_timestamp(value: object) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    normalized = value.strip().replace("/", "-")
+    if normalized.endswith("Z"):
+        normalized = normalized[:-1] + "+00:00"
     try:
-        data = json.loads(m.group(1))
-    except json.JSONDecodeError:
-        return {"updated": "", "generatedAt": "", "briefs": []}
-    if not isinstance(data, dict):
-        return {"updated": "", "generatedAt": "", "briefs": []}
-    briefs = data.get("briefs")
-    if not isinstance(briefs, list):
-        data["briefs"] = []
-    return data
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError:
+        try:
+            parsed = datetime.strptime(normalized, "%Y%m%d-%H%M%S")
+        except ValueError:
+            return None
+    if parsed.tzinfo is not None:
+        parsed = parsed.astimezone(timezone.utc).replace(tzinfo=None)
+    return parsed
+
+
+def _brief_timestamp(brief: dict) -> datetime | None:
+    for field in ("time", "generatedAt", "updated"):
+        parsed = _parse_timestamp(brief.get(field))
+        if parsed is not None:
+            return parsed
+    return _parse_timestamp(brief.get("id"))
+
+
+def _brief_key(brief: dict) -> str:
+    brief_id = str(brief.get("id") or "").strip()
+    if brief_id:
+        return f"id:{brief_id}"
+    # 兼容早期没有 id 的数据：完全相同的条目会去重，不同正文不会互相覆盖。
+    return "legacy:" + json.dumps(brief, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def _latest_timestamp_text(local: dict, remote: dict, field: str) -> str:
+    candidates = []
+    for source_rank, data in ((0, local), (1, remote)):
+        value = data.get(field)
+        parsed = _parse_timestamp(value)
+        if parsed is not None:
+            candidates.append((parsed, source_rank, value))
+    if candidates:
+        return max(candidates)[2]
+    # 无法比较时保守保留远端，避免用本机异常字段覆盖公开快照。
+    remote_value = remote.get(field)
+    if isinstance(remote_value, str) and remote_value:
+        return remote_value
+    local_value = local.get(field)
+    return local_value if isinstance(local_value, str) else ""
+
+
+def merge_xbriefs(local: dict, remote: dict, *, limit: int = MAX_BRIEFS) -> dict:
+    """合并本机候选与最新远端快照；同 id 取时间较新者，时间相同保留远端。"""
+    selected: dict[str, tuple[datetime, int, dict]] = {}
+    for source_rank, data in ((0, local), (1, remote)):
+        for brief in data.get("briefs", []):
+            if not isinstance(brief, dict):
+                continue
+            timestamp = _brief_timestamp(brief) or datetime.min
+            key = _brief_key(brief)
+            candidate = (timestamp, source_rank, brief)
+            current = selected.get(key)
+            if current is None or candidate[:2] > current[:2]:
+                selected[key] = candidate
+
+    ordered = sorted(
+        selected.values(),
+        key=lambda item: (item[0], _brief_key(item[2])),
+        reverse=True,
+    )
+    merged = {**remote, **local}
+    merged["briefs"] = [dict(item[2]) for item in ordered[:limit]]
+    merged["updated"] = _latest_timestamp_text(local, remote, "updated")
+    merged["generatedAt"] = _latest_timestamp_text(local, remote, "generatedAt")
+    return merged
 
 
 def brief_id(dt: datetime) -> str:
@@ -99,14 +197,14 @@ def has_focus_stock(content: str) -> bool:
     return any(k in content for k in keys)
 
 
-def write_js(data: dict) -> None:
+def write_js(data: dict, path: Path = OUT) -> None:
     payload = json.dumps(data, ensure_ascii=False, indent=2)
     body = HEADER + f"window.XBRIEFS = {payload};\n"
-    fd, tmp = tempfile.mkstemp(prefix=".xbriefs.", suffix=".tmp", dir=str(ROOT))
+    fd, tmp = tempfile.mkstemp(prefix=".xbriefs.", suffix=".tmp", dir=str(path.parent))
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as f:
             f.write(body)
-        os.replace(tmp, OUT)
+        os.replace(tmp, path)
     except Exception:
         try:
             os.unlink(tmp)
@@ -161,7 +259,15 @@ def publish_to_github(files: list[str], message: str) -> list[str]:
                 for name in files:
                     dest = worktree / name
                     dest.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copy2(ROOT / name, dest)
+                    source = ROOT / name
+                    if name == "xbriefs.js" and dest.is_file():
+                        local_data = load_xbriefs(source, strict=True)
+                        remote_data = load_xbriefs(dest, strict=True)
+                        write_js(merge_xbriefs(local_data, remote_data), dest)
+                    else:
+                        shutil.copy2(source, dest)
+                # 合并后的快照必须通过当前仓库的完整公开数据契约，才允许进入 main。
+                run(["node", "scripts/validate_data.js"], cwd=worktree, check=True)
                 changed = run(
                     ["git", "diff", "--name-only", "--", *files],
                     cwd=worktree,

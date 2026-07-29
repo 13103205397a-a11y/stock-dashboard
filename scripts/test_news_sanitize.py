@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""fetch_news_all.sanitize_cjk_brackets 回归。"""
+"""共享新闻清理函数回归。"""
 import os
 import sys
 import unittest
@@ -8,9 +8,13 @@ from unittest import mock
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from fetch_news_all import sanitize_cjk_brackets, sanitize_news_item  # noqa: E402
 from fetch_news import fetch_one  # noqa: E402
-from _dataio import sanitize_square_brackets, sanitize_stock_news  # noqa: E402
+from _dataio import (  # noqa: E402
+    sanitize_cjk_brackets,
+    sanitize_news_item,
+    sanitize_square_brackets,
+    sanitize_stock_news,
+)
 
 
 class TestNewsSanitize(unittest.TestCase):

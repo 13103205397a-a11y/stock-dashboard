@@ -8,6 +8,18 @@ import Foundation
 // 项目根目录：优先环境变量 STOCK_DASHBOARD_DIR，否则用默认值（换机器时设环境变量覆盖）
 let PROJECT = ProcessInfo.processInfo.environment["STOCK_DASHBOARD_DIR"]
     ?? "/Users/Admin/Documents/开发项目/股市看板"
+let DASHBOARD_APP_ID = "stock-dashboard"
+let DASHBOARD_API_VERSION = 1
+
+private struct DashboardServerStatus: Decodable {
+    let appId: String
+    let apiVersion: Int
+    let running: Bool
+    let log: [String]
+    let done: Bool
+    let error: String?
+    let failedSteps: [String]
+}
 
 // 毛玻璃视图子类:允许鼠标拖拽穿透到窗口(解决拖不动问题)
 class VisualEffectView: NSVisualEffectView {
@@ -69,7 +81,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
 
         window?.makeKeyAndOrderFront(nil)
 
-        // 4. 启动本地 API 服务后加载看板；这样持仓增删和 Hermes 分析可以真正落盘。
+        // 4. 启动并核验本项目的本地 API 服务后再加载看板。
         startLocalServerAndLoad()
 
         // 5. 监听系统深浅色变化
@@ -85,11 +97,27 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
         guard let url = URL(string: "http://127.0.0.1:8787/api/status") else { return false }
         var request = URLRequest(url: url)
         request.timeoutInterval = 0.5
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
         let semaphore = DispatchSemaphore(value: 0)
         var ready = false
-        URLSession.shared.dataTask(with: request) { _, response, _ in
-            if let http = response as? HTTPURLResponse, http.statusCode == 200 { ready = true }
-            semaphore.signal()
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            defer { semaphore.signal() }
+            guard error == nil,
+                  let http = response as? HTTPURLResponse,
+                  http.statusCode == 200,
+                  let contentType = http.value(forHTTPHeaderField: "Content-Type")?
+                    .split(separator: ";", maxSplits: 1, omittingEmptySubsequences: true)
+                    .first?
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                    .lowercased(),
+                  contentType == "application/json",
+                  let data,
+                  let status = try? JSONDecoder().decode(DashboardServerStatus.self, from: data),
+                  status.appId == DASHBOARD_APP_ID,
+                  status.apiVersion == DASHBOARD_API_VERSION else {
+                return
+            }
+            ready = true
         }.resume()
         _ = semaphore.wait(timeout: .now() + 1)
         return ready
@@ -184,19 +212,27 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
                     self.setRefreshStep(line)
                 }
             }
+            var refreshSucceeded = false
+            var refreshFailure = "刷新失败，请查看日志"
             do {
                 try task.run()
                 self.refreshProcesses.append(task)
                 task.waitUntilExit()
-            } catch {
-                DispatchQueue.main.async {
-                    self.setRefreshStep("刷新启动失败")
+                refreshSucceeded = task.terminationStatus == 0
+                if !refreshSucceeded {
+                    refreshFailure = "刷新失败（退出码 \(task.terminationStatus)），请查看日志"
                 }
+            } catch {
+                refreshFailure = "刷新启动失败：\(error.localizedDescription)"
             }
             pipe.fileHandleForReading.readabilityHandler = nil
             self.refreshProcesses.removeAll { $0 == task }
             DispatchQueue.main.async {
-                self.webView.reload()
+                if refreshSucceeded {
+                    self.webView.reload()
+                } else {
+                    self.setRefreshStep(refreshFailure)
+                }
             }
         }
     }

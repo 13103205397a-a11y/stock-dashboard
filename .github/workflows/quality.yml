@@ -59,3 +59,13 @@ jobs:
           path: playwright-report/
           if-no-files-found: ignore
           retention-days: 7
+
+  mac-app-typecheck:
+    runs-on: macos-latest
+    timeout-minutes: 5
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: 校验 Mac App
+        run: swiftc -typecheck app/main.swift

@@ -1,34 +1,13 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "activeModules": "active_modules.json",
   "required": [
     "index.html",
     "app.js",
-    "app_holdings.js",
     "app_ai_modules.js",
     "styles.css",
     "design-system.css",
     "claude-theme.css",
-    "MiSans-Regular.woff2",
-    "MiSans-Medium.woff2",
-    "MiSans-Demibold.woff2",
-    "MiSans-Bold.woff2",
-    "data.js",
-    "meta.js",
-    "hot.js",
-    "market.js",
-    "industry.js",
-    "industry_market.js",
-    "logic.js",
-    "events.js",
-    "materials.js",
-    "newsall.js",
-    "xbriefs.js",
-    "fundflow.js",
-    "weekend.js"
-  ],
-  "localOptional": [
-    "holdings.js",
-    "portfolio_analysis.js",
-    "portfolio_signals.js"
+    "active_modules.json"
   ]
 }

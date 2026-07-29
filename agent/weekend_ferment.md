@@ -84,14 +84,12 @@
 - 所有正文用中文，每段 100-200 字
 - `summary` 控制在 150 字内
 
-## 写回
+## 交付
 
-分析完成后，将 JSON 写入 `股市看板/weekend.js`：
-```javascript
-/* Hermes Agent 周末发酵（本机自动导出，非 GitHub Actions） */
-window.WEEKEND = { ... };
-```
-然后 `git add weekend.js && git commit -m "chore(data): 周末发酵 ${weekendDate}" && git push`。
+最终回复只输出上面的 JSON 代码块，不要直接改文件、提交或推送。
+`scripts/sync_hermes_dashboard.py` 会从本轮成功会话中提取 JSON，原子写入
+`weekend.js`，校验时间戳并在隔离 worktree 中防回滚发布；任务失败时不会
+发布磁盘上的历史快照。
 
 ## 纪律
 - **绝不编造事件、个股、价位**。查不到就写"未查到明确信息"。

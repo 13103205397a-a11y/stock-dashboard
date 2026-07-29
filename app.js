@@ -15,13 +15,8 @@
   let STOCKS = window.STOCKS || [];
   let META = window.META || {};
   let MARKET = window.MARKET || {};
-  let HOLDINGS = window.HOLDINGS || null;
-  let INDUSTRY_MARKET = window.INDUSTRY_MARKET || null;
-  let NEWSALL = window.NEWSALL || null;
-  let HOT = window.HOT || {};
 
   const state = { sector: "全部", verdict: "all", q: "", sort: "default" };
-  const marketState = { anomaly: "gainers", q: "" };
   // 视图滚动位置记忆(A2):curView 跟踪当前视图,viewScroll 存各视图上次 scrollY
   let curView = "home";
   const viewScroll = new Map();
@@ -37,7 +32,6 @@
       ? content
       : document.scrollingElement;
   };
-  const isLocalServer = () => location.origin === "http://localhost:8787" || location.origin === "http://127.0.0.1:8787";
   const cleanDisplayText = (value) => {
     if (value == null) return "";
     let text = String(value)
@@ -55,6 +49,14 @@
       .replace(/\b(?:thsStrong|thsHot)\b\s*[:：]?\s*/gi, " ")
       .replace(/\bbreak\s*=\s*\d+\s*(?:次)?/gi, " ")
       .replace(/\bconfidence\s*=\s*([\w\u4e00-\u9fff-]+)/gi, "置信度：$1")
+      // 历史快照可能仍保存已退休模块的内部文件名，界面即时改成阅读者可理解的来源。
+      .replace(/\bnewsall\.js\b/gi, "公开资讯")
+      .replace(/\bhot\.js\b/gi, "热度榜数据")
+      .replace(/\bchain\.js\b/gi, "公开产业资料")
+      .replace(/\breports\.js\b/gi, "历史复盘资料")
+      .replace(/\bfundflow\.js\b/gi, "资金数据")
+      .replace(/\bmaterials\.js\b/gi, "公开材料价格资料")
+      .replace(/\bindustry_market\.js\b/gi, "行业行情数据")
       // Hermes 偶尔把生成过程当成报告正文保存；只清理开头，避免误伤正文引用。
       .replace(/^(?:I(?:'ll| will) (?:generate|prepare)[^\n]*|I (?:now )?have all the data[^\n]*|Let me [^\n]*|All data verified[^\n]*|Here(?:'s| is) the [^\n]*|现在我已经(?:获取|掌握)[^\n]*(?:让我来|下面)[^\n]*)\s*(?:\r?\n+|$)/i, "")
       .replace(/[ \t]{2,}/g, " ");
@@ -83,8 +85,8 @@
     }
   };
 
-  // 轻量提示条（与 app_holdings.js 共用 .pf-toast 样式；主模块自用，如 openDrawer 的"找不到股票"提示）
-  const portfolioToast = (msg, type = "info") => {
+  // 轻量提示条（当前用于详情数据缺失等全局反馈）
+  const showToast = (msg, type = "info") => {
     const t = document.createElement("div");
     t.className = "pf-toast " + type;
     t.textContent = msg;
@@ -123,7 +125,7 @@
     };
     STOCKS.forEach((s) => add(s, "巨头核心"));
     [
-      [MARKET, "市场异动"], [HOT, "今日热点"], [HOLDINGS, "持仓"],
+      [MARKET, "市场异动"],
       [window.LOGIC, "逻辑链"],
       [window.EVENTS, "今日热点事件"], [window.WEEKEND, "周末发酵"],
     ].forEach(([value, source]) => walk(value, source));
@@ -141,7 +143,11 @@
       cls = d <= 1 ? "ok" : d <= 4 ? "warn" : "bad";
     }
     const tip = d == null ? "" : d <= 1 ? "最新" : d <= 4 ? `${d}天前` : "数据过期";
-    $("#updated").innerHTML = `<span class="fresh ${cls}"></span>行情截至 ${esc(day)}${tip ? ` <span class="fresh-tip ${cls}">${tip}</span>` : ""}`;
+    const updated = $("#updated");
+    const updatedLabel = `行情截至 ${day}${tip ? ` ${tip}` : ""}`;
+    updated.innerHTML = `<span class="fresh ${cls}"></span>行情截至 ${esc(day)}${tip ? ` <span class="fresh-tip ${cls}">${tip}</span>` : ""}`;
+    updated.setAttribute("aria-label", updatedLabel);
+    updated.title = updatedLabel;
     const ss = $("#signalStat");
     if (ss) ss.textContent = META.signalStat || "";
     renderMarketSnap();
@@ -500,13 +506,13 @@
         <button class="dclose" id="dclose" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>`;
 
-  // 统一入口:自选股走叙事版,非自选走轻量版,都找不到给提示
+  // 统一入口：巨头核心走完整叙事版，其他关联标的走轻量版。
   function openDrawer(code) {
     const s = STOCKS.find((x) => x.code === code);
     if (s) return renderWatchDrawer(s);
     const m = findMarketStock(code);
     if (m) return renderMarketDrawer(m);
-    portfolioToast(`暂未找到股票 ${code} 的详情数据`, "error");
+    showToast(`暂未找到股票 ${code} 的详情数据`, "error");
   }
 
   // 从 MARKET 各池里找这只票(含龙虎榜 + 全局引用索引)
@@ -665,335 +671,7 @@
     drawerReturnFocus = null;
   }
 
-  /* ---------- 全市场异动视图 ---------- */
-  // 异动类型 → 对应数据源 + 卡片字段适配
-  const ANOMALY_DEFS = {
-    gainers:     { key: "topGainers",  title: "涨幅 TOP50",     field: "chgPct",   fmt: "pct" },
-    losers:      { key: "topLosers",   title: "跌幅 TOP50",     field: "chgPct",   fmt: "pct" },
-    turnover:    { key: "topTurnover", title: "换手率 TOP50",    field: "turnover", fmt: "pct0" },
-    inflow:      { key: "topInflow",   title: "主力净流入 TOP50", field: "netInflow", fmt: "yi" },
-    outflow:     { key: "topOutflow",  title: "主力净流出 TOP50", field: "netInflow", fmt: "yi" },
-    limitUp:     { key: "limitUp",     title: "涨停池",          field: "lbc",      fmt: "lbc", pool: true },
-    limitDown:   { key: "limitDown",   title: "跌停池",          field: "dt_days",  fmt: "days", pool: true },
-    brokeUp:     { key: "brokeUp",     title: "炸板池",          field: "break_times", fmt: "times", pool: true },
-    hotRank:     { key: "hotRank",     title: "东财人气榜 TOP50", field: "rank",    fmt: "rank" },
-    dragonTiger: { key: "dt_stocks",   title: "龙虎榜",          field: "net_buy_wan", fmt: "wan" },
-  };
-
-  // 异动轻量卡(只有行情+板块+资金流,无叙事/左右计划)
-  function marketCard(m, def) {
-    const code = m.code || "";
-    const name = m.name || "—";
-    const price = m.price != null ? `¥${m.price}` : "—";
-    // 涨停/跌停/炸板池的涨跌幅字段是 pct，其余池是 chgPct
-    const chg = m.chgPct ?? m.pct;
-    const chgCls = sgn(chg);
-    // 高亮字段
-    let hl = "";
-    if (def.fmt === "pct" || def.fmt === "pct0") {
-      const v = def.field === "chgPct" ? chg : m[def.field];
-      hl = v != null ? `<span class="mc-hl ${sgn(v)}">${def.field === "chgPct" ? pct(v) : v.toFixed(2) + "%"}</span>` : "";
-    } else if (def.fmt === "yi") {
-      const v = m.netInflow;
-      const yi = v != null ? v / 1e8 : null;
-      hl = yi != null ? `<span class="mc-hl ${sgn(yi)}">主力 ${yi > 0 ? "+" : ""}${yi.toFixed(2)}亿</span>` : "";
-    } else if (def.fmt === "lbc") {
-      const lb = m.lbc || m.limit_days;
-      hl = lb ? `<span class="mc-hl up">${lb}连板</span>` : `<span class="mc-hl">首板</span>`;
-    } else if (def.fmt === "days") {
-      const d = m.dt_days || 1;
-      hl = `<span class="mc-hl down">${d}日跌停</span>`;
-    } else if (def.fmt === "times") {
-      const t = m.break_times || 0;
-      hl = `<span class="mc-hl warn">炸${t}次</span>`;
-    } else if (def.fmt === "rank") {
-      hl = `<span class="mc-hl">#${m.rank}</span>`;
-    } else if (def.fmt === "wan") {
-      const w = m.net_buy_wan;
-      hl = w != null ? `<span class="mc-hl ${sgn(w)}">净买 ${w.toFixed(0)}万</span>` : "";
-    }
-    const industry = m.industry ? `<span class="mc-sec">${esc(typeof m.industry === "string" ? m.industry : (m.industry || []).join("/"))}</span>` : "";
-    const turnover = m.turnover != null ? `<span class="mc-mini">换手${m.turnover.toFixed(1)}%</span>` : "";
-    const ztStat = m.zt_stat ? `<span class="mc-mini">${esc(m.zt_stat)}</span>` : "";
-    const reason = m.reason ? `<div class="mc-reason">${esc(m.reason)}</div>` : "";
-    // 龙虎榜特殊:reason 字段
-    const dtReason = m.reason ? `<div class="mc-reason">${esc(m.reason)}</div>` : "";
-    return `<article class="market-card ${chgCls}" data-code="${esc(code)}" role="button" tabindex="0" aria-label="打开 ${esc(name)} ${esc(code)} 详情">
-      <div class="mc-head">
-        <span class="mc-name">${esc(name)}</span>
-        <span class="mc-code">${esc(code)}</span>
-        ${industry}
-      </div>
-      <div class="mc-px">
-        <span class="mc-price">${price}</span>
-        ${chg != null ? `<span class="chg ${chgCls}">${pct(chg)}</span>` : ""}
-        ${hl}
-      </div>
-      <div class="mc-meta">${turnover}${ztStat}</div>
-      ${reason || dtReason}
-    </article>`;
-  }
-
-  // 打板情绪条(炸板率/连板梯队/北向)
-  function renderSentiment() {
-    const el = $("#sentimentBar");
-    if (!el) return;
-    const s = MARKET.sentiment || {};
-    const nb = MARKET.northbound;
-    const ladder = s.ladder || {};
-    const ladHtml = Object.entries(ladder)
-      .sort((a, b) => Number(b[0]) - Number(a[0]))
-      .map(([k, v]) => `<span class="lad-item"><span class="lad-h">${k}板</span><span class="lad-n">${v}</span></span>`).join("");
-    el.innerHTML = `
-      <div class="sent-group">
-        <span class="sent-label">打板情绪</span>
-        <span class="sent-val up">涨停 ${s.zt_count ?? "—"}</span>
-        <span class="sent-val warn">炸板 ${s.zb_count ?? "—"}</span>
-        <span class="sent-val down">跌停 ${s.dt_count ?? "—"}</span>
-        <span class="sent-val">炸板率 ${s.break_rate ?? "—"}%</span>
-        <span class="sent-val">最高 ${s.max_height ?? "—"}连板</span>
-      </div>
-      <div class="sent-group lad">${ladHtml ? `<span class="sent-label">连板梯队</span>${ladHtml}` : ""}</div>
-      ${nb && Number.isFinite(nb.total_yi) ? `<div class="sent-group"><span class="sent-label">北向资金</span><span class="sent-val ${sgn(nb.total_yi)}">净${nb.total_yi > 0 ? "流入" : "流出"} ${Math.abs(nb.total_yi).toFixed(2)}亿</span><span class="sent-mini">沪${(Number.isFinite(nb.hgt_yi) ? nb.hgt_yi : 0).toFixed(2)} 深${(Number.isFinite(nb.sgt_yi) ? nb.sgt_yi : 0).toFixed(2)}</span></div>` : ""}
-      <div class="sent-date">数据时点 ${esc(MARKET.date || "")}</div>
-    `;
-  }
-
-  /* ---------- 板块资金流向（东财，盘中分时） ---------- */
-  const FF_COLORS = [
-    "#2557d6", "#d93838", "#0f9b6c", "#c48916", "#7c3aed",
-    "#0891b2", "#db2777", "#65a30d", "#ea580c", "#4f46e5",
-    "#0d9488", "#b45309",
-  ];
-
-  function renderFundFlow() {
-    const el = $("#viewFundflow");
-    if (!el) return;
-    const FF = window.FUNDFLOW || null;
-    const boards = (FF && Array.isArray(FF.boards)) ? FF.boards : [];
-    const series = (FF && Array.isArray(FF.series))
-      ? FF.series.filter((s) => (s.points || []).length > 2)
-      : [];
-    const inflow = (FF && Array.isArray(FF.inflow))
-      ? FF.inflow
-      : boards.filter((b) => b.netInflowYi > 0).slice(0, 12);
-    const outflow = (FF && Array.isArray(FF.outflow))
-      ? FF.outflow
-      : boards.filter((b) => b.netInflowYi < 0).slice(0, 12);
-
-    if (!boards.length && !series.length) {
-      el.innerHTML = secTitle("资金流向", "板块主力净流入 · 盘中分时") +
-        emptyState("暂无资金流数据。运行 python3 scripts/fetch_fundflow.py 或点「刷新数据」。");
-      return;
-    }
-
-    const updated = (FF && (FF.generatedAt || FF.date)) || "—";
-    const maxAbs = Math.max(
-      0.01,
-      ...inflow.map((b) => Math.abs(b.netInflowYi || 0)),
-      ...outflow.map((b) => Math.abs(b.netInflowYi || 0))
-    );
-
-    const rowHtml = (b, dir) => {
-      const v = Number(b.netInflowYi) || 0;
-      const pct = Math.min(100, (Math.abs(v) / maxAbs) * 100);
-      const chg = Number(b.chgPct) || 0;
-      return `<div class="ff-row ${dir}">
-        <span class="ff-name" title="${esc(b.rawName || b.name)}">${esc(b.name)}</span>
-        <span class="ff-bar-wrap"><span class="ff-bar" style="width:${pct.toFixed(1)}%"></span></span>
-        <span class="ff-val ${v >= 0 ? "up" : "down"}">${v >= 0 ? "+" : ""}${v.toFixed(2)}</span>
-        <span class="ff-chg ${chg >= 0 ? "up" : "down"}">${chg >= 0 ? "+" : ""}${chg.toFixed(2)}%</span>
-      </div>`;
-    };
-
-    const legend = series.map((s, i) => {
-      const v = Number(s.netInflowYi) || 0;
-      return `<button type="button" class="ff-leg active" data-i="${i}" style="--c:${FF_COLORS[i % FF_COLORS.length]}">
-        <i></i>${esc(s.name)}
-        <span class="${v >= 0 ? "up" : "down"}">${v >= 0 ? "+" : ""}${v.toFixed(1)}亿</span>
-      </button>`;
-    }).join("");
-
-    el.innerHTML = `<div class="ff-page">
-      <div class="ff-hero">
-        <div class="ff-hero-top">
-          <span class="ff-badge">板块资金 · 东财</span>
-          <span class="ff-updated">更新 ${esc(String(updated))}</span>
-        </div>
-        <h1 class="ff-title">盘中资金流向</h1>
-        <p class="ff-desc">主力净流入（亿元，日累计）。上方曲线为各板块分时累计，下方为净流入/净流出排行；盘中点「刷新数据」可更新。仅供研究参考。</p>
-      </div>
-      <div class="ff-chart-card">
-        <div class="ff-chart-head">
-          <h2>分时曲线</h2>
-          <div class="ff-legs" id="ffLegs">${legend || "<span class='ff-empty-leg'>暂无分时序列</span>"}</div>
-        </div>
-        <div class="ff-canvas-wrap">
-          <canvas id="ffCanvas" width="960" height="360" aria-label="板块资金分时图"></canvas>
-          <div class="ff-y-unit">亿元</div>
-        </div>
-      </div>
-      <div class="ff-cols">
-        <section class="ff-col in">
-          <h3>净流入 TOP</h3>
-          <div class="ff-list">${inflow.length ? inflow.slice(0, 12).map((b) => rowHtml(b, "in")).join("") : "<div class='empty'>暂无</div>"}</div>
-        </section>
-        <section class="ff-col out">
-          <h3>净流出 TOP</h3>
-          <div class="ff-list">${outflow.length ? outflow.slice(0, 12).map((b) => rowHtml(b, "out")).join("") : "<div class='empty'>暂无</div>"}</div>
-        </section>
-      </div>
-      <div class="ff-foot">数据源：东方财富板块资金 · scripts/fetch_fundflow.py · 单位亿元 · 非投资建议</div>
-    </div>`;
-
-    const canvas = el.querySelector("#ffCanvas");
-    if (canvas && series.length) {
-      const hidden = new Set();
-      const draw = () => drawFundFlowChart(canvas, series, hidden);
-      draw();
-      el.querySelectorAll(".ff-leg").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const i = btn.dataset.i;
-          if (hidden.has(i)) { hidden.delete(i); btn.classList.add("active"); }
-          else { hidden.add(i); btn.classList.remove("active"); }
-          draw();
-        });
-      });
-      if (el._ffResize) window.removeEventListener("resize", el._ffResize);
-      el._ffResize = () => draw();
-      window.addEventListener("resize", el._ffResize);
-    }
-  }
-
-  function drawFundFlowChart(canvas, series, hidden) {
-    const wrap = canvas.parentElement;
-    const dpr = window.devicePixelRatio || 1;
-    const cssW = Math.max(320, wrap.clientWidth - 8);
-    const cssH = Math.min(400, Math.max(260, Math.round(cssW * 0.38)));
-    canvas.style.width = cssW + "px";
-    canvas.style.height = cssH + "px";
-    canvas.width = Math.floor(cssW * dpr);
-    canvas.height = Math.floor(cssH * dpr);
-    const ctx = canvas.getContext("2d");
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    const pad = { t: 16, r: 16, b: 28, l: 48 };
-    const W = cssW - pad.l - pad.r;
-    const H = cssH - pad.t - pad.b;
-    ctx.clearRect(0, 0, cssW, cssH);
-    ctx.fillStyle = "#fafbfd";
-    ctx.fillRect(0, 0, cssW, cssH);
-
-    const visible = series.filter((_, i) => !hidden.has(String(i)));
-    let allPts = [];
-    visible.forEach((s) => { allPts = allPts.concat(s.points || []); });
-    if (!allPts.length) {
-      ctx.fillStyle = "#8b93a3";
-      ctx.font = "13px sans-serif";
-      ctx.fillText("暂无分时点", pad.l, pad.t + 24);
-      return;
-    }
-
-    let timeAxis = [];
-    series.forEach((s) => {
-      if ((s.points || []).length > timeAxis.length) timeAxis = s.points.map((p) => p.t);
-    });
-    const ys = allPts.map((p) => Number(p.mainYi) || 0);
-    let yMin = Math.min(0, ...ys);
-    let yMax = Math.max(0, ...ys);
-    if (yMin === yMax) { yMin -= 1; yMax += 1; }
-    const yPad = (yMax - yMin) * 0.08;
-    yMin -= yPad; yMax += yPad;
-
-    const xAt = (i, n) => pad.l + (n <= 1 ? W / 2 : (i / (n - 1)) * W);
-    const yAt = (v) => pad.t + ((yMax - v) / (yMax - yMin)) * H;
-
-    ctx.strokeStyle = "#e4e8ef";
-    ctx.lineWidth = 1;
-    for (let g = 0; g <= 4; g++) {
-      const y = pad.t + (H * g) / 4;
-      ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + W, y); ctx.stroke();
-      const val = yMax - ((yMax - yMin) * g) / 4;
-      ctx.fillStyle = "#8b93a3";
-      ctx.font = "10px monospace";
-      ctx.textAlign = "right";
-      ctx.fillText(val.toFixed(1), pad.l - 8, y + 3);
-    }
-    const y0 = yAt(0);
-    ctx.strokeStyle = "#c8d0dc";
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(pad.l, y0); ctx.lineTo(pad.l + W, y0); ctx.stroke();
-    ctx.setLineDash([]);
-
-    series.forEach((s, si) => {
-      if (hidden.has(String(si))) return;
-      const pts = s.points || [];
-      if (pts.length < 2) return;
-      const color = FF_COLORS[si % FF_COLORS.length];
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2;
-      ctx.lineJoin = "round";
-      ctx.beginPath();
-      pts.forEach((p, i) => {
-        const x = xAt(i, pts.length);
-        const y = yAt(Number(p.mainYi) || 0);
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
-      const last = pts[pts.length - 1];
-      const lx = xAt(pts.length - 1, pts.length);
-      const ly = yAt(Number(last.mainYi) || 0);
-      ctx.fillStyle = color;
-      ctx.beginPath(); ctx.arc(lx, ly, 3, 0, Math.PI * 2); ctx.fill();
-    });
-
-    ctx.fillStyle = "#8b93a3";
-    ctx.font = "10px monospace";
-    ctx.textAlign = "center";
-    const step = Math.max(1, Math.floor(timeAxis.length / 6));
-    for (let i = 0; i < timeAxis.length; i += step) {
-      ctx.fillText(timeAxis[i], xAt(i, timeAxis.length), cssH - 8);
-    }
-    if (timeAxis.length) {
-      ctx.fillText(timeAxis[timeAxis.length - 1], xAt(timeAxis.length - 1, timeAxis.length), cssH - 8);
-    }
-  }
-
-  function renderMarket() {
-    renderSentiment();
-    const el = $("#marketGrid");
-    if (!el) return;
-    const def = ANOMALY_DEFS[marketState.anomaly] || ANOMALY_DEFS.gainers;
-    // 龙虎榜数据在 dragonTiger.stocks
-    let list;
-    if (marketState.anomaly === "dragonTiger") {
-      list = (MARKET.dragonTiger && MARKET.dragonTiger.stocks) || [];
-    } else {
-      list = MARKET[def.key] || [];
-    }
-    // 搜索过滤
-    if (marketState.q) {
-      const q = marketState.q.toLowerCase();
-      list = list.filter((m) => [m.name, m.code, m.industry, m.reason].filter(Boolean).join(" ").toLowerCase().includes(q));
-    }
-    // 截断到前 60 张卡(避免卡顿)
-    const shown = list.slice(0, 60);
-    el.innerHTML = shown.length
-      ? shown.map((m) => marketCard(m, def)).join("")
-      : `<div class="empty">该异动类型暂无数据(非交易日或盘后未更新)。</div>`;
-    el.querySelectorAll(".market-card").forEach((c) => {
-      c.addEventListener("click", () => openDrawer(c.dataset.code));
-      c.addEventListener("keydown", (e) => {
-        if (e.target !== c || !["Enter", " "].includes(e.key)) return;
-        e.preventDefault();
-        openDrawer(c.dataset.code);
-      });
-    });
-    const count = $("#count");
-    if (count) count.textContent = `${def.title} · 显示 ${shown.length} / ${list.length} 只`;
-  }
-
-  // 非自选票详情抽屉(轻量版:行情 + 关联信息 + 说明;自选股由 openDrawer 路由转 renderWatchDrawer)
+  // 非巨头核心标的详情抽屉（行情 + 关联信息 + 说明）
   function renderMarketDrawer(m) {
     const chg = m.chgPct ?? m.pct;
     const industry = typeof m.industry === "string" ? m.industry : (m.industry || []).join("/");
@@ -1023,99 +701,121 @@
     showDrawer();
   }
 
-  /* ---------- 今日热点 TOP30 ---------- */
-
-  function hotCard(h) {
-    const chgCls = sgn(h.chgPct);
-    const netCls = h.netInflow > 0 ? "up" : h.netInflow < 0 ? "down" : "";
-    const concepts = (h.concepts || []).slice(0, 6).map((c) => `<span class="hc-chip">${esc(c)}</span>`).join("");
-    const boards = h.boards > 0 ? `<span class="hc-board">${h.boards}连板</span>` : "";
-    const news = (h.news || []).slice(0, 2).map((n) => {
-      const url = safeUrl(n.url);
-      return url ? `<a class="hc-news" href="${esc(url)}" target="_blank" rel="noopener">${esc(n.title)}</a>`
-                 : `<span class="hc-news">${esc(n.title)}</span>`;
-    }).join("");
-    const metric = (lab, val) => `<div class="hm"><span class="hm-l">${lab}</span><span class="hm-v">${val}</span></div>`;
-    return `<article class="hotcard">
-      <div class="hc-head">
-        <span class="hc-rank">${h.rank}</span>
-        <div class="hc-name-wrap">
-          <span class="hc-name">${esc(h.name)}</span>
-          <span class="hc-code">${esc(h.code)}${h.board ? " · " + esc(h.board) : ""}${Array.isArray(h.industry) && h.industry.length ? " · " + esc(h.industry.join("/")) : (typeof h.industry === "string" && h.industry ? " · " + esc(h.industry) : "")}</span>
-        </div>
-        <div class="hc-px">
-          <span class="hc-price">¥${h.price ?? "—"}</span>
-          <span class="chg ${chgCls}">${pct(h.chgPct)}</span>
-          ${boards}
-        </div>
-      </div>
-      <div class="hc-metrics">
-        ${metric("人气热度", h.heat != null ? (h.heat / 10000).toFixed(0) + "万" : "—")}
-        ${metric("换手", h.turnover != null ? h.turnover + "%" : "—")}
-        ${metric("量比", h.volRatio ?? "—")}
-        ${metric("振幅", h.amplitude != null ? h.amplitude + "%" : "—")}
-        ${metric("主力净流入", `<span class="${netCls}">${h.netInflow != null ? (h.netInflow > 0 ? "+" : "") + h.netInflow + "亿" : "—"}</span>`)}
-        ${metric("流通市值", h.floatCap != null ? h.floatCap + "亿" : "—")}
-      </div>
-      <div class="hc-concepts">${concepts || '<span class="hc-chip">—</span>'}</div>
-      <div class="hc-analysis">
-        <div class="hc-line"><span class="hc-tag theme">炒作题材</span><span class="hc-txt">${esc(h.reason || "—")}</span></div>
-        <div class="hc-line"><span class="hc-tag tech">技术面</span><span class="hc-txt">${esc(h.tech || "—")}</span></div>
-        <div class="hc-line"><span class="hc-tag senti">情绪面</span><span class="hc-txt">${esc(h.senti || "—")}</span></div>
-      </div>
-      ${news ? `<div class="hc-newsrow">${news}</div>` : ""}
-    </article>`;
-  }
-
-  function renderHot() {
-    const list = HOT.list || [];
-    const el = $("#hotList");
-    if (!el) return;
-    el.innerHTML = list.length
-      ? list.map(hotCard).join("")
-      : `<div class="empty">热点数据待生成（每日收盘后由问财自动更新）。</div>`;
-  }
-
   // 模块视图切换 + 懒渲染调度
   const VIEW_RENDER = {
     home: () => renderHome(),
-    holdings: () => App.renderHoldings(),
-    logic: () => App.renderLogic(),
-    weekend: () => App.renderWeekend(),
-    events: () => App.renderEvents(),
-    news: () => App.renderNewsAll(),
-    xbrief: () => App.renderXBriefs(),
-    fundflow: () => renderFundFlow(),
     watch: () => renderWatch(),
-    market: () => renderMarket(),
-    hot: () => renderHot(),
+    logic: () => App.renderLogic(),
+    xbrief: () => App.renderXBriefs(),
+    events: () => App.renderEvents(),
+    weekend: () => App.renderWeekend(),
   };
   const VIEW_TITLES = {
     home: "首页",
-    holdings: "持仓决策",
     watch: "巨头核心",
     logic: "逻辑链",
-    market: "市场异动",
-    fundflow: "资金流向",
-    hot: "今日热点",
-    news: "新闻",
     xbrief: "外围热点",
     events: "今日热点事件",
     weekend: "周末发酵",
   };
-  function viewFromHash() {
+  function hashViewName() {
     try {
-      const value = decodeURIComponent(location.hash.replace(/^#/, "").split("/")[0]).trim();
-      return VIEW_RENDER[value] ? value : "home";
+      return decodeURIComponent(location.hash.replace(/^#/, "").split("/")[0]).trim();
     } catch {
-      return "home";
+      return "";
     }
+  }
+  function viewFromHash() {
+    const value = hashViewName();
+    return VIEW_RENDER[value] ? value : "home";
   }
   function syncViewLocation(view, replace = false) {
     const hash = `#${view}`;
     if (location.hash === hash) return;
     history[replace ? "replaceState" : "pushState"](null, "", hash);
   }
+  const mobileSidebarQuery = window.matchMedia("(max-width: 980px)");
+  let sidebarReturnFocus = null;
+
+  function setSidebarTriggerState(expanded) {
+    const value = expanded ? "true" : "false";
+    const menuToggle = $("#menuToggle");
+    const tabMore = $("#tabMore");
+    menuToggle?.setAttribute("aria-expanded", value);
+    tabMore?.setAttribute("aria-expanded", value);
+    if (menuToggle) menuToggle.setAttribute("aria-label", expanded ? "关闭模块菜单" : "打开模块菜单");
+    if (tabMore) tabMore.setAttribute("aria-label", expanded ? "关闭更多模块" : "打开更多模块");
+  }
+
+  function syncSidebarAccessibility() {
+    const sidebar = $("#sidebar");
+    const backdrop = $("#sidebarBackdrop");
+    if (!sidebar) return;
+    const mobile = mobileSidebarQuery.matches;
+    const open = mobile && document.body.classList.contains("sidebar-open");
+    setSidebarTriggerState(open);
+    backdrop?.setAttribute("aria-hidden", open ? "false" : "true");
+    if (mobile) {
+      sidebar.toggleAttribute("inert", !open);
+      sidebar.setAttribute("aria-hidden", open ? "false" : "true");
+    } else {
+      sidebar.removeAttribute("inert");
+      sidebar.removeAttribute("aria-hidden");
+    }
+  }
+
+  function focusSidebarEntry() {
+    const sidebar = $("#sidebar");
+    if (!sidebar || sidebar.hasAttribute("inert")) return;
+    const target =
+      sidebar.querySelector('.nav-item[aria-current="page"]') ||
+      sidebar.querySelector(".nav-item.active") ||
+      sidebar.querySelector(".nav-item");
+    target?.focus({ preventScroll: true });
+  }
+
+  function setSidebarOpen(open, options = {}) {
+    const sidebar = $("#sidebar");
+    const mobile = mobileSidebarQuery.matches;
+    const wasOpen = mobile && document.body.classList.contains("sidebar-open");
+    const next = mobile && Boolean(open);
+    if (next && !wasOpen) sidebarReturnFocus = options.trigger || document.activeElement;
+    document.body.classList.toggle("sidebar-open", next);
+    setSidebarTriggerState(next);
+
+    if (!next) {
+      const returnTarget = sidebarReturnFocus;
+      sidebarReturnFocus = null;
+      const restoreFocus = options.restoreFocus ?? wasOpen;
+      if (restoreFocus && returnTarget?.isConnected) {
+        returnTarget.focus({ preventScroll: true });
+      } else if (mobile && sidebar?.contains(document.activeElement)) {
+        ($("#menuToggle") || $("#tabMore"))?.focus({ preventScroll: true });
+      }
+    }
+
+    syncSidebarAccessibility();
+    if (next && options.focus !== false) requestAnimationFrame(focusSidebarEntry);
+  }
+
+  function handleSidebarBreakpoint() {
+    const sidebar = $("#sidebar");
+    const enteringMobile = mobileSidebarQuery.matches;
+    const focusWasInSidebar = sidebar?.contains(document.activeElement);
+    document.body.classList.remove("sidebar-open");
+    sidebarReturnFocus = null;
+    if (enteringMobile && focusWasInSidebar) {
+      ($("#menuToggle") || $("#tabMore"))?.focus({ preventScroll: true });
+    }
+    syncSidebarAccessibility();
+  }
+
+  if (typeof mobileSidebarQuery.addEventListener === "function") {
+    mobileSidebarQuery.addEventListener("change", handleSidebarBreakpoint);
+  } else {
+    mobileSidebarQuery.addListener(handleSidebarBreakpoint);
+  }
+  syncSidebarAccessibility();
   function switchView(view, options = {}) {
     if (!VIEW_RENDER[view]) view = "home";
     // A2: 切走前记住当前视图滚动位置
@@ -1126,15 +826,20 @@
     document.querySelectorAll(".nav-item").forEach((b) => {
       const active = b.dataset.view === view;
       b.classList.toggle("active", active);
-      // aria-current 只标在侧栏导航上;底部 tabbar 是同一导航的副本,避免页面出现多个 current
-      if (active && !b.classList.contains("tab-item")) b.setAttribute("aria-current", "page");
+      // 桌面侧栏与手机底栏是两个独立导航地标，均需向辅助技术标记当前页。
+      if (active) b.setAttribute("aria-current", "page");
       else b.removeAttribute("aria-current");
     });
+    const moreTab = $("#tabMore");
+    const moreActive = !["home", "watch"].includes(view);
+    moreTab?.classList.toggle("active", moreActive);
+    if (moreActive) moreTab?.setAttribute("aria-current", "page");
+    else moreTab?.removeAttribute("aria-current");
     // 懒渲染:切到该视图才调对应 render(已有数据则重渲染,无数据则显示待生成)
     const fn = VIEW_RENDER[view];
     if (fn) { try { Promise.resolve(fn()).catch((e) => console.warn("render " + view + " failed", e)); } catch (e) { console.warn("render " + view + " failed", e); } }
     // 移动端:切完关侧栏
-    document.body.classList.remove("sidebar-open");
+    setSidebarOpen(false);
     // A2: 恢复该视图上次滚动位置;首次访问回顶(与原行为一致)
     const scrollRoot = viewScrollRoot();
     if (scrollRoot) scrollRoot.scrollTop = viewScroll.get(view) ?? 0;
@@ -1145,15 +850,26 @@
   document.querySelectorAll(".nav-item").forEach((b) =>
     b.addEventListener("click", () => switchView(b.dataset.view))
   );
-  window.addEventListener("hashchange", () => switchView(viewFromHash(), { syncHash: false }));
+  window.addEventListener("hashchange", () => {
+    const requested = hashViewName();
+    const view = VIEW_RENDER[requested] ? requested : "home";
+    switchView(view, {
+      syncHash: requested !== view,
+      replaceHash: requested !== view,
+    });
+  });
   // 汉堡菜单(移动端)
   const mt = $("#menuToggle");
-  if (mt) mt.addEventListener("click", () => document.body.classList.toggle("sidebar-open"));
+  if (mt) mt.addEventListener("click", (event) =>
+    setSidebarOpen(!document.body.classList.contains("sidebar-open"), { trigger: event.currentTarget })
+  );
   // 底部导航「更多」(移动端):同样开合侧栏抽屉
   const tm = $("#tabMore");
-  if (tm) tm.addEventListener("click", () => document.body.classList.toggle("sidebar-open"));
+  if (tm) tm.addEventListener("click", (event) =>
+    setSidebarOpen(!document.body.classList.contains("sidebar-open"), { trigger: event.currentTarget })
+  );
   const sb = $("#sidebarBackdrop");
-  if (sb) sb.addEventListener("click", () => document.body.classList.remove("sidebar-open"));
+  if (sb) sb.addEventListener("click", () => setSidebarOpen(false));
 
   /* ---------- 事件 ---------- */
   $("#backdrop").addEventListener("click", closeDrawer);
@@ -1175,6 +891,9 @@
       }
     }
     if (e.key === "Escape") {
+      if (document.body.classList.contains("sidebar-open")) {
+        setSidebarOpen(false, { restoreFocus: true });
+      }
       closeSearchPanel();
       closeDrawer();
     }
@@ -1190,12 +909,10 @@
     gsInput.addEventListener("input", (e) => {
       const q = e.target.value.trim();
       state.q = q;
-      marketState.q = q;
       renderGlobalSearch(q);
       clearTimeout(gridFilterTimer);
       gridFilterTimer = setTimeout(() => {
         if (curView === "watch") renderWatch();
-        if (curView === "market") renderMarket();
       }, 200);
     });
     gsInput.addEventListener("keydown", (e) => {
@@ -1219,27 +936,6 @@
   document.querySelectorAll(".verdict-chip").forEach((b) =>
     b.addEventListener("click", () => { state.verdict = b.dataset.verdict; renderChips(); renderWatch(); })
   );
-  document.querySelectorAll(".anomaly-chip").forEach((b) =>
-    b.addEventListener("click", () => {
-      marketState.anomaly = b.dataset.anomaly;
-      document.querySelectorAll(".anomaly-chip").forEach((c) => c.classList.toggle("active", c === b));
-      renderMarket();
-    })
-  );
-
-  // 密度切换（紧凑/标准，localStorage 持久化）
-  const savedDensity = localStorage.getItem("density") || "compact";
-  document.body.classList.add("density-" + savedDensity);
-  document.querySelectorAll(".density-btn").forEach((b) => {
-    b.classList.toggle("active", b.dataset.density === savedDensity);
-    b.addEventListener("click", () => {
-      const d = b.dataset.density;
-      document.body.classList.remove("density-compact", "density-standard");
-      document.body.classList.add("density-" + d);
-      localStorage.setItem("density", d);
-      document.querySelectorAll(".density-btn").forEach((c) => c.classList.toggle("active", c === b));
-    });
-  });
 
   // 状态栏 + 命令栏（终端风格）
   const sbDateTime = $("#sbDateTime");
@@ -1373,19 +1069,25 @@
   function buildSearchIndex() {
     const list = [];
     STOCKS.forEach((s) => {
-      addSearchItem(list, "自选股", s.name, `${s.code} · ${s.sector}`, [s.narrative, (s.tags || []).join(" "), s.review?.change].join(" "), "watch", s.code);
+      addSearchItem(list, "巨头核心", s.name, `${s.code} · ${s.sector}`, [s.narrative, (s.tags || []).join(" "), s.review?.change].join(" "), "watch", s.code);
       (s.news || []).slice(0, 3).forEach((n) => addSearchItem(list, "个股新闻", n.title, `${s.name} · ${n.date || ""}`, n.source || "", "watch", s.code));
     });
-    ["topGainers","topLosers","topTurnover","topInflow","topOutflow","limitUp","limitDown","brokeUp","hotRank"].forEach((key) => {
-      (MARKET[key] || []).slice(0, 40).forEach((m) => addSearchItem(list, "市场异动", m.name, `${m.code} · ${m.industry || ""}`, m.reason || "", "market", m.code));
-    });
-    ((MARKET.dragonTiger && MARKET.dragonTiger.stocks) || []).slice(0, 40).forEach((m) =>
-      addSearchItem(list, "龙虎榜", m.name, `${m.code} · ${m.industry || ""}`, m.reason || "", "market", m.code));
-    (HOT.list || []).forEach((h) => addSearchItem(list, "热点", h.name, `${h.code} · 热度${h.rank || ""}`, [h.reason, (h.concepts || []).join(" ")].join(" "), "hot", h.code));
-    (NEWSALL?.global || []).slice(0, 60).forEach((n) => addSearchItem(list, "新闻", n.title, n.time || n.date || "", "", "news"));
-    (NEWSALL?.announcements || []).slice(0, 60).forEach((n) => addSearchItem(list, "公告", n.title || n.announcementTitle, n.date || "", "", "news"));
     (window.LOGIC?.chains || []).forEach((c) => addSearchItem(list, "逻辑链", c.name, c.event_type || "", [c.event, c.logic, c.invalidation].filter(Boolean).join(" "), "logic"));
     (window.EVENTS?.events || []).forEach((e) => addSearchItem(list, "事件", e.title, e.importance || "", [e.content, e.sectors].join(" "), "events"));
+    (window.XBRIEFS?.briefs || []).forEach((b) => {
+      const title = `外围热点 · ${b.time || b.id || b.period || "最新一期"}`;
+      addSearchItem(list, "外围热点", title, b.period || "", b.content || "", "xbrief");
+    });
+    (window.WEEKEND?.hotspots || []).forEach((h) => {
+      addSearchItem(
+        list,
+        "周末发酵",
+        h.title,
+        [h.category, h.fermentLevel && `发酵 ${h.fermentLevel}`].filter(Boolean).join(" · "),
+        [h.event, h.interpretation, h.falsifyRisk, h.mondayStrategy, ...(h.impactSectors || [])].filter(Boolean).join(" "),
+        "weekend"
+      );
+    });
     return list;
   }
 
@@ -1397,11 +1099,11 @@
       const title = String(x.title || "").toLowerCase();
       const code = String(x.code || "").toLowerCase();
       if (code === key) return 1000;
-      if (title === key && x.type === "自选股") return 950;
+      if (title === key && x.type === "巨头核心") return 950;
       if (title === key) return 900;
       if (code.startsWith(key)) return 800;
       if (title.startsWith(key)) return 700;
-      if (x.type === "自选股") return 500;
+      if (x.type === "巨头核心") return 500;
       return 100;
     };
     return searchIndex
@@ -1414,13 +1116,10 @@
 
   function activateSearchResult(item) {
     if (!item) return;
-    switchView(item.view || "watch");
     if (item.code) {
-      setTimeout(() => {
-        if (item.type === "自选股" || item.type === "个股新闻") openDrawer(item.code);
-        else openDrawer(item.code);
-      }, 80);
-    }
+      switchView("watch");
+      setTimeout(() => openDrawer(item.code), 80);
+    } else jumpToModuleItem(item.view || "home", item.title);
     closeSearchPanel();
   }
 
@@ -1556,7 +1255,6 @@
         </div>
       </section>
       ${ddStrip}
-      ${secTitle("今日最强", `${cards.length}个分析模块各取第1 · 点击定位到对应条目`)}
       <div class="home-best-grid">${cardHtml || emptyState("分析数据待生成")}</div>
       <div class="home-foot">数据时点 ${esc(MARKET.date || META.signalDate || "")} · 非投资建议</div>
     `;
@@ -1578,7 +1276,7 @@
   }
 
 
-  /* ---------- 跨条目定位：首页「今日最强」点击后跳到对应模块并高亮 ---------- */
+  /* ---------- 跨条目定位：首页重点卡片点击后跳到对应模块并高亮 ---------- */
   function jumpToModuleItem(view, name) {
     switchView(view);
     if (!name) return;
@@ -1586,6 +1284,13 @@
       const target = [...document.querySelectorAll(`.${view}-only [data-xname]`)]
         .find((node) => node.dataset.xname === name);
       if (target) {
+        if (view === "xbrief" && target.classList.contains("xb-article") && !target.classList.contains("active")) {
+          const railItem = [...document.querySelectorAll(".xbrief-only .xb-rail-item")]
+            .find((node) => node.dataset.i === target.dataset.i);
+          railItem?.click();
+        }
+        if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+        target.focus({ preventScroll: true });
         target.scrollIntoView({ behavior: "smooth", block: "start" });
         target.classList.add("flash-target");
         setTimeout(() => target.classList.remove("flash-target"), 1800);
@@ -1597,33 +1302,34 @@
   }
 
   // 暴露核心到 window.App，供拆分模块解构使用。
-  // renderHoldings / renderLogic 等由各模块自行注册。
+  // 逻辑链、外围热点、事件和周末模块由 app_ai_modules.js 注册。
   window.App = {
-    STOCKS, META, MARKET, HOLDINGS, INDUSTRY_MARKET, NEWSALL, HOT,
-    state, marketState, viewScroll,
+    STOCKS, META, MARKET,
+    state, viewScroll,
     get curView() { return curView; }, set curView(v) { curView = v; },
-    $, grid, viewScrollRoot, isLocalServer,
+    $, grid, viewScrollRoot,
     cleanDisplayText, esc, safeUrl,
     getStockReferenceIndex, isChanged, isOpportunity, latestDay, freshNews, matches, trendRank,
     sortList, sparkline, sgn, pct, fundChip, trendCls, drawdownPct, isDeepDrawdown, drawdownFlag, stateTone,
     card, liList, newsList, researchList,
     secTitle, trunc, emptyState, fieldHtml, titleShort, leadOf, blockHtml, fmtYi,
-    ANOMALY_DEFS, drawerHeadHtml,
+    drawerHeadHtml,
     renderMeta, renderMarketSnap, renderGauges, renderStats, renderChips,
-    renderWatch, renderMarket, renderSentiment, renderHot, marketCard, hotCard,
+    renderWatch,
     showDrawer, openDrawer, closeDrawer, renderWatchDrawer, renderMarketDrawer, findMarketStock,
     switchView, viewFromHash, syncViewLocation,
     renderGlobalSearch, closeSearchPanel,
   };
 
-  // 启动函数：由最后加载的模块(app_ai_modules.js)末尾调用，
-  // 确保 holdings/logic/... 都已注册到 App 后再渲染。
+  // 启动函数由最后加载的 app_ai_modules.js 调用，确保可见研究模块已注册。
   window.App.start = function () {
     renderMeta();
     renderStats();
     renderChips();
-    // 支持直接打开 #market 等视图；无 hash 时用首页替换当前历史记录。
-    switchView(viewFromHash(), { replaceHash: !location.hash });
+    // 退休或未知 hash 一律规范化为 #home，不保留不可访问的历史地址。
+    const requested = hashViewName();
+    const initialView = VIEW_RENDER[requested] ? requested : "home";
+    switchView(initialView, { replaceHash: !requested || requested !== initialView });
 
     // 全部脚本均为 defer，首屏渲染时数据已就绪；下方 DOMContentLoaded 重绑仅在
     // 脚本被以非 defer 方式加载（如测试夹具）时兜底，正常页面不会进入。
@@ -1633,10 +1339,6 @@
         STOCKS = window.STOCKS || [];
         META = window.META || {};
         MARKET = window.MARKET || {};
-        HOLDINGS = window.HOLDINGS || null;
-        INDUSTRY_MARKET = window.INDUSTRY_MARKET || null;
-        NEWSALL = window.NEWSALL || null;
-        HOT = window.HOT || {};
         stockReferenceIndex = null;
         renderMeta();
         renderStats();

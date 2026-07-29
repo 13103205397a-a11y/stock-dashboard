@@ -48,6 +48,44 @@ def sanitize_square_brackets(text):
     return "".join(out)
 
 
+def sanitize_cjk_brackets(text):
+    """修正常见截断导致的中文圆括号和方括号不完整。"""
+    if not isinstance(text, str) or not text:
+        return text
+    cleaned = text
+    depth = 0
+    last_open = -1
+    for index, char in enumerate(cleaned):
+        if char == "（":
+            depth += 1
+            last_open = index
+        elif char == "）" and depth > 0:
+            depth -= 1
+    if depth > 0 and last_open >= 0:
+        dangling = cleaned[last_open + 1:]
+        incomplete_tail = (
+            len(dangling) <= 8
+            or not any(char.isalnum() or ("\u4e00" <= char <= "\u9fff") for char in dangling)
+            or (len(dangling) <= 12 and not any(char in "，。；、,.!？" for char in dangling))
+        )
+        if incomplete_tail:
+            cleaned = cleaned[:last_open].rstrip("，,、；;：: ")
+        else:
+            cleaned += "）" * depth
+    return sanitize_square_brackets(cleaned)
+
+
+def sanitize_news_item(item):
+    """返回清理过标题/摘要/正文括号的新闻副本。"""
+    if not isinstance(item, dict):
+        return item
+    cleaned = dict(item)
+    for key in ("title", "summary", "content"):
+        if isinstance(cleaned.get(key), str):
+            cleaned[key] = sanitize_cjk_brackets(cleaned[key])
+    return cleaned
+
+
 def sanitize_stock_news(stocks):
     """在统一写盘层清理新闻文本，防止任一采集源绕过入口校验。"""
     changed = 0

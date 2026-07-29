@@ -1,13 +1,11 @@
 import { expect, test } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 
 const VIEWS = [
   "home",
-  "holdings",
   "watch",
   "logic",
-  "market",
-  "hot",
-  "news",
+  "xbrief",
   "events",
   "weekend",
 ];
@@ -20,16 +18,18 @@ const REMOVED_NAV_VIEWS = new Set([
   "news",
   "agent",
   "chain",
+  "reports",
+  "industry",
+  "materials",
 ]);
 
-test("9 个视图可深链接且无页面级横向溢出", async ({ page }) => {
+test("6 个活动视图可深链接且无页面级横向溢出", async ({ page }) => {
   for (const view of VIEWS) {
     // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded；视图切换由下方断言轮询保证
     await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
     await expect(page.locator("body")).toHaveClass(new RegExp(`view-${view}`));
     const navItem = page.locator(`#sidebar .nav-item[data-view="${view}"]`);
-    if (REMOVED_NAV_VIEWS.has(view)) await expect(navItem).toHaveCount(0);
-    else await expect(navItem).toHaveAttribute("aria-current", "page");
+    await expect(navItem).toHaveAttribute("aria-current", "page");
     const metrics = await page.evaluate(() => ({
       viewport: window.innerWidth,
       scrollWidth: document.documentElement.scrollWidth,
@@ -46,6 +46,44 @@ test("已移除的模块不再显示导航入口", async ({ page }) => {
   await expect(page.locator("#viewHome")).not.toContainText("数据健康");
   await expect(page.locator("#viewHome .health-grid")).toHaveCount(0);
   await expect(page.locator("#viewHome .refresh-panel")).toHaveCount(0);
+  await expect(page.locator("#viewHoldings, #viewMarket, #viewFundflow, #viewHot, #viewNews")).toHaveCount(0);
+  const scriptSources = await page.locator("script[src]").evaluateAll((nodes) =>
+    nodes.map((node) => node.getAttribute("src"))
+  );
+  expect(scriptSources.join(" ")).not.toMatch(/app_holdings|holdings\.js|portfolio_|fundflow\.js|hot\.js|newsall\.js|industry_market\.js/);
+});
+
+test("退休或未知深链会规范化为首页", async ({ page }) => {
+  for (const view of [...REMOVED_NAV_VIEWS, "unknown-view"]) {
+    await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
+    await expect(page).toHaveURL(/#home$/);
+    await expect(page.locator("body")).toHaveClass(/view-home/);
+  }
+});
+
+test("侧栏精简且行情时点保持单行", async ({ page }) => {
+  await page.goto("/index.html#home", { waitUntil: "domcontentloaded" });
+  await expect(page.locator(".nav-group-label")).toHaveCount(0);
+  await expect(page.locator(".density-toggle, .density-btn")).toHaveCount(0);
+  await expect(page.locator("body")).toHaveClass(/density-compact/);
+  await expect(page.locator("#viewHome")).not.toContainText("今日最强");
+  await expect(page.locator("#viewHome")).not.toContainText("分析模块各取第1");
+
+  const dateline = await page.locator("#updated").evaluate((node) => {
+    const style = getComputedStyle(node);
+    return {
+      text: node.textContent.trim(),
+      height: node.getBoundingClientRect().height,
+      lineHeight: Number.parseFloat(style.lineHeight),
+      scrollWidth: node.scrollWidth,
+      clientWidth: node.clientWidth,
+      whiteSpace: style.whiteSpace,
+    };
+  });
+  expect(dateline.text).toMatch(/^行情截至 \d{4}-\d{2}-\d{2}/);
+  expect(dateline.whiteSpace).toBe("nowrap");
+  expect(dateline.height).toBeLessThanOrEqual(dateline.lineHeight + 1);
+  expect(dateline.scrollWidth).toBeLessThanOrEqual(dateline.clientWidth + 1);
 });
 
 test("模块名称已更新且旧名称不再出现在导航", async ({ page }) => {
@@ -75,6 +113,30 @@ test("巨头概览位于卡片上方且顶栏数据不遮挡搜索", async ({ pa
     expect(search).not.toBeNull();
     expect(data).not.toBeNull();
     expect(search.x + search.width).toBeLessThanOrEqual(data.x + 1);
+  }
+});
+
+test("981–1024px 顶栏完整容纳搜索和行情数据", async ({ page }) => {
+  for (const width of [981, 1000, 1024]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto("/index.html#home", { waitUntil: "domcontentloaded" });
+    const layout = await page.evaluate(() => {
+      const bar = document.querySelector(".status-bar");
+      const search = document.querySelector(".global-search").getBoundingClientRect();
+      const data = document.querySelector(".sb-data").getBoundingClientRect();
+      const barRect = bar.getBoundingClientRect();
+      return {
+        barClientWidth: bar.clientWidth,
+        barScrollWidth: bar.scrollWidth,
+        barRight: barRect.right,
+        searchRight: search.right,
+        dataLeft: data.left,
+        dataRight: data.right,
+      };
+    });
+    expect(layout.barScrollWidth).toBeLessThanOrEqual(layout.barClientWidth + 1);
+    expect(layout.searchRight).toBeLessThanOrEqual(layout.dataLeft + 1);
+    expect(layout.dataRight).toBeLessThanOrEqual(layout.barRight + 1);
   }
 });
 
@@ -142,6 +204,27 @@ test("搜索支持上下键选择、Enter 打开和焦点返回", async ({ page 
   await expect(input).toBeFocused();
 });
 
+test("搜索覆盖外围热点和周末发酵并定位到命中内容", async ({ page }) => {
+  await page.goto("/index.html#home", { waitUntil: "networkidle" });
+  const input = page.locator("#globalSearchInput");
+
+  await input.fill("OpenAI / Anthropic 推动");
+  await expect(page.locator(".search-hit")).toHaveCount(1);
+  await page.locator(".search-hit").click();
+  await expect(page.locator("body")).toHaveClass(/view-xbrief/);
+  const activeBrief = page.locator(".xb-article.active");
+  await expect(activeBrief).toContainText("OpenAI / Anthropic 推动");
+  await expect(activeBrief).toBeFocused();
+
+  await input.fill("9500亿美元芯片大单持续发酵");
+  await expect(page.locator(".search-hit")).toHaveCount(1);
+  await page.locator(".search-hit").click();
+  await expect(page.locator("body")).toHaveClass(/view-weekend/);
+  const hotspot = page.locator('.weekend-only [data-xname="9500亿美元芯片大单持续发酵 存储产业链长期逻辑强化"]');
+  await expect(hotspot).toBeVisible();
+  await expect(hotspot).toBeFocused();
+});
+
 test("详情抽屉具备对话框语义和键盘关闭后的焦点恢复", async ({ page }) => {
   await page.goto("/index.html#watch", { waitUntil: "networkidle" });
   const card = page.locator(".card[data-code]").first();
@@ -155,18 +238,8 @@ test("详情抽屉具备对话框语义和键盘关闭后的焦点恢复", async
   await expect(card).toBeFocused();
 });
 
-test("新闻摘要可展开，公告股票代码可打开详情", async ({ page }) => {
-  await page.goto("/index.html#news", { waitUntil: "networkidle" });
-  const details = page.locator(".nf-details").first();
-  await details.locator("summary").click();
-  await expect(details).toHaveAttribute("open", "");
-  const stockButton = page.locator(".ann-stock-link[data-code]").first();
-  await stockButton.click();
-  await expect(page.locator("#drawer")).toHaveClass(/show/);
-});
-
 test("研究内容不会直出内部字段、生成过程语或残缺括号", async ({ page }) => {
-  for (const view of ["logic", "events", "hot"]) {
+  for (const view of ["logic", "events", "weekend"]) {
     // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded
     await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
     const text = await page.locator("#mainContent").innerText();
@@ -191,37 +264,37 @@ test("核心阅读文字保持可读字号", async ({ page }) => {
   expect(researchSize).toBeGreaterThanOrEqual(14);
 });
 
-test("自选支持添加、自动刷新后展示和删除", async ({ page }) => {
-  let portfolio = { updated: "2026-07-11", holdings: [], watchlist: [] };
-  await page.route(/\/api\/portfolio$/, async (route) => {
-    if (route.request().method() === "POST") portfolio = JSON.parse(route.request().postData() || "{}");
-    await route.fulfill({ json: { ok: true, data: portfolio, msg: "已保存" } });
-  });
-  await page.route(/\/api\/portfolio\/refresh$/, (route) => route.fulfill({ json: { ok: true, msg: "已更新" } }));
-  await page.goto("/index.html#holdings", { waitUntil: "networkidle" });
-  await page.locator("#pfWatchBtn").click();
-  await page.locator("#pfCode").fill("000001");
-  await page.locator("#pfName").fill("平安银行");
-  await page.locator("#pfSave").click();
-  await expect(page.locator(".watch-row")).toContainText("平安银行");
-  await page.locator('.pf-del-btn[data-scope="watch"]').click();
-  await expect(page.locator('.pf-del-btn[data-scope="watch"]')).toHaveText("再点一次确认");
-  await page.locator('.pf-del-btn[data-scope="watch"]').click();
-  await expect(page.locator(".watch-row")).toHaveCount(0);
-});
+test("公开页面使用系统字体且不再加载字体二进制", async ({ page }) => {
+  await page.goto("/index.html#home", { waitUntil: "networkidle" });
+  await expect(page.locator(".font-credit")).toContainText("系统字体");
 
-test("自选可只填准确名称，并通过表单提交", async ({ page }) => {
-  let portfolio = { updated: "2026-07-11", holdings: [], watchlist: [] };
-  await page.route(/\/api\/portfolio$/, async (route) => {
-    if (route.request().method() === "POST") portfolio = JSON.parse(route.request().postData() || "{}");
-    await route.fulfill({ json: { ok: true, data: portfolio, msg: "已保存" } });
+  const audit = await page.evaluate(() => {
+    const styleText = [...document.styleSheets]
+      .flatMap((sheet) => {
+        try {
+          return [...sheet.cssRules].map((rule) => rule.cssText);
+        } catch {
+          return [];
+        }
+      })
+      .join("\n");
+    const fontResources = performance
+      .getEntriesByType("resource")
+      .map((entry) => entry.name)
+      .filter((name) => /\.(?:woff2?|ttf|otf)(?:[?#]|$)/i.test(name));
+    return {
+      hasFontFace: /@font-face/i.test(styleText),
+      hasMiSans: /MiSans/i.test(styleText),
+      fontResources,
+    };
   });
-  await page.route(/\/api\/portfolio\/refresh$/, (route) => route.fulfill({ status: 202, json: { ok: true, running: true, msg: "已开始更新" } }));
-  await page.route(/\/api\/portfolio\/refresh\/status/, (route) => route.fulfill({ json: { running: true, done: false, error: null } }));
-  await page.goto("/index.html#holdings", { waitUntil: "networkidle" });
-  await page.locator("#pfWatchBtn").click();
-  await page.locator("#pfName").fill("兆易创新");
-  await expect(page.locator("#pfCode")).toHaveValue("603986");
-  await page.locator("#pfAddForm").press("Enter");
-  await expect(page.locator(".watch-row")).toContainText("兆易创新");
+  const manifest = JSON.parse(
+    await readFile(new URL("../../public_files.json", import.meta.url), "utf8")
+  );
+  const publishedFonts = manifest.required.filter((name) => /\.(?:woff2?|ttf|otf)$/i.test(name));
+
+  expect(audit.hasFontFace).toBe(false);
+  expect(audit.hasMiSans).toBe(false);
+  expect(audit.fontResources).toEqual([]);
+  expect(publishedFonts).toEqual([]);
 });

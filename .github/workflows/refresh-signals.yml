@@ -59,41 +59,19 @@ jobs:
       - name: 全市场异动扫描 -> 写回 market.js
         run: python3 scripts/fetch_market.py
 
-      - name: 行业板块排行 -> 写回 industry_market.js
-        run: python3 scripts/fetch_industry.py
-        continue-on-error: true
-
-      - name: 新闻全量数据 -> 写回 newsall.js
-        run: python3 scripts/fetch_news_all.py
-        continue-on-error: true
-
-      - name: 抓取今日热点 TOP30 -> 写回 hot.js
-        continue-on-error: true
-        env:
-          IWENCAI_API_KEY: ${{ secrets.IWENCAI_API_KEY }}
-        run: |
-          if [ -z "$IWENCAI_API_KEY" ]; then
-            echo "::warning::未配置 IWENCAI_API_KEY secret，跳过热点抓取。"
-          else
-            python3 scripts/fetch_hot.py
-          fi
-
       - name: 校验公开数据结构
         run: |
-          python3 scripts/sanitize_ai_content.py
           node scripts/validate_data.js
-          # 只对本工作流负责的行情数据严格把关；AI 模块由本地 Hermes 维护，
-          # 其过期不应阻断行情提交（Actions 也无法自行修复它们）。
+          # 只对本工作流负责的行情数据严格把关；AI 模块由各自本地任务维护。
           node scripts/check_freshness.js --strict --scope=market
 
       - name: 提交并推送(仅在有变化时)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # holdings.js / portfolio_analysis.js 含个人数据，不提交也不发布；
-          # industry/logic/events/materials/weekend 由本地
-          # Hermes 独立发布，本工作流不提交，避免与其推送互相覆盖。
-          git add data.js meta.js hot.js market.js industry_market.js newsall.js
+          # 逻辑链/热点事件/外围热点/周末发酵由各自本地任务独立发布，
+          # 本工作流只提交它实际生成的行情共享数据。
+          git add data.js meta.js market.js
           if git diff --cached --quiet; then
             echo "行情无变化,跳过提交。"
           else

@@ -4,7 +4,7 @@
 
 功能：
 1. 托管看板网页（本地访问 http://localhost:8787）
-2. 提供「刷新数据」API → 跑抓取脚本（日K/信号/新闻/复盘）
+2. 提供「刷新数据」API → 按活跃刷新计划更新行情、信号和个股新闻
 3. 提供「打开看板」→ 自动用浏览器打开
 
 用法：
@@ -14,12 +14,11 @@
 数据刷新流程：读取 scripts/refresh_plan.json 统一执行。
 全部本地运行，不依赖 GitHub。
 """
+import errno
+import http.client
 import http.server
 import json
-import math
 import os
-import re
-import signal
 import socketserver
 import subprocess
 import sys
@@ -35,23 +34,46 @@ def _log_diag(msg):
 _log_diag(f"app_server 启动, cwd={os.getcwd()}")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PORT = 8787
-ALLOWED_ORIGINS = {
-    f"http://localhost:{PORT}",
-    f"http://127.0.0.1:{PORT}",
-}
-MAX_PORTFOLIO_BYTES = 64 * 1024
-PORTFOLIO_FIELDS = {"code", "name", "buyPrice", "shares", "weight", "note", "addedAt"}
-WATCHLIST_FIELDS = {"code", "name", "note", "addedAt"}
+APP_ID = "stock-dashboard"
+API_VERSION = 1
+MAX_STATUS_BYTES = 64 * 1024
+
+
+def _configured_port():
+    raw = os.environ.get("STOCK_DASHBOARD_PORT", "8787")
+    try:
+        port = int(raw)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("STOCK_DASHBOARD_PORT 必须是 1..65535 的整数") from exc
+    if not 1 <= port <= 65535:
+        raise ValueError("STOCK_DASHBOARD_PORT 必须是 1..65535 的整数")
+    return port
+
+
+PORT = _configured_port()
 PUBLIC_FILES_PATH = os.path.join(HERE, "public_files.json")
 
 
 def _load_public_static_files():
-    """共享 Pages 资源清单；本地额外允许忽略入库的私有衍生快照。"""
+    """读取核心资源与当前启用模块，其他仓库文件一律不公开。"""
     with open(PUBLIC_FILES_PATH, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    names = data.get("required", []) + data.get("localOptional", [])
-    if data.get("schemaVersion") != 1 or not names or any(
+        manifest = json.load(f)
+    active_name = manifest.get("activeModules")
+    if (
+        manifest.get("schemaVersion") != 2
+        or not isinstance(active_name, str)
+        or os.path.basename(active_name) != active_name
+    ):
+        raise ValueError("public_files.json 协议无效")
+    active_path = os.path.join(HERE, active_name)
+    with open(active_path, "r", encoding="utf-8") as f:
+        active = json.load(f)
+    modules = active.get("modules")
+    if active.get("schemaVersion") != 1 or not isinstance(modules, list):
+        raise ValueError("active_modules.json 协议无效")
+    module_files = [module.get("file") for module in modules if isinstance(module, dict)]
+    names = manifest.get("required", []) + module_files
+    if not names or any(
         not isinstance(name, str) or not name or os.path.basename(name) != name for name in names
     ):
         raise ValueError("public_files.json 协议无效")
@@ -63,8 +85,52 @@ PUBLIC_STATIC_FILES = _load_public_static_files()
 # 刷新状态（进程内共享）
 refresh_state = {"running": False, "log": [], "done": False, "error": None, "failedSteps": []}
 refresh_state_lock = threading.Lock()
-portfolio_refresh_state = {"running": False, "done": False, "error": None, "log": ""}
-portfolio_refresh_lock = threading.Lock()
+
+
+def _valid_status_payload(data):
+    """严格识别本项目本地服务，避免把同端口的其他 HTTP 服务当成看板。"""
+    return (
+        isinstance(data, dict)
+        and data.get("appId") == APP_ID
+        and type(data.get("apiVersion")) is int
+        and data["apiVersion"] == API_VERSION
+        and type(data.get("running")) is bool
+        and type(data.get("done")) is bool
+        and isinstance(data.get("log"), list)
+        and all(isinstance(item, str) for item in data["log"])
+        and (data.get("error") is None or isinstance(data.get("error"), str))
+        and isinstance(data.get("failedSteps"), list)
+        and all(isinstance(item, str) for item in data["failedSteps"])
+    )
+
+
+def _probe_existing_server(port, timeout=1.0):
+    """直连回环地址并核验状态协议；不经过系统 HTTP 代理。"""
+    connection = http.client.HTTPConnection("127.0.0.1", port, timeout=timeout)
+    try:
+        connection.request(
+            "GET",
+            "/api/status",
+            headers={
+                "Accept": "application/json",
+                "Host": f"127.0.0.1:{port}",
+            },
+        )
+        response = connection.getresponse()
+        if response.status != 200 or response.headers.get_content_type() != "application/json":
+            return False
+        raw = response.read(MAX_STATUS_BYTES + 1)
+        if len(raw) > MAX_STATUS_BYTES:
+            return False
+        try:
+            payload = json.loads(raw.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            return False
+        return _valid_status_payload(payload)
+    except (OSError, http.client.HTTPException):
+        return False
+    finally:
+        connection.close()
 
 
 def _env_with_iwencai():
@@ -84,102 +150,6 @@ def _env_with_iwencai():
     return env
 
 
-def _validate_portfolio(data):
-    """校验持仓/自选配置，只允许前端需要的字段落盘。"""
-    if not isinstance(data, dict) or not isinstance(data.get("holdings"), list):
-        raise ValueError("数据格式错误，需 {holdings: [...]}")
-    updated = str(data.get("updated") or "")[:10]
-    if updated and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", updated):
-        raise ValueError("updated 必须是 YYYY-MM-DD 日期")
-    watchlist = data.get("watchlist", [])
-    if not isinstance(watchlist, list):
-        raise ValueError("watchlist 必须是数组")
-    out = {"updated": updated, "holdings": [], "watchlist": []}
-    seen = set()
-    for item in data["holdings"]:
-        if not isinstance(item, dict):
-            raise ValueError("持仓条目格式错误")
-        code = str(item.get("code") or "").strip()
-        name = str(item.get("name") or "").strip()
-        if not code.isdigit() or len(code) != 6:
-            raise ValueError("股票代码必须是 6 位数字")
-        if not name:
-            raise ValueError("股票名称不能为空")
-        if len(name) > 40:
-            raise ValueError("股票名称不能超过 40 个字符")
-        if code in seen:
-            raise ValueError(f"股票代码重复: {code}")
-        seen.add(code)
-        clean = {k: item[k] for k in PORTFOLIO_FIELDS if k in item}
-        clean["code"] = code
-        clean["name"] = name
-        for key in ("buyPrice", "shares", "weight"):
-            if clean.get(key) in ("", None):
-                clean[key] = None
-            elif isinstance(clean[key], bool) or not isinstance(clean[key], (int, float)) or not math.isfinite(clean[key]):
-                raise ValueError(f"{key} 必须是有限数字")
-        if clean.get("buyPrice") is not None and clean["buyPrice"] <= 0:
-            raise ValueError("buyPrice 必须大于 0")
-        if clean.get("shares") is not None and clean["shares"] <= 0:
-            raise ValueError("shares 必须大于 0")
-        if clean.get("weight") is not None and not 0 <= clean["weight"] <= 1:
-            raise ValueError("weight 必须在 0 到 1 之间")
-        added_at = str(clean.get("addedAt") or "")
-        if added_at and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", added_at):
-            raise ValueError("addedAt 必须是 YYYY-MM-DD 日期")
-        if clean.get("note") is not None:
-            clean["note"] = str(clean["note"])[:200]
-        out["holdings"].append(clean)
-    for item in watchlist:
-        if not isinstance(item, dict):
-            raise ValueError("自选条目格式错误")
-        code = str(item.get("code") or "").strip()
-        name = str(item.get("name") or "").strip()
-        if not code.isdigit() or len(code) != 6:
-            raise ValueError("股票代码必须是 6 位数字")
-        if not name or len(name) > 40:
-            raise ValueError("股票名称不能为空且不能超过 40 个字符")
-        if code in seen:
-            raise ValueError(f"股票代码重复或已在持仓中: {code}")
-        seen.add(code)
-        clean = {k: item[k] for k in WATCHLIST_FIELDS if k in item}
-        clean.update(code=code, name=name)
-        added_at = str(clean.get("addedAt") or "")
-        if added_at and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", added_at):
-            raise ValueError("addedAt 必须是 YYYY-MM-DD 日期")
-        if clean.get("note") is not None:
-            clean["note"] = str(clean["note"])[:200]
-        out["watchlist"].append(clean)
-    return out
-
-
-def _run_portfolio_refresh():
-    """刷新私有持仓行情与筛选快照；不启动全站刷新。"""
-    proc = subprocess.run(
-        [sys.executable, os.path.join(HERE, "scripts", "refresh_portfolio.py")],
-        cwd=HERE,
-        env=_env_with_iwencai(),
-        capture_output=True,
-        text=True,
-        timeout=1200,
-    )
-    log = (proc.stdout + "\n" + proc.stderr).strip()[-4000:]
-    if proc.returncode:
-        raise RuntimeError(log or "持仓数据刷新失败")
-    return log
-
-
-def _run_portfolio_refresh_background():
-    try:
-        log = _run_portfolio_refresh()
-        with portfolio_refresh_lock:
-            portfolio_refresh_state.update(running=False, done=True, error=None, log=log)
-    except Exception as e:
-        message = "刷新超时，请稍后查看" if isinstance(e, subprocess.TimeoutExpired) else str(e)
-        with portfolio_refresh_lock:
-            portfolio_refresh_state.update(running=False, done=True, error=message, log="")
-
-
 class Handler(http.server.SimpleHTTPRequestHandler):
     """仅托管看板运行必需文件，仓库内容默认不可访问。"""
 
@@ -196,11 +166,29 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header("X-Frame-Options", "DENY")
         super().end_headers()
 
+    def _allowed_origins(self):
+        port = self.server.server_address[1]
+        return {
+            f"http://localhost:{port}",
+            f"http://127.0.0.1:{port}",
+        }
+
+    def _api_host_allowed(self):
+        port = self.server.server_address[1]
+        host = (self.headers.get("Host") or "").lower()
+        return host in {f"localhost:{port}", f"127.0.0.1:{port}"}
+
+    def _require_api_host(self):
+        if self._api_host_allowed():
+            return True
+        self.send_error(403, "Host not allowed")
+        return False
+
     def _origin_allowed(self):
         origin = self.headers.get("Origin")
         if not origin:
             return True
-        return origin in ALLOWED_ORIGINS
+        return origin in self._allowed_origins()
 
     def _require_local_origin(self):
         if self._origin_allowed():
@@ -210,15 +198,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
+        if parsed.path.startswith("/api/") and not self._require_api_host():
+            return
         if parsed.path == "/api/status":
             self._handle_status()
-            return
-        if parsed.path == "/api/portfolio":
-            self._handle_portfolio_get()
-            return
-        if parsed.path == "/api/portfolio/refresh/status":
-            with portfolio_refresh_lock:
-                self._json(dict(portfolio_refresh_state))
             return
         path = urllib.parse.unquote(parsed.path)
         if path == "/":
@@ -241,69 +224,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def do_POST(self):
         parsed = urllib.parse.urlparse(self.path)
+        if not parsed.path.startswith("/api/"):
+            self.send_error(404)
+            return
+        if not self._require_api_host():
+            return
         if not self._require_local_origin():
             return
         if parsed.path == "/api/refresh":
             self._handle_refresh()
             return
-        if parsed.path == "/api/portfolio":
-            self._handle_portfolio_post()
-            return
-        if parsed.path == "/api/portfolio/refresh":
-            self._handle_portfolio_refresh()
-            return
         self.send_error(404)
-
-    def _handle_portfolio_get(self):
-        """读取 portfolio.json 持仓配置"""
-        path = os.path.join(HERE, "portfolio.json")
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            self._json({"ok": True, "data": data})
-        except FileNotFoundError:
-            self._json({"ok": True, "data": {"updated": "", "holdings": [], "watchlist": []}})
-        except Exception as e:
-            self._json({"ok": False, "msg": str(e)}, status=500)
-
-    def _handle_portfolio_refresh(self):
-        with portfolio_refresh_lock:
-            if portfolio_refresh_state["running"]:
-                self._json({"ok": True, "running": True, "msg": "行情与持仓分析正在更新"}, status=202)
-                return
-            portfolio_refresh_state.update(running=True, done=False, error=None, log="")
-        threading.Thread(target=_run_portfolio_refresh_background, daemon=True).start()
-        self._json({"ok": True, "running": True, "msg": "已开始更新行情、筛选和 Hermes 持仓分析"}, status=202)
-
-    def _handle_portfolio_post(self):
-        """写入 portfolio.json 持仓配置（整体覆盖）"""
-        raw_length = self.headers.get("Content-Length")
-        try:
-            length = int(raw_length) if raw_length is not None else -1
-        except (TypeError, ValueError):
-            self._json({"ok": False, "msg": "Content-Length 无效"}, status=400)
-            return
-        if length < 0:
-            self._json({"ok": False, "msg": "缺少有效 Content-Length"}, status=411)
-            return
-        if length > MAX_PORTFOLIO_BYTES:
-            self._json({"ok": False, "msg": "持仓数据过大"}, status=413)
-            return
-        try:
-            body = self.rfile.read(length).decode("utf-8")
-            data = _validate_portfolio(json.loads(body))
-            path = os.path.join(HERE, "portfolio.json")
-            tmp = path + ".tmp"
-            with open(tmp, "w", encoding="utf-8") as f:
-                json.dump(data, f, ensure_ascii=False, indent=2, allow_nan=False)
-            os.replace(tmp, path)
-            self._json({"ok": True, "msg": "持仓已保存", "data": data})
-        except (json.JSONDecodeError, UnicodeDecodeError):
-            self._json({"ok": False, "msg": "JSON 解析失败"}, status=400)
-        except ValueError as e:
-            self._json({"ok": False, "msg": str(e)}, status=422)
-        except Exception as e:
-            self._json({"ok": False, "msg": str(e)}, status=500)
 
     def _handle_refresh(self):
         with refresh_state_lock:
@@ -316,6 +247,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def _handle_status(self):
         self._json({
+            "appId": APP_ID,
+            "apiVersion": API_VERSION,
             "running": refresh_state["running"],
             "log": refresh_state["log"][-20:],
             "done": refresh_state["done"],
@@ -328,7 +261,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         origin = self.headers.get("Origin")
-        if origin in ALLOWED_ORIGINS:
+        if origin in self._allowed_origins():
             self.send_header("Access-Control-Allow-Origin", origin)
             self.send_header("Vary", "Origin")
             self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
@@ -338,11 +271,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_OPTIONS(self):
+        parsed = urllib.parse.urlparse(self.path)
+        if not parsed.path.startswith("/api/"):
+            self.send_error(404)
+            return
+        if not self._require_api_host():
+            return
         if not self._require_local_origin():
             return
         self.send_response(204)
         origin = self.headers.get("Origin")
-        if origin in ALLOWED_ORIGINS:
+        if origin in self._allowed_origins():
             self.send_header("Access-Control-Allow-Origin", origin)
             self.send_header("Vary", "Origin")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
@@ -396,12 +335,19 @@ def main():
         _log_diag(f"[{os.getpid()}] ✓ 绑定成功\n"); 
     except OSError as e:
         _log_diag(f"[{os.getpid()}] ✗ 绑定失败: {e}\n"); 
-        if "Address already in use" in str(e):
-            print(f"端口 {PORT} 已被占用,可能服务器已在运行")
+        if e.errno == errno.EADDRINUSE or "Address already in use" in str(e):
+            if not _probe_existing_server(PORT):
+                print(
+                    f"错误：端口 {PORT} 已被其他程序占用；"
+                    "身份校验未通过，为避免加载未知服务，看板未打开。",
+                    file=sys.stderr,
+                )
+                return 1
+            print(f"端口 {PORT} 上已运行通过身份校验的股市看板服务")
             url = f"http://localhost:{PORT}/index.html"
             if not no_open:
                 webbrowser.open(url)
-            return
+            return 0
         raise
     url = f"http://localhost:{PORT}/index.html"
     print(f"股市看板服务器已启动：{url}")
@@ -412,8 +358,8 @@ def main():
         httpd.serve_forever()
     except KeyboardInterrupt:
         print("\n退出")
-        sys.exit(0)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

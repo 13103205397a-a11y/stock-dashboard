@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "modules": [
+    {
+      "id": "stocks",
+      "label": "自选股",
+      "file": "data.js",
+      "global": "STOCKS",
+      "contract": {
+        "rootType": "array",
+        "minItems": 1,
+        "validateStockRecords": true,
+        "requireSignalDate": true,
+        "validateReferences": true
+      },
+      "freshness": [
+        {
+          "selector": "oldest:signal.date",
+          "label": "巨头技术信号",
+          "limitBusinessDays": 3,
+          "scope": "market"
+        }
+      ]
+    },
+    {
+      "id": "meta",
+      "label": "行情信号",
+      "file": "meta.js",
+      "global": "META",
+      "contract": {
+        "rootType": "object"
+      },
+      "freshness": [
+        {
+          "selector": "signalDate|lastUpdated",
+          "limitBusinessDays": 3,
+          "scope": "market"
+        }
+      ]
+    },
+    {
+      "id": "market",
+      "label": "市场异动共享数据",
+      "file": "market.js",
+      "global": "MARKET",
+      "contract": {
+        "rootType": "object",
+        "nonEmptyAnyArrays": [
+          "topGainers",
+          "topLosers",
+          "topTurnover",
+          "topInflow",
+          "topOutflow",
+          "limitUp",
+          "limitDown",
+          "hotRank"
+        ]
+      },
+      "freshness": [
+        {
+          "selector": "date|generatedAt",
+          "limitBusinessDays": 3,
+          "scope": "market"
+        }
+      ]
+    },
+    {
+      "id": "xbrief",
+      "label": "外围热点",
+      "file": "xbriefs.js",
+      "global": "XBRIEFS",
+      "contract": {
+        "rootType": "object",
+        "requiredArrays": [
+          "briefs"
+        ],
+        "nonEmptyArrays": [
+          "briefs"
+        ]
+      },
+      "freshness": [
+        {
+          "selector": "generatedAt|updated",
+          "limitBusinessDays": 3,
+          "scope": "ai"
+        }
+      ]
+    },
+    {
+      "id": "logic",
+      "label": "逻辑链",
+      "file": "logic.js",
+      "global": "LOGIC",
+      "contract": {
+        "rootType": "object",
+        "requiredArrays": [
+          "chains"
+        ],
+        "nonEmptyArrays": [
+          "chains"
+        ],
+        "validateReferences": true
+      },
+      "freshness": [
+        {
+          "selector": "date|generatedAt",
+          "limitBusinessDays": 3,
+          "scope": "ai"
+        }
+      ],
+      "hermes": {
+        "publishMode": "sync",
+        "exporter": [
+          "scripts/fetch_hermes_module.py",
+          "logic"
+        ],
+        "successMarker": "提取成功",
+        "timestampFields": [
+          "generatedAt",
+          "date"
+        ]
+      }
+    },
+    {
+      "id": "events",
+      "label": "今日热点事件",
+      "file": "events.js",
+      "global": "EVENTS",
+      "contract": {
+        "rootType": "object",
+        "requiredArrays": [
+          "events"
+        ],
+        "nonEmptyArrays": [
+          "events"
+        ],
+        "validateReferences": true
+      },
+      "freshness": [
+        {
+          "selector": "date|generatedAt",
+          "limitBusinessDays": 3,
+          "scope": "ai"
+        }
+      ],
+      "hermes": {
+        "publishMode": "sync",
+        "exporter": [
+          "scripts/fetch_hermes_module.py",
+          "events"
+        ],
+        "successMarker": "提取成功",
+        "timestampFields": [
+          "generatedAt",
+          "date"
+        ]
+      }
+    },
+    {
+      "id": "weekend",
+      "label": "周末发酵",
+      "file": "weekend.js",
+      "global": "WEEKEND",
+      "contract": {
+        "rootType": "object",
+        "requiredArrays": [
+          "hotspots"
+        ],
+        "nonEmptyArrays": [
+          "hotspots"
+        ],
+        "validateReferences": true
+      },
+      "freshness": [
+        {
+          "selector": "weekendDate|generatedAt",
+          "limitBusinessDays": 9,
+          "scope": "ai"
+        }
+      ],
+      "hermes": {
+        "publishMode": "sync",
+        "exporter": "scripts/fetch_weekend.py",
+        "successMarker": "提取成功",
+        "timestampFields": [
+          "generatedAt",
+          "weekendDate",
+          "date"
+        ]
+      }
+    }
+  ]
+}

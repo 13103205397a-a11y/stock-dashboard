@@ -1,5 +1,5 @@
 (function (App) {
-  const { $, esc, trunc, secTitle, emptyState, fieldHtml, titleShort, leadOf, blockHtml, safeUrl, cleanDisplayText, openDrawer } = App;
+  const { $, esc, secTitle, emptyState, fieldHtml, titleShort, leadOf, blockHtml, cleanDisplayText, openDrawer } = App;
 
   /* ---------- 4. 逻辑链（事件驱动推理链：事件 → 传导 → 受益股） ---------- */
   // 强度由生成 Agent 在数据中直接给出(strength: 强/中/弱)，前端不再做关键词评分
@@ -196,40 +196,6 @@
     el.querySelectorAll(".ev-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
 
-  /* ---------- 8. 新闻 ---------- */
-  function renderNewsAll() {
-    const el = $("#viewNews");
-    if (!el) return;
-    const NEWSALL = window.NEWSALL || null;
-    if (!NEWSALL) { el.innerHTML = secTitle("新闻", "个股新闻 / 全球资讯 / 公告") + emptyState("新闻数据待生成(每日由 fetch_news_all.py 自动更新)。"); return; }
-    const globalHtml = (NEWSALL.global || []).slice(0, 20).map((n) => {
-      const title = n.title || "";
-      const summary = n.summary || n.content || "";
-      const url = safeUrl(n.url);
-      return `<div class="nf-item">
-        <div class="nf-meta"><span class="nf-date">${esc((n.time || n.date || "").toString().slice(0, 16))}</span>${n.source ? `<span class="nf-type">${esc(n.source)}</span>` : ""}${url ? `<a class="nf-source-link" href="${esc(url)}" target="_blank" rel="noopener">查看来源</a>` : ""}</div>
-        ${summary ? `<details class="nf-details"><summary class="nf-text">${esc(title)}</summary><div class="nf-summary">${esc(summary)}</div></details>` : `<div class="nf-text">${esc(title)}</div>`}
-      </div>`;
-    }).join("");
-    const annHtml = (NEWSALL.announcements || []).slice(0, 30).map((n) => {
-      const code = /^\d{6}$/.test(String(n.code || "")) ? String(n.code) : "";
-      const url = safeUrl(n.url);
-      const title = n.title || n.announcementTitle || "";
-      return `<div class="nf-item">
-        <div class="nf-meta"><span class="nf-date">${esc((n.date || "").slice(0, 10))}</span><span class="nf-type">公告</span>${code ? `<button class="ann-stock-link" data-code="${esc(code)}">${esc(code)}</button>` : ""}${url ? `<a class="nf-source-link" href="${esc(url)}" target="_blank" rel="noopener">查看原文</a>` : ""}</div>
-        <div class="nf-text">${esc(title)}</div>
-      </div>`;
-    }).join("");
-    el.innerHTML = secTitle("新闻", "全球资讯 / 公告 · " + esc(NEWSALL.date || "")) +
-      `<div class="news-cols">
-        <section class="card blk"><h3 class="blk-h">全球资讯 7×24</h3><div class="newsfeed">${globalHtml || emptyState("无资讯")}</div></section>
-        <section class="card blk"><h3 class="blk-h">近期公告</h3><div class="newsfeed">${annHtml || emptyState("无公告")}</div></section>
-      </div>`;
-    el.querySelectorAll(".ann-stock-link[data-code]").forEach((button) =>
-      button.addEventListener("click", () => openDrawer(button.dataset.code))
-    );
-  }
-
   /* ---------- 8b. 外围热点（每 2 小时推送，聚合海外 AI / 宏观 / 市场线索） ---------- */
   function xbFormatTime(t) {
     const s = String(t || "");
@@ -302,7 +268,8 @@
     const bodies = list.map((b, i) => {
       const ft = xbFormatTime(b.time);
       const title = `外围热点 · ${ft.day} ${ft.clock}`;
-      return `<article class="xb-article ${i === 0 ? "active" : ""}" data-i="${i}">
+      const searchName = `外围热点 · ${b.time || b.id || b.period || "最新一期"}`;
+      return `<article class="xb-article ${i === 0 ? "active" : ""}" data-i="${i}" data-xname="${esc(searchName)}">
         <header class="xb-article-head">
           <div class="xb-article-kicker">
             <span class="xb-badge">第 ${list.length - i} / ${list.length} 期</span>
@@ -455,7 +422,6 @@
   App.renderLogic = renderLogic;
   App.renderWeekend = renderWeekend;
   App.renderEvents = renderEvents;
-  App.renderNewsAll = renderNewsAll;
   App.renderXBriefs = renderXBriefs;
   if (window.App.start) window.App.start();
 })(window.App);

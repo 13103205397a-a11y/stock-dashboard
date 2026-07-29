@@ -2,46 +2,52 @@
 
 ## Evidence
 
-- Source visual truth: `/var/folders/22/0z13jwb14vd676xms5lg72y00000gp/T/codex-clipboard-99b1804d-6c29-4323-83b0-694dfa543f85.png`
-- Normalized source: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/source-home-1280x860.png`
-- Browser-rendered implementation: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/implementation-home-1280x860.png`
-- Combined comparison input: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/comparison-pass-1.png`
-- Local route: `http://127.0.0.1:8791/index.html#home`
-- Viewport: `1280 × 860` CSS px
-- Source pixels: `2560 × 1720` (`@2x`, normalized to `1280 × 860`)
-- Implementation pixels: `1280 × 860` (`deviceScaleFactor: 1`)
-- State: desktop, compact density, 首页
+- Source visual truth: `/var/folders/22/0z13jwb14vd676xms5lg72y00000gp/T/codex-clipboard-33973182-351a-4f09-b236-0225b1310490.png`
+- Normalized source: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/sidebar-cleanup-audit/source-top-1280x720.png`
+- Browser-rendered implementation: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/sidebar-cleanup-audit/01-home-cleanup.png`
+- Final hardened implementation: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/final-hardening-home.png`
+- Focused source crop: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/sidebar-cleanup-audit/source-sidebar-bottom-250x220-sharp.png`
+- Focused implementation crop: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/sidebar-cleanup-audit/implementation-sidebar-bottom-250x220.png`
+- Combined comparison input: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/sidebar-cleanup-audit/comparison-pass-1.png`
+- Local route: `http://127.0.0.1:8787/index.html?v=sidebar-cleanup-20260729#home`
+- Browser viewport: `1280 × 720` CSS px
+- Source pixels: `2560 × 1720` (`@2x`; normalized and cropped to the same comparison width)
+- State: desktop, fixed compact density, 首页
 
-The normalized source and browser implementation were rendered together in one vertical comparison input at equal pixel dimensions. The requested deletion areas are large and legible in that full-view evidence, so a separate focused crop was not needed.
+The source screenshot and browser implementation were placed in one comparison image. The sidebar footer also uses equal-size focused crops so the removed density control and the one-line market date remain legible in the same visual comparison input.
 
 ## Findings
 
-- No actionable P0/P1/P2 findings remain.
-- Fonts and typography: the existing Chinese/system font stack, numeric hierarchy, weights, line heights, wrapping, and compact-density treatment are unchanged. Removing the modules introduced no orphaned labels or broken text.
-- Spacing and layout: the complete “数据健康” block is gone and “今日最强” moves directly below the existing screening strip. The sidebar closes up naturally around the remaining modules, with no blank placeholder or horizontal overflow.
-- Colors and tokens: existing paper, terracotta, hairline, positive, and negative tokens remain intact. No new colors, gradients, shadows, or generic replacement surfaces were introduced.
-- Image quality and assets: the existing brand mark, navigation icons, sparklines, and market visuals retain their original rendering. No visible reference asset was replaced or degraded.
-- Copy and content: “AI 复盘” and “产业链涨价” are absent from the sidebar; “数据健康” and its refresh controls are absent from the homepage. The remaining labels and generated content are coherent and readable.
-- Icons and affordances: the remaining navigation icons stay aligned and use the same stroke family. Navigation buttons retain their active state and keyboard semantics.
-- Behavior and accessibility: “今日热点事件” navigation still opens the correct view; removed `#agent` and `#chain` deep links safely render the homepage instead of a blank view; no browser console warning or error was reported.
-- Responsiveness: no CSS breakpoint or layout token was changed. The structural removals apply at every breakpoint because the deleted navigation items and sections no longer exist in the DOM. The in-app browser’s temporary narrow-viewport override remained at its desktop minimum in this session, so no additional mobile screenshot was accepted as evidence.
+- No actionable P0/P1/P2 visual mismatch remains within the requested scope.
+- Sidebar structure: the four circled group labels (“总览 / 自选股 / 市场扫描 / AI 分析”) are absent, while the six remaining destinations preserve their icons, spacing, active state, and hit areas.
+- Homepage structure: the circled “今日最强” heading and its “5个分析模块各取第1 · 点击定位到对应条目” description are absent; the existing analysis cards remain directly below the screening strip.
+- Density control: the complete “密度 / 标准 / 紧凑” control is absent. The page retains the prior compact visual density as a deterministic body class, so removal does not change the established layout.
+- Market date: “行情截至 2026-07-29 最新” is emitted once and stays on one line. At the accepted viewport its `clientWidth` and `scrollWidth` are both 199 px, computed `white-space` is `nowrap`, and the text has an accessible full label/title.
+- Typography and tokens: existing Chinese/system fonts, numeric hierarchy, terracotta accents, positive/negative colors, borders, and card treatment are unchanged.
+- Image quality and icons: the brand mark, navigation icons, market visuals, and sparklines retain their original rendering; no source asset was replaced.
+- Overflow and rendering: the accepted page has a 1280 px document width in a 1280 px viewport, no horizontal overflow, no replacement-character mojibake, and no browser warning/error log.
+- Responsive regression: the Playwright suite passes the same deletion, date-line, overflow, search, navigation, drawer, and reading-size checks at both `1440 × 1024` and `390 × 844`; the one skipped case is the mobile-only menu test in the desktop project.
 
 ## Comparison History
 
 1. First comparison pass:
    - Earlier findings: none at P0/P1/P2.
    - Fixes made after comparison: none.
-   - Post-fix evidence: not required; the initial combined comparison already shows the requested regions removed without layout drift.
+   - Post-fix evidence: not required; the combined input already demonstrates all annotated deletions and the date-line correction.
 
 ## Primary Interactions Tested
 
-- Opened “今日热点事件” from the sidebar and confirmed `#events`, the page title, and `view-events`.
-- Reopened both removed hashes (`#agent` and `#chain`) and confirmed the homepage renders rather than a missing or blank module.
-- Confirmed the homepage has zero removed navigation items, zero health/refresh containers, and no `reports.js`, `chain.js`, `industry.js`, or `materials.js` script requests.
-- Checked browser warning/error logs after navigation; none were reported.
+- Navigated through 首页、巨头核心、逻辑链、外围热点、今日热点事件、周末发酵.
+- Filtered 巨头核心 to 半导体 and confirmed exactly eight result cards.
+- Searched 兆易创新, opened its accessible details dialog, and closed it with focus restored.
+- Switched 外围热点 to the second update batch and confirmed the selected timestamp, clean text, and zero horizontal overflow.
+- Opened all retired and unknown hashes; each is normalized to `#home` instead of retaining an invalid URL or showing a blank screen.
+- Ran the integrated Playwright suite in desktop and mobile Chromium: 27 passed, 1 expected desktop skip.
+- Rechecked all six views in the in-app browser: no horizontal overflow, replacement-character mojibake, console warning, or console error.
 
 ## Follow-up Polish
 
-- No blocking polish remains for the requested scope.
+- No blocking polish remains for the requested visual change.
+- The former product, data-safety, release, mobile, and maintenance findings have now been remediated or deleted; see `acceptance-report.md`.
 
 final result: passed

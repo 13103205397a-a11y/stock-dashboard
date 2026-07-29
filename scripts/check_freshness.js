@@ -1,64 +1,118 @@
 #!/usr/bin/env node
-/* 数据新鲜度门禁：按工作日计算，避免周末误报；中国长假由宽限阈值覆盖。 */
+/* 数据新鲜度门禁：活跃模块与阈值统一来自 active_modules.json。 */
 const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
+const {
+  loadMarketCalendar,
+  parseCalendarDate,
+  tradingDaysSince,
+} = require("./market_calendar");
 
 const ROOT = path.resolve(__dirname, "..");
+const MANIFEST = path.join(ROOT, "active_modules.json");
 const strict = process.argv.includes("--strict");
-// --scope=market: 只对行情类数据严格把关（AI 模块由本地 Hermes 维护，
-// GitHub Actions 无法自行修复其过期，不应因此阻断行情提交）。
+// --scope=market: 只对行情类数据严格把关；AI 模块由本地任务维护。
 const scopeArg = process.argv.find((arg) => arg.startsWith("--scope="));
 const scope = scopeArg ? scopeArg.slice(8) : "all";
 const nowArg = process.argv.find((arg) => arg.startsWith("--now="));
 // 「今天」按北京时间取日历日；toISOString 是 UTC，北京 0:00-8:00 会差一天。
 const todayCn = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Shanghai" });
-const now = new Date((nowArg ? nowArg.slice(6) : todayCn) + "T12:00:00+08:00");
+const nowDate = nowArg ? nowArg.slice(6) : todayCn;
+
+const now = parseCalendarDate(nowDate);
+if (!now) {
+  console.error(`--now 日期无效: ${nowDate}`);
+  process.exit(2);
+}
+const marketCalendar = loadMarketCalendar();
+
+function loadModules() {
+  const manifest = JSON.parse(fs.readFileSync(MANIFEST, "utf8"));
+  if (manifest.schemaVersion !== 1 || !Array.isArray(manifest.modules) || !manifest.modules.length) {
+    throw new Error("active_modules.json 协议无效");
+  }
+  const ids = new Set();
+  const files = new Set();
+  for (const module of manifest.modules) {
+    if (
+      !module || typeof module.id !== "string" || !module.id ||
+      typeof module.file !== "string" || path.basename(module.file) !== module.file ||
+      typeof module.global !== "string" || !module.global
+    ) {
+      throw new Error("active_modules.json 中存在无效模块");
+    }
+    if (ids.has(module.id) || files.has(module.file)) {
+      throw new Error("active_modules.json 中存在重复模块");
+    }
+    ids.add(module.id);
+    files.add(module.file);
+  }
+  return manifest.modules;
+}
+
+const modules = loadModules();
 const context = { window: {} };
 vm.createContext(context);
-for (const file of [
-  "data.js", "meta.js", "market.js", "hot.js", "newsall.js", "industry.js",
-  "industry_market.js", "materials.js", "logic.js", "events.js",
-  "weekend.js",
-]) {
-  vm.runInContext(fs.readFileSync(path.join(ROOT, file), "utf8"), context, { filename: file });
+for (const module of modules) {
+  const file = path.join(ROOT, module.file);
+  vm.runInContext(fs.readFileSync(file, "utf8"), context, {
+    filename: module.file,
+    timeout: 1000,
+  });
 }
 
 function businessDaysSince(value) {
-  const match = String(value || "").match(/^\d{4}-\d{2}-\d{2}/);
-  if (!match) return Infinity;
-  const start = new Date(match[0] + "T12:00:00+08:00");
-  if (start > now) return 0;
-  let count = 0;
-  for (let day = new Date(start); day < now; day.setDate(day.getDate() + 1)) {
-    const weekday = day.getDay();
-    if (weekday !== 0 && weekday !== 6) count += 1;
-  }
-  return count;
+  const start = parseCalendarDate(value);
+  // 缺失、非法日期及未来日期都不能伪装成“新鲜”；
+  // 上交所/深交所公告休市日与周末一样不计入交易日。
+  return tradingDaysSince(start, now, marketCalendar);
 }
 
-const W = context.window;
-// 叙事复盘：逐股 review.date 的中位数——个别漏复盘不误报，Agent 全面停摆才告警
-const reviewDates = (W.STOCKS || []).map((s) => s && s.review && s.review.date).filter(Boolean).sort();
-const medianReview = reviewDates.length ? reviewDates[Math.floor(reviewDates.length / 2)] : null;
-const checks = [
-  ["行情信号", W.META?.signalDate || W.META?.lastUpdated, 3, "market"],
-  ["市场异动", W.MARKET?.date || W.MARKET?.generatedAt, 3, "market"],
-  ["今日热点", W.HOT?.date || W.HOT?.generatedAt, 5, "market"],
-  ["新闻公告", W.NEWSALL?.date || W.NEWSALL?.generatedAt, 5, "market"],
-  ["行业排行", W.INDUSTRY_MARKET?.date || W.INDUSTRY_MARKET?.generatedAt, 5, "market"],
-  ["产业雷达", W.INDUSTRY?.date || W.INDUSTRY?.generatedAt, 3, "ai"],
-  ["逻辑链", W.LOGIC?.date || W.LOGIC?.generatedAt, 3, "ai"],
-  ["今日热点事件", W.EVENTS?.date || W.EVENTS?.generatedAt, 3, "ai"],
-  ["材料涨价", W.MATERIALS?.date || W.MATERIALS?.generatedAt, 3, "ai"],
-  ["周末发酵", W.WEEKEND?.weekendDate || W.WEEKEND?.generatedAt, 9, "ai"],
-  ["叙事复盘", medianReview, 5, "ai"],
-];
+function getPath(value, selector) {
+  return selector.split(".").reduce((current, key) => current == null ? undefined : current[key], value);
+}
+
+function selectDate(value, selector) {
+  if (selector.startsWith("median:") || selector.startsWith("oldest:")) {
+    const [mode, pathSelector] = selector.split(":", 2);
+    if (!Array.isArray(value)) return null;
+    const dates = value.map((item) => getPath(item, pathSelector)).filter(Boolean).sort();
+    if (!dates.length) return null;
+    return mode === "oldest" ? dates[0] : dates[Math.floor(dates.length / 2)];
+  }
+  for (const candidate of selector.split("|")) {
+    const selected = getPath(value, candidate);
+    if (selected) return selected;
+  }
+  return null;
+}
+
+const checks = [];
+for (const module of modules) {
+  const value = context.window[module.global];
+  for (const rule of module.freshness || []) {
+    if (
+      !rule || typeof rule.selector !== "string" ||
+      !Number.isInteger(rule.limitBusinessDays) || rule.limitBusinessDays < 0 ||
+      !["market", "ai"].includes(rule.scope)
+    ) {
+      throw new Error(`active_modules.json: ${module.id} 新鲜度规则无效`);
+    }
+    checks.push({
+      name: rule.label || module.label || module.id,
+      date: selectDate(value, rule.selector),
+      limit: rule.limitBusinessDays,
+      group: rule.scope,
+    });
+  }
+}
+
 const stale = [];
 const softStale = [];
-for (const [name, date, limit, group] of checks) {
+for (const { name, date, limit, group } of checks) {
   const age = businessDaysSince(date);
-  const line = `${name}: ${date || "缺失"}（${Number.isFinite(age) ? age : "∞"} 个工作日）`;
+  const line = `${name}: ${date || "缺失"}（${Number.isFinite(age) ? age : "无效/未来"} 个工作日）`;
   if (age > limit) {
     const enforced = scope === "all" || scope === group;
     (enforced ? stale : softStale).push(`${line}，上限 ${limit}`);

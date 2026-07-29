@@ -9,7 +9,8 @@
 ## 输入
 - 项目目录：`股市看板/`
 - 现有事件数据：读取 `股市看板/events.js`（看上次分析了哪些事件）。
-- 新闻原料：读取 `股市看板/newsall.js`（全球资讯+公告）+ `股市看板/market.js`（涨停池看今日什么题材在动）。
+- 本地原料：读取 `股市看板/data.js`（巨头新闻/公告/研报）、`meta.js`（指数快照）、`market.js`（涨停池与异动）和 `xbriefs.js`（外围热点线索）。
+- 本地线索只用于发现候选事件；最终事件仍须通过 WebSearch/WebFetch 交叉核实。
 
 ## 每日任务
 
@@ -30,12 +31,11 @@
 {"date":"<YYYY-MM-DD>","generatedAt":"<时间>","summary":"<一句话总览>","events":[{"title":"","category":"","time":"","content":"","importance":"高|中高|中","importance_reason":"","direction":"利好|利空|中性|结构性","sectors":"","stocks":[{"code":"","name":"","direction":"受益|受损","note":""}],"timeliness":"","source":""}]}
 ```
 
-### 第 3 步：写回并推送
-写 `股市看板/events.js`（window.EVENTS = <JSON>），然后：
-```bash
-cd "$(git rev-parse --show-toplevel)" && git add events.js && git commit -m "今日热点事件每日更新 <日期>" && git push origin main
-```
-最后给用户中文摘要：今天哪几条最重要、影响哪里、有什么利空要警惕。
+### 第 3 步：安全交付
+最终回复只输出第 2 步的 JSON 代码块，不要直接改文件、提交或推送。
+`scripts/sync_hermes_dashboard.py` 会从本轮成功会话中提取 JSON，原子写入
+`events.js`，完成数据契约和时间戳防回滚校验后再从隔离 worktree 发布。
+任务失败、输出不完整或快照不比远端新时不会发布历史文件。
 
 ## 纪律
 - 不编造事件，必须基于真实新闻

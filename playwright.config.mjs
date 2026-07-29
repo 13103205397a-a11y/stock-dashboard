@@ -1,5 +1,11 @@
 import { defineConfig } from "@playwright/test";
 
+const configuredPort = Number.parseInt(process.env.PW_PORT || "8791", 10);
+if (!Number.isInteger(configuredPort) || configuredPort < 1 || configuredPort > 65_535) {
+  throw new Error(`PW_PORT 必须是 1-65535 的整数，当前值：${process.env.PW_PORT}`);
+}
+const serverOrigin = `http://127.0.0.1:${configuredPort}`;
+
 export default defineConfig({
   testDir: "./tests/e2e",
   timeout: 30_000,
@@ -11,15 +17,20 @@ export default defineConfig({
   workers: 1,
   reporter: process.env.CI ? [["line"], ["html", { open: "never" }]] : "line",
   use: {
-    baseURL: "http://127.0.0.1:8787",
+    baseURL: serverOrigin,
     colorScheme: "dark",
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
   },
   webServer: {
     command: "python3 app_server.py --no-open",
-    url: "http://127.0.0.1:8787/index.html",
-    reuseExistingServer: !process.env.CI,
+    env: {
+      ...process.env,
+      STOCK_DASHBOARD_PORT: String(configuredPort),
+    },
+    url: `${serverOrigin}/index.html`,
+    // 默认拒绝复用未知进程，避免本地 8787 上的另一份工作树造成 E2E 假阳性。
+    reuseExistingServer: process.env.PW_REUSE_EXISTING_SERVER === "1",
     timeout: 15_000,
   },
   projects: [

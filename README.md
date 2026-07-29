@@ -1,156 +1,127 @@
-# 自选股盘面 · 叙事复盘看板
+# A 股盘面研究看板
 
-一个**纯前端、深色专业终端风**的 A 股自选股看板：把每只票的**叙事逻辑**、**左侧（逢低）/ 右侧（突破）买入计划**、**证伪条件**、**新增长点**结构化展示，叠加**真实行情技术信号** + **同花顺问财消息面**（主力资金/新闻/研报），并提供**今日热点 TOP30** 与**每日自动复盘**。
+一个本地优先、可静态部署的 A 股研究看板，聚合自选股叙事与技术信号、全市场概览，以及逻辑链、今日热点事件、外围热点和周末发酵等研究内容。
 
-> ⚠️ 全部数据由 AI 整理/脚本测算，**仅供研究参考，不构成任何投资建议**。投资有风险，决策需独立判断。
+> 全部数据由脚本测算或 AI 整理，仅供研究参考，不构成投资建议。
 
-## 在线访问
-- **GitHub Pages**：https://13103205397a-a11y.github.io/stock-dashboard/
-- **本地静态**：双击 `index.html` 用浏览器打开即可（无需后端、无需起服务器）。数据通过 `<script>` 注入 `window` 全局，避免 `file://` 下 `fetch` 本地 JSON 被浏览器拦截。
-- **本地工作台**：运行 `python3 app_server.py` 后访问 `http://localhost:8787/index.html`，可写入持仓配置并从页面触发本地全量刷新。
-- **模块深链接**：可直接收藏或分享 `#market`、`#news`、`#weekend` 等模块地址，浏览器前进/后退会同步切换看板。
+## 使用
 
-## 功能
-- **今日复盘**：大盘真实指数（上证/深证/创业板/科创50）+ 市场环境综述 + 多空/左右侧统计。
-- **统计带**：总数 / 成立 / 存疑 / 今日叙事变化 / 多头排列 / 左侧已到逢低区 / 右侧突破·临近。
-- **筛选 / 搜索**：板块 + 结论（成立/存疑/证伪）+ **⚡今日买点**（左侧已到逢低区 或 右侧突破/临近）+ 叙事有变化；顶部全局搜索支持代码、名称、题材、新闻、事件和跨模块跳转。
-- **键盘操作**：`/` 或 `Ctrl/Cmd+K` 聚焦搜索，`↑/↓` 选择结果，`Enter` 打开，`Esc` 关闭搜索或详情抽屉。
-- **排序**：今日涨幅 / 距突破(右侧最近) / 回踩距离(左侧最近) / 趋势强度。
-- **卡片**：现价+涨跌幅+趋势徽章 + **近60日迷你走势图** + 左/右买点与实时信号状态 + 主力资金 + 新消息角标 + 复盘徽章。
-- **详情抽屉**：技术信号(均线/高低/量比/ATR + 大走势图) + **风控(左侧止损/目标/盈亏比、右侧止损)** + 主力资金 + 完整叙事/驱动/左右计划/今日复盘/新闻流水/机构研报/证伪/增长点/小作文/复盘历史。
-- **今日热点 TOP30**：按个股热度排序，含涨跌/换手/量比/资金/连板/所属概念/行业/市值 + 炒作题材/技术面/情绪面规则化标签 + 催化新闻。
+- GitHub Pages：<https://13103205397a-a11y.github.io/stock-dashboard/>
+- 本地静态：直接打开 `index.html`
+- 本地服务：`python3 app_server.py`，然后访问 <http://localhost:8787/index.html>
+- 深链接：`#home`、`#watch`、`#logic`、`#xbrief`、`#events`、`#weekend`
 
-## 文件结构
-### 前端（核心视图模块，对应 `index.html` 侧栏）
-| 文件 | 作用 |
-|---|---|
-| `index.html` / `styles.css` / `design-system.css` / `app.js` | 页面结构 / 基础样式 / 机构级 Design Token 与组件覆盖层 / 渲染·筛选·全局搜索·抽屉 |
-| `public_files.json` / `scripts/build_site.py` | 本地服务与 GitHub Pages 共用的公开资源清单 / 确定性站点构建 |
-| `data.js` | 自选股数据（`window.STOCKS`）：叙事 + 技术信号 + 消息面 |
-| `meta.js` | 全局元信息（行情时点 / 统计 / 大盘快照 `marketSnapshot`） |
-| `holdings.js` | 持仓决策（本地私有生成，`window.HOLDINGS`，不入库/不发布） |
-| `logic.js` | 逻辑链（`window.LOGIC`） |
-| `industry.js` / `industry_market.js` | Hermes 产业调研 / 行业板块涨跌排名（两个独立数据协议） |
-| `materials.js` / `events.js` | 材料涨价 / 今日热点事件（`window.MATERIALS` / `EVENTS`） |
-| `newsall.js` / `hot.js` | 全球资讯+公告（`window.NEWSALL`）/ 今日热点 TOP30（`window.HOT`） |
-| `market.js` | 全市场异动扫描（`window.MARKET`） |
+顶部搜索支持代码、名称、题材和活跃研究模块；`/` 或 `Ctrl/Cmd+K` 聚焦搜索，方向键选择，`Enter` 打开，`Esc` 关闭搜索或详情抽屉。
 
-### 抓取脚本（`scripts/`）
-| 脚本 | 数据源 | 写入 |
+## 活跃模块
+
+`active_modules.json` 是模块生命周期的唯一来源。公开构建、数据契约、新鲜度门禁、Hermes 发布和部署后资源探针都读取它，删除模块时不再需要分别维护多份硬编码列表。
+
+| 文件 | 全局变量 | 用途 |
 |---|---|---|
-| `fetch_klines.sh` | 腾讯 `web.ifzq.gtimg.cn`（前复权） | `scripts/raw/<code>.json` |
-| `fetch_signals.js` | 上述日K | `data.js` 的 signal/left/right、`meta.js` 的 marketSnapshot |
-| `fetch_news.py` | 东方财富（新闻+公告，免key） | `data.js` 的 news |
-| `fetch_enhanced.py` | 东财/腾讯 via a-stock-pro（免key） | `data.js` 的 fund/research/valuation |
-| `fetch_market.py` | a-stock-pro（免key） | `market.js` |
-| `fetch_holdings.py` | 腾讯实时（免key，本地私有） | `holdings.js`（不入库/不发布） |
-| `fetch_industry.py` | a-stock-pro 行业排名（免key） | `industry_market.js` |
-| `fetch_industry_ai.py` | Hermes Agent 会话（按 `agent/industry-radar.md`） | `industry.js`（AI 调研版） |
-| `fetch_news_all.py` | a-stock-pro（免key） | `newsall.js` |
-| `fetch_hot.py` | 同花顺问财（需 `IWENCAI_API_KEY`） | `hot.js` |
-| `refresh_plan.json` / `run_refresh.py` | 本地统一刷新计划 / 命令行执行器 | 本地全量刷新 |
-| `sanitize_ai_content.py` / `validate_data.js` / `check_freshness.js` | AI 内部字段清理、公开数据结构与新鲜度校验（不读取私有持仓） | 本地/CI 校验 |
-| `skills/` | a-stock-pro / hithink-astock-selector / hithink-market-query / news-search / report-search（vendored） | — |
-| `.github/workflows/refresh-signals.yml` | GitHub Actions：收盘后自动刷新行情+消息面+异动 | data/meta/market/industry_market/newsall/hot.js（不含持仓与 AI 文件） |
-## 数据字段（`data.js` 每条）
-- `code` `name` `sector` `tags`：代码 / 名称 / 板块 / 标签
-- `narrative`：叙事逻辑
-- `drivers`：上涨驱动因子
-- `left` / `right`：左侧（逢低）/ 右侧（突破）计划 `{ zone 价位, trigger 触发条件, logic 逻辑 }`
-- `falsify`：证伪条件（逻辑被打破的信号）
-- `growthPoints`：潜在新增长点
-- `watch`：需盯的小作文 / 催化
-- `review`：最近一次复盘 `{ date, verdict(成立/存疑/证伪), change, rumors, newPoints }`
-- `history`：复盘历史（每日累积）
-- `signal`：**真实行情技术信号**（由 `fetch_signals.js` 用真实日K计算）
-  `{ date, price, chgPct, ma5/10/20/60/120/250, high20/low20/high60/low60, volRatio, atr, trend, posPct, supportZone, deepSupport, pullbackPct, breakout, toBreakoutPct, leftStop, leftTarget, leftRR, rightStop, leftState, rightState, spark }`
-- `fund`：**主力资金流向**（问财）`{ netInflow 亿, turnover %, date, asof }`
-- `news`：**新闻/公告流水**（东财，`fetch_news.py` 独占维护，最新在前，最多 3 条；Agent 的传闻/小作文写 `review.rumors`，不入此字段）`[{ title, date, source, url }]`
-- `research`：**机构研报**（问财）`[{ org, rating, title, date }]`
-- `newsAsof`：消息面抓取时点
+| `data.js` | `window.STOCKS` | 自选股叙事、信号、消息和详情 |
+| `meta.js` | `window.META` | 行情时点、指数快照和市场摘要 |
+| `market.js` | `window.MARKET` | 首页共享的市场环境数据 |
+| `logic.js` | `window.LOGIC` | 事件到产业和标的的逻辑链 |
+| `events.js` | `window.EVENTS` | 今日热点事件 |
+| `xbriefs.js` | `window.XBRIEFS` | 外围热点批次简报 |
+| `weekend.js` | `window.WEEKEND` | 周末发酵 |
 
-> `left.zone` / `right.zone` / `trigger` 与 `signal` 均为真实日K计算的具体点位，非估计值。
+持仓、自选筛选、产业雷达、产业链涨价、资金流向、新闻聚合、今日热榜等已退休模块不再进入前端、刷新计划、公开构建或线上探针。
 
-## 数据怎么来的（真实数据）
-技术信号（腾讯日K）与消息面（东财/腾讯，免key）分脚本维护，互不覆盖；只有 `fetch_hot.py` 走问财需 key。
+`public_files.json` 只维护前端核心资源，并通过 `activeModules` 指向上述清单。`scripts/build_site.py` 合并两者生成确定性的 Pages 产物：
 
-| 脚本 | 数据源 | 写入 |
-|---|---|---|
-| `scripts/fetch_klines.sh` | 腾讯 `web.ifzq.gtimg.cn`（公开行情，前复权） | `scripts/raw/<code>.json` |
-| `scripts/fetch_signals.js` | 上述日K | `data.js` 的 signal/left/right、`meta.js` 的 marketSnapshot |
-| `scripts/fetch_enhanced.py` | 东财/腾讯 via a-stock-pro（免key） | `data.js` 的 fund/research/valuation |
-| `scripts/fetch_news.py` | 东方财富（免key） | `data.js` 的 news |
-| `scripts/fetch_market.py` / `fetch_holdings.py` / `fetch_industry.py` / `fetch_news_all.py` | a-stock-pro / 腾讯（均免key） | market.js / holdings.js（本地私有）/ industry_market.js / newsall.js |
-| `scripts/fetch_hot.py` | 同花顺问财（需 `IWENCAI_API_KEY`） | `hot.js` |
-
-本地全量刷新（仅 `fetch_hot.py` 需 `IWENCAI_API_KEY`，其余免key）：
 ```bash
-bash scripts/fetch_klines.sh && node scripts/fetch_signals.js   # 行情 + 技术信号
-python3 scripts/fetch_news.py        # 新闻/公告 → data.js
-python3 scripts/fetch_enhanced.py    # 资金/研报/估值 → data.js
-python3 scripts/fetch_market.py      # 全市场异动 → market.js
-python3 scripts/fetch_holdings.py    # 持仓决策 → holdings.js（本地私有，不提交）
-python3 scripts/fetch_industry.py    # 行业板块排行 → industry_market.js
-python3 scripts/fetch_news_all.py    # 全球资讯+公告 → newsall.js
-python3 scripts/fetch_hot.py         # 热点 TOP30 → hot.js（需问财 key）
+python3 scripts/build_site.py _site
+python3 scripts/build_site.py --list-files
 ```
-或直接执行统一刷新计划：
+
+`--list-files` 与 Pages 部署后的资源探针使用同一份结果，避免构建和探针口径漂移。
+
+## 数据刷新
+
+行情共享数据由以下脚本维护：
+
+| 脚本 | 写入 |
+|---|---|
+| `scripts/fetch_klines_tf.py` | `scripts/raw/<code>.json` |
+| `scripts/fetch_signals.js` | `data.js` 的技术信号、`meta.js` 的指数与统计 |
+| `scripts/fetch_news.py` | `data.js` 的个股新闻与公告 |
+| `scripts/fetch_enhanced.py` | `data.js` 的资金、研报和估值 |
+| `scripts/fetch_market.py` | `market.js` |
+| `scripts/push_xbrief.py` | `xbriefs.js` |
+| `scripts/fetch_weekend.py` | `weekend.js` |
+
+统一刷新计划只保留仍服务活跃模块的步骤：
+
 ```bash
+python3 scripts/run_refresh.py --list
 python3 scripts/run_refresh.py
+```
+
+刷新结束会执行内容清理、数据契约和新鲜度门禁：
+
+```bash
+python3 scripts/sanitize_ai_content.py
 node scripts/validate_data.js
 node scripts/check_freshness.js --strict
 ```
-`app_server.py` 和 Mac App 的“刷新数据”也读取同一份 `scripts/refresh_plan.json`，避免多端刷新步骤漂移。
 
-## 质量与交付
+日期校验会拒绝不存在的日历日期和未来日期，防止错误时间戳被误判为“新鲜”。
 
-项目在每次推送和 Pull Request 中自动执行数据契约、技术信号、服务端、刷新互斥、公开站点构建和浏览器端到端测试。Pages 部署完成后还会检查首页、应用脚本、设计系统和行业数据资源是否真实可访问；官方 GitHub Actions 均固定到已核验的提交 SHA，避免版本漂移。
+## Hermes 发布
+
+逻辑链和今日热点事件由各自 Hermes 任务直接写入并发布。周末发酵由：
 
 ```bash
-npm install                 # 首次安装固定版本的浏览器测试依赖
-npm test                    # 算法 + API + 刷新 + 公开构建测试
-npm run test:e2e            # 桌面/移动端模块视图与关键交互
+python3 scripts/sync_hermes_dashboard.py
+```
+
+同步器遵循以下规则：
+
+1. 只接收 `active_modules.json` 中 `hermes.publishMode = "sync"` 的模块。
+2. 只有本轮导出明确返回成功标记且产物存在，才进入候选发布集。
+3. 在最新 `origin/main` 的隔离 worktree 中比较 `generatedAt`、`date` 或模块指定时间字段。
+4. 本地快照早于远端，或时间相同但内容冲突时拒绝覆盖。
+5. 校验通过后只提交本轮成功且确实更新的文件；推送竞争最多重试三次。
+
+因此，Hermes 配额、会话或导出失败不会再把磁盘上的历史快照回滚到远端。
+
+## 质量门禁
+
+```bash
+npm ci
+npm test
+npm run test:e2e
 python3 scripts/build_site.py _site
 ```
 
-浏览器测试覆盖模块深链接、历史导航、全局搜索键盘操作、详情抽屉焦点管理、新闻摘要和公告股票跳转。失败时 GitHub Actions 会保留 7 天的 Playwright 报告。
+- `quality.yml` 在每次推送和 Pull Request 中执行语法检查、数据契约、新鲜度、单元/集成测试、桌面与手机浏览器 E2E；另在 macOS runner 上执行 `swiftc -typecheck app/main.swift`。
+- `pages.yml` 在上传和部署前重新执行完整单元测试和浏览器 E2E。任何 E2E 失败都会阻止部署。
+- 部署成功后，Pages 使用 `build_site.py --list-files` 探测全部实际公开文件。
+- `refresh-signals.yml` 只生成并提交 `data.js`、`meta.js` 和 `market.js`，不会改写 Hermes 文件。
+- `ai-stale-watch.yml` 根据活跃模块清单巡检外围热点、逻辑链、今日热点事件和周末发酵。历史 `review` 字段仅用于现有卡片展示，不再对应生成任务或新鲜度门禁。
 
-- **左侧(逢低)**：支撑区 = MA60 / MA20 / 近 20–60 日低点构成的回踩带；状态分「已在支撑区·可分批左侧 / 高于支撑区·等回踩 / 跌破支撑·破位观望」。
-- **右侧(突破)**：突破位 = 近 60 日高（平台高）；状态分「已放量突破·右侧持有 / 临近突破 / 箱体内 / 创新高量能不足」，配合量比确认。
-- 趋势 = 均线多头/空头/震荡排列。
-> 指标为机械计算，**非投资建议**。
+## 关键文件
 
-## 自动化架构（无人值守）
-**GitHub Actions**（`.github/workflows/refresh-signals.yml`，每天跑 4 次以对冲 GitHub 定时器的延迟/丢弃）：
-- 15:20 / 16:40 / 18:10 每日 + 工作日 09:00 盘前补跑（北京时间）：抓日K → 重算技术信号 → 补消息面 → 问财取热点 → 自动 commit/push。
-- 只提交行情类文件（data/meta/hot/market/industry_market/newsall），AI 分析文件由本地 Hermes 独立发布，两边不争推。
-- 新鲜度门禁按域分离：Actions 只对行情数据 `--scope=market` 严格把关，AI 模块过期只告警不阻断。
-- 问财消息面/热点步骤 `continue-on-error: true`：问财异常（如**当日配额耗尽**）不阻断技术信号提交，且失败时不覆盖已有数据。
-- 需在仓库 Settings → Secrets 配置 `IWENCAI_API_KEY`。
+| 文件 | 作用 |
+|---|---|
+| `index.html` / `app.js` / `app_ai_modules.js` | 页面结构、交互和研究模块渲染 |
+| `styles.css` / `design-system.css` / `claude-theme.css` | 样式与设计令牌 |
+| `active_modules.json` | 活跃模块、数据契约、新鲜度和 Hermes 发布配置 |
+| `public_files.json` | 公开前端核心资源 |
+| `scripts/build_site.py` | 确定性公开构建与探针清单 |
+| `scripts/validate_data.js` | 活跃模块结构、引用、日期和内容校验 |
+| `scripts/check_freshness.js` | 按北京时间及工作日计算的新鲜度门禁 |
+| `scripts/refresh_plan.json` | 本地与 Mac App 共用的活跃刷新步骤 |
+| `scripts/sync_hermes_dashboard.py` | 本轮成功发布和快照防回滚 |
 
-**本地 Hermes「叙事复盘」Agent**（工作日收盘后 16:20，见 `agent/daily-review.md`）：
-- 对全部自选股逐一调研（公告/研报/产业链/舆情），更新 `review`/`history` 与叙事字段、`meta.marketRegime`/`meta.summary`。
-- 字段所有权纪律：行情/消息面字段（`signal`/`news`/`fund`/`research`）归对应脚本独占，Agent 只读；传闻与新增长点写 `review.rumors`/`review.newPoints`（前端展示且无脚本覆盖）。逐股 `review.date` 中位数纳入新鲜度门禁，停摆会通过 ai-stale-watch 告警。
+## 增删模块
 
-**本地 Hermes Agent**（`industry.js`/`logic.js`/`events.js`/`materials.js`/`weekend.js` 这 5 个文件由它生成发布）：
-- 产业雷达/逻辑链/事件/材料由对应 Hermes 定时任务（工作日 16:30–16:50）在仓库 workdir 直写。
-- Hermes 的 `看板复盘同步` no-agent Cron 每 30 分钟调用 `scripts/sync_hermes_dashboard.py`。发布使用基于最新 `origin/main` 的隔离临时 worktree，不受当前开发工作区未提交改动影响，并会在远端竞争时自动重试；`portfolio_analysis.js` 仍保持本地私有。
-- 所有项目 Cron 的 `workdir` 必须指向当前仓库根目录。主提供商不可用时应配置至少一个 `hermes fallback`，否则单个供应商额度耗尽会让全部 Agent 停摆。
-- 前端对这些文件有 `onerror` 兜底，缺失不会白屏。
+1. 在 `active_modules.json` 增删模块及其契约、新鲜度规则。
+2. 在 `index.html` 增删相应数据脚本和导航入口。
+3. 在渲染代码中增加或删除视图。
+4. 更新生成脚本或 Hermes 配置。
+5. 运行 `npm test && npm run test:e2e && python3 scripts/build_site.py _site`。
 
-> 注：GitHub PAT 若只有 `repo` scope，本地无法 push `.github/workflows/` 改动（HTTP 422），需在 GitHub 网页 UI 编辑 workflow。
-
-## 增删自选股
-1. 编辑 `data.js` 的 `window.STOCKS` 数组（加/删一个对象，只需手写叙事/策略等编辑性字段，`signal`/`fund`/`news`/`research` 留给脚本）。
-2. 跑 `bash scripts/fetch_klines.sh && node scripts/fetch_signals.js` 补技术信号，按算出的 MA/支撑/突破回填 `left.zone`/`right.zone`。
-3. 跑 `python3 scripts/fetch_news.py && python3 scripts/fetch_enhanced.py` 补消息面（免key）。
-4. `git add data.js meta.js && git commit && git push`。前端 `app.js` 按数组动态渲染，无需改。
-
-## 每日复盘
-- **自动**：GitHub Actions 收盘后刷新行情/消息面/热点；本地 Hermes 复盘 Agent 在工作日 16:20 更新叙事复盘（`agent/daily-review.md`，需本地 Hermes cron 调度）。
-- **手动**：需要时直接让 Agent 执行 `agent/daily-review.md` 的流程。
-每次复盘后刷新浏览器即可看到徽章、今日变化、历史时间轴的更新。
-
-## 自定义
-- 配色：`styles.css` 顶部 `:root` 变量（`--up` 涨红 / `--down` 跌绿 / `--accent` 主色）。
-- 问财技能：可改用仓库外 `../skills/` 覆盖 `skills/`（设 `IWENCAI_SKILLS_DIR` 环境变量）。
+公开构建、验证和线上探针会自动随活跃清单更新。

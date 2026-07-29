@@ -1030,10 +1030,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -5.01,
-      "turnover": 5.58,
-      "date": "2026-07-29",
-      "asof": "2026-07-29"
+      "netInflow": 0.31,
+      "turnover": 3.77,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-07-29",
     "research": [
@@ -1298,10 +1298,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.5,
-      "turnover": 5.27,
-      "date": "2026-07-29",
-      "asof": "2026-07-29"
+      "netInflow": 0.27,
+      "turnover": 3.32,
+      "date": "2026-07-25",
+      "asof": "2026-07-25"
     },
     "newsAsof": "2026-07-29",
     "research": [
@@ -1566,10 +1566,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -1.06,
-      "turnover": 7.1,
-      "date": "2026-07-29",
-      "asof": "2026-07-29"
+      "netInflow": -6.46,
+      "turnover": 5.88,
+      "date": "2026-07-25",
+      "asof": "2026-07-25"
     },
     "newsAsof": "2026-07-29",
     "research": [
@@ -1834,10 +1834,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.37,
-      "turnover": 6.09,
-      "date": "2026-07-29",
-      "asof": "2026-07-29"
+      "netInflow": -11.17,
+      "turnover": 4.36,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-07-29",
     "research": [
@@ -2101,10 +2101,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -2.15,
-      "turnover": 3.92,
-      "date": "2026-07-29",
-      "asof": "2026-07-29"
+      "netInflow": -12.75,
+      "turnover": 2.26,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-07-29",
     "research": [
@@ -2347,32 +2347,32 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "永鼎股份:永鼎股份关于控股股东部分股权解除质押及再质押的公告",
-        "date": "2026-07-30",
+        "title": "“股王”发布业绩预告！联讯仪器预计2026年上半年净利润同比增8至9倍，投资者仍质疑与高股价是否匹配",
+        "date": "2026-07-22 23:02:28",
+        "source": "每日经济新闻",
+        "url": "http://finance.eastmoney.com/a/202607223817733046.html",
+        "content": "《每日经济新闻》记者注意到，近期新易盛、天孚通信、光迅科技、长飞光纤、亨通光电、永鼎股份等不少光通信上市公司均披露了2026年上半年业绩预告。 　　其中，光纤光缆板块业绩十分突出。如长飞光纤预计2026年上半年归母净利润同比增幅高达711%至914%。"
+      },
+      {
+        "title": "兴全趋势投资混合(LOF)：2026年二季度末规模达149.47亿元",
+        "date": "2026-07-22 20:49:21",
+        "source": "中国证券报·中证网",
+        "url": "http://stock.eastmoney.com/a/202607223817582131.html",
+        "content": "截至2026年二季度末，基金十大重仓股分别是海光信息、立讯精密、天准科技、宁德时代、北方华创、睿创微纳、众生药业、永鼎股份、芯源微、汇成真空。"
+      },
+      {
+        "title": "永鼎股份:永鼎股份关于为子公司申请年度银行授信提供担保的进展公告",
+        "date": "2026-07-11",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600105",
         "content": ""
-      },
-      {
-        "title": "永鼎股份:永鼎股份关于控股子公司签订日常经营性重大订单的自愿性披露公告",
-        "date": "2026-07-30",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=600105",
-        "content": ""
-      },
-      {
-        "title": "永鼎股份：控股子公司签订约11.33亿元大功率激光器芯片订单",
-        "date": "2026-07-29 20:02:00",
-        "source": "证券时报网",
-        "url": "http://finance.eastmoney.com/a/202607293825277788.html",
-        "content": "人民财讯7月29日电，永鼎股份(600105)7月29日公告，公司控股子公司苏州鼎芯光电科技有限公司近一个月收到A客户、B客户关于大功率激光器芯片产品的采购订单，相关订单合计金额分别为5.42亿元人民币（含税）、0.87亿美元（含税）（折合人民币约5.91亿元）。"
       }
     ],
     "fund": {
-      "netInflow": -3.94,
-      "turnover": 8.82,
-      "date": "2026-07-29",
-      "asof": "2026-07-29"
+      "netInflow": -6.55,
+      "turnover": 5.08,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-07-29",
     "research": [
@@ -2637,10 +2637,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -3.75,
-      "turnover": 6.4,
-      "date": "2026-07-29",
-      "asof": "2026-07-29"
+      "netInflow": -3.93,
+      "turnover": 3.42,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-07-29",
     "research": [
@@ -5267,25 +5267,25 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "兆易创新:兆易创新股东减持股份结果公告",
-        "date": "2026-07-30",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
-        "content": ""
+        "title": "业绩向左、股价向右 存储行业遭遇背离",
+        "date": "2026-07-29 18:27:00",
+        "source": "21世纪经济报道",
+        "url": "http://finance.eastmoney.com/a/202607293825211042.html",
+        "content": "A股存储芯片概念同样遭遇重挫，兆易创新、德明利等存储概念股自6月29日历史高点至今股价已腰斩有余。存储板块成为这轮AI硬件调整中受伤最重的领域。 　　为何遭恐慌性抛售？ 　　业绩越好，股价却越跌？看似矛盾的现象背后，是多重因素叠加引发的集体踩踏。"
       },
       {
-        "title": "兆易创新:兆易创新关于董事长提议公司回购A股股份的公告",
-        "date": "2026-07-30",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
-        "content": ""
+        "title": "利好出尽or中场休息？一图速览全球存储公司最新业绩",
+        "date": "2026-07-29 17:17:31",
+        "source": "东方财富研究中心",
+        "url": "http://finance.eastmoney.com/a/202607293825156526.html",
+        "content": "A股存储公司二季度业绩预告堪称\"百花齐放\"：佰维存储归母净利润增长上限高达163倍，德明利预增65倍，江波龙预增41倍，兆易创新预增14倍。2026Q2存储芯片板块预喜率超90%，但7月以来相关概念股普遍出现回调。"
       },
       {
-        "title": "兆易创新:兆易创新股东增持股份计划公告",
-        "date": "2026-07-30",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603986",
-        "content": ""
+        "title": "今日这些个股异动 主力加仓传媒、食品饮料板块",
+        "date": "2026-07-29 16:54:22",
+        "source": "第一财经",
+        "url": "http://finance.eastmoney.com/a/202607293825144259.html",
+        "content": "主力资金今日净流入传媒、食品饮料、建筑材料等板块，净流出电子、计算机、机械设备等板块； 　　-中际旭创、风华高科、新易盛、C长鑫、三环集团主力资金净流入规模居前，分别净流入18.89亿元、18.52亿元、9.24亿元、8.54亿元、8.08亿元； 　　-紫光股份、通富微电、阳光电源、兆易创新"
       }
     ],
     "fund": {
@@ -10364,13 +10364,6 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "7月29日晚间沪深上市公司重大事项公告最新快递",
-        "date": "2026-07-29 19:32:40",
-        "source": "东方财富Choice数据",
-        "url": "http://finance.eastmoney.com/a/202607293825251253.html",
-        "content": "中国西电：子公司具备固态变压器自主研制能力 　　中国西电(601179)在互动平台表示，公司所属子公司西安西电电力电子有限公司具备固态变压器自主研制能力，产品主要面向配电网和数据中心场景，其10千伏/2.42兆伏安/800伏固态变压器已应用于贵安国家“东数西算”数据中心项目，10千伏"
-      },
-      {
         "title": "中国西电：公司主营业务为输配电及控制设备研发、设计等业务",
         "date": "2026-07-29 18:29:00",
         "source": "证券日报",
@@ -10383,6 +10376,13 @@ window.STOCKS = [
         "source": "华夏时报网",
         "url": "http://finance.eastmoney.com/a/202607243819405114.html",
         "content": "国家电网这两个招标项目涉及众多电力设备企业，除中国西电外，有关公司也纷纷发布中标公告。"
+      },
+      {
+        "title": "中国西电:中国西电产品中标公告",
+        "date": "2026-07-23",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=601179",
+        "content": ""
       }
     ],
     "fund": {

@@ -157,26 +157,11 @@ function scoreChain(chain) {
   return score;
 }
 
-function pickTopic(logic, materials) {
+function pickTopic(logic) {
   const chains = Array.isArray(logic.chains) ? logic.chains : [];
-  const rankedChains = chains
+  return chains
     .map((chain) => ({ type: "chain", score: scoreChain(chain), item: chain }))
-    .sort((a, b) => b.score - a.score);
-
-  const directions = Array.isArray(materials.directions) ? materials.directions : [];
-  const rankedMaterials = directions
-    .map((item) => ({
-      type: "material",
-      score: item.intensity === "强" ? 12 : item.intensity === "中强" ? 8 : 4,
-      item,
-    }))
-    .sort((a, b) => b.score - a.score);
-
-  const bestChain = rankedChains[0];
-  const bestMaterial = rankedMaterials[0];
-
-  if (bestChain && (!bestMaterial || bestChain.score >= bestMaterial.score)) return bestChain;
-  return bestMaterial || bestChain;
+    .sort((a, b) => b.score - a.score)[0];
 }
 
 function stockNamesFromSegments(segments) {
@@ -292,55 +277,6 @@ function buildFromChain(topic, logic) {
     ].join("\n"),
     hashtags: ["A股", "盘后复盘", compactName, "产业链", "题材观察"],
     comment: `你觉得${compactName}这次是阶段主线，还是一致后的短线兑现？`,
-  };
-}
-
-function buildFromMaterial(topic, materials) {
-  const item = topic.item;
-  const name = item.name;
-  const compactName = compactTheme(name);
-  const driverFacts = splitSentences(item.driver, 4);
-  const supplyFacts = splitSentences(item.supply, 4);
-  const riskFacts = splitSentences(item.risk, 4);
-  return {
-    date: materials.date,
-    theme: name,
-    angle: "涨价逻辑",
-    titles: [
-      `${compactName}涨价线拆解`,
-      `${compactName}先看传导，再看情绪`,
-      `${compactName}涨价背后的供需表`,
-      `${compactName}谁受益，谁只是蹭热度`,
-      `${compactName}明天验证三件事`,
-    ],
-    cover: {
-      headline: `${compactName}涨价线拆解`,
-      subline: "价格只是表层，关键看供需和利润传导",
-      tags: [item.intensity || "观察", truncate(item.price, 10) || "价格信号", "非荐股"],
-    },
-    slides: [
-      { title: "事件本身", label: "01 事件", verdict: "先确认价格信号，不把传闻当结论", bullets: [truncate(item.price, 70), truncate(item.timing, 70)].filter(Boolean) },
-      { title: "资金为什么会看", label: "02 驱动", verdict: "能炒的是供需，不是涨价两个字", bullets: driverFacts },
-      { title: "供需硬度", label: "03 供需", verdict: "越靠近真实短缺，持续性越强", bullets: supplyFacts },
-      { title: "传导路径", label: "04 传导", verdict: "下游能否接受涨价，决定利润弹性", bullets: splitSentences(item.downstream, 4) },
-      { title: "风险点", label: "05 风险", verdict: "涨价线最怕证伪和一日游", bullets: riskFacts },
-    ],
-    caption: [
-      `${name}今天值得单独看，不是因为“涨价”两个字，而是要拆供给、需求和传导。`,
-      "",
-      `当前价格线索：${truncate(item.price, 90)}`,
-      "",
-      "明天只验证三件事：",
-      "1. 涨价是否继续被产业侧确认。",
-      "2. 下游能不能接受，利润是否能留在相关环节。",
-      "3. A股资金有没有从概念扩散到真正受益公司。",
-      "",
-      riskFacts[0] ? `最大风险：${riskFacts[0]}` : "最大风险：只有价格故事，没有成交承接。",
-      "",
-      "仅做市场复盘和题材观察，不构成投资建议。",
-    ].join("\n"),
-    hashtags: ["A股", "涨价逻辑", "盘后复盘", "题材观察", name.replace(/[()（）/]/g, "")],
-    comment: `你觉得${compactName}这条涨价线能传导利润，还是只停留在题材热度？`,
   };
 }
 
@@ -591,11 +527,10 @@ ${cardHtml}
 
 function main() {
   const logic = loadWindowData("logic.js", "LOGIC");
-  const materials = loadWindowData("materials.js", "MATERIALS");
-  const topic = pickTopic(logic, materials);
+  const topic = pickTopic(logic);
   if (!topic) throw new Error("没有找到可生成小红书内容的数据");
 
-  const plan = topic.type === "material" ? buildFromMaterial(topic, materials) : buildFromChain(topic, logic);
+  const plan = buildFromChain(topic, logic);
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
   const date = plan.date || new Date().toISOString().slice(0, 10);

@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "description": "本地全量刷新计划。app_server.py、Mac App 和命令行统一读取此文件。",
+  "version": 3,
+  "description": "活跃模块刷新计划。Mac App 和命令行统一读取此文件。",
   "steps": [
     {
       "name": "抓日K(TickFlow免费档)",
@@ -31,52 +31,6 @@
       "command": ["python3", "scripts/fetch_market.py"],
       "timeout": 300,
       "required": true
-    },
-    {
-      "name": "板块资金流向",
-      "command": ["python3", "scripts/fetch_fundflow.py"],
-      "timeout": 180,
-      "required": false
-    },
-    {
-      "name": "行业板块排行",
-      "command": ["python3", "scripts/fetch_industry.py"],
-      "timeout": 300,
-      "required": false
-    },
-    {
-      "name": "全量新闻/公告",
-      "command": ["python3", "scripts/fetch_news_all.py"],
-      "timeout": 300,
-      "required": false
-    },
-    {
-      "name": "今日热点TOP30",
-      "command": ["python3", "scripts/fetch_hot.py"],
-      "timeout": 600,
-      "required": false,
-      "requiresEnv": "IWENCAI_API_KEY"
-    },
-    {
-      "name": "同步持仓行情",
-      "command": ["python3", "scripts/fetch_holdings.py"],
-      "timeout": 300,
-      "required": false,
-      "localPrivate": true
-    },
-    {
-      "name": "计算持仓自选筛选",
-      "command": ["node", "scripts/fetch_portfolio_signals.js"],
-      "timeout": 300,
-      "required": false,
-      "localPrivate": true
-    },
-    {
-      "name": "同步持仓分析",
-      "command": ["python3", "scripts/fetch_portfolio_analysis.py"],
-      "timeout": 300,
-      "required": false,
-      "localPrivate": true
     },
     {
       "name": "同步周末发酵",

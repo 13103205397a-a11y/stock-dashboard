@@ -7,20 +7,20 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>A股盘面 · 研究工作台</title>
-  <link rel="stylesheet" href="styles.css?v=12" />
-  <link rel="stylesheet" href="design-system.css?v=8" />
-  <link rel="stylesheet" href="claude-theme.css?v=6" />
+  <link rel="stylesheet" href="styles.css?v=13" />
+  <link rel="stylesheet" href="design-system.css?v=9" />
+  <link rel="stylesheet" href="claude-theme.css?v=8" />
 </head>
-<body>
+<body class="density-compact">
   <a class="skip-link" href="#mainContent">跳到主要内容</a>
   <!-- 移动端汉堡按钮 -->
-  <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+  <button class="menu-toggle" id="menuToggle" aria-label="菜单" aria-controls="sidebar" aria-expanded="false">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
   </button>
 
   <div class="app-shell">
     <!-- ===== 左侧导航 ===== -->
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar" aria-label="模块导航">
       <div class="side-logo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 3v4M6 17v4M6 7h0M6 17h0"/><rect x="4.5" y="7" width="3" height="10" rx="0.5" fill="currentColor" stroke="none"/>
@@ -33,16 +33,14 @@
         </div>
       </div>
 
-      <nav class="side-nav">
+      <nav class="side-nav" aria-label="研究模块">
         <div class="nav-group">
-          <span class="nav-group-label">总览</span>
           <button class="nav-item active" data-view="home">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>
             <span>首页</span>
           </button>
         </div>
         <div class="nav-group">
-          <span class="nav-group-label">自选股</span>
           <button class="nav-item" data-view="watch">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
             <span>巨头核心</span>
@@ -53,7 +51,6 @@
           </button>
         </div>
         <div class="nav-group">
-          <span class="nav-group-label">市场扫描</span>
           <button class="nav-item" data-view="xbrief">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/><circle cx="17" cy="16" r="3"/><path d="M17 15v2l1.2.8"/></svg>
             <span>外围热点</span>
@@ -64,7 +61,6 @@
           </button>
         </div>
         <div class="nav-group">
-          <span class="nav-group-label">AI 分析</span>
           <button class="nav-item" data-view="weekend">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/><path d="M8 9h.01M12 9h.01M16 9h.01M8 13h.01M12 13h.01M16 13h.01"/></svg>
             <span>周末发酵</span>
@@ -73,19 +69,14 @@
       </nav>
 
       <div class="side-foot">
-        <div class="density-toggle">
-          <span class="dl-k">密度</span>
-          <button class="density-btn" data-density="standard" aria-label="标准密度">标准</button>
-          <button class="density-btn active" data-density="compact" aria-label="紧凑密度">紧凑</button>
-        </div>
         <div class="dateline">
-          <span class="dl-k">行情截至</span><span class="updated" id="updated">—</span>
+          <span class="updated" id="updated" aria-live="polite">—</span>
         </div>
       </div>
     </aside>
 
     <!-- 遮罩(移动端点侧栏外关闭) -->
-    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
 
     <!-- ===== 右侧展示区 ===== -->
     <main class="content-area" id="mainContent" tabindex="-1">
@@ -114,9 +105,6 @@
         <!-- Home 首页总览 -->
         <section class="view view-home home-only" id="viewHome"></section>
 
-        <!-- 持仓决策 -->
-        <section class="view holdings-only" id="viewHoldings"></section>
-
         <!-- 逻辑链 -->
         <section class="view logic-only" id="viewLogic"></section>
 
@@ -126,14 +114,8 @@
         <!-- 今日热点事件 -->
         <section class="view events-only" id="viewEvents"></section>
 
-        <!-- 新闻 -->
-        <section class="view news-only" id="viewNews"></section>
-
         <!-- 外围热点（海外 AI + 市场，每 2 小时推送） -->
         <section class="view xbrief-only" id="viewXbrief"></section>
-
-        <!-- 板块资金流向（东财盘中） -->
-        <section class="view fundflow-only" id="viewFundflow"></section>
 
         <!-- 巨头核心(原 watch) -->
         <section class="view watch-only">
@@ -178,38 +160,11 @@
           </div>
         </section>
 
-        <!-- 市场异动 -->
-        <section class="view market-only">
-          <div class="wrap-tight">
-            <section class="sentiment-bar" id="sentimentBar"></section>
-            <nav class="filters market-filters">
-              <div class="filters-in">
-                <div class="filter-group anomaly-types" id="anomalyChips">
-                  <button class="chip anomaly-chip v-opp active" data-anomaly="gainers">涨幅 TOP</button>
-                  <button class="chip anomaly-chip v-bad" data-anomaly="losers">跌幅 TOP</button>
-                  <button class="chip anomaly-chip v-change" data-anomaly="turnover">换手 TOP</button>
-                  <button class="chip anomaly-chip v-ok" data-anomaly="inflow">主力流入</button>
-                  <button class="chip anomaly-chip v-warn" data-anomaly="outflow">主力流出</button>
-                  <button class="chip anomaly-chip v-opp" data-anomaly="limitUp">涨停池</button>
-                  <button class="chip anomaly-chip v-bad" data-anomaly="limitDown">跌停池</button>
-                  <button class="chip anomaly-chip v-change" data-anomaly="brokeUp">炸板池</button>
-                  <button class="chip anomaly-chip v-ok" data-anomaly="hotRank">人气榜</button>
-                  <button class="chip anomaly-chip v-opp" data-anomaly="dragonTiger">龙虎榜</button>
-                </div>
-              </div>
-            </nav>
-            <main class="grid market-grid" id="marketGrid"></main>
-          </div>
-        </section>
-
-        <!-- 今日热点 -->
-        <section class="view hot-only"><div class="wrap-tight"><main class="hotlist" id="hotList"></main></div></section>
-
         <footer class="foot">
           <div class="wrap-tight foot-in">
             <span id="count">—</span>
             <span class="disclaimer">本看板数据自动整理/测算，仅供研究参考，<b>不构成任何投资建议</b>。投资有风险，决策需独立判断。</span>
-            <span class="font-credit">界面字体 · MiSans</span>
+            <span class="font-credit">界面字体 · 系统字体</span>
           </div>
         </footer>
       </div>
@@ -241,7 +196,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
       <span>巨头</span>
     </button>
-    <button class="tab-item tab-more" id="tabMore" aria-label="更多模块" aria-haspopup="true">
+    <button class="tab-item tab-more" id="tabMore" aria-label="更多模块" aria-haspopup="true" aria-controls="sidebar" aria-expanded="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>
       <span>更多</span>
     </button>
@@ -249,21 +204,13 @@
 
   <script src="data.js?v=5" onerror="window.STOCKS=null" defer></script>
   <script src="meta.js?v=5" defer></script>
-  <script src="hot.js?v=5" defer></script>
   <script src="market.js?v=5" defer></script>
-  <script src="holdings.js?v=6" onerror="window.HOLDINGS=null" defer></script>
-  <script src="portfolio_analysis.js?v=6" onerror="window.PORTFOLIO_ANALYSIS=null" defer></script>
-  <script src="portfolio_signals.js?v=1" onerror="window.PORTFOLIO_SIGNALS=null" defer></script>
   <script src="weekend.js?v=5" onerror="window.WEEKEND=null" defer></script>
 
-  <script src="industry_market.js?v=1" onerror="window.INDUSTRY_MARKET=null" defer></script>
   <script src="logic.js?v=5" onerror="window.LOGIC=null" defer></script>
   <script src="events.js?v=5" onerror="window.EVENTS=null" defer></script>
-  <script src="newsall.js?v=5" onerror="window.NEWSALL=null" defer></script>
   <script src="xbriefs.js?v=1" onerror="window.XBRIEFS=null" defer></script>
-  <script src="fundflow.js?v=1" onerror="window.FUNDFLOW=null" defer></script>
-  <script src="app.js?v=18" defer></script>
-  <script src="app_holdings.js?v=1" defer></script>
-  <script src="app_ai_modules.js?v=5" defer></script>
+  <script src="app.js?v=21" defer></script>
+  <script src="app_ai_modules.js?v=6" defer></script>
 </body>
 </html>

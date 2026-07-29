@@ -3,20 +3,27 @@
 from __future__ import annotations
 
 import os
+import json
 import re
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-FILES = [
-    "industry.js", "logic.js", "events.js", "materials.js", "weekend.js",
-]
+ACTIVE_MODULES_PATH = ROOT / "active_modules.json"
 REPLACEMENTS = [
     (re.compile(r"thsStrong", re.I), "强势股数据"),
     (re.compile(r"thsHot", re.I), "热度榜数据"),
     (re.compile(r"confidence\s*=\s*", re.I), "置信度"),
     (re.compile(r"break\s*=\s*(\d+)\s*次?", re.I), r"开板\1次"),
     (re.compile(r"rank_chg", re.I), "排名变化"),
+    # 已退休的数据文件名不应继续作为用户可见来源；保留来源语义而不是暴露旧模块。
+    (re.compile(r"\bnewsall\.js\b", re.I), "公开资讯"),
+    (re.compile(r"\bhot\.js\b", re.I), "热度榜数据"),
+    (re.compile(r"\bchain\.js\b", re.I), "公开产业资料"),
+    (re.compile(r"\breports\.js\b", re.I), "历史复盘资料"),
+    (re.compile(r"\bfundflow\.js\b", re.I), "资金数据"),
+    (re.compile(r"\bmaterials\.js\b", re.I), "公开材料价格资料"),
+    (re.compile(r"\bindustry_market\.js\b", re.I), "行业行情数据"),
     # 正文里嵌着的内部工具名,换成用户能懂的说法(纯过程语整行由下面的报告级清洗删除)。
     # e2e 门禁对任何 .py 字样一律判失败,故不保留 scripts/xxx.py 路径出处,全部替换。
     (re.compile(r"(?<!\w)[\w.-]+\.py"), "数据接口"),
@@ -42,9 +49,25 @@ def sanitize_file(path: Path) -> bool:
     return True
 
 
+def active_ai_files() -> list[str]:
+    """只清理活跃清单中由 Hermes 维护的数据文件。"""
+    manifest = json.loads(ACTIVE_MODULES_PATH.read_text(encoding="utf-8"))
+    modules = manifest.get("modules")
+    if manifest.get("schemaVersion") != 1 or not isinstance(modules, list):
+        raise ValueError("active_modules.json 协议无效")
+    files = [
+        module["file"]
+        for module in modules
+        if isinstance(module, dict) and isinstance(module.get("hermes"), dict)
+    ]
+    if any(not isinstance(name, str) or Path(name).name != name for name in files):
+        raise ValueError("active_modules.json 中存在无效 AI 文件")
+    return files
+
+
 def main() -> int:
     changed = []
-    for name in FILES:
+    for name in active_ai_files():
         if sanitize_file(ROOT / name):
             changed.append(name)
     # data.js 是多个采集器共同写入的公开数据，校验前必须全量兜底，
