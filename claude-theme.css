@@ -1643,6 +1643,81 @@ button.chip:hover,
   line-height: 1.7 !important;
   max-width: 68ch;
 }
+.lc-digest {
+  background: var(--paper-muted) !important;
+  border-color: var(--hairline) !important;
+  border-radius: 16px !important;
+}
+.lc-digest-lead {
+  color: var(--ink) !important;
+  font-family: var(--display) !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.015em !important;
+}
+.lc-digest-list li {
+  color: var(--ink-soft) !important;
+}
+.lc-digest-list li::before {
+  color: var(--terracotta) !important;
+}
+.lc-digest-more > summary {
+  color: var(--terracotta-deep) !important;
+}
+
+/* 市场扫描：左名右涨跌，高对比行情表 */
+.ms-list {
+  background: var(--paper-raised) !important;
+  border-color: var(--hairline) !important;
+  border-radius: 16px !important;
+}
+.ms-h {
+  color: var(--ink) !important;
+  font-family: var(--display) !important;
+  font-weight: 650 !important;
+}
+.ms-row {
+  border-bottom-color: var(--hairline-soft) !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+  -webkit-text-fill-color: var(--ink) !important;
+  opacity: 1 !important;
+}
+.ms-row.in-watch:hover,
+.ms-row.in-watch:active {
+  background: var(--paper-muted) !important;
+}
+.ms-name {
+  color: var(--ink) !important;
+  -webkit-text-fill-color: var(--ink) !important;
+  font-weight: 650 !important;
+  font-size: 15px !important;
+  opacity: 1 !important;
+}
+.ms-sub {
+  color: var(--ink-tertiary) !important;
+  -webkit-text-fill-color: var(--ink-tertiary) !important;
+}
+.ms-pct {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--ink) !important;
+  -webkit-text-fill-color: var(--ink) !important;
+  opacity: 1 !important;
+}
+.ms-pct.up {
+  color: var(--negative, var(--up)) !important;
+  -webkit-text-fill-color: var(--negative, var(--up)) !important;
+}
+.ms-pct.down {
+  color: var(--positive, var(--down)) !important;
+  -webkit-text-fill-color: var(--positive, var(--down)) !important;
+}
+.ms-ladder-item {
+  background: var(--paper-raised) !important;
+  border-color: var(--hairline) !important;
+  border-radius: 12px !important;
+}
+.ms-l-c { color: var(--ink) !important; }
 .lc-card-logic {
   margin: 4px 0 0 !important;
   padding: 12px 0 12px 16px !important;
@@ -2243,9 +2318,67 @@ table tbody tr:hover td {
     gap: 12px !important;
   }
 
-  .ev-title,
-.lc-card-title {
+  .ev-title {
     font-size: 20px !important;
+  }
+
+  .lc-card {
+    padding: 14px !important;
+    border-radius: 14px !important;
+  }
+
+  .lc-card-title {
+    margin: 6px 0 4px !important;
+    font-size: 17px !important;
+    line-height: 1.35 !important;
+  }
+
+  .lc-card-logic {
+    font-size: 14px !important;
+    padding-left: 12px !important;
+  }
+
+  .lc-stock {
+    width: 100% !important;
+    border-radius: 12px !important;
+    padding: 10px 12px !important;
+  }
+
+  .lc-summary-more > summary,
+  .lc-reason-more > summary,
+  .lc-event-more > summary {
+    color: var(--terracotta-deep) !important;
+    min-height: 40px;
+  }
+
+  .ms-page {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .ms-list {
+    border-radius: 14px !important;
+  }
+
+  .ms-row {
+    min-height: 52px !important;
+    padding: 12px 14px !important;
+  }
+
+  .ms-name {
+    font-size: 16px !important;
+  }
+
+  .ms-pct {
+    font-size: 16px !important;
+  }
+
+  .lc-digest {
+    border-radius: 14px !important;
+    padding: 12px !important;
+  }
+
+  .lc-digest-lead {
+    font-size: 15px !important;
   }
 
 

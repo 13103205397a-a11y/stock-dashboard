@@ -1365,7 +1365,8 @@
       : `<div class="empty-inline">连板梯队待生成</div>`;
 
     const listBlock = (title, rows, mapRow) => {
-      const items = (rows || []).slice(0, 8);
+      const cap = (typeof window !== "undefined" && window.matchMedia && window.matchMedia("(max-width: 720px)").matches) ? 6 : 8;
+      const items = (rows || []).slice(0, cap);
       if (!items.length) return "";
       return `<section class="ms-block">
         <h3 class="ms-h">${esc(title)}</h3>
@@ -1375,14 +1376,20 @@
     const stockRow = (x, extra) => {
       const code = x.code || "";
       const inWatch = STOCKS.some((s) => s.code === code);
-      return `<button type="button" class="ms-row${inWatch ? " in-watch" : ""}" data-code="${esc(code)}" ${inWatch ? "" : "disabled"}>
-        <span class="ms-name">${esc(x.name || "—")}<span class="ms-code">${esc(code)}</span></span>
-        <span class="ms-extra">${esc(extra || "")}</span>
-        <span class="ms-pct ${sgn(x.pct != null ? x.pct : x.chgPct)}">${pct(x.pct != null ? x.pct : x.chgPct)}</span>
+      const chg = x.pct != null ? x.pct : x.chgPct;
+      const sub = extra || code;
+      // 不用 native disabled：移动端会把整行洗成灰字，失去行情表阅读感
+      return `<button type="button" class="ms-row${inWatch ? " in-watch" : " is-readonly"}" data-code="${esc(code)}" ${inWatch ? "" : 'aria-disabled="true"'}>
+        <span class="ms-left">
+          <span class="ms-name">${esc(x.name || "—")}</span>
+          ${sub ? `<span class="ms-sub">${esc(sub)}</span>` : ""}
+        </span>
+        <span class="ms-pct ${sgn(chg)}">${pct(chg)}</span>
       </button>`;
     };
 
     el.innerHTML = `
+      <div class="ms-page">
       ${secTitle("市场扫描", `情绪与异动只读 · ${esc(MK.generatedAt || MK.date || "")}`)}
       <section class="ms-sentiment">
         <div class="sent-block up"><div class="sb-n">${sent.zt_count ?? "—"}</div><div class="sb-l">涨停</div></div>
@@ -1404,8 +1411,9 @@
         ${listBlock("成交额靠前", MK.topTurnover, (x) => stockRow(x, x.amount != null ? `${(x.amount / 1e8).toFixed(1)}亿` : ""))}
       </div>
       <div class="home-foot">点亮行可打开自选池内标的详情；池外仅展示 · 非投资建议</div>
+      </div>
     `;
-    el.querySelectorAll(".ms-row[data-code]:not([disabled])").forEach((btn) => {
+    el.querySelectorAll(".ms-row.in-watch[data-code]").forEach((btn) => {
       btn.addEventListener("click", () => openDrawer(btn.dataset.code));
     });
   }

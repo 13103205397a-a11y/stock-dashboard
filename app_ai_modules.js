@@ -31,8 +31,10 @@
       const nodes = c.path.map((p, i) => {
         const stocks = (p.stocks || []).map((st) =>
           `<button type="button" class="lc-stock" data-code="${esc(st.code)}">
-            <span class="lc-stock-name">${esc(st.name)}</span>
-            <span class="lc-stock-code">${esc(st.code)}</span>
+            <span class="lc-stock-main">
+              <span class="lc-stock-name">${esc(st.name)}</span>
+              <span class="lc-stock-code">${esc(st.code)}</span>
+            </span>
             ${st.role ? `<span class="lc-stock-role">${esc(st.role)}</span>` : ""}
           </button>`
         ).join("");
@@ -45,6 +47,13 @@
           </div>
         </li>`;
       }).join("");
+
+      const reason = String(c.strength_reason || "").trim();
+      const reasonBlock = reason
+        ? (reason.length > 72
+          ? `<details class="lc-reason-more"><summary>评级依据</summary><p class="lc-reason">${esc(reason)}</p></details>`
+          : `<p class="lc-reason">评级：${esc(reason)}</p>`)
+        : "";
 
       return `<article class="lc-card ${accent}" data-xname="${esc(c.name)}">
         <header class="lc-card-head">
@@ -63,7 +72,7 @@
           <div class="lc-label">驱动事件</div>
           <p class="lc-event-lead">${esc(eventLead)}</p>
           ${eventLong ? `<details class="lc-event-more"><summary>展开完整事件与来源</summary><div class="lc-event-full">${fieldHtml(c.event)}</div></details>` : ""}
-          ${c.strength_reason ? `<p class="lc-reason">评级：${esc(c.strength_reason)}</p>` : ""}
+          ${reasonBlock}
         </section>
 
         <section class="lc-card-flow">
@@ -89,10 +98,64 @@
       <div class="lc-page">
         ${secTitle("逻辑链", sub)}
         ${session.kind === "midday" ? `<div class="rep-quality is-partial" role="note"><strong>午间快照</strong><span>本页生成于 ${esc(session.stamp)}，指数请以首页收盘总述为准。</span></div>` : ""}
-        ${LOGIC.summary ? `<p class="lc-board-summary">${esc(LOGIC.summary)}</p>` : ""}
+        ${logicSummaryDigest(LOGIC.summary)}
         <div class="lc-board">${cards}</div>
       </div>`;
     el.querySelectorAll(".lc-stock[data-code]").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
+  }
+
+  /** 把 Hermes 长摘要拆成「一句导语 + 要点列表」，避免墙字阅读 */
+  function logicSummaryDigest(raw) {
+    const text = cleanDisplayText(raw || "").trim();
+    if (!text) return "";
+
+    let points = [];
+    if (/\d+[.、)]\s|①|②|③|④|⑤/.test(text)) {
+      points = text.split(/(?=\d+[.、)]\s|①|②|③|④|⑤)/).map((x) => x.trim()).filter(Boolean);
+    } else {
+      // 句号/分号一起切：长摘要常见「宏观；盘面。资金。政策。」混排
+      points = text
+        .split(/(?<=[。！？；;])\s*/)
+        .map((x) => x.trim())
+        .filter((x) => x.length >= 8);
+    }
+    if (!points.length) points = [text];
+    points = points.map(polishDigestPoint).filter(Boolean);
+    if (!points.length) points = [polishDigestPoint(text) || text];
+
+    const lead = leadOf(points[0], true) || trunc(points[0], 64);
+    // 导语吃掉首点；其余按点列出。首点若被截断，完整版放进列表第一条。
+    const leadCore = String(lead).replace(/[…。！？；;\s]/g, "");
+    const firstCore = String(points[0]).replace(/[…。！？；;\s]/g, "");
+    const listItems = leadCore.length >= Math.min(firstCore.length, 48)
+      ? points.slice(1)
+      : points;
+
+    const isMobile = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(max-width: 720px)").matches;
+    const previewN = isMobile ? 2 : 4;
+    const shown = listItems.slice(0, previewN);
+    const hidden = listItems.slice(previewN);
+    const leadText = isMobile ? (leadOf(points[0], true) || trunc(points[0], 48)) : lead;
+    const li = (items) => items.map((it) => `<li>${esc(it.replace(/[；;]$/, "。"))}</li>`).join("");
+
+    return `<section class="lc-digest" aria-label="今日脉络">
+      <div class="lc-digest-kicker">
+        <span class="lc-label">今日脉络</span>
+        <span class="lc-digest-count">${points.length} 点</span>
+      </div>
+      <p class="lc-digest-lead">${esc(leadText)}</p>
+      ${shown.length ? `<ol class="lc-digest-list">${li(shown)}</ol>` : ""}
+      ${hidden.length ? `<details class="lc-digest-more"><summary>还有 ${hidden.length} 点</summary><ol class="lc-digest-list">${li(hidden)}</ol></details>` : ""}
+    </section>`;
+  }
+
+  /** 去掉分句后残留的转折词，让列表读起来像独立要点 */
+  function polishDigestPoint(s) {
+    let t = String(s || "").trim().replace(/^[；;，,\s]+/, "");
+    t = t.replace(/^(?:但是|但|然而|不过|可是|只是|而|且|并|又|则|即|另|另外|此外|同时|随后|接着)\s*/u, "");
+    if (!t) return "";
+    if (!/[。！？]$/.test(t)) t = t.replace(/[；;]+$/, "") + "。";
+    return t;
   }
 
   /* ---------- 7b. 周末发酵 ---------- */

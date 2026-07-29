@@ -259,10 +259,108 @@ test("研究内容不会直出内部字段、生成过程语或残缺括号", as
 
 test("核心阅读文字保持可读字号", async ({ page }) => {
   await page.goto("/index.html#logic", { waitUntil: "networkidle" });
-  const researchSize = await page.locator(".sd-v, .sd-field-list .sum-txt").first().evaluate((node) =>
+  const researchSize = await page.locator(".lc-card-logic, .lc-step-detail, .sd-v, .sd-field-list .sum-txt").first().evaluate((node) =>
     Number.parseFloat(getComputedStyle(node).fontSize)
   );
   expect(researchSize).toBeGreaterThanOrEqual(14);
+});
+
+test("手机端逻辑链可单手阅读且标的触控达标", async ({ page }) => {
+  test.skip((page.viewportSize()?.width || 0) > 720, "仅验证手机阅读");
+
+  await page.goto("/index.html#logic", { waitUntil: "domcontentloaded" });
+  await expect(page.locator(".lc-card").first()).toBeVisible();
+  await expect(page.locator(".lc-digest, .lc-board-summary").first()).toBeVisible();
+  await expect(page.locator(".lc-digest-lead, .lc-board-summary").first()).toBeVisible();
+  const digestWall = await page.locator(".lc-digest").evaluate((node) => {
+    const lead = node.querySelector(".lc-digest-lead");
+    const items = node.querySelectorAll(".lc-digest-list li");
+    return {
+      hasLead: Boolean(lead && lead.textContent.trim()),
+      itemCount: items.length,
+      leadLines: lead ? Math.round(lead.getBoundingClientRect().height / Number.parseFloat(getComputedStyle(lead).lineHeight)) : 0,
+    };
+  });
+  expect(digestWall.hasLead).toBe(true);
+  expect(digestWall.itemCount).toBeGreaterThanOrEqual(1);
+  expect(digestWall.leadLines).toBeLessThanOrEqual(4);
+  const firstPoint = await page.locator(".lc-digest-list li").first().innerText();
+  expect(firstPoint.trim()).not.toMatch(/^(?:但|而|且|不过|然而)/);
+
+  const metrics = await page.evaluate(() => {
+    const card = document.querySelector(".lc-card");
+    const stock = document.querySelector(".lc-stock");
+    const title = document.querySelector(".lc-card-title");
+    if (!card || !stock || !title) return null;
+    const cardBox = card.getBoundingClientRect();
+    const stockBox = stock.getBoundingClientRect();
+    return {
+      cardWiderThanViewport: cardBox.width > window.innerWidth + 1,
+      stockHeight: stockBox.height,
+      stockFullWidth: Math.abs(stockBox.width - card.querySelector(".lc-stocks").getBoundingClientRect().width) <= 2,
+      titleWraps: title.scrollWidth <= title.clientWidth + 1,
+      titleSize: Number.parseFloat(getComputedStyle(title).fontSize),
+    };
+  });
+  expect(metrics).not.toBeNull();
+  expect(metrics.cardWiderThanViewport).toBe(false);
+  expect(metrics.stockHeight).toBeGreaterThanOrEqual(44);
+  expect(metrics.stockFullWidth).toBe(true);
+  expect(metrics.titleWraps).toBe(true);
+  expect(metrics.titleSize).toBeLessThanOrEqual(18);
+});
+
+test("手机端市场扫描为单列行情表且触控达标", async ({ page }) => {
+  test.skip((page.viewportSize()?.width || 0) > 720, "仅验证手机阅读");
+
+  await page.goto("/index.html#market", { waitUntil: "domcontentloaded" });
+  await expect(page.locator(".ms-page")).toBeVisible();
+  await expect(page.locator(".ms-row").first()).toBeVisible();
+
+  const layout = await page.evaluate(() => {
+    const grid = document.querySelector(".ms-grid");
+    const row = document.querySelector(".ms-row");
+    const name = document.querySelector(".ms-name");
+    const pctEl = document.querySelector(".ms-pct");
+    if (!grid || !row || !name || !pctEl) return null;
+    const gridStyle = getComputedStyle(grid);
+    const rowBox = row.getBoundingClientRect();
+    const nameBox = name.getBoundingClientRect();
+    const pctBox = pctEl.getBoundingClientRect();
+    return {
+      columns: gridStyle.gridTemplateColumns.split(" ").length,
+      rowHeight: rowBox.height,
+      rowWiderThanViewport: rowBox.width > window.innerWidth + 1,
+      nameLeftOfPct: nameBox.right <= pctBox.left + 1,
+      nameColor: getComputedStyle(name).color,
+      pctFont: Number.parseFloat(getComputedStyle(pctEl).fontSize),
+    };
+  });
+  expect(layout).not.toBeNull();
+  expect(layout.columns).toBe(1);
+  expect(layout.rowHeight).toBeGreaterThanOrEqual(48);
+  expect(layout.rowWiderThanViewport).toBe(false);
+  expect(layout.nameLeftOfPct).toBe(true);
+  expect(layout.pctFont).toBeGreaterThanOrEqual(15);
+
+  const contrast = await page.locator(".ms-row").first().evaluate((row) => {
+    const name = row.querySelector(".ms-name");
+    const pctEl = row.querySelector(".ms-pct");
+    const parse = (c) => {
+      const m = String(c).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+      return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : null;
+    };
+    const lum = ([r, g, b]) => (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    const nameRgb = parse(getComputedStyle(name).color);
+    return {
+      disabled: row.hasAttribute("disabled"),
+      readonly: row.classList.contains("is-readonly"),
+      nameLum: nameRgb ? lum(nameRgb) : 1,
+      pctClass: pctEl.className,
+    };
+  });
+  expect(contrast.disabled).toBe(false);
+  expect(contrast.nameLum).toBeLessThan(0.45);
 });
 
 test("公开页面使用系统字体且不再加载字体二进制", async ({ page }) => {
