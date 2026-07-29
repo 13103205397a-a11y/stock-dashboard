@@ -1,4 +1,4 @@
-/* A股盘面 · 左侧导航 14 模块 — 渲染 / 筛选 / 搜索 / 详情抽屉 */
+/* A股盘面 · 研究工作台 — 渲染 / 筛选 / 搜索 / 详情抽屉 */
 (function () {
   const readabilityCss = document.createElement("style");
   readabilityCss.textContent = `
@@ -44,6 +44,16 @@
   const cleanDisplayText = (value) => {
     if (value == null) return "";
     let text = String(value)
+      // 移除上游偶发的替换字符、零宽字符和控制符，避免资讯正文出现乱码。
+      .replace(/(?:ï¿½|\uFFFD)/g, "")
+      .replace(/â€™/g, "’")
+      .replace(/â€œ/g, "“")
+      .replace(/â€/g, "”")
+      .replace(/â€“/g, "–")
+      .replace(/â€”/g, "—")
+      .replace(/Â·/g, "·")
+      .replace(/Â/g, "")
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200D\u2060\uFEFF]/g, "")
       // 这些是采集/分析阶段的内部字段，不应直接出现在阅读界面。
       .replace(/\b(?:thsStrong|thsHot)\b\s*[:：]?\s*/gi, " ")
       .replace(/\bbreak\s*=\s*\d+\s*(?:次)?/gi, " ")
@@ -117,9 +127,9 @@
     STOCKS.forEach((s) => add(s, "巨头核心"));
     [
       [MARKET, "市场异动"], [HOT, "今日热点"], [HOLDINGS, "持仓"],
-      [window.OPPORTUNITIES, "机会清单"], [window.LOGIC, "逻辑链"],
+      [window.LOGIC, "逻辑链"],
       [window.CHAIN, "产业链涨价"], [INDUSTRY, "产业雷达"], [window.MATERIALS, "材料涨价"],
-      [window.EVENTS, "事件概率"], [window.WEEKEND, "周末发酵"],
+      [window.EVENTS, "今日热点事件"], [window.WEEKEND, "周末发酵"],
     ].forEach(([value, source]) => walk(value, source));
     stockReferenceIndex = index;
     return index;
@@ -1070,11 +1080,10 @@
       : `<div class="empty">热点数据待生成（每日收盘后由问财自动更新）。</div>`;
   }
 
-  // 13 个模块的视图切换 + 懒渲染调度
+  // 模块视图切换 + 懒渲染调度
   const VIEW_RENDER = {
     home: () => renderHome(),
     holdings: () => App.renderHoldings(),
-    opportunities: () => App.renderOpportunities(),
     logic: () => App.renderLogic(),
     agent: () => App.renderReports(),
     chain: () => App.renderChain(),
@@ -1091,14 +1100,13 @@
     home: "首页",
     holdings: "持仓决策",
     watch: "巨头核心",
-    opportunities: "机会清单",
     logic: "逻辑链",
     market: "市场异动",
     fundflow: "资金流向",
     hot: "今日热点",
     news: "新闻",
-    xbrief: "X 简报",
-    events: "事件概率",
+    xbrief: "外围热点",
+    events: "今日热点事件",
     agent: "AI 复盘",
     chain: "产业链涨价",
     weekend: "周末发酵",
@@ -1289,7 +1297,7 @@
   setTimeout(updateSbData, 300); // 等数据加载
 
   /* ===================================================================
-     扩展模块渲染: Home / 持仓决策 / 机会清单 / 逻辑链 / 产业雷达 / 事件概率 / 新闻等
+     扩展模块渲染: Home / 持仓决策 / 逻辑链 / 产业雷达 / 今日热点事件 / 新闻等
   =================================================================== */
   // 通用区块标题
   const secTitle = (t, sub) => `<h2 class="vsec-title">${esc(t)}${sub ? `<span class="vsec-sub">${esc(sub)}</span>` : ""}</h2>`;
@@ -1402,7 +1410,6 @@
     const W = window.WEEKEND || null;
     const MAT = window.MATERIALS || null;
     const EV = window.EVENTS || null;
-    const OPP = window.OPPORTUNITIES || null;
     const LOG = window.LOGIC || null;
     const holdingPrivate = !isLocalServer() && location.protocol !== "file:";
     return [
@@ -1411,13 +1418,12 @@
       { name: "资金流向", date: (window.FUNDFLOW || {}).generatedAt || (window.FUNDFLOW || {}).date, count: `${((window.FUNDFLOW || {}).boards || []).length}板块`, source: "东财→fundflow", view: "fundflow", relaxed: true, optional: true, missing: !((window.FUNDFLOW || {}).boards || []).length },
       { name: "今日热点", date: HOT.generatedAt || HOT.date, count: `${(HOT.list || []).length}只`, source: "hot.js", view: "hot" },
       { name: "新闻公告", date: NEWSALL?.generatedAt || NEWSALL?.date, count: `${(NEWSALL?.global || []).length + (NEWSALL?.announcements || []).length}条`, source: "newsall.js", view: "news", missing: !NEWSALL },
-      { name: "X简报", date: (window.XBRIEFS || {}).updated || (window.XBRIEFS || {}).generatedAt, count: `${((window.XBRIEFS || {}).briefs || []).length}期`, source: "X→push_xbrief", view: "xbrief", relaxed: true, optional: true, missing: !((window.XBRIEFS || {}).briefs || []).length },
+      { name: "外围热点", date: (window.XBRIEFS || {}).updated || (window.XBRIEFS || {}).generatedAt, count: `${((window.XBRIEFS || {}).briefs || []).length}期`, source: "X 公开讨论", view: "xbrief", relaxed: true, optional: true, missing: !((window.XBRIEFS || {}).briefs || []).length },
       { name: "持仓决策", date: HOLDINGS?.generatedAt || HOLDINGS?.date, count: holdingPrivate ? "线上隐藏" : `${(HOLDINGS?.list || []).length}只`, source: "本地私有", view: "holdings", optional: true, missing: !HOLDINGS },
       { name: "AI复盘", date: REPORTS.updated, count: `${(REPORTS.reports || []).length}篇`, source: "Kimi", view: "agent", relaxed: true, optional: true, missing: !(REPORTS.reports || []).length },
-      { name: "机会清单", date: OPP?.generatedAt || OPP?.date, count: `${(OPP?.directions || []).length}项`, source: "Hermes", view: "opportunities", relaxed: true, missing: !OPP },
       { name: "逻辑链", date: LOG?.generatedAt || LOG?.date, count: `${(LOG?.chains || []).length}条`, source: "Hermes", view: "logic", relaxed: true, missing: !LOG },
       { name: "产业链涨价", date: window.CHAIN?.generatedAt || window.CHAIN?.date || INDUSTRY?.generatedAt || INDUSTRY?.date || MAT?.generatedAt || MAT?.date, count: `${(window.CHAIN?.directions || INDUSTRY?.directions || []).length + (MAT?.directions || []).length}项`, source: "Hermes", view: "chain", relaxed: true, missing: !(window.CHAIN?.directions?.length || INDUSTRY?.directions?.length || MAT?.directions?.length) },
-      { name: "事件概率", date: EV?.generatedAt || EV?.date, count: `${(EV?.events || []).length}件`, source: "Hermes", view: "events", relaxed: true, missing: !EV },
+      { name: "今日热点事件", date: EV?.generatedAt || EV?.date, count: `${(EV?.events || []).length}件`, source: "Hermes", view: "events", relaxed: true, missing: !EV },
       { name: "周末发酵", date: W?.generatedAt || W?.weekendDate || W?.date, count: `${(W?.hotspots || []).length}项`, source: "Hermes", view: "weekend", weekly: true, optional: true, missing: !W },
     ];
   }
@@ -1519,7 +1525,6 @@
     (HOT.list || []).forEach((h) => addSearchItem(list, "热点", h.name, `${h.code} · 热度${h.rank || ""}`, [h.reason, (h.concepts || []).join(" ")].join(" "), "hot", h.code));
     (NEWSALL?.global || []).slice(0, 60).forEach((n) => addSearchItem(list, "新闻", n.title, n.time || n.date || "", "", "news"));
     (NEWSALL?.announcements || []).slice(0, 60).forEach((n) => addSearchItem(list, "公告", n.title || n.announcementTitle, n.date || "", "", "news"));
-    (window.OPPORTUNITIES?.directions || []).forEach((d) => addSearchItem(list, "机会", d.name, d.stage || "", [d.logic, d.risk].join(" "), "opportunities"));
     (window.LOGIC?.chains || []).forEach((c) => addSearchItem(list, "逻辑链", c.name, c.event_type || "", [c.event, c.logic, c.invalidation].filter(Boolean).join(" "), "logic"));
     const chainDirs = (window.CHAIN?.directions && window.CHAIN.directions.length ? window.CHAIN.directions : [...(INDUSTRY?.directions || []), ...(window.MATERIALS?.directions || [])].map((d) => d.driver_type ? d : { ...d, driver_type: [], bottleneck: "", chain: "", category: "", intensity: d.intensity || ({ "高": "强", "中高": "中强", "中": "中", "低": "弱" })[d.confidence] || "中", price_signal: d.price_signal || d.price || "" }));
     chainDirs.forEach((d) => addSearchItem(list, "产业链", d.name, d.intensity || "", [d.price_signal, d.bottleneck, d.driver, d.risk].filter(Boolean).join(" "), "chain"));
@@ -1634,7 +1639,6 @@
     const I = window.INDUSTRY;
     const L = window.LOGIC;
     const E = window.EVENTS;
-    const O = window.OPPORTUNITIES;
     const M = window.MATERIALS;
 
     // 各模块"最强"选取规则
@@ -1642,9 +1646,7 @@
     const intRankChain = { "极强": 5, "强": 4, "中强": 3, "中": 2, "弱": 1 };
     const chainDirsAll = (window.CHAIN?.directions && window.CHAIN.directions.length ? window.CHAIN.directions : [...(I && I.directions || []), ...(M && M.directions || [])].map((d) => d.driver_type ? d : { ...d, driver_type: [], intensity: d.intensity || ({ "高": "强", "中高": "中强", "中": "中", "低": "弱" })[d.confidence] || "中", price_signal: d.price_signal || d.price || "" }));
     const bestChain = chainDirsAll.slice().sort((a, b) => (intRankChain[b.intensity] || 0) - (intRankChain[a.intensity] || 0))[0];
-    // 机会清单: priority 星最多
-    const bestOpp = (O && O.directions || []).slice().sort((a, b) => (b.priority || "").length - (a.priority || "").length)[0];
-    // 事件概率: importance 最高
+    // 今日热点事件: importance 最高
     const impRank = { "高": 3, "中高": 2, "中": 1 };
     const bestEvt = (E && E.events || []).slice().sort((a, b) => (impRank[b.importance] || 0) - (impRank[a.importance] || 0))[0];
     // 逻辑链: 按 Agent 给出的强度评级取最强
@@ -1653,12 +1655,6 @@
 
     // 精华卡: 标签 + 标题 + 一句话精华 + 强度徽章 + 跳转目标
     const cards = [
-      bestOpp ? {
-        tag: "机会清单", tagCls: "ok", go: "opportunities", xname: bestOpp.name,
-        title: bestOpp.name,
-        essence: bestOpp.logic ? trunc(bestOpp.logic) : "—",
-        badge: bestOpp.stage || "", badgeCls: "warn"
-      } : null,
       bestChain ? {
         tag: "产业链涨价", tagCls: "up", go: "chain", xname: bestChain.name,
         title: bestChain.name,
@@ -1666,7 +1662,7 @@
         badge: bestChain.intensity || "", badgeCls: "ok"
       } : null,
       bestEvt ? {
-        tag: "事件概率", tagCls: "up", go: "events", xname: bestEvt.title,
+        tag: "今日热点事件", tagCls: "up", go: "events", xname: bestEvt.title,
         title: bestEvt.title,
         essence: bestEvt.importance_reason ? trunc(bestEvt.importance_reason) : "—",
         badge: bestEvt.importance || "", badgeCls: "ok"
@@ -1757,8 +1753,8 @@
     requestAnimationFrame(() => tryFocus(0));
   }
 
-  // 暴露核心到 window.App，供 src/ 下拆分模块(holdings.js / ai-modules.js)解构使用。
-  // renderHoldings / renderOpportunities 等由各 src 模块自行注册。
+  // 暴露核心到 window.App，供拆分模块解构使用。
+  // renderHoldings / renderLogic 等由各模块自行注册。
   window.App = {
     STOCKS, META, MARKET, HOLDINGS, INDUSTRY, INDUSTRY_MARKET, CHAIN, NEWSALL, REPORTS, HOT,
     state, marketState, viewScroll,
@@ -1779,7 +1775,7 @@
   };
 
   // 启动函数：由最后加载的模块(app_ai_modules.js)末尾调用，
-  // 确保 holdings/opportunities/logic/chain/... 都已注册到 App 后再渲染。
+  // 确保 holdings/logic/chain/... 都已注册到 App 后再渲染。
   window.App.start = function () {
     renderMeta();
     renderStats();

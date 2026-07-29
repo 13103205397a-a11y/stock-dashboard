@@ -1,45 +1,48 @@
 # Design QA
 
-## Scope
+## Evidence
 
-- Reference: `/Users/Admin/.codex/generated_images/019f49d4-d226-7061-ab7f-f5c7ce3c0859/exec-ab5111b5-f00b-4d22-9e70-9aabd61a2649.png`
-- Implementation: `http://127.0.0.1:8787/index.html`
-- Primary comparison viewport: `1487 x 1058`
-- Coverage viewports: `1440 x 1024`, `720 x 1024`, `390 x 844`
-- Covered states: 13 views, stock drawer, mobile navigation, search results, keyboard focus, reduced-width layouts
+- Source visual truth: `/var/folders/22/0z13jwb14vd676xms5lg72y00000gp/T/codex-clipboard-c466ae84-2493-4962-9900-50a70511c5f8.png`
+- Implementation screenshot: `/var/folders/22/0z13jwb14vd676xms5lg72y00000gp/T/qa-watch-implementation.png`
+- Additional implementation screenshot: `/var/folders/22/0z13jwb14vd676xms5lg72y00000gp/T/qa-xbrief-implementation.png`
+- Local route: `http://127.0.0.1:8788/index.html#watch`
+- Viewport: `1280 × 860` CSS px
+- Source pixels: `2560 × 1720` (`@2x` capture, normalized to `1280 × 860`)
+- Implementation pixels: `1280 × 860` (`deviceScaleFactor: 1`)
+- State: desktop, compact density, 巨头核心, 全部板块, 默认排序
 
-## Iteration 1
+The source and implementation were rendered together in one vertical comparison at the same normalized size. The full-view comparison confirms that the former left-side summary rail is now a horizontal overview above the filters and stock cards, while preserving the existing warm neutral visual system.
 
-- P1 · Fidelity / density: the first “今日最强” card allowed a long dynamic badge to consume the card and force the tag into a vertical stack.
-  - Fix: constrained the badge to one line and clamped title and summary copy to two lines.
-- P1 · Spacing: the content gutter was looser than the selected terminal reference.
-  - Fix: reduced the responsive desktop gutter and top content padding while preserving mobile breathing room.
-- P1 · Accessibility: mobile menu and navigation targets were below practical touch dimensions.
-  - Fix: increased the menu control to `40 x 40` and mobile navigation rows to `44px`.
-- P2 · Fidelity / command emphasis: the search field and top command boundary were too neutral compared with the reference.
-  - Fix: applied the restrained amber command border token without adding glow or gradient surfaces.
+## Findings
 
-## Iteration 2
+- No actionable P0/P1/P2 findings remain.
+- Typography: the existing display/body font hierarchy is preserved. The top identity stays on one line at the target viewport; overview numbers and labels retain clear weight contrast.
+- Spacing and layout: the overview and sector filter now form a compact two-column band above the controls. This returns the former rail width to the stock-card grid and keeps the circled content out of the left side.
+- Colors and tokens: the implementation reuses the existing paper, terracotta, hairline, positive, and negative tokens. No new off-brand palette or decorative gradient was introduced.
+- Image quality and assets: the existing brand mark, icons, sparklines, and sentiment ring are preserved at their source quality. No visible source asset was replaced by placeholder art.
+- Copy and content: “机会清单” is absent; “X 简报” is now “外围热点”; “事件概率” is now “今日热点事件”. The 外围热点 article has a readable title, metadata, horizontal batch selector, and sanitized inline formatting.
+- Behavior and accessibility: the sector chips and 外围热点 batch controls switch state correctly; semantic buttons and labels remain available; no horizontal page overflow is present at the target viewport.
 
-- P0 · Responsive layout: long dynamic stage text expanded opportunity cards beyond the `390px` mobile viewport.
-  - Fix: constrained the badge flex item and changed single-column grids to `minmax(0, 1fr)`; all 13 views now pass page-level overflow checks.
-- P1 · Navigation: internal views could not be bookmarked, shared, or traversed with browser history.
-  - Fix: added stable hash routes, dynamic document titles, back/forward synchronization, and per-view scroll restoration.
-- P1 · Keyboard accessibility: search lacked active-result navigation and the drawer did not manage focus.
-  - Fix: added combobox/listbox semantics, arrow-key selection, result announcements, dialog semantics, focus entry/trapping/restoration, skip link, and keyboard activation for stock cards.
-- P1 · News utility: global news summaries and announcement stock codes were present in data but not actionable.
-  - Fix: added expandable summaries, optional source links, and announcement-to-stock-detail navigation.
+Focused-region review used the same full-view comparison because the top status bar and the complete overview band are both legible at `1280 × 860`. The 外围热点 page was reviewed separately at the same viewport because it has no source mock in the provided image.
 
-## Final Verification
+## Comparison History
 
-- Layout: no horizontal overflow at desktop, tablet, or mobile widths.
-- Typography: system Chinese sans hierarchy with monospaced tabular numerals is consistent across all views.
-- Color: graphite surfaces, restrained amber commands, Chinese-market red-up/green-down semantics, and neutral blue states are tokenized.
-- Components: navigation, cards, buttons, chips, tables, drawer, toast, modal, skeleton, empty, hover, focus, and selected states use shared tokens.
-- Interaction: search returned results; stock drawer opened and closed with Escape; navigation and mobile menu remained functional.
-- Accessibility: visible keyboard focus, reduced-motion support, practical mobile navigation targets, and responsive text wrapping were verified.
-- Delivery: deterministic public manifest build, pre-deploy regression checks, post-deploy asset probes, and a dedicated CI quality workflow were added.
-- Browser console: no warnings, page errors, or failed static asset requests during the final capture pass.
-- Regression: data validation, signal tests, Python unit tests, news/report skill tests, dependency audit, 12 desktop/mobile browser tests, syntax checks, and `git diff --check` passed.
+1. Initial browser pass found a P2 top-bar wrapping issue at `1280 × 860`: “盘面研判” wrapped and reduced the available separation between search and market data.
+   - Fix: made the identity non-wrapping and rebalanced the desktop status-bar grid to `180px / 280–480px / 290px`.
+   - Post-fix evidence: the normalized comparison shows the identity on one line; measured search right edge is `938px`, market-data left edge is `952px`, leaving a `14px` gap with zero horizontal overflow.
+2. Initial 外围热点 pass found a P2 readability issue: bold Markdown markers were visible inside generated table cells.
+   - Fix: applied inline Markdown formatting inside table cells and retained text sanitization for replacement/control/mojibake characters.
+   - Post-fix evidence: the revised 外围热点 screenshot contains no literal `**`, replacement characters, or the previously used decorative glyphs.
+
+## Primary Interactions Tested
+
+- 巨头核心: selected the “半导体” sector chip and confirmed the active filter state.
+- 外围热点: selected the second update batch and confirmed both the rail item and article changed to `data-i="1"`.
+- 今日热点事件: confirmed the new navigation and page heading, with the old label absent.
+- Browser console: checked warnings and errors after the tested routes; none were reported.
+
+## Follow-up Polish
+
+- No blocking polish remains for the requested scope.
 
 final result: passed

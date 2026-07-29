@@ -22,7 +22,7 @@
 - **今日热点 TOP30**：按个股热度排序，含涨跌/换手/量比/资金/连板/所属概念/行业/市值 + 炒作题材/技术面/情绪面规则化标签 + 催化新闻。
 
 ## 文件结构
-### 前端（14 个视图模块，对应 `index.html` 侧栏）
+### 前端（核心视图模块，对应 `index.html` 侧栏）
 | 文件 | 作用 |
 |---|---|
 | `index.html` / `styles.css` / `design-system.css` / `app.js` | 页面结构 / 基础样式 / 机构级 Design Token 与组件覆盖层 / 渲染·筛选·全局搜索·数据健康·抽屉 |
@@ -30,9 +30,9 @@
 | `data.js` | 自选股数据（`window.STOCKS`）：叙事 + 技术信号 + 消息面 |
 | `meta.js` | 全局元信息（行情时点 / 统计 / 大盘快照 `marketSnapshot`） |
 | `holdings.js` | 持仓决策（本地私有生成，`window.HOLDINGS`，不入库/不发布） |
-| `opportunities.js` / `logic.js` | 机会清单 / 逻辑链（`window.OPPORTUNITIES` / `window.LOGIC`） |
+| `logic.js` | 逻辑链（`window.LOGIC`） |
 | `industry.js` / `industry_market.js` | Hermes 产业调研 / 行业板块涨跌排名（两个独立数据协议） |
-| `materials.js` / `events.js` | 材料涨价 / 事件概率（`window.MATERIALS` / `EVENTS`） |
+| `materials.js` / `events.js` | 材料涨价 / 今日热点事件（`window.MATERIALS` / `EVENTS`） |
 | `newsall.js` / `hot.js` | 全球资讯+公告（`window.NEWSALL`）/ 今日热点 TOP30（`window.HOT`） |
 | `market.js` | 全市场异动扫描（`window.MARKET`） |
 | `reports.js` | AI 每日复盘报告（`window.REPORTS`） |
@@ -135,8 +135,8 @@ python3 scripts/build_site.py _site
 - 对全部自选股逐一调研（公告/研报/产业链/舆情），更新 `review`/`history` 与叙事字段、`meta.marketRegime`/`meta.summary`。
 - 字段所有权纪律：行情/消息面字段（`signal`/`news`/`fund`/`research`）归对应脚本独占，Agent 只读；传闻与新增长点写 `review.rumors`/`review.newPoints`（前端展示且无脚本覆盖）。逐股 `review.date` 中位数纳入新鲜度门禁，停摆会通过 ai-stale-watch 告警。
 
-**本地 Hermes Agent**（`reports.js`/`industry.js`/`logic.js`/`events.js`/`opportunities.js`/`materials.js`/`weekend.js` 这 7 个文件由它生成发布）：
-- `scripts/fetch_hermes.py` 依赖本机 `hermes` 命令行工具，从会话库导出复盘报告；产业雷达/逻辑链/事件/机会/材料由对应 Hermes 定时任务（工作日 16:30–16:50）在仓库 workdir 直写。
+**本地 Hermes Agent**（`reports.js`/`industry.js`/`logic.js`/`events.js`/`materials.js`/`weekend.js` 这 6 个文件由它生成发布）：
+- `scripts/fetch_hermes.py` 依赖本机 `hermes` 命令行工具，从会话库导出复盘报告；产业雷达/逻辑链/事件/材料由对应 Hermes 定时任务（工作日 16:30–16:50）在仓库 workdir 直写。
 - Hermes 的 `看板复盘同步` no-agent Cron 每 30 分钟调用 `scripts/sync_hermes_dashboard.py`。发布使用基于最新 `origin/main` 的隔离临时 worktree，不受当前开发工作区未提交改动影响，并会在远端竞争时自动重试；`portfolio_analysis.js` 仍保持本地私有。
 - 所有项目 Cron 的 `workdir` 必须指向当前仓库根目录。主提供商不可用时应配置至少一个 `hermes fallback`，否则单个供应商额度耗尽会让全部 Agent 停摆。
 - 前端对这些文件有 `onerror` 兜底，缺失不会白屏。

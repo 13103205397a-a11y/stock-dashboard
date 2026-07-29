@@ -4,7 +4,6 @@ const VIEWS = [
   "home",
   "holdings",
   "watch",
-  "opportunities",
   "logic",
   "market",
   "hot",
@@ -14,9 +13,9 @@ const VIEWS = [
   "chain",
   "weekend",
 ];
-const REMOVED_NAV_VIEWS = new Set(["holdings", "market", "fundflow", "hot", "news"]);
+const REMOVED_NAV_VIEWS = new Set(["holdings", "opportunities", "market", "fundflow", "hot", "news"]);
 
-test("12 个视图可深链接且无页面级横向溢出", async ({ page }) => {
+test("11 个视图可深链接且无页面级横向溢出", async ({ page }) => {
   for (const view of VIEWS) {
     // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded；视图切换由下方断言轮询保证
     await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
@@ -39,19 +38,62 @@ test("已移除的模块不再显示导航入口", async ({ page }) => {
   }
 });
 
+test("模块名称已更新且旧名称不再出现在导航", async ({ page }) => {
+  await page.goto("/index.html#home", { waitUntil: "domcontentloaded" });
+  await expect(page.locator('#sidebar .nav-item[data-view="xbrief"]')).toContainText("外围热点");
+  await expect(page.locator('#sidebar .nav-item[data-view="events"]')).toContainText("今日热点事件");
+  const navigationText = await page.locator("#sidebar").innerText();
+  expect(navigationText).not.toContain("X 简报");
+  expect(navigationText).not.toContain("事件概率");
+  expect(navigationText).not.toContain("机会清单");
+});
+
+test("巨头概览位于卡片上方且顶栏数据不遮挡搜索", async ({ page }) => {
+  await page.goto("/index.html#watch", { waitUntil: "networkidle" });
+  const viewport = page.viewportSize();
+  const overview = await page.locator(".watch-overview").boundingBox();
+  const filters = await page.locator(".filters").boundingBox();
+  expect(overview).not.toBeNull();
+  expect(filters).not.toBeNull();
+  expect(overview.y + overview.height).toBeLessThanOrEqual(filters.y + 1);
+
+  if ((viewport?.width || 0) >= 981) {
+    const search = await page.locator(".global-search").boundingBox();
+    const data = await page.locator(".sb-data").boundingBox();
+    expect(search).not.toBeNull();
+    expect(data).not.toBeNull();
+    expect(search.x + search.width).toBeLessThanOrEqual(data.x + 1);
+  }
+});
+
+test("外围热点排版清晰且正文不含乱码字符", async ({ page }) => {
+  await page.goto("/index.html#xbrief", { waitUntil: "networkidle" });
+  await expect(page.locator(".xb-hero-title")).toHaveText("外围热点");
+  await expect(page.locator(".xb-article.active")).toBeVisible();
+  const text = await page.locator("#viewXbrief").innerText();
+  expect(text).not.toMatch(/�|ï¿½|Ã|Â|â€™|â€œ|â€|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200D\u2060\uFEFF]/);
+  expect(text).not.toMatch(/[⏱◎⌘]/);
+
+  const rail = await page.locator(".xb-rail").boundingBox();
+  const article = await page.locator(".xb-article.active").boundingBox();
+  expect(rail).not.toBeNull();
+  expect(article).not.toBeNull();
+  expect(rail.y + rail.height).toBeLessThanOrEqual(article.y + 1);
+});
+
 test("导航写入历史并支持浏览器前进后退", async ({ page }) => {
-  await page.goto("/index.html#opportunities", { waitUntil: "networkidle" });
-  await expect(page.locator("body")).toHaveClass(/view-opportunities/);
-  await page.evaluate(() => document.querySelector('.nav-item[data-view="logic"]').click());
-  await expect(page).toHaveURL(/#logic$/);
-  await expect(page).toHaveTitle(/逻辑链 · A股盘面/);
+  await page.goto("/index.html#logic", { waitUntil: "networkidle" });
+  await expect(page.locator("body")).toHaveClass(/view-logic/);
+  await page.evaluate(() => document.querySelector('.nav-item[data-view="chain"]').click());
+  await expect(page).toHaveURL(/#chain$/);
+  await expect(page).toHaveTitle(/产业链涨价 · A股盘面/);
   await page.goBack();
-  await expect(page).toHaveURL(/#opportunities$/);
-  await expect(page.locator("body")).toHaveClass(/view-opportunities/);
+  await expect(page).toHaveURL(/#logic$/);
+  await expect(page.locator("body")).toHaveClass(/view-logic/);
 });
 
 test("视图切换会记住各自滚动位置", async ({ page }) => {
-  await page.goto("/index.html#opportunities", { waitUntil: "networkidle" });
+  await page.goto("/index.html#logic", { waitUntil: "networkidle" });
   const before = await page.evaluate(() => {
     const content = document.querySelector(".content-in");
     const root = content && /auto|scroll/.test(getComputedStyle(content).overflowY)
@@ -61,8 +103,8 @@ test("视图切换会记住各自滚动位置", async ({ page }) => {
     return root.scrollTop;
   });
   expect(before).toBeGreaterThan(0);
+  await page.evaluate(() => document.querySelector('.nav-item[data-view="chain"]').click());
   await page.evaluate(() => document.querySelector('.nav-item[data-view="logic"]').click());
-  await page.evaluate(() => document.querySelector('.nav-item[data-view="opportunities"]').click());
   const after = await page.evaluate(() => {
     const content = document.querySelector(".content-in");
     const root = content && /auto|scroll/.test(getComputedStyle(content).overflowY)
@@ -112,7 +154,7 @@ test("新闻摘要可展开，公告股票代码可打开详情", async ({ page 
 });
 
 test("研究内容不会直出内部字段、生成过程语或残缺括号", async ({ page }) => {
-  for (const view of ["opportunities", "logic", "hot", "agent"]) {
+  for (const view of ["logic", "events", "hot", "agent"]) {
     // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded
     await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
     const text = await page.locator("#mainContent").innerText();
@@ -175,7 +217,7 @@ test("核心阅读文字保持可读字号和报告行宽", async ({ page }) => 
   await page.route(/\/reports\.js(\?.*)?$/, (route) =>
     route.fulfill({ contentType: "application/javascript", body: REPORTS_FIXTURE })
   );
-  await page.goto("/index.html#opportunities", { waitUntil: "networkidle" });
+  await page.goto("/index.html#logic", { waitUntil: "networkidle" });
   const researchSize = await page.locator(".sd-v, .sd-field-list .sum-txt").first().evaluate((node) =>
     Number.parseFloat(getComputedStyle(node).fontSize)
   );

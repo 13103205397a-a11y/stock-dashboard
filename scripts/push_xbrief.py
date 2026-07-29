@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""将 X 资讯简报推送到股市看板 xbriefs.js。
+"""将外围热点推送到股市看板 xbriefs.js。
 
 用法：
   # 从标准输入读 markdown
@@ -10,7 +10,7 @@
   python3 scripts/push_xbrief.py --file /tmp/xbrief.md
 
   # 指定标题/时段
-  python3 scripts/push_xbrief.py --file brief.md --title "X资讯简报" --period "近约2小时"
+  python3 scripts/push_xbrief.py --file brief.md --title "外围热点" --period "近约2小时"
 
   # 写入后同步到 GitHub Pages（隔离 worktree，不碰本地未提交改动）
   python3 scripts/push_xbrief.py --file /tmp/xbrief.md --git-push
@@ -38,7 +38,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "xbriefs.js"
 MAX_BRIEFS = 48
 MAX_PUBLISH_ATTEMPTS = 3
-HEADER = """/* X 资讯简报（AI + 股市）
+HEADER = """/* 外围热点（海外 AI + 宏观 + 市场）
  * 由定时任务从 X 抓取筛选后，经 scripts/push_xbrief.py 推送。
  * 时区：Asia/Shanghai。仅供研究参考，非投资建议。
  */
@@ -149,7 +149,7 @@ def publish_to_github(files: list[str], message: str) -> list[str]:
 
     last_error = None
     for attempt in range(1, MAX_PUBLISH_ATTEMPTS + 1):
-        print(f"→ 发布 X 简报到 GitHub（第 {attempt}/{MAX_PUBLISH_ATTEMPTS} 次）")
+        print(f"→ 发布外围热点到 GitHub（第 {attempt}/{MAX_PUBLISH_ATTEMPTS} 次）")
         run(["git", "fetch", "origin", "main"], check=True)
         with tempfile.TemporaryDirectory(prefix="stock-dashboard-xbrief-") as temp:
             worktree = Path(temp) / "repo"
@@ -178,7 +178,7 @@ def publish_to_github(files: list[str], message: str) -> list[str]:
                     if path and path not in changed:
                         changed.append(path)
                 if not changed:
-                    print("✓ 远端 X 简报相关文件已是最新，无需发布。")
+                    print("✓ 远端外围热点相关文件已是最新，无需发布。")
                     return []
                 run(["git", "add", "--", *changed], cwd=worktree, check=True)
                 run(
@@ -218,7 +218,7 @@ def push(content: str, *, title: str, period: str, time_str: str | None) -> dict
         "id": brief_id(dt),
         "time": stamp,
         "period": period or "近约2小时",
-        "title": title or "X资讯简报 · AI & 股市",
+        "title": title or "外围热点",
         "content": content,
         "aiCount": count_section(content, "一、AI 要闻") or count_section(content, "AI 要闻"),
         "marketCount": count_section(content, "二、股市/财经要闻")
@@ -239,9 +239,9 @@ def push(content: str, *, title: str, period: str, time_str: str | None) -> dict
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="推送 X 资讯简报到看板")
+    parser = argparse.ArgumentParser(description="推送外围热点到看板")
     parser.add_argument("--file", "-f", help="markdown 文件路径；缺省读 stdin")
-    parser.add_argument("--title", default="X资讯简报 · AI & 股市")
+    parser.add_argument("--title", default="外围热点")
     parser.add_argument("--period", default="近约2小时")
     parser.add_argument("--time", dest="time_str", default=None, help="覆盖时间戳 YYYY-MM-DD HH:MM")
     parser.add_argument(
@@ -260,7 +260,7 @@ def main() -> int:
         stamp = now_local().strftime("%Y-%m-%d %H:%M")
         publish_to_github(
             BOOTSTRAP_FILES,
-            f"feat: 上线 X 简报模块并同步数据 {stamp}",
+            f"feat: 上线外围热点模块并同步数据 {stamp}",
         )
         print("  线上: https://13103205397a-a11y.github.io/stock-dashboard/#xbrief")
         return 0
@@ -284,7 +284,7 @@ def main() -> int:
     if args.git_push:
         publish_to_github(
             DATA_FILES,
-            f"X简报更新 {item['time']}",
+            f"外围热点更新 {item['time']}",
         )
         print("  线上: https://13103205397a-a11y.github.io/stock-dashboard/#xbrief")
 

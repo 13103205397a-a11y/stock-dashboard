@@ -497,6 +497,7 @@ body {
   display: flex;
   align-items: baseline;
   min-width: 0;
+  white-space: nowrap;
 }
 
 .sb-brand {
@@ -2573,6 +2574,150 @@ table tbody tr:hover td {
 
   .drawer-inner {
     padding: 0 18px 32px !important;
+  }
+}
+
+/* ============================================================
+   巨头核心：概览与板块移到卡片上方，释放主内容宽度
+   ============================================================ */
+body.view-watch .board {
+  display: block !important;
+}
+
+body.view-watch .watch-overview {
+  position: static !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr) !important;
+  gap: 16px !important;
+  margin: 16px 0 !important;
+}
+
+body.view-watch .watch-overview .rail-block {
+  min-width: 0;
+  margin: 0 !important;
+}
+
+body.view-watch .watch-overview .rail-h {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px !important;
+  font-size: 16px !important;
+}
+
+body.view-watch .watch-overview .rail-en {
+  display: inline !important;
+  margin: 0 !important;
+}
+
+body.view-watch .watch-summary .stats {
+  display: grid !important;
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+  border: 1px solid var(--hairline-soft);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+body.view-watch .watch-summary .stat {
+  min-width: 0;
+  min-height: 72px !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  gap: 5px;
+  padding: 10px 12px !important;
+  border-right: 1px solid var(--hairline-soft) !important;
+  border-bottom: 0 !important;
+}
+
+body.view-watch .watch-summary .stat:last-child {
+  border-right: 0 !important;
+}
+
+body.view-watch .watch-summary .stat .k {
+  font-size: 22px !important;
+}
+
+body.view-watch .watch-summary .stat .l {
+  font-size: 11px !important;
+  text-align: left !important;
+}
+
+body.view-watch .watch-sectors .sector-list,
+body.view-watch .watch-sectors .sector-rest.expanded {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center;
+  gap: 8px !important;
+}
+
+body.view-watch .watch-sectors .sector-rest {
+  display: none !important;
+}
+
+body.view-watch .watch-sectors .sector-list .chip {
+  width: auto !important;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 11px !important;
+  background: var(--paper-muted) !important;
+  border: 1px solid var(--hairline) !important;
+  border-radius: 999px !important;
+}
+
+body.view-watch .watch-sectors .sector-list .chip.active {
+  color: #fff !important;
+  background: var(--terracotta) !important;
+  border-color: var(--terracotta) !important;
+}
+
+/* 顶栏为行情数据预留真实宽度，避免数据从右侧覆盖搜索框。 */
+@media (min-width: 981px) {
+  .status-bar {
+    grid-template-columns:
+      minmax(180px, 0.55fr)
+      minmax(280px, 480px)
+      minmax(290px, 0.9fr) !important;
+    gap: 14px !important;
+  }
+
+  .global-search,
+  .sb-data {
+    min-width: 0;
+  }
+
+  .sb-data {
+    width: 100%;
+    justify-content: flex-end;
+    gap: clamp(8px, 1vw, 14px) !important;
+    overflow: hidden;
+  }
+
+  .sb-data .sb-item {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 1180px) {
+  body.view-watch .watch-overview {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body.view-watch .watch-summary .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  body.view-watch .watch-summary .stat {
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--hairline-soft) !important;
+  }
+
+  body.view-watch .watch-summary .stat:last-child {
+    grid-column: 1 / -1;
+    border-bottom: 0 !important;
   }
 }
 

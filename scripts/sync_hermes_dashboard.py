@@ -22,7 +22,7 @@ EXPORTERS = [
 ]
 PUBLIC_AI_FILES = [
     "reports.js", "industry.js", "logic.js", "events.js",
-    "opportunities.js", "materials.js", "weekend.js", "chain.js",
+    "materials.js", "weekend.js", "chain.js",
 ]
 MAX_PUBLISH_ATTEMPTS = 3
 

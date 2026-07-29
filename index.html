@@ -7,9 +7,9 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>A股盘面 · 研究工作台</title>
-  <link rel="stylesheet" href="styles.css?v=11" />
+  <link rel="stylesheet" href="styles.css?v=12" />
   <link rel="stylesheet" href="design-system.css?v=8" />
-  <link rel="stylesheet" href="claude-theme.css?v=5" />
+  <link rel="stylesheet" href="claude-theme.css?v=6" />
 </head>
 <body>
   <a class="skip-link" href="#mainContent">跳到主要内容</a>
@@ -47,10 +47,6 @@
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
             <span>巨头核心</span>
           </button>
-          <button class="nav-item" data-view="opportunities">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
-            <span>机会清单</span>
-          </button>
           <button class="nav-item" data-view="logic">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><path d="M8 6h8M6 9v3l6 3M18 9v3l-6 3"/></svg>
             <span>逻辑链</span>
@@ -60,11 +56,11 @@
           <span class="nav-group-label">市场扫描</span>
           <button class="nav-item" data-view="xbrief">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/><circle cx="17" cy="16" r="3"/><path d="M17 15v2l1.2.8"/></svg>
-            <span>X 简报</span>
+            <span>外围热点</span>
           </button>
           <button class="nav-item" data-view="events">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l4-4 4 4 4-8 4 8"/><circle cx="3" cy="17" r="1"/><circle cx="7" cy="13" r="1"/><circle cx="11" cy="17" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="19" cy="17" r="1"/></svg>
-            <span>事件概率</span>
+            <span>今日热点事件</span>
           </button>
         </div>
         <div class="nav-group">
@@ -129,9 +125,6 @@
         <!-- 持仓决策 -->
         <section class="view holdings-only" id="viewHoldings"></section>
 
-        <!-- 机会清单 -->
-        <section class="view opportunities-only" id="viewOpportunities"></section>
-
         <!-- 逻辑链 -->
         <section class="view logic-only" id="viewLogic"></section>
 
@@ -144,13 +137,13 @@
         <!-- 周末发酵 -->
         <section class="view weekend-only" id="viewWeekend"></section>
 
-        <!-- 事件概率 -->
+        <!-- 今日热点事件 -->
         <section class="view events-only" id="viewEvents"></section>
 
         <!-- 新闻 -->
         <section class="view news-only" id="viewNews"></section>
 
-        <!-- X 简报（AI + 股市，每 2 小时推送） -->
+        <!-- 外围热点（海外 AI + 市场，每 2 小时推送） -->
         <section class="view xbrief-only" id="viewXbrief"></section>
 
         <!-- 板块资金流向（东财盘中） -->
@@ -166,9 +159,9 @@
             </section>
           </div>
           <div class="wrap-tight board">
-            <aside class="rail">
-              <section class="rail-block"><h2 class="rail-h">盘面速览 <span class="rail-en">At a glance</span></h2><div class="stats" id="stats"></div></section>
-              <section class="rail-block"><h2 class="rail-h">板块 <span class="rail-en">Sectors</span></h2><div class="filter-group sector-list" id="sectorChips"></div></section>
+            <aside class="rail watch-overview" aria-label="巨头核心概览与板块筛选">
+              <section class="rail-block watch-summary"><h2 class="rail-h">盘面速览 <span class="rail-en">At a glance</span></h2><div class="stats" id="stats"></div></section>
+              <section class="rail-block watch-sectors"><h2 class="rail-h">板块筛选 <span class="rail-en">Sectors</span></h2><div class="filter-group sector-list" id="sectorChips"></div></section>
             </aside>
             <div class="main-col">
               <nav class="filters">
@@ -283,13 +276,12 @@
   <script src="materials.js?v=5" onerror="window.MATERIALS=null" defer></script>
   <script src="logic.js?v=5" onerror="window.LOGIC=null" defer></script>
   <script src="events.js?v=5" onerror="window.EVENTS=null" defer></script>
-  <script src="opportunities.js?v=5" onerror="window.OPPORTUNITIES=null" defer></script>
   <script src="newsall.js?v=5" onerror="window.NEWSALL=null" defer></script>
   <script src="xbriefs.js?v=1" onerror="window.XBRIEFS=null" defer></script>
   <script src="fundflow.js?v=1" onerror="window.FUNDFLOW=null" defer></script>
   <script src="reports.js?v=6" onerror="window.REPORTS=null" defer></script>
-  <script src="app.js?v=16" defer></script>
+  <script src="app.js?v=17" defer></script>
   <script src="app_holdings.js?v=1" defer></script>
-  <script src="app_ai_modules.js?v=3" defer></script>
+  <script src="app_ai_modules.js?v=4" defer></script>
 </body>
 </html>

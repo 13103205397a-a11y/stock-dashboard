@@ -1,4 +1,4 @@
-# 每日事件概率 Agent — 重要新闻影响分析
+# 今日热点事件 Agent — 重要新闻影响分析
 
 > 用途：每个 A 股交易日盘后运行，分析当日重要新闻，判断哪条重要、影响哪个板块/个股、影响程度多大，更新 `股市看板/events.js`。
 > 配合 `/schedule` 或 `/loop` 使用。建议收盘后 40 分钟运行。
@@ -33,7 +33,7 @@
 ### 第 3 步：写回并推送
 写 `股市看板/events.js`（window.EVENTS = <JSON>），然后：
 ```bash
-cd "$(git rev-parse --show-toplevel)" && git add events.js && git commit -m "事件概率每日更新 <日期>" && git push origin main
+cd "$(git rev-parse --show-toplevel)" && git add events.js && git commit -m "今日热点事件每日更新 <日期>" && git push origin main
 ```
 最后给用户中文摘要：今天哪几条最重要、影响哪里、有什么利空要警惕。
 

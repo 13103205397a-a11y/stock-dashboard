@@ -19,7 +19,7 @@ vm.createContext(context);
 for (const file of [
   "data.js", "meta.js", "market.js", "hot.js", "newsall.js", "industry.js",
   "industry_market.js", "materials.js", "logic.js", "events.js",
-  "opportunities.js", "weekend.js", "reports.js",
+  "weekend.js", "reports.js",
 ]) {
   vm.runInContext(fs.readFileSync(path.join(ROOT, file), "utf8"), context, { filename: file });
 }
@@ -50,8 +50,7 @@ const checks = [
   ["AI复盘", W.REPORTS?.updated, 3, "ai"],
   ["产业雷达", W.INDUSTRY?.date || W.INDUSTRY?.generatedAt, 3, "ai"],
   ["逻辑链", W.LOGIC?.date || W.LOGIC?.generatedAt, 3, "ai"],
-  ["事件概率", W.EVENTS?.date || W.EVENTS?.generatedAt, 3, "ai"],
-  ["机会清单", W.OPPORTUNITIES?.date || W.OPPORTUNITIES?.generatedAt, 3, "ai"],
+  ["今日热点事件", W.EVENTS?.date || W.EVENTS?.generatedAt, 3, "ai"],
   ["材料涨价", W.MATERIALS?.date || W.MATERIALS?.generatedAt, 3, "ai"],
   ["周末发酵", W.WEEKEND?.weekendDate || W.WEEKEND?.generatedAt, 9, "ai"],
   ["叙事复盘", medianReview, 5, "ai"],

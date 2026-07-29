@@ -19,7 +19,6 @@ const files = [
   "materials.js",
   "logic.js",
   "events.js",
-  "opportunities.js",
   "weekend.js",
   "reports.js",
 ];
@@ -81,7 +80,6 @@ if (!W.NEWSALL || !Array.isArray(W.NEWSALL.global) || !Array.isArray(W.NEWSALL.a
   ["MATERIALS", "directions"],
   ["LOGIC", "chains"],
   ["EVENTS", "events"],
-  ["OPPORTUNITIES", "directions"],
   ["WEEKEND", "hotspots"],
 ].forEach(([key, arr]) => {
   if (!W[key] || !Array.isArray(W[key][arr]) || !W[key][arr].length) {
@@ -123,7 +121,7 @@ function validateReferences(value, trail = "window", depth = 0) {
   });
 }
 [
-  ["OPPORTUNITIES", W.OPPORTUNITIES], ["LOGIC", W.LOGIC], ["INDUSTRY", W.INDUSTRY],
+  ["LOGIC", W.LOGIC], ["INDUSTRY", W.INDUSTRY],
   ["MATERIALS", W.MATERIALS], ["EVENTS", W.EVENTS], ["WEEKEND", W.WEEKEND],
 ].forEach(([name, value]) => validateReferences(value, name));
 
