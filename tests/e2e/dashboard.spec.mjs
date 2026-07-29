@@ -14,13 +14,16 @@ const VIEWS = [
   "chain",
   "weekend",
 ];
+const REMOVED_NAV_VIEWS = new Set(["holdings", "market", "fundflow", "hot", "news"]);
 
 test("12 个视图可深链接且无页面级横向溢出", async ({ page }) => {
   for (const view of VIEWS) {
     // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded；视图切换由下方断言轮询保证
     await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
     await expect(page.locator("body")).toHaveClass(new RegExp(`view-${view}`));
-    await expect(page.locator(`#sidebar .nav-item[data-view="${view}"]`)).toHaveAttribute("aria-current", "page");
+    const navItem = page.locator(`#sidebar .nav-item[data-view="${view}"]`);
+    if (REMOVED_NAV_VIEWS.has(view)) await expect(navItem).toHaveCount(0);
+    else await expect(navItem).toHaveAttribute("aria-current", "page");
     const metrics = await page.evaluate(() => ({
       viewport: window.innerWidth,
       scrollWidth: document.documentElement.scrollWidth,
@@ -29,15 +32,22 @@ test("12 个视图可深链接且无页面级横向溢出", async ({ page }) => 
   }
 });
 
+test("已移除的模块不再显示导航入口", async ({ page }) => {
+  await page.goto("/index.html#home", { waitUntil: "domcontentloaded" });
+  for (const view of REMOVED_NAV_VIEWS) {
+    await expect(page.locator(`.nav-item[data-view="${view}"]`)).toHaveCount(0);
+  }
+});
+
 test("导航写入历史并支持浏览器前进后退", async ({ page }) => {
-  await page.goto("/index.html#market", { waitUntil: "networkidle" });
-  await expect(page.locator("body")).toHaveClass(/view-market/);
-  await page.evaluate(() => document.querySelector('.nav-item[data-view="news"]').click());
-  await expect(page).toHaveURL(/#news$/);
-  await expect(page).toHaveTitle(/新闻 · A股盘面/);
+  await page.goto("/index.html#opportunities", { waitUntil: "networkidle" });
+  await expect(page.locator("body")).toHaveClass(/view-opportunities/);
+  await page.evaluate(() => document.querySelector('.nav-item[data-view="logic"]').click());
+  await expect(page).toHaveURL(/#logic$/);
+  await expect(page).toHaveTitle(/逻辑链 · A股盘面/);
   await page.goBack();
-  await expect(page).toHaveURL(/#market$/);
-  await expect(page.locator("body")).toHaveClass(/view-market/);
+  await expect(page).toHaveURL(/#opportunities$/);
+  await expect(page.locator("body")).toHaveClass(/view-opportunities/);
 });
 
 test("视图切换会记住各自滚动位置", async ({ page }) => {
@@ -51,7 +61,7 @@ test("视图切换会记住各自滚动位置", async ({ page }) => {
     return root.scrollTop;
   });
   expect(before).toBeGreaterThan(0);
-  await page.evaluate(() => document.querySelector('.nav-item[data-view="news"]').click());
+  await page.evaluate(() => document.querySelector('.nav-item[data-view="logic"]').click());
   await page.evaluate(() => document.querySelector('.nav-item[data-view="opportunities"]').click());
   const after = await page.evaluate(() => {
     const content = document.querySelector(".content-in");
