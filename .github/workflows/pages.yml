@@ -47,7 +47,7 @@ jobs:
       - name: 校验公开数据结构
         run: |
           node scripts/validate_data.js
-          node scripts/check_freshness.js --strict --scope=market
+          node scripts/check_freshness.js --strict
 
       - name: 核心回归测试
         run: npm test

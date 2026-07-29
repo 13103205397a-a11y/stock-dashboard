@@ -368,10 +368,11 @@ body { padding-top: var(--titlebar-h); }
 .menu-toggle svg { width: 20px; height: 20px; }
 .sidebar-backdrop { display: none; }
 
-/* ============ 视图显隐（当前 6 个模块） ============ */
+/* ============ 视图显隐（当前 7 个模块） ============ */
 .view { display: none; }
 body.view-home .home-only,
 body.view-watch .watch-only,
+body.view-market .market-only,
 body.view-logic .logic-only,
 body.view-xbrief .xbrief-only,
 body.view-events .events-only,
@@ -1449,3 +1450,119 @@ body.view-weekend .weekend-only { display: block; }
 
 .flash-target { animation: flashTarget 1.6s ease-out 1; }
 @keyframes flashTarget { 0% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+/* ============ 首页收盘总述 / 午间提示 / 信号解释 / 市场扫描 ============ */
+.home-regime {
+  margin: 0 0 var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--card);
+}
+.home-regime-body {
+  margin: var(--s-2) 0 0;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+.home-snap-hint {
+  margin: 0 0 var(--s-3);
+  padding: 10px 14px;
+  border: 1px solid rgba(196,137,22,.35);
+  border-left: 4px solid var(--warn);
+  border-radius: var(--r-sm);
+  background: rgba(196,137,22,.06);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.hb-badges { display: inline-flex; gap: 6px; align-items: center; }
+.hb-session {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.hb-session.warn { color: var(--warn); border-color: rgba(196,137,22,.4); }
+.hb-session.ok { color: var(--ok); border-color: rgba(46,125,50,.35); }
+.home-best.is-midday { opacity: .92; }
+.card-lens {
+  margin: 4px 0 8px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+.sig-lens {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.fund.fund-stale, .fund-row.fund-stale .fr-lab { color: var(--warn); }
+.fund.fund-stale { border-color: rgba(196,137,22,.4); }
+.we-card.is-stale, .we-scenario.is-stale { opacity: .72; }
+.we-expired {
+  font-size: 10px;
+  color: var(--warn);
+  border: 1px solid rgba(196,137,22,.35);
+  border-radius: 3px;
+  padding: 1px 6px;
+}
+.we-sc-note { font-size: 12px; color: var(--muted); margin: 0 0 var(--s-3); }
+.ev-row.is-unverified { opacity: .85; border-left: 3px solid var(--warn); padding-left: 8px; }
+
+.ms-sentiment {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+  gap: var(--s-2);
+  margin-bottom: var(--s-4);
+}
+.ms-block { margin-bottom: var(--s-4); }
+.ms-h { font-size: 14px; font-weight: 700; margin: 0 0 var(--s-2); color: var(--ink); }
+.ms-ladder { display: flex; flex-wrap: wrap; gap: 8px; }
+.ms-ladder-item {
+  display: inline-flex; gap: 8px; align-items: baseline;
+  padding: 8px 12px; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--card);
+}
+.ms-l-n { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.ms-l-c { font-family: var(--mono); font-size: 18px; font-weight: 700; }
+.ms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--s-3);
+}
+.ms-list { display: flex; flex-direction: column; gap: 4px; }
+.ms-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--card);
+  color: var(--ink);
+  cursor: pointer;
+}
+.ms-row:disabled { opacity: .55; cursor: default; }
+.ms-row.in-watch:hover { border-color: var(--accent-l); }
+.ms-name { font-size: 13px; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ms-code { margin-left: 6px; font-family: var(--mono); font-size: 11px; color: var(--muted); font-weight: 500; }
+.ms-extra { font-size: 11px; color: var(--muted); max-width: 7em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ms-pct { font-family: var(--mono); font-size: 12px; font-weight: 700; }
+
+.home-market-link {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  margin: 0 0 var(--s-3); padding: 10px 14px;
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  background: var(--card); color: var(--ink); cursor: pointer; text-align: left;
+}
+.home-market-link:hover { border-color: var(--accent-l); }
+.home-market-link .hml-t { font-size: 13px; font-weight: 700; white-space: nowrap; }
+.home-market-link .hml-d { flex: 1; font-size: 12px; color: var(--muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.home-market-link .hml-go { font-size: 12px; color: var(--accent); font-weight: 600; white-space: nowrap; }

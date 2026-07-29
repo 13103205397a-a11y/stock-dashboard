@@ -195,6 +195,32 @@ def _slice_stocks_array(txt):
     return brace, end
 
 
+def dedupe_stock_history(stocks):
+    """按 history[].date 的 YYYY-MM-DD 去重，保留首次出现；返回是否有改动。"""
+    changed = False
+    for stock in stocks or []:
+        history = stock.get("history")
+        if not isinstance(history, list) or not history:
+            continue
+        seen = set()
+        cleaned = []
+        for item in history:
+            if not isinstance(item, dict):
+                cleaned.append(item)
+                continue
+            day = str(item.get("date") or "")[:10]
+            if day and day in seen:
+                changed = True
+                continue
+            if day:
+                seen.add(day)
+            cleaned.append(item)
+        if cleaned != history:
+            stock["history"] = cleaned
+            changed = True
+    return changed
+
+
 def load_stocks():
     """读 data.js 的 STOCKS 数组（json.loads，非 eval）。"""
     txt = open(DATA, encoding="utf-8").read()
@@ -205,6 +231,7 @@ def load_stocks():
 def write_stocks(stocks):
     """原子写回 data.js（保留头部注释与其他 window.* 字段）。"""
     sanitize_stock_news(stocks)
+    dedupe_stock_history(stocks)
     txt = open(DATA, encoding="utf-8").read()
     brace, end = _slice_stocks_array(txt)
     new_txt = txt[:brace] + json.dumps(stocks, ensure_ascii=False, indent=2) + txt[end:]

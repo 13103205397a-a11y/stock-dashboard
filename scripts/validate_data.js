@@ -247,6 +247,17 @@ if (editorial.runOnText.length) {
   warn.push(`内容质检: ${editorial.runOnText.length} 处超长无断句文本 (${editorial.runOnText.slice(0, 3).join(", ")})`);
 }
 
+const signalDate = String(context.window.META?.signalDate || context.window.META?.marketSnapshot?.date || "").slice(0, 10);
+if (signalDate && Array.isArray(stocks)) {
+  const staleFunds = stocks.filter((stock) => {
+    const fundDate = String(stock?.fund?.date || "").slice(0, 10);
+    return fundDate && fundDate < signalDate;
+  });
+  if (staleFunds.length) {
+    warn.push(`资金日期: ${staleFunds.length}/${stocks.length} 只早于信号日 ${signalDate}（UI 将标注「非当日」）`);
+  }
+}
+
 const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
 if (/document\.write\s*\(/.test(html)) fail("index.html: 禁止使用 document.write 动态注入脚本");
 const appPos = html.indexOf('src="app.js');

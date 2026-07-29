@@ -9,7 +9,7 @@
 - GitHub Pages：<https://13103205397a-a11y.github.io/stock-dashboard/>
 - 本地静态：直接打开 `index.html`
 - 本地服务：`python3 app_server.py`，然后访问 <http://localhost:8787/index.html>
-- 深链接：`#home`、`#watch`、`#logic`、`#xbrief`、`#events`、`#weekend`
+- 深链接：`#home`、`#watch`、`#market`、`#logic`、`#xbrief`、`#events`、`#weekend`
 
 顶部搜索支持代码、名称、题材和活跃研究模块；`/` 或 `Ctrl/Cmd+K` 聚焦搜索，方向键选择，`Enter` 打开，`Esc` 关闭搜索或详情抽屉。
 
@@ -21,7 +21,7 @@
 |---|---|---|
 | `data.js` | `window.STOCKS` | 自选股叙事、信号、消息和详情 |
 | `meta.js` | `window.META` | 行情时点、指数快照和市场摘要 |
-| `market.js` | `window.MARKET` | 首页共享的市场环境数据 |
+| `market.js` | `window.MARKET` | 首页共享环境 +「市场扫描」页（涨停梯队/异动只读） |
 | `logic.js` | `window.LOGIC` | 事件到产业和标的的逻辑链 |
 | `events.js` | `window.EVENTS` | 今日热点事件 |
 | `xbriefs.js` | `window.XBRIEFS` | 外围热点批次简报 |

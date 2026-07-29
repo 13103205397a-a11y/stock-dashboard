@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 const VIEWS = [
   "home",
   "watch",
+  "market",
   "logic",
   "xbrief",
   "events",
@@ -12,7 +13,6 @@ const VIEWS = [
 const REMOVED_NAV_VIEWS = new Set([
   "holdings",
   "opportunities",
-  "market",
   "fundflow",
   "hot",
   "news",
@@ -23,7 +23,7 @@ const REMOVED_NAV_VIEWS = new Set([
   "materials",
 ]);
 
-test("6 个活动视图可深链接且无页面级横向溢出", async ({ page }) => {
+test("7 个活动视图可深链接且无页面级横向溢出", async ({ page }) => {
   for (const view of VIEWS) {
     // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded；视图切换由下方断言轮询保证
     await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
@@ -46,7 +46,8 @@ test("已移除的模块不再显示导航入口", async ({ page }) => {
   await expect(page.locator("#viewHome")).not.toContainText("数据健康");
   await expect(page.locator("#viewHome .health-grid")).toHaveCount(0);
   await expect(page.locator("#viewHome .refresh-panel")).toHaveCount(0);
-  await expect(page.locator("#viewHoldings, #viewMarket, #viewFundflow, #viewHot, #viewNews")).toHaveCount(0);
+  await expect(page.locator("#viewHoldings, #viewFundflow, #viewHot, #viewNews")).toHaveCount(0);
+  await expect(page.locator("#viewMarket")).toHaveCount(1);
   const scriptSources = await page.locator("script[src]").evaluateAll((nodes) =>
     nodes.map((node) => node.getAttribute("src"))
   );

@@ -1,5 +1,5 @@
 (function (App) {
-  const { $, esc, secTitle, emptyState, fieldHtml, titleShort, leadOf, blockHtml, cleanDisplayText, openDrawer } = App;
+  const { $, esc, secTitle, emptyState, fieldHtml, titleShort, leadOf, blockHtml, cleanDisplayText, openDrawer, researchSessionMeta, displayImportance } = App;
 
   /* ---------- 4. 逻辑链（事件驱动推理链：事件 → 传导 → 受益股） ---------- */
   // 强度由生成 Agent 在数据中直接给出(strength: 强/中/弱)，前端不再做关键词评分
@@ -18,6 +18,7 @@
       return;
     }
 
+    const session = researchSessionMeta(LOGIC);
     const ranked = valid.slice().sort((a, b) => (logicStrengthRank[b.strength] || 0) - (logicStrengthRank[a.strength] || 0));
     const cards = ranked.map((c, idx) => {
       const sCls = logicStrengthCls[c.strength] || "";
@@ -52,7 +53,14 @@
       </article>`;
     }).join("");
 
-    el.innerHTML = secTitle("逻辑链", `事件 → 传导 → 受益股 · 按强度排序 · ${esc(LOGIC.date || "")}`) +
+    const sub = [
+      "事件 → 传导 → 受益股",
+      "按强度排序",
+      session.label || LOGIC.date || "",
+      session.stamp && session.stamp !== session.label ? session.stamp : "",
+    ].filter(Boolean).join(" · ");
+    el.innerHTML = secTitle("逻辑链", sub) +
+      (session.kind === "midday" ? `<div class="rep-quality is-partial" role="note"><strong>午间快照</strong><span>本页生成于 ${esc(session.stamp)}，指数请以首页收盘总述为准。</span></div>` : "") +
       (LOGIC.summary ? `<p class="lc-board-summary">${esc(LOGIC.summary)}</p>` : "") +
       `<div class="sd-grid-cards lc-board">${cards}</div>`;
     el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
@@ -76,30 +84,37 @@
     }
     const hotspots = W.hotspots || [];
     const sc = W.scenario || {};
+    const wDate = W.weekendDate || "";
+    const daysAgo = wDate ? Math.floor((Date.now() - new Date(wDate).getTime()) / 86400000) : 0;
+    const stale = daysAgo > 4;
     // 热点卡片
     const cards = hotspots.map((h) => {
       const stocks = ((h.stocks || h.impactStocks) || []).map((s) =>  // 统一字段 stocks,兜底旧 impactStocks
         `<button class="we-stock" data-code="${esc(s.code)}">${esc(s.name)} <span class="we-dir ${s.direction === "利好" ? "up" : s.direction === "利空" ? "down" : ""}">${esc(s.direction || "")}</span></button>`
       ).join("");
-      return `<article class="card blk we-card" data-xname="${esc(h.title || "")}">
+      return `<article class="card blk we-card${stale ? " is-stale" : ""}" data-xname="${esc(h.title || "")}">
         <div class="we-top">
           <span class="we-cat ${catClass(h.category)}">${esc(h.category || "—")}</span>
           <span class="we-ferment ${fermentClass(h.fermentLevel)}">发酵 ${esc(h.fermentLevel || "—")}</span>
           <span class="we-signal ${signalClass(h.signalType)}">${esc(h.signalType || "—")}</span>
+          ${stale ? `<span class="we-expired">策略时点已过</span>` : ""}
         </div>
         <h3 class="we-title">${esc(h.title || "—")}</h3>
         ${h.event ? `<div class="we-sec"><span class="sd-l">事件</span>${fieldHtml(h.event)}</div>` : ""}
         ${h.interpretation ? `<div class="we-sec"><span class="sd-l">解读</span>${fieldHtml(h.interpretation)}</div>` : ""}
         ${h.falsifyRisk ? `<div class="we-sec we-risk"><span class="sd-l">证伪风险</span>${fieldHtml(h.falsifyRisk)}</div>` : ""}
-        ${h.mondayStrategy ? `<div class="we-sec we-action"><span class="sd-l">周一策略</span>${fieldHtml(h.mondayStrategy)}</div>` : ""}
+        ${h.mondayStrategy ? (stale
+          ? `<details class="we-sec we-action"><summary>周一策略（已过期，展开仅供回顾）</summary>${fieldHtml(h.mondayStrategy)}</details>`
+          : `<div class="we-sec we-action"><span class="sd-l">周一策略</span>${fieldHtml(h.mondayStrategy)}</div>`) : ""}
         ${Array.isArray(h.impactSectors) && h.impactSectors.length ? `<div class="we-sectors">${h.impactSectors.map((s) => `<span class="we-sector">${esc(s)}</span>`).join("")}</div>` : ""}
         ${stocks ? `<div class="we-stocks">${stocks}</div>` : ""}
       </article>`;
     }).join("");
     // 周一盘面推演
     const scenarioHtml = sc.openForecast || sc.watchlist || sc.chaseList || sc.avoidList ? `
-      <div class="we-scenario">
-        <h3 class="we-sc-title">周一盘面推演</h3>
+      <div class="we-scenario${stale ? " is-stale" : ""}">
+        <h3 class="we-sc-title">周一盘面推演${stale ? " · 策略时点已过" : ""}</h3>
+        ${stale ? `<p class="we-sc-note">以下内容面向 ${esc(wDate)} 之后的那个交易日，仅作历史回顾。</p>` : ""}
         ${sc.openForecast ? `<div class="we-sc-sec"><span class="sd-l">开盘预判</span><p>${esc(sc.openForecast)}</p></div>` : ""}
         ${sc.watchlist && sc.watchlist.length ? `<div class="we-sc-sec"><span class="sd-l">重点关注</span><div class="we-watchlist">${sc.watchlist.map((w) =>
           `<div class="we-watch-item"><button class="we-stock" data-code="${esc(w.code)}">${esc(w.name)}</button><div class="we-watch-reason">${esc(w.reason || "")}</div>${w.confirmSignal ? `<div class="we-watch-sig"><span class="we-sig-label">确认</span>${esc(w.confirmSignal)}</div>` : ""}${w.falsifySignal ? `<div class="we-watch-sig"><span class="we-sig-label falsify">证伪</span>${esc(w.falsifySignal)}</div>` : ""}</div>`
@@ -110,11 +125,9 @@
     // 噪音过滤
     const noiseHtml = W.noiseFilter ? `<div class="we-noise"><span class="sd-l">噪音过滤</span><p>${esc(W.noiseFilter)}</p></div>` : "";
 
-    const wDate = W.weekendDate || "";
-      const daysAgo = wDate ? Math.floor((Date.now() - new Date(wDate).getTime()) / 86400000) : 0;
-      const stale = daysAgo > 4;
-      const dateHint = stale ? `周末 ${esc(wDate)} · ${hotspots.length} 个热点 · ⚠ ${daysAgo}天前数据` : `周末 ${esc(wDate)} · ${hotspots.length} 个热点`;
-      el.innerHTML = secTitle("周末发酵", dateHint) +
+    const dateHint = stale ? `周末 ${esc(wDate)} · ${hotspots.length} 个热点 · ⚠ ${daysAgo}天前 · 策略时点已过` : `周末 ${esc(wDate)} · ${hotspots.length} 个热点`;
+    el.innerHTML = secTitle("周末发酵", dateHint) +
+      (stale ? `<div class="rep-quality is-partial" role="note"><strong>已过期</strong><span>周一策略与盘面推演仅供回顾，勿当作当日执行清单。</span></div>` : "") +
       (W.summary ? `<div class="we-summary">${esc(W.summary)}</div>` : "") +
       `<div class="we-grid">${cards}</div>` +
       scenarioHtml + noiseHtml +
@@ -133,7 +146,8 @@
       return;
     }
 
-    const impCls = { "高": "up", "中高": "ok", "中": "warn", "低": "dim" };
+    const session = researchSessionMeta(EVENTS);
+    const impCls = { "高": "up", "中高": "ok", "中": "warn", "低": "dim", "待核实": "warn" };
     const dirCls = (d) => /利好/.test(d) && !/谨慎|利空/.test(d) ? "up" : /利空/.test(d) && !/受益/.test(d) ? "down" : /结构性/.test(d) ? "warn" : "";
     const sectorChips = (sectors) => {
       const parts = String(sectors || "")
@@ -144,13 +158,18 @@
       return `<div class="ev-sectors">${parts.map((s) => `<span class="ev-sector">${esc(s)}</span>`).join("")}</div>`;
     };
 
-    // 重要性：高 > 中高 > 中 > 低
-    const impRank = { "高": 4, "中高": 3, "中": 2, "低": 1 };
-    const ranked = EVENTS.events.slice().sort((a, b) => (impRank[b.importance] || 0) - (impRank[a.importance] || 0));
+    // 重要性：高 > 中高 > 中 > 低；待核实排后
+    const impRank = { "高": 4, "中高": 3, "中": 2, "低": 1, "待核实": 0 };
+    const ranked = EVENTS.events.slice().sort((a, b) => {
+      const ai = displayImportance(a);
+      const bi = displayImportance(b);
+      return (impRank[bi.demoted ? "待核实" : (b.importance || "")] || 0) - (impRank[ai.demoted ? "待核实" : (a.importance || "")] || 0);
+    });
 
     const cards = ranked.map((e, i) => {
       const title = titleShort(e.title, 42);
       const lead = leadOf(e.importance_reason || e.content || "");
+      const imp = displayImportance(e);
       const stocks = (e.stocks || []).map((s) => {
         const dir = s.direction || s.impact;  // 统一字段 direction,兜底旧 impact
         const tone = dir === "受益" ? "up" : dir === "受损" ? "down" : "";
@@ -161,12 +180,12 @@
         </button>`;
       }).join("");
 
-      return `<article class="ev-row" data-xname="${esc(e.title)}">
+      return `<article class="ev-row${imp.demoted ? " is-unverified" : ""}" data-xname="${esc(e.title)}">
         <header class="ev-row-head">
           <div class="ev-rank">${String(i + 1).padStart(2, "0")}</div>
           <div class="ev-row-main">
             <div class="ev-row-meta">
-              <span class="ev-imp ${impCls[e.importance] || ""}">重要度 ${esc(e.importance || "—")}</span>
+              <span class="ev-imp ${impCls[imp.label] || imp.cls || ""}">重要度 ${esc(imp.label)}</span>
               ${e.direction ? `<span class="ev-dir ${dirCls(e.direction)}">${esc(e.direction)}</span>` : ""}
               ${e.category ? `<span class="ev-cat">${esc(e.category)}</span>` : ""}
               ${e.time ? `<span class="ev-asof">${esc(e.time)}</span>` : ""}
@@ -191,7 +210,13 @@
       </article>`;
     }).join("");
 
-    el.innerHTML = secTitle("今日热点事件", `${EVENTS.events.length} 件 · ${esc(EVENTS.date || "")}`) +
+    const sub = [
+      `${EVENTS.events.length} 件`,
+      session.label || EVENTS.date || "",
+      session.stamp && session.kind === "midday" ? session.stamp : "",
+    ].filter(Boolean).join(" · ");
+    el.innerHTML = secTitle("今日热点事件", sub) +
+      (session.kind === "midday" ? `<div class="rep-quality is-partial" role="note"><strong>午间快照</strong><span>本页生成于 ${esc(session.stamp)}，指数请以首页收盘总述为准。</span></div>` : "") +
       `<div class="ev-board">${cards}</div>`;
     el.querySelectorAll(".ev-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }

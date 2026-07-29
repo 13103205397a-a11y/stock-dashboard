@@ -32,6 +32,18 @@
       ? content
       : document.scrollingElement;
   };
+  // 退休/内部数据文件名 → 读者可读来源；不用 \b，避免中文粘连时漏替换。
+  const RETIRED_SOURCE_FILES = [
+    ["newsall.js", "公开资讯"],
+    ["hot.js", "热度榜数据"],
+    ["chain.js", "公开产业资料"],
+    ["reports.js", "历史复盘资料"],
+    ["fundflow.js", "资金数据"],
+    ["materials.js", "公开材料价格资料"],
+    ["industry_market.js", "行业行情数据"],
+    ["market.js", "市场异动数据"],
+    ["industry.js", "行业数据"],
+  ];
   const cleanDisplayText = (value) => {
     if (value == null) return "";
     let text = String(value)
@@ -46,17 +58,13 @@
       .replace(/Â/g, "")
       .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200D\u2060\uFEFF]/g, "")
       // 这些是采集/分析阶段的内部字段，不应直接出现在阅读界面。
-      .replace(/\b(?:thsStrong|thsHot)\b\s*[:：]?\s*/gi, " ")
-      .replace(/\bbreak\s*=\s*\d+\s*(?:次)?/gi, " ")
-      .replace(/\bconfidence\s*=\s*([\w\u4e00-\u9fff-]+)/gi, "置信度：$1")
-      // 历史快照可能仍保存已退休模块的内部文件名，界面即时改成阅读者可理解的来源。
-      .replace(/\bnewsall\.js\b/gi, "公开资讯")
-      .replace(/\bhot\.js\b/gi, "热度榜数据")
-      .replace(/\bchain\.js\b/gi, "公开产业资料")
-      .replace(/\breports\.js\b/gi, "历史复盘资料")
-      .replace(/\bfundflow\.js\b/gi, "资金数据")
-      .replace(/\bmaterials\.js\b/gi, "公开材料价格资料")
-      .replace(/\bindustry_market\.js\b/gi, "行业行情数据")
+      .replace(/(?<![A-Za-z0-9_])(?:thsStrong|thsHot)(?![A-Za-z0-9_])\s*[:：]?\s*/gi, " ")
+      .replace(/(?<![A-Za-z0-9_])break\s*=\s*\d+\s*(?:次)?(?![A-Za-z0-9_])/gi, " ")
+      .replace(/(?<![A-Za-z0-9_])confidence\s*=\s*([\w\u4e00-\u9fff-]+)/gi, "置信度：$1");
+    for (const [name, label] of RETIRED_SOURCE_FILES) {
+      text = text.replace(new RegExp(`(?<![A-Za-z0-9_])${name.replace(".", "\\.")}(?![A-Za-z0-9_])`, "gi"), label);
+    }
+    text = text
       // Hermes 偶尔把生成过程当成报告正文保存；只清理开头，避免误伤正文引用。
       .replace(/^(?:I(?:'ll| will) (?:generate|prepare)[^\n]*|I (?:now )?have all the data[^\n]*|Let me [^\n]*|All data verified[^\n]*|Here(?:'s| is) the [^\n]*|现在我已经(?:获取|掌握)[^\n]*(?:让我来|下面)[^\n]*)\s*(?:\r?\n+|$)/i, "")
       .replace(/[ \t]{2,}/g, " ");
@@ -74,6 +82,36 @@
     trimDanglingOpen("【", "】");
     if (!text.includes("【") && text.includes("】")) text = text.replace(/】/g, "");
     return text;
+  };
+  const northboundYi = (nb) => {
+    if (!nb) return null;
+    const value = [nb.total_yi, nb.hgt_yi, nb.sgt_yi].find(Number.isFinite);
+    return Number.isFinite(value) ? value : null;
+  };
+  const isUnverifiedText = (...parts) => /web检索不可用|网页搜索不可用|无法核实/.test(parts.filter(Boolean).join("\n"));
+  const researchSessionMeta = (mod) => {
+    if (!mod) return { kind: "unknown", label: "", stamp: "" };
+    const stamp = String(mod.generatedAt || mod.date || "").trim();
+    const hm = stamp.match(/(\d{1,2}):(\d{2})/);
+    if (hm) {
+      const hour = Number(hm[1]);
+      if (hour < 15) return { kind: "midday", label: "午间稿", stamp };
+      return { kind: "close", label: "收盘稿", stamp };
+    }
+    if (/午间/.test(String(mod.summary || ""))) return { kind: "midday", label: "午间稿", stamp };
+    return { kind: stamp ? "dated" : "unknown", label: stamp ? `截至 ${stamp}` : "", stamp };
+  };
+  const isFundStale = (fund) => {
+    const signalDate = String((META && META.signalDate) || (META && META.marketSnapshot && META.marketSnapshot.date) || "").slice(0, 10);
+    const fundDate = String((fund && fund.date) || "").slice(0, 10);
+    return Boolean(signalDate && fundDate && fundDate < signalDate);
+  };
+  const displayImportance = (event) => {
+    const raw = event && event.importance;
+    if (isUnverifiedText(event && event.content, event && event.importance_reason, event && event.source, event && event.title)) {
+      return { label: "待核实", cls: "warn", demoted: true };
+    }
+    return { label: raw || "—", cls: "", demoted: false };
   };
   const esc = (s) => cleanDisplayText(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const safeUrl = (u) => {
@@ -175,8 +213,8 @@
     if (!el) return;
     const MK = window.MARKET || {};
     const sent = MK.sentiment || {};
-    const nb = MK.northbound || {};
-    if (!sent.zt_count && !nb.total_yi) { el.style.display = "none"; return; }
+    const nbYi = northboundYi(MK.northbound || {});
+    if (!sent.zt_count && nbYi == null) { el.style.display = "none"; return; }
     el.style.display = "";
     let html = "";
     // 1. 打板情绪环形图(涨停/炸板/跌停 比例)
@@ -198,9 +236,9 @@
         <div class="gauge-sub">炸${zb} 跌${dt}</div>
       </div>`;
     }
-    // 2. 北向资金流向条（NaN/null 都不画）
-    if (Number.isFinite(nb.total_yi)) {
-      const val = nb.total_yi;
+    // 2. 北向资金流向条（优先 total，否则沪股通/深股通）
+    if (nbYi != null) {
+      const val = nbYi;
       const cls = val > 0 ? "up" : val < 0 ? "down" : "";
       const sign = val > 0 ? "+" : "";
       const width = Math.min(Math.abs(val) / 100 * 100, 100); // 100亿为满
@@ -338,7 +376,11 @@
     const f = s.fund;
     if (!f || f.netInflow == null) return "";
     const n = f.netInflow, cls = n > 0 ? "up" : n < 0 ? "down" : "";
-    return `<span class="fund ${cls}" title="主力净流入 · 同花顺问财（${esc(f.date || "")}）">主力 ${n > 0 ? "+" : ""}${n}亿</span>`;
+    const stale = isFundStale(f);
+    const title = stale
+      ? `主力净流入 · 同花顺问财（${f.date || ""}）· 早于当日信号，仅供参考`
+      : `主力净流入 · 同花顺问财（${f.date || ""}）`;
+    return `<span class="fund ${cls}${stale ? " fund-stale" : ""}" title="${esc(title)}">主力 ${n > 0 ? "+" : ""}${n}亿${stale ? " · 非当日" : ""}</span>`;
   };
   const trendCls = (t) => (t === "多头排列" ? "t-up" : t === "空头排列" ? "t-down" : "t-flat");
   // 距近 60 日高点的回撤百分比（spark 为 60 日收盘序列）；跌超 25% 需要显式提示
@@ -397,6 +439,7 @@
       </div>
       ${priceRow}
       <div class="card-hit">${hitTag}${hitTag ? ` <span class="hit-detail">${esc(featReason)}</span>` : `<span class="hit-detail">${esc(g.leftState || g.rightState || "暂无买点信号")}</span>`}</div>
+      <div class="card-lens">叙事：${esc(rawVerdict)} · 技术：${esc(g.trend || "—")}</div>
       <div class="card-more">
         <p class="narrative">${esc(s.narrative)}</p>
         <div class="plans">
@@ -556,14 +599,15 @@
           <div class="ss left"><span class="sl">◂ 左侧</span><b class="${stateTone(g.leftState,"left")}">${esc(g.leftState || "—")}</b></div>
           <div class="ss right"><span class="sl">右侧 ▸</span><b class="${stateTone(g.rightState,"right")}">${esc(g.rightState || "—")}</b></div>
         </div>
+        <p class="sig-lens">两套口径并列：叙事「${esc(r.verdict || "—")}」看故事是否成立；技术「${esc(g.trend || "—")}」看均线结构，二者不必同向。</p>
         <div class="risk-row">
           ${maCell("左侧止损", g.leftStop == null ? "—" : "¥" + g.leftStop)}
           ${maCell("左侧目标", g.leftTarget == null ? "—" : "¥" + g.leftTarget)}
           ${maCell("盈亏比", g.leftRR == null ? "—" : g.leftRR)}
           ${maCell("右侧止损", g.rightStop == null ? "—" : "¥" + g.rightStop)}
         </div>
-        ${s.fund ? `<div class="fund-row">
-          <span class="fr-lab">主力资金（同花顺 ${esc(s.fund.date || "")}）</span>
+        ${s.fund ? `<div class="fund-row${isFundStale(s.fund) ? " fund-stale" : ""}">
+          <span class="fr-lab">主力资金（同花顺 ${esc(s.fund.date || "")}${isFundStale(s.fund) ? " · 非当日" : ""}）</span>
           <span class="fr-val ${s.fund.netInflow > 0 ? "up" : s.fund.netInflow < 0 ? "down" : ""}">净流入 ${s.fund.netInflow == null ? "—" : (s.fund.netInflow > 0 ? "+" : "") + s.fund.netInflow + " 亿"}</span>
           <span class="fr-val">换手 ${s.fund.turnover == null ? "—" : s.fund.turnover + "%"}</span>
         </div>` : ""}
@@ -705,6 +749,7 @@
   const VIEW_RENDER = {
     home: () => renderHome(),
     watch: () => renderWatch(),
+    market: () => renderMarket(),
     logic: () => App.renderLogic(),
     xbrief: () => App.renderXBriefs(),
     events: () => App.renderEvents(),
@@ -713,6 +758,7 @@
   const VIEW_TITLES = {
     home: "首页",
     watch: "巨头核心",
+    market: "市场扫描",
     logic: "逻辑链",
     xbrief: "外围热点",
     events: "今日热点事件",
@@ -970,8 +1016,7 @@
     if (!sbData) return;
     const M = window.MARKET || {};
     const items = [];
-    const nb = M.northbound;
-    const net = nb ? [nb.total_yi, nb.hgt_yi].find(Number.isFinite) : null;
+    const net = northboundYi(M.northbound);
     if (net != null) {
       const cls = net >= 0 ? "up" : "down";
       items.push(`<span class="sb-item"><span class="sb-lbl">北向</span><span class="sb-val ${cls}">${net >= 0 ? "+" : ""}${net.toFixed(1)}亿</span></span>`);
@@ -985,7 +1030,7 @@
   setTimeout(updateSbData, 300); // 等数据加载
 
   /* ===================================================================
-     扩展模块渲染: Home / 持仓决策 / 逻辑链 / 产业雷达 / 今日热点事件 / 新闻等
+     扩展模块渲染: Home / 市场扫描 / 逻辑链 / 今日热点事件 / 周末发酵等
   =================================================================== */
   // 通用区块标题
   const secTitle = (t, sub) => `<h2 class="vsec-title">${esc(t)}${sub ? `<span class="vsec-sub">${esc(sub)}</span>` : ""}</h2>`;
@@ -1191,9 +1236,25 @@
         }).join("")
       : `<div class="empty-inline">大盘数据待生成</div>`;
     const s = MARKET.sentiment || {};
-    const nb = MARKET.northbound;
+    const nbYi = northboundYi(MARKET.northbound);
     const L = window.LOGIC;
     const E = window.EVENTS;
+    const evtMeta = researchSessionMeta(E);
+    const logicMeta = researchSessionMeta(L);
+    const middayHint = evtMeta.kind === "midday" || logicMeta.kind === "midday"
+      ? `<div class="home-snap-hint" role="note">事件/逻辑链为午间快照（${esc([evtMeta.stamp, logicMeta.stamp].filter(Boolean)[0] || "盘中")}），指数与收盘总述以收盘口径为准。</div>`
+      : "";
+
+    const regimeText = cleanDisplayText(META.marketRegime || META.summary || "").trim();
+    const regimeHtml = regimeText
+      ? `<section class="home-regime">
+          <div class="hm-head">
+            <h3 class="hm-title">收盘总述</h3>
+            <span class="hm-date">截至 ${esc((ms && ms.date) || META.signalDate || "")} 收盘</span>
+          </div>
+          <p class="home-regime-body">${esc(regimeText)}</p>
+        </section>`
+      : "";
 
     // 各模块"最强"选取规则
     // 今日热点事件: importance 最高
@@ -1209,21 +1270,26 @@
         tag: "今日热点事件", tagCls: "up", go: "events", xname: bestEvt.title,
         title: bestEvt.title,
         essence: bestEvt.importance_reason ? trunc(bestEvt.importance_reason) : "—",
-        badge: bestEvt.importance || "", badgeCls: "ok"
+        badge: bestEvt.importance || "", badgeCls: "ok",
+        session: evtMeta
       } : null,
       bestLogic ? {
         tag: "逻辑链", tagCls: "ok", go: "logic", xname: bestLogic.name,
         title: bestLogic.name,
         essence: bestLogic.logic ? trunc(bestLogic.logic) : "—",
-        badge: bestLogic.strength || "", badgeCls: "warn"
+        badge: bestLogic.strength || "", badgeCls: "warn",
+        session: logicMeta
       } : null,
     ].filter(Boolean);
 
     const cardHtml = cards.map((c) => `
-      <article class="home-best ${c.tagCls}" data-go="${esc(c.go)}" data-xname="${esc(c.xname || "")}" role="button" tabindex="0" aria-label="打开${esc(c.tag)}：${esc(c.title)}">
+      <article class="home-best ${c.tagCls}${c.session && c.session.kind === "midday" ? " is-midday" : ""}" data-go="${esc(c.go)}" data-xname="${esc(c.xname || "")}" role="button" tabindex="0" aria-label="打开${esc(c.tag)}：${esc(c.title)}">
         <div class="hb-top">
           <span class="hb-tag ${c.tagCls}">${esc(c.tag)}</span>
-          <span class="hb-badge ${c.badgeCls}">${esc(c.badge)}</span>
+          <span class="hb-badges">
+            ${c.session && c.session.label ? `<span class="hb-session ${c.session.kind === "midday" ? "warn" : "ok"}">${esc(c.session.label)}</span>` : ""}
+            <span class="hb-badge ${c.badgeCls}">${esc(c.badge)}</span>
+          </span>
         </div>
         <h3 class="hb-title">${esc(c.title)}</h3>
         <p class="hb-essence">${esc(c.essence)}</p>
@@ -1242,7 +1308,7 @@
       <section class="home-market">
         <div class="hm-head">
           <h3 class="hm-title">大盘速览</h3>
-          <span class="hm-date">截至 ${esc((ms && ms.date) || "")}</span>
+          <span class="hm-date">截至 ${esc((ms && ms.date) || "")} 收盘</span>
         </div>
         <div class="idx-grid">${ixHtml}</div>
         <div class="hm-sentiment">
@@ -1251,10 +1317,17 @@
           <div class="sent-block down"><div class="sb-n">${s.dt_count ?? "—"}</div><div class="sb-l">跌停</div></div>
           <div class="sent-block"><div class="sb-n">${s.break_rate ?? "—"}<span class="sb-u">%</span></div><div class="sb-l">炸板率</div></div>
           <div class="sent-block"><div class="sb-n">${s.max_height ?? "—"}<span class="sb-u">板</span></div><div class="sb-l">最高连板</div></div>
-          ${nb && Number.isFinite(nb.total_yi) ? `<div class="sent-block ${sgn(nb.total_yi)}"><div class="sb-n">${nb.total_yi > 0 ? "+" : ""}${nb.total_yi.toFixed(2)}<span class="sb-u">亿</span></div><div class="sb-l">北向净额</div></div>` : ""}
+          ${nbYi != null ? `<div class="sent-block ${sgn(nbYi)}"><div class="sb-n">${nbYi > 0 ? "+" : ""}${nbYi.toFixed(2)}<span class="sb-u">亿</span></div><div class="sb-l">北向净额</div></div>` : ""}
         </div>
       </section>
+      ${regimeHtml}
+      ${middayHint}
       ${ddStrip}
+      <button class="home-market-link" id="homeMarketLink" type="button">
+        <span class="hml-t">市场扫描</span>
+        <span class="hml-d">涨停梯队 · 炸板跌停 · 涨幅/成交异动</span>
+        <span class="hml-go">查看 ↗</span>
+      </button>
       <div class="home-best-grid">${cardHtml || emptyState("分析数据待生成")}</div>
       <div class="home-foot">数据时点 ${esc(MARKET.date || META.signalDate || "")} · 非投资建议</div>
     `;
@@ -1272,6 +1345,68 @@
       renderChips();
       switchView("watch");
       renderWatch();
+    });
+    $("#homeMarketLink")?.addEventListener("click", () => switchView("market"));
+  }
+
+  /* ---------- 市场扫描（只读，复用 market.js） ---------- */
+  function renderMarket() {
+    const el = $("#viewMarket");
+    if (!el) return;
+    const MK = window.MARKET || {};
+    const sent = MK.sentiment || {};
+    const nbYi = northboundYi(MK.northbound);
+    const ladder = sent.ladder || {};
+    const ladderHtml = Object.keys(ladder).length
+      ? Object.entries(ladder)
+          .sort((a, b) => Number(b[0]) - Number(a[0]))
+          .map(([boards, count]) => `<div class="ms-ladder-item"><span class="ms-l-n">${esc(boards)}板</span><span class="ms-l-c">${esc(count)}</span></div>`)
+          .join("")
+      : `<div class="empty-inline">连板梯队待生成</div>`;
+
+    const listBlock = (title, rows, mapRow) => {
+      const items = (rows || []).slice(0, 8);
+      if (!items.length) return "";
+      return `<section class="ms-block">
+        <h3 class="ms-h">${esc(title)}</h3>
+        <div class="ms-list">${items.map(mapRow).join("")}</div>
+      </section>`;
+    };
+    const stockRow = (x, extra) => {
+      const code = x.code || "";
+      const inWatch = STOCKS.some((s) => s.code === code);
+      return `<button type="button" class="ms-row${inWatch ? " in-watch" : ""}" data-code="${esc(code)}" ${inWatch ? "" : "disabled"}>
+        <span class="ms-name">${esc(x.name || "—")}<span class="ms-code">${esc(code)}</span></span>
+        <span class="ms-extra">${esc(extra || "")}</span>
+        <span class="ms-pct ${sgn(x.pct != null ? x.pct : x.chgPct)}">${pct(x.pct != null ? x.pct : x.chgPct)}</span>
+      </button>`;
+    };
+
+    el.innerHTML = `
+      ${secTitle("市场扫描", `情绪与异动只读 · ${esc(MK.generatedAt || MK.date || "")}`)}
+      <section class="ms-sentiment">
+        <div class="sent-block up"><div class="sb-n">${sent.zt_count ?? "—"}</div><div class="sb-l">涨停</div></div>
+        <div class="sent-block warn"><div class="sb-n">${sent.zb_count ?? "—"}</div><div class="sb-l">炸板</div></div>
+        <div class="sent-block down"><div class="sb-n">${sent.dt_count ?? "—"}</div><div class="sb-l">跌停</div></div>
+        <div class="sent-block"><div class="sb-n">${sent.break_rate ?? "—"}<span class="sb-u">%</span></div><div class="sb-l">炸板率</div></div>
+        <div class="sent-block"><div class="sb-n">${sent.max_height ?? "—"}<span class="sb-u">板</span></div><div class="sb-l">最高连板</div></div>
+        ${nbYi != null ? `<div class="sent-block ${sgn(nbYi)}"><div class="sb-n">${nbYi > 0 ? "+" : ""}${Number(nbYi).toFixed(2)}<span class="sb-u">亿</span></div><div class="sb-l">北向</div></div>` : ""}
+      </section>
+      <section class="ms-block">
+        <h3 class="ms-h">连板梯队</h3>
+        <div class="ms-ladder">${ladderHtml}</div>
+      </section>
+      <div class="ms-grid">
+        ${listBlock("涨停摘要", MK.limitUp, (x) => stockRow(x, x.zt_stat || (x.limit_days ? `${x.limit_days}天` : "")))}
+        ${listBlock("炸板", MK.brokeUp, (x) => stockRow(x, x.industry || ""))}
+        ${listBlock("跌停", MK.limitDown, (x) => stockRow(x, x.industry || ""))}
+        ${listBlock("涨幅靠前", MK.topGainers, (x) => stockRow(x, x.industry || ""))}
+        ${listBlock("成交额靠前", MK.topTurnover, (x) => stockRow(x, x.amount != null ? `${(x.amount / 1e8).toFixed(1)}亿` : ""))}
+      </div>
+      <div class="home-foot">点亮行可打开自选池内标的详情；池外仅展示 · 非投资建议</div>
+    `;
+    el.querySelectorAll(".ms-row[data-code]:not([disabled])").forEach((btn) => {
+      btn.addEventListener("click", () => openDrawer(btn.dataset.code));
     });
   }
 
@@ -1308,14 +1443,14 @@
     state, viewScroll,
     get curView() { return curView; }, set curView(v) { curView = v; },
     $, grid, viewScrollRoot,
-    cleanDisplayText, esc, safeUrl,
+    cleanDisplayText, esc, safeUrl, northboundYi, isUnverifiedText, researchSessionMeta, isFundStale, displayImportance,
     getStockReferenceIndex, isChanged, isOpportunity, latestDay, freshNews, matches, trendRank,
     sortList, sparkline, sgn, pct, fundChip, trendCls, drawdownPct, isDeepDrawdown, drawdownFlag, stateTone,
     card, liList, newsList, researchList,
     secTitle, trunc, emptyState, fieldHtml, titleShort, leadOf, blockHtml, fmtYi,
     drawerHeadHtml,
     renderMeta, renderMarketSnap, renderGauges, renderStats, renderChips,
-    renderWatch,
+    renderWatch, renderMarket, renderHome,
     showDrawer, openDrawer, closeDrawer, renderWatchDrawer, renderMarketDrawer, findMarketStock,
     switchView, viewFromHash, syncViewLocation,
     renderGlobalSearch, closeSearchPanel,

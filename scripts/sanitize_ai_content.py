@@ -10,6 +10,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ACTIVE_MODULES_PATH = ROOT / "active_modules.json"
+
+
+def _file_token(name: str) -> re.Pattern[str]:
+    """匹配文件名；允许紧贴中文，避免 \\b 在 CJK 粘连时漏替换。"""
+    return re.compile(rf"(?<![A-Za-z0-9_]){re.escape(name)}(?![A-Za-z0-9_])", re.I)
+
+
 REPLACEMENTS = [
     (re.compile(r"thsStrong", re.I), "强势股数据"),
     (re.compile(r"thsHot", re.I), "热度榜数据"),
@@ -17,13 +24,15 @@ REPLACEMENTS = [
     (re.compile(r"break\s*=\s*(\d+)\s*次?", re.I), r"开板\1次"),
     (re.compile(r"rank_chg", re.I), "排名变化"),
     # 已退休的数据文件名不应继续作为用户可见来源；保留来源语义而不是暴露旧模块。
-    (re.compile(r"\bnewsall\.js\b", re.I), "公开资讯"),
-    (re.compile(r"\bhot\.js\b", re.I), "热度榜数据"),
-    (re.compile(r"\bchain\.js\b", re.I), "公开产业资料"),
-    (re.compile(r"\breports\.js\b", re.I), "历史复盘资料"),
-    (re.compile(r"\bfundflow\.js\b", re.I), "资金数据"),
-    (re.compile(r"\bmaterials\.js\b", re.I), "公开材料价格资料"),
-    (re.compile(r"\bindustry_market\.js\b", re.I), "行业行情数据"),
+    (_file_token("newsall.js"), "公开资讯"),
+    (_file_token("hot.js"), "热度榜数据"),
+    (_file_token("chain.js"), "公开产业资料"),
+    (_file_token("reports.js"), "历史复盘资料"),
+    (_file_token("fundflow.js"), "资金数据"),
+    (_file_token("materials.js"), "公开材料价格资料"),
+    (_file_token("industry_market.js"), "行业行情数据"),
+    (_file_token("market.js"), "市场异动数据"),
+    (_file_token("industry.js"), "行业数据"),
     # 正文里嵌着的内部工具名,换成用户能懂的说法(纯过程语整行由下面的报告级清洗删除)。
     # e2e 门禁对任何 .py 字样一律判失败,故不保留 scripts/xxx.py 路径出处,全部替换。
     (re.compile(r"(?<!\w)[\w.-]+\.py"), "数据接口"),

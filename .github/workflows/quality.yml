@@ -38,7 +38,7 @@ jobs:
         run: |
           node --check app.js
           node scripts/validate_data.js
-          node scripts/check_freshness.js --strict --scope=market
+          node scripts/check_freshness.js --strict
           python3 -m py_compile app_server.py scripts/*.py
           python3 scripts/build_site.py _site
 

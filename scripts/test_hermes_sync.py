@@ -44,6 +44,14 @@ class HermesSyncTest(unittest.TestCase):
         cleaned = sanitize_ai_content.sanitize_text(source)
         self.assertEqual(cleaned, "公开资讯 / 热度榜数据 / 公开产业资料 / 历史复盘资料")
 
+    def test_retired_source_names_match_chinese_concatenation(self):
+        source = "午间(market.js/newsall.js报道) hot.js榜单 industry.js摘要"
+        cleaned = sanitize_ai_content.sanitize_text(source)
+        self.assertEqual(
+            cleaned,
+            "午间(市场异动数据/公开资讯报道) 热度榜数据榜单 行业数据摘要",
+        )
+
     def test_sanitizer_uses_only_active_hermes_modules(self):
         self.assertEqual(
             sanitize_ai_content.active_ai_files(),
