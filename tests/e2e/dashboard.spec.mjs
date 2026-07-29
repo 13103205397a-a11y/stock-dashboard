@@ -17,7 +17,8 @@ const VIEWS = [
 
 test("12 个视图可深链接且无页面级横向溢出", async ({ page }) => {
   for (const view of VIEWS) {
-    await page.goto(`/index.html#${view}`, { waitUntil: "networkidle" });
+    // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded；视图切换由下方断言轮询保证
+    await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
     await expect(page.locator("body")).toHaveClass(new RegExp(`view-${view}`));
     await expect(page.locator(`#sidebar .nav-item[data-view="${view}"]`)).toHaveAttribute("aria-current", "page");
     const metrics = await page.evaluate(() => ({
@@ -102,7 +103,8 @@ test("新闻摘要可展开，公告股票代码可打开详情", async ({ page 
 
 test("研究内容不会直出内部字段、生成过程语或残缺括号", async ({ page }) => {
   for (const view of ["opportunities", "logic", "hot", "agent"]) {
-    await page.goto(`/index.html#${view}`, { waitUntil: "networkidle" });
+    // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded
+    await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
     const text = await page.locator("#mainContent").innerText();
     expect(text).not.toMatch(/\b(?:thsStrong|thsHot|break\s*=\s*\d+)\b/i);
     expect(text).not.toMatch(/^(?:I'll generate|现在我已经(?:获取|掌握))/m);
