@@ -9,13 +9,20 @@ const VIEWS = [
   "hot",
   "news",
   "events",
-  "agent",
-  "chain",
   "weekend",
 ];
-const REMOVED_NAV_VIEWS = new Set(["holdings", "opportunities", "market", "fundflow", "hot", "news"]);
+const REMOVED_NAV_VIEWS = new Set([
+  "holdings",
+  "opportunities",
+  "market",
+  "fundflow",
+  "hot",
+  "news",
+  "agent",
+  "chain",
+]);
 
-test("11 个视图可深链接且无页面级横向溢出", async ({ page }) => {
+test("9 个视图可深链接且无页面级横向溢出", async ({ page }) => {
   for (const view of VIEWS) {
     // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded；视图切换由下方断言轮询保证
     await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
@@ -36,6 +43,9 @@ test("已移除的模块不再显示导航入口", async ({ page }) => {
   for (const view of REMOVED_NAV_VIEWS) {
     await expect(page.locator(`.nav-item[data-view="${view}"]`)).toHaveCount(0);
   }
+  await expect(page.locator("#viewHome")).not.toContainText("数据健康");
+  await expect(page.locator("#viewHome .health-grid")).toHaveCount(0);
+  await expect(page.locator("#viewHome .refresh-panel")).toHaveCount(0);
 });
 
 test("模块名称已更新且旧名称不再出现在导航", async ({ page }) => {
@@ -46,6 +56,8 @@ test("模块名称已更新且旧名称不再出现在导航", async ({ page }) 
   expect(navigationText).not.toContain("X 简报");
   expect(navigationText).not.toContain("事件概率");
   expect(navigationText).not.toContain("机会清单");
+  expect(navigationText).not.toContain("AI 复盘");
+  expect(navigationText).not.toContain("产业链涨价");
 });
 
 test("巨头概览位于卡片上方且顶栏数据不遮挡搜索", async ({ page }) => {
@@ -84,9 +96,9 @@ test("外围热点排版清晰且正文不含乱码字符", async ({ page }) => 
 test("导航写入历史并支持浏览器前进后退", async ({ page }) => {
   await page.goto("/index.html#logic", { waitUntil: "networkidle" });
   await expect(page.locator("body")).toHaveClass(/view-logic/);
-  await page.evaluate(() => document.querySelector('.nav-item[data-view="chain"]').click());
-  await expect(page).toHaveURL(/#chain$/);
-  await expect(page).toHaveTitle(/产业链涨价 · A股盘面/);
+  await page.evaluate(() => document.querySelector('.nav-item[data-view="events"]').click());
+  await expect(page).toHaveURL(/#events$/);
+  await expect(page).toHaveTitle(/今日热点事件 · A股盘面/);
   await page.goBack();
   await expect(page).toHaveURL(/#logic$/);
   await expect(page.locator("body")).toHaveClass(/view-logic/);
@@ -103,7 +115,7 @@ test("视图切换会记住各自滚动位置", async ({ page }) => {
     return root.scrollTop;
   });
   expect(before).toBeGreaterThan(0);
-  await page.evaluate(() => document.querySelector('.nav-item[data-view="chain"]').click());
+  await page.evaluate(() => document.querySelector('.nav-item[data-view="events"]').click());
   await page.evaluate(() => document.querySelector('.nav-item[data-view="logic"]').click());
   const after = await page.evaluate(() => {
     const content = document.querySelector(".content-in");
@@ -154,7 +166,7 @@ test("新闻摘要可展开，公告股票代码可打开详情", async ({ page 
 });
 
 test("研究内容不会直出内部字段、生成过程语或残缺括号", async ({ page }) => {
-  for (const view of ["logic", "events", "hot", "agent"]) {
+  for (const view of ["logic", "events", "hot"]) {
     // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded
     await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
     const text = await page.locator("#mainContent").innerText();
@@ -171,79 +183,12 @@ test("研究内容不会直出内部字段、生成过程语或残缺括号", as
   }
 });
 
-// 报告断言使用固定夹具：AI 报告内容每天由 Hermes 重写，
-// 不 mock 的话测试会随当天数据（如完整度为“全部正常”）而失败。
-const REPORTS_FIXTURE = `window.REPORTS = ${JSON.stringify({
-  updated: "2026-07-14 07:35",
-  reports: [
-    {
-      type: "盘前简报",
-      title: "每日盘前简报 · Jul 14 07:30",
-      time: "2026-07-14 07:30",
-      id: "cron_fixture_20260714_0730",
-      content: [
-        "数据完整度：部分缺失（自选股行情接口超时，其余正常）",
-        "",
-        "# 盘前简报（2026-07-14）",
-        "",
-        "## 1. 隔夜美股",
-        "",
-        "| 指数 | 收盘 | 涨跌幅 |",
-        "|---|---|---|",
-        "| 道琼斯 | 52,000 | -0.20% |",
-        "",
-        `正文段落，用于测量报告的行宽与阅读字号。${"市场情绪偏谨慎，注意仓位控制。".repeat(12)}`,
-      ].join("\n"),
-    },
-    {
-      type: "收盘复盘",
-      title: "收盘复盘 · Jul 14 15:33",
-      time: "2026-07-14 15:33",
-      id: "cron_fixture_20260714_1533",
-      content: [
-        // 模型有时会把完整度行加粗，前端必须仍识别为状态条而非正文。
-        "**数据完整度：[全部正常]**",
-        "- 指数、板块、个股与龙虎榜数据均获取成功。",
-        "",
-        "## 1. 指数表现",
-        "",
-        `今日市场震荡整理，权重护盘、题材分化。${"成交额与昨日基本持平，情绪面中性。".repeat(6)}`,
-      ].join("\n"),
-    },
-  ],
-})};\n`;
-
-test("核心阅读文字保持可读字号和报告行宽", async ({ page }) => {
-  await page.route(/\/reports\.js(\?.*)?$/, (route) =>
-    route.fulfill({ contentType: "application/javascript", body: REPORTS_FIXTURE })
-  );
+test("核心阅读文字保持可读字号", async ({ page }) => {
   await page.goto("/index.html#logic", { waitUntil: "networkidle" });
   const researchSize = await page.locator(".sd-v, .sd-field-list .sum-txt").first().evaluate((node) =>
     Number.parseFloat(getComputedStyle(node).fontSize)
   );
   expect(researchSize).toBeGreaterThanOrEqual(14);
-
-  await page.goto("/index.html#agent", { waitUntil: "networkidle" });
-  const report = page.locator(".rep-md").first();
-  await expect(report).toBeVisible();
-  await expect(report).not.toContainText("```markdown");
-  await expect(report).not.toContainText("全部正常");
-  await expect(report.locator(".rep-quality.is-partial").first()).toBeVisible();
-  await expect(page.locator(".rep-head h2").first()).toContainText("07月14日 07:30");
-
-  // 加粗的完整度行也应渲染成状态条，而不是混进正文段落。
-  const closingBody = page.locator(".rep-body").nth(1).locator(".rep-md");
-  await expect(closingBody.locator(".rep-quality.is-complete")).toHaveCount(1);
-  await expect(closingBody).not.toContainText("数据完整度");
-  await expect(closingBody).not.toContainText("**");
-
-  const reportStyle = await report.evaluate((node) => {
-    const style = getComputedStyle(node);
-    return { fontSize: Number.parseFloat(style.fontSize), fontWeight: Number.parseFloat(style.fontWeight), width: node.getBoundingClientRect().width };
-  });
-  expect(reportStyle.fontSize).toBeGreaterThanOrEqual(15);
-  expect(reportStyle.fontWeight).toBeGreaterThanOrEqual(450);
-  expect(reportStyle.width).toBeLessThanOrEqual(760);
 });
 
 test("自选支持添加、自动刷新后展示和删除", async ({ page }) => {

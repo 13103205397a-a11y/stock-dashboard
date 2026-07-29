@@ -72,13 +72,6 @@
       "localPrivate": true
     },
     {
-      "name": "同步Hermes复盘",
-      "command": ["python3", "scripts/fetch_hermes.py"],
-      "timeout": 300,
-      "required": false,
-      "localOnly": true
-    },
-    {
       "name": "同步持仓分析",
       "command": ["python3", "scripts/fetch_portfolio_analysis.py"],
       "timeout": 300,

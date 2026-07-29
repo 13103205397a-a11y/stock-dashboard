@@ -20,7 +20,6 @@ const files = [
   "logic.js",
   "events.js",
   "weekend.js",
-  "reports.js",
 ];
 
 const errors = [];
@@ -86,13 +85,6 @@ if (!W.NEWSALL || !Array.isArray(W.NEWSALL.global) || !Array.isArray(W.NEWSALL.a
     fail(`${key}: ${arr} 必须是非空数组`);
   }
 });
-
-if (!W.REPORTS || !Array.isArray(W.REPORTS.reports)) {
-  fail("reports.js: window.REPORTS.reports 必须是数组");
-}
-
-// CHAIN 允许为 null(过渡期空壳); 非 null 时 directions 必须是数组
-if (W.CHAIN && !Array.isArray(W.CHAIN.directions)) fail("chain.js: CHAIN.directions 必须是数组");
 
 if (!W.INDUSTRY_MARKET || !Array.isArray(W.INDUSTRY_MARKET.top) ||
     !Array.isArray(W.INDUSTRY_MARKET.bottom) || typeof W.INDUSTRY_MARKET.total !== "number") {

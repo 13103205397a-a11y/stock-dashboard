@@ -81,6 +81,7 @@ class HermesSyncTest(unittest.TestCase):
         self.assertEqual(cleaned, "强势股数据 置信度高 开板14次 热度榜数据 排名变化")
 
     def test_isolated_publish_checks_remote_even_without_root_diff(self):
+        self.assertTrue({"reports.js", "chain.js"}.isdisjoint(sync_hermes_dashboard.PUBLIC_AI_FILES))
         calls = []
         with tempfile.TemporaryDirectory() as temp:
             worktree = Path(temp) / "repo"

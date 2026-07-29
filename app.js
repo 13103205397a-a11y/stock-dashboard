@@ -16,11 +16,8 @@
   let META = window.META || {};
   let MARKET = window.MARKET || {};
   let HOLDINGS = window.HOLDINGS || null;
-  let INDUSTRY = window.INDUSTRY || null;
   let INDUSTRY_MARKET = window.INDUSTRY_MARKET || null;
-  let CHAIN = window.CHAIN || null;
   let NEWSALL = window.NEWSALL || null;
-  let REPORTS = window.REPORTS || {};
   let HOT = window.HOT || {};
 
   const state = { sector: "全部", verdict: "all", q: "", sort: "default" };
@@ -128,7 +125,6 @@
     [
       [MARKET, "市场异动"], [HOT, "今日热点"], [HOLDINGS, "持仓"],
       [window.LOGIC, "逻辑链"],
-      [window.CHAIN, "产业链涨价"], [INDUSTRY, "产业雷达"], [window.MATERIALS, "材料涨价"],
       [window.EVENTS, "今日热点事件"], [window.WEEKEND, "周末发酵"],
     ].forEach(([value, source]) => walk(value, source));
     stockReferenceIndex = index;
@@ -1085,8 +1081,6 @@
     home: () => renderHome(),
     holdings: () => App.renderHoldings(),
     logic: () => App.renderLogic(),
-    agent: () => App.renderReports(),
-    chain: () => App.renderChain(),
     weekend: () => App.renderWeekend(),
     events: () => App.renderEvents(),
     news: () => App.renderNewsAll(),
@@ -1107,8 +1101,6 @@
     news: "新闻",
     xbrief: "外围热点",
     events: "今日热点事件",
-    agent: "AI 复盘",
-    chain: "产业链涨价",
     weekend: "周末发酵",
   };
   function viewFromHash() {
@@ -1372,139 +1364,6 @@
 
   const fmtYi = (n) => n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(2) + "亿";
 
-  function dateToken(v) {
-    const s = v == null ? "" : String(v);
-    const m = s.match(/\d{4}-\d{2}-\d{2}/);
-    return m ? m[0] : "";
-  }
-
-  function daysSince(token) {
-    if (!token) return null;
-    const t = new Date(token + "T00:00:00").getTime();
-    if (!Number.isFinite(t)) return null;
-    return Math.floor((Date.now() - t) / 86400000);
-  }
-
-  function healthTone(item) {
-    if (item.missing) return item.optional ? "muted" : "bad";
-    const d = daysSince(dateToken(item.date));
-    if (d == null) return "warn";
-    const ok = item.weekly ? 7 : (item.relaxed ? 2 : 1);
-    const warn = item.weekly ? 14 : (item.relaxed ? 5 : 4);
-    return d <= ok ? "ok" : d <= warn ? "warn" : "bad";
-  }
-
-  function healthText(item) {
-    if (item.missing) return item.optional ? "本地未生成" : "缺失";
-    const d = daysSince(dateToken(item.date));
-    if (d == null) return "待核对";
-    if (d <= 0) return "今日";
-    return `${d}天前`;
-  }
-
-  function poolCount(obj, keys) {
-    return keys.reduce((sum, k) => sum + (Array.isArray(obj?.[k]) ? obj[k].length : 0), 0);
-  }
-
-  function dataHealthItems() {
-    const W = window.WEEKEND || null;
-    const MAT = window.MATERIALS || null;
-    const EV = window.EVENTS || null;
-    const LOG = window.LOGIC || null;
-    const holdingPrivate = !isLocalServer() && location.protocol !== "file:";
-    return [
-      { name: "行情信号", date: META.signalDate || META.lastUpdated, count: `${STOCKS.length}只`, source: "data/meta", view: "watch" },
-      { name: "市场异动", date: MARKET.generatedAt || MARKET.date, count: `${poolCount(MARKET, ["topGainers","topLosers","topTurnover","topInflow","topOutflow","limitUp","limitDown","hotRank"])}条`, source: "market.js", view: "market" },
-      { name: "资金流向", date: (window.FUNDFLOW || {}).generatedAt || (window.FUNDFLOW || {}).date, count: `${((window.FUNDFLOW || {}).boards || []).length}板块`, source: "东财→fundflow", view: "fundflow", relaxed: true, optional: true, missing: !((window.FUNDFLOW || {}).boards || []).length },
-      { name: "今日热点", date: HOT.generatedAt || HOT.date, count: `${(HOT.list || []).length}只`, source: "hot.js", view: "hot" },
-      { name: "新闻公告", date: NEWSALL?.generatedAt || NEWSALL?.date, count: `${(NEWSALL?.global || []).length + (NEWSALL?.announcements || []).length}条`, source: "newsall.js", view: "news", missing: !NEWSALL },
-      { name: "外围热点", date: (window.XBRIEFS || {}).updated || (window.XBRIEFS || {}).generatedAt, count: `${((window.XBRIEFS || {}).briefs || []).length}期`, source: "X 公开讨论", view: "xbrief", relaxed: true, optional: true, missing: !((window.XBRIEFS || {}).briefs || []).length },
-      { name: "持仓决策", date: HOLDINGS?.generatedAt || HOLDINGS?.date, count: holdingPrivate ? "线上隐藏" : `${(HOLDINGS?.list || []).length}只`, source: "本地私有", view: "holdings", optional: true, missing: !HOLDINGS },
-      { name: "AI复盘", date: REPORTS.updated, count: `${(REPORTS.reports || []).length}篇`, source: "Kimi", view: "agent", relaxed: true, optional: true, missing: !(REPORTS.reports || []).length },
-      { name: "逻辑链", date: LOG?.generatedAt || LOG?.date, count: `${(LOG?.chains || []).length}条`, source: "Hermes", view: "logic", relaxed: true, missing: !LOG },
-      { name: "产业链涨价", date: window.CHAIN?.generatedAt || window.CHAIN?.date || INDUSTRY?.generatedAt || INDUSTRY?.date || MAT?.generatedAt || MAT?.date, count: `${(window.CHAIN?.directions || INDUSTRY?.directions || []).length + (MAT?.directions || []).length}项`, source: "Hermes", view: "chain", relaxed: true, missing: !(window.CHAIN?.directions?.length || INDUSTRY?.directions?.length || MAT?.directions?.length) },
-      { name: "今日热点事件", date: EV?.generatedAt || EV?.date, count: `${(EV?.events || []).length}件`, source: "Hermes", view: "events", relaxed: true, missing: !EV },
-      { name: "周末发酵", date: W?.generatedAt || W?.weekendDate || W?.date, count: `${(W?.hotspots || []).length}项`, source: "Hermes", view: "weekend", weekly: true, optional: true, missing: !W },
-    ];
-  }
-
-  function renderDataHealthPanel() {
-    const items = dataHealthItems();
-    const cards = items.map((it) => {
-      const tone = healthTone(it);
-      const date = dateToken(it.date) || "—";
-      return `<button class="health-card ${tone}" data-go="${esc(it.view)}">
-        <span class="health-dot"></span>
-        <span class="health-main">
-          <span class="health-name">${esc(it.name)}</span>
-          <span class="health-meta">${esc(date)} · ${esc(it.count)} · ${esc(it.source)}</span>
-        </span>
-        <span class="health-age">${esc(healthText(it))}</span>
-      </button>`;
-    }).join("");
-    const refresh = isLocalServer()
-      ? `<div class="refresh-panel">
-          <button class="refresh-btn" id="localRefreshBtn">刷新数据</button>
-          <div class="refresh-status" id="refreshStatus">本地服务已连接</div>
-        </div>`
-      : `<div class="refresh-panel muted"><div class="refresh-status">本地刷新需从 http://localhost:8787 打开</div></div>`;
-    return `${secTitle("数据健康", "更新时间 / 完整度 / 本地刷新")}
-      <div class="health-grid">${cards}</div>
-      ${refresh}`;
-  }
-
-  let refreshPollTimer = null;
-  async function pollRefreshStatus(once = false) {
-    if (!isLocalServer()) return;
-    const el = $("#refreshStatus");
-    if (!el) return;
-    // 单一轮询链：重复进入首页时不叠加定时器
-    clearTimeout(refreshPollTimer);
-    try {
-      const r = await fetch("/api/status?t=" + Date.now());
-      const st = await r.json();
-      const lines = st.log || [];
-      el.innerHTML = `
-        <div class="rs-line ${st.error ? "bad" : st.running ? "warn" : st.done ? "ok" : ""}">
-          ${st.running ? "刷新中" : st.error ? esc(st.error) : st.done ? "刷新完成" : "待刷新"}
-        </div>
-        ${lines.length ? `<pre>${esc(lines.slice(-6).join("\n"))}</pre>` : ""}`;
-      const btn = $("#localRefreshBtn");
-      if (btn) btn.disabled = !!st.running;
-      if (st.running) refreshPollTimer = setTimeout(() => pollRefreshStatus(), 1500);
-      else if (!once && st.done) setTimeout(() => location.reload(), 800);
-    } catch {
-      el.textContent = "无法读取本地刷新状态";
-    }
-  }
-
-  async function startLocalRefresh() {
-    if (!isLocalServer()) return;
-    const btn = $("#localRefreshBtn");
-    if (btn) btn.disabled = true;
-    const el = $("#refreshStatus");
-    if (el) el.textContent = "正在启动刷新...";
-    try {
-      const r = await fetch("/api/refresh", { method: "POST" });
-      const res = await r.json().catch(() => null);
-      if (!r.ok || (res && res.ok === false)) {
-        if (el) el.textContent = (res && res.msg) || "刷新启动失败";
-        if (btn) btn.disabled = false;
-        return;
-      }
-      pollRefreshStatus();
-    } catch {
-      if (el) el.textContent = "刷新启动失败，请确认 app_server.py 正在运行";
-      if (btn) btn.disabled = false;
-    }
-  }
-
-  function bindHomeControls() {
-    $("#viewHome")?.querySelectorAll(".health-card").forEach((b) => b.addEventListener("click", () => switchView(b.dataset.go)));
-    $("#localRefreshBtn")?.addEventListener("click", startLocalRefresh);
-    pollRefreshStatus(true);
-  }
-
   let searchIndex = null;
   function addSearchItem(list, type, title, meta, text, view, code) {
     const hay = [type, title, meta, text, code].filter(Boolean).join(" ").toLowerCase();
@@ -1526,8 +1385,6 @@
     (NEWSALL?.global || []).slice(0, 60).forEach((n) => addSearchItem(list, "新闻", n.title, n.time || n.date || "", "", "news"));
     (NEWSALL?.announcements || []).slice(0, 60).forEach((n) => addSearchItem(list, "公告", n.title || n.announcementTitle, n.date || "", "", "news"));
     (window.LOGIC?.chains || []).forEach((c) => addSearchItem(list, "逻辑链", c.name, c.event_type || "", [c.event, c.logic, c.invalidation].filter(Boolean).join(" "), "logic"));
-    const chainDirs = (window.CHAIN?.directions && window.CHAIN.directions.length ? window.CHAIN.directions : [...(INDUSTRY?.directions || []), ...(window.MATERIALS?.directions || [])].map((d) => d.driver_type ? d : { ...d, driver_type: [], bottleneck: "", chain: "", category: "", intensity: d.intensity || ({ "高": "强", "中高": "中强", "中": "中", "低": "弱" })[d.confidence] || "中", price_signal: d.price_signal || d.price || "" }));
-    chainDirs.forEach((d) => addSearchItem(list, "产业链", d.name, d.intensity || "", [d.price_signal, d.bottleneck, d.driver, d.risk].filter(Boolean).join(" "), "chain"));
     (window.EVENTS?.events || []).forEach((e) => addSearchItem(list, "事件", e.title, e.importance || "", [e.content, e.sectors].join(" "), "events"));
     return list;
   }
@@ -1636,16 +1493,10 @@
       : `<div class="empty-inline">大盘数据待生成</div>`;
     const s = MARKET.sentiment || {};
     const nb = MARKET.northbound;
-    const I = window.INDUSTRY;
     const L = window.LOGIC;
     const E = window.EVENTS;
-    const M = window.MATERIALS;
 
     // 各模块"最强"选取规则
-    // 产业链涨价: CHAIN 优先, 否则旧 industry+materials 合并映射, 取 intensity 最高
-    const intRankChain = { "极强": 5, "强": 4, "中强": 3, "中": 2, "弱": 1 };
-    const chainDirsAll = (window.CHAIN?.directions && window.CHAIN.directions.length ? window.CHAIN.directions : [...(I && I.directions || []), ...(M && M.directions || [])].map((d) => d.driver_type ? d : { ...d, driver_type: [], intensity: d.intensity || ({ "高": "强", "中高": "中强", "中": "中", "低": "弱" })[d.confidence] || "中", price_signal: d.price_signal || d.price || "" }));
-    const bestChain = chainDirsAll.slice().sort((a, b) => (intRankChain[b.intensity] || 0) - (intRankChain[a.intensity] || 0))[0];
     // 今日热点事件: importance 最高
     const impRank = { "高": 3, "中高": 2, "中": 1 };
     const bestEvt = (E && E.events || []).slice().sort((a, b) => (impRank[b.importance] || 0) - (impRank[a.importance] || 0))[0];
@@ -1655,12 +1506,6 @@
 
     // 精华卡: 标签 + 标题 + 一句话精华 + 强度徽章 + 跳转目标
     const cards = [
-      bestChain ? {
-        tag: "产业链涨价", tagCls: "up", go: "chain", xname: bestChain.name,
-        title: bestChain.name,
-        essence: bestChain.bottleneck ? ("卡脖子:" + trunc(bestChain.bottleneck)) : (bestChain.price_signal ? trunc(bestChain.price_signal) : "—"),
-        badge: bestChain.intensity || "", badgeCls: "ok"
-      } : null,
       bestEvt ? {
         tag: "今日热点事件", tagCls: "up", go: "events", xname: bestEvt.title,
         title: bestEvt.title,
@@ -1711,8 +1556,7 @@
         </div>
       </section>
       ${ddStrip}
-      ${renderDataHealthPanel()}
-      ${secTitle("今日最强", "5个分析模块各取第1 · 点击定位到对应条目")}
+      ${secTitle("今日最强", `${cards.length}个分析模块各取第1 · 点击定位到对应条目`)}
       <div class="home-best-grid">${cardHtml || emptyState("分析数据待生成")}</div>
       <div class="home-foot">数据时点 ${esc(MARKET.date || META.signalDate || "")} · 非投资建议</div>
     `;
@@ -1731,7 +1575,6 @@
       switchView("watch");
       renderWatch();
     });
-    bindHomeControls();
   }
 
 
@@ -1756,7 +1599,7 @@
   // 暴露核心到 window.App，供拆分模块解构使用。
   // renderHoldings / renderLogic 等由各模块自行注册。
   window.App = {
-    STOCKS, META, MARKET, HOLDINGS, INDUSTRY, INDUSTRY_MARKET, CHAIN, NEWSALL, REPORTS, HOT,
+    STOCKS, META, MARKET, HOLDINGS, INDUSTRY_MARKET, NEWSALL, HOT,
     state, marketState, viewScroll,
     get curView() { return curView; }, set curView(v) { curView = v; },
     $, grid, viewScrollRoot, isLocalServer,
@@ -1765,7 +1608,6 @@
     sortList, sparkline, sgn, pct, fundChip, trendCls, drawdownPct, isDeepDrawdown, drawdownFlag, stateTone,
     card, liList, newsList, researchList,
     secTitle, trunc, emptyState, fieldHtml, titleShort, leadOf, blockHtml, fmtYi,
-    dateToken, daysSince, healthTone, healthText, poolCount,
     ANOMALY_DEFS, drawerHeadHtml,
     renderMeta, renderMarketSnap, renderGauges, renderStats, renderChips,
     renderWatch, renderMarket, renderSentiment, renderHot, marketCard, hotCard,
@@ -1775,7 +1617,7 @@
   };
 
   // 启动函数：由最后加载的模块(app_ai_modules.js)末尾调用，
-  // 确保 holdings/logic/chain/... 都已注册到 App 后再渲染。
+  // 确保 holdings/logic/... 都已注册到 App 后再渲染。
   window.App.start = function () {
     renderMeta();
     renderStats();
@@ -1792,11 +1634,8 @@
         META = window.META || {};
         MARKET = window.MARKET || {};
         HOLDINGS = window.HOLDINGS || null;
-        INDUSTRY = window.INDUSTRY || null;
         INDUSTRY_MARKET = window.INDUSTRY_MARKET || null;
-        CHAIN = window.CHAIN || null;
         NEWSALL = window.NEWSALL || null;
-        REPORTS = window.REPORTS || {};
         HOT = window.HOT || {};
         stockReferenceIndex = null;
         renderMeta();

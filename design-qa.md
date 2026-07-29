@@ -2,44 +2,43 @@
 
 ## Evidence
 
-- Source visual truth: `/var/folders/22/0z13jwb14vd676xms5lg72y00000gp/T/codex-clipboard-c466ae84-2493-4962-9900-50a70511c5f8.png`
-- Implementation screenshot: `/var/folders/22/0z13jwb14vd676xms5lg72y00000gp/T/qa-watch-implementation.png`
-- Additional implementation screenshot: `/var/folders/22/0z13jwb14vd676xms5lg72y00000gp/T/qa-xbrief-implementation.png`
-- Local route: `http://127.0.0.1:8788/index.html#watch`
+- Source visual truth: `/var/folders/22/0z13jwb14vd676xms5lg72y00000gp/T/codex-clipboard-99b1804d-6c29-4323-83b0-694dfa543f85.png`
+- Normalized source: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/source-home-1280x860.png`
+- Browser-rendered implementation: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/implementation-home-1280x860.png`
+- Combined comparison input: `/private/tmp/stock-dashboard-ui-refresh.m4Q8XW/qa/comparison-pass-1.png`
+- Local route: `http://127.0.0.1:8791/index.html#home`
 - Viewport: `1280 × 860` CSS px
-- Source pixels: `2560 × 1720` (`@2x` capture, normalized to `1280 × 860`)
+- Source pixels: `2560 × 1720` (`@2x`, normalized to `1280 × 860`)
 - Implementation pixels: `1280 × 860` (`deviceScaleFactor: 1`)
-- State: desktop, compact density, 巨头核心, 全部板块, 默认排序
+- State: desktop, compact density, 首页
 
-The source and implementation were rendered together in one vertical comparison at the same normalized size. The full-view comparison confirms that the former left-side summary rail is now a horizontal overview above the filters and stock cards, while preserving the existing warm neutral visual system.
+The normalized source and browser implementation were rendered together in one vertical comparison input at equal pixel dimensions. The requested deletion areas are large and legible in that full-view evidence, so a separate focused crop was not needed.
 
 ## Findings
 
 - No actionable P0/P1/P2 findings remain.
-- Typography: the existing display/body font hierarchy is preserved. The top identity stays on one line at the target viewport; overview numbers and labels retain clear weight contrast.
-- Spacing and layout: the overview and sector filter now form a compact two-column band above the controls. This returns the former rail width to the stock-card grid and keeps the circled content out of the left side.
-- Colors and tokens: the implementation reuses the existing paper, terracotta, hairline, positive, and negative tokens. No new off-brand palette or decorative gradient was introduced.
-- Image quality and assets: the existing brand mark, icons, sparklines, and sentiment ring are preserved at their source quality. No visible source asset was replaced by placeholder art.
-- Copy and content: “机会清单” is absent; “X 简报” is now “外围热点”; “事件概率” is now “今日热点事件”. The 外围热点 article has a readable title, metadata, horizontal batch selector, and sanitized inline formatting.
-- Behavior and accessibility: the sector chips and 外围热点 batch controls switch state correctly; semantic buttons and labels remain available; no horizontal page overflow is present at the target viewport.
-
-Focused-region review used the same full-view comparison because the top status bar and the complete overview band are both legible at `1280 × 860`. The 外围热点 page was reviewed separately at the same viewport because it has no source mock in the provided image.
+- Fonts and typography: the existing Chinese/system font stack, numeric hierarchy, weights, line heights, wrapping, and compact-density treatment are unchanged. Removing the modules introduced no orphaned labels or broken text.
+- Spacing and layout: the complete “数据健康” block is gone and “今日最强” moves directly below the existing screening strip. The sidebar closes up naturally around the remaining modules, with no blank placeholder or horizontal overflow.
+- Colors and tokens: existing paper, terracotta, hairline, positive, and negative tokens remain intact. No new colors, gradients, shadows, or generic replacement surfaces were introduced.
+- Image quality and assets: the existing brand mark, navigation icons, sparklines, and market visuals retain their original rendering. No visible reference asset was replaced or degraded.
+- Copy and content: “AI 复盘” and “产业链涨价” are absent from the sidebar; “数据健康” and its refresh controls are absent from the homepage. The remaining labels and generated content are coherent and readable.
+- Icons and affordances: the remaining navigation icons stay aligned and use the same stroke family. Navigation buttons retain their active state and keyboard semantics.
+- Behavior and accessibility: “今日热点事件” navigation still opens the correct view; removed `#agent` and `#chain` deep links safely render the homepage instead of a blank view; no browser console warning or error was reported.
+- Responsiveness: no CSS breakpoint or layout token was changed. The structural removals apply at every breakpoint because the deleted navigation items and sections no longer exist in the DOM. The in-app browser’s temporary narrow-viewport override remained at its desktop minimum in this session, so no additional mobile screenshot was accepted as evidence.
 
 ## Comparison History
 
-1. Initial browser pass found a P2 top-bar wrapping issue at `1280 × 860`: “盘面研判” wrapped and reduced the available separation between search and market data.
-   - Fix: made the identity non-wrapping and rebalanced the desktop status-bar grid to `180px / 280–480px / 290px`.
-   - Post-fix evidence: the normalized comparison shows the identity on one line; measured search right edge is `938px`, market-data left edge is `952px`, leaving a `14px` gap with zero horizontal overflow.
-2. Initial 外围热点 pass found a P2 readability issue: bold Markdown markers were visible inside generated table cells.
-   - Fix: applied inline Markdown formatting inside table cells and retained text sanitization for replacement/control/mojibake characters.
-   - Post-fix evidence: the revised 外围热点 screenshot contains no literal `**`, replacement characters, or the previously used decorative glyphs.
+1. First comparison pass:
+   - Earlier findings: none at P0/P1/P2.
+   - Fixes made after comparison: none.
+   - Post-fix evidence: not required; the initial combined comparison already shows the requested regions removed without layout drift.
 
 ## Primary Interactions Tested
 
-- 巨头核心: selected the “半导体” sector chip and confirmed the active filter state.
-- 外围热点: selected the second update batch and confirmed both the rail item and article changed to `data-i="1"`.
-- 今日热点事件: confirmed the new navigation and page heading, with the old label absent.
-- Browser console: checked warnings and errors after the tested routes; none were reported.
+- Opened “今日热点事件” from the sidebar and confirmed `#events`, the page title, and `view-events`.
+- Reopened both removed hashes (`#agent` and `#chain`) and confirmed the homepage renders rather than a missing or blank module.
+- Confirmed the homepage has zero removed navigation items, zero health/refresh containers, and no `reports.js`, `chain.js`, `industry.js`, or `materials.js` script requests.
+- Checked browser warning/error logs after navigation; none were reported.
 
 ## Follow-up Polish
 

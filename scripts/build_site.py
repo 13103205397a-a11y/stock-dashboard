@@ -40,14 +40,8 @@ def build_site(output: Path) -> list[str]:
     output.mkdir(parents=True)
     for name in required:
         shutil.copy2(ROOT / name, output / name)
-    # AI复盘 HTML（Kimi 生成）随站发布；reports/ 下只发 html，不发旧 md
-    report_files = sorted((ROOT / "reports").glob("*.html"))
-    if report_files:
-        (output / "reports").mkdir(exist_ok=True)
-        for f in report_files:
-            shutil.copy2(f, output / "reports" / f.name)
     (output / ".nojekyll").touch()
-    return required + [f"reports/{f.name}" for f in report_files]
+    return required
 
 
 def main() -> int:

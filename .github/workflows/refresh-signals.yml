@@ -91,7 +91,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # holdings.js / portfolio_analysis.js 含个人数据，不提交也不发布；
-          # reports/industry/logic/events/materials/weekend 由本地
+          # industry/logic/events/materials/weekend 由本地
           # Hermes 独立发布，本工作流不提交，避免与其推送互相覆盖。
           git add data.js meta.js hot.js market.js industry_market.js newsall.js
           if git diff --cached --quiet; then

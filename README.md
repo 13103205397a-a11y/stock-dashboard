@@ -15,7 +15,6 @@
 - **统计带**：总数 / 成立 / 存疑 / 今日叙事变化 / 多头排列 / 左侧已到逢低区 / 右侧突破·临近。
 - **筛选 / 搜索**：板块 + 结论（成立/存疑/证伪）+ **⚡今日买点**（左侧已到逢低区 或 右侧突破/临近）+ 叙事有变化；顶部全局搜索支持代码、名称、题材、新闻、事件和跨模块跳转。
 - **键盘操作**：`/` 或 `Ctrl/Cmd+K` 聚焦搜索，`↑/↓` 选择结果，`Enter` 打开，`Esc` 关闭搜索或详情抽屉。
-- **数据健康**：首页展示各模块更新时间、条目数、数据源和过期状态；本地服务模式下可直接触发统一刷新计划并查看进度。
 - **排序**：今日涨幅 / 距突破(右侧最近) / 回踩距离(左侧最近) / 趋势强度。
 - **卡片**：现价+涨跌幅+趋势徽章 + **近60日迷你走势图** + 左/右买点与实时信号状态 + 主力资金 + 新消息角标 + 复盘徽章。
 - **详情抽屉**：技术信号(均线/高低/量比/ATR + 大走势图) + **风控(左侧止损/目标/盈亏比、右侧止损)** + 主力资金 + 完整叙事/驱动/左右计划/今日复盘/新闻流水/机构研报/证伪/增长点/小作文/复盘历史。
@@ -25,7 +24,7 @@
 ### 前端（核心视图模块，对应 `index.html` 侧栏）
 | 文件 | 作用 |
 |---|---|
-| `index.html` / `styles.css` / `design-system.css` / `app.js` | 页面结构 / 基础样式 / 机构级 Design Token 与组件覆盖层 / 渲染·筛选·全局搜索·数据健康·抽屉 |
+| `index.html` / `styles.css` / `design-system.css` / `app.js` | 页面结构 / 基础样式 / 机构级 Design Token 与组件覆盖层 / 渲染·筛选·全局搜索·抽屉 |
 | `public_files.json` / `scripts/build_site.py` | 本地服务与 GitHub Pages 共用的公开资源清单 / 确定性站点构建 |
 | `data.js` | 自选股数据（`window.STOCKS`）：叙事 + 技术信号 + 消息面 |
 | `meta.js` | 全局元信息（行情时点 / 统计 / 大盘快照 `marketSnapshot`） |
@@ -35,7 +34,6 @@
 | `materials.js` / `events.js` | 材料涨价 / 今日热点事件（`window.MATERIALS` / `EVENTS`） |
 | `newsall.js` / `hot.js` | 全球资讯+公告（`window.NEWSALL`）/ 今日热点 TOP30（`window.HOT`） |
 | `market.js` | 全市场异动扫描（`window.MARKET`） |
-| `reports.js` | AI 每日复盘报告（`window.REPORTS`） |
 
 ### 抓取脚本（`scripts/`）
 | 脚本 | 数据源 | 写入 |
@@ -50,7 +48,6 @@
 | `fetch_industry_ai.py` | Hermes Agent 会话（按 `agent/industry-radar.md`） | `industry.js`（AI 调研版） |
 | `fetch_news_all.py` | a-stock-pro（免key） | `newsall.js` |
 | `fetch_hot.py` | 同花顺问财（需 `IWENCAI_API_KEY`） | `hot.js` |
-| `fetch_hermes.py` | Hermes 会话导出 | `reports.js` |
 | `refresh_plan.json` / `run_refresh.py` | 本地统一刷新计划 / 命令行执行器 | 本地全量刷新 |
 | `sanitize_ai_content.py` / `validate_data.js` / `check_freshness.js` | AI 内部字段清理、公开数据结构与新鲜度校验（不读取私有持仓） | 本地/CI 校验 |
 | `skills/` | a-stock-pro / hithink-astock-selector / hithink-market-query / news-search / report-search（vendored） | — |
@@ -112,7 +109,7 @@ node scripts/check_freshness.js --strict
 ```bash
 npm install                 # 首次安装固定版本的浏览器测试依赖
 npm test                    # 算法 + API + 刷新 + 公开构建测试
-npm run test:e2e            # 桌面/移动端 13 视图与关键交互
+npm run test:e2e            # 桌面/移动端模块视图与关键交互
 python3 scripts/build_site.py _site
 ```
 
@@ -135,8 +132,8 @@ python3 scripts/build_site.py _site
 - 对全部自选股逐一调研（公告/研报/产业链/舆情），更新 `review`/`history` 与叙事字段、`meta.marketRegime`/`meta.summary`。
 - 字段所有权纪律：行情/消息面字段（`signal`/`news`/`fund`/`research`）归对应脚本独占，Agent 只读；传闻与新增长点写 `review.rumors`/`review.newPoints`（前端展示且无脚本覆盖）。逐股 `review.date` 中位数纳入新鲜度门禁，停摆会通过 ai-stale-watch 告警。
 
-**本地 Hermes Agent**（`reports.js`/`industry.js`/`logic.js`/`events.js`/`materials.js`/`weekend.js` 这 6 个文件由它生成发布）：
-- `scripts/fetch_hermes.py` 依赖本机 `hermes` 命令行工具，从会话库导出复盘报告；产业雷达/逻辑链/事件/材料由对应 Hermes 定时任务（工作日 16:30–16:50）在仓库 workdir 直写。
+**本地 Hermes Agent**（`industry.js`/`logic.js`/`events.js`/`materials.js`/`weekend.js` 这 5 个文件由它生成发布）：
+- 产业雷达/逻辑链/事件/材料由对应 Hermes 定时任务（工作日 16:30–16:50）在仓库 workdir 直写。
 - Hermes 的 `看板复盘同步` no-agent Cron 每 30 分钟调用 `scripts/sync_hermes_dashboard.py`。发布使用基于最新 `origin/main` 的隔离临时 worktree，不受当前开发工作区未提交改动影响，并会在远端竞争时自动重试；`portfolio_analysis.js` 仍保持本地私有。
 - 所有项目 Cron 的 `workdir` 必须指向当前仓库根目录。主提供商不可用时应配置至少一个 `hermes fallback`，否则单个供应商额度耗尽会让全部 Agent 停摆。
 - 前端对这些文件有 `onerror` 兜底，缺失不会白屏。
