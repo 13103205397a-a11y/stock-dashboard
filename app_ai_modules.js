@@ -1,6 +1,70 @@
 (function (App) {
   const { $, esc, trunc, secTitle, emptyState, fieldHtml, titleShort, leadOf, blockHtml, safeUrl, cleanDisplayText, openDrawer } = App;
 
+  /* ---------- 3. 机会清单 ---------- */
+  function renderOpportunities() {
+    const el = $("#viewOpportunities");
+    if (!el) return;
+    const OPP = window.OPPORTUNITIES || null;
+    if (!OPP || !OPP.directions || !OPP.directions.length) {
+      el.innerHTML = secTitle("机会清单", "当日热点发酵分析") + emptyState("机会分析数据待生成。");
+      return;
+    }
+
+    const stageShort = (st) => {
+      const t = String(st || "");
+      const hit = t.match(/高潮期|扩散期|初起期|退潮期|高潮|扩散|初起|退潮/);
+      return hit ? hit[0] : trunc(t, 6);
+    };
+    const stageCls = (st) => /初起/.test(st) ? "ok" : /扩散/.test(st) ? "warn" : /高潮/.test(st) ? "up" : /退潮/.test(st) ? "down" : "";
+
+    const cards = OPP.directions.map((d, i) => {
+      const stage = stageShort(d.stage);
+      const title = titleShort(d.name);
+      const lead = leadOf(d.logic || d.opportunity || "");
+      const stocks = (d.stocks || []).map((s) => {
+        const role = s.role || s.position;  // 统一字段 role,兜底旧 position
+        const posCls = /龙头/.test(role) ? "up" : /二线/.test(role) ? "ok" : /补涨/.test(role) ? "warn" : "";
+        const tip = [role, s.note || s.detail].filter(Boolean).join(" · ");
+        return `<button class="opp-chip ${posCls}" data-code="${esc(s.code)}" title="${esc(tip)}">
+          <span class="opp-chip-name">${esc(s.name)}</span>
+          <span class="opp-chip-pos">${esc(role || "")}</span>
+        </button>`;
+      }).join("");
+
+      return `<article class="opp-row" data-xname="${esc(d.name)}">
+        <header class="opp-row-head">
+          <div class="opp-rank">${String(i + 1).padStart(2, "0")}</div>
+          <div class="opp-row-main">
+            <div class="opp-row-meta">
+              <span class="opp-stage ${stageCls(d.stage)}">${esc(stage)}</span>
+              ${d.priority ? `<span class="opp-stars" title="优先级">${esc(d.priority)}</span>` : ""}
+              ${d.asof ? `<span class="opp-asof">${esc(d.asof)}</span>` : ""}
+            </div>
+            <h3 class="opp-title" title="${esc(d.name)}">${esc(title)}</h3>
+            ${lead ? `<p class="opp-lead">${esc(lead)}</p>` : ""}
+          </div>
+        </header>
+        ${stocks ? `<div class="opp-stocks">${stocks}</div>` : ""}
+        <div class="opp-cols">
+          ${blockHtml("机会挖掘", d.opportunity, "pick", "opp")}
+          ${blockHtml("风险提示", d.risk, "risk", "opp")}
+        </div>
+        <details class="opp-more">
+          <summary>背后逻辑与发酵信号</summary>
+          <div class="opp-more-body">
+            ${blockHtml("背后逻辑", d.logic, "logic", "opp")}
+            ${blockHtml("发酵信号", d.signals, "signal", "opp")}
+          </div>
+        </details>
+      </article>`;
+    }).join("");
+
+    el.innerHTML = secTitle("机会清单", `${OPP.directions.length} 个方向 · ${esc(OPP.date || "")}`) +
+      `<div class="opp-board">${cards}</div>`;
+    el.querySelectorAll(".opp-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
+  }
+
   /* ---------- 4. 逻辑链（事件驱动推理链：事件 → 传导 → 受益股） ---------- */
   // 强度由生成 Agent 在数据中直接给出(strength: 强/中/弱)，前端不再做关键词评分
   const logicStrengthRank = { "强": 3, "中": 2, "弱": 1 };
@@ -261,13 +325,13 @@
     el.querySelectorAll(".we-stock[data-code]").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
 
-  /* ---------- 7. 今日热点事件 ---------- */
+  /* ---------- 7. 事件概率 ---------- */
   function renderEvents() {
     const el = $("#viewEvents");
     if (!el) return;
     const EVENTS = window.EVENTS || null;
     if (!EVENTS || !EVENTS.events || !EVENTS.events.length) {
-      el.innerHTML = secTitle("今日热点事件", "重要新闻影响与市场传导") + emptyState("热点事件分析数据待生成。");
+      el.innerHTML = secTitle("事件概率", "重要新闻影响分析") + emptyState("事件分析数据待生成。");
       return;
     }
 
@@ -329,7 +393,7 @@
       </article>`;
     }).join("");
 
-    el.innerHTML = secTitle("今日热点事件", `${EVENTS.events.length} 件 · ${esc(EVENTS.date || "")}`) +
+    el.innerHTML = secTitle("事件概率", `${EVENTS.events.length} 件 · ${esc(EVENTS.date || "")}`) +
       `<div class="ev-board">${cards}</div>`;
     el.querySelectorAll(".ev-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
@@ -368,7 +432,7 @@
     );
   }
 
-  /* ---------- 8b. 外围热点（每 2 小时推送，聚合海外 AI / 宏观 / 市场线索） ---------- */
+  /* ---------- 8b. X 简报（每 2 小时推送，早上看隔夜完整流水） ---------- */
   function xbFormatTime(t) {
     const s = String(t || "");
     const m = s.match(/(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/) || s.match(/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})/);
@@ -378,12 +442,8 @@
   }
 
   function xbMdHtml(md) {
-    // 去掉与文章页头重复的 Markdown 大标题，并在通用渲染上强化可信度与编号条目。
-    const normalized = cleanDisplayText(md || "")
-      .replace(/^\s*#\s+[^\n]+\n+/, "")
-      .replace(/\n{3,}/g, "\n\n")
-      .trim();
-    let html = md2html(normalized);
+    // 在通用 md 渲染上，给「可信度」打标签，并强化编号条目
+    let html = md2html(md);
     html = html
       .replace(/(可信度[：:]\s*)(高|中高|中|中低|低)/g, (_, p, level) => {
         const cls =
@@ -407,13 +467,13 @@
         `<div class="xb-page">` +
         `<div class="xb-hero">
           <div class="xb-hero-top">
-            <span class="xb-live">海外市场 · 定时更新</span>
-            <span class="xb-hero-sub">AI / 宏观 / 美股 · 每 2 小时筛选</span>
+            <span class="xb-live">X · 资讯流水</span>
+            <span class="xb-hero-sub">AI + 股市 · 每 2 小时筛选</span>
           </div>
-          <h1 class="xb-hero-title">外围热点</h1>
-          <p class="xb-hero-desc">汇总海外 AI、宏观与市场讨论，过滤喊单和重复噪音。暂无内容，下一期更新后会自动出现。</p>
+          <h1 class="xb-hero-title">X 简报</h1>
+          <p class="xb-hero-desc">定时从 X 抓取并过滤情绪帖后写入。暂无内容，跑完一期会自动出现。</p>
         </div>` +
-        emptyState("暂无外围热点。下一期更新后会自动出现。") +
+        emptyState("暂无简报。早上打开可见一整晚流水。") +
         `</div>`;
       return;
     }
@@ -439,7 +499,7 @@
 
     const bodies = list.map((b, i) => {
       const ft = xbFormatTime(b.time);
-      const title = `外围热点 · ${ft.day} ${ft.clock}`;
+      const title = b.title || "X 资讯简报 · AI & 股市";
       return `<article class="xb-article ${i === 0 ? "active" : ""}" data-i="${i}">
         <header class="xb-article-head">
           <div class="xb-article-kicker">
@@ -449,9 +509,9 @@
           </div>
           <h2 class="xb-article-title">${esc(title)}</h2>
           <div class="xb-article-meta">
-            <span><b>更新时间</b>${esc(ft.full || "—")}</span>
-            <span><b>内容</b>AI ${b.aiCount || 0} 条 · 市场 ${b.marketCount || 0} 条</span>
-            <span><b>来源</b>X 公开讨论 · 自动去重筛选</span>
+            <span><i class="xb-ico">⏱</i>${esc(ft.full || "—")}</span>
+            <span><i class="xb-ico">◎</i>AI ${b.aiCount || 0} · 市 ${b.marketCount || 0}</span>
+            <span><i class="xb-ico">⌘</i>X 公开讨论 · 筛选推送</span>
           </div>
         </header>
         <div class="xb-article-body rep-md xb-md">${xbMdHtml(b.content || "")}</div>
@@ -461,29 +521,29 @@
     el.innerHTML = `<div class="xb-page">
       <div class="xb-hero">
         <div class="xb-hero-top">
-          <span class="xb-live"><span class="xb-pulse"></span>海外市场 · 持续更新</span>
-          <span class="xb-hero-sub">每 2 小时 · 最新一期优先</span>
+          <span class="xb-live"><span class="xb-pulse"></span>X · 资讯流水</span>
+          <span class="xb-hero-sub">每 2 小时 · 倒序最新在前</span>
         </div>
-        <h1 class="xb-hero-title">外围热点</h1>
-        <p class="xb-hero-desc">聚焦海外 AI、宏观政策与主要市场变化。情绪帖、喊单和重复内容已过滤；未经证实的消息会明确标注。</p>
+        <h1 class="xb-hero-title">X 简报</h1>
+        <p class="xb-hero-desc">中国早晨 ≈ 美股时段刚过完。情绪帖/喊单已剔除；盘中价格以交易所为准，X 数字仅作线索。</p>
         <div class="xb-stats">
-          <div class="xb-stat"><span class="xb-stat-k">${list.length}</span><span class="xb-stat-l">更新批次</span></div>
-          <div class="xb-stat"><span class="xb-stat-k">${totalAi}</span><span class="xb-stat-l">AI 热点</span></div>
-          <div class="xb-stat"><span class="xb-stat-k">${totalMkt}</span><span class="xb-stat-l">市场热点</span></div>
-          <div class="xb-stat"><span class="xb-stat-k">${focusN}</span><span class="xb-stat-l">涉及重点票</span></div>
+          <div class="xb-stat"><span class="xb-stat-k">${list.length}</span><span class="xb-stat-l">期流水</span></div>
+          <div class="xb-stat"><span class="xb-stat-k">${totalAi}</span><span class="xb-stat-l">AI 要闻条</span></div>
+          <div class="xb-stat"><span class="xb-stat-k">${totalMkt}</span><span class="xb-stat-l">股市条</span></div>
+          <div class="xb-stat"><span class="xb-stat-k">${focusN}</span><span class="xb-stat-l">含重点票</span></div>
           <div class="xb-stat wide"><span class="xb-stat-k mono">${esc(String(updated).slice(5, 16) || "—")}</span><span class="xb-stat-l">最近更新</span></div>
         </div>
       </div>
 
       <div class="xb-layout">
-        <aside class="xb-rail" aria-label="外围热点更新批次">
-          <div class="xb-rail-label">选择更新批次</div>
+        <aside class="xb-rail" aria-label="简报时间轴">
+          <div class="xb-rail-label">时间轴</div>
           <div class="xb-rail-list">${rail}</div>
         </aside>
         <div class="xb-main">
           <div class="xb-bodies">${bodies}</div>
           <footer class="xb-foot">
-            来源：X 公开讨论 · 自动去重筛选 · 保留约 4 天 · 仅供研究参考，非投资建议
+            来源：X 公开讨论 · <code>push_xbrief.py</code> 推送 · 保留约 4 天 · 仅供研究参考，非投资建议
           </footer>
         </div>
       </div>
@@ -546,9 +606,6 @@
       .replace(/(\+[\d.]+%)/g, '<span class="up">$1</span>')
       .replace(/(-[\d.]+%)/g, '<span class="down">$1</span>')
       .replace(/(利[多空])/g, (m) => `<span class="${m === "利多" ? "up" : "down"}">${m}</span>`);
-    const inlineMd = (c) => c
-      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-      .replace(/`([^`]+)`/g, "<code>$1</code>");
     for (let raw of lines) {
       const line = raw.replace(/\r$/, "");
       // 分隔线
@@ -557,7 +614,7 @@
       if (line.includes("|")) {
         const cells = line.split("|").map((c) => c.trim()).filter((c, i, a) => !(i === 0 && c === "") && !(i === a.length - 1 && c === ""));
         if (cells.every((c) => /^:?-+:?$/.test(c))) { if (!inTable) { html += "<table><tbody>"; inTable = true; } continue; }
-        if (cells.length) { flushList(); if (!inTable) { html += "<table><tbody>"; inTable = true; } html += "<tr>" + cells.map((c) => `<td>${inlineMd(toneCell(c))}</td>`).join("") + "</tr>"; continue; }
+        if (cells.length) { flushList(); if (!inTable) { html += "<table><tbody>"; inTable = true; } html += "<tr>" + cells.map((c) => `<td>${toneCell(c)}</td>`).join("") + "</tr>"; continue; }
       }
       flushTable();
       // 标题
@@ -571,7 +628,7 @@
         html += `<li>${lm[1].replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>")}</li>`;
         continue;
       }
-      // 有序列表（外围热点主结构：1. **标题**）
+      // 有序列表（X 简报主结构：1. **标题**）
       const om = line.match(/^\d+\.\s+(.*)/);
       if (om) {
         if (inList) { html += "</ul>"; inList = false; }
@@ -626,6 +683,7 @@
       })
     );
   }
+  App.renderOpportunities = renderOpportunities;
   App.renderLogic = renderLogic;
   App.renderChain = renderChain;
   App.renderWeekend = renderWeekend;
