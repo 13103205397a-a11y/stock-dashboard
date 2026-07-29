@@ -650,7 +650,7 @@ table,
 .card,
 .blk,
 .we-card,
-.lc-chain,
+.lc-card,
 .ev-card,
 .home-best {
   color: var(--text);
@@ -1206,13 +1206,13 @@ table,
   gap: 12px;
 }
 
-.lc-chain,
+.lc-card,
 .ev-card {
   padding: 16px;
   gap: 12px;
 }
 
-.lc-chain-head,
+.lc-card-head,
 .ev-head {
   border-bottom-color: var(--line);
 }
@@ -1822,15 +1822,12 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .lc-chain,
+  .lc-card,
 .ev-card {
     padding: 14px;
   }
 
   .ev-info,
-.lc-logic,
-.lc-bottleneck,
-.lc-cond-group,
 .we-sc-sec,
 .we-noise {
     grid-template-columns: 1fr;
@@ -2091,7 +2088,7 @@ body {
 .card,
 .blk,
 .we-card,
-.lc-chain,
+.lc-card,
 .ev-card,
 .home-best {
   background: var(--card);

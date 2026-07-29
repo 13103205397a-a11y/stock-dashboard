@@ -1,70 +1,98 @@
 (function (App) {
-  const { $, esc, secTitle, emptyState, fieldHtml, titleShort, leadOf, blockHtml, cleanDisplayText, openDrawer, researchSessionMeta, displayImportance } = App;
+  const { $, esc, secTitle, trunc, emptyState, fieldHtml, titleShort, leadOf, blockHtml, cleanDisplayText, openDrawer, researchSessionMeta, displayImportance } = App;
 
-  /* ---------- 4. 逻辑链（事件驱动推理链：事件 → 传导 → 受益股） ---------- */
+  /* ---------- 4. 逻辑链（事件驱动推理链：事件 → 传导 → 标的） ---------- */
   // 强度由生成 Agent 在数据中直接给出(strength: 强/中/弱)，前端不再做关键词评分
   const logicStrengthRank = { "强": 3, "中": 2, "弱": 1 };
   const logicStrengthCls = { "强": "up", "中": "warn", "弱": "down" };
+  const logicDirCls = (d) => (d === "受益" ? "up" : d === "受损" ? "down" : d === "分化" ? "warn" : "");
 
   function renderLogic() {
     const el = $("#viewLogic");
     if (!el) return;
     const LOGIC = window.LOGIC || null;
     const chains = (LOGIC && Array.isArray(LOGIC.chains)) ? LOGIC.chains : [];
-    // 新版 schema: chains[].path 传导路径；旧数据(segments) 不再兼容，提示重新生成
     const valid = chains.filter((c) => Array.isArray(c.path) && c.path.length);
     if (!valid.length) {
-      el.innerHTML = secTitle("逻辑链", "事件 → 传导 → 受益股") + emptyState("逻辑链数据待生成（新版事件驱动格式）。");
+      el.innerHTML = secTitle("逻辑链", "事件 → 传导 → 标的") + emptyState("逻辑链数据待生成（新版事件驱动格式）。");
       return;
     }
 
     const session = researchSessionMeta(LOGIC);
     const ranked = valid.slice().sort((a, b) => (logicStrengthRank[b.strength] || 0) - (logicStrengthRank[a.strength] || 0));
+
     const cards = ranked.map((c, idx) => {
       const sCls = logicStrengthCls[c.strength] || "";
+      const dCls = logicDirCls(c.direction);
+      const accent = dCls || sCls || "";
+      const eventLead = leadOf(c.event || "") || trunc(c.event || "", 96);
+      const eventLong = String(c.event || "").trim().length > String(eventLead || "").trim().length + 8;
+
       const nodes = c.path.map((p, i) => {
         const stocks = (p.stocks || []).map((st) =>
-          `<button class="ind-stock" data-code="${esc(st.code)}"><span class="is-name">${esc(st.name)}</span><span class="is-code">${esc(st.code)}</span><span class="is-role">${esc(st.role || "")}</span></button>`
+          `<button type="button" class="lc-stock" data-code="${esc(st.code)}">
+            <span class="lc-stock-name">${esc(st.name)}</span>
+            <span class="lc-stock-code">${esc(st.code)}</span>
+            ${st.role ? `<span class="lc-stock-role">${esc(st.role)}</span>` : ""}
+          </button>`
         ).join("");
-        return `${i ? '<div class="lc-arrow"></div>' : ""}<div class="lc-node">
-          <div class="lc-node-head"><span class="lc-node-no">${String(i + 1).padStart(2, "0")}</span><span class="lc-node-step">${esc(p.step || "")}</span></div>
-          <div class="lc-node-detail">${fieldHtml(p.detail || "—")}</div>
-          ${stocks ? `<div class="sd-stock-list">${stocks}</div>` : ""}
-        </div>`;
+        return `<li class="lc-step">
+          <div class="lc-step-rail" aria-hidden="true"><span class="lc-step-dot">${String(i + 1).padStart(2, "0")}</span></div>
+          <div class="lc-step-body">
+            <h4 class="lc-step-title">${esc(p.step || `环节 ${i + 1}`)}</h4>
+            <div class="lc-step-detail">${fieldHtml(p.detail || "—")}</div>
+            ${stocks ? `<div class="lc-stocks">${stocks}</div>` : ""}
+          </div>
+        </li>`;
       }).join("");
 
-      return `<article class="card blk lc-chain ${sCls}" data-xname="${esc(c.name)}">
-        <div class="lc-chain-head">
-          <div class="lc-chain-title"><span class="lc-rank">#${idx + 1}</span><h3 class="sd-name">${esc(c.name)}</h3></div>
-          <div class="lc-head-meta">
-            ${c.direction ? `<span class="lc-dir ${c.direction === "受益" ? "up" : c.direction === "受损" ? "down" : "warn"}">${esc(c.direction)}</span>` : ""}
+      return `<article class="lc-card ${accent}" data-xname="${esc(c.name)}">
+        <header class="lc-card-head">
+          <div class="lc-card-kicker">
+            <span class="lc-ord">${String(idx + 1).padStart(2, "0")}</span>
+            ${c.direction ? `<span class="lc-dir ${dCls}">${esc(c.direction)}</span>` : ""}
+            ${c.strength ? `<span class="lc-strength ${sCls}">强度 ${esc(c.strength)}</span>` : ""}
             ${c.event_type ? `<span class="lc-etype">${esc(c.event_type)}</span>` : ""}
-            ${c.strength ? `<span class="lc-strength ${sCls}">${esc(c.strength)}</span>` : ""}
             <span class="lc-asof">${esc(c.event_date || c.asof || "")}</span>
           </div>
-        </div>
-        <div class="lc-event">
-          <div class="lc-event-text">${fieldHtml(c.event || "—")}</div>
-          ${c.strength_reason ? `<div class="lc-event-reason">评级依据：${esc(c.strength_reason)}</div>` : ""}
-        </div>
-        <div class="lc-logic"><span class="sd-l">核心逻辑</span>${fieldHtml(c.logic || "—")}</div>
-        <div class="lc-flow-head"><span class="sd-l">传导路径</span><span class="lc-flow-hint">事件 → 传导 → 受益股</span></div>
-        <div class="lc-path">${nodes}</div>
-        ${c.invalidation ? `<div class="lc-invalidation"><span class="sd-l">证伪条件</span>${fieldHtml(c.invalidation)}</div>` : ""}
+          <h3 class="lc-card-title">${esc(c.name)}</h3>
+          ${c.logic ? `<p class="lc-card-logic">${esc(c.logic)}</p>` : ""}
+        </header>
+
+        <section class="lc-card-event">
+          <div class="lc-label">驱动事件</div>
+          <p class="lc-event-lead">${esc(eventLead)}</p>
+          ${eventLong ? `<details class="lc-event-more"><summary>展开完整事件与来源</summary><div class="lc-event-full">${fieldHtml(c.event)}</div></details>` : ""}
+          ${c.strength_reason ? `<p class="lc-reason">评级：${esc(c.strength_reason)}</p>` : ""}
+        </section>
+
+        <section class="lc-card-flow">
+          <div class="lc-flow-label">
+            <span class="lc-label">传导路径</span>
+            <span class="lc-flow-hint">事件 → 传导 → 标的</span>
+          </div>
+          <ol class="lc-timeline">${nodes}</ol>
+        </section>
+
+        ${c.invalidation ? `<footer class="lc-card-foot"><span class="lc-label">证伪条件</span><div class="lc-invalidation-text">${fieldHtml(c.invalidation)}</div></footer>` : ""}
       </article>`;
     }).join("");
 
     const sub = [
-      "事件 → 传导 → 受益股",
+      `${ranked.length} 条`,
       "按强度排序",
       session.label || LOGIC.date || "",
-      session.stamp && session.stamp !== session.label ? session.stamp : "",
+      session.stamp && session.kind === "midday" ? session.stamp : "",
     ].filter(Boolean).join(" · ");
-    el.innerHTML = secTitle("逻辑链", sub) +
-      (session.kind === "midday" ? `<div class="rep-quality is-partial" role="note"><strong>午间快照</strong><span>本页生成于 ${esc(session.stamp)}，指数请以首页收盘总述为准。</span></div>` : "") +
-      (LOGIC.summary ? `<p class="lc-board-summary">${esc(LOGIC.summary)}</p>` : "") +
-      `<div class="sd-grid-cards lc-board">${cards}</div>`;
-    el.querySelectorAll(".ind-stock").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
+
+    el.innerHTML = `
+      <div class="lc-page">
+        ${secTitle("逻辑链", sub)}
+        ${session.kind === "midday" ? `<div class="rep-quality is-partial" role="note"><strong>午间快照</strong><span>本页生成于 ${esc(session.stamp)}，指数请以首页收盘总述为准。</span></div>` : ""}
+        ${LOGIC.summary ? `<p class="lc-board-summary">${esc(LOGIC.summary)}</p>` : ""}
+        <div class="lc-board">${cards}</div>
+      </div>`;
+    el.querySelectorAll(".lc-stock[data-code]").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
 
   /* ---------- 7b. 周末发酵 ---------- */
