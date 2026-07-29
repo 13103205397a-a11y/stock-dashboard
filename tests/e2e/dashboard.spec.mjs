@@ -52,7 +52,7 @@ test("巨头概览位于卡片上方且顶栏数据不遮挡搜索", async ({ pa
   await page.goto("/index.html#watch", { waitUntil: "networkidle" });
   const viewport = page.viewportSize();
   const overview = await page.locator(".watch-overview").boundingBox();
-  const filters = await page.locator(".filters").boundingBox();
+  const filters = await page.locator(".board .main-col > .filters").boundingBox();
   expect(overview).not.toBeNull();
   expect(filters).not.toBeNull();
   expect(overview.y + overview.height).toBeLessThanOrEqual(filters.y + 1);
