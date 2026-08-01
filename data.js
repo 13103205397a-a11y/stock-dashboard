@@ -4176,13 +4176,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 91.17,
-      "pe_fwd": 47.7,
-      "peg": 0.93,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 5.74,
       "mcap_yi": 346.8,
-      "eps_cur": 0.72,
-      "eps_next": 1.09,
-      "analyst_count": 10,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-08-01"
     }
   },
@@ -5196,13 +5196,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 92.42,
-      "pe_fwd": 45.5,
-      "peg": 1.96,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 10.74,
       "mcap_yi": 2530.91,
-      "eps_cur": 8.33,
-      "eps_next": 10.26,
-      "analyst_count": 21,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-08-01"
     }
   },
@@ -5718,13 +5718,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 71.17,
-      "pe_fwd": 58.7,
-      "peg": 2.43,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 4.11,
       "mcap_yi": 1175.82,
-      "eps_cur": 1.12,
-      "eps_next": 1.39,
-      "analyst_count": 16,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-08-01"
     }
   },
@@ -5979,13 +5979,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 63.02,
-      "pe_fwd": 48.3,
-      "peg": 2.21,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 2.88,
       "mcap_yi": 514.01,
-      "eps_cur": 0.32,
-      "eps_next": 0.39,
-      "analyst_count": 2,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-08-01"
     }
   },
@@ -6239,13 +6239,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": -528.73,
-      "pe_fwd": 106.0,
-      "peg": 0.98,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 4.17,
       "mcap_yi": 286.49,
-      "eps_cur": 0.35,
-      "eps_next": 0.73,
-      "analyst_count": 4,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-08-01"
     }
   },
@@ -6500,13 +6500,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 27.0,
-      "pe_fwd": 10.6,
+      "pe_fwd": null,
       "peg": null,
       "pb": 12.18,
       "mcap_yi": 978.0,
-      "eps_cur": 32.72,
-      "eps_next": 27.41,
-      "analyst_count": 8,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-08-01"
     }
   },
@@ -7284,13 +7284,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 185.81,
-      "pe_fwd": 85.1,
-      "peg": 4.11,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 4.62,
       "mcap_yi": 570.99,
-      "eps_cur": 0.58,
-      "eps_next": 0.7,
-      "analyst_count": 3,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-08-01"
     }
   },
@@ -7545,13 +7545,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 76.42,
-      "pe_fwd": 34.1,
-      "peg": 1.1,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 3.16,
       "mcap_yi": 193.18,
-      "eps_cur": 1.19,
-      "eps_next": 1.56,
-      "analyst_count": 12,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-08-01"
     }
   },
@@ -9116,13 +9116,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 17.97,
-      "pe_fwd": 13.9,
-      "peg": 0.62,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 4.54,
       "mcap_yi": 1641.03,
-      "eps_cur": 7.44,
-      "eps_next": 9.1,
-      "analyst_count": 29,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-08-01"
     }
   },
@@ -10421,13 +10421,13 @@ window.STOCKS = [
     ],
     "valuation": {
       "pe_ttm": 36.87,
-      "pe_fwd": 31.6,
-      "peg": 2.0,
+      "pe_fwd": null,
+      "peg": null,
       "pb": 6.92,
       "mcap_yi": 313.37,
-      "eps_cur": 1.2,
-      "eps_next": 1.39,
-      "analyst_count": 17,
+      "eps_cur": null,
+      "eps_next": null,
+      "analyst_count": 0,
       "asof": "2026-08-01"
     }
   },
