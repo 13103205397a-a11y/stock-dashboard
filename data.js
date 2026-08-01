@@ -1002,10 +1002,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.31,
-      "turnover": 3.77,
-      "date": "2026-07-23",
-      "asof": "2026-07-23"
+      "netInflow": 8.65,
+      "turnover": 6.73,
+      "date": "2026-08-01",
+      "asof": "2026-08-01"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -1263,10 +1263,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.27,
-      "turnover": 3.32,
-      "date": "2026-07-25",
-      "asof": "2026-07-25"
+      "netInflow": 0.54,
+      "turnover": 5.77,
+      "date": "2026-08-01",
+      "asof": "2026-08-01"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -1524,10 +1524,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -6.46,
-      "turnover": 5.88,
-      "date": "2026-07-25",
-      "asof": "2026-07-25"
+      "netInflow": -0.49,
+      "turnover": 8.84,
+      "date": "2026-08-01",
+      "asof": "2026-08-01"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -1785,10 +1785,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -11.17,
-      "turnover": 4.36,
-      "date": "2026-07-23",
-      "asof": "2026-07-23"
+      "netInflow": 0.68,
+      "turnover": 7.45,
+      "date": "2026-08-01",
+      "asof": "2026-08-01"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -2045,10 +2045,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -12.75,
-      "turnover": 2.26,
-      "date": "2026-07-23",
-      "asof": "2026-07-23"
+      "netInflow": -0.08,
+      "turnover": 3.55,
+      "date": "2026-08-01",
+      "asof": "2026-08-01"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -2306,10 +2306,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -6.55,
-      "turnover": 5.08,
-      "date": "2026-07-23",
-      "asof": "2026-07-23"
+      "netInflow": -2.78,
+      "turnover": 19.61,
+      "date": "2026-08-01",
+      "asof": "2026-08-01"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -2567,10 +2567,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -3.93,
-      "turnover": 3.42,
-      "date": "2026-07-23",
-      "asof": "2026-07-23"
+      "netInflow": -0.99,
+      "turnover": 5.88,
+      "date": "2026-08-01",
+      "asof": "2026-08-01"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -8288,10 +8288,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.5,
-      "turnover": 1.06,
-      "date": "2026-08-01",
-      "asof": "2026-08-01"
+      "netInflow": 0.45,
+      "turnover": 0.42,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -8549,10 +8549,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -3.44,
-      "turnover": 5.85,
-      "date": "2026-08-01",
-      "asof": "2026-08-01"
+      "netInflow": 2.4,
+      "turnover": 2.62,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -8813,10 +8813,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 4.09,
-      "turnover": 0.75,
-      "date": "2026-08-01",
-      "asof": "2026-08-01"
+      "netInflow": -9.39,
+      "turnover": 0.56,
+      "date": "2026-07-26",
+      "asof": "2026-07-26"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -9076,10 +9076,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -4.77,
-      "turnover": 2.97,
-      "date": "2026-08-01",
-      "asof": "2026-08-01"
+      "netInflow": 7.66,
+      "turnover": 3.36,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -9337,10 +9337,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -0.85,
-      "turnover": 1.0,
-      "date": "2026-08-01",
-      "asof": "2026-08-01"
+      "netInflow": 1.87,
+      "turnover": 2.1,
+      "date": "2026-07-26",
+      "asof": "2026-07-26"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -9598,10 +9598,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 5.47,
-      "turnover": 6.35,
-      "date": "2026-08-01",
-      "asof": "2026-08-01"
+      "netInflow": -3.28,
+      "turnover": 3.44,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -11428,10 +11428,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 23.85,
-      "turnover": 17.66,
-      "date": "2026-07-31",
-      "asof": "2026-07-31"
+      "netInflow": -1.87,
+      "turnover": 7.7,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -11689,10 +11689,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -0.18,
-      "turnover": 6.43,
-      "date": "2026-07-31",
-      "asof": "2026-07-31"
+      "netInflow": -0.35,
+      "turnover": 3.27,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "newsAsof": "2026-08-01",
     "research": [
@@ -11971,10 +11971,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.05,
-      "turnover": 8.23,
-      "date": "2026-07-31",
-      "asof": "2026-07-31"
+      "netInflow": -0.88,
+      "turnover": 5.62,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "valuation": {
       "pe_ttm": 99.89,
@@ -12188,10 +12188,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -1.84,
-      "turnover": 15.12,
-      "date": "2026-07-31",
-      "asof": "2026-07-31"
+      "netInflow": 3.84,
+      "turnover": 7.16,
+      "date": "2026-07-23",
+      "asof": "2026-07-23"
     },
     "news": [
       {
