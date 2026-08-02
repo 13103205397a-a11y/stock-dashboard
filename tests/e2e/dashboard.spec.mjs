@@ -217,11 +217,16 @@ test("搜索覆盖外围热点和周末发酵并定位到命中内容", async ({
   await expect(activeBrief).toContainText("OpenAI / Anthropic 推动");
   await expect(activeBrief).toBeFocused();
 
-  await input.fill("9500亿美元芯片大单持续发酵");
+  const weekendTitle = await page.evaluate(() =>
+    window.WEEKEND?.hotspots?.find((hotspot) => hotspot?.title)?.title || ""
+  );
+  expect(weekendTitle).not.toBe("");
+  await input.fill(weekendTitle);
   await expect(page.locator(".search-hit")).toHaveCount(1);
   await page.locator(".search-hit").click();
   await expect(page.locator("body")).toHaveClass(/view-weekend/);
-  const hotspot = page.locator('.weekend-only [data-xname="9500亿美元芯片大单持续发酵 存储产业链长期逻辑强化"]');
+  const hotspot = page.locator(".weekend-only [data-xname]").filter({ hasText: weekendTitle });
+  await expect(hotspot).toHaveAttribute("data-xname", weekendTitle);
   await expect(hotspot).toBeVisible();
   await expect(hotspot).toBeFocused();
 });
