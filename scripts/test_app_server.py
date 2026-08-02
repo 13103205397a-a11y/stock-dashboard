@@ -88,6 +88,42 @@ class AppServerTest(unittest.TestCase):
             403,
         )
 
+    def test_xbrief_latest_reads_xbriefs_js(self):
+        status, raw = self.request("/api/xbrief/latest")
+        self.assertEqual(status, 200)
+        empty = json.loads(raw)
+        self.assertTrue(empty["ok"])
+        self.assertIsNone(empty["latest"])
+
+        (self.root / "xbriefs.js").write_text(
+            'window.XBRIEFS = {\n'
+            '  "updated": "2026-08-01 23:02",\n'
+            '  "generatedAt": "2026-08-01 23:02",\n'
+            '  "briefs": [{\n'
+            '    "id": "20260801-230251",\n'
+            '    "time": "2026-08-01 23:02",\n'
+            '    "title": "外围热点",\n'
+            '    "period": "近约2-4小时",\n'
+            '    "content": "# hello\\nworld",\n'
+            '    "aiCount": 2,\n'
+            '    "marketCount": 4\n'
+            '  }]\n'
+            '};\n',
+            encoding="utf-8",
+        )
+        status, raw = self.request("/api/xbrief/latest")
+        self.assertEqual(status, 200)
+        payload = json.loads(raw)
+        self.assertTrue(payload["ok"])
+        self.assertEqual(payload["updated"], "2026-08-01 23:02")
+        self.assertEqual(payload["latest"]["id"], "20260801-230251")
+        self.assertEqual(payload["latest"]["title"], "外围热点")
+        self.assertIn("hello", payload["latest"]["content"])
+        self.assertEqual(
+            self.request("/api/xbrief/latest", headers={"Host": "evil.example"})[0],
+            403,
+        )
+
     def test_status_identity_is_strict_and_probeable(self):
         status, raw, content_type = self.request_full("/api/status")
         self.assertEqual(status, 200)

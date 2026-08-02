@@ -19,12 +19,14 @@ import http.client
 import http.server
 import json
 import os
+import re
 import socketserver
 import subprocess
 import sys
 import threading
 import urllib.parse
 import webbrowser
+from pathlib import Path
 
 # 启动诊断日志(写到文件,排查卡在哪)
 def _log_diag(msg):
@@ -150,6 +152,56 @@ def _env_with_iwencai():
     return env
 
 
+def _load_xbriefs_data(root=None):
+    """解析项目根目录 xbriefs.js 中的 window.XBRIEFS（只读，损坏时返回空结构）。"""
+    base = Path(root or HERE)
+    path = base / "xbriefs.js"
+    empty = {"updated": "", "generatedAt": "", "briefs": []}
+    if not path.is_file():
+        return empty
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return empty
+    match = re.search(r"window\.XBRIEFS\s*=\s*(\{.*\})\s*;?\s*$", text, re.S)
+    if not match:
+        return empty
+    try:
+        data = json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return empty
+    if not isinstance(data, dict):
+        return empty
+    briefs = data.get("briefs")
+    if not isinstance(briefs, list):
+        data = {**data, "briefs": []}
+    return data
+
+
+def _xbrief_latest_payload(root=None):
+    """供菜单栏读取的最新一期外围热点摘要。"""
+    data = _load_xbriefs_data(root)
+    briefs = data.get("briefs") or []
+    raw = briefs[0] if briefs and isinstance(briefs[0], dict) else None
+    latest = None
+    if raw is not None:
+        latest = {
+            "id": raw.get("id") or "",
+            "time": raw.get("time") or "",
+            "title": raw.get("title") or "外围热点",
+            "content": raw.get("content") or "",
+            "period": raw.get("period") or "",
+            "aiCount": raw.get("aiCount"),
+            "marketCount": raw.get("marketCount"),
+        }
+    return {
+        "ok": True,
+        "updated": data.get("updated") or (latest or {}).get("time") or "",
+        "generatedAt": data.get("generatedAt") or "",
+        "latest": latest,
+    }
+
+
 class Handler(http.server.SimpleHTTPRequestHandler):
     """仅托管看板运行必需文件，仓库内容默认不可访问。"""
 
@@ -203,6 +255,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if parsed.path == "/api/status":
             self._handle_status()
             return
+        if parsed.path == "/api/xbrief/latest":
+            self._handle_xbrief_latest()
+            return
         path = urllib.parse.unquote(parsed.path)
         if path == "/":
             path = "/index.html"
@@ -255,6 +310,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             "error": refresh_state["error"],
             "failedSteps": refresh_state["failedSteps"],
         })
+
+    def _handle_xbrief_latest(self):
+        self._json(_xbrief_latest_payload())
 
     def _json(self, obj, status=200):
         body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
