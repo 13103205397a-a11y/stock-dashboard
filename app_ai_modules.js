@@ -108,7 +108,7 @@
   function researchDigestHtml(raw, ariaLabel) {
     const text = cleanDisplayText(raw || "").trim()
       .replace(/仅供研究参考[，,、]?非投资建议[。．]?/g, "")
-      .replace(/注：.*$/g, "")
+      .replace(/(?:^|\n)注：[^\n]*$/g, "")
       .trim();
     if (!text) return "";
 

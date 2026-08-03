@@ -282,7 +282,7 @@ html, body {
   display: block !important;
   position: relative !important;
   padding: 0 0 0 28px !important;
-  max-width: none !important; /* 取消 68ch 二次限宽 */
+  max-width: min(100%, 88ch) !important; /* 铺满主栏但仍控行长 */
   font-size: 13.5px !important;
   line-height: 1.55 !important;
   color: var(--ink-soft) !important;
@@ -402,7 +402,15 @@ html, body {
   padding: 18px 0 !important;
   margin: 0 !important;
 }
+.ev-row.is-unverified {
+  border-left: 3px solid var(--warn) !important;
+  padding-left: 10px !important;
+}
 .ev-row:first-child { border-top: 0 !important; padding-top: 4px !important; }
+/* 列表式事件行：取消头部分割线，避免与下一行顶边双线 */
+.ev-row-head {
+  border-bottom: 0 !important;
+}
 /* 板块 / 个股 / 详情：跟标题同一左缘，避免阶梯错位 */
 .ev-row > .ev-sectors,
 .ev-row > .ev-stocks-row,
@@ -522,7 +530,15 @@ html, body {
     gap: 22px 24px !important;
   }
 
-  /* 事件：左侧叙事，右侧「重要性/时效」并排，吃掉右侧空白 */
+  /* 仅一块收盘总述时不要空出右列 */
+  .home-regime:not(:has(.home-regime-block + .home-regime-block)) {
+    grid-template-columns: 1fr;
+  }
+  .home-regime:not(:has(.home-regime-block + .home-regime-block)) .home-regime-body {
+    max-width: 72ch;
+  }
+
+  /* 事件：头区占左两列，右侧重要性/时效同排；保留 header 语义（不用 display:contents） */
   .ev-row {
     display: grid !important;
     grid-template-columns: 48px minmax(0, 1.15fr) minmax(280px, 0.85fr);
@@ -531,17 +547,17 @@ html, body {
     align-items: start;
   }
   .ev-row-head {
-    display: contents !important;
+    display: grid !important;
+    grid-template-columns: 48px minmax(0, 1fr);
+    column-gap: 20px;
+    grid-column: 1 / 3;
     border-bottom: 0 !important;
     padding: 0 !important;
   }
   .ev-rank {
-    grid-column: 1;
-    grid-row: 1 / span 4;
     padding-top: 2px;
   }
   .ev-row-main {
-    grid-column: 2;
     min-width: 0;
   }
   .ev-row > .ev-sectors,
@@ -552,25 +568,32 @@ html, body {
   }
   .ev-row > .ev-cols {
     grid-column: 3;
-    grid-row: 1 / span 5;
+    grid-row: 1;
     margin-left: 0 !important;
     max-width: none;
     display: flex !important;
     flex-direction: column !important;
     gap: 12px !important;
-    align-self: stretch;
+    align-self: start;
   }
   .ev-row > .ev-cols .ev-block {
     flex: 0 0 auto;
   }
   .ev-row > .ev-more {
-    grid-column: 2 / -1;
+    grid-column: 2;
     margin-left: 0 !important;
     max-width: none;
   }
   .ev-stocks-row {
     padding-top: 8px !important;
     padding-bottom: 4px !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  /* 覆盖 claude-theme 隐藏 .sb-left .sb-dim，保留会话标签 */
+  .sb-left .sb-dim#sbSessionLabel {
+    display: inline !important;
   }
 }
 
@@ -600,6 +623,8 @@ html, body {
   }
   .ev-row-head {
     display: grid !important;
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    gap: 12px !important;
   }
   .lc-board {
     grid-template-columns: 1fr !important;

@@ -1,15 +1,15 @@
 # A 股盘面研究看板
 
-**本地优先、无广告的 A 股复盘 / 研究看板** —— 大盘速览、自选信号、市场扫描，以及逻辑链、今日热点、外围热点（每 2 小时）和周末发酵。
+**本地优先、无广告的 A 股复盘 / 研究看板** —— 暖色研究台视觉（深墨侧栏 · 纸感主区），覆盖大盘速览、自选信号、市场扫描，以及逻辑链、今日热点、外围热点（每 2 小时）和周末发酵。
 
 > 数据由脚本测算或 AI 整理，仅供研究参考，不构成投资建议。
 
-[![在线 Demo](https://img.shields.io/badge/在线_Demo-打开看看-0ea5e9?style=flat-square)](https://13103205397a-a11y.github.io/stock-dashboard/)
-[![macOS](https://img.shields.io/badge/macOS-菜单栏简报-111827?style=flat-square&logo=apple)](#mac-app)
+[![在线 Demo](https://img.shields.io/badge/在线_Demo-打开看看-b86a46?style=flat-square)](https://13103205397a-a11y.github.io/stock-dashboard/)
+[![macOS](https://img.shields.io/badge/macOS-菜单栏简报-2a251e?style=flat-square&logo=apple)](#mac-app)
 [![License](https://img.shields.io/badge/license-见仓库-6b7280?style=flat-square)](#)
 
 <p align="center">
-  <img src="docs/screenshots/home.png" alt="首页大盘速览" width="900" />
+  <img src="docs/screenshots/home.png" alt="首页 · 暖色研究台大盘速览" width="900" />
 </p>
 
 <p align="center">
@@ -29,10 +29,10 @@
 
 ## 能看什么
 
-- **首页**：指数、涨停/炸板等盘面摘要 + 收盘总述
+- **首页**：指数、涨停/炸板等盘面摘要 + 收盘总述（宽屏左右分栏）
 - **巨头核心**：自选叙事与技术信号
 - **市场扫描**：涨停梯队、炸板、涨跌异动（只读）
-- **逻辑链 / 今日热点 / 周末发酵**：事件到产业映射与研究文
+- **逻辑链 / 今日热点 / 周末发酵**：事件到产业映射与研究文（导读铺满、卡片分栏）
 - **外围热点**：海外 AI + 宏观/市场硬信息简报（约每 2 小时一期）；Mac 菜单栏可点开最新一期
 
 ## 为什么开源这个
@@ -40,6 +40,7 @@
 - **本地优先**：数据在你机器上跑，不靠商业终端广告墙
 - **研究向**：偏复盘与叙事整理，不是交易下单软件
 - **可静态部署**：一套页面既能本机开，也能挂 GitHub Pages
+- **暖色研究台**：深墨侧栏 + 纸感主区 + 赤陶点缀，编辑式排版，红涨绿跌
 
 ---
 
@@ -150,7 +151,7 @@ python3 scripts/build_site.py _site
 | 文件 | 作用 |
 |---|---|
 | `index.html` / `app.js` / `app_ai_modules.js` | 页面结构、交互和研究模块渲染 |
-| `styles.css` / `design-system.css` / `claude-theme.css` | 样式与设计令牌 |
+| `styles.css` / `design-system.css` / `claude-theme.css` / `warm-desk.css` | 样式层：基础 → 设计系统 → 暖色主题 → 研究台版式覆盖 |
 | `active_modules.json` | 活跃模块、数据契约、新鲜度和 Hermes 发布配置 |
 | `public_files.json` | 公开前端核心资源 |
 | `scripts/build_site.py` | 确定性公开构建与探针清单 |
