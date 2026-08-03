@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>A股盘面 · 暖色研究台（设计稿）</title>
+  <style>
+/* Warm Research Desk — high-fidelity design draft
+ * Seed tokens → derived via var()/color-mix()
+ */
+:root {
+  --seed-bg: #f3ebe0;
+  --seed-fg: #26221b;
+  --seed-primary: #9e3b28;
+  --seed-accent: #b5432f;
+  --seed-surface: #f8f2e8;
+  --seed-radius: 4px;
+
+  --bg: var(--seed-bg);
+  --bg-deep: color-mix(in srgb, var(--seed-bg) 88%, #c4b49a);
+  --surface: var(--seed-surface);
+  --surface-2: color-mix(in srgb, var(--seed-surface) 92%, white);
+  --fg: var(--seed-fg);
+  --fg-soft: color-mix(in srgb, var(--seed-fg) 78%, transparent);
+  --fg-muted: color-mix(in srgb, var(--seed-fg) 52%, transparent);
+  --fg-faint: color-mix(in srgb, var(--seed-fg) 36%, transparent);
+  --line: color-mix(in srgb, var(--seed-fg) 12%, transparent);
+  --line-strong: color-mix(in srgb, var(--seed-fg) 22%, transparent);
+
+  --primary: var(--seed-primary);
+  --accent: var(--seed-accent);
+  --accent-wash: color-mix(in srgb, var(--seed-accent) 12%, var(--seed-surface));
+  --accent-ink: #fff8f3;
+
+  --rail: #221e18;
+  --rail-2: #2a251e;
+  --rail-text: color-mix(in srgb, #f3ebe0 72%, transparent);
+  --rail-dim: color-mix(in srgb, #f3ebe0 42%, transparent);
+  --rail-line: color-mix(in srgb, #f3ebe0 10%, transparent);
+
+  --up: #c03a2b;
+  --down: #3e6b4f;
+  --up-wash: color-mix(in srgb, var(--up) 8%, transparent);
+  --down-wash: color-mix(in srgb, var(--down) 8%, transparent);
+  --warn: #9a6b24;
+  --ok: #3e6b4f;
+  --bad: #c03a2b;
+
+  --serif: "Songti SC", "Noto Serif SC", "STSong", "SimSun", serif;
+  --sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  --mono: "SF Mono", "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --r: var(--seed-radius);
+  --r-sm: 2px;
+  --maxw: 1180px;
+  --sidebar-w: 212px;
+  --status-h: 52px;
+  --tabbar-h: 58px;
+  --drawer-w: min(420px, 94vw);
+
+  --ease: cubic-bezier(0.22, 0.68, 0.28, 1);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 10% 0%, color-mix(in srgb, #e8d9c4 35%, transparent), transparent 60%),
+    linear-gradient(180deg, var(--bg), var(--bg-deep));
+  background-attachment: fixed;
+}
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; border: 0; background: none; }
+a { color: var(--accent); }
+[hidden] { display: none !important; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.skip-link {
+  position: absolute; left: 12px; top: -40px; z-index: 1000;
+  background: var(--fg); color: var(--surface); padding: 8px 12px; border-radius: var(--r);
+}
+.skip-link:focus { top: 12px; }
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+.up { color: var(--up); }
+.down { color: var(--down); }
+.muted { color: var(--fg-muted); }
+.clamp-2 {
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.clamp-3 {
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* —— Shell —— */
+.app-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  min-height: 100vh;
+}
+.sidebar {
+  position: sticky; top: 0; height: 100vh;
+  background: linear-gradient(180deg, var(--rail-2), var(--rail));
+  color: var(--rail-text);
+  display: flex; flex-direction: column;
+  border-right: 1px solid var(--rail-line);
+  z-index: 40;
+}
+.side-brand {
+  display: flex; align-items: center; gap: 12px;
+  padding: 22px 18px 18px;
+  border-bottom: 1px solid var(--rail-line);
+}
+.brand-mark {
+  width: 28px; height: 28px; border-radius: var(--r-sm);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 80%, white), var(--primary));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, white 18%, transparent);
+}
+.brand-title {
+  display: block; font-family: var(--serif); font-size: 17px; font-weight: 600;
+  color: #f6f0e4; letter-spacing: 0.02em;
+}
+.brand-sub {
+  display: block; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--rail-dim); margin-top: 2px;
+}
+.side-nav {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 14px 10px; flex: 1;
+}
+.nav-item {
+  position: relative;
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; text-align: left;
+  padding: 10px 12px 10px 14px;
+  border-radius: var(--r);
+  color: var(--rail-text);
+  transition: color 160ms var(--ease), background 160ms var(--ease);
+}
+.nav-item:hover { color: #f6f0e4; }
+.nav-item .nav-rail {
+  position: absolute; left: 0; top: 10px; bottom: 10px; width: 2px;
+  background: transparent; border-radius: 1px;
+  transition: background 160ms var(--ease);
+}
+.nav-item.is-active {
+  color: #fff8f3;
+  font-weight: 500;
+  background: transparent;
+}
+.nav-item.is-active .nav-rail { background: var(--accent); }
+.side-foot {
+  padding: 14px 16px 18px;
+  border-top: 1px solid var(--rail-line);
+  font-size: 11px; color: var(--rail-dim); line-height: 1.4;
+}
+.content-area {
+  min-width: 0;
+  display: flex; flex-direction: column;
+  min-height: 100vh;
+}
+.status-bar {
+  position: sticky; top: 0; z-index: 30;
+  height: var(--status-h);
+  display: grid;
+  grid-template-columns: auto 1fr minmax(220px, 320px);
+  align-items: center; gap: 18px;
+  padding: 0 22px;
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.sb-brand { font-family: var(--serif); font-weight: 600; letter-spacing: 0.02em; }
+.sb-dim { color: var(--fg-muted); font-size: 12px; margin-left: 10px; }
+.sb-mid { display: flex; align-items: center; gap: 12px; white-space: nowrap; justify-self: center; }
+.sb-market {
+  font-size: 12px; color: var(--fg-muted);
+  letter-spacing: 0.02em;
+}
+.sb-market::before {
+  content: "";
+  display: inline-block;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ok);
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+.global-search {
+  position: relative;
+  display: flex; align-items: center; gap: 8px;
+  height: 34px; padding: 0 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+.global-search:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+.gs-ico { color: var(--fg-faint); font-size: 14px; }
+.global-search input {
+  flex: 1; min-width: 0; border: 0; outline: none; background: transparent;
+  font-size: 13px;
+}
+.gs-kbd {
+  font-family: var(--mono); font-size: 10px; color: var(--fg-faint);
+  border: 1px solid var(--line); border-radius: 3px; padding: 1px 5px;
+}
+.search-panel {
+  position: absolute; left: 0; right: 0; top: calc(100% + 6px);
+  max-height: 360px; overflow: auto;
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--fg) 12%, transparent);
+  z-index: 50;
+}
+.search-item {
+  display: block; width: 100%; text-align: left;
+  padding: 10px 12px; border-bottom: 1px solid var(--line);
+}
+.search-item:hover, .search-item:focus { background: var(--accent-wash); }
+.search-item .si-k { font-family: var(--mono); font-size: 12px; color: var(--fg-muted); }
+.search-item .si-t { font-size: 13px; }
+.search-empty { padding: 18px 14px; color: var(--fg-muted); font-size: 13px; }
+.search-hint { padding: 8px 12px; font-size: 11px; color: var(--fg-faint); border-top: 1px solid var(--line); }
+
+.content-in {
+  flex: 1;
+  width: min(100%, var(--maxw));
+  margin: 0 auto;
+  padding: 22px 22px 88px;
+}
+.view { animation: fadein 220ms var(--ease); }
+.view.is-active { display: block; }
+@keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+.data-bar {
+  display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap;
+  padding: 10px 22px 14px;
+  border-top: 1px solid var(--line);
+  font-size: 11px; color: var(--fg-muted);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+.foot-disc { color: var(--fg-faint); }
+
+.index-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--seed-surface) 75%, white);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.index-item {
+  padding: 14px 16px;
+  border-right: 1px solid var(--line);
+  min-width: 0;
+}
+.index-item:last-child { border-right: 0; }
+.index-name { font-size: 11px; color: var(--fg-muted); margin-bottom: 6px; }
+.index-price { font-size: 22px; line-height: 1.15; color: var(--fg); font-weight: 500; }
+.index-chg { font-size: 13px; margin-top: 6px; }
+.eyebrow {
+  font-family: var(--serif);
+  font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin: 0 0 6px;
+}
+.section-title {
+  font-family: var(--serif); font-size: 20px; font-weight: 600;
+  letter-spacing: 0.02em; margin: 0 0 8px; line-height: 1.35;
+}
+.section-lead {
+  margin: 0 0 18px; color: var(--fg-soft); font-size: 14px; max-width: 62ch;
+}
+.block { margin-bottom: 28px; }
+
+.page-head {
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.page-head .section-title { margin-bottom: 4px; }
+.page-head .section-lead {
+  margin: 0;
+  font-size: 13px;
+  color: var(--fg-muted);
+  max-width: 56ch;
+}
+.digest {
+  margin-top: 14px;
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin-left: 0;
+}
+.digest-item {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--fg-soft);
+}
+.digest-n {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  padding-top: 2px;
+}
+.digest-t { min-width: 0; }
+.digest-note {
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--fg-faint);
+  line-height: 1.5;
+}
+.seal {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--serif);
+  font-size: 13px; letter-spacing: 0.06em;
+  color: var(--accent-ink);
+  background: var(--primary);
+  padding: 5px 10px;
+  border-radius: 2px;
+  margin: 0 0 14px;
+}
+.seal-no {
+  opacity: 0.85;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+/* —— Stats —— */
+.stat-strip {
+  display: flex; flex-wrap: wrap; gap: 6px 0;
+  margin-top: 14px;
+  padding: 2px 0 0;
+  align-items: baseline;
+}
+.stat-item {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  min-width: 0;
+  padding-right: 14px;
+  margin-right: 14px;
+  border-right: 1px solid var(--line);
+}
+.stat-item:last-child {
+  border-right: 0;
+  margin-right: 0;
+  padding-right: 0;
+}
+.stat-l { font-size: 11px; color: var(--fg-muted); order: 2; }
+.stat-v { font-size: 13px; color: var(--fg); order: 1; }
+.stat-v .unit { font-size: 11px; color: var(--fg-muted); margin-left: 1px; font-family: var(--sans); }
+.stat-strip.boxed {
+  gap: 0; margin-top: 10px; padding: 0;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  border-radius: var(--r);
+}
+.stat-strip.boxed .stat-item {
+  flex: 1 1 120px;
+  display: block;
+  padding: 10px 14px;
+  border-right: 1px solid var(--line);
+}
+.stat-strip.boxed .stat-item:last-child { border-right: 0; }
+.stat-strip.boxed .stat-l { order: 0; display: block; }
+.stat-strip.boxed .stat-v { order: 0; display: block; font-size: 16px; margin-top: 2px; }
+
+.prose {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  padding: 16px 0;
+}
+.prose-block { margin: 0 0 16px; }
+.prose-block:last-child { margin-bottom: 0; }
+.prose-kicker {
+  font-family: var(--serif);
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  margin: 0 0 6px;
+}
+.prose p {
+  margin: 0;
+  color: var(--fg);
+  font-size: 15px;
+  line-height: 1.85;
+  max-width: 68ch;
+}
+.risk-bar {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-left: 2px solid var(--warn);
+  background: color-mix(in srgb, var(--warn) 8%, var(--surface));
+  color: var(--fg-soft); font-size: 13px;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.preview-card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  text-align: left;
+  transition: border-color 160ms var(--ease), background 160ms var(--ease);
+}
+.preview-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+  background: var(--surface-2);
+}
+.preview-card h3 {
+  font-family: var(--serif); font-size: 16px; margin: 0 0 6px; font-weight: 600;
+}
+.meta-row { font-size: 11px; color: var(--fg-muted); margin-bottom: 8px; }
+.tagline { font-size: 12px; color: var(--fg-muted); }
+
+/* —— Watch —— */
+.watch-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+.rail-panel {
+  position: sticky; top: calc(var(--status-h) + 12px);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--r);
+  padding: 12px;
+}
+.rail-h {
+  font-family: var(--serif); font-size: 13px; margin: 0 0 10px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--line);
+}
+.sector-list { display: flex; flex-direction: column; gap: 2px; max-height: 52vh; overflow: auto; }
+.sector-btn, .chip {
+  text-align: left; padding: 7px 10px; border-radius: var(--r-sm);
+  color: var(--fg-soft); font-size: 12.5px;
+}
+.sector-btn:hover, .chip:hover { background: color-mix(in srgb, var(--fg) 4%, transparent); }
+.sector-btn.is-active {
+  color: var(--primary);
+  background: var(--accent-wash);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.chip {
+  border: 1px solid transparent;
+}
+.chip.is-active {
+  color: var(--primary);
+  background: var(--accent-wash);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+  box-shadow: none;
+}
+.toolbar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  margin-bottom: 12px;
+}
+.chip-row { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
+.sort-select {
+  appearance: none;
+  height: 34px; padding: 0 28px 0 10px;
+  border: 1px solid var(--line); border-radius: var(--r);
+  background-color: var(--surface-2);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%238a8074' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  color: var(--fg);
+}
+.sort-select:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+.stock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+.stock-card {
+  text-align: left;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--seed-surface) 70%, white);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  transition: border-color 160ms var(--ease), transform 160ms var(--ease);
+  min-width: 0;
+}
+.stock-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+  transform: translateY(-1px);
+}
+.sc-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.sc-name { font-family: var(--serif); font-weight: 600; font-size: 15px; }
+.sc-code { font-size: 11px; color: var(--fg-muted); margin-left: 6px; font-family: var(--mono); }
+.sc-pct { font-size: 14px; white-space: nowrap; }
+.sc-sector { font-size: 11px; color: var(--fg-muted); margin: 4px 0 8px; }
+.sc-nar { font-size: 12.5px; color: var(--fg-muted); line-height: 1.55; margin: 0 0 10px; }
+.sc-foot {
+  display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center;
+  font-size: 11px; color: var(--fg-faint);
+  border-top: 1px solid var(--line); padding-top: 8px;
+}
+.verdict {
+  font-size: 11px;
+  padding: 1px 6px;
+  color: var(--fg-soft);
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  background: transparent;
+}
+.verdict.成立 { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.verdict.存疑 { border-color: color-mix(in srgb, var(--warn) 45%, var(--line)); }
+.verdict.证伪 { border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); }
+
+/* —— Market panels —— */
+.panel-stack { display: grid; gap: 16px; }
+.panel {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.panel-h {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 12px 14px; border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface-2) 80%, var(--bg));
+}
+.panel-h h2 { font-family: var(--serif); font-size: 16px; margin: 0; font-weight: 600; }
+.ladder {
+  display: grid; gap: 0;
+}
+.ladder-row {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+.ladder-row:last-child { border-bottom: 0; }
+.ladder-board {
+  padding: 10px 12px;
+  font-family: var(--mono); font-size: 13px;
+  border-right: 1px solid var(--line);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  color: var(--primary);
+}
+.ladder-items {
+  display: flex; flex-wrap: wrap; gap: 6px 12px;
+  padding: 10px 12px; align-content: flex-start;
+}
+.ladder-items span { font-size: 12.5px; white-space: nowrap; }
+.table {
+  width: 100%; border-collapse: collapse; font-size: 12.5px;
+}
+.table th, .table td {
+  padding: 8px 12px; border-bottom: 1px solid var(--line);
+  text-align: left; vertical-align: top;
+}
+.table th { color: var(--fg-muted); font-weight: 500; font-size: 11px; }
+.table td.num, .table th.num { text-align: right; font-family: var(--mono); }
+.table tr:hover td { background: color-mix(in srgb, var(--fg) 2.5%, transparent); }
+.col-3 {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;
+}
+
+/* —— Logic / events / weekend / xbrief —— */
+.event-card, .weekend-card, .chain-card {
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  border-radius: 0;
+  padding: 18px 0;
+  margin-bottom: 0;
+}
+.event-card:first-of-type,
+.weekend-card:first-of-type,
+.chain-card:first-of-type {
+  border-top: 0;
+  padding-top: 4px;
+}
+.brief-card {
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--seed-surface) 70%, white);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+.chain-path {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  margin: 10px 0; font-size: 12.5px;
+}
+.chain-step {
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+}
+.chain-arrow { color: var(--fg-faint); }
+.strength {
+  font-size: 11px; color: var(--primary);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.brief-time {
+  font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 4px;
+}
+.timeline {
+  border-left: 1px solid var(--line-strong);
+  margin-left: 8px; padding-left: 16px;
+}
+.empty-state {
+  padding: 28px 18px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r);
+  color: var(--fg-muted);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  text-align: center;
+}
+
+/* —— Drawer —— */
+.drawer-backdrop {
+  position: fixed; inset: 0; background: color-mix(in srgb, var(--fg) 28%, transparent);
+  z-index: 60;
+}
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: var(--drawer-w);
+  background: var(--surface-2);
+  border-left: 1px solid var(--line-strong);
+  z-index: 70;
+  transform: translateX(105%);
+  transition: transform 240ms var(--ease);
+  display: flex; flex-direction: column;
+  pointer-events: none;
+  visibility: hidden;
+}
+.drawer.is-open {
+  transform: translateX(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+.drawer-head {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 16px 16px 12px; border-bottom: 1px solid var(--line);
+}
+.drawer-close {
+  width: 32px; height: 32px; border-radius: var(--r);
+  border: 1px solid var(--line); font-size: 18px; line-height: 1;
+  color: var(--fg-muted);
+}
+.drawer-close:hover { color: var(--fg); background: var(--accent-wash); }
+.drawer-body { padding: 14px 16px 28px; overflow: auto; flex: 1; }
+.drawer-body h3 {
+  font-family: var(--serif); font-size: 14px; margin: 16px 0 8px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--line);
+}
+.drawer-body p { margin: 0 0 8px; color: var(--fg-soft); font-size: 13.5px; line-height: 1.7; }
+.sig-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  font-size: 12.5px;
+}
+.sig-grid div {
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  padding: 8px 10px; background: var(--surface);
+}
+.sig-grid .l { color: var(--fg-muted); font-size: 11px; }
+
+/* —— Mobile —— */
+.menu-toggle {
+  display: none;
+  position: fixed; top: 12px; left: 12px; z-index: 80;
+  width: 40px; height: 40px;
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--surface); padding: 10px 9px;
+  flex-direction: column; justify-content: space-between;
+}
+.menu-toggle span {
+  display: block; height: 1.5px; background: var(--fg); border-radius: 1px;
+}
+.tabbar {
+  display: none;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 55;
+  height: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
+  padding: 6px 4px env(safe-area-inset-bottom, 0px);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+.tabbar button {
+  font-size: 11px; color: var(--fg-muted); padding: 8px 2px;
+  border-radius: var(--r-sm);
+}
+.tabbar button.is-active {
+  color: var(--primary);
+  background: var(--accent-wash);
+}
+
+@media (max-width: 980px) {
+  .app-shell { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0; width: min(280px, 86vw);
+    transform: translateX(-105%);
+    transition: transform 240ms var(--ease);
+  }
+  .sidebar.is-open { transform: translateX(0); }
+  .sidebar-backdrop {
+    position: fixed; inset: 0; background: color-mix(in srgb, var(--fg) 35%, transparent);
+    z-index: 35;
+  }
+  .menu-toggle { display: flex; }
+  .tabbar { display: grid; }
+  .status-bar {
+    grid-template-columns: 1fr;
+    height: auto; padding: 12px 16px 12px 56px; gap: 8px;
+  }
+  .sb-left { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0; }
+  .sb-mid { order: 3; justify-self: start; }
+  .global-search { order: 2; width: 100%; }
+  .content-in { padding: 16px 14px calc(var(--tabbar-h) + 28px); }
+  .index-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .index-item:nth-child(2) { border-right: 0; }
+  .index-item:nth-child(1), .index-item:nth-child(2) { border-bottom: 1px solid var(--line); }
+  .watch-layout { grid-template-columns: 1fr; }
+  .rail-panel { position: static; }
+  .sector-list { flex-direction: row; flex-wrap: wrap; max-height: none; }
+  .preview-grid, .col-3 { grid-template-columns: 1fr; }
+  .ladder-row { grid-template-columns: 52px minmax(0, 1fr); }
+  .sector-list {
+    max-height: 120px;
+    overflow: auto;
+    gap: 4px;
+  }
+  .sector-btn {
+    padding: 5px 8px;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+  }
+}
+
+@media (max-width: 390px) {
+  .content-in { padding-left: 12px; padding-right: 12px; }
+  .index-price { font-size: 17px; }
+  .stock-grid { grid-template-columns: 1fr; }
+  .section-title { font-size: 18px; }
+  .sb-brand { font-size: 14px; }
+  .tabbar button { font-size: 10px; letter-spacing: -0.02em; }
+  .section-lead { font-size: 13px; margin-bottom: 12px; }
+}
+
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">跳到主要内容</a>
+
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="打开导航菜单" aria-controls="sidebar" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="app-shell" data-component="shell">
+    <aside class="sidebar" id="sidebar" data-component="sidebar" aria-label="模块导航">
+      <div class="side-brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-text">
+          <span class="brand-title">A股盘面</span>
+          <span class="brand-sub">Research Desk</span>
+        </div>
+      </div>
+      <nav class="side-nav" aria-label="研究模块">
+        <button class="nav-item is-active" data-view="home" type="button"><span class="nav-rail"></span><span>首页</span></button>
+        <button class="nav-item" data-view="watch" type="button"><span class="nav-rail"></span><span>巨头核心</span></button>
+        <button class="nav-item" data-view="market" type="button"><span class="nav-rail"></span><span>市场扫描</span></button>
+        <button class="nav-item" data-view="logic" type="button"><span class="nav-rail"></span><span>逻辑链</span></button>
+        <button class="nav-item" data-view="xbrief" type="button"><span class="nav-rail"></span><span>外围热点</span></button>
+        <button class="nav-item" data-view="events" type="button"><span class="nav-rail"></span><span>今日热点事件</span></button>
+        <button class="nav-item" data-view="weekend" type="button"><span class="nav-rail"></span><span>周末发酵</span></button>
+      </nav>
+      <div class="side-foot">
+        <div class="dateline" id="sideDateline">行情截至 —</div>
+      </div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebarBackdrop" hidden></div>
+
+    <main class="content-area" id="mainContent" tabindex="-1">
+      <header class="status-bar" data-component="status-bar">
+        <div class="sb-left">
+          <span class="sb-brand">盘面研判</span>
+          <span class="sb-dim" id="sbDateTime">—</span>
+        </div>
+        <div class="sb-mid">
+          <span class="sb-market" id="sbMarket">收盘</span>
+        </div>
+        <div class="global-search" id="globalSearch" role="search" data-component="global-search">
+          <span class="gs-ico" aria-hidden="true">⌕</span>
+          <input id="globalSearchInput" type="search" autocomplete="off" placeholder="代码 / 名称 / 题材 / 新闻" aria-label="全局搜索" role="combobox" aria-autocomplete="list" aria-controls="searchPanel" aria-expanded="false" />
+          <kbd class="gs-kbd">/</kbd>
+          <div class="search-panel" id="searchPanel" role="listbox" aria-label="搜索结果" hidden></div>
+          <div class="sr-only" id="searchStatus" role="status" aria-live="polite"></div>
+        </div>
+      </header>
+
+      <div class="content-in">
+        <section class="view is-active" id="viewHome" data-view-panel="home" data-component="view-home" hidden></section>
+        <section class="view" id="viewWatch" data-view-panel="watch" data-component="view-watch" hidden></section>
+        <section class="view" id="viewMarket" data-view-panel="market" data-component="view-market" hidden></section>
+        <section class="view" id="viewLogic" data-view-panel="logic" data-component="view-logic" hidden></section>
+        <section class="view" id="viewXbrief" data-view-panel="xbrief" data-component="view-xbrief" hidden></section>
+        <section class="view" id="viewEvents" data-view-panel="events" data-component="view-events" hidden></section>
+        <section class="view" id="viewWeekend" data-view-panel="weekend" data-component="view-weekend" hidden></section>
+      </div>
+
+      <footer class="data-bar" data-component="data-bar">
+        <span class="foot-disc">仅供研究参考，不构成投资建议</span>
+      </footer>
+    </main>
+  </div>
+
+  <nav class="tabbar" data-component="tabbar" aria-label="移动端模块切换">
+    <button data-view="home" class="is-active" type="button">首页</button>
+    <button data-view="watch" type="button">巨头</button>
+    <button data-view="market" type="button">扫描</button>
+    <button data-view="logic" type="button">逻辑</button>
+    <button data-view="xbrief" type="button">外围</button>
+    <button data-view="events" type="button">热点</button>
+    <button data-view="weekend" type="button">周末</button>
+  </nav>
+
+  <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+  <aside class="drawer" id="detailDrawer" data-component="detail-drawer" aria-label="个股详情" aria-hidden="true" role="dialog">
+    <div class="drawer-head">
+      <button type="button" class="drawer-close" id="drawerClose" aria-label="关闭详情">×</button>
+      <div id="drawerTitle"></div>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+
+  <script>
+  window.__SEED__ = {"meta":{"lastUpdated":"2026-07-31","signalDate":"2026-07-31","signalStat":"多头 0 / 空头 39 · 左侧已到逢低区 5 · 右侧突破或临近 0（共 47 只，行情截至 2026-07-31，刷新于 2026-08-01）","indices":[{"code":"sh000001","name":"上证指数","price":3832.26,"pct":0.72},{"code":"sz399001","name":"深证成指","price":13578.93,"pct":2.21},{"code":"sz399006","name":"创业板指","price":3343.96,"pct":3.06},{"code":"sh000688","name":"科创50","price":1635.96,"pct":2.99}],"marketRegime":"7月31日（本周最后交易日）A股继续反弹：上证3832.26+0.72%，深证13578.93+2.21%，创业板3343.96+3.06%，科创50 1635.96+2.99%。成长与科技权重明显强于主板。自选池内光模块/PCB/算力链条普遍反弹（中际旭创+4.4%、新易盛+6.7%、天孚通信+6.8%、沪电股份+7.5%），宏景科技20cm涨停。技术面仍偏弱：47只自选中多头0/空头39，右侧突破信号基本缺席，反弹多发生在空头排列背景下的超跌修复。北向沪股通当日约净流出9.3亿元。仅供研究参考，非投资建议。","summary":"行情已刷新至2026-07-31。信号统计：多头0/空头39，左侧逢低区5只，右侧突破或临近0只。自选当日相对强势样本：宏景科技+20%、大族数控+10.2%、太极实业+10%、利通电子/麦格米特涨停、润泽科技+9.2%、光模块链条（天孚/新易盛/中际旭创）跟涨。相对偏弱：永鼎股份-2.8%、雅克科技-2.3%、风华高科-2.3%。整体定性：指数与科技链修复，但趋势结构仍偏空、逢低区样本有限、暂无右侧确认。周末发酵模块仍为7/26旧稿，按约定留待周日晚更新。仅供研究参考，非投资建议。"},"marketStats":{"zt":99,"zb":107,"dt":0,"breakRate":51.9,"maxHeight":9,"ladder":{"1":89,"2":6,"3":1,"4":1,"5":1,"9":1},"northbound":{"time":"15:00","hgt_yi":-9.28,"sgt_yi":null,"total_yi":null}},"limitLadder":[{"board":9,"count":1,"items":[{"code":"603221","name":"爱丽家居","industry":"家居用品","lbc":9,"pct":10,"zt_stat":"20天10板"}]},{"board":5,"count":1,"items":[{"code":"003032","name":"传智教育","industry":"教育","lbc":5,"pct":9.99,"zt_stat":"5天5板"}]},{"board":4,"count":1,"items":[{"code":"605179","name":"一鸣食品","industry":"饮料乳品","lbc":4,"pct":9.99,"zt_stat":"4天4板"}]},{"board":3,"count":1,"items":[{"code":"002827","name":"高争民爆","industry":"化学制品","lbc":3,"pct":10.02,"zt_stat":"3天3板"}]},{"board":2,"count":6,"items":[{"code":"000820","name":"神雾节能","industry":"环保设备","lbc":2,"pct":10,"zt_stat":"2天2板"},{"code":"300996","name":"普联软件","industry":"软件开发","lbc":2,"pct":19.97,"zt_stat":"2天2板"},{"code":"603039","name":"泛微网络","industry":"软件开发","lbc":2,"pct":9.99,"zt_stat":"2天2板"},{"code":"603171","name":"税友股份","industry":"IT服务Ⅱ","lbc":2,"pct":10.01,"zt_stat":"2天2板"},{"code":"600162","name":"香江控股","industry":"房地产开","lbc":2,"pct":10.03,"zt_stat":"2天2板"},{"code":"000009","name":"中国宝安","industry":"综合Ⅱ","lbc":2,"pct":10.07,"zt_stat":"2天2板"}]},{"board":1,"count":89,"items":[{"code":"000593","name":"德龙汇能","industry":"燃气Ⅱ","lbc":1,"pct":10.01,"zt_stat":"1天1板"},{"code":"603629","name":"利通电子","industry":"消费电子","lbc":1,"pct":10,"zt_stat":"1天1板"},{"code":"600667","name":"太极实业","industry":"工程咨询","lbc":1,"pct":10.03,"zt_stat":"1天1板"},{"code":"000967","name":"盈峰环境","industry":"环保设备","lbc":1,"pct":9.94,"zt_stat":"1天1板"},{"code":"001359","name":"平安电工","industry":"塑料","lbc":1,"pct":10,"zt_stat":"1天1板"},{"code":"605178","name":"时空科技","industry":"专业工程","lbc":1,"pct":10,"zt_stat":"1天1板"}]}],"brokeSample":[{"code":"000636","name":"风华高科","pct":-2.28,"industry":"元件","break_times":3,"zt_stat":"0天0板"},{"code":"001309","name":"德明利","pct":-1.06,"industry":"半导体","break_times":1,"zt_stat":"2天1板"},{"code":"002428","name":"云南锗业","pct":8.33,"industry":"小金属","break_times":7,"zt_stat":"0天0板"},{"code":"002585","name":"双星新材","pct":5.08,"industry":"塑料","break_times":2,"zt_stat":"2天1板"},{"code":"002636","name":"金安国纪","pct":3.52,"industry":"元件","break_times":1,"zt_stat":"0天0板"},{"code":"603950","name":"长源东谷","pct":5.15,"industry":"汽车零部","break_times":2,"zt_stat":"0天0板"},{"code":"603986","name":"兆易创新","pct":2.02,"industry":"半导体","break_times":1,"zt_stat":"0天0板"},{"code":"688766","name":"普冉股份","pct":0.5,"industry":"半导体","break_times":1,"zt_stat":"0天0板"},{"code":"603137","name":"恒尚节能","pct":-4.62,"industry":"装修装饰","break_times":5,"zt_stat":"24天12板"},{"code":"603186","name":"华正新材","pct":6.07,"industry":"元件","break_times":7,"zt_stat":"0天0板"}],"limitDown":[],"movers":{"gainers":[{"code":"300364","name":"中文在线","industry":"数字媒体"},{"code":"300720","name":"海川智能","industry":"通用设备"},{"code":"301396","name":"宏景科技","industry":"IT服务Ⅱ"},{"code":"300795","name":"米奥会展","industry":"专业服务"},{"code":"300789","name":"唐源电气","industry":"计算机设备"},{"code":"300508","name":"维宏股份","industry":"计算机设备"},{"code":"300418","name":"昆仑万维","industry":"数字媒体"},{"code":"688095","name":"福昕软件","industry":"软件开发"}],"losers":[{"code":"300407","name":"凯发电气","industry":"电网设备"},{"code":"300955","name":"嘉亨家化","industry":"化妆品"},{"code":"688146","name":"中船特气","industry":"半导体"},{"code":"300214","name":"日科化学","industry":"化学制品"},{"code":"002536","name":"飞龙股份","industry":"汽车零部件"},{"code":"603823","name":"百合花","industry":"化学制品"},{"code":"603580","name":"艾艾精工","industry":"塑料"},{"code":"000786","name":"北新建材","industry":"装修建材"}],"turnover":[{"code":"301677","name":"C欣兴","amount":1527267980},{"code":"301583","name":"托伦斯","amount":2826999993.03},{"code":"301520","name":"万邦医药","amount":613695064.03},{"code":"300605","name":"恒锋信息","amount":476288565.86},{"code":"300164","name":"通源石油","amount":2269502020.59},{"code":"300795","name":"米奥会展","amount":894860784.27},{"code":"301667","name":"纳百川","amount":520124807.26},{"code":"301013","name":"利和兴","amount":2439799905.48}]},"logic":{"date":"2026-07-31","summary":"外围强修复驱动四条链，均待A股盘面确认：①KOSPI+17.9%+铠侠NAND+70%，存储定价锚重定价；②微软Azure+43%签约1300亿数据中心租约，光模块需求再验证；③苹果称内存百年一遇涨价+三星锁量，存储涨价周期确认但分化；④美联储按兵+PCE转负，超跌成长股修复窗口。网页检索不可用，全部强度不超过中。仅供研究参考，非投资建议。","chains":[{"name":"KOSPI史上最大单日涨幅+铠侠NAND涨价 -> A股存储链情绪修复","event":"7/31韩国KOSPI收盘上涨约17.9%，为有史以来最大单日涨幅，外资单日净买入约7.2万亿韩元；同日铠侠公布Q1财报，NAND单价环比约+70%、毛利率约78%，并宣布1拆3与回购、资本开支显著低于预期（7/31权威快讯多路交叉转述）。","event_type":"海外冲击","event_date":"2026-07-31","direction":"受益","strength":"中","strength_reason":"KOSPI收盘涨幅与铠侠财报数字均为多路快讯交叉确认的硬事件，可信度高；但A股7/31盘面数据尚未入库且网页检索不可用，盘面确认缺失，传导至A股映射股的实际效果待核实，故不标强。","logic":"全球存储定价锚（韩系存储+NAND厂）单日完成重定价，外资真金白银跟进，存储涨价从叙事落到厂商业绩，A股存储映射股在7/30已现抗跌信号（兆易创新+1.94%收红），外溢情绪有望延续修复。","path":[{"step":"驱动事件","detail":"7/31 KOSPI收盘+17.9%（史上最大单日涨幅），外资净买入约7.2万亿韩元；铠侠Q1 NAND单价环比+70%、毛利率约78%、资本开支远低于预期。"},{"step":"全球存储定价锚重定价","detail":"KOSPI史上最大单日涨幅->韩国存储龙头（SK海力士/三星）完成估值重定价；铠侠NAND单价+70%->存储涨价从苹果电话会叙事落到存储厂报表，涨价周期获财报级验证。外资真金白银跟进确认资金面修复。"},{"step":"传导至A股存储映射股","detail":"全球存储情绪修复->A股存储映射股情绪有望跟随；7/30兆易创新在大盘-3.97%背景下逆势+1.94%收红（盘中破昨低后V起），存储链核心标的大盘反噬日最抗跌，外溢修复有基础。","stocks":[{"code":"603986","name":"兆易创新","role":"NOR Flash/MCU/存储设计龙头"},{"code":"002409","name":"雅克科技","role":"半导体前驱体材料，存储扩产受益"}]},{"step":"先进封装跟涨与分化终端","detail":"存储涨价周期确认->先进封装（HBM配套）需求预期升温；但7/30通富微电2连跌停后情绪未完全修复，跟涨力度与持续性待盘中确认，板块内部可能分化。","stocks":[{"code":"002156","name":"通富微电","role":"先进封装/AMD代工伙伴"},{"code":"600584","name":"长电科技","role":"封测龙头"}]}],"invalidation":"若A股7/31存储映射股未能跟随外围反弹（兆易创新转跌、资金净流出），则情绪传导失败；铠侠NAND涨价若被解读为周期顶部信号而非景气延续，存储链可能利好出尽转为杀估值。"},{"name":"微软Azure+43%签约1300亿数据中心租约+亚马逊AWS AI营收超250亿 -> 光模块龙头算力需求再验证","event":"7/30美东盘后微软财报Azure Q4+43%（四年最快）、下季指引约+45%、商业RPO同比+84%至约6780亿美元，另签约约1300亿美元数据中心租约；亚马逊AWS约+37%（约18季最快）、AI业务年化run-rate超250亿美元，2026 CapEx上调至约2200亿美元（7/30-7/31多路快讯交叉，FT/CNBC等）。","event_type":"业绩","event_date":"2026-07-30","direction":"受益","strength":"中","strength_reason":"微软/亚马逊财报数字与数据中心租约均为公司披露级硬事件，多路快讯一致确认；但A股7/31盘面数据未入库且网页检索不可用，光模块龙头实际反弹效果无法盘中核实，且7/30中际旭创A股-9.15%+港股IPO首日破发的前置跌幅需修复，故不标强。","logic":"两大云巨头同步用财报数字证明AI算力需求仍在加速（Azure+43%/AWS+37%），微软1300亿数据中心租约说明真实机柜扩张未因报表CapEx变小而收缩，光模块龙头订单排至2027年的产业逻辑获正面印证。","path":[{"step":"驱动事件","detail":"7/30微软Azure+43%（四年最快）、商业RPO约6780亿、签约约1300亿美元数据中心租约；亚马逊AWS+37%、AI run-rate超250亿美元、2026 CapEx上调至约2200亿美元。"},{"step":"AI算力需求从讲故事到要收入的验证完成","detail":"微软Azure+43%+亚马逊AWS+37%->两大云巨头同步用营收增速证明AI算力需求仍在加速；微软1300亿数据中心租约->报表CapEx与真实建设量脱钩（融资租赁转经营租赁），真实机柜/电力扩张未收缩。AI算力需求获财报级而非叙事级验证。"},{"step":"传导至A股光模块龙头","detail":"云巨头算力需求验证->光模块龙头（中际旭创/新易盛）订单排至2027年的产业逻辑获正面印证；7/29中际旭创40-80亿回购+澄清1.6T降价传闻已修复一轮情绪，但7/30A股-9.15%+港股IPO首日破发再遭打击，外围云证据为下一轮修复提供基本面支撑。","stocks":[{"code":"300308","name":"中际旭创","role":"光模块龙头，800G/1.6T主力供应商"},{"code":"300502","name":"新易盛","role":"光模块二线龙头，海外高毛利订单"}]},{"step":"光器件上游同步受益终端","detail":"光模块龙头预期修复->光器件平台型供应商（天孚通信）作为上游卖铲人同步受益；但板块7/30放量吞没7/29阳线后技术面受损严重，修复持续性需量能配合确认。","stocks":[{"code":"300394","name":"天孚通信","role":"光器件平台，光引擎/CPO卡位"}]}],"invalidation":"若A股光模块龙头7/31未能止跌企稳（中际旭创/新易盛继续下跌且资金净流出），则外围云证据无法转化为股价修复；微软CapEx与真实建设量脱钩若被市场解读为需求见顶信号而非投资加速，光模块订单预期可能下修。"},{"name":"苹果称内存百年一遇涨价+三星称2027短缺更严重 -> 存储涨价周期确认但产业链分化","event":"7/31苹果电话会称内存涨价为百年一遇、压缩毛利；三星电话会称agentic AI推高token/服务器内存需求，2027短缺或比2026更严重，紧平衡或延续至2028，计划将DRAM/NAND约60%-70%产能锁进多年LTA；铠侠Q1 NAND单价环比+70%（7/31多路电话会纪要交叉转述）。","event_type":"涨价","event_date":"2026-07-31","direction":"分化","strength":"中","strength_reason":"苹果/三星/铠侠电话会口径均为公司管理层表态，可信度高，存储涨价周期获多厂交叉验证；但电话会纪要为转述非官方新闻稿全文，细节待核；A股7/31盘面未入库且网页检索不可用，分化效果待盘中确认，故不标强。","logic":"存储涨价从苹果成本端（百年一遇）和存储厂供给端（三星LTA锁量/铠侠NAND+70%）双向确认周期，但涨价对产业链各环节影响分化：存储设计/制造端受益于量价齐升，下游消费电子/封测成本端承压，先进封装因HBM需求受益但面临成本传导不确定性。","path":[{"step":"驱动事件","detail":"7/31苹果电话会称内存百年一遇涨价；三星称2027短缺更严重、紧平衡延续至2028、计划60%-70%产能锁进LTA；铠侠NAND单价环比+70%。"},{"step":"存储涨价周期获双向确认","detail":"苹果成本端（百年一遇涨价压缩毛利）+存储厂供给端（三星LTA锁量/铠侠NAND+70%）->存储涨价从单方叙事变为供需双向确认的周期信号。三星称2028前有效供给难显著放量->涨价持续性获龙头背书。"},{"step":"产业链分化终端","detail":"存储涨价周期确认->产业链分化：存储设计端（兆易创新）受益于量价齐升预期，机构维持存储量价齐升判断；但下游封测/消费电子面临存储成本传导压力，先进封装（通富微电）因HBM需求受益但7/30两连跌停后情绪脆弱，分化加剧而非单边受益。","stocks":[{"code":"603986","name":"兆易创新","role":"存储设计龙头，量价齐升受益"},{"code":"002156","name":"通富微电","role":"先进封装，HBM需求受益但成本传导承压"},{"code":"002409","name":"雅克科技","role":"半导体前驱体材料，存储扩产受益"}]}],"invalidation":"若存储涨价被市场解读为周期顶部（需求透支）而非景气延续，存储设计端可能利好出尽转为杀估值；三星LTA锁量若导致非LTA客户拿货困难，中小存储设计企业可能受损而非受益；分化方向需以A股7/31实际盘面确认。"},{"name":"美联储9:3按兵+PCE月度转负 -> 加息尾部风险消除，超跌成长股修复窗口","event":"7/30凌晨美联储FOMC以9:3投票维持联邦基金利率3.50%-3.75%不变（三票要求加息，鹰派意外但未加息）；7/30公布6月PCE环比-0.1%（2020年以来首次月度下跌）、核心PCE环比+0.1%低于预期（7/30-7/31权威快讯多路交叉）。","event_type":"海外冲击","event_date":"2026-07-30","direction":"受益","strength":"中","strength_reason":"FOMC投票结果与PCE数据均为官方确定性硬事件，多路快讯一致确认；但A股7/30在FOMC按兵后仍大跌（创业板-3.97%/科创50-5.38%），说明按兵利好未即时传导，7/31盘面数据未入库且网页检索不可用，修复窗口是否兑现待核实，故不标强。","logic":"美联储按兵消除加息尾部风险+PCE月度转负强化通胀降温预期，为全球风险资产尤其是高估值成长股提供喘息窗口，A股科技链在7/30超跌后（创业板两日累计跌约2.4%/科创50两日累计-6.3%）存在超跌反弹的宏观条件。","path":[{"step":"驱动事件","detail":"7/30凌晨FOMC 9:3维持利率3.50%-3.75%不变（三票要求加息未通过）；7/30 PCE环比-0.1%（2020年以来首次月度下跌）、核心PCE+0.1%低于预期。"},{"step":"加息尾部风险消除+通胀降温","detail":"FOMC 9:3按兵->加息尾部风险消除，此前约1/3押加息的期货头寸需平仓；PCE月度转负->通胀降温预期强化，长端利率松动预期升温。两者共振->全球风险资产估值压制因素边际缓解。"},{"step":"超跌成长股修复窗口传导终端","detail":"加息尾部风险消除->A股科技链超跌成长股修复窗口打开；7/30创业板-3.97%/科创50-5.38%为超跌状态，7/29中际旭创回购+澄清已提供产业层面支撑，FOMC按兵提供宏观层面支撑。但7/30按兵后A股仍大跌说明传导有滞后，修复需外围持续配合。","stocks":[{"code":"300308","name":"中际旭创","role":"光模块龙头，高估值成长股代表"},{"code":"603986","name":"兆易创新","role":"存储设计龙头，超跌成长股"}]}],"invalidation":"若A股7/31仍未止跌（创业板跌破7/30低点3158/上证跌破3767），则修复窗口失败，超跌反弹逻辑作废；美联储声明措辞偏鹰（三票加息）暗示后续可能加息，若后续PCE反弹则加息预期重燃，成长股修复窗口关闭。"}]},"events":{"date":"2026-07-31","summary":"7/30-31核心事件：①美联储FOMC以9-3维持利率3.50%-3.75%不变，6月PCE月度转负（2020年以来首次），Q2 GDP仅+1.5%逊预期，加息尾部风险消除+通胀降温双重利好；②KOSPI录得史上最大单日涨幅约+17.9%，SK海力士/三星+20%+，外资净买约7.2万亿韩元，全球存储链重定价；③微软Azure+43%创四年最快增速，签约约$1300亿数据中心租约，盘中约+16%创18年最大单日涨幅，AI开支ROI首获强力验证；④Meta FCF同比-91%塌缩至约$7.84亿，未来承诺近$7000亿，盘后重挫约10%，卖方下修潮（Evercore移出Top Pick/Citi降目标）；⑤亚马逊AWS+37%（18季最快），CapEx上修至约$2200亿点名存储成本，AI run-rate超$250亿；⑥铠侠Q1 NAND单价环比+70%验证涨价，CapEx远低于预期；⑦中际旭创7/30 A股跌约9.15%收约864元+港股IPO首日破发，光模块链承压；⑧台检扣押英伟达员工，AI芯片走私链条曝光，出口管制从卡货升级到卡人。注：web检索不可用，以上以xbriefs.js（7/30-31多路快讯交叉）及data.js（7/29数据）为线索。仅供研究参考，非投资建议。","events":[{"title":"美联储FOMC 9-3维持利率3.50%-3.75%不变+6月PCE月度转负+Q2 GDP逊预期，加息尾部风险消除","category":"海外/宏观","time":"2026-07-30 02:00 / 2026-07-30 20:30","content":"7/30凌晨美联储7月议息会议以9-3投票维持联邦基金利率3.50%-3.75%不变，消除此前约1/3概率的加息尾部风险。同日公布的6月PCE整体环比-0.1%（2020年以来首次月度下跌），核心PCE环比+0.1%低于预期0.2%且前值0.3%，同比+3.3%；Q2 GDP年化仅+1.5%逊于预期。Hassett称通胀数据让Warsh工作更容易。PCE降温+GDP偏弱强化按兵不动路径，为全球科技股超跌反弹提供宏观窗口。此前A股科技链连续暴跌部分受加息预期压制，按兵不动+通胀","importance":"高","direction":"利好","sectors":"全球科技股/成长股（超跌反弹窗口）；黄金/美债（避险需求边际下降）","stocks":[{"code":"300308","name":"中际旭创","direction":"受益","note":"高估值成长股，加息尾部风险消除后反弹持续性增强（7/29已+4.74%，但7/30回跌约9.15%再度承压）"},{"code":"688256","name":"寒武纪","direction":"受益","note":"国产AI芯片龙头，高估值受利率压制明显，按兵不动有助估值修复"}]},{"title":"KOSPI录得史上最大单日涨幅约+17.9%，SK海力士/三星+20%+，全球存储链重定价","category":"海外/市场","time":"2026-07-31","content":"7/31韩国KOSPI收盘上涨约17.9%，为有史以来最大单日涨幅。SK海力士、三星电子均涨超20%。外资单日净买约7.2万亿韩元，称阶段性最大买盘之一。催化：美股科技大反弹（微软Azure+43%证据）+内存紧缺/涨价叙事修复（苹果电话会内存洪水、亚马逊CapEx上修点名存储成本）。亚洲股市录得近约四个月最大涨幅，芯片股领涨，日本设备股跟涨（Advantest约+18%/Disco约+13%/TEL约+9%）。此前KOSPI连续两日熔暴跌（7/29约-7%、7/28约-11","importance":"高","direction":"利好","sectors":"存储芯片/半导体设备/半导体材料（情绪修复+涨价验证）","stocks":[{"code":"603986","name":"兆易创新","direction":"受益","note":"国产存储龙头，7/29已-6.81%（连续3日累计跌幅偏离20%），KOSPI暴涨有望触发超跌反弹"},{"code":"301308","name":"江波龙","direction":"受益","note":"存储模组龙头，7/29从左侧状态回升至逢低区，全球存储涨价叙事强化催化"}]},{"title":"微软Azure+43%创四年最快增速，签约约$1300亿数据中心租约，盘中约+16%创18年最大单日涨幅","category":"海外财报","time":"2026-07-30","content":"7/29美东盘后微软发布财报：Azure Q4+43%（四年最快），下季指引约+45%（固汇）；商业RPO同比+84%至约$6780亿；M365 Copilot付费席位超3000万（从约2000万）。2026年CapEx从约$1900亿调至约$1750亿，主因融资租赁转经营租赁+数据中心耐用年数15->25年（会计分类，非投资缩减）。FT报道微软另签约约$1300亿美元数据中心租约，说明真实机柜/电力扩张未因报表CapEx变小而收缩。7/30微软盘中涨约+12%至+16%，称","importance":"高","direction":"利好","sectors":"AI算力链/光模块/IDC/电力设备（需求验证）；云应用/软件（叙事权重上升）","stocks":[{"code":"300308","name":"中际旭创","direction":"受益","note":"微软Azure+43%与$1300亿数据中心租约验证算力需求，光模块龙头订单排至2027年获正面印证（但7/30 A股跌约9.15%显示短期仍有压力）"},{"code":"300442","name":"润泽科技","direction":"受益","note":"IDC/智算中心龙头，微软$1300亿数据中心租约验证全球AIDC需求扩张趋势"}]},{"title":"Meta FCF同比-91%塌缩至约$7.84亿，未来承诺近$7000亿，盘后重挫约10%引发AI开支回报质疑","category":"海外财报","time":"2026-07-30","content":"7/29美东盘后Meta发布财报：2026 CapEx指引约$1300-1450亿（仅抬下限，前值$1250-1450亿）；Q2 FCF约$7.84亿（同比-91%）；EPS显著低于预期；营业利润率约43%降至约31%。CFO未给2027年CapEx清晰路径。表外未来承诺合计近约$7000亿（采购义务约$349B+租赁义务约$279B）。盘后约-10%（约585->529）。7/30卖方下修潮：Evercore将Meta移出Top Pick名单（目标价$930->$820），","importance":"中高","direction":"结构性","sectors":"AI硬件链（开支回报审查加剧）；云应用/软件（相对硬件叙事权重上升）","stocks":[{"code":"300308","name":"中际旭创","direction":"受损","note":"Meta FCF塌缩引发AI开支回报质疑，7/30 A股跌约9.15%部分受此情绪传导（微软证据vs Meta质疑的拉锯）"}]},{"title":"亚马逊AWS+37%（18季最快）+CapEx上修至约$2200亿点名存储成本+AI run-rate超$250亿","category":"海外财报","time":"2026-07-31","content":"7/31凌晨亚马逊发布Q2财报：净销售约$2006亿（超预期$1970亿）；AWS约$422.3亿，ex-FX约+37%（预期约+31%，18季最快）；营业利润约$275亿、利润率约13.7%。GAAP EPS约$5.75大幅超预期（含Anthropic投资税前估值收益约$534亿，需剥离看经营质量）。公司称AWS AI年化run-rate超约$250亿；trailing 12个月FCF约-$76亿（AI基建前置）。2026 CapEx上修至约$2200亿（此前多被读作重申）","importance":"中高","direction":"利好","sectors":"存储芯片/AI算力链/电力设备/IDC（需求验证）","stocks":[{"code":"603986","name":"兆易创新","direction":"受益","note":"存储龙头，亚马逊CapEx上修点名存储成本验证存储涨价趋势"},{"code":"300308","name":"中际旭创","direction":"受益","note":"AWS+37%与电力容量翻倍验证算力需求，光模块龙头订单排至2027年获正面印证"}]},{"title":"铠侠Q1：NAND单价环比约+70%验证存储涨价，CapEx远低于预期，宣布1拆3+回购","category":"海外财报/产业","time":"2026-07-31","content":"7/31铠侠（Kioxia）发布Q1财报：NAND单位价格较上季约+70%；毛利率约78%（预期约78.3%）；CapEx约524亿日元（预期约925亿日元，显著偏低）。宣布1拆3股票拆分并公布回购。产业读数：存储涨价已兑现到财报层，开支克制或反映扩产节奏/现金流取舍。与三星电话会缺货至2028+LTA锁定60-70%产能、亚马逊CapEx上修点名存储成本、苹果电话会内存百年一遇涨价等叙事同框，全球存储涨价周期获多维度验证。注：web检索不可用，以xbriefs.js 7/3","importance":"中高","direction":"利好","sectors":"存储芯片/存储模组/半导体材料（涨价周期验证）","stocks":[{"code":"603986","name":"兆易创新","direction":"受益","note":"国产存储龙头，NAND涨价+70%验证存储周期上行，7/29已-6.81%超跌后反弹预期强"},{"code":"301308","name":"江波龙","direction":"受益","note":"存储模组龙头，NAND涨价直接利好模组售价与库存增值"}]},{"title":"中际旭创7/30 A股跌约9.15%收约864元+港股IPO首日破发，光模块链承压","category":"市场/个股","time":"2026-07-30","content":"7/30中际旭创A股收约864元、跌约9.15%，成交额约597-598亿元（单日天量）。港股IPO首日破发。7/29刚反弹+4.74%（收951元），7/30即回吐全部涨幅并创新低，反映光模块链在Meta FCF塌缩引发AI开支回报质疑+全球芯片恐慌余波中的脆弱性。中际旭创7/29刚抛出40-80亿元回购方案并澄清1.6T降价传闻，但未能阻止7/30回调。A/H溢价扩大。注：web检索不可用，7/30 A股价格以xbriefs.js 7/30 17:28简报（多路中文盘面汇","importance":"中高","direction":"利空","sectors":"光模块/CPO/光通信（短期承压）","stocks":[{"code":"300308","name":"中际旭创","direction":"受损","note":"7/30跌约9.15%收约864元，天量成交597-598亿，7/29反弹全部回吐，港股IPO首日破发"},{"code":"300502","name":"新易盛","direction":"受损","note":"光模块二线龙头，跟随板块承压（7/29收421.2元+3.51%，7/30大概率跟随下跌）"}]},{"title":"台检扣押英伟达员工：AI芯片走私链条曝光，出口管制从卡货升级到卡人","category":"海外/政策","time":"2026-07-30","content":"Forbes/Bloomberg线报道：台北检方约7/24搜查英伟达台北办公室并扣押某姓张业务主管，据称是政府首次对在职英伟达员工采取直接强制措施。指控方向为伪造终端用户/KYC文件，协助约50台服务器（叙事口径含GB300 Grace Blackwell Ultra级、Super Micro整机，货值约2100万美元）经岛内机房暂存->日本->香港->大陆路径规避审查。英伟达表态走私不可接受，被挪用产品将无支持与更新。同日黄仁勋会见美国商务部长Lutnick。英伟达5年CD","importance":"中","direction":"结构性","sectors":"半导体（国产替代利好/出口管制扰动）；AI算力链（合规溢价上升）","stocks":[{"code":"688256","name":"寒武纪","direction":"受益","note":"国产AI芯片龙头，出口管制升级强化国产替代叙事"},{"code":"603986","name":"兆易创新","direction":"受益","note":"国产存储龙头，出口管制升级强化国产替代叙事"}]}]},"xbriefs":{"updated":"2026-08-03 11:18","briefs":[{"id":"20260803-111835","time":"2026-08-03 11:18","period":"近约2小时","title":"外围热点","content":"# X 资讯简报 · AI & 股市\n**时段**：近约 2 小时（北京时间 2026-08-03 11:15 前后；周一亚太午前） | **筛选说明**：已剔除情绪帖/喊单/旧闻翻炒/与上期重复无增量（上期贝森特「可再干预」原文、韩综开盘约 −4% 初值、美债 bp、SIMO/HBM 纪要二读、油期开盘 −7% 全文等无新点则不换皮）\n\n## 一、AI 要闻（最多 5 条）\n\n1. **阿里发布千问 Qwen3.8-Max：宣称约 2.4 万亿参数，性能对标 Anthropic Fable；据称下周开源权重并推 27B**  \n   彭博：阿里巴巴发布最新旗舰 AI 模型，性能主张对标全球一线如 Anthropic **Fable**。中英文产业快讯汇总型号为 **Qwen3.8-Max / 千问 3.8-MAX**，参数量讨论约 **2.4T**；称计划**下周**放出开源权重，并同步 **Qwen3.8-27B**（细节以","aiCount":2,"marketCount":4},{"id":"20260803-091828","time":"2026-08-03 09:18","period":"近约2小时","title":"外围热点","content":"# X 资讯简报 · AI & 股市\n**时段**：近约 2 小时（北京时间 2026-08-03 09:15 前后；周一亚太早盘） | **筛选说明**：已剔除情绪帖/喊单/旧闻翻炒/与上期重复无增量（上期油期开盘布伦特约 −7%/WTI≈$79、特朗普「周一下午再谈」全文、标普期货约 +0.4% 初值等无新点位则不换皮；Astra 数学旧闻不复述）\n\n## 一、AI 要闻（最多 5 条）\n\n1. **次优：存储模组厂 SIMO 管理层——原厂 capex 更偏向 DRAM/HBM，NAND 扩产与 2TB 等高端调优更慢**  \n   产业账号摘 **Silicon Motion (SIMO)** Q2 纪要口径：AI 超级周期推高 HBM/DRAM/NAND/HDD 需求与价格；原厂把更多产能与 capex 押在 **DRAM/HBM**，NAND 侧「新 fab 缓解供需或要到约 **2028**」叙事被重提；消费端低端","aiCount":2,"marketCount":5},{"id":"20260803-071823","time":"2026-08-03 07:18","period":"近约2小时","title":"外围热点","content":"# X 资讯简报 · AI & 股市\n**时段**：近约 2 小时（北京时间 2026-08-03 07:15 前后；周一亚盘早段，CME 原油已开） | **筛选说明**：已剔除情绪帖/喊单/旧闻翻炒/与上期重复无增量（上期片山「周一宣布+操作仍在进行」、伊总统备忘录讲话、霍尔木兹船位 OSINT、OPEC+ 声明数字等无新进展不换皮）\n\n## 一、AI 要闻（最多 5 条）\n\n1. **本时段无高价值 AI 产品/官宣增量**  \n   未见新权重、新价卡或可核发版；Astra「数学十项」仍在二读（含 Gary Marcus 八条误读清单：营销非科学、难外推到开放世界等），DeepSeek-V4-Flash 成本对比 Opus 演示帖续刷。  \n   **为何重要**：勿用旧闻填版；本周 AI 链硬锚仍是 **AMD / SNDK** 等财报与风险偏好。  \n   **可信度**：— | **来源**：时段扫描\n\n## 二、","aiCount":1,"marketCount":5},{"id":"20260803-051823","time":"2026-08-03 05:18","period":"近约2小时","title":"外围热点","content":"# X 资讯简报 · AI & 股市\n**时段**：近约 2 小时（北京时间 2026-08-03 05:15 前后；周一凌晨，CME 原油约 06:00 开盘前） | **筛选说明**：已剔除情绪帖/喊单/旧闻翻炒/与上期重复无增量（上期 OPEC+ 声明 +18.8 万桶、美绕航、零售汽油 $4.10、VulcanBench 上 DeepSeek-V4-Flash 登顶、场外 WTI≈$81 等不复述；无新事实不换皮）\n\n## 一、AI 要闻（最多 5 条）\n\n1. **本时段无高价值 AI 产品/官宣增量**  \n   未见新权重、新价卡或可核实验室发版；DeepSeek-V4-Flash 本地/多卡分布式演示（如跨欧 6×RTX 5090 环、Pi harness 搭配）与「Opus 发挥不稳定」体感帖仍在二次传播，**非新模型事实**。  \n   **为何重要**：空窗延续；本周硬锚仍是 **AMD / SNDK** ","aiCount":1,"marketCount":4},{"id":"20260803-031830","time":"2026-08-03 03:18","period":"近约2小时","title":"外围热点","content":"# X 资讯简报 · AI & 股市\n**时段**：近约 2 小时（北京时间 2026-08-03 03:15 前后；周一凌晨，油期/亚盘正式开盘前） | **筛选说明**：已剔除情绪帖/喊单/旧闻翻炒/与上期重复无增量（上期伊—阿曼「最后阶段」新航路≠海峡开闭、Fable 复现 Astra 半数数学题、日美亚盘干预戒备、全球家庭净资产 $570T 等不复述；无新事实不换皮）\n\n## 一、AI 要闻（最多 5 条）\n\n1. **次优：独立基准 VulcanBench——DeepSeek-V4-Flash（0731）在「中等努力」档位登顶，挤出 Fable 前三**  \n   基准作者称全量跑完后：**DeepSeek V4 Flash** 在 medium effort 拿下**第一**；**Grok 4.5 Medium** 第二；**Fable** 跌出前三；ChatGPT 系跌出前五。强调必须分 effort 档位比较，否","aiCount":2,"marketCount":4},{"id":"20260803-011830","time":"2026-08-03 01:18","period":"近约2小时","title":"外围热点","content":"# X 资讯简报 · AI & 股市\n**时段**：近约 2 小时（北京时间 2026-08-03 01:15 前后；周一凌晨，亚太开盘前） | **筛选说明**：已剔除情绪帖/喊单/旧闻翻炒/与上期重复无增量（上期日中减持美债数字、IRGC 许可制通航、海湾股市走高、本周 AMD/SNDK/非农日历、求职 11 周等不复述；无新事实不换皮）\n\n## 一、AI 要闻（最多 5 条）\n\n1. **次优：Anthropic 研究员称 Claude Fable 在约 24 小时内复现 OpenAI Astra 十项数学结果中的五项**  \n   Anthropic 侧研究人员 Levent Alpöge 称：用**已公开可用**的 **Claude Fable**，在**全自动、通用 prompt、无联网**并加防泄漏设置下，约一天内复现 OpenAI 未发布模型 **Astra** 公布的 10 项前沿数学结果中的 **5 项**；","aiCount":2,"marketCount":4}]},"weekend":{"weekendDate":"2026-08-02","summary":"本周末共发酵7个热点：美伊条件性取消打击+油价溢价回吐、霍尔木兹协议遭法尔斯否认、OPEC+9月象征性提额、日美协同撑日元周一官宣、美股云/果链剪刀差与存储超级周期、OpenAI Astra/DeepSeek开源、中际旭创回购与大股东减持并存。整体外盘偏风险偏好修复但地缘未闭环，周一结构性偏多、油气与高位连板宜谨慎。仅供研究参考，非投资建议。","hotspots":[{"title":"特朗普条件性取消对伊打击 油价溢价回吐","category":"海外映射","fermentLevel":"高","signalType":"真信号","event":"2026-08-01至08-02周末：特朗普经Truth Social称对伊处于“locked and loaded”，但因伊方及中东国家请求暂缓、称交易框架边界已谈妥，条件性取消计划打击；条件包括立即完全开放霍尔木兹海峡、终结伊核威胁，并以迅速达成DEAL为前提，称以色列加入该承诺。WSJ路径同步“援引外交进展取消计划攻击”。周末市况：美油期货约−6%（点位约80一带跳动）、布伦特讨论约回落至约","interpretation":"这是本周末最强跨资产定价开关：市场从“可能空袭”切换到“条件性和平窗口”，战争溢价快速回吐、科技期货偏暖，逻辑链为地缘缓和→油价回落→通胀预期降温→成长股估值压力减轻。对A股：油气/航运地缘溢价股周一易遭获利回吐；光模块、PCB、算力等超跌成长更易承接外盘风险偏好修复。但总统表述是“框架边界+迅速成交条件”，不是已签条约；伊方有成员否认“请求美方不打”，双方叙事冲突。周五A股已在科技修复中（创业板+3.06%），周一是“外溢确认”而非全新主线启动。","impactSectors":["石油石化","油气开采","航运","军工","半导体","光模块/CPO"],"mondayStrategy":"开盘先看原油与亚太期货：油续跌且韩日股指期货不崩，成长修复叙事延续；油反抽或海峡新闻恶化则先砍油气博弈仓。策略上回避油气高位溢价股追高，光模块/PCB等只做低开缩量企稳或回踩确认，不把“和平”一次性打满仓。仅供研究参考，非投资建议。","falsifyRisk":"取消≠永久停火；若霍尔木兹无通航实绩、美伊再发可核战报，油价与风险偏好会二次定价。法尔斯通讯社周日否认“德黑兰已同意重开海峡”报道（见下一热点），直接冲击“海峡换停火”模板。成品油/炼能紧张（埃克森雪佛龙警告）不会因原油回落自动消失。"},{"title":"法尔斯否认同意重开霍尔木兹 缓和遇证伪点","category":"风险利空","fermentLevel":"高","signalType":"真信号","event":"2026-08-02亚太晚间：法尔斯通讯社引知情源称，关于德黑兰已同意某项“重开霍尔木兹海峡”提案的报道“并无事实”；多路聚合同步“伊朗否认同意重开海峡”。此前美方条件性取消打击的公开条件之一即是立即、完全开放霍尔木兹。另有路径称外长阿拉格齐相关和解方案促成取消美袭——与法尔斯否认对立，并列待核。卡塔尔外长连线沙特/约旦重申支持降温、推动全面协议，属斡旋口径非成交文本。来源：xbriefs.js ","interpretation":"把周末叙事从“已谈妥海峡条款”拉回“外交仍在谈、条款未坐实”。对定价含义：油价−6%更多交易“空袭窗口关闭”，而非完整deal；若周一无AIS通航/正式文本，溢价回吐可能减速甚至部分回补。A股不宜把油气一律杀到底，也不宜把成长修复当成无风险单边。正确框架是：缓和窗口仍在，但执行条款（海峡、核）仍是待验证变量，波动率高于方向确定性。","impactSectors":["石油石化","航运","化工","航空机场","大盘情绪"],"mondayStrategy":"油气不做单边趋势追击：已有溢价回吐的用反抽减仓，未上车不因“和平”杀跌去摸底。成长股开盘若因外盘高开过多，用海峡新闻是否发酵决定是否兑现。关注信号：油价是否在亚太时段V型反抽、航运险相关股是否异动。仅供研究参考，非投资建议。","falsifyRisk":"若随后出现可核通航数据或美伊联合声明明确海峡开放，则本条“证伪风险”本身被证伪，油价或再下台阶。若出现新的海峡袭船/基地疏散升级，则反向验证风险溢价回归。当前缺条约文本与通航硬数据。"},{"title":"OPEC+原则同意9月再小幅提配额","category":"海外映射","fermentLevel":"中","signalType":"真信号","event":"2026-08-02：彭博称主要OPEC+成员国原则上同意9月再来一轮象征性配额上调，讨论量约+18.8万桶/日，其后或暂停进一步上调，以完成2023年自愿减产的理论回补路径；沙特、俄罗斯等七国机制仍是执行主体。另有快讯称科威特7月原油产量均值约197.1万桶/日（6月约165万），属单国产量修复数据点。正式会议纪要与各国有效产能兑现仍待核。来源：xbriefs.js 2026-08-02 17:","interpretation":"供给端再加一层温和增产预期，与地缘溢价回吐同向压制原油价格中枢，但量级偏“象征性”，不是供应洪峰。对A股：油气勘探开采弹性标的受油价预期下修拖累；炼化则可能受益原油成本回落，但若成品油因炼能紧仍黏（埃克森/雪佛龙警告），则裂解逻辑与原油逻辑要拆开。周一更可能作为油价叙事的“第二层注解”，而非独立主线。","impactSectors":["石油石化","油气开采","炼化","化工"],"mondayStrategy":"油气链继续按“油价方向+个股弹性”交易，不单独因OPEC+原则协议开新仓。若油价低开后亚太快速反抽，说明市场更交易海峡不确定性而非增产。炼化/化工观察成本改善是否有资金接力，确认需放量而非一日情绪。仅供研究参考，非投资建议。","falsifyRisk":"原则协议≠已公布配额表；若正式会议推翻或霍尔木兹再阻断，增产叙事失效。科威特产量为匿名源快讯，需与OPEC月报交叉。把+18.8万桶外推成“油价结构跌至60”属噪音。"},{"title":"日美协同干预日元 片山周一或官宣","category":"海外映射","fermentLevel":"中","signalType":"真信号","event":"周末彭博/@DeItaone等：日本财务大臣片山皋月最早周一宣布，东京与华盛顿已就遏制日元疲软在汇市采取联合行动；讨论中日本侧累计干预规模约近590亿美元量级（以官方事后披露为准）。FT路径此前已报美方十余年来首次协同撑日元；本窗增量是正式官宣时点。背景上周五前后亦有路透关系源称美财政部经纽联储知会银行或介入日元。来源：xbriefs.js 2026-08-02 17:37、07-31相关窗。","interpretation":"套息平仓与美元流动性是周一亚太的另一条主轴，不能只盯油。历史样本中强势汇市干预后，日股与风险资产常先波动再定价。对A股外溢主要是风险偏好与日韩科技映射，而非直接点杀单一板块。周五韩股存储大涨、A股科技修复后，若周一USDJPY急挫带动日经/韩综期货剧烈波动，A股开盘可能出现“外盘好但亚太乱”的折中定价。","impactSectors":["出口链","半导体设备映射","券商","大盘风险偏好"],"mondayStrategy":"开盘并看USDJPY、日经期货、韩综，不只看纳指期货。若日韩期货大幅低开而美科技期货仍红，A股宜降低高开追涨；若三者同向偏强，科技修复 continuity更好。出口链与半导体设备不做汇率单边赌博。仅供研究参考，非投资建议。","falsifyRisk":"官宣时点与规模以日本财务省/官方披露为准，媒体“约590亿”为讨论量级。若仅口头协同、无实际成交，则冲击有限。亚洲期货点位周末评论版本不一，必须以交易所为准。"},{"title":"美股云强果链弱+存储超级周期外溢","category":"产业催化","fermentLevel":"高","signalType":"真信号","event":"美东7/31收盘至周末消化：亚马逊AWS约+37%、AI业务年化run-rate超约250亿美元，2026 CapEx上修至约2200亿美元并点名更高内存/存储成本；苹果iPhone/Mac有超预期但指引与内存成本/先进制程瓶颈压制，收盘约跌7%–9%量级。韩股7/31 KOSPI收盘约+17.9%（史上最大单日量级），海力士/三星大涨，外资单日净买约7.2万亿韩元；铠侠NAND单价环比约+70%","interpretation":"产业主线被周末外盘再次确认：AI CapEx仍在、瓶颈从“有没有订单”更多转向“存储/电力/先进封装交期”。A股映射应继续分拆——存储/封测/PCB/光模块受益“量价+资本开支”，果链消费电子受内存成本与苹果指引质量压制。周五涨停结构（99涨停、0跌停但炸板率约51.9%）说明情绪修复快、但接力质量一般；存储与AI应用（蓝色光标、中文在线等）拥挤度上升。自选池技术面仍偏空头排列（多头0/空头39），反弹多属超跌修复，尚未出现大面积右侧突破。","impactSectors":["存储芯片","存储模组","先进封装","光模块/CPO","PCB/载板","服务器/ODM"],"mondayStrategy":"优先盯存储（兆易/德明利/江波龙/太极实业）与算力硬件（光模块/PCB）低开或回踩后的量能，不追已经连板的情绪杂毛。果链相关除非超跌且有新订单，否则不做主线。确认信号：存储龙头开盘半小时不破周五低点+北向/主力不全天出逃；证伪：韩系映射高开低走、炸板潮再现。仅供研究参考，非投资建议。","falsifyRisk":"韩股单日史诗级涨幅后存在获利回吐；若周一海力士/三星期货大幅低开，A股存储高位股易分化。苹果供应链若再出指引下修或订单砍单，果链二次杀估值。把“存储涨价”线性外推到所有电子股属误导。中际旭创仍处空头排列+大股东减持扰动（见公司热点）。"},{"title":"OpenAI Astra数学突破与DeepSeek权重开源","category":"产业催化","fermentLevel":"中","signalType":"真信号","event":"2026-08-01前后：OpenAI研究员Noam Brown指向官网长文，Astra内部版在数学/量子复杂度/理论计算机科学推进10项长期开放问题，人类整理手稿、模型以Lean形式化产出可机检证书，成功解题token成本转述约不足2000美元；尚未宣布对外发版或是否定名GPT-6，专家复核仍在路上。DeepSeek-V4-Flash-0731权重上Hugging Face（MIT），API公测","interpretation":"长期强化“前沿推理能力+Agent成本曲线下移”叙事：Astra偏闭源科学推理里程碑，DeepSeek偏开源/低价分发与Agent可部署性。对A股短线，更易催化AI应用与传媒广告侧情绪（周五已有蓝色光标等涨停），对光模块/服务器硬件是情绪溢价而非即刻订单。周末信息空窗中GLM-5.5/GPT-6“8月发布”等小作文被xbriefs明确标为未证实噪音，不得与官宣混排。硬件订单仍看云厂CapEx与存储/电力约束，不因单次模型新闻改趋势。","impactSectors":["AI应用","算力","光模块/CPO","国产大模型映射","软件开发"],"mondayStrategy":"AI应用侧若高开过多谨防周五涨停股分歧；更稳的是等待回踩或分歧转一致。硬件链不因Astra单独加仓，只作为风险偏好背景。回避无基本面的“AI+”纯情绪杂毛。仅供研究参考，非投资建议。","falsifyRisk":"Astra数学结果待同行评议与Lean证书全面核验；未商用、无发版时间表。DeepSeek价战可能压制“卖token”想象，但不自动削减算力资本开支。把教程/免费额度/Polymarket盘口当产业事实属噪音。"},{"title":"中际旭创大额回购与大股东减持并存","category":"公司公告","fermentLevel":"中","signalType":"真信号","event":"盘后至周末媒体发酵（新闻时点2026-08-01）：中际旭创7月抛出40–80亿元回购方案并回应1.6T降价传闻，称平均售价远高于传言、订单已下到2027年；7月30日晚权益变动公告显示控股股东山东中际投资控股及其一致行动人因港股上市、股权激励行权及二级市场减持等，持股比例变动超1%整数倍，媒体称大股东减持套现超53亿元。公司7月回撤约29%，7/30成交额近600亿元创纪录；7/31收盘902.","interpretation":"同一标的上出现“公司层回购+订单澄清”与“大股东减持套现”的对冲信号：产业叙事（800G/1.6T、订单至2027）未被公司证伪，但供给端筹码与治理观感受减持冲击，解释为何业绩/订单强仍难单边趋势。板块层面，光模块周五随科技修复反弹，却仍处空头排列、距60日高仍远，属于超跌反弹而非新一轮主升确认。投资者应把回购当信心托底、把减持当流动性与情绪折价，两者不可只取一端。","impactSectors":["光模块/CPO","算力硬件"],"mondayStrategy":"中际旭创/新易盛等宜观察高开是否被减持叙事压回：缩量回踩企稳可持有波段修复，放量长上影或跌破周五低点则减仓。不因回购公告追高，不因减持恐慌无差别杀跌板块。联动看北美期货与存储情绪是否提供beta。仅供研究参考，非投资建议。","falsifyRisk":"回购方案执行节奏与价格区间待后续进展；减持若延续可能压制估值修复斜率。若北美云厂CapEx或1.6T价格战被新证据坐实，则订单乐观口径可能被重新定价。禁止把“订单到2027”解读为短期股价只涨不跌。"}]},"stocks":[{"code":"300308","name":"中际旭创","sector":"光模块/CPO","tags":["算力","800G","1.6T","CPO"],"narrative":"全球高速光模块龙头，北美云厂 800G 主力供应商，1.6T 进入放量周期。核心叙事是 AI 算力 capex 持续上行带来的光模块量价齐升，并向硅光/CPO/LPO 等下一代方案延伸卡位。","drivers":["北美云厂 AI capex 上修","1.6T 量产放量","800G 满产满销"],"falsify":["北美大客户 AI capex 指引下修或砍单","1.6T 验证/导入进度大幅不及预期","CPO 路线提前替代可插拔光模块导致份额受损","硅光自供使外购光模块需求结构性下降"],"watch":["大客户季度 capex 指引","1.6T 送样/认证节点传闻","海外建厂与产能爬坡进度"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价异动：+4.74%，量比0.97。公司抛出40-80亿元回购方案并深夜回应1.6T降价传闻，称平均售价远高于传言、订单已下到2027年。回购+澄清双管齐下提振信心，光模块龙头反弹领涨，叙事逻辑获强力支撑。"},"signal":{"date":"2026-07-31","price":902.01,"chgPct":4.4,"trend":"空头排列","leftState":"回踩约 13.7% 入场（逢低区）","rightState":"远离突破 57.1% · 暂无右侧","volRatio":1.28,"pullbackPct":13.74},"news":[{"title":"晓数点丨券商8月金股出炉，涉及医药、信息技术、消费等领域","time":"2026-08-01 11:50:49"},{"title":"科技早报 | 三大运营商停止第三方互联网渠道号卡办理；中际旭创大股东减持套现超53亿元","time":"2026-08-01 08:45:00"},{"title":"上市科技公司现回购潮 回购比例低遭质疑","time":"2026-08-01 03:34:11"}]},{"code":"300502","name":"新易盛","sector":"光模块/CPO","tags":["算力","800G","1.6T","高毛利"],"narrative":"光模块第二梯队龙头，海外客户结构优、毛利率行业领先。叙事与旭创同源——AI 算力驱动 800G/1.6T 放量，海外占比高带来高盈利弹性。","drivers":["海外高毛利订单","800G/1.6T 放量","汇率与产品结构改善"],"falsify":["海外大客户订单转移或集中度风险暴露","高毛利不可持续、价格战侵蚀","产能/交付瓶颈"],"watch":["单一大客户依赖度传闻","毛利率可持续性","海外产能进度"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价温和：+3.51%，量比0.94。今日突破半年线，跟随光模块板块反弹。中际旭创回购+澄清1.6T降价传闻带动板块情绪修复，新易盛供应链紧张逐步缓解、订单交付快速增长（7/26研报）。"},"signal":{"date":"2026-07-31","price":396.01,"chgPct":6.71,"trend":"空头排列","leftState":"回踩约 14.1% 入场（逢低区）","rightState":"远离突破 56.3% · 暂无右侧","volRatio":1.23,"pullbackPct":14.12},"news":[{"title":"今日这些个股异动 主力加仓电子、通信板块","time":"2026-07-31 16:58:02"},{"title":"新易盛:2026年半年度业绩预告","time":"2026-07-20"},{"title":"新易盛:关于完成工商登记变更并换发营业执照的公告","time":"2026-07-09"}]},{"code":"300394","name":"天孚通信","sector":"光模块/CPO","tags":["光器件","无源","有源","陶瓷套管"],"narrative":"光器件平台型公司，无源（陶瓷套管/隔离器/MPO）+ 有源（光引擎）双轮。叙事是作为光模块上游‘卖铲人’，受益高速光模块放量且具备 CPO 光引擎卡位价值。","drivers":["光模块放量带动器件需求","光引擎/CPO 卡位","高毛利无源件"],"falsify":["光模块需求转弱","CPO 进度证伪光引擎逻辑","客户自供器件比例上升"],"watch":["CPO 量产节点","下游大客户份额变化"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价企稳：+0.29%，量比0.76。左侧状态从「已跌破逢低区」回升至「已回踩至逢低区·可分批左侧」，技术面修复。中际旭创回购+澄清利好光模块产业链，天孚通信作为光引擎核心供应商受益。"},"signal":{"date":"2026-07-31","price":171.01,"chgPct":6.81,"trend":"空头排列","leftState":"回踩约 9.9% 入场（逢低区）","rightState":"远离突破 118.9% · 暂无右侧","volRatio":1,"pullbackPct":9.94},"news":[{"title":"深交所组织外资走进7家深市公司 实地验证企业创新成长能力","time":"2026-07-31 18:36:00"},{"title":"机构测算，“十五五”算力网将新增直接投资4万亿元","time":"2026-07-31 13:51:51"},{"title":"股市午报：A股超4500股飘红！长鑫科技，盘中突破4万亿元","time":"2026-07-31 12:25:00"}]},{"code":"002281","name":"光迅科技","sector":"光模块/CPO","tags":["光芯片","国产替代","相干"],"narrative":"国资背景光器件/光芯片厂，从无源到有源垂直布局，叙事是国产光芯片替代 + 高速光模块放量，估值与盈利弹性相对一线龙头有补涨预期。","drivers":["国产光芯片自研","数通/电信双轮","相干模块"],"falsify":["数通占比与高速产品放量不及预期","光芯片自研进度慢","盈利弹性弱于同业"],"watch":["数通业务占比","光芯片良率/出货"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价偏弱：-2.48%，量比0.81。2022年限制性股票激励计划解除限售股份上市流通。光模块板块整体反弹但光迅科技跟涨乏力，解除限售带来短期卖压。"},"signal":{"date":"2026-07-31","price":161.65,"chgPct":6.12,"trend":"空头排列","leftState":"回踩约 6.1% 入场（逢低区）","rightState":"远离突破 72.6% · 暂无右侧","volRatio":0.89,"pullbackPct":6.12},"news":[{"title":"铭普光磁拟定增募资不超12.83亿元 投向高速光模块及光芯片项目","time":"2026-07-31 23:47:00"},{"title":"【盘中播报】117只个股突破半年线","time":"2026-07-31 17:21:00"},{"title":"光通信产业链上市公司上半年业绩多数预喜，通信ETF嘉实(159695)一键布局光通信产业链","time":"2026-07-31 11:37:02"}]},{"code":"688498","name":"源杰科技","sector":"光模块/CPO","tags":["光芯片","DFB","EML","上游"],"narrative":"国产高速激光器芯片（DFB/EML）稀缺标的，叙事是 800G/1.6T 光模块对高端 EML 芯片需求爆发 + 国产替代，处于产业链最上游高价值环节。","drivers":["EML 国产替代","高速光模块拉动","硅光配套 CW 光源"],"falsify":["高端 EML 良率/认证进度持续不及预期","海外芯片降价挤压","下游验证导入慢"],"watch":["EML 良率与客户认证","硅光 CW 光源订单传闻"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：+0.16%，量比0.99。科创板公司提前预告上半年业绩，光芯片需求持续高景气。无明显变化。"},"signal":{"date":"2026-07-31","price":1092.1,"chgPct":7.41,"trend":"震荡","leftState":"回踩约 9.8% 入场（逢低区）","rightState":"远离突破 80.2% · 暂无右侧","volRatio":1.17,"pullbackPct":9.76},"news":[{"title":"300613，上半年净利最高预增超14倍！","time":"2026-07-31 20:34:00"},{"title":"ETF热门榜：中证短融相关ETF成交居前，港股通信息技术ETF华夏(526000.SH)交易活跃-20260731","time":"2026-07-31 18:51:25"},{"title":"股市午报：A股超4500股飘红！长鑫科技，盘中突破4万亿元","time":"2026-07-31 12:25:00"}]},{"code":"600487","name":"亨通光电","sector":"光纤光缆","tags":["海缆","光纤","算力","硅光"],"narrative":"光通信 + 海洋能源双主业，叙事从传统光纤光缆向‘海风海缆 + AI 算力（硅光/光模块/液冷）’切换，是大盘蓝筹里的算力+海风双概念。","drivers":["海缆订单高景气","光纤价格修复","算力业务布局"],"falsify":["海缆招标/中标不及预期","光纤价格再度下行","算力业务实质贡献小、仅概念"],"watch":["海风招标节奏","算力业务订单是否落地（防传闻）"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价偏弱：-0.52%，量比0.82。仍处于「已跌破逢低区·转弱观望」，技术面未修复。亨通光电获重要股东大手笔增持（7/27），但量价反应平淡。"},"signal":{"date":"2026-07-31","price":47.61,"chgPct":0.87,"trend":"空头排列","leftState":"回踩约 4.4% 入场（逢低区）","rightState":"远离突破 162.3% · 暂无右侧","volRatio":0.87,"pullbackPct":4.41},"news":[{"title":"光通信产业链上市公司上半年业绩多数预喜，通信ETF嘉实(159695)一键布局光通信产业链","time":"2026-07-31 11:37:02"},{"title":"供需格局偏紧 光通信产业链上半年业绩大面积预喜","time":"2026-07-30 02:28:37"},{"title":"亨通光电:亨通光电关于2025年度奖励基金通过信托购买公司股票实施完毕的公告","time":"2026-07-23"}]},{"code":"600522","name":"中天科技","sector":"光纤光缆","tags":["海缆","储能","光纤","算力"],"narrative":"海缆 + 光纤 + 新能源（储能）多元龙头，叙事与亨通类似，海风海缆为基本盘，储能与算力相关布局提供弹性。","drivers":["海缆订单","储能系统","光纤修复"],"falsify":["海缆/储能订单不及预期","光纤价格疲软","多元业务拖累盈利"],"watch":["海风招标","储能订单落地"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价偏弱：-2.07%，量比0.76。左侧状态回升至「已回踩至逢低区·可分批左侧」，技术面有所修复。海风+光通信双轮驱动，无明显利空。"},"signal":{"date":"2026-07-31","price":28.52,"chgPct":2.96,"trend":"空头排列","leftState":"回踩约 5.6% 入场（逢低区）","rightState":"远离突破 137.3% · 暂无右侧","volRatio":0.84,"pullbackPct":5.55},"news":[{"title":"十五五算力网将新增直接投资4万亿，高层重磅会议定调AI+、六张网建设，电网设备ETF广发(159320)盘中最高涨超4%","time":"2026-07-31 13:43:14"},{"title":"光通信产业链上市公司上半年业绩多数预喜，通信ETF嘉实(159695)一键布局光通信产业链","time":"2026-07-31 11:37:02"},{"title":"供需格局偏紧 光通信产业链上半年业绩大面积预喜","time":"2026-07-30 02:28:37"}]},{"code":"601869","name":"长飞光纤","sector":"光纤光缆","tags":["光纤预制棒","空芯光纤","算力"],"narrative":"光纤预制棒-光纤-光缆垂直一体化龙头，叙事核心是‘空芯光纤’在 AI 数据中心/长距互联的潜在革命，以及光纤景气修复。","drivers":["空芯光纤产业化预期","海外光纤需求","预制棒一体化成本优势"],"falsify":["空芯光纤商用化证伪或大幅延后","光纤价格战","海外需求转弱"],"watch":["空芯光纤客户验证传闻","运营商/云厂采用进度"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价异动：-6.81%，量比0.85。仍处于「已跌破逢低区·转弱观望」，连续两日大跌后技术面持续恶化。长飞光纤半年度业绩预增（7/15公告）但市场未予正面反应。"},"signal":{"date":"2026-07-31","price":271.5,"chgPct":3.37,"trend":"空头排列","leftState":"回踩约 6.2% 入场（逢低区）","rightState":"远离突破 121.0% · 暂无右侧","volRatio":0.87,"pullbackPct":6.24},"news":[{"title":"龙头九连板！本周披露并购重组进展的A股名单一览","time":"2026-08-01 15:09:10"},{"title":"晚报丨韩股创史上最大单日涨幅；伊朗革命卫队：两艘违规油轮遭打击；铠侠一季度业绩、二季度指引均不及预期；OpenAI大砍两款AI模型价格，“Token价格战”升温","time":"2026-07-31 18:02:45"},{"title":"长飞光纤：拟1200万欧元收购长飞上海25%股权 整合产业链上下游产能资源","time":"2026-07-31 09:08:00"}]},{"code":"600105","name":"永鼎股份","sector":"光纤光缆","tags":["超导","光通信","汽车线束","算力"],"narrative":"光通信 + 超导材料 + 汽车线束多元，叙事弹性来自高温超导（可控核聚变/电力）与算力概念，基本盘为光缆与线束。","drivers":["高温超导主题","可控核聚变催化","光通信修复"],"falsify":["超导业务长期不贡献利润、纯主题","核聚变进度低于预期","主业盈利下滑"],"watch":["超导/核聚变催化传闻（高频题材，需警惕）","主业盈利"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价偏弱：-3.06%，量比0.89。仍处于「已跌破逢低区·转弱观望」，技术面未修复。无明显利好催化。"},"signal":{"date":"2026-07-31","price":32.04,"chgPct":-2.79,"trend":"空头排列","leftState":"回踩约 10.1% 入场（逢低区）","rightState":"远离突破 130.9% · 暂无右侧","volRatio":1.31,"pullbackPct":10.07},"news":[{"title":"【中证快报】7月30日中证投资资讯 | 推动产业高质量发展 量子信息标准化技术委员会成立","time":"2026-07-30 22:48:51"},{"title":"今日这些个股异动 主力加仓建筑材料板块","time":"2026-07-30 17:14:47"},{"title":"四点半观市 | 机构：锚定业绩成长主线 下半年市场有望结构性均衡","time":"2026-07-30 16:21:38"}]},{"code":"000988","name":"华工科技","sector":"光纤光缆","tags":["光模块","激光","传感器","算力"],"narrative":"激光加工 + 光模块（联接业务）+ 传感器三大板块，叙事核心是数通光模块（800G）放量 + 激光装备国产化，算力是当前最强催化。","drivers":["数通 800G 光模块","激光装备","新能源传感器"],"falsify":["数通光模块放量与份额不及预期","激光装备需求疲软","传感器周期下行"],"watch":["光模块客户认证与放量","数通占比"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：-0.32%，量比0.78。华工科技此前获重要股东增持（7/24），今日量价稳定，叙事逻辑未破坏。"},"signal":{"date":"2026-07-31","price":95.37,"chgPct":4.69,"trend":"空头排列","leftState":"回踩约 5.7% 入场（逢低区）","rightState":"远离突破 96.8% · 暂无右侧","volRatio":0.95,"pullbackPct":5.7},"news":[{"title":"铭普光磁拟定增募资不超12.83亿元 投向高速光模块及光芯片项目","time":"2026-07-31 23:47:00"},{"title":"华工科技：公司通过自主研发+产业链合作的形式，开发了覆盖前、后道制程的10套装备","time":"2026-07-31 19:39:00"},{"title":"华工科技：公司自主研发的12英寸高端晶圆激光加工装备已成功导入半导体行业头部客户","time":"2026-07-29 17:10:00"}]},{"code":"300476","name":"胜宏科技","sector":"PCB/载板","tags":["AI PCB","高多层","HDI","GPU板"],"narrative":"AI 算力 PCB 核心受益者，深度绑定海外 GPU/加速卡平台，叙事是高多层/HDI 高端 PCB 量价齐升，是本轮 AI PCB 业绩弹性最强标的之一。","drivers":["GPU 加速卡 PCB 放量","高多层/HDI 升级","海外大客户绑定"],"falsify":["GPU 平台迭代导致 PCB 份额/价值量下降","大客户砍单","高端产能良率问题","竞争加剧降价"],"watch":["大客户新平台导入","季度业绩与产能爬坡","份额变化传闻"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价异动：-4.08%，量比0.84。左侧状态从逢低区跌至「已跌破逢低区·转弱观望」，技术面恶化。SK海力士业绩引担忧拖累PCB板块，胜宏科技跟跌。"},"signal":{"date":"2026-07-31","price":190.4,"chgPct":5.57,"trend":"空头排列","leftState":"回踩约 7.0% 入场（逢低区）","rightState":"远离突破 111.4% · 暂无右侧","volRatio":1.05,"pullbackPct":7.04},"news":[{"title":"【财闻联播】机票燃油附加费，将下调！针对“幽灵外卖”，市场监管总局出手","time":"2026-07-31 21:00:00"},{"title":"时隔5年，港股IPO规模再次突破3000亿港元！产业资本、知名外资频频出手","time":"2026-07-30 20:22:00"},{"title":"胜宏科技:关于对子公司担保解除及子公司之间提供担保的进展公告","time":"2026-07-28"}]},{"code":"002463","name":"沪电股份","sector":"PCB/载板","tags":["AI PCB","服务器","高速板","数通"],"narrative":"高端数通/服务器 PCB 龙头，叙事是 AI 服务器与交换机高速高多层 PCB 放量，客户结构优质，是 AI PCB 稳健主线。","drivers":["AI 服务器/交换机 PCB","800G 交换机板","高多层升级"],"falsify":["数通/服务器需求转弱","份额被新进入者侵蚀","扩产消化不良"],"watch":["产能爬坡","数通订单"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：-0.47%，量比0.76。已回踩至逢低区，技术面稳定。无明显变化。"},"signal":{"date":"2026-07-31","price":103.75,"chgPct":7.46,"trend":"空头排列","leftState":"回踩约 9.5% 入场（逢低区）","rightState":"远离突破 52.5% · 暂无右侧","volRatio":0.93,"pullbackPct":9.52},"news":[{"title":"兆易创新等60家科技板块公司宣布回购及增持，通信ETF华夏（515050）午后跌幅收窄，自高点回调超30%","time":"2026-07-30 13:38:04"},{"title":"通信ETF华夏（515050）跌逾6%，兆易创新释放回购增持积极信号，关注回调布局窗口","time":"2026-07-30 10:32:33"},{"title":"沪电股份:关于为控股子公司提供担保的进展公告","time":"2026-07-25"}]},{"code":"002938","name":"鹏鼎控股","sector":"PCB/载板","tags":["FPC","消费电子","AI服务器","载板"],"narrative":"全球 PCB 出货龙头，基本盘消费电子 FPC（大客户），叙事增量在 AI 服务器 PCB 与封装载板转型，估值修复 + 算力新成长。","drivers":["大客户旗舰机","AI 服务器 PCB 切入","载板布局"],"falsify":["消费电子需求疲软","AI 服务器/载板进展慢","大客户依赖风险"],"watch":["AI 服务器订单落地","载板进度"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价平稳：+0.64%，量比0.74。圣晖集成中标8.58亿元电子厂房项目（产业链利好），但鹏鼎控股量价反应有限。仍处于空头排列。"},"signal":{"date":"2026-07-31","price":81.5,"chgPct":7.17,"trend":"空头排列","leftState":"回踩约 7.2% 入场（逢低区）","rightState":"远离突破 51.0% · 暂无右侧","volRatio":0.81,"pullbackPct":7.17},"news":[{"title":"鹏鼎控股年内三笔投资达337亿元 公司称是为“抢抓AI产业发展机遇”","time":"2026-08-01 03:37:17"},{"title":"鹏鼎控股：公司自2017年便开始布局m-SAP工艺相关产品，已积累成熟的技术能力、工艺能力和量产能力","time":"2026-07-31 21:39:00"},{"title":"【盘中播报】117只个股突破半年线","time":"2026-07-31 17:21:00"}]},{"code":"002384","name":"东山精密","sector":"PCB/载板","tags":["FPC","AI服务器","汽车","光通信"],"narrative":"FPC/PCB + 精密结构件 + 新能源汽车多元，叙事是消费电子基本盘 + AI 服务器 PCB/光模块 + 汽车业务三线成长，估值弹性大。","drivers":["大客户 FPC","AI 服务器 PCB","汽车业务"],"falsify":["消费需求弱","AI 服务器 PCB 放量慢","汽车业务盈利拖累","并购整合风险"],"watch":["AI 服务器订单","汽车业务盈利"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价异动：-5.73%，量比0.9。左侧状态从「已回踩至逢低区」跌至「已跌破逢低区·转弱观望」，技术面恶化。公司已实施首次回购（7/28公告），但未能阻止股价下跌。"},"signal":{"date":"2026-07-31","price":171.48,"chgPct":5.98,"trend":"空头排列","leftState":"回踩约 6.0% 入场（逢低区）","rightState":"远离突破 63.3% · 暂无右侧","volRatio":0.95,"pullbackPct":5.98},"news":[{"title":"利好又来了，多家A股公司发布回购、增持公告","time":"2026-08-01 09:40:00"},{"title":"7月31日晚间重要公告集锦","time":"2026-08-01 00:19:20"},{"title":"东山精密:关于回购公司股份的进展公告","time":"2026-08-01"}]},{"code":"600183","name":"生益科技","sector":"PCB/载板","tags":["覆铜板","CCL","高速材料","AI"],"narrative":"全球覆铜板（CCL）龙头，叙事是 AI 高速/高频覆铜板（M6/M7/M8 等高端料）量价齐升，是 AI PCB 上游‘卖材料’的核心受益者。","drivers":["高速 CCL 涨价","AI 服务器材料升级","树脂/玻纤涨价传导"],"falsify":["高速料需求/份额不及预期","上游原材料大涨侵蚀毛利且无法传导","高端料导入慢"],"watch":["高速料涨价与订单","原材料价格"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价偏弱：-4.59%，量比0.89。松山湖第二工厂项目正式动工（7/28），产能扩张推进中。昨日跌停后今日继续下跌但幅度收窄，仍处逢低区。"},"signal":{"date":"2026-07-31","price":105.64,"chgPct":5.56,"trend":"空头排列","leftState":"回踩约 8.3% 入场（逢低区）","rightState":"远离突破 81.6% · 暂无右侧","volRatio":1,"pullbackPct":8.34},"news":[{"title":"【盘中播报】117只个股突破半年线","time":"2026-07-31 17:21:00"},{"title":"【盘中播报】103只个股突破半年线","time":"2026-07-31 10:39:00"},{"title":"生益科技:生益科技2026年第一次临时股东会决议公告","time":"2026-07-25"}]},{"code":"601208","name":"东材科技","sector":"PCB/载板","tags":["电子树脂","高速材料","绝缘材料","AI"],"narrative":"电子材料平台，叙事增量在 AI 高速覆铜板用电子树脂（碳氢/PPO 等）国产替代，是 CCL 更上游的材料环节，弹性来自高端树脂放量。","drivers":["高速树脂国产替代","AI CCL 拉动","新能源绝缘材料"],"falsify":["高速树脂导入/放量不及预期","传统业务拖累","技术验证慢"],"watch":["高速树脂客户认证传闻","高端料导入进度"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价偏弱：-6.01%，量比0.95。仍处空头排列，连续下跌。钠离子电池概念活跃但与公司主业关联有限。"},"signal":{"date":"2026-07-31","price":34.33,"chgPct":3.22,"trend":"空头排列","leftState":"回踩约 4.2% 入场（逢低区）","rightState":"远离突破 134.1% · 暂无右侧","volRatio":1.05,"pullbackPct":4.22},"news":[{"title":"东材科技股价异动受关注 公司MLCC业务持续取得新进展","time":"2026-07-31 14:53:00"},{"title":"47家公司，密集发布异动公告","time":"2026-07-31 08:14:00"},{"title":"东材科技:四川东材科技集团股份有限公司股票交易异常波动公告","time":"2026-07-31"}]},{"code":"603629","name":"利通电子","sector":"PCB/载板","tags":["PCB","算力租赁","结构件"],"narrative":"PCB + 精密结构件，叙事弹性在‘算力租赁/智算中心’跨界，主业 PCB 为基本盘，算力运营是题材催化。","drivers":["算力租赁业务","PCB 主业","结构件"],"falsify":["算力租赁收入/上架率不及预期","跨界整合风险","主业盈利弱"],"watch":["算力租赁订单与上架率（防传闻）","GPU 采购"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价异动：-6.37%，量比1.32（放量）。此前发布交易异常波动公告（7/23），高管减持已完成（7/22）。放量下跌叠加高管减持，资金面承压。"},"signal":{"date":"2026-07-31","price":96.01,"chgPct":10,"trend":"空头排列","leftState":"回踩约 10.0% 入场（逢低区）","rightState":"远离突破 78.8% · 暂无右侧","volRatio":0.98,"pullbackPct":10.03},"news":[{"title":"“十五五”时期算力网建设将新增直接投资4万亿元 算力租赁有望从“资源出租”向“算力运营+价值分成”升级","time":"2026-07-31 23:26:00"},{"title":"股市午报：A股超4500股飘红！长鑫科技，盘中突破4万亿元","time":"2026-07-31 12:25:00"},{"title":"利通电子:利通电子股票交易异常波动公告","time":"2026-07-31"}]},{"code":"603773","name":"沃格光电","sector":"PCB/载板","tags":["玻璃基板","先进封装","TGV","算力"],"narrative":"玻璃精加工厂，叙事核心是‘玻璃基板（TGV）’切入先进封装/Chiplet，受益 AI 芯片对玻璃基板的需求预期，是玻璃基板国产链稀缺标的。","drivers":["玻璃基板先进封装","TGV 技术","AI 芯片载板升级"],"falsify":["玻璃基板量产/客户导入大幅延后","技术路线证伪","主业盈利弱、纯主题"],"watch":["玻璃基板客户验证传闻（高频题材）","量产时间表"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价偏弱：-5.27%，量比0.81。中报净利预亏逾亿（7/15新闻），基本面承压。仍处空头排列。"},"signal":{"date":"2026-07-31","price":68.8,"chgPct":2.81,"trend":"空头排列","leftState":"回踩约 2.8% 入场（逢低区）","rightState":"远离突破 173.3% · 暂无右侧","volRatio":0.89,"pullbackPct":2.81},"news":[{"title":"47家公司，密集发布异动公告","time":"2026-07-31 08:14:00"},{"title":"沃格光电:江西沃格光电集团股份有限公司股票交易异常波动公告","time":"2026-07-31"},{"title":"沃格光电：股票交易异常波动公告","time":"2026-07-30 20:22:00"}]},{"code":"688256","name":"寒武纪","sector":"半导体","tags":["AI芯片","国产算力","GPU替代"],"narrative":"国产 AI 训练/推理芯片龙头，叙事是国产算力自主可控、替代海外 GPU 的核心标的，订单与业绩随国产算力 capex 爆发而兑现，是国产算力旗手。","drivers":["国产算力 capex","大模型推理需求","国产替代政策"],"falsify":["国产替代订单/落地不及预期","新品性能或生态进度落后","先进制程产能受限","估值透支后业绩证伪"],"watch":["大客户/互联网厂订单传闻（高频、高波动）","新品发布与流片","产能供应"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价平稳：+1.68%，量比0.87。SK海力士Q2业绩新高但不及预期，半导体板块情绪复杂。寒武纪小幅反弹，左侧回到逢低区。"},"signal":{"date":"2026-07-31","price":1106,"chgPct":6.1,"trend":"空头排列","leftState":"回踩约 9.4% 入场（逢低区）","rightState":"远离突破 46.5% · 暂无右侧","volRatio":1.07,"pullbackPct":9.42},"news":[{"title":"ETF热门榜：中证短融相关ETF成交居前，港股通信息技术ETF华夏(526000.SH)交易活跃-20260731","time":"2026-07-31 18:51:25"},{"title":"【盘中播报】117只个股突破半年线","time":"2026-07-31 17:21:00"},{"title":"乐鑫科技二季度业绩创新高，AIoT芯片需求景气向上","time":"2026-07-31 11:47:10"}]},{"code":"603986","name":"兆易创新","sector":"半导体","tags":["存储","NorFlash","MCU","DRAM"],"narrative":"国产存储（NorFlash 龙头）+ MCU 平台，叙事是存储周期上行 + 利基存储涨价 + 自研 DRAM 进展，受益存储景气与国产替代。","drivers":["存储涨价周期","NorFlash 龙头地位","MCU 复苏"],"falsify":["存储价格见顶回落","MCU 需求疲软","DRAM 进展不及预期"],"watch":["存储现货价格","DRAM 进展"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价异动：-6.81%，量比0.94。半导体概念盘中走弱，机构称行业处于高景气上行周期。兆易创新昨日跌停后今日继续下跌，但机构维持存储量价齐升判断。"},"signal":{"date":"2026-07-31","price":378.6,"chgPct":2.02,"trend":"空头排列","leftState":"回踩约 10.7% 入场（逢低区）","rightState":"远离突破 123.6% · 暂无右侧","volRatio":1.15,"pullbackPct":10.7},"news":[{"title":"贺宛男：半导体龙头为何一边减持一边回购？","time":"2026-08-01 11:56:00"},{"title":"利好又来了，多家A股公司发布回购、增持公告","time":"2026-08-01 09:40:00"},{"title":"A股股票回购一览：47家公司披露回购进展","time":"2026-08-01 08:34:56"}]},{"code":"002156","name":"通富微电","sector":"半导体","tags":["封测","Chiplet","AMD","先进封装"],"narrative":"封测龙头，深度绑定 AMD（CPU/GPU），叙事核心是 AI 芯片先进封装（Chiplet/2.5D）放量 + AMD AI 加速卡放量，是先进封装弹性标的。","drivers":["AMD AI 加速卡放量","先进封装 Chiplet","HBM 配套封装"],"falsify":["AMD AI 份额/出货不及预期","先进封装产能爬坡慢","封测价格战"],"watch":["AMD AI 加速卡进展","先进封装订单"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价异动：-10%（跌停），量比1.12（放量）。仍为多头排列但posPct转负至-7.32%，跌停放量需警惕。半导体板块整体走弱拖累，AMD相关封测需求逻辑未变。"},"signal":{"date":"2026-07-31","price":56.73,"chgPct":1.5,"trend":"震荡","leftState":"回踩约 1.5% 入场（逢低区）","rightState":"远离突破 49.3% · 暂无右侧","volRatio":0.97,"pullbackPct":1.5},"news":[{"title":"47家公司，密集发布异动公告","time":"2026-07-31 08:14:00"},{"title":"通富微电:股票交易异常波动公告","time":"2026-07-31"},{"title":"通富微电：股票交易异常波动公告","time":"2026-07-30 20:51:00"}]},{"code":"600584","name":"长电科技","sector":"半导体","tags":["封测","先进封装","龙头","汽车"],"narrative":"国内封测绝对龙头，叙事是先进封装（XDFOI/2.5D）+ AI/HPC 需求 + 汽车电子，受益国产算力封装与全球封测复苏。","drivers":["先进封装放量","AI/HPC 封测","汽车电子"],"falsify":["先进封装放量慢","消费/通信封测复苏弱","价格竞争"],"watch":["先进封装订单","稼动率"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价偏弱：-6.7%，量比0.74。半导体板块走弱拖累，长电科技缩量下跌。先进封装逻辑未破坏。"},"signal":{"date":"2026-07-31","price":65.71,"chgPct":1.86,"trend":"震荡","leftState":"回踩约 1.9% 入场（逢低区）","rightState":"远离突破 73.3% · 暂无右侧","volRatio":0.73,"pullbackPct":1.86},"news":[{"title":"47家公司，密集发布异动公告","time":"2026-07-31 08:14:00"},{"title":"长电科技:江苏长电科技股份有限公司股票交易价格异常波动公告","time":"2026-07-31"},{"title":"科技股续跌，东山精密跌停，长电科技跌超8%，消费电子ETF汇添富(159178)跌超4%，盘中获净申购800万份!不低于10亿,兆易创新董事长发声回购","time":"2026-07-30 14:26:41"}]},{"code":"002185","name":"华天科技","sector":"半导体","tags":["封测","先进封装","国产","存储"],"narrative":"封测第一梯队，叙事是先进封装产能扩张 + 存储/AI 封测 + 国产替代，弹性来自景气复苏与先进封装占比提升。","drivers":["先进封装扩产","存储封测","AI 相关封装"],"falsify":["先进封装爬坡慢","盈利弹性弱于龙头","扩产消化压力"],"watch":["稼动率","先进封装进度"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价偏弱：-5.15%，量比0.84。缩量下跌，封测板块整体走弱。华天科技半年度业绩预告已发布（7/14），先进封装产能推进中。"},"signal":{"date":"2026-07-31","price":15.47,"chgPct":3.76,"trend":"震荡","leftState":"回踩约 3.8% 入场（逢低区）","rightState":"远离突破 73.3% · 暂无右侧","volRatio":0.78,"pullbackPct":3.76},"news":[{"title":"华天科技:中联资产评估咨询(上海)有限公司关于深圳证券交易所《天水华天科技股份有限公司发行股份及支付现金购买资产并募集配套资金申请的审核问询函》回复之专项核查意","time":"2026-07-31"},{"title":"华天科技:关于天水华天科技股份有限公司发行股份及支付现金购买资产并募集配套资金申请的审核问询函的回复(修订稿)","time":"2026-07-31"},{"title":"华天科技:华泰联合证券有限责任公司关于深圳证券交易所《天水华天科技股份有限公司发行股份及支付现金购买资产并募集配套资金申请的审核问询函》回复之专项核查意见(修订","time":"2026-07-31"}]},{"code":"605358","name":"立昂微","sector":"半导体","tags":["硅片","功率器件","国产替代"],"narrative":"半导体硅片 + 功率器件厂，叙事是大硅片国产替代 + 功率半导体景气，受益晶圆厂扩产与硅片需求复苏。","drivers":["大硅片国产替代","功率器件复苏","晶圆厂扩产"],"falsify":["硅片价格疲软","功率周期下行","扩产消化不良"],"watch":["硅片价格与稼动率","功率需求"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价平稳：-1.84%，量比0.68。半年度业绩预告已发布（7/14），12英寸硅片进入放量期。空头排列持续，量能萎缩。"},"signal":{"date":"2026-07-31","price":37.1,"chgPct":3.98,"trend":"空头排列","leftState":"回踩约 4.2% 入场（逢低区）","rightState":"远离突破 123.9% · 暂无右侧","volRatio":0.81,"pullbackPct":4.21},"news":[{"title":"立昂微：当前公司8英寸重掺杂硅外延片订单需求旺盛","time":"2026-07-31 18:38:00"},{"title":"今日盘中突破五日均线个股一览","time":"2026-07-27 10:39:00"},{"title":"立昂微:立昂微关于为控股子公司提供担保的进展公告","time":"2026-07-21"}]},{"code":"301308","name":"江波龙","sector":"存储模组","tags":["存储模组","企业级","涨价","eMMC"],"narrative":"国产存储模组龙头，叙事是存储涨价周期 + 企业级存储（eSSD）国产替代 + 自有品牌，受益 AI 服务器存储与存储景气上行。","drivers":["存储涨价周期","企业级 eSSD 放量","AI 服务器存储"],"falsify":["存储价格见顶","企业级导入慢","模组毛利受原厂挤压"],"watch":["存储现货/合约价","企业级订单"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：-0.11%，量比0.85。左侧状态从「已跌破逢低区」回升至「已回踩至逢低区·可分批左侧」，技术面修复。控股股东提议回购（7/23），存储模组景气逻辑维持。"},"signal":{"date":"2026-07-31","price":346.99,"chgPct":2.42,"trend":"空头排列","leftState":"已回踩至逢低区 · 可分批左侧","rightState":"远离突破 116.1% · 暂无右侧","volRatio":1.07,"pullbackPct":0.91},"news":[{"title":"贺宛男：半导体龙头为何一边减持一边回购？","time":"2026-08-01 11:56:00"},{"title":"300613，上半年净利最高预增超14倍！","time":"2026-07-31 20:34:00"},{"title":"订单看到2028年、拟最高80亿元回购稳预期，中际旭创缔造港股近年最大IPO，机构：短期波动不改光模块赛道核心价值","time":"2026-07-31 10:42:00"}]},{"code":"001309","name":"德明利","sector":"存储模组","tags":["存储模组","主控","eSSD","涨价"],"narrative":"存储模组 + 主控芯片厂，叙事与江波龙同源——存储涨价周期 + 企业级/AI 存储拓展，弹性大、波动大。","drivers":["存储涨价","主控自研","企业级拓展"],"falsify":["存储价格回落","企业级导入慢","毛利波动大"],"watch":["存储价格","企业级进展"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价平稳：-1.9%，量比1.33。仍处于「已跌破逢低区·转弱观望」。控股股东承诺12个月不减持并延长至7年（7/29新闻），释放积极信号但股价反应有限。"},"signal":{"date":"2026-07-31","price":385.9,"chgPct":-1.06,"trend":"空头排列","leftState":"回踩约 1.9% 入场（逢低区）","rightState":"远离突破 154.0% · 暂无右侧","volRatio":1.42,"pullbackPct":1.9},"news":[{"title":"德明利:关于控股股东认购的2023年向特定对象发行股票限售股解除限售上市流通并承诺十二个月内不减持公司股票的提示性公告","time":"2026-07-28"},{"title":"德明利:华泰联合证券有限责任公司关于深圳市德明利技术股份有限公司2023年向特定对象发行股票部分限售股解除限售并上市流通的核查意见","time":"2026-07-28"},{"title":"德明利:关于控股股东自愿承诺不减持公司股票的公告","time":"2026-07-25"}]},{"code":"300408","name":"三环集团","sector":"被动元件","tags":["MLCC","陶瓷","PKG","光纤插芯"],"narrative":"电子陶瓷平台龙头，MLCC + 陶瓷封装基座（PKG）+ 光纤插芯 + 半导体陶瓷，叙事是 MLCC 高端国产替代 + AI/光通信带动陶瓷封装与插芯需求。","drivers":["MLCC 高端化国产替代","陶瓷封装（PKG/SAW）","光纤插芯（AI 光模块）"],"falsify":["MLCC 价格/需求疲软","高端化进度慢","陶瓷封装放量不及预期"],"watch":["MLCC 涨价/稼动率","插芯订单（光模块拉动）"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价异动：+7.99%，量比0.96。MLCC板块集体异动拉升，三环集团大涨。多家A股企业业绩高增，京东方等抛出大额增持计划提振市场情绪。"},"signal":{"date":"2026-07-31","price":111.68,"chgPct":6.06,"trend":"空头排列","leftState":"回踩约 3.7% 入场（逢低区）","rightState":"远离突破 61.5% · 暂无右侧","volRatio":1.13,"pullbackPct":3.74},"news":[{"title":"龙头企业领衔 A股再现回购增持潮 “真金白银”传递信心","time":"2026-08-01 02:58:09"},{"title":"三环集团十天内推出两期大额回购方案","time":"2026-07-31 23:26:00"},{"title":"三环集团，拟贷款9亿元回购","time":"2026-07-31 22:41:00"}]},{"code":"000636","name":"风华高科","sector":"被动元件","tags":["MLCC","被动元件","涨价","国产替代"],"narrative":"国产 MLCC/被动元件龙头，叙事是被动元件涨价周期 + 高端 MLCC 国产替代 + AI/汽车需求拉动，是 MLCC 周期弹性标的。","drivers":["MLCC 涨价周期","高端化国产替代","汽车/AI 需求"],"falsify":["MLCC 价格回落","高端化慢","稼动率不足"],"watch":["MLCC 价格/库存","稼动率"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价异动：+10%（涨停），量比1.31（放量）。AI算力需求催热上半年业绩，MLCC产业链高景气度下半年将延续。涨停放量确认资金介入。"},"signal":{"date":"2026-07-31","price":49.35,"chgPct":-2.28,"trend":"空头排列","leftState":"回踩约 5.1% 入场（逢低区）","rightState":"远离突破 69.9% · 暂无右侧","volRatio":1.57,"pullbackPct":5.09},"news":[{"title":"今日这些个股异动 主力加仓电子、通信板块","time":"2026-07-31 16:58:02"},{"title":"风华高科:关于拟变更部分董事暨选举职工董事的公告","time":"2026-07-25"},{"title":"风华高科:关于公司董事会秘书辞职的公告","time":"2026-07-25"}]},{"code":"603678","name":"火炬电子","sector":"被动元件","tags":["MLCC","军工","陶瓷材料","特种"],"narrative":"特种（军工）MLCC + 陶瓷材料厂，叙事是军工被动元件需求复苏 + 特种陶瓷新材料，兼具军工景气与材料成长。","drivers":["军工 MLCC 需求复苏","特种陶瓷材料","民品 MLCC"],"falsify":["军工订单复苏不及预期","民品 MLCC 疲软","新材料放量慢"],"watch":["军工订单/招标节奏","特种料放量"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价平稳：+3.76%，量比0.89。跟随MLCC板块反弹，但空头排列持续。无明显变化。"},"signal":{"date":"2026-07-31","price":40.62,"chgPct":1.25,"trend":"空头排列","leftState":"回踩约 6.1% 入场（逢低区）","rightState":"远离突破 124.8% · 暂无右侧","volRatio":1.14,"pullbackPct":6.06},"news":[{"title":"钠离子电池即将迈入大规模生产阶段 12只概念股预计净利润增速较高","time":"2026-07-28 13:05:00"},{"title":"星舰“十三飞”首部署20颗量产星链、国产GPU智算卫星入轨！卫星ETF永赢盘中涨超3%","time":"2026-07-27 10:17:41"},{"title":"MLCC概念盘中异动拉升 风华高科涨停","time":"2026-07-27 10:01:00"}]},{"code":"300285","name":"国瓷材料","sector":"被动元件","tags":["陶瓷材料","MLCC粉","催化","新材料"],"narrative":"高端陶瓷新材料平台，MLCC 配方粉 + 蜂窝陶瓷（催化）+ 齿科 + 电子材料，叙事是 MLCC 粉体国产替代受益被动元件回暖，多材料平台成长。","drivers":["MLCC 粉体（受益 MLCC 回暖）","蜂窝陶瓷/催化","齿科材料"],"falsify":["MLCC 粉需求疲软","新材料放量慢","估值偏高消化"],"watch":["MLCC 行业景气","新材料订单"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价异动：+4.79%，量比1.18。左侧状态从已跌破逢低区回升至「已回踩至逢低区·可分批左侧」，技术面修复。MLCC概念午后异动拉升，国瓷材料跟涨。"},"signal":{"date":"2026-07-31","price":62.04,"chgPct":1.24,"trend":"震荡","leftState":"回踩约 3.0% 入场（逢低区）","rightState":"远离突破 81.9% · 暂无右侧","volRatio":1.3,"pullbackPct":2.95},"news":[{"title":"【明日主题前瞻】数据中心稳定供电新选择，科技企业加速布局“核能+算力”项目","time":"2026-07-30 16:51:00"},{"title":"国瓷材料:关于公司氧化锆粉体价格调整的公告","time":"2026-07-20"},{"title":"国瓷材料:关于公司收购SDILtd100%股权的进展公告","time":"2026-07-07"}]},{"code":"300136","name":"信维通信","sector":"连接/天线","tags":["天线","射频","消费电子","UWB"],"narrative":"泛射频/天线龙头，叙事是大客户天线射频份额 + UWB/无线充电 + AI 终端（AR/VR、AI 手机）新增量，受益消费电子复苏与新终端。","drivers":["大客户射频天线","UWB/无线充电","AI 终端/AR"],"falsify":["消费电子需求疲软","份额被挤压","新终端放量慢"],"watch":["大客户新机","AI 终端进展"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价平稳：-1.27%，量比0.78。公司是国内卫星客户射频与连接器配套方（7/27），卫星通信业务推进中。仍处空头排列。"},"signal":{"date":"2026-07-31","price":57.48,"chgPct":1.73,"trend":"空头排列","leftState":"回踩约 3.5% 入场（逢低区）","rightState":"远离突破 125.2% · 暂无右侧","volRatio":0.83,"pullbackPct":3.47},"news":[{"title":"今日172只个股突破年线","time":"2026-07-31 12:45:00"},{"title":"光通信产业链上市公司上半年业绩多数预喜，通信ETF嘉实(159695)一键布局光通信产业链","time":"2026-07-31 11:37:02"},{"title":"某北美企业要求供应商排除中国籍员工及设备？信维通信紧急澄清：不属实","time":"2026-07-31 10:54:57"}]},{"code":"301200","name":"大族数控","sector":"半导体","tags":["PCB设备","AI PCB","钻孔机","国产替代"],"narrative":"PCB 专用设备龙头（钻孔机/曝光等），叙事是 AI 服务器/高端 PCB 扩产带动 PCB 设备需求 + 国产替代，是 AI PCB 产业链‘卖设备’环节。","drivers":["AI PCB 厂扩产","PCB 设备国产替代","高端机型升级"],"falsify":["PCB 厂扩产放缓","设备订单不及预期","竞争加剧"],"watch":["PCB 扩产 capex","设备订单"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：-2.44%，量比0.88。半年度业绩预告点评：业绩超预期，AI PCB扩产带动业绩稳步高增（7/10研报）。无明显变化。"},"signal":{"date":"2026-07-31","price":233,"chgPct":10.22,"trend":"空头排列","leftState":"回踩约 13.6% 入场（逢低区）","rightState":"远离突破 69.7% · 暂无右侧","volRatio":0.91,"pullbackPct":13.61},"news":[{"title":"大族数控：2026年第二次临时股东会决议公告","time":"2026-07-31 20:58:00"},{"title":"晚报丨韩股创史上最大单日涨幅；伊朗革命卫队：两艘违规油轮遭打击；铠侠一季度业绩、二季度指引均不及预期；OpenAI大砍两款AI模型价格，“Token价格战”升温","time":"2026-07-31 18:02:45"},{"title":"【盘中播报】117只个股突破半年线","time":"2026-07-31 17:21:00"}]},{"code":"002008","name":"大族激光","sector":"半导体","tags":["激光设备","消费电子","PCB","半导体设备"],"narrative":"激光加工设备龙头，叙事是消费电子设备复苏 + PCB/半导体激光设备 + AI 相关精密加工，弹性来自大客户资本开支与新业务。","drivers":["消费电子设备复苏","PCB/半导体激光设备","新能源激光"],"falsify":["消费/新能源 capex 疲软","毛利承压","新业务放量慢"],"watch":["大客户 capex","设备订单"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：-3.37%，量比0.76。半年度业绩预告点评：业绩超市场预期，PCB+消费电子等业务多点开花（7/10研报）。缩量下跌，无明显利空。"},"signal":{"date":"2026-07-31","price":84.51,"chgPct":3.19,"trend":"空头排列","leftState":"回踩约 3.2% 入场（逢低区）","rightState":"远离突破 98.9% · 暂无右侧","volRatio":0.91,"pullbackPct":3.19},"news":[{"title":"大族激光:2026年半年度业绩快报","time":"2026-07-21"},{"title":"大族激光:2026年第二次临时股东会决议公告","time":"2026-07-17"},{"title":"大族激光:2026年半年度业绩预告","time":"2026-07-10"}]},{"code":"601138","name":"工业富联","sector":"服务器/ODM","tags":["AI服务器","ODM","云厂","GB系列"],"narrative":"全球 AI 服务器 ODM 龙头，叙事是 AI 服务器/GPU 整机（含 GB 系列机柜）放量，深度绑定海外云厂与 GPU 平台，是算力硬件链‘总装’核心。","drivers":["AI 服务器/机柜放量","云厂 capex","GB 系列整机"],"falsify":["云厂 capex 下修","GPU 平台供给受限","整机毛利被压缩","份额被挤压"],"watch":["云厂 capex 指引","GB 整机出货节奏","毛利率"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：-0.57%，量比0.85。回购增持、股东锁定期延长、中期分红等多维度利好集中释放（7/28），工业富联量价稳定。消费电子企业涌入智算中心赛道。"},"signal":{"date":"2026-07-31","price":56.7,"chgPct":5.39,"trend":"空头排列","leftState":"回踩约 6.5% 入场（逢低区）","rightState":"远离突破 49.8% · 暂无右侧","volRatio":0.9,"pullbackPct":6.54},"news":[{"title":"上市科技公司现回购潮 回购比例低遭质疑","time":"2026-08-01 03:34:11"},{"title":"科技反扑+巨头涨价！MLCC表现强势 业绩预测翻倍股来了","time":"2026-07-31 12:06:29"},{"title":"6只股即将分红 抢权行情能否开启？","time":"2026-07-31 09:52:00"}]},{"code":"300274","name":"阳光电源","sector":"电力设备/储能","tags":["逆变器","储能","光伏","AIDC供电"],"narrative":"全球光伏逆变器 + 储能系统龙头，叙事从光储主业向‘AI 数据中心供电/储能’延伸，受益全球储能放量与算力供电新增量，盈利与成长兼具。","drivers":["全球储能放量","光伏逆变器份额","AIDC 供电/储能"],"falsify":["全球储能/光伏需求不及预期","海外贸易壁垒/关税","价格战侵蚀毛利","AIDC 供电仅概念未落地"],"watch":["储能订单/出货","AIDC 供电订单（是否实质落地）","海外政策"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价偏弱：-4.93%，量比0.98。跟随大盘震荡，无明显利空。光储全球标杆，发力AI迎新机（7/18研报）。"},"signal":{"date":"2026-07-31","price":103.37,"chgPct":-0.33,"trend":"空头排列","leftState":"回踩约 3.6% 入场（逢低区）","rightState":"远离突破 85.5% · 暂无右侧","volRatio":0.87,"pullbackPct":3.61},"news":[{"title":"阳光电源：为国内某新型算力中心交付800V直流SST 预计九月底运营","time":"2026-07-31 19:18:15"},{"title":"今日这些个股异动 主力加仓电子、通信板块","time":"2026-07-31 16:58:02"},{"title":"市场监管总局7月31日开展光伏行业价格合规指导活动！光伏ETF天弘（159857）标的指数盘中涨超2%","time":"2026-07-31 11:29:53"}]},{"code":"605117","name":"德业股份","sector":"电力设备/储能","tags":["逆变器","储能","微逆","新兴市场"],"narrative":"户用储能/微逆龙头，叙事是新兴市场（南非/巴西/中东等）户储与微逆需求高增，高毛利、高弹性，受益全球分布式储能。","drivers":["新兴市场户储","微逆放量","高毛利出海"],"falsify":["新兴市场需求波动/政策变化","竞争加剧降价","渠道库存风险"],"watch":["新兴市场出货/库存","汇率"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：+2.32%，量比1.07。H股发行并上市申请进展公告（7/29），受益海外户储及工商储高景气，上半年业绩同比增长超7成（7/10研报）。"},"signal":{"date":"2026-07-31","price":81.81,"chgPct":-1.71,"trend":"空头排列","leftState":"回踩约 5.6% 入场（逢低区）","rightState":"远离突破 55.1% · 暂无右侧","volRatio":0.76,"pullbackPct":5.59},"news":[{"title":"电力设备中期业绩前瞻：近半数预喜 通威股份、隆基绿能等光伏企业利润承压","time":"2026-07-31 07:02:54"},{"title":"海外监管风波再起：中国逆变器企业如何应对“北美考题”？","time":"2026-07-30 14:54:00"},{"title":"宁德时代最高400亿元注销式回购，摇身一变成“价值股”？ 同类规模领先、费率最低档的电池ETF汇添富(159796)跌逾1%，连续5日涌入超5.2亿元","time":"2026-07-30 13:54:55"}]},{"code":"002851","name":"麦格米特","sector":"电力设备/储能","tags":["电源","AIDC供电","工业电源","HVDC"],"narrative":"电力电子平台，工业电源/家电电源/新能源多元，叙事增量在 AI 数据中心电源（高压直流 HVDC/服务器电源）切入，受益算力供电升级。","drivers":["AIDC 服务器电源/HVDC","工业电源","新能源"],"falsify":["AIDC 电源导入/份额不及预期","传统业务拖累","毛利波动"],"watch":["数据中心电源订单","大客户导入传闻"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价异动：-8.55%，量比0.75。左侧状态从逢低区跌至「已跌破逢低区·转弱观望」，技术面恶化。储能赛道景气向好但个股放量下跌，资金面承压。"},"signal":{"date":"2026-07-31","price":106.45,"chgPct":10,"trend":"空头排列","leftState":"回踩约 10.0% 入场（逢低区）","rightState":"远离突破 78.4% · 暂无右侧","volRatio":0.9,"pullbackPct":10},"news":[{"title":"7月最牛股停牌！下周37股面临解禁（附股）","time":"2026-08-01 08:00:26"},{"title":"麦格米特:关于向特定对象发行股票部分限售股份解除限售并上市流通的提示性公告","time":"2026-08-01"},{"title":"47家公司，密集发布异动公告","time":"2026-07-31 08:14:00"}]},{"code":"002364","name":"中恒电气","sector":"电力设备/储能","tags":["HVDC","数据中心供电","电源","充电桩"],"narrative":"数据中心高压直流（HVDC）供电核心标的，叙事是 AI 算力功率密度提升带动 HVDC/智能供电需求，是‘算力供电’最纯正弹性之一。","drivers":["数据中心 HVDC 放量","AI 功率升级","充电桩"],"falsify":["HVDC 渗透/订单不及预期","充电桩盈利弱","竞争加剧"],"watch":["HVDC 订单与中标","云厂供电方案传闻"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：+0.47%，量比0.78。变更回购股份用途为实施股权激励或员工持股计划（7/28公告），HVDC业务加速向上。无明显变化。"},"signal":{"date":"2026-07-31","price":35.48,"chgPct":3.74,"trend":"空头排列","leftState":"回踩约 5.2% 入场（逢低区）","rightState":"远离突破 68.7% · 暂无右侧","volRatio":0.86,"pullbackPct":5.22},"news":[{"title":"中恒电气：变更回购股份用途为实施股权激励或员工持股计划","time":"2026-07-28 09:32:12"},{"title":"中恒电气:关于变更回购股份用途的公告","time":"2026-07-28"},{"title":"中恒电气：关于变更回购股份用途的公告","time":"2026-07-27 21:26:00"}]},{"code":"601179","name":"中国西电","sector":"电力设备/储能","tags":["输配电","特高压","电网","央企"],"narrative":"输配电一次设备龙头（央企），叙事是特高压/电网投资高景气 + 算力带动电网扩容，受益国内外电网 capex 上行，蓝筹稳健。","drivers":["特高压招标","电网投资","算力带动用电/电网扩容"],"falsify":["特高压/电网招标不及预期","盈利改善慢","原材料涨价"],"watch":["特高压核准/招标节奏","电网投资"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：+1.71%，量比1.59（放量）。已回踩至逢低区，国家电网释放红利，电力设备企业密集中标大订单。放量上涨，资金介入明显。"},"signal":{"date":"2026-07-31","price":13.34,"chgPct":1.68,"trend":"震荡","leftState":"已回踩至逢低区 · 可分批左侧","rightState":"远离突破 48.6% · 暂无右侧","volRatio":1.25,"pullbackPct":1.1},"news":[{"title":"7月29日晚间沪深上市公司重大事项公告最新快递","time":"2026-07-29 19:32:40"},{"title":"中国西电：公司主营业务为输配电及控制设备研发、设计等业务","time":"2026-07-29 18:29:00"},{"title":"国家电网释放红利！电力设备企业密集中标大订单 保变电气、金冠股份等多股涨停","time":"2026-07-24 07:12:05"}]},{"code":"601126","name":"四方股份","sector":"电力设备/储能","tags":["电网二次","继电保护","储能","虚拟电厂"],"narrative":"电网二次设备（继电保护/自动化）+ 储能/新能源，叙事是电网智能化 + 储能 + 虚拟电厂，受益电网投资与新型电力系统建设。","drivers":["电网二次设备","储能系统","虚拟电厂"],"falsify":["电网招标份额不及预期","储能盈利波动","竞争加剧"],"watch":["电网二次招标","储能订单"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价平稳：+0.57%，量比0.96。SST赛道迎来首个省级产业联盟（7/21），固态变压器与国际化助力成长。无明显变化。"},"signal":{"date":"2026-07-31","price":37.98,"chgPct":3.26,"trend":"空头排列","leftState":"回踩约 4.1% 入场（逢低区）","rightState":"远离突破 131.9% · 暂无右侧","volRatio":1,"pullbackPct":4.05},"news":[{"title":"十五五算力网将新增直接投资4万亿，高层重磅会议定调AI+、六张网建设，电网设备ETF广发(159320)盘中最高涨超4%","time":"2026-07-31 13:43:14"},{"title":"SST赛道迎来首个省级产业联盟 谁在抢占AI算力的电力入口？","time":"2026-07-21 12:55:00"},{"title":"四方股份:四方股份关于向香港联交所递交境外上市股份(H股)发行上市申请并刊发申请资料的公告","time":"2026-06-17"}]},{"code":"002837","name":"英维克","sector":"数据中心/液冷","tags":["液冷","温控","数据中心","储能温控"],"narrative":"精密温控龙头，叙事核心是 AI 算力功率密度提升带来的‘液冷’渗透爆发 + 储能温控，是数据中心液冷最纯正、最受益标的之一。","drivers":["数据中心液冷渗透","AI 算力功率密度提升","储能温控"],"falsify":["液冷渗透/订单不及预期","风冷向液冷切换慢","竞争加剧降价","储能温控周期下行"],"watch":["液冷大单/中标","云厂液冷方案采用传闻","海外订单"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价偏弱：-4.97%，量比0.7。国产液冷已由送样验证进入批量交付阶段（7/23研报），但股价继续走弱。仍处空头排列，量能萎缩。"},"signal":{"date":"2026-07-31","price":47.45,"chgPct":0.64,"trend":"空头排列","leftState":"已回踩至逢低区 · 可分批左侧","rightState":"远离突破 89.0% · 暂无右侧","volRatio":0.85,"pullbackPct":0.64},"news":[{"title":"东吴证券：国产液冷已由送样验证进入批量交付阶段 2026—2028年份额提升有望快于行业增长","time":"2026-07-23 08:28:00"},{"title":"券商资管公募基金二季报揭秘：有的拥抱科技净值狂飙75%，也有传统老将反思“糟糕”业绩","time":"2026-07-22 19:40:56"},{"title":"英维克:关于为全资下属公司PTENVICOOLTECHNOLOGYINDONESIA提供担保的进展公告","time":"2026-06-05"}]},{"code":"300442","name":"润泽科技","sector":"数据中心/液冷","tags":["IDC","智算中心","算力租赁","AIDC"],"narrative":"第三方 IDC/智算中心龙头，叙事是 AIDC（智算中心）自建+运营，受益算力需求爆发与机柜上架率提升，是 IDC 算力运营核心标的。","drivers":["智算中心上架","AIDC 自建运营","算力租赁需求"],"falsify":["智算中心上架率不及预期","算力需求/客户付费弱","资本开支折旧拖累","GPU 供给受限"],"watch":["上架率与算力订单","GPU 采购/供给传闻"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价偏弱：-3.97%，量比0.66。左侧状态从逢低区跌至「已跌破逢低区·转弱观望」，技术面恶化。缩量下跌，AIDC扩张逻辑未破但市场信心不足。"},"signal":{"date":"2026-07-31","price":63.25,"chgPct":9.24,"trend":"空头排列","leftState":"回踩约 1.6% 入场（逢低区）","rightState":"远离突破 74.9% · 暂无右侧","volRatio":0.84,"pullbackPct":1.56},"news":[{"title":"云计算ETF鹏华(159739)涨超7.7%，“十五五”时期算力网建设将新增直接投资4万亿元","time":"2026-07-31 11:19:03"},{"title":"云计算ETF鹏华涨超7%，“十五五”时期算力网建设将新增直接投资4万亿元","time":"2026-07-31 11:18:41"},{"title":"我国云计算市场规模3年后或突破2.5万亿元，云计算50ETF新华(560660)强势涨超7%","time":"2026-07-31 10:29:23"}]},{"code":"301396","name":"宏景科技","sector":"数据中心/液冷","tags":["智算中心","AIDC","智慧城市","算力"],"narrative":"智慧城市/智能化集成商，叙事弹性来自‘智算中心（AIDC）’总集与算力运营跨界，主业为系统集成，算力是题材催化，弹性大波动大。","drivers":["智算中心集成/运营","算力服务","智慧城市"],"falsify":["智算订单/收入不及预期","跨界整合风险","集成业务毛利低、纯题材"],"watch":["智算中心订单（防传闻）","GPU 采购"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价异动：-6.89%，量比1.07。左侧状态跌至「已跌破逢低区·转弱观望」，技术面持续恶化。算力租赁业务已具规模但股价承压。"},"signal":{"date":"2026-07-31","price":156.16,"chgPct":20,"trend":"空头排列","leftState":"已回踩至逢低区 · 可分批左侧","rightState":"远离突破 117.3% · 暂无右侧","volRatio":0.92,"pullbackPct":0.44},"news":[{"title":"“十五五”时期算力网建设将新增直接投资4万亿元 算力租赁有望从“资源出租”向“算力运营+价值分成”升级","time":"2026-07-31 23:26:00"},{"title":"宏景科技:关于对外担保的进展公告","time":"2026-07-31"},{"title":"宏景科技:关于注销募集资金专户的公告","time":"2026-07-31"}]},{"code":"600667","name":"太极实业","sector":"数据中心/液冷","tags":["半导体洁净室","IDC","存储封测","工程"],"narrative":"半导体工程（十一科技，洁净室/数据中心建设）+ 存储封测（海太半导体）双主业，叙事是受益晶圆厂/数据中心建设 capex + 存储封测复苏。","drivers":["晶圆厂/数据中心建设","洁净室工程订单","存储封测复苏"],"falsify":["晶圆厂/IDC 建设放缓","存储封测复苏弱","工程回款风险"],"watch":["工程订单/中标","存储封测稼动"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价异动：-5.28%，量比0.97。已回踩至逢低区，半导体建设逻辑独立于芯片制造恐慌。今日下跌但幅度可控，仍处逢低区。"},"signal":{"date":"2026-07-31","price":17.23,"chgPct":10.03,"trend":"震荡","leftState":"回踩约 2.8% 入场（逢低区）","rightState":"远离突破 86.3% · 暂无右侧","volRatio":1.12,"pullbackPct":2.77},"news":[{"title":"今日这些个股异动 主力加仓电子、通信板块","time":"2026-07-31 16:58:02"},{"title":"存储芯片概念向上反攻 长鑫科技上市5天市值突破4万亿","time":"2026-07-31 12:40:00"},{"title":"股市午报：A股超4500股飘红！长鑫科技，盘中突破4万亿元","time":"2026-07-31 12:25:00"}]},{"code":"002149","name":"西部材料","sector":"特种材料","tags":["钛材","稀有金属","军工","新材料"],"narrative":"钛及稀有金属深加工平台，叙事是高端钛材（航空/军工/化工）+ 稀有金属国产化，受益军工与高端制造需求，兼具周期与成长。","drivers":["航空航天钛材","军工需求","稀有金属（靶材等）"],"falsify":["军工/航空订单不及预期","钛价波动","盈利改善慢"],"watch":["军工订单","钛价/航空需求"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价平稳：-2.04%，量比0.75。已回踩至逢低区，但仍处空头排列。无明显催化。"},"signal":{"date":"2026-07-31","price":32.5,"chgPct":3.97,"trend":"空头排列","leftState":"已回踩至逢低区 · 可分批左侧","rightState":"远离突破 142.1% · 暂无右侧","volRatio":0.78,"pullbackPct":0.31},"news":[{"title":"103只股即将实施分红（名单）","time":"2026-07-09 09:24:00"},{"title":"西部材料:西部金属材料股份有限公司2025年年度权益分派实施公告","time":"2026-07-03"},{"title":"西部材料：2025年年度权益分派实施公告","time":"2026-07-02 21:25:00"}]},{"code":"600367","name":"红星发展","sector":"特种材料","tags":["锶盐","钡盐","电子材料","锰系"],"narrative":"锶盐/钡盐/锰系化工龙头，叙事弹性来自钡锶在电子陶瓷/钙钛矿/特种玻璃等新材料的潜在应用，主业为精细化工，题材为新材料延伸。","drivers":["锶盐/钡盐龙头地位","电子级钡锶材料","钙钛矿/新材料题材"],"falsify":["新材料应用仅题材未落地","化工主业景气下行","产品价格疲软"],"watch":["新材料订单/合作传闻","化工产品价格"],"verdict":"存疑","review":{"date":"2026-07-29","verdict":"存疑","change":"量价平稳：-0.9%，量比0.7。仍处空头排列，量能萎缩。无明显催化。"},"signal":{"date":"2026-07-31","price":26.99,"chgPct":0.15,"trend":"空头排列","leftState":"回踩约 4.1% 入场（逢低区）","rightState":"远离突破 146.0% · 暂无右侧","volRatio":0.84,"pullbackPct":4.09},"news":[{"title":"红星发展:红星发展股票交易异常波动公告","time":"2026-07-07"},{"title":"红星发展：股票交易异常波动公告","time":"2026-07-06 21:30:00"},{"title":"红星发展:红星发展股票交易风险提示公告","time":"2026-07-01"}]},{"code":"002409","name":"雅克科技","sector":"半导体材料","tags":["前驱体","光刻胶","电子特气","LNG板材"],"narrative":"半导体材料平台型公司,前驱体(存储/逻辑晶圆制造关键辅料)、光刻胶(半导体+面板)、电子特气三条主线打通,另有 LNG 保温板材业务。核心叙事是国产半导体材料在先进制程与晶圆厂扩产周期中的卡位与份额提升,前驱体随大客户放量是主要增长引擎。","drivers":["先进制程前驱体国产替代与客户放量","半导体光刻胶品类突破","电子特气品类扩张"],"falsify":["前驱体大客户验证/导入进度不及预期","光刻胶竞争加剧导致份额流失","半导体资本开支周期下行拖累材料需求"],"watch":["前驱体客户验证节点","光刻胶产线投产进度","半导体资本开支指引"],"verdict":"成立","review":{"date":"2026-07-29","verdict":"成立","change":"量价异动：-8.56%，量比1.19（放量）。左侧状态回到「已回踩至逢低区·可分批左侧」。半导体高景气度下主线景气转化平台盈利（6/29研报），放量下跌疑似恐慌情绪释放。"},"signal":{"date":"2026-07-31","price":133.8,"chgPct":-2.31,"trend":"震荡","leftState":"回踩约 13.9% 入场（逢低区）","rightState":"远离突破 84.2% · 暂无右侧","volRatio":1.25,"pullbackPct":13.92},"news":[{"title":"雅克科技:关于公司股票交易异常波动的公告","time":"2026-08-01"},{"title":"7月31日晚间，17家公司提示风险，爱丽家居停牌核查","time":"2026-07-31 23:06:00"},{"title":"兆易创新拟回购股份用于注销；爱丽家居停牌核查丨公告精选","time":"2026-07-31 21:42:00"}]}],"sectors":["全部","光模块/CPO","光纤光缆","PCB/载板","半导体","存储模组","被动元件","连接/天线","服务器/ODM","电力设备/储能","数据中心/液冷","特种材料","半导体材料"]};
+  </script>
+  <script>
+(() => {
+  const SEED = window.__SEED__;
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+  const state = {
+    view: "home",
+    sector: "全部",
+    verdict: "all",
+    sort: "default",
+    drawerCode: null,
+  };
+
+  function esc(s) {
+    return String(s ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function fmtPct(v) {
+    if (v == null || Number.isNaN(Number(v))) return "—";
+    const n = Number(v);
+    if (n === 0) return "0.00%";
+    const sign = n > 0 ? "+" : "";
+    return `${sign}${n.toFixed(2)}%`;
+  }
+
+  function pctClass(v) {
+    if (v == null || Number.isNaN(Number(v))) return "";
+    const n = Number(v);
+    return n > 0 ? "up" : n < 0 ? "down" : "";
+  }
+
+  function empty(msg) {
+    return `<div class="empty-state" role="status">${esc(msg)}</div>`;
+  }
+
+  function stripDisclaimer(s) {
+    return String(s || "")
+      .replace(/仅供研究参考[，,、]?非投资建议[。．]?/g, "")
+      .replace(/注：.*$/g, "")
+      .trim()
+      .replace(/[；;]\s*$/, "");
+  }
+
+  function parseDigest(summary) {
+    const raw = stripDisclaimer(summary);
+    if (!raw) return { lead: "", items: [], note: "" };
+    const noteMatch = String(summary || "").match(/注：([^。]+。?)/);
+    const note = noteMatch ? noteMatch[1].trim() : "";
+    const marks = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳";
+    const chunks = raw.split(/(?=[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳])/).map((x) => x.trim()).filter(Boolean);
+    if (chunks.length >= 2 && marks.includes(chunks[0][0])) {
+      return {
+        lead: "",
+        items: chunks.map((c) => c.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳]\s*/, "").replace(/[；;]\s*$/, "").trim()),
+        note,
+      };
+    }
+    // prefix before first circled number
+    const idx = raw.search(new RegExp("[①②③④⑤⑥⑦⑧⑨⑩]"));
+    if (idx > 0) {
+      const lead = raw.slice(0, idx).replace(/[：:]\s*$/, "").trim();
+      const rest = raw.slice(idx);
+      const items = rest.split(/(?=[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳])/).map((c) =>
+        c.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳]\s*/, "").replace(/[；;]\s*$/, "").trim()
+      ).filter(Boolean);
+      return { lead, items, note };
+    }
+    // weekend-style: “本周末共发酵7个热点：A、B、C。”
+    const colon = raw.match(/^([^：:]{2,40})[：:](.+)$/);
+    if (colon) {
+      const body = colon[2].replace(/[。．]\s*$/, "");
+      const parts = body.split(/[、,，]/).map((x) => x.trim()).filter(Boolean);
+      if (parts.length >= 3) return { lead: colon[1].trim(), items: parts, note };
+    }
+    return { lead: raw, items: [], note };
+  }
+
+  function pageHeadHtml(eyebrow, title, summary, shortLead) {
+    const dig = parseDigest(summary || "");
+    const lead = shortLead || dig.lead;
+    return `
+      <div class="page-head" data-component="page-head">
+        <p class="eyebrow">${esc(eyebrow)}</p>
+        <h1 class="section-title">${esc(title)}</h1>
+        ${lead ? `<p class="section-lead">${esc(lead)}</p>` : ""}
+        ${dig.items.length ? `
+          <ol class="digest" aria-label="导读">
+            ${dig.items.map((t, i) => `
+              <li class="digest-item">
+                <span class="digest-n num">${String(i + 1).padStart(2, "0")}</span>
+                <span class="digest-t">${esc(t)}</span>
+              </li>`).join("")}
+          </ol>` : ""}
+        ${dig.note ? `<p class="digest-note">${esc(dig.note)}</p>` : ""}
+      </div>`;
+  }
+
+  function setView(view) {
+    state.view = view;
+    $$(".nav-item, .tabbar button").forEach((el) => {
+      el.classList.toggle("is-active", el.dataset.view === view);
+    });
+    $$("[data-view-panel]").forEach((panel) => {
+      const on = panel.dataset.viewPanel === view;
+      panel.classList.toggle("is-active", on);
+      panel.hidden = !on;
+    });
+    closeSidebar();
+    location.hash = view;
+    renderView(view);
+  }
+
+  function renderView(view) {
+    const map = {
+      home: renderHome,
+      watch: renderWatch,
+      market: renderMarket,
+      logic: renderLogic,
+      xbrief: renderXbrief,
+      events: renderEvents,
+      weekend: renderWeekend,
+    };
+    (map[view] || renderHome)();
+  }
+
+  /* —— Home —— */
+  function renderHome() {
+    const root = $("#viewHome");
+    const meta = SEED?.meta;
+    const stats = SEED?.marketStats;
+    if (!meta) {
+      root.innerHTML = empty("首页数据缺失（META 为空）");
+      return;
+    }
+    const indices = meta.indices || [];
+    const nb = stats?.northbound?.hgt_yi;
+    root.innerHTML = `
+      <div class="block" data-component="home-overview">
+        <p class="eyebrow">NO.01 · MARKET SNAPSHOT</p>
+        <h1 class="section-title">大盘速览</h1>
+        <p class="section-lead">收盘复盘入口：先看指数与涨跌停结构，再读总述与研究卡。</p>
+        <div class="seal"><span class="seal-no">其一</span><span>缩量分歧下的成长修复</span></div>
+        <div class="index-strip" aria-label="主要指数">
+          ${indices.map((i) => `
+            <div class="index-item">
+              <div class="index-name">${esc(i.name)}</div>
+              <div class="index-price num">${Number(i.price).toFixed(2)}</div>
+              <div class="index-chg num ${pctClass(i.pct)}">${fmtPct(i.pct)}</div>
+            </div>`).join("")}
+        </div>
+        <div class="stat-strip" aria-label="盘面统计">
+          <div class="stat-item"><div class="stat-v num">${stats?.zt ?? "—"}</div><div class="stat-l">涨停</div></div>
+          <div class="stat-item"><div class="stat-v num">${stats?.zb ?? "—"}</div><div class="stat-l">炸板</div></div>
+          <div class="stat-item"><div class="stat-v num">${stats?.dt ?? "—"}</div><div class="stat-l">跌停</div></div>
+          <div class="stat-item"><div class="stat-v num">${stats?.breakRate != null ? stats.breakRate : "—"}<span class="unit">%</span></div><div class="stat-l">炸板率</div></div>
+          <div class="stat-item"><div class="stat-v num">${stats?.maxHeight ?? "—"}<span class="unit">板</span></div><div class="stat-l">最高连板</div></div>
+          <div class="stat-item"><div class="stat-v num ${pctClass(nb)}">${nb != null ? nb : "—"}<span class="unit">亿</span></div><div class="stat-l">北向净额</div></div>
+        </div>
+      </div>
+
+      <div class="block" data-component="home-regime">
+        <p class="eyebrow">NO.02 · CLOSING NOTE</p>
+        <h2 class="section-title">收盘总述</h2>
+        <div class="prose">
+          <div class="prose-block">
+            <div class="prose-kicker">指数结构</div>
+            <p>${esc(meta.marketRegime)}</p>
+          </div>
+          <div class="prose-block">
+            <div class="prose-kicker">信号统计</div>
+            <p>${esc(meta.summary)}</p>
+          </div>
+        </div>
+        <div class="risk-bar">风险提示：信号统计偏空头结构，反弹多发生在空头排列下的超跌修复；叙事与技术可背离，勿单看涨跌幅。</div>
+      </div>
+
+      <div class="block" data-component="home-preview">
+        <p class="eyebrow">NO.03 · RESEARCH PREVIEW</p>
+        <h2 class="section-title">研究卡流</h2>
+        <div class="preview-grid">
+          ${(SEED.events?.events || []).slice(0, 2).map((e) => `
+            <button class="preview-card" type="button" data-jump="events">
+              <div class="meta-row">${esc(e.category)} · ${esc(e.importance)} · ${esc(e.time || "")}</div>
+              <h3 class="clamp-2">${esc(e.title)}</h3>
+              <p class="clamp-3 tagline">${esc(e.content)}</p>
+            </button>`).join("")}
+          ${(SEED.logic?.chains || []).slice(0, 2).map((c) => `
+            <button class="preview-card" type="button" data-jump="logic">
+              <div class="meta-row">逻辑链 · ${esc(c.strength)} · ${esc(c.direction)}</div>
+              <h3 class="clamp-2">${esc(c.name)}</h3>
+              <p class="clamp-3 tagline">${esc(c.logic || c.event)}</p>
+            </button>`).join("")}
+        </div>
+      </div>
+    `;
+    root.querySelectorAll("[data-jump]").forEach((btn) => {
+      btn.addEventListener("click", () => setView(btn.dataset.jump));
+    });
+  }
+
+  /* —— Watch —— */
+  function stockMatches(s) {
+    if (state.sector !== "全部" && s.sector !== state.sector) return false;
+    if (state.verdict === "all") return true;
+    if (state.verdict === "opportunity") {
+      return /逢低|左侧|回踩/.test(s.signal?.leftState || "");
+    }
+    if (state.verdict === "drawdown") {
+      return (s.signal?.pullbackPct || 0) >= 25;
+    }
+    return s.verdict === state.verdict;
+  }
+
+  function sortedStocks() {
+    const arr = (SEED?.stocks || []).filter(stockMatches);
+    if (state.sort === "chgDesc") arr.sort((a, b) => (b.signal?.chgPct ?? -999) - (a.signal?.chgPct ?? -999));
+    else if (state.sort === "chgAsc") arr.sort((a, b) => (a.signal?.chgPct ?? 999) - (b.signal?.chgPct ?? 999));
+    else if (state.sort === "name") arr.sort((a, b) => a.name.localeCompare(b.name, "zh"));
+    return arr;
+  }
+
+  function renderWatch() {
+    const root = $("#viewWatch");
+    if (!SEED?.stocks) {
+      root.innerHTML = empty("巨头核心数据缺失（STOCKS 为空）");
+      return;
+    }
+    const list = sortedStocks();
+    root.innerHTML = `
+      <div class="block">
+        <p class="eyebrow">NO.04 · CORE WATCH</p>
+        <h1 class="section-title">巨头核心</h1>
+        <p class="section-lead meta-row" style="margin-bottom:14px">${esc(SEED.meta?.signalStat || "")}</p>
+      </div>
+      <div class="watch-layout" data-component="watch-board">
+        <aside class="rail-panel" aria-label="板块筛选">
+          <h2 class="rail-h">板块筛选</h2>
+          <div class="sector-list" id="sectorList">
+            ${(SEED.sectors || []).map((sec) => `
+              <button type="button" class="sector-btn ${state.sector === sec ? "is-active" : ""}" data-sector="${esc(sec)}">${esc(sec)}</button>
+            `).join("")}
+          </div>
+        </aside>
+        <div>
+          <div class="toolbar">
+            <div class="chip-row" id="verdictChips">
+              ${[
+                ["all", "全部结论"],
+                ["opportunity", "今日买点"],
+                ["drawdown", "跌超25%"],
+                ["成立", "成立"],
+                ["存疑", "存疑"],
+                ["证伪", "证伪"],
+              ].map(([k, lab]) => `
+                <button type="button" class="chip ${state.verdict === k ? "is-active" : ""}" data-verdict="${k}">${lab}</button>
+              `).join("")}
+            </div>
+            <label class="sr-only" for="sortSelect">排序</label>
+            <select class="sort-select" id="sortSelect">
+              <option value="default" ${state.sort === "default" ? "selected" : ""}>默认排序</option>
+              <option value="chgDesc" ${state.sort === "chgDesc" ? "selected" : ""}>涨幅高→低</option>
+              <option value="chgAsc" ${state.sort === "chgAsc" ? "selected" : ""}>涨幅低→高</option>
+              <option value="name" ${state.sort === "name" ? "selected" : ""}>名称</option>
+            </select>
+          </div>
+          ${list.length ? `
+            <div class="stock-grid">
+              ${list.map((s) => {
+                const pct = s.signal?.chgPct;
+                return `
+                <button type="button" class="stock-card" data-code="${esc(s.code)}" aria-label="打开 ${esc(s.name)} 详情">
+                  <div class="sc-top">
+                    <div><span class="sc-name">${esc(s.name)}</span><span class="sc-code">${esc(s.code)}</span></div>
+                    <div class="sc-pct num ${pctClass(pct)}">${fmtPct(pct)}</div>
+                  </div>
+                  <div class="sc-sector">${esc(s.sector)}${(s.tags || []).length ? " · " + esc(s.tags.join("、")) : ""}</div>
+                  <p class="sc-nar clamp-3">${esc(s.narrative)}</p>
+                  <div class="sc-foot">
+                    <span class="verdict ${esc(s.verdict)}">${esc(s.verdict)}</span>
+                    <span>${esc(s.signal?.trend || "—")}</span>
+                    <span class="clamp-2" style="flex:1;min-width:120px">${esc(s.signal?.leftState || "")}</span>
+                  </div>
+                </button>`;
+              }).join("")}
+            </div>` : empty("当前筛选下无匹配个股")}
+        </div>
+      </div>
+    `;
+    root.querySelectorAll("[data-sector]").forEach((b) => {
+      b.addEventListener("click", () => { state.sector = b.dataset.sector; renderWatch(); });
+    });
+    root.querySelectorAll("[data-verdict]").forEach((b) => {
+      b.addEventListener("click", () => { state.verdict = b.dataset.verdict; renderWatch(); });
+    });
+    const sel = $("#sortSelect", root);
+    if (sel) sel.addEventListener("change", () => { state.sort = sel.value; renderWatch(); });
+    root.querySelectorAll(".stock-card").forEach((card) => {
+      card.addEventListener("click", () => openDrawer(card.dataset.code));
+    });
+  }
+
+  /* —— Market —— */
+  function renderMarket() {
+    const root = $("#viewMarket");
+    if (!SEED?.marketStats) {
+      root.innerHTML = empty("市场扫描数据缺失（MARKET 为空）");
+      return;
+    }
+    const ladder = SEED.limitLadder || [];
+    const broke = SEED.brokeSample || [];
+    const movers = SEED.movers || {};
+    root.innerHTML = `
+      <div class="block">
+        <p class="eyebrow">NO.05 · MARKET SCAN</p>
+        <h1 class="section-title">市场扫描</h1>
+        <p class="section-lead">涨停梯队 / 炸板跌停 / 涨跌异动，只读面板，服务复盘定位。</p>
+      </div>
+      <div class="panel-stack">
+        <section class="panel" data-component="limit-ladder">
+          <div class="panel-h"><h2>涨停梯队</h2><span class="muted num">最高 ${esc(SEED.marketStats.maxHeight)} 板 · 涨停 ${esc(SEED.marketStats.zt)}</span></div>
+          <div class="ladder">
+            ${ladder.length ? ladder.map((row) => `
+              <div class="ladder-row">
+                <div class="ladder-board num">${row.board}板<span class="muted" style="display:block;font-size:10px">${row.count}只</span></div>
+                <div class="ladder-items">
+                  ${row.items.map((it) => `<span><b>${esc(it.name)}</b> <span class="muted">${esc(it.industry || "")}</span></span>`).join("")}
+                </div>
+              </div>`).join("") : empty("暂无涨停梯队")}
+          </div>
+        </section>
+
+        <section class="panel" data-component="broke-panel">
+          <div class="panel-h"><h2>炸板 / 跌停</h2><span class="muted num">炸板 ${esc(SEED.marketStats.zb)} · 跌停 ${esc(SEED.marketStats.dt)} · 炸板率 ${esc(SEED.marketStats.breakRate)}%</span></div>
+          ${broke.length ? `
+            <table class="table">
+              <thead><tr><th>名称</th><th>行业</th><th class="num">涨跌幅</th><th class="num">开板</th></tr></thead>
+              <tbody>
+                ${broke.map((s) => `
+                  <tr>
+                    <td>${esc(s.name)} <span class="muted num">${esc(s.code)}</span></td>
+                    <td>${esc(s.industry || "—")}</td>
+                    <td class="num ${pctClass(s.pct)}">${fmtPct(s.pct)}</td>
+                    <td class="num">${esc(s.break_times ?? "—")}</td>
+                  </tr>`).join("")}
+              </tbody>
+            </table>` : empty("暂无炸板样本")}
+          ${(SEED.limitDown || []).length === 0 ? `<div style="padding:10px 12px;font-size:12px;color:var(--fg-muted)">跌停：0（当日无跌停）</div>` : ""}
+        </section>
+
+        <section class="panel" data-component="movers-panel">
+          <div class="panel-h"><h2>涨跌 · 成交异动</h2><span class="muted">只读</span></div>
+          <div class="col-3" style="padding:12px">
+            ${[
+              ["涨幅居前", movers.gainers],
+              ["跌幅居前", movers.losers],
+              ["成交额居前", movers.turnover],
+            ].map(([title, rows]) => `
+              <div>
+                <div class="meta-row" style="margin-bottom:8px">${title}</div>
+                ${(rows || []).length ? `
+                  <table class="table">
+                    <tbody>
+                      ${(rows || []).map((s) => `
+                        <tr>
+                          <td>${esc(s.name)}</td>
+                          <td class="num ${pctClass(s.pct)}">${s.pct != null ? fmtPct(s.pct) : (s.amount != null ? Number(s.amount).toFixed(0) : "—")}</td>
+                        </tr>`).join("")}
+                    </tbody>
+                  </table>` : empty("暂无数据")}
+              </div>`).join("")}
+          </div>
+        </section>
+      </div>
+    `;
+  }
+
+  /* —— Logic —— */
+  function renderLogic() {
+    const root = $("#viewLogic");
+    const data = SEED?.logic;
+    if (!data?.chains) {
+      root.innerHTML = empty("逻辑链数据缺失（LOGIC 为空）");
+      return;
+    }
+    root.innerHTML = `
+      ${pageHeadHtml("NO.06 · LOGIC CHAIN", "逻辑链", data.summary, "事件 → 产业 → 标的")}
+      ${(data.chains || []).map((c) => `
+        <article class="chain-card" data-component="logic-card">
+          <div class="meta-row">
+            <span class="strength">${esc(c.strength)}</span>
+            · ${esc(c.event_type)} · ${esc(c.direction)} · ${esc(c.event_date || "")}
+          </div>
+          <h2 class="section-title" style="font-size:17px;margin-bottom:6px">${esc(c.name)}</h2>
+          <p class="clamp-3" style="color:var(--fg-soft);margin:0 0 8px">${esc(c.event)}</p>
+          <p style="color:var(--fg-soft);margin:0 0 8px;font-size:13.5px;line-height:1.7">${esc(c.logic)}</p>
+          <div class="chain-path" aria-label="映射路径">
+            ${(c.path || []).map((step, idx) => {
+              let short = "";
+              let full = "";
+              if (Array.isArray(step)) {
+                short = step.filter(Boolean).join(" · ");
+                full = short;
+              } else if (step && typeof step === "object") {
+                short = step.step || step.name || "步骤";
+                full = [step.step, step.detail].filter(Boolean).join("：");
+                if (Array.isArray(step.stocks) && step.stocks.length) {
+                  const names = step.stocks.slice(0, 3).map((s) => s.name || s.code).filter(Boolean);
+                  if (names.length) short += ` · ${names.join("、")}`;
+                }
+              } else {
+                short = String(step ?? "");
+                full = short;
+              }
+              return `${idx ? '<span class="chain-arrow">→</span>' : ""}<span class="chain-step" title="${esc(full)}">${esc(short)}</span>`;
+            }).join("")}
+          </div>
+          <div class="tagline">证伪：${esc(c.invalidation || "—")}</div>
+        </article>`).join("")}
+    `;
+  }
+
+  /* —— Xbrief —— */
+  function renderXbrief() {
+    const root = $("#viewXbrief");
+    const data = SEED?.xbriefs;
+    if (!data?.briefs) {
+      root.innerHTML = empty("外围热点数据缺失（XBRIEFS 为空）");
+      return;
+    }
+    root.innerHTML = `
+      <div class="block">
+        <p class="eyebrow">NO.07 · EXTERNAL BRIEF</p>
+        <h1 class="section-title">外围热点</h1>
+        <p class="section-lead">海外 AI + 宏观/市场硬信息，约每 2 小时一期。更新于 ${esc(data.updated || "—")}</p>
+      </div>
+      <div class="timeline">
+        ${(data.briefs || []).map((b) => `
+          <article class="brief-card" data-component="xbrief-card">
+            <div class="brief-time num">${esc(b.time)} · ${esc(b.period || "")}</div>
+            <h2 class="section-title" style="font-size:16px">${esc(b.title)}</h2>
+            <div class="meta-row">AI ${esc(b.aiCount)} · 市场 ${esc(b.marketCount)}</div>
+            <p class="clamp-3" style="color:var(--fg-soft);white-space:pre-wrap;margin:0">${esc(b.content)}</p>
+          </article>`).join("")}
+      </div>
+    `;
+  }
+
+  /* —— Events —— */
+  function renderEvents() {
+    const root = $("#viewEvents");
+    const data = SEED?.events;
+    if (!data?.events) {
+      root.innerHTML = empty("今日热点事件数据缺失（EVENTS 为空）");
+      return;
+    }
+    root.innerHTML = `
+      ${pageHeadHtml("NO.08 · DAILY EVENTS", "今日热点事件", data.summary)}
+      ${(data.events || []).map((e) => `
+        <article class="event-card" data-component="event-card">
+          <div class="meta-row">${esc(e.category)} · 影响 ${esc(e.importance)} · ${esc(e.direction)} · ${esc(e.time || "")}</div>
+          <h2 class="section-title" style="font-size:17px">${esc(e.title)}</h2>
+          <p style="color:var(--fg-soft);margin:0 0 8px;line-height:1.7">${esc(e.content)}</p>
+          <div class="tagline">板块：${esc(e.sectors || "—")}</div>
+        </article>`).join("")}
+    `;
+  }
+
+  /* —— Weekend —— */
+  function renderWeekend() {
+    const root = $("#viewWeekend");
+    const data = SEED?.weekend;
+    if (!data?.hotspots) {
+      root.innerHTML = empty("周末发酵数据缺失（WEEKEND 为空）");
+      return;
+    }
+    const lead = data.weekendDate ? `${data.weekendDate}` : "";
+    root.innerHTML = `
+      ${pageHeadHtml("NO.09 · WEEKEND FERMENT", "周末发酵", data.summary, lead)}
+      ${(data.hotspots || []).map((h) => `
+        <article class="weekend-card" data-component="weekend-card">
+          <div class="meta-row">${esc(h.category)} · 发酵 ${esc(h.fermentLevel)} · ${esc(h.signalType)}</div>
+          <h2 class="section-title" style="font-size:17px">${esc(h.title)}</h2>
+          <p style="color:var(--fg-soft);margin:0 0 8px">${esc(h.event)}</p>
+          <p style="color:var(--fg-soft);margin:0 0 8px;line-height:1.7">${esc(h.interpretation)}</p>
+          <div class="tagline">方向：${esc((h.impactSectors || []).join("、") || "—")}</div>
+          <div class="tagline" style="margin-top:4px">周一策略：${esc(h.mondayStrategy || "—")}</div>
+        </article>`).join("")}
+    `;
+  }
+
+  /* —— Drawer —— */
+  function openDrawer(code) {
+    const s = (SEED.stocks || []).find((x) => x.code === code);
+    const drawer = $("#detailDrawer");
+    const body = $("#drawerBody");
+    const title = $("#drawerTitle");
+    if (!s) return;
+    state.drawerCode = code;
+    title.innerHTML = `
+      <div>
+        <div class="sc-name" style="font-size:18px">${esc(s.name)} <span class="sc-code">${esc(s.code)}</span></div>
+        <div class="meta-row" style="margin:4px 0 0">${esc(s.sector)} · <span class="verdict ${esc(s.verdict)}">${esc(s.verdict)}</span></div>
+      </div>`;
+    const g = s.signal || {};
+    body.innerHTML = `
+      <p>${esc(s.narrative)}</p>
+      <h3>技术信号</h3>
+      <div class="sig-grid">
+        <div><div class="l">现价 / 涨跌</div><div class="num ${pctClass(g.chgPct)}">${g.price != null ? Number(g.price).toFixed(2) : "—"} · ${fmtPct(g.chgPct)}</div></div>
+        <div><div class="l">趋势</div><div>${esc(g.trend || "—")}</div></div>
+        <div><div class="l">左侧</div><div>${esc(g.leftState || "—")}</div></div>
+        <div><div class="l">右侧</div><div>${esc(g.rightState || "—")}</div></div>
+      </div>
+      <h3>复盘结论</h3>
+      <p>${esc(s.review?.change || "暂无复盘文字")}</p>
+      <h3>关注点</h3>
+      <p>${esc((s.watch || []).join("；") || "—")}</p>
+      <h3>相关新闻</h3>
+      ${(s.news || []).length ? `<ul style="margin:0;padding-left:18px;color:var(--fg-soft);font-size:13px">${s.news.map((n) => `<li>${esc(n.title)}</li>`).join("")}</ul>` : "<p>暂无新闻样本</p>"}
+    `;
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+    $("#drawerBackdrop").hidden = false;
+    $("#drawerClose").focus();
+  }
+
+  function closeDrawer() {
+    const drawer = $("#detailDrawer");
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    $("#drawerBackdrop").hidden = true;
+    state.drawerCode = null;
+  }
+
+  /* —— Search —— */
+  function search(q) {
+    const query = q.trim().toLowerCase();
+    const panel = $("#searchPanel");
+    const status = $("#searchStatus");
+    const input = $("#globalSearchInput");
+    if (!query) {
+      panel.hidden = true;
+      input.setAttribute("aria-expanded", "false");
+      status.textContent = "";
+      return;
+    }
+    const hits = [];
+    for (const s of SEED.stocks || []) {
+      const bag = [s.code, s.name, s.sector, ...(s.tags || []), s.narrative].join(" ").toLowerCase();
+      if (bag.includes(query)) hits.push({ type: "个股", title: s.name, sub: s.code + " · " + s.sector, code: s.code });
+    }
+    for (const e of SEED.events?.events || []) {
+      const bag = [e.title, e.content, e.sectors, e.category].join(" ").toLowerCase();
+      if (bag.includes(query)) hits.push({ type: "事件", title: e.title, sub: e.category, jump: "events" });
+    }
+    for (const c of SEED.logic?.chains || []) {
+      const bag = [c.name, c.event, c.logic].join(" ").toLowerCase();
+      if (bag.includes(query)) hits.push({ type: "逻辑", title: c.name, sub: c.strength, jump: "logic" });
+    }
+    for (const b of SEED.xbriefs?.briefs || []) {
+      const bag = [b.title, b.content].join(" ").toLowerCase();
+      if (bag.includes(query)) hits.push({ type: "简报", title: b.title, sub: b.time, jump: "xbrief" });
+    }
+    const top = hits.slice(0, 12);
+    panel.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+    if (!top.length) {
+      panel.innerHTML = `<div class="search-empty">无结果「${esc(q)}」· Esc 关闭 · / 再次聚焦</div>`;
+      status.textContent = "无搜索结果";
+      return;
+    }
+    panel.innerHTML = top.map((h, i) => `
+      <button type="button" class="search-item" role="option" data-idx="${i}" data-code="${esc(h.code || "")}" data-jump="${esc(h.jump || "")}">
+        <div class="si-k">${esc(h.type)}</div>
+        <div class="si-t">${esc(h.title)}</div>
+        <div class="muted" style="font-size:11px">${esc(h.sub || "")}</div>
+      </button>`).join("") + `<div class="search-hint">↑↓ 选择 · Enter 打开 · Esc 关闭</div>`;
+    status.textContent = `找到 ${top.length} 条`;
+    panel.querySelectorAll(".search-item").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (btn.dataset.code) { closeSearch(); openDrawer(btn.dataset.code); setView("watch"); }
+        else if (btn.dataset.jump) { closeSearch(); setView(btn.dataset.jump); }
+      });
+    });
+  }
+
+  function closeSearch() {
+    const panel = $("#searchPanel");
+    const input = $("#globalSearchInput");
+    panel.hidden = true;
+    input.setAttribute("aria-expanded", "false");
+    input.value = "";
+    $("#searchStatus").textContent = "";
+  }
+
+  /* —— Sidebar mobile —— */
+  function openSidebar() {
+    $("#sidebar").classList.add("is-open");
+    const bd = $("#sidebarBackdrop");
+    bd.hidden = false;
+    $("#menuToggle").setAttribute("aria-expanded", "true");
+  }
+  function closeSidebar() {
+    $("#sidebar").classList.remove("is-open");
+    $("#sidebarBackdrop").hidden = true;
+    $("#menuToggle").setAttribute("aria-expanded", "false");
+  }
+
+  function bootChrome() {
+    const asof = SEED?.meta?.signalDate || SEED?.meta?.lastUpdated || "—";
+    const signal = SEED?.meta?.signalStat || "";
+    const shortSignal = signal.split("·")[0]?.trim() || signal.slice(0, 24);
+    $("#sideDateline").textContent = shortSignal || `行情截至 ${asof}`;
+    $("#sbDateTime").textContent = `${asof.replace(/^\d{4}-/, "").replace("-", "月")}日 · 收盘复盘`.replace("月日", "月");
+    // prettier date: 2026-07-31 → 7月31日
+    const m = String(asof).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) $("#sbDateTime").textContent = `${Number(m[2])}月${Number(m[3])}日 · 收盘复盘`;
+    $("#sbMarket").textContent = "收盘";
+  }
+
+  function bind() {
+    $$(".nav-item, .tabbar button").forEach((btn) => {
+      btn.addEventListener("click", () => setView(btn.dataset.view));
+    });
+    $("#menuToggle").addEventListener("click", () => {
+      const open = $("#sidebar").classList.contains("is-open");
+      open ? closeSidebar() : openSidebar();
+    });
+    $("#sidebarBackdrop").addEventListener("click", closeSidebar);
+    $("#drawerClose").addEventListener("click", closeDrawer);
+    $("#drawerBackdrop").addEventListener("click", closeDrawer);
+
+    const input = $("#globalSearchInput");
+    input.addEventListener("input", () => search(input.value));
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") { closeSearch(); input.blur(); }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      const tag = (e.target && e.target.tagName) || "";
+      if ((e.key === "/" || (e.key === "k" && (e.metaKey || e.ctrlKey))) && tag !== "INPUT" && tag !== "TEXTAREA") {
+        e.preventDefault();
+        input.focus();
+        input.select();
+      }
+      if (e.key === "Escape") {
+        if (!$("#searchPanel").hidden) closeSearch();
+        else if ($("#detailDrawer").classList.contains("is-open")) closeDrawer();
+        else closeSidebar();
+      }
+    });
+
+    window.addEventListener("hashchange", () => {
+      const v = location.hash.replace("#", "");
+      if (v && v !== state.view) setView(v);
+    });
+  }
+
+  bootChrome();
+  bind();
+  const initial = location.hash.replace("#", "") || "home";
+  const allowed = ["home", "watch", "market", "logic", "xbrief", "events", "weekend"];
+  setView(allowed.includes(initial) ? initial : "home");
+})();
+
+  </script>
+</body>
+</html>

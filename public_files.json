@@ -8,6 +8,7 @@
     "styles.css",
     "design-system.css",
     "claude-theme.css",
+    "warm-desk.css",
     "active_modules.json"
   ]
 }

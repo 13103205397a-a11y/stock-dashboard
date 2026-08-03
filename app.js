@@ -1004,8 +1004,14 @@
     if (bbClock) bbClock.textContent = "实时 " + timeStr;
     if (sbMarket) {
       const open = isTrading(d);
-      sbMarket.textContent = `● ${open ? "交易中" : "休市"}`;
+      sbMarket.textContent = open ? "交易中" : "休市";
       sbMarket.classList.toggle("open", open);
+    }
+    const sessionLabel = $("#sbSessionLabel");
+    if (sessionLabel) {
+      const m = d.getMonth() + 1;
+      const day = d.getDate();
+      sessionLabel.textContent = isTrading(d) ? `${m}月${day}日 · 盘中速览` : `${m}月${day}日 · 收盘复盘`;
     }
   };
   updateClock();
@@ -1245,14 +1251,16 @@
       ? `<div class="home-snap-hint" role="note">事件/逻辑链为午间快照（${esc([evtMeta.stamp, logicMeta.stamp].filter(Boolean)[0] || "盘中")}），指数与收盘总述以收盘口径为准。</div>`
       : "";
 
-    const regimeText = cleanDisplayText(META.marketRegime || META.summary || "").trim();
-    const regimeHtml = regimeText
+    const regimeText = cleanDisplayText(META.marketRegime || "").trim();
+    const summaryText = cleanDisplayText(META.summary || "").trim();
+    const regimeHtml = (regimeText || summaryText)
       ? `<section class="home-regime">
           <div class="hm-head">
             <h3 class="hm-title">收盘总述</h3>
             <span class="hm-date">截至 ${esc((ms && ms.date) || META.signalDate || "")} 收盘</span>
           </div>
-          <p class="home-regime-body">${esc(regimeText)}</p>
+          ${regimeText ? `<div class="home-regime-block"><div class="home-regime-kicker">指数结构</div><p class="home-regime-body">${esc(regimeText)}</p></div>` : ""}
+          ${summaryText && summaryText !== regimeText ? `<div class="home-regime-block"><div class="home-regime-kicker">信号统计</div><p class="home-regime-body">${esc(summaryText)}</p></div>` : (!regimeText && summaryText ? `<p class="home-regime-body">${esc(summaryText)}</p>` : "")}
         </section>`
       : "";
 

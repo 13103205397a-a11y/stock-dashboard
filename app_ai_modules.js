@@ -105,48 +105,69 @@
   }
 
   /** 把 Hermes 长摘要拆成「一句导语 + 要点列表」，避免墙字阅读 */
-  function logicSummaryDigest(raw) {
-    const text = cleanDisplayText(raw || "").trim();
+  function researchDigestHtml(raw, ariaLabel) {
+    const text = cleanDisplayText(raw || "").trim()
+      .replace(/仅供研究参考[，,、]?非投资建议[。．]?/g, "")
+      .replace(/注：.*$/g, "")
+      .trim();
     if (!text) return "";
 
     let points = [];
-    if (/\d+[.、)]\s|①|②|③|④|⑤/.test(text)) {
-      points = text.split(/(?=\d+[.、)]\s|①|②|③|④|⑤)/).map((x) => x.trim()).filter(Boolean);
+    let leadOverride = "";
+    if (/[①②③④⑤⑥⑦⑧⑨⑩]/.test(text)) {
+      const idx = text.search(/[①②③④⑤⑥⑦⑧⑨⑩]/);
+      if (idx > 0) leadOverride = text.slice(0, idx).replace(/[：:]\s*$/, "").trim();
+      points = text.slice(Math.max(0, idx))
+        .split(/(?=[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳])/)
+        .map((x) => x.replace(/^[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳]\s*/, "").replace(/[；;]\s*$/, "").trim())
+        .filter(Boolean);
+    } else if (/\d+[.、)]\s/.test(text)) {
+      points = text.split(/(?=\d+[.、)]\s)/).map((x) => x.trim()).filter(Boolean);
     } else {
-      // 句号/分号一起切：长摘要常见「宏观；盘面。资金。政策。」混排
-      points = text
-        .split(/(?<=[。！？；;])\s*/)
-        .map((x) => x.trim())
-        .filter((x) => x.length >= 8);
+      const colon = text.match(/^([^：:]{2,40})[：:](.+)$/);
+      if (colon) {
+        leadOverride = colon[1].trim();
+        const parts = colon[2].replace(/[。．]\s*$/, "").split(/[、,，]/).map((x) => x.trim()).filter(Boolean);
+        if (parts.length >= 3) points = parts;
+      }
+      if (!points.length) {
+        points = text
+          .split(/(?<=[。！？；;])\s*/)
+          .map((x) => x.trim())
+          .filter((x) => x.length >= 8);
+      }
     }
     if (!points.length) points = [text];
     points = points.map(polishDigestPoint).filter(Boolean);
     if (!points.length) points = [polishDigestPoint(text) || text];
 
-    const lead = leadOf(points[0], true) || trunc(points[0], 64);
-    // 导语吃掉首点；其余按点列出。首点若被截断，完整版放进列表第一条。
+    const lead = leadOverride || leadOf(points[0], true) || trunc(points[0], 64);
     const leadCore = String(lead).replace(/[…。！？；;\s]/g, "");
     const firstCore = String(points[0]).replace(/[…。！？；;\s]/g, "");
-    const listItems = leadCore.length >= Math.min(firstCore.length, 48)
-      ? points.slice(1)
-      : points;
+    const listItems = leadOverride
+      ? points
+      : (leadCore.length >= Math.min(firstCore.length, 48) ? points.slice(1) : points);
 
     const isMobile = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(max-width: 720px)").matches;
-    const previewN = isMobile ? 2 : 4;
+    const previewN = isMobile ? 3 : 6;
     const shown = listItems.slice(0, previewN);
     const hidden = listItems.slice(previewN);
-    const leadText = isMobile ? (leadOf(points[0], true) || trunc(points[0], 48)) : lead;
+    const leadText = leadOverride || (isMobile ? (leadOf(points[0], true) || trunc(points[0], 48)) : lead);
     const li = (items) => items.map((it) => `<li>${esc(it.replace(/[；;]$/, "。"))}</li>`).join("");
 
-    return `<section class="lc-digest" aria-label="今日脉络">
+    return `<section class="lc-digest" aria-label="${esc(ariaLabel || "导读")}">
       <div class="lc-digest-kicker">
-        <span class="lc-label">今日脉络</span>
+        <span class="lc-label">${esc(ariaLabel || "导读")}</span>
         <span class="lc-digest-count">${points.length} 点</span>
       </div>
       <p class="lc-digest-lead">${esc(leadText)}</p>
       ${shown.length ? `<ol class="lc-digest-list">${li(shown)}</ol>` : ""}
       ${hidden.length ? `<details class="lc-digest-more"><summary>还有 ${hidden.length} 点</summary><ol class="lc-digest-list">${li(hidden)}</ol></details>` : ""}
     </section>`;
+  }
+
+  function logicSummaryDigest(raw) {
+    return researchDigestHtml(raw, "今日脉络");
   }
 
   /** 去掉分句后残留的转折词，让列表读起来像独立要点 */
@@ -220,7 +241,7 @@
     const dateHint = stale ? `周末 ${esc(wDate)} · ${hotspots.length} 个热点 · ⚠ ${daysAgo}天前 · 策略时点已过` : `周末 ${esc(wDate)} · ${hotspots.length} 个热点`;
     el.innerHTML = secTitle("周末发酵", dateHint) +
       (stale ? `<div class="rep-quality is-partial" role="note"><strong>已过期</strong><span>周一策略与盘面推演仅供回顾，勿当作当日执行清单。</span></div>` : "") +
-      (W.summary ? `<div class="we-summary">${esc(W.summary)}</div>` : "") +
+      (W.summary ? researchDigestHtml(W.summary, "周末导读") : "") +
       `<div class="we-grid">${cards}</div>` +
       scenarioHtml + noiseHtml +
       `<div class="home-foot">由 Hermes Agent 每周日下午 21:00 自动搜集周末热点并解读 · 仅供研究参考，非投资建议</div>`;
@@ -309,6 +330,7 @@
     ].filter(Boolean).join(" · ");
     el.innerHTML = secTitle("今日热点事件", sub) +
       (session.kind === "midday" ? `<div class="rep-quality is-partial" role="note"><strong>午间快照</strong><span>本页生成于 ${esc(session.stamp)}，指数请以首页收盘总述为准。</span></div>` : "") +
+      (EVENTS.summary ? researchDigestHtml(EVENTS.summary, "核心事件") : "") +
       `<div class="ev-board">${cards}</div>`;
     el.querySelectorAll(".ev-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
