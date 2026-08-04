@@ -209,12 +209,18 @@ test("搜索覆盖外围热点和周末发酵并定位到命中内容", async ({
   await page.goto("/index.html#home", { waitUntil: "networkidle" });
   const input = page.locator("#globalSearchInput");
 
-  await input.fill("OpenAI / Anthropic 推动");
+  // 简报正文会滚动更新，用当期唯一 time 做检索词，避免硬编码过期文案
+  const xbriefNeedle = await page.evaluate(() => {
+    const brief = (window.XBRIEFS?.briefs || []).find((item) => item?.time);
+    return brief?.time || "";
+  });
+  expect(xbriefNeedle).not.toBe("");
+  await input.fill(xbriefNeedle);
   await expect(page.locator(".search-hit")).toHaveCount(1);
   await page.locator(".search-hit").click();
   await expect(page.locator("body")).toHaveClass(/view-xbrief/);
   const activeBrief = page.locator(".xb-article.active");
-  await expect(activeBrief).toContainText("OpenAI / Anthropic 推动");
+  await expect(activeBrief).toContainText(xbriefNeedle);
   await expect(activeBrief).toBeFocused();
 
   const weekendTitle = await page.evaluate(() =>
