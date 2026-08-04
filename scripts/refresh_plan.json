@@ -33,13 +33,6 @@
       "required": true
     },
     {
-      "name": "同步周末发酵",
-      "command": ["python3", "scripts/fetch_weekend.py"],
-      "timeout": 300,
-      "required": false,
-      "localOnly": true
-    },
-    {
       "name": "清理AI公开内容",
       "command": ["python3", "scripts/sanitize_ai_content.py"],
       "timeout": 60,

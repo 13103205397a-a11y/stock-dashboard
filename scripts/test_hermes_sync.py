@@ -60,13 +60,8 @@ class HermesSyncTest(unittest.TestCase):
 
     def test_only_active_sync_exporter_is_loaded(self):
         modules = sync_hermes_dashboard.load_sync_modules()
-        self.assertEqual(
-            [module["file"] for module in modules],
-            ["logic.js", "events.js", "weekend.js"],
-        )
-        serialized = json.dumps(modules, ensure_ascii=False)
-        for retired in ["portfolio", "industry.js", "materials.js", "fundflow.js"]:
-            self.assertNotIn(retired, serialized)
+        # 研究模块已改为 Agent 直接写入（publishMode=direct），不再走 Hermes sync 导出
+        self.assertEqual(modules, [])
 
     def test_structured_module_export_rejects_incomplete_and_accepts_valid_payload(self):
         spec = fetch_hermes_module.MODULES["logic"]

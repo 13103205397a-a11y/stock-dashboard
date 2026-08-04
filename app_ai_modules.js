@@ -192,7 +192,7 @@
     if (!el) return;
     const W = window.WEEKEND;
     if (!W || (!W.hotspots && !W.scenario)) {
-      el.innerHTML = secTitle("周末发酵", "Hermes 每周日下午 21:00 自动搜集") + emptyState("周末发酵数据待生成（每周日下午由 Hermes 自动搜集周末热点并解读）。");
+      el.innerHTML = secTitle("周末发酵", "每周日晚按说明书更新") + emptyState("周末发酵数据待生成（每周日下午按说明书搜集周末热点并解读）。");
       return;
     }
     const hotspots = W.hotspots || [];
@@ -244,7 +244,7 @@
       (W.summary ? researchDigestHtml(W.summary, "周末导读") : "") +
       `<div class="we-grid">${cards}</div>` +
       scenarioHtml + noiseHtml +
-      `<div class="home-foot">由 Hermes Agent 每周日下午 21:00 自动搜集周末热点并解读 · 仅供研究参考，非投资建议</div>`;
+      `<div class="home-foot">由 Agent 按说明书更新周末热点并解读 · 仅供研究参考，非投资建议</div>`;
     // 个股点击
     el.querySelectorAll(".we-stock[data-code]").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }

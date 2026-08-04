@@ -108,13 +108,9 @@
           "scope": "ai"
         }
       ],
-      "hermes": {
-        "publishMode": "sync",
-        "exporter": [
-          "scripts/fetch_hermes_module.py",
-          "logic"
-        ],
-        "successMarker": "提取成功",
+      "agent": {
+        "publishMode": "direct",
+        "prompt": "agent/logic-chain.md",
         "timestampFields": [
           "generatedAt",
           "date"
@@ -143,13 +139,9 @@
           "scope": "ai"
         }
       ],
-      "hermes": {
-        "publishMode": "sync",
-        "exporter": [
-          "scripts/fetch_hermes_module.py",
-          "events"
-        ],
-        "successMarker": "提取成功",
+      "agent": {
+        "publishMode": "direct",
+        "prompt": "agent/events-analysis.md",
         "timestampFields": [
           "generatedAt",
           "date"
@@ -178,10 +170,9 @@
           "scope": "ai"
         }
       ],
-      "hermes": {
-        "publishMode": "sync",
-        "exporter": "scripts/fetch_weekend.py",
-        "successMarker": "提取成功",
+      "agent": {
+        "publishMode": "direct",
+        "prompt": "agent/weekend_ferment.md",
         "timestampFields": [
           "generatedAt",
           "weekendDate",

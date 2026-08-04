@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""清理 Hermes 公开数据中的内部字段名和影响阅读的机器化表达。"""
+"""清理 Agent 研究模块公开数据中的内部字段名和影响阅读的机器化表达。"""
 from __future__ import annotations
 
 import os
@@ -43,7 +43,7 @@ REPLACEMENTS = [
 def sanitize_text(text: str) -> str:
     for pattern, replacement in REPLACEMENTS:
         text = pattern.sub(replacement, text)
-    # Hermes 摘要常以英文分隔符串联多个方向，替换为中文断句改善阅读。
+    # 研究摘要常以英文分隔符串联多个方向，替换为中文断句改善阅读。
     return text.replace(") / ", ")；")
 
 
@@ -59,7 +59,7 @@ def sanitize_file(path: Path) -> bool:
 
 
 def active_ai_files() -> list[str]:
-    """只清理活跃清单中由 Hermes 维护的数据文件。"""
+    """只清理活跃清单中由 Agent 维护的研究模块数据文件。"""
     manifest = json.loads(ACTIVE_MODULES_PATH.read_text(encoding="utf-8"))
     modules = manifest.get("modules")
     if manifest.get("schemaVersion") != 1 or not isinstance(modules, list):
@@ -67,7 +67,7 @@ def active_ai_files() -> list[str]:
     files = [
         module["file"]
         for module in modules
-        if isinstance(module, dict) and isinstance(module.get("hermes"), dict)
+        if isinstance(module, dict) and isinstance(module.get("agent") or module.get("hermes"), dict)
     ]
     if any(not isinstance(name, str) or Path(name).name != name for name in files):
         raise ValueError("active_modules.json 中存在无效 AI 文件")
