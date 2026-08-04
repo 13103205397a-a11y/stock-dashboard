@@ -28,6 +28,8 @@ import urllib.parse
 import webbrowser
 from pathlib import Path
 
+from scripts.kimi_review import load_review
+
 # 启动诊断日志(写到文件,排查卡在哪)
 def _log_diag(msg):
     """按需写诊断日志，不保持文件句柄"""
@@ -202,6 +204,28 @@ def _xbrief_latest_payload(root=None):
     }
 
 
+def _kimi_latest_payload(root=None):
+    """只在本机 API 中读取 Kimi Code 的最新 HTML 复盘。"""
+    return load_review()
+
+
+def _data_version(root=None):
+    """返回本地页面需要关注的数据文件版本，供前端无缓存轮询。"""
+    base = Path(root or HERE)
+    names = {
+        "data.js", "meta.js", "market.js", "logic.js", "events.js", "xbriefs.js",
+        "weekend.js", "kimi_review.js",
+    }
+    stamps = []
+    for name in names:
+        path = base / name
+        try:
+            stamps.append(path.stat().st_mtime_ns)
+        except OSError:
+            continue
+    return {"ok": True, "version": str(max(stamps) if stamps else 0)}
+
+
 class Handler(http.server.SimpleHTTPRequestHandler):
     """仅托管看板运行必需文件，仓库内容默认不可访问。"""
 
@@ -258,6 +282,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if parsed.path == "/api/xbrief/latest":
             self._handle_xbrief_latest()
             return
+        if parsed.path == "/api/kimi-review/latest":
+            self._handle_kimi_review()
+            return
+        if parsed.path == "/api/data-version":
+            self._handle_data_version()
+            return
         path = urllib.parse.unquote(parsed.path)
         if path == "/":
             path = "/index.html"
@@ -313,6 +343,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def _handle_xbrief_latest(self):
         self._json(_xbrief_latest_payload())
+
+    def _handle_kimi_review(self):
+        self._json(_kimi_latest_payload())
+
+    def _handle_data_version(self):
+        self._json(_data_version())
 
     def _json(self, obj, status=200):
         body = json.dumps(obj, ensure_ascii=False).encode("utf-8")

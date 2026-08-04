@@ -1,6 +1,6 @@
 # A 股盘面研究看板
 
-**本地优先、无广告的 A 股复盘 / 研究看板** —— 暖色研究台视觉（深墨侧栏 · 纸感主区），覆盖大盘速览、自选信号、市场扫描，以及逻辑链、今日热点、外围热点（每 2 小时）和周末发酵。
+**本地优先、无广告的 A 股复盘 / 研究看板** —— 暖色研究台视觉（深墨侧栏 · 纸感主区），覆盖大盘速览、自选信号、市场扫描，以及逻辑链、今日热点、外围热点（每日 23:00）和周末发酵。
 
 > 数据由脚本测算或 AI 整理，仅供研究参考，不构成投资建议。
 
@@ -24,7 +24,8 @@
 | **本机网页** | 仓库里双击 `index.html`，或运行 `python3 app_server.py` 后访问 http://localhost:8787/index.html |
 | **Mac App** | 构建：`bash app/build.sh`，然后打开 `股市看板.app`（菜单栏可点开最新「外围热点」） |
 
-深链接：`#home` · `#watch` · `#market` · `#logic` · `#xbrief` · `#events` · `#weekend`  
+深链接：`#home` · `#watch` · `#market` · `#logic` · `#xbrief` · `#kimi` · `#events` · `#weekend`
+
 搜索：`/` 或 `Ctrl/Cmd+K`
 
 ## 能看什么
@@ -33,7 +34,8 @@
 - **巨头核心**：自选叙事与技术信号
 - **市场扫描**：涨停梯队、炸板、涨跌异动（只读）
 - **逻辑链 / 今日热点 / 周末发酵**：事件到产业映射与研究文（导读铺满、卡片分栏）
-- **外围热点**：海外 AI + 宏观/市场硬信息简报（约每 2 小时一期）；Mac 菜单栏可点开最新一期
+- **外围热点**：海外 AI + 宏观/市场硬信息简报（每日 23:00 汇总当天内容，有新增才发布）；Mac 菜单栏可点开最新一期
+- **每日复盘**：Kimi Code 本机 HTML 复盘只读接入；报告内容只在本地看板显示，不上传公开站点
 
 ## 为什么开源这个
 
@@ -61,6 +63,7 @@
 | `events.js` | `window.EVENTS` | 今日热点事件 |
 | `xbriefs.js` | `window.XBRIEFS` | 外围热点批次简报 |
 | `weekend.js` | `window.WEEKEND` | 周末发酵 |
+| `kimi_review.js` | `window.KIMI_REVIEW` | 公开站点安全空快照；本地看板从 Kimi HTML 只读加载 |
 
 持仓、自选筛选、产业雷达、产业链涨价、资金流向、新闻聚合、今日热榜等已退休模块不再进入前端、刷新计划、公开构建或线上探针。
 
@@ -104,6 +107,20 @@ node scripts/check_freshness.js --strict
 
 日期校验会拒绝不存在的日历日期和未来日期，防止错误时间戳被误判为“新鲜”。
 
+### Grok X 每日 23:00 后台任务
+
+`scripts/run_grok_xbrief.py` 每次只运行一轮，Grok 仅允许使用内置 X 搜索，命令执行、文件读写、MCP、网页搜索和 scheduler 工具均被禁用。脚本从 X status ID 解码真实发布时间，按北京时间窗口去重；没有新推文就不写 `xbriefs.js`、不推送 GitHub，但仍执行行情刷新。
+
+macOS 通过 `launchd/com.stockdashboard.grok-xbrief.plist` 每天本机时间 23:00 唤醒一次，汇总近 24 小时内容；任务完成后退出，不要求终端窗口常驻。当前状态与日志：
+
+```bash
+python3 scripts/run_grok_xbrief.py --status
+launchctl print gui/$(id -u)/com.stockdashboard.grok-xbrief
+tail -f ~/Library/Logs/StockDashboard/grok-xbrief.log
+```
+
+只读采集规则在 `agent/xbrief-collector.md`；完整人工说明在 `agent/xbrief.md`。
+
 ### Mac App
 
 ```bash
@@ -112,6 +129,8 @@ open "股市看板.app"
 ```
 
 菜单栏显示最新外围热点时间；点击弹出简报正文。本地 API：`GET /api/xbrief/latest`。
+
+本地服务还会每 30 秒检查数据版本，检测到行情或研究文件更新后自动刷新页面；Kimi 复盘接口为 `GET /api/kimi-review/latest`，默认扫描 `~/Desktop/Claude复盘/` 和 Kimi workspace。
 
 ### Agent 研究模块（逻辑链 / 热点 / 周末）
 
@@ -158,6 +177,8 @@ python3 scripts/build_site.py _site
 | `scripts/validate_data.js` | 活跃模块结构、引用、日期和内容校验 |
 | `scripts/check_freshness.js` | 按北京时间及工作日计算的新鲜度门禁 |
 | `scripts/refresh_plan.json` | 本地与 Mac App 共用的活跃刷新步骤 |
+| `scripts/run_grok_xbrief.py` | Grok 只读 X 观察、去重、受控发布与行情刷新 |
+| `launchd/com.stockdashboard.grok-xbrief.plist` | macOS 每日 23:00、跑完即退出的后台任务 |
 | `scripts/sync_hermes_dashboard.py` | 旧 Hermes 同步器（兼容保留，默认不跑） |
 
 ### 增删模块

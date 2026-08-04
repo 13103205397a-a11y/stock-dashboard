@@ -7,6 +7,7 @@ const VIEWS = [
   "market",
   "logic",
   "xbrief",
+  "kimi",
   "events",
   "weekend",
 ];
@@ -23,7 +24,49 @@ const REMOVED_NAV_VIEWS = new Set([
   "materials",
 ]);
 
-test("7 个活动视图可深链接且无页面级横向溢出", async ({ page }) => {
+const SAMPLE_XBRIEF = {
+  id: "sample-daily-brief",
+  time: "2026-08-05 23:00",
+  period: "近约1天",
+  title: "外围热点",
+  aiCount: 1,
+  marketCount: 1,
+  hasFocusStock: false,
+  content: `# X 资讯简报 · AI & 股市
+**时段**：近约 1 天（北京时间 2026-08-05 23:00 前后） | **筛选说明**：仅收录可验证的新事实
+
+## 一、AI 要闻（最多 5 条）
+
+1. **OpenAI 发布新的模型能力更新**
+   官方公布了明确的能力更新与时间节点。
+   **为何重要**：影响模型竞争与算力需求预期。
+   **可信度**：高 | **来源**：[@OpenAI](https://x.com/OpenAI/status/2085000000000000000) | **发布时间**：北京时间 2026-08-05 22:30
+
+## 二、股市/财经要闻（最多 5 条）
+
+1. **美股主要指数在财报后出现分化**
+   大型科技与周期板块走势不同。
+   **为何重要**：影响次日 A 股成长风格风险偏好。
+   **可信度**：中高 | **来源**：[@ReutersBiz](https://x.com/ReutersBiz/status/2085000000000000001) | **发布时间**：北京时间 2026-08-05 22:40
+
+## 三、噪音观察
+
+- 无来源喊单与旧闻重复已过滤。
+
+## 四、一句话结论
+
+- **AI 侧**：关注模型发布后的算力需求。
+- **股市侧**：关注科技权重的财报验证。`,
+};
+
+async function renderSampleXbrief(page) {
+  await page.evaluate((brief) => {
+    window.XBRIEFS = { updated: brief.time, generatedAt: brief.time, briefs: [brief] };
+    window.App.renderXBriefs();
+  }, SAMPLE_XBRIEF);
+}
+
+test("8 个活动视图可深链接且无页面级横向溢出", async ({ page }) => {
   for (const view of VIEWS) {
     // hash 同文档导航下 tracing 会使 networkidle 无法安定，改用 domcontentloaded；视图切换由下方断言轮询保证
     await page.goto(`/index.html#${view}`, { waitUntil: "domcontentloaded" });
@@ -62,6 +105,31 @@ test("退休或未知深链会规范化为首页", async ({ page }) => {
   }
 });
 
+test("本地数据版本变化会自动刷新当前页面", async ({ page }) => {
+  let versionCalls = 0;
+  let pageLoads = 0;
+  page.on("load", () => { pageLoads += 1; });
+  await page.route("**/api/data-version?*", async (route) => {
+    versionCalls += 1;
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true, version: versionCalls === 1 ? "v1" : "v2" }),
+    });
+  });
+  await page.addInitScript(() => {
+    const nativeSetInterval = window.setInterval.bind(window);
+    window.setInterval = (handler, timeout, ...args) =>
+      nativeSetInterval(handler, timeout === 30_000 ? 25 : timeout, ...args);
+  });
+
+  await page.goto("/index.html#home", { waitUntil: "load" });
+
+  await expect.poll(() => pageLoads, { timeout: 5000 }).toBeGreaterThanOrEqual(2);
+  expect(versionCalls).toBeGreaterThanOrEqual(2);
+  await expect(page).toHaveURL(/#home$/);
+});
+
 test("侧栏精简且行情时点保持单行", async ({ page }) => {
   await page.goto("/index.html#home", { waitUntil: "domcontentloaded" });
   await expect(page.locator(".nav-group-label")).toHaveCount(0);
@@ -90,6 +158,7 @@ test("侧栏精简且行情时点保持单行", async ({ page }) => {
 test("模块名称已更新且旧名称不再出现在导航", async ({ page }) => {
   await page.goto("/index.html#home", { waitUntil: "domcontentloaded" });
   await expect(page.locator('#sidebar .nav-item[data-view="xbrief"]')).toContainText("外围热点");
+  await expect(page.locator('#sidebar .nav-item[data-view="kimi"]')).toContainText("每日复盘");
   await expect(page.locator('#sidebar .nav-item[data-view="events"]')).toContainText("今日热点事件");
   const navigationText = await page.locator("#sidebar").innerText();
   expect(navigationText).not.toContain("X 简报");
@@ -141,10 +210,16 @@ test("981–1024px 顶栏完整容纳搜索和行情数据", async ({ page }) =>
   }
 });
 
-test("外围热点排版清晰且正文不含乱码字符", async ({ page }) => {
+test("外围热点空状态与每日情报正文排版清晰", async ({ page }) => {
   await page.goto("/index.html#xbrief", { waitUntil: "networkidle" });
   await expect(page.locator(".xb-hero-title")).toHaveText("外围热点");
+  await expect(page.locator(".xb-empty-state")).toContainText("今晚 23:00");
+  await expect(page.locator(".xb-schedule")).toContainText("每日一次");
+
+  await renderSampleXbrief(page);
   await expect(page.locator(".xb-article.active")).toBeVisible();
+  await expect(page.locator(".xb-news-card")).toHaveCount(2);
+  await expect(page.locator('.xb-news-meta a[href^="https://x.com/"]')).toHaveCount(2);
   const text = await page.locator("#viewXbrief").innerText();
   expect(text).not.toMatch(/�|ï¿½|Ã|Â|â€™|â€œ|â€|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200D\u2060\uFEFF]/);
   expect(text).not.toMatch(/[⏱◎⌘]/);
@@ -153,7 +228,21 @@ test("外围热点排版清晰且正文不含乱码字符", async ({ page }) => 
   const article = await page.locator(".xb-article.active").boundingBox();
   expect(rail).not.toBeNull();
   expect(article).not.toBeNull();
-  expect(rail.y + rail.height).toBeLessThanOrEqual(article.y + 1);
+  const viewportWidth = await page.evaluate(() => window.innerWidth);
+  if (viewportWidth > 900) {
+    expect(rail.x + rail.width).toBeLessThanOrEqual(article.x + 1);
+    expect(Math.abs(rail.y - article.y)).toBeLessThanOrEqual(2);
+  } else {
+    expect(rail.y + rail.height).toBeLessThanOrEqual(article.y + 1);
+  }
+});
+
+test("Kimi 复盘视图可用，公开静态快照不携带本地报告", async ({ page }) => {
+  await page.goto("/index.html#kimi", { waitUntil: "domcontentloaded" });
+  await expect(page.locator(".kimi-page")).toBeVisible();
+  await expect(page.locator("#viewKimi")).toContainText("Kimi Code");
+  const snapshot = await readFile("kimi_review.js", "utf8");
+  expect(snapshot).toContain('"available": false');
 });
 
 test("导航写入历史并支持浏览器前进后退", async ({ page }) => {
@@ -205,23 +294,15 @@ test("搜索支持上下键选择、Enter 打开和焦点返回", async ({ page 
   await expect(input).toBeFocused();
 });
 
-test("搜索覆盖外围热点和周末发酵并定位到命中内容", async ({ page }) => {
+test("搜索覆盖外围热点入口和周末发酵并定位到命中内容", async ({ page }) => {
   await page.goto("/index.html#home", { waitUntil: "networkidle" });
   const input = page.locator("#globalSearchInput");
 
-  // 简报正文会滚动更新，用当期唯一 time 做检索词，避免硬编码过期文案
-  const xbriefNeedle = await page.evaluate(() => {
-    const brief = (window.XBRIEFS?.briefs || []).find((item) => item?.time);
-    return brief?.time || "";
-  });
-  expect(xbriefNeedle).not.toBe("");
-  await input.fill(xbriefNeedle);
+  await input.fill("每日 23:00");
   await expect(page.locator(".search-hit")).toHaveCount(1);
   await page.locator(".search-hit").click();
   await expect(page.locator("body")).toHaveClass(/view-xbrief/);
-  const activeBrief = page.locator(".xb-article.active");
-  await expect(activeBrief).toContainText(xbriefNeedle);
-  await expect(activeBrief).toBeFocused();
+  await expect(page.locator(".xb-masthead")).toBeFocused();
 
   const weekendTitle = await page.evaluate(() =>
     window.WEEKEND?.hotspots?.find((hotspot) => hotspot?.title)?.title || ""

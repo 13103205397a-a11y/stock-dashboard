@@ -335,7 +335,7 @@
     el.querySelectorAll(".ev-chip").forEach((b) => b.addEventListener("click", () => openDrawer(b.dataset.code)));
   }
 
-  /* ---------- 8b. 外围热点（每 2 小时推送，聚合海外 AI / 宏观 / 市场线索） ---------- */
+  /* ---------- 8b. 外围热点（每日 23:00 汇总的海外情报日报） ---------- */
   function xbFormatTime(t) {
     const s = String(t || "");
     const m = s.match(/(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/) || s.match(/(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})/);
@@ -344,22 +344,146 @@
     return { day: "—", clock: s || "—", full: s || "—" };
   }
 
+  function xbInline(value) {
+    return esc(cleanDisplayText(value || "").trim())
+      .replace(/\[([^\]]+)\]\((https:\/\/x\.com\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/(【未证实】|未证实)/g, '<span class="xb-flag">$1</span>');
+  }
+
+  function xbMetaHtml(line) {
+    return String(line || "").split(/\s*\|\s*/).map((part) => {
+      const match = part.trim().match(/^\*\*(.+?)\*\*[：:]\s*(.*)$/);
+      if (!match) return `<span>${xbInline(part)}</span>`;
+      const label = match[1].trim();
+      const value = match[2].trim();
+      let cls = "";
+      if (label === "可信度") {
+        cls = /高/.test(value) ? " is-high" : /低/.test(value) ? " is-low" : " is-mid";
+      }
+      return `<span class="xb-news-meta-item${cls}"><b>${esc(label)}</b>${xbInline(value)}</span>`;
+    }).join("");
+  }
+
+  function xbParseNews(body) {
+    const items = [];
+    let current = null;
+    const notes = [];
+    const finish = () => {
+      if (current) items.push(current);
+      current = null;
+    };
+    String(body || "").split("\n").forEach((raw) => {
+      const line = raw.trim();
+      const numbered = line.match(/^\d+\.\s+(?:\*\*)?(.+?)(?:\*\*)?\s*$/);
+      if (numbered) {
+        finish();
+        current = { title: numbered[1].replace(/^\*\*|\*\*$/g, ""), detail: [], impact: "", meta: "" };
+        return;
+      }
+      if (!line) return;
+      if (!current) {
+        notes.push(line);
+        return;
+      }
+      if (/^\*\*为何重要\*\*[：:]/.test(line)) {
+        current.impact = line.replace(/^\*\*为何重要\*\*[：:]\s*/, "");
+      } else if (/^\*\*可信度\*\*[：:]/.test(line)) {
+        current.meta = line;
+      } else {
+        current.detail.push(line);
+      }
+    });
+    finish();
+    return { items, notes };
+  }
+
+  function xbNewsSection(title, body, kind) {
+    const parsed = xbParseNews(body);
+    const cleanTitle = String(title || "")
+      .replace(/^[一二三四五六七八九十]+[、.]\s*/, "")
+      .replace(/（最多\s*\d+\s*条）/, "")
+      .trim();
+    const cards = parsed.items.map((item, index) => `<article class="xb-news-card">
+      <div class="xb-news-no" aria-hidden="true">${String(index + 1).padStart(2, "0")}</div>
+      <div class="xb-news-content">
+        <h4>${xbInline(item.title)}</h4>
+        ${item.detail.length ? `<p class="xb-news-detail">${xbInline(item.detail.join(" "))}</p>` : ""}
+        ${item.impact ? `<div class="xb-impact"><span>研究含义</span><p>${xbInline(item.impact)}</p></div>` : ""}
+        ${item.meta ? `<footer class="xb-news-meta">${xbMetaHtml(item.meta)}</footer>` : ""}
+      </div>
+    </article>`).join("");
+    const note = parsed.notes.length
+      ? `<p class="xb-section-note">${xbInline(parsed.notes.join(" "))}</p>`
+      : "";
+    return `<section class="xb-section xb-section-${kind}">
+      <header class="xb-section-head">
+        <span class="xb-section-code">${kind === "ai" ? "AI" : "MK"}</span>
+        <h3>${esc(cleanTitle || (kind === "ai" ? "AI 要闻" : "市场要闻"))}</h3>
+        <span class="xb-section-count">${parsed.items.length} 条</span>
+      </header>
+      <div class="xb-news-list">${cards || note}</div>
+    </section>`;
+  }
+
+  function xbBulletSection(title, body, conclusion = false) {
+    const bullets = String(body || "").split("\n")
+      .map((line) => line.trim().replace(/^[-*]\s+/, ""))
+      .filter(Boolean);
+    if (!bullets.length) return "";
+    if (conclusion) {
+      return `<section class="xb-takeaways">
+        <div class="xb-takeaways-head"><span>结论</span><h3>今晚值得带走的两件事</h3></div>
+        <div class="xb-takeaways-grid">${bullets.map((item) => `<div class="xb-takeaway">${xbInline(item)}</div>`).join("")}</div>
+      </section>`;
+    }
+    return `<details class="xb-noise">
+      <summary><span>${esc(String(title || "噪音观察").replace(/^[一二三四五六七八九十]+[、.]\s*/, ""))}</span><small>${bullets.length} 项已过滤</small></summary>
+      <ul>${bullets.map((item) => `<li>${xbInline(item)}</li>`).join("")}</ul>
+    </details>`;
+  }
+
   function xbMdHtml(md) {
-    // 去掉与文章页头重复的 Markdown 大标题，并在通用渲染上强化可信度与编号条目。
     const normalized = cleanDisplayText(md || "")
       .replace(/^\s*#\s+[^\n]+\n+/, "")
       .replace(/\n{3,}/g, "\n\n")
       .trim();
-    let html = md2html(normalized);
-    html = html
-      .replace(/(可信度[：:]\s*)(高|中高|中|中低|低)/g, (_, p, level) => {
-        const cls =
-          level === "高" || level === "中高" ? "high" :
-          level === "中" ? "mid" : "low";
-        return `${p}<span class="xb-cred xb-cred-${cls}">${level}</span>`;
-      })
-      .replace(/(【未证实】|未证实)/g, '<span class="xb-flag">$1</span>');
-    return html;
+    const matches = [...normalized.matchAll(/^##\s+(.+)$/gm)];
+    if (!matches.length) return `<div class="xb-legacy">${md2html(normalized)}</div>`;
+
+    const preface = normalized.slice(0, matches[0].index).trim();
+    const sections = matches.map((match, index) => ({
+      title: match[1].trim(),
+      body: normalized.slice(match.index + match[0].length, matches[index + 1]?.index ?? normalized.length).trim(),
+    }));
+    const scope = preface.split("\n").map((line) => line.trim()).filter(Boolean).join(" ");
+    const rendered = sections.map((section) => {
+      if (/AI 要闻/.test(section.title)) return xbNewsSection(section.title, section.body, "ai");
+      if (/股市|财经|市场/.test(section.title)) return xbNewsSection(section.title, section.body, "market");
+      if (/噪音/.test(section.title)) return xbBulletSection(section.title, section.body, false);
+      if (/结论/.test(section.title)) return xbBulletSection(section.title, section.body, true);
+      return "";
+    }).join("");
+    return `${scope ? `<div class="xb-scope">${xbInline(scope)}</div>` : ""}${rendered}`;
+  }
+
+  function xbMasthead(scheduleLabel, scheduleValue, scheduleNote) {
+    return `<header class="xb-masthead" data-xname="外围热点">
+      <div class="xb-masthead-copy">
+        <div class="xb-eyebrow"><span></span>DAILY OVERSEAS INTELLIGENCE</div>
+        <h1 class="xb-hero-title">外围热点</h1>
+        <p class="xb-hero-desc">每日筛选海外 AI、宏观与主要市场的可验证增量，只保留会改变判断的事实。</p>
+        <div class="xb-principles" aria-label="简报规则">
+          <span>重点账号 10 个</span><span>英文自动转中文</span><span>无新增不出刊</span>
+        </div>
+      </div>
+      <aside class="xb-schedule" aria-label="${esc(scheduleLabel)}">
+        <span>${esc(scheduleLabel)}</span>
+        <strong>${esc(scheduleValue)}</strong>
+        <small>${esc(scheduleNote)}</small>
+      </aside>
+    </header>`;
   }
 
   function renderXBriefs() {
@@ -369,106 +493,124 @@
     const list = (XB && Array.isArray(XB.briefs))
       ? XB.briefs.filter((b) => cleanDisplayText(b.content || "").trim().length >= 40)
       : [];
+
     if (!list.length) {
-      el.innerHTML =
-        `<div class="xb-page">` +
-        `<div class="xb-hero">
-          <div class="xb-hero-top">
-            <span class="xb-live">海外市场 · 定时更新</span>
-            <span class="xb-hero-sub">AI / 宏观 / 美股 · 每 2 小时筛选</span>
+      el.innerHTML = `<div class="xb-page xb-page-empty">
+        ${xbMasthead("NEXT EDITION", "23:00", "北京时间 · 每日一次")}
+        <section class="xb-empty-state" aria-live="polite">
+          <div class="xb-empty-index" aria-hidden="true">01</div>
+          <div class="xb-empty-copy">
+            <span class="xb-empty-label">等待首期日报</span>
+            <h2>今晚 23:00，新的每日简报会在这里出现</h2>
+            <p>系统会完成近 24 小时检索、原帖核验、中文翻译与重复过滤。没有足够重要的新事实，就保持安静。</p>
+            <div class="xb-watch-grid">
+              <div><b>AI</b><span>模型、Agent、算力与监管</span></div>
+              <div><b>市场</b><span>美股、宏观、财报与风险偏好</span></div>
+              <div><b>映射</b><span>A 股半导体、算力、电力与应用</span></div>
+            </div>
           </div>
-          <h1 class="xb-hero-title">外围热点</h1>
-          <p class="xb-hero-desc">汇总海外 AI、宏观与市场讨论，过滤喊单和重复噪音。暂无内容，下一期更新后会自动出现。</p>
-        </div>` +
-        emptyState("暂无外围热点。下一期更新后会自动出现。") +
-        `</div>`;
+        </section>
+        <footer class="xb-foot">X 原帖核验 · 北京时间 · 仅供研究参考，非投资建议</footer>
+      </div>`;
       return;
     }
 
-    const updated = XB.updated || XB.generatedAt || "";
-    const totalAi = list.reduce((n, b) => n + (Number(b.aiCount) || 0), 0);
-    const totalMkt = list.reduce((n, b) => n + (Number(b.marketCount) || 0), 0);
-    const focusN = list.filter((b) => b.hasFocusStock).length;
-
-    const rail = list.map((b, i) => {
-      const ft = xbFormatTime(b.time);
-      const focus = b.hasFocusStock ? `<span class="xb-dot focus" title="含重点票"></span>` : "";
-      return `<button type="button" class="xb-rail-item ${i === 0 ? "active" : ""}" data-i="${i}" aria-label="第 ${i + 1} 期 ${ft.full}">
-        <span class="xb-rail-day">${esc(ft.day)}</span>
+    const latest = list[0];
+    const latestTime = xbFormatTime(latest.time);
+    const latestCount = (Number(latest.aiCount) || 0) + (Number(latest.marketCount) || 0);
+    const rail = list.map((brief, index) => {
+      const ft = xbFormatTime(brief.time);
+      return `<button type="button" class="xb-rail-item ${index === 0 ? "active" : ""}" data-i="${index}" aria-label="${esc(ft.full)} 日报">
+        <span class="xb-rail-date">${esc(ft.day)}</span>
         <span class="xb-rail-clock">${esc(ft.clock)}</span>
-        <span class="xb-rail-meta">
-          <span class="xb-pill ai">AI ${b.aiCount || 0}</span>
-          <span class="xb-pill mkt">市 ${b.marketCount || 0}</span>
-          ${focus}
-        </span>
+        <span class="xb-rail-count">${(Number(brief.aiCount) || 0) + (Number(brief.marketCount) || 0)} 条</span>
       </button>`;
     }).join("");
 
-    const bodies = list.map((b, i) => {
-      const ft = xbFormatTime(b.time);
-      const title = `外围热点 · ${ft.day} ${ft.clock}`;
-      const searchName = `外围热点 · ${b.time || b.id || b.period || "最新一期"}`;
-      return `<article class="xb-article ${i === 0 ? "active" : ""}" data-i="${i}" data-xname="${esc(searchName)}">
+    const bodies = list.map((brief, index) => {
+      const ft = xbFormatTime(brief.time);
+      const count = (Number(brief.aiCount) || 0) + (Number(brief.marketCount) || 0);
+      const searchName = `外围热点 · ${brief.time || brief.id || brief.period || "最新一期"}`;
+      return `<article class="xb-article ${index === 0 ? "active" : ""}" data-i="${index}" data-xname="${esc(searchName)}">
         <header class="xb-article-head">
-          <div class="xb-article-kicker">
-            <span class="xb-badge">第 ${list.length - i} / ${list.length} 期</span>
-            <span class="xb-badge soft">${esc(b.period || "近约 2 小时")}</span>
-            ${b.hasFocusStock ? `<span class="xb-badge focus">重点票</span>` : ""}
-          </div>
-          <h2 class="xb-article-title">${esc(title)}</h2>
+          <div class="xb-article-kicker"><span>DAILY BRIEF</span><time>${esc(ft.full)}</time></div>
+          <h2 class="xb-article-title">海外 AI 与市场情报</h2>
           <div class="xb-article-meta">
-            <span><b>更新时间</b>${esc(ft.full || "—")}</span>
-            <span><b>内容</b>AI ${b.aiCount || 0} 条 · 市场 ${b.marketCount || 0} 条</span>
-            <span><b>来源</b>X 公开讨论 · 自动去重筛选</span>
+            <span><b>${count}</b> 条硬信息</span>
+            <span>AI ${brief.aiCount || 0}</span>
+            <span>市场 ${brief.marketCount || 0}</span>
+            <span>${esc(brief.period || "近约1天")}</span>
           </div>
         </header>
-        <div class="xb-article-body rep-md xb-md">${xbMdHtml(b.content || "")}</div>
+        <div class="xb-article-body xb-md">${xbMdHtml(brief.content || "")}</div>
       </article>`;
     }).join("");
 
     el.innerHTML = `<div class="xb-page">
-      <div class="xb-hero">
-        <div class="xb-hero-top">
-          <span class="xb-live"><span class="xb-pulse"></span>海外市场 · 持续更新</span>
-          <span class="xb-hero-sub">每 2 小时 · 最新一期优先</span>
-        </div>
-        <h1 class="xb-hero-title">外围热点</h1>
-        <p class="xb-hero-desc">聚焦海外 AI、宏观政策与主要市场变化。情绪帖、喊单和重复内容已过滤；未经证实的消息会明确标注。</p>
-        <div class="xb-stats">
-          <div class="xb-stat"><span class="xb-stat-k">${list.length}</span><span class="xb-stat-l">更新批次</span></div>
-          <div class="xb-stat"><span class="xb-stat-k">${totalAi}</span><span class="xb-stat-l">AI 热点</span></div>
-          <div class="xb-stat"><span class="xb-stat-k">${totalMkt}</span><span class="xb-stat-l">市场热点</span></div>
-          <div class="xb-stat"><span class="xb-stat-k">${focusN}</span><span class="xb-stat-l">涉及重点票</span></div>
-          <div class="xb-stat wide"><span class="xb-stat-k mono">${esc(String(updated).slice(5, 16) || "—")}</span><span class="xb-stat-l">最近更新</span></div>
-        </div>
-      </div>
-
+      ${xbMasthead("LATEST EDITION", `${latestTime.day} ${latestTime.clock}`, `${latestCount} 条硬信息 · 北京时间`)}
+      <section class="xb-overview" aria-label="最新一期摘要">
+        <div class="xb-overview-lead"><span>本期收录</span><strong>${latestCount}</strong><small>条可验证增量</small></div>
+        <div><span>AI</span><strong>${latest.aiCount || 0}</strong><small>模型与产业</small></div>
+        <div><span>市场</span><strong>${latest.marketCount || 0}</strong><small>宏观与交易</small></div>
+        <div><span>日报档案</span><strong>${list.length}</strong><small>期</small></div>
+      </section>
       <div class="xb-layout">
-        <aside class="xb-rail" aria-label="外围热点更新批次">
-          <div class="xb-rail-label">选择更新批次</div>
+        <aside class="xb-rail" aria-label="外围热点日报档案">
+          <div class="xb-rail-label"><span>日报档案</span><small>北京时间</small></div>
           <div class="xb-rail-list">${rail}</div>
         </aside>
-        <div class="xb-main">
+        <main class="xb-main">
           <div class="xb-bodies">${bodies}</div>
-          <footer class="xb-foot">
-            来源：X 公开讨论 · 自动去重筛选 · 保留约 4 天 · 仅供研究参考，非投资建议
-          </footer>
-        </div>
+          <footer class="xb-foot">X 原帖核验 · 自动去重筛选 · 保留最近 48 期 · 仅供研究参考，非投资建议</footer>
+        </main>
       </div>
     </div>`;
 
-    const activate = (i) => {
-      el.querySelectorAll(".xb-rail-item").forEach((t) => t.classList.toggle("active", t.dataset.i === i));
-      el.querySelectorAll(".xb-article").forEach((d) => d.classList.toggle("active", d.dataset.i === i));
-      const main = el.querySelector(".xb-main");
-      if (main) main.scrollTop = 0;
+    const activate = (index) => {
+      el.querySelectorAll(".xb-rail-item").forEach((item) => item.classList.toggle("active", item.dataset.i === index));
+      el.querySelectorAll(".xb-article").forEach((article) => article.classList.toggle("active", article.dataset.i === index));
     };
-    el.querySelectorAll(".xb-rail-item").forEach((btn) =>
-      btn.addEventListener("click", () => activate(btn.dataset.i))
+    el.querySelectorAll(".xb-rail-item").forEach((button) =>
+      button.addEventListener("click", () => activate(button.dataset.i))
     );
   }
 
 
+
+  /* ---------- 8c. Kimi Code 每日复盘（仅本机 API 读取） ---------- */
+  function renderKimiReview(data) {
+    const el = $("#viewKimi");
+    if (!el) return;
+    const review = data || window.KIMI_REVIEW || null;
+    if (!review || !review.available || !review.contentHtml) {
+      el.innerHTML = `<div class="kimi-page">${secTitle("每日复盘", "Kimi Code · 本机自动接入")}${emptyState("还没有找到 Kimi Code 生成的 HTML 复盘。完成一次收盘复盘后，这里会自动出现。")}</div>`;
+      return;
+    }
+    const freshness = review.generatedAt ? `报告时间 ${review.generatedAt}（北京时间）` : "报告时间未知";
+    el.innerHTML = `<div class="kimi-page">
+      ${secTitle("每日复盘", "Kimi Code · 本机自动接入")}
+      <div class="kimi-meta" role="status">
+        <span class="kimi-source">来源：${esc(review.source || "Kimi Code")}</span>
+        <span>${esc(freshness)}</span>
+        <span>文件：${esc(review.fileName || "最新报告")}</span>
+      </div>
+      <article class="kimi-report">${review.contentHtml}</article>
+      <footer class="kimi-foot">Kimi Code 输出的本地复盘报告 · 看板只读展示，不改写原报告</footer>
+    </div>`;
+  }
+
+  async function refreshKimiReview() {
+    renderKimiReview(window.KIMI_REVIEW || null);
+    if (!/^https?:$/.test(location.protocol) || !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return;
+    try {
+      const response = await fetch(`/api/kimi-review/latest?ts=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) return;
+      const payload = await response.json();
+      if (payload && payload.ok) renderKimiReview(payload);
+    } catch {
+      // Kimi 正在写文件或本地服务重启时，保留空态/静态快照即可。
+    }
+  }
 
   // 极简 markdown → HTML（标题/表格/加粗/列表/分隔线）。不引外部库，够用。
   function normalizeReportText(value) {
@@ -562,5 +704,6 @@
   App.renderWeekend = renderWeekend;
   App.renderEvents = renderEvents;
   App.renderXBriefs = renderXBriefs;
+  App.renderKimiReview = refreshKimiReview;
   if (window.App.start) window.App.start();
 })(window.App);

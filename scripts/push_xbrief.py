@@ -19,7 +19,7 @@
   python3 scripts/push_xbrief.py --bootstrap-git
 
 数据文件：项目根目录 xbriefs.js → window.XBRIEFS
-保留最近 MAX_BRIEFS 期（默认 48 期 ≈ 4 天 / 每 2 小时）。
+保留最近 MAX_BRIEFS 期（默认 48 期）。
 """
 from __future__ import annotations
 
@@ -47,12 +47,30 @@ HEADER = """/* 外围热点（海外 AI + 宏观 + 市场）
 # 日常只同步数据文件；UI 首次上线用 --bootstrap-git
 DATA_FILES = ["xbriefs.js"]
 BOOTSTRAP_FILES = [
+    ".gitignore",
+    "README.md",
+    "active_modules.json",
+    "agent/xbrief.md",
+    "agent/xbrief-collector.md",
+    "app/main.swift",
+    "app_server.py",
     "xbriefs.js",
+    "kimi_review.js",
     "scripts/push_xbrief.py",
+    "scripts/kimi_review.py",
+    "scripts/run_grok_xbrief.py",
+    "scripts/test_app_server.py",
+    "scripts/test_grok_xbrief.py",
+    "scripts/test_push_xbrief.py",
+    "scripts/test_public_build.py",
+    "launchd/com.stockdashboard.grok-xbrief.plist",
+    "package.json",
     "index.html",
     "app.js",
     "app_ai_modules.js",
     "styles.css",
+    "warm-desk.css",
+    "tests/e2e/dashboard.spec.mjs",
     "public_files.json",
 ]
 
@@ -239,7 +257,12 @@ def run(
     return result
 
 
-def publish_to_github(files: list[str], message: str) -> list[str]:
+def publish_to_github(
+    files: list[str],
+    message: str,
+    *,
+    merge_xbrief: bool = True,
+) -> list[str]:
     """基于最新 origin/main 隔离发布，不触碰当前分支和未提交改动。"""
     missing = [f for f in files if not (ROOT / f).is_file()]
     if missing:
@@ -260,7 +283,7 @@ def publish_to_github(files: list[str], message: str) -> list[str]:
                     dest = worktree / name
                     dest.parent.mkdir(parents=True, exist_ok=True)
                     source = ROOT / name
-                    if name == "xbriefs.js" and dest.is_file():
+                    if merge_xbrief and name == "xbriefs.js" and dest.is_file():
                         local_data = load_xbriefs(source, strict=True)
                         remote_data = load_xbriefs(dest, strict=True)
                         write_js(merge_xbriefs(local_data, remote_data), dest)
@@ -366,7 +389,8 @@ def main() -> int:
         stamp = now_local().strftime("%Y-%m-%d %H:%M")
         publish_to_github(
             BOOTSTRAP_FILES,
-            f"feat: 上线外围热点模块并同步数据 {stamp}",
+            f"feat: 重做每日外围热点 {stamp}",
+            merge_xbrief=False,
         )
         print("  线上: https://13103205397a-a11y.github.io/stock-dashboard/#xbrief")
         return 0

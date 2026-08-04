@@ -73,9 +73,6 @@
         "rootType": "object",
         "requiredArrays": [
           "briefs"
-        ],
-        "nonEmptyArrays": [
-          "briefs"
         ]
       },
       "freshness": [
@@ -85,6 +82,15 @@
           "scope": "ai"
         }
       ]
+    },
+    {
+      "id": "kimi",
+      "label": "Kimi复盘",
+      "file": "kimi_review.js",
+      "global": "KIMI_REVIEW",
+      "contract": {
+        "rootType": "object"
+      }
     },
     {
       "id": "logic",

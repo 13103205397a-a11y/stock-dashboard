@@ -166,6 +166,42 @@ class PushXbriefMergeTest(unittest.TestCase):
         commit_index = next(index for index, call in enumerate(calls) if "commit" in call)
         self.assertLess(validate_index, commit_index)
 
+    def test_publish_can_replace_remote_xbrief_history_for_intentional_reset(self):
+        validated = []
+        with tempfile.TemporaryDirectory() as temp:
+            local_root = Path(temp)
+            push_xbrief.write_js(
+                {"updated": "2026-08-05 00:55", "generatedAt": "2026-08-05 00:55", "briefs": []},
+                local_root / "xbriefs.js",
+            )
+
+            def fake_run(command, *, cwd=local_root, check=False, timeout=120):
+                if command[:4] == ["git", "worktree", "add", "--detach"]:
+                    worktree = Path(command[-2])
+                    worktree.mkdir(parents=True)
+                    push_xbrief.write_js(
+                        {
+                            "updated": "2026-08-04 23:17",
+                            "generatedAt": "2026-08-04 23:17",
+                            "briefs": [brief("old", "2026-08-04 23:17", "old")],
+                        },
+                        worktree / "xbriefs.js",
+                    )
+                elif command == ["node", "scripts/validate_data.js"]:
+                    validated.append(push_xbrief.load_xbriefs(Path(cwd) / "xbriefs.js", strict=True))
+                stdout = "xbriefs.js\n" if command[:3] == ["git", "diff", "--name-only"] else ""
+                return mock.Mock(returncode=0, stdout=stdout, stderr="")
+
+            with mock.patch.object(push_xbrief, "ROOT", local_root), \
+                 mock.patch.object(push_xbrief, "run", side_effect=fake_run):
+                push_xbrief.publish_to_github(
+                    ["xbriefs.js"],
+                    "test reset",
+                    merge_xbrief=False,
+                )
+
+        self.assertEqual(validated[0]["briefs"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

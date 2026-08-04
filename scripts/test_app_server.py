@@ -124,6 +124,25 @@ class AppServerTest(unittest.TestCase):
             403,
         )
 
+    def test_kimi_review_is_local_api_only_and_data_version_is_available(self):
+        review = {
+            "ok": True,
+            "available": True,
+            "title": "今日复盘",
+            "generatedAt": "2026-08-04 22:00",
+            "fileName": "8月4日周二复盘.html",
+            "source": "Kimi Code",
+            "contentHtml": "<h1>本机复盘</h1>",
+        }
+        with mock.patch.object(app_server, "load_review", return_value=review):
+            status, raw = self.request("/api/kimi-review/latest")
+        self.assertEqual(status, 200)
+        self.assertEqual(json.loads(raw), review)
+        (self.root / "data.js").write_text("window.STOCKS=[];", encoding="utf-8")
+        status, raw = self.request("/api/data-version")
+        self.assertEqual(status, 200)
+        self.assertTrue(json.loads(raw)["version"].isdigit())
+
     def test_status_identity_is_strict_and_probeable(self):
         status, raw, content_type = self.request_full("/api/status")
         self.assertEqual(status, 200)

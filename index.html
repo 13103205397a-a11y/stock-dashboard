@@ -7,10 +7,10 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>A股盘面 · 研究工作台</title>
-  <link rel="stylesheet" href="styles.css?v=21" />
+  <link rel="stylesheet" href="styles.css?v=22" />
   <link rel="stylesheet" href="design-system.css?v=12" />
   <link rel="stylesheet" href="claude-theme.css?v=18" />
-  <link rel="stylesheet" href="warm-desk.css?v=11" />
+  <link rel="stylesheet" href="warm-desk.css?v=12" />
 </head>
 <body class="density-compact">
   <a class="skip-link" href="#mainContent">跳到主要内容</a>
@@ -63,6 +63,10 @@
           <button class="nav-item" data-view="xbrief">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/><circle cx="17" cy="16" r="3"/><path d="M17 15v2l1.2.8"/></svg>
             <span>外围热点</span>
+          </button>
+          <button class="nav-item" data-view="kimi">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h6M8 16h4"/><path d="M16 16h.01"/></svg>
+            <span>每日复盘</span>
           </button>
           <button class="nav-item" data-view="events">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l4-4 4 4 4-8 4 8"/><circle cx="3" cy="17" r="1"/><circle cx="7" cy="13" r="1"/><circle cx="11" cy="17" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="19" cy="17" r="1"/></svg>
@@ -126,8 +130,11 @@
         <!-- 今日热点事件 -->
         <section class="view events-only" id="viewEvents"></section>
 
-        <!-- 外围热点（海外 AI + 市场，每 2 小时推送） -->
+        <!-- 外围热点（海外 AI + 市场，每晚 23:00 汇总） -->
         <section class="view xbrief-only" id="viewXbrief"></section>
+
+        <!-- Kimi Code 每日复盘（仅本机服务读取原始报告） -->
+        <section class="view kimi-only" id="viewKimi"></section>
 
         <!-- 巨头核心(原 watch) -->
         <section class="view watch-only">
@@ -221,8 +228,9 @@
 
   <script src="logic.js?v=5" onerror="window.LOGIC=null" defer></script>
   <script src="events.js?v=5" onerror="window.EVENTS=null" defer></script>
-  <script src="xbriefs.js?v=1" onerror="window.XBRIEFS=null" defer></script>
-  <script src="app.js?v=21" defer></script>
-  <script src="app_ai_modules.js?v=6" defer></script>
+  <script src="xbriefs.js?v=2" onerror="window.XBRIEFS=null" defer></script>
+  <script src="kimi_review.js?v=1" onerror="window.KIMI_REVIEW=null" defer></script>
+  <script src="app.js?v=22" defer></script>
+  <script src="app_ai_modules.js?v=7" defer></script>
 </body>
 </html>

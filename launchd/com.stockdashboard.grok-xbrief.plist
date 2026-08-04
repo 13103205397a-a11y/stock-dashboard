@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.stockdashboard.grok-xbrief</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/Admin/.hermes/hermes-agent/venv/bin/python</string>
+    <string>/Users/Admin/Documents/开发项目/股市看板/scripts/run_grok_xbrief.py</string>
+    <string>--git-push</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/Admin/Documents/开发项目/股市看板</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/Users/Admin/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>GROK_DISABLE_AUTOUPDATER</key>
+    <string>1</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>23</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>KeepAlive</key>
+  <false/>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>LowPriorityIO</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/Admin/Library/Logs/StockDashboard/grok-xbrief.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/Admin/Library/Logs/StockDashboard/grok-xbrief.error.log</string>
+</dict>
+</plist>

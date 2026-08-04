@@ -658,3 +658,15 @@ html, body {
     grid-template-columns: 1fr !important;
   }
 }
+/* ============ Kimi Code 每日复盘（本机只读） ============ */
+.kimi-page{max-width:1120px;margin:0 auto;padding:24px 28px 56px}
+.kimi-meta{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 18px;padding:11px 14px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:var(--r-sm);background:var(--card);color:var(--muted);font-size:12px}
+.kimi-source{color:var(--text);font-weight:650}
+.kimi-report{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:28px 32px;box-shadow:var(--shadow-sm);color:var(--text);line-height:1.75}
+.kimi-report h1,.kimi-report h2,.kimi-report h3,.kimi-report h4{margin:22px 0 10px;color:var(--ink);line-height:1.35}
+.kimi-report h1{font-size:24px;margin-top:0}.kimi-report h2{font-size:19px;border-left:4px solid var(--accent);padding-left:10px}.kimi-report h3{font-size:16px}
+.kimi-report p{margin:8px 0;font-size:14px}.kimi-report ul,.kimi-report ol{margin:8px 0 12px 22px;font-size:14px}.kimi-report li{margin:5px 0}
+.kimi-report table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;overflow:hidden}.kimi-report th{background:var(--paper-muted);font-weight:650;text-align:left}.kimi-report th,.kimi-report td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}.kimi-report tr:last-child td{border-bottom:0}
+.kimi-report strong,.kimi-report b{font-weight:700}.kimi-report code{font-family:var(--mono);font-size:.92em;background:var(--paper-muted);padding:1px 4px;border-radius:4px}.kimi-report blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--hairline-strong);color:var(--muted);background:var(--paper-muted)}
+.kimi-foot{padding:14px 4px 0;color:var(--muted);font-size:12px;text-align:center}
+@media(max-width:720px){.kimi-page{padding:18px 14px 40px}.kimi-report{padding:20px 16px}.kimi-report table{display:block;overflow-x:auto;white-space:nowrap}.kimi-meta{align-items:flex-start;flex-direction:column;gap:4px}}

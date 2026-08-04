@@ -752,6 +752,7 @@
     market: () => renderMarket(),
     logic: () => App.renderLogic(),
     xbrief: () => App.renderXBriefs(),
+    kimi: () => App.renderKimiReview(),
     events: () => App.renderEvents(),
     weekend: () => App.renderWeekend(),
   };
@@ -761,9 +762,35 @@
     market: "市场扫描",
     logic: "逻辑链",
     xbrief: "外围热点",
+    kimi: "每日复盘",
     events: "今日热点事件",
     weekend: "周末发酵",
   };
+
+  // 本机看板监听数据文件变化：Grok/Kimi/行情刷新写入后，页面自动重载；公开站点不发起本地请求。
+  let localDataWatchTimer = null;
+  let localDataVersion = "";
+  function startLocalDataWatch() {
+    if (localDataWatchTimer || !/^https?:$/.test(location.protocol) || !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return;
+    const check = async () => {
+      try {
+        const response = await fetch(`/api/data-version?ts=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) return;
+        const payload = await response.json();
+        const next = String(payload.version || "");
+        if (!next) return;
+        if (localDataVersion && localDataVersion !== next) {
+          location.reload();
+          return;
+        }
+        localDataVersion = next;
+      } catch {
+        // 本地服务暂时不可用时不打扰当前页面，下一轮继续检查。
+      }
+    };
+    check();
+    localDataWatchTimer = window.setInterval(check, 30_000);
+  }
   function hashViewName() {
     try {
       return decodeURIComponent(location.hash.replace(/^#/, "").split("/")[0]).trim();
@@ -1125,6 +1152,7 @@
     });
     (window.LOGIC?.chains || []).forEach((c) => addSearchItem(list, "逻辑链", c.name, c.event_type || "", [c.event, c.logic, c.invalidation].filter(Boolean).join(" "), "logic"));
     (window.EVENTS?.events || []).forEach((e) => addSearchItem(list, "事件", e.title, e.importance || "", [e.content, e.sectors].join(" "), "events"));
+    addSearchItem(list, "外围热点", "外围热点", "每日 23:00", "海外 AI 宏观 财经 股市 中文日报", "xbrief");
     (window.XBRIEFS?.briefs || []).forEach((b) => {
       const title = `外围热点 · ${b.time || b.id || b.period || "最新一期"}`;
       addSearchItem(list, "外围热点", title, b.period || "", b.content || "", "xbrief");
@@ -1477,6 +1505,7 @@
     renderMeta();
     renderStats();
     renderChips();
+    startLocalDataWatch();
     // 退休或未知 hash 一律规范化为 #home，不保留不可访问的历史地址。
     const requested = hashViewName();
     const initialView = VIEW_RENDER[requested] ? requested : "home";

@@ -45,7 +45,7 @@ class PublicBuildTest(unittest.TestCase):
         self.assertEqual(len(files), len(set(files)))
         self.assertIn("active_modules.json", files)
         self.assertEqual(
-            {"data.js", "meta.js", "market.js", "logic.js", "events.js", "xbriefs.js", "weekend.js"},
+            {"data.js", "meta.js", "market.js", "logic.js", "events.js", "xbriefs.js", "kimi_review.js", "weekend.js"},
             {name for name in files if name.endswith(".js") and name not in {"app.js", "app_ai_modules.js"}},
         )
 

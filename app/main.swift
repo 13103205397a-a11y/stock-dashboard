@@ -11,7 +11,7 @@ let PROJECT = ProcessInfo.processInfo.environment["STOCK_DASHBOARD_DIR"]
     ?? "/Users/Admin/Documents/开发项目/股市看板"
 let DASHBOARD_APP_ID = "stock-dashboard"
 let DASHBOARD_API_VERSION = 1
-let XBRIEF_STALE_HOURS: TimeInterval = 3 * 3600
+let XBRIEF_STALE_HOURS: TimeInterval = 26 * 3600
 let XBRIEF_POLL_INTERVAL: TimeInterval = 60
 
 struct DashboardServerStatus: Decodable {
@@ -667,7 +667,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
         }
         button.contentTintColor = stale ? .systemOrange : nil
         button.toolTip = stale
-            ? "外围热点已超过约3小时未更新（点击查看）"
+            ? "外围热点已超过约26小时未更新（点击查看）"
             : "外围热点（点击查看最新简报）"
     }
 
