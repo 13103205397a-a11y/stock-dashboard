@@ -206,11 +206,11 @@ body {
   display: none !important;
 }
 
-/* Logo 区域 - 更有质感 */
+/* Logo 区域 — 线标标记，无色块底 */
 .side-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   min-height: 64px;
   padding: 8px 12px 18px !important;
   margin: 0 0 8px !important;
@@ -218,19 +218,17 @@ body {
   border-bottom: 1px solid var(--hairline-soft) !important;
 }
 
-.side-logo > svg {
-  flex: 0 0 40px;
-  width: 40px !important;
-  height: 40px !important;
-  padding: 8px;
-  color: #fff !important;
-  background:
-    radial-gradient(120% 120% at 20% 20%, var(--terracotta-soft), var(--terracotta-deep));
+.side-logo > svg,
+.side-logo > .logo-mark {
+  flex: 0 0 32px;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0;
+  color: var(--terracotta) !important;
+  background: none !important;
   border: 0 !important;
-  border-radius: 14px !important;
-  box-shadow:
-    0 2px 8px rgba(184, 106, 70, 0.25),
-    0 0 0 1px rgba(184, 106, 70, 0.08) inset;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .logo-text {
@@ -242,21 +240,21 @@ body {
 .logo-title {
   color: var(--ink) !important;
   font-family: var(--display) !important;
-  font-size: 18px !important;
-  font-weight: 650 !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
   line-height: 1.15;
-  letter-spacing: -0.02em !important;
+  letter-spacing: 0.04em !important;
 }
 
 .logo-sub {
-  margin-top: 3px;
+  margin-top: 4px;
   color: var(--ink-tertiary) !important;
   font-family: var(--font-text) !important;
-  font-size: 11px !important;
+  font-size: 10px !important;
   font-weight: 500;
   line-height: 1.3;
-  letter-spacing: 0.02em !important;
-  text-transform: none;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase;
 }
 
 /* 导航区域 - 更精致的导航项 */
@@ -1664,7 +1662,22 @@ button.chip:hover,
   color: var(--terracotta-deep) !important;
 }
 
-/* 市场扫描：左名右涨跌，高对比行情表 */
+/* 市场扫描：左名右涨跌，高对比行情表；全文衬线体 */
+.ms-page,
+.ms-page .vsec-title,
+.ms-page .vsec-sub,
+.ms-page .home-foot,
+.ms-h,
+.ms-name,
+.ms-sub,
+.ms-pct,
+.ms-l-n,
+.ms-l-c,
+.ms-sentiment .sb-n,
+.ms-sentiment .sb-l,
+.ms-sentiment .sb-u {
+  font-family: var(--display) !important;
+}
 .ms-list {
   background: var(--paper-raised) !important;
   border-color: var(--hairline) !important;
@@ -1672,7 +1685,6 @@ button.chip:hover,
 }
 .ms-h {
   color: var(--ink) !important;
-  font-family: var(--display) !important;
   font-weight: 650 !important;
 }
 .ms-row {
@@ -2290,20 +2302,38 @@ table tbody tr:hover td {
     display: block !important;
   }
 
+  /* 筛选/板块：手机上换行收进屏内，禁止 max-content 撑出视口 */
   .filters {
-    overflow-x: auto;
-    scrollbar-width: none;
+    overflow-x: visible;
+    max-width: 100%;
   }
 
   .filters-in,
-.filter-group {
-    width: max-content;
-    max-width: none;
-    flex-wrap: nowrap !important;
+  .filters .filter-group {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-wrap: wrap !important;
+  }
+
+  .watch-sectors .sector-list,
+  .watch-sectors .filter-group.sector-list {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-wrap: wrap !important;
+    overflow: visible !important;
+  }
+
+  .watch-overview,
+  .watch-sectors,
+  .main-col,
+  .wrap-tight.board {
+    min-width: 0;
+    max-width: 100%;
   }
 
   .sort-box {
     margin-left: 0 !important;
+    flex: 1 1 100%;
   }
 
   .card,
@@ -2460,17 +2490,24 @@ body.view-watch .watch-summary .stat .l {
   text-align: left !important;
 }
 
-body.view-watch .watch-sectors .sector-list,
-body.view-watch .watch-sectors .sector-rest.expanded {
+body.view-watch .watch-sectors .sector-list {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: wrap !important;
   align-items: center;
   gap: 8px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+  overflow: visible !important;
 }
 
 body.view-watch .watch-sectors .sector-rest {
   display: none !important;
+}
+
+body.view-watch .watch-sectors .sector-rest.expanded {
+  display: contents !important;
 }
 
 body.view-watch .watch-sectors .sector-list .chip {

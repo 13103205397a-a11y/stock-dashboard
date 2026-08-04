@@ -1,121 +1,165 @@
 #!/usr/bin/env python3
 """
 股市看板 Mac App Logo 生成器
-风格：暗夜终端 K 线
-- 深墨蓝底 + 网格纹理
-- 三根 K 线蜡烛（两红涨一绿跌）
-- 赭石辉光强调
-- macOS squircle 圆角
+风格：研究台 · 沙盘坐标（非行情图）
+- 深墨暖径向底 + 极淡网格
+- 赭石四象限环 + 坐标轴 + 离散观测点
+- macOS squircle；4× 超采样后降采样
 """
 from PIL import Image, ImageDraw, ImageFilter
+from pathlib import Path
 import math
 
-SIZE = 1024
-img = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-draw = ImageDraw.Draw(img)
+OUT_SIZE = 1024
+SCALE = 4  # 超采样
+SIZE = OUT_SIZE * SCALE
+HERE = Path(__file__).resolve().parent
+OUT = HERE / "icon_assets"
+OUT.mkdir(parents=True, exist_ok=True)
 
-# ============ 1. squircle 蒙版（macOS 圆角矩形）============
-# macOS 图标用超椭圆，这里用圆角近似
-radius = SIZE // 5  # macOS Big Sur+ 风格大圆角
-mask = Image.new("L", (SIZE, SIZE), 0)
-mdraw = ImageDraw.Draw(mask)
-mdraw.rounded_rectangle([0, 0, SIZE-1, SIZE-1], radius=radius, fill=255)
 
-# ============ 2. 深墨蓝底色 + 径向渐变 ============
-# 底色 #0d1117（GitHub 深色风），中心略亮
-bg = Image.new("RGBA", (SIZE, SIZE), (13, 17, 23, 255))
-bdraw = ImageDraw.Draw(bg)
-# 径向渐变：中心 #1a1f2e 向边缘 #0d1117
-cx, cy = SIZE // 2, SIZE * 2 // 5
-for r in range(SIZE, 0, -2):
-    t = r / SIZE
-    # 中心略亮带赭石暖调
-    r_col = int(26 + (13 - 26) * t)
-    g_col = int(31 + (17 - 31) * t)
-    b_col = int(46 + (23 - 46) * t)
-    bdraw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(r_col, g_col, b_col, 255))
+def lerp(a, b, t):
+    return a + (b - a) * t
 
-# ============ 3. 微妙网格纹理 ============
-grid = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-gdraw = ImageDraw.Draw(grid)
-grid_color = (184, 92, 31, 10)  # 赭石色低透明度
-step = 64
-for x in range(0, SIZE, step):
-    gdraw.line([x, 0, x, SIZE], fill=grid_color, width=1)
-for y in range(0, SIZE, step):
-    gdraw.line([0, y, SIZE, y], fill=grid_color, width=1)
-# 网格用径向遮罩淡出
-grid_mask = Image.new("L", (SIZE, SIZE), 0)
-gmdraw = ImageDraw.Draw(grid_mask)
-for r in range(SIZE, 0, -4):
-    t = 1 - (r / SIZE)
-    alpha = int(255 * (t ** 1.5))
-    gmdraw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=alpha)
-grid.putalpha(grid_mask)
-bg = Image.alpha_composite(bg, grid)
 
-# ============ 4. 三根 K 线蜡烛 ============
-# A 股语义：红涨绿跌。设计为 涨-跌-涨（两红一绿），体现波动
-# 蜡烛参数：[x中心, 开盘y, 收盘y, 最高y, 最低y, 涨跌]
-candles = [
-    # 左：大红涨（实体长，上影短）
-    {"x": SIZE * 28 // 100, "open": SIZE * 68 // 100, "close": SIZE * 38 // 100,
-     "high": SIZE * 32 // 100, "low": SIZE * 74 // 100, "up": True, "w": SIZE * 7 // 100},
-    # 中：绿跌（实体中等，下影长）
-    {"x": SIZE * 50 // 100, "open": SIZE * 45 // 100, "close": SIZE * 62 // 100,
-     "high": SIZE * 40 // 100, "low": SIZE * 72 // 100, "up": False, "w": SIZE * 7 // 100},
-    # 右：大红涨（实体最长，无上影，最强）
-    {"x": SIZE * 72 // 100, "open": SIZE * 70 // 100, "close": SIZE * 30 // 100,
-     "high": SIZE * 30 // 100, "low": SIZE * 76 // 100, "up": True, "w": SIZE * 7 // 100},
+def radial_ink_bg(size):
+    """中心暖墨 #201a16 → 四角 #141010"""
+    cx = cy = size / 2
+    max_r = math.hypot(cx, cy)
+    c0 = (32, 26, 22)   # #201a16
+    c1 = (20, 16, 16)   # #141010
+    img = Image.new("RGBA", (size, size))
+    px = img.load()
+    for y in range(size):
+        for x in range(size):
+            t = min(1.0, math.hypot(x - cx, y - cy) / max_r)
+            t = t ** 1.15
+            px[x, y] = (
+                int(lerp(c0[0], c1[0], t)),
+                int(lerp(c0[1], c1[1], t)),
+                int(lerp(c0[2], c1[2], t)),
+                255,
+            )
+    return img
+
+
+def fade_grid(size, step, line_rgb, base_alpha=95):
+    """十字网格，离中心越远越淡"""
+    layer = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(layer)
+    cx = cy = size / 2
+    fade_r = size * 0.42
+    margin = int(size * 0.078)
+    for x in range(margin, size - margin, step):
+        dist = abs(x - cx)
+        a = int(base_alpha * max(0.0, 1.0 - dist / fade_r))
+        if a < 4:
+            continue
+        draw.line([(x, margin), (x, size - margin)], fill=line_rgb + (a,), width=max(1, SCALE // 2))
+    for y in range(margin, size - margin, step):
+        dist = abs(y - cy)
+        a = int(base_alpha * max(0.0, 1.0 - dist / fade_r))
+        if a < 4:
+            continue
+        draw.line([(margin, y), (size - margin, y)], fill=line_rgb + (a,), width=max(1, SCALE // 2))
+    return layer
+
+
+def squircle_mask(size, radius):
+    mask = Image.new("L", (size, size), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, size - 1, size - 1], radius=radius, fill=255)
+    return mask
+
+
+# ---- 画布 ----
+bg = radial_ink_bg(SIZE)
+
+# 网格（#3a2f28）
+grid_step = 96 * SCALE
+bg = Image.alpha_composite(bg, fade_grid(SIZE, grid_step, (58, 47, 40), base_alpha=88))
+
+mark = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+md = ImageDraw.Draw(mark)
+cx = cy = SIZE // 2
+
+# 坐标轴（赭石深 #b86a46）
+axis_half = int(280 * SCALE)
+axis_w = max(3, int(10 * SCALE))
+axis = (184, 106, 70, 255)
+md.line([(cx - axis_half, cy), (cx + axis_half, cy)], fill=axis, width=axis_w)
+md.line([(cx, cy - axis_half), (cx, cy + axis_half)], fill=axis, width=axis_w)
+# 轴端微圆帽
+cap_r = axis_w // 2
+for px, py in (
+    (cx - axis_half, cy),
+    (cx + axis_half, cy),
+    (cx, cy - axis_half),
+    (cx, cy + axis_half),
+):
+    md.ellipse([px - cap_r, py - cap_r, px + cap_r, py + cap_r], fill=axis)
+
+# 四象限环（赭石亮 #d18a66）
+ring_r = int(220 * SCALE)
+ring_w = max(4, int(26 * SCALE))
+ring = (209, 138, 102, 255)
+bbox = [cx - ring_r, cy - ring_r, cx + ring_r, cy + ring_r]
+md.ellipse(bbox, outline=ring, width=ring_w)
+
+# 观测点（纸白 + 赭石，四象限不对称）
+paper = (232, 217, 200, 255)
+terr = (209, 138, 102, 255)
+dots = [
+    (-132, -132, 18, paper),
+    (138, -162, 14, terr),
+    (-152, 148, 14, terr),
+    (128, 138, 18, paper),
+    (48, -78, 9, paper),
 ]
+for dx, dy, r, color in dots:
+    x = cx + int(dx * SCALE)
+    y = cy + int(dy * SCALE)
+    rr = max(2, int(r * SCALE))
+    md.ellipse([x - rr, y - rr, x + rr, y + rr], fill=color)
 
-# 赭石辉光层（先画大模糊光晕）
+# 环心极弱暖辉（克制）
 glow = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-gldraw = ImageDraw.Draw(glow)
-for c in candles:
-    color = (200, 57, 43) if c["up"] else (30, 122, 82)
-    # 大光晕
-    gldraw.ellipse([c["x"]-c["w"]*3, c["close"]-c["w"]*3,
-                    c["x"]+c["w"]*3, c["low"]+c["w"]*3], fill=color + (60,))
-glow = glow.filter(ImageFilter.GaussianBlur(radius=40))
+gd = ImageDraw.Draw(glow)
+gd.ellipse(
+    [cx - int(160 * SCALE), cy - int(160 * SCALE), cx + int(160 * SCALE), cy + int(160 * SCALE)],
+    fill=(209, 138, 102, 28),
+)
+glow = glow.filter(ImageFilter.GaussianBlur(radius=28 * SCALE))
 bg = Image.alpha_composite(bg, glow)
+bg = Image.alpha_composite(bg, mark)
 
-# 蜡烛层
-candle_layer = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-cdraw = ImageDraw.Draw(candle_layer)
-for c in candles:
-    color = (200, 57, 43, 255) if c["up"] else (30, 122, 82, 255)
-    w = c["w"]
-    x = c["x"]
-    # 影线（细竖线）
-    cdraw.line([x, c["high"], x, c["low"]], fill=color, width=max(3, w // 5))
-    # 实体（矩形）
-    top = min(c["open"], c["close"])
-    bot = max(c["open"], c["close"])
-    cdraw.rounded_rectangle([x - w, top, x + w, bot], radius=w // 4, fill=color)
-bg = Image.alpha_composite(bg, candle_layer)
-
-# ============ 5. 顶部扫描线高光 ============
+# 顶部微高光
 scan = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-sdraw = ImageDraw.Draw(scan)
-# 顶部一道赭石高光
-for y in range(SIZE * 12 // 100):
-    alpha = int(40 * (1 - y / (SIZE * 12 // 100)))
-    sdraw.line([0, y, SIZE, y], fill=(184, 92, 31, alpha))
+sd = ImageDraw.Draw(scan)
+band = int(SIZE * 0.09)
+for y in range(band):
+    a = int(26 * (1 - y / band))
+    sd.line([(0, y), (SIZE, y)], fill=(243, 235, 224, a))
 bg = Image.alpha_composite(bg, scan)
 
-# ============ 6. 应用 squircle 蒙版 ============
-bg.putalpha(mask)
+# 降采样 → 1024
+bg = bg.resize((OUT_SIZE, OUT_SIZE), Image.Resampling.LANCZOS)
 
-# ============ 7. 边缘高光（macOS 玻璃感）============
-edge = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-edraw = ImageDraw.Draw(edge)
-edraw.rounded_rectangle([0, 0, SIZE-1, SIZE-1], radius=radius, outline=(255, 255, 255, 30), width=2)
-# 顶部内高光
-edraw.arc([2, 2, SIZE-3, SIZE-3], 200, 340, fill=(255, 255, 255, 50), width=3)
+# squircle + 边缘玻璃感
+radius = OUT_SIZE // 5
+mask = squircle_mask(OUT_SIZE, radius)
+bg.putalpha(mask)
+edge = Image.new("RGBA", (OUT_SIZE, OUT_SIZE), (0, 0, 0, 0))
+ed = ImageDraw.Draw(edge)
+ed.rounded_rectangle(
+    [0, 0, OUT_SIZE - 1, OUT_SIZE - 1],
+    radius=radius,
+    outline=(255, 255, 255, 30),
+    width=2,
+)
+ed.arc([2, 2, OUT_SIZE - 3, OUT_SIZE - 3], 200, 340, fill=(255, 255, 255, 44), width=3)
 final = Image.alpha_composite(bg, edge)
 
-# ============ 输出 ============
-final.save("app/icon_assets/logo_1024.png", "PNG")
-print("✓ logo_1024.png 生成完成 (1024x1024)")
-print("  设计：深墨蓝底 + 网格纹理 + 两红一绿 K 线 + 赭石辉光")
+png_path = OUT / "logo_1024.png"
+final.save(png_path, "PNG")
+print(f"✓ {png_path.name} 生成完成 ({OUT_SIZE}x{OUT_SIZE})")
+print("  设计：深墨沙盘 + 赭石四象限环/坐标轴 + 观测点（无 K 线）")

@@ -996,11 +996,31 @@ body.view-weekend .weekend-only { display: block; }
   .drawer-inner { padding: var(--s-4); }
   .dplans { grid-template-columns: 1fr; }
   .sig-states { grid-template-columns: 1fr; }
-  /* 手机端：板块 chip 横向滚动，不挤成一坨 */
-  .sector-list { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: var(--s-2); padding-bottom: 4px; }
-  .sector-list .chip { width: auto; flex-shrink: 0; border: 1px solid var(--line); }
-  .sector-rest { flex-direction: row; flex-wrap: nowrap; }
-  .sector-rest .chip { flex-shrink: 0; }
+  /* 手机端：板块 chip 换行收进屏内（覆盖旧的横向 nowrap 滚动） */
+  .sector-list {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    overflow: visible !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: var(--s-2);
+    padding-bottom: 0;
+  }
+  .sector-list .chip {
+    width: auto;
+    flex: 0 1 auto;
+    max-width: 100%;
+    border: 1px solid var(--line);
+  }
+  .sector-rest {
+    display: contents;
+  }
+  .sector-rest.expanded {
+    display: contents;
+  }
+  .sector-rest .chip {
+    flex: 0 1 auto;
+  }
   /* 统计带手机端: 2 行布局,数字加大,标签缩小 */
   .stats { gap: 1px; background: var(--line); border-radius: var(--r-sm); overflow: hidden; }
   .stat { flex: 1 1 33%; min-width: 33%; padding: var(--s-3) var(--s-2) !important; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--card); }
