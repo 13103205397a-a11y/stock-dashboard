@@ -13,8 +13,9 @@ class RefreshPlanTest(unittest.TestCase):
         steps = run_refresh.load_plan()
         commands = [step["command"][-1] for step in steps]
         self.assertIn("scripts/fetch_market.py", commands)
-        self.assertIn("scripts/fetch_weekend.py", commands)
         self.assertIn("scripts/validate_data.js", commands)
+        # 周末发酵已改为任意 Agent 按说明书手写，不再自动从 Hermes 同步
+        self.assertNotIn("scripts/fetch_weekend.py", commands)
         for retired in [
             "scripts/fetch_holdings.py",
             "scripts/fetch_portfolio_signals.js",
@@ -24,6 +25,7 @@ class RefreshPlanTest(unittest.TestCase):
             "scripts/fetch_hot.py",
             "scripts/fetch_fundflow.py",
             "scripts/fetch_hermes.py",
+            "scripts/fetch_weekend.py",
         ]:
             self.assertNotIn(retired, commands)
         self.assertEqual(commands[-2:], ["scripts/validate_data.js", "--strict"])
