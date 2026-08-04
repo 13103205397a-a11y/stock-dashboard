@@ -219,10 +219,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -5.67,
-      "turnover": 2.9,
-      "date": "2026-08-03",
-      "asof": "2026-08-03"
+      "netInflow": 50.46,
+      "turnover": 4.56,
+      "date": "2026-08-04",
+      "asof": "2026-08-04"
     },
     "newsAsof": "2026-08-04",
     "research": [
@@ -481,10 +481,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.26,
-      "turnover": 3.23,
-      "date": "2026-08-03",
-      "asof": "2026-08-03"
+      "netInflow": 45.65,
+      "turnover": 5.52,
+      "date": "2026-08-04",
+      "asof": "2026-08-04"
     },
     "newsAsof": "2026-08-04",
     "research": [
@@ -742,10 +742,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 11.87,
-      "turnover": 5.15,
-      "date": "2026-08-03",
-      "asof": "2026-08-03"
+      "netInflow": 29.15,
+      "turnover": 7.2,
+      "date": "2026-08-04",
+      "asof": "2026-08-04"
     },
     "newsAsof": "2026-08-04",
     "research": [
@@ -4873,6 +4873,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "寒武纪:关于召开2026年半年度业绩说明会的公告",
+        "date": "2026-08-05",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=688256",
+        "content": ""
+      },
+      {
         "title": "科创板中报业绩延续领跑势头，调整后的配置价值怎么看？",
         "date": "2026-08-04 16:01:18",
         "source": "界面新闻",
@@ -4885,13 +4892,6 @@ window.STOCKS = [
         "source": "界面新闻",
         "url": "http://stock.eastmoney.com/a/202608043831094592.html",
         "content": "第三，计算机板块A股市值占比4%-5%，但二季度计算机指数成分股（不含寒武纪、海光等硬件成分股）的仓位仅1.2%，处于过去15年仓位低点。 　　【海外厂商云收入保持高增，AI应用有望加速发展！】"
-      },
-      {
-        "title": "中报营收近289亿元，上证50ETF华夏(510050)下持仓股药明康德涨停",
-        "date": "2026-08-04 13:48:51",
-        "source": "每日经济新闻",
-        "url": "http://stock.eastmoney.com/a/202608043831065532.html",
-        "content": "8月4日，三大指数集体走强，上证50指数小幅走低，截至13:25，上证50ETF华夏(510050)下跌0.2%，持仓股涨跌互现，药明康德、生益科技双双涨停，澜起科技上涨5.22%，寒武纪、兆易创新等科技股纷纷走强；农业银行、工商银行、三一重工等股纷纷走低。"
       }
     ],
     "fund": {
