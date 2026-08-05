@@ -213,6 +213,12 @@ test("981–1024px 顶栏完整容纳搜索和行情数据", async ({ page }) =>
 test("外围热点空状态与每日情报正文排版清晰", async ({ page }) => {
   await page.goto("/index.html#xbrief", { waitUntil: "networkidle" });
   await expect(page.locator(".xb-hero-title")).toHaveText("外围热点");
+  // 空状态断言与仓库数据解耦：pipeline 发布简报后 xbriefs.js 非空，
+  // 空状态本就不渲染；显式清空重渲染，避免夜间发刊后门禁误失败。
+  await page.evaluate(() => {
+    window.XBRIEFS = { updated: null, generatedAt: null, briefs: [] };
+    window.App.renderXBriefs();
+  });
   await expect(page.locator(".xb-empty-state")).toContainText("今晚 23:00");
   await expect(page.locator(".xb-schedule")).toContainText("每日一次");
 

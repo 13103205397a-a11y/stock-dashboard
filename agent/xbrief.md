@@ -1,12 +1,12 @@
-# 外围热点 Agent — X 简报（每日 23:00）
+# 外围热点 Agent — X 简报（每 2h 采集 · 早 8 / 晚 23 汇总）
 
-> 用途：Grok 定时任务从 X 抓取海外 AI + 全球股市/财经硬信息，严格筛选后写入看板「外围热点」并同步 GitHub Pages。每天 23:00 汇总近 24 小时内容；没有新推文/新事实时不发布新一期。
+> 用途：每 2 小时从 X 采集重点账号与热帖（AI / 财经股市 / 全球战争），消噪后中文入库；**北京时间 08:00 早报**、**23:00 晚报**写成精致 HTML 写入 `~/Desktop/外围热点/`。晚报同步看板「外围热点」与 GitHub Pages。
 >
-> 数据：`xbriefs.js` · 推送：`scripts/push_xbrief.py --git-push`
+> 数据：`xbriefs.js` · 推送：`scripts/push_xbrief.py --git-push` · 桌面：`~/Desktop/外围热点/`
 >
 > 线上：https://13103205397a-a11y.github.io/stock-dashboard/#xbrief
 
-> 生产自动化由 `scripts/run_grok_xbrief.py` + macOS LaunchAgent 执行：Grok 仅有 X 搜索权限，不能运行命令或读写文件；脚本负责 status ID 去重、北京时间窗口校验、受控发布和行情刷新。只读采集提示词见 `agent/xbrief-collector.md`。下文同时保留人工执行说明。
+> 生产自动化由 `scripts/run_grok_xbrief.py` + macOS LaunchAgent 执行（`auto` 模式）：Grok 仅有 X 搜索权限；脚本负责 status ID 去重、北京时间窗口、桌面 HTML、受控发布。只读采集提示词见 `agent/xbrief-collector.md`。下文同时保留人工执行说明。
 
 ---
 
