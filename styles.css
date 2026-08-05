@@ -1001,6 +1001,8 @@ body.view-weekend .weekend-only { display: block; }
   font-weight: 800;
   letter-spacing: .12em;
 }
+/* 全球战争/地缘板块用警示金，避免与涨红混淆 */
+.xb-section-war .xb-section-code { color: var(--warn); }
 .xb-section-head h3 {
   margin: 0;
   color: var(--ink);

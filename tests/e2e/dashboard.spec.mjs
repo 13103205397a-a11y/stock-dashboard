@@ -49,11 +49,18 @@ const SAMPLE_XBRIEF = {
    **为何重要**：影响次日 A 股成长风格风险偏好。
    **可信度**：中高 | **来源**：[@ReutersBiz](https://x.com/ReutersBiz/status/2085000000000000001) | **发布时间**：北京时间 2026-08-05 22:40
 
-## 三、噪音观察
+## 三、全球战争/地缘（最多 5 条）
+
+1. **某地区冲突双方宣布临时停火并恢复谈判**
+   多方斡旋下局势出现缓和迹象。
+   **为何重要**：影响原油与航运价格，进而影响全球风险偏好。
+   **可信度**：高 | **来源**：[@Reuters](https://x.com/Reuters/status/2085000000000000002) | **发布时间**：北京时间 2026-08-05 22:50
+
+## 四、噪音观察
 
 - 无来源喊单与旧闻重复已过滤。
 
-## 四、一句话结论
+## 五、一句话结论
 
 - **AI 侧**：关注模型发布后的算力需求。
 - **股市侧**：关注科技权重的财报验证。`,
@@ -224,8 +231,9 @@ test("外围热点空状态与每日情报正文排版清晰", async ({ page }) 
 
   await renderSampleXbrief(page);
   await expect(page.locator(".xb-article.active")).toBeVisible();
-  await expect(page.locator(".xb-news-card")).toHaveCount(2);
-  await expect(page.locator('.xb-news-meta a[href^="https://x.com/"]')).toHaveCount(2);
+  await expect(page.locator(".xb-news-card")).toHaveCount(3);
+  await expect(page.locator('.xb-news-meta a[href^="https://x.com/"]')).toHaveCount(3);
+  await expect(page.locator(".xb-section-war .xb-section-code")).toHaveText("WAR");
   const text = await page.locator("#viewXbrief").innerText();
   expect(text).not.toMatch(/�|ï¿½|Ã|Â|â€™|â€œ|â€|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200D\u2060\uFEFF]/);
   expect(text).not.toMatch(/[⏱◎⌘]/);

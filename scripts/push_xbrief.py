@@ -353,6 +353,9 @@ def push(content: str, *, title: str, period: str, time_str: str | None) -> dict
         "marketCount": count_section(content, "二、股市/财经要闻")
         or count_section(content, "股市/财经要闻")
         or count_section(content, "股市"),
+        "warCount": count_section(content, "三、全球战争/地缘")
+        or count_section(content, "全球战争/地缘")
+        or count_section(content, "全球战争"),
         "hasFocusStock": has_focus_stock(content),
     }
     briefs = [b for b in data.get("briefs", []) if isinstance(b, dict)]

@@ -401,6 +401,11 @@
 
   function xbNewsSection(title, body, kind) {
     const parsed = xbParseNews(body);
+    const kindMeta = {
+      ai: ["AI", "AI 要闻"],
+      market: ["MK", "市场要闻"],
+      war: ["WAR", "全球战争"],
+    }[kind] || ["MK", "市场要闻"];
     const cleanTitle = String(title || "")
       .replace(/^[一二三四五六七八九十]+[、.]\s*/, "")
       .replace(/（最多\s*\d+\s*条）/, "")
@@ -419,12 +424,25 @@
       : "";
     return `<section class="xb-section xb-section-${kind}">
       <header class="xb-section-head">
-        <span class="xb-section-code">${kind === "ai" ? "AI" : "MK"}</span>
-        <h3>${esc(cleanTitle || (kind === "ai" ? "AI 要闻" : "市场要闻"))}</h3>
+        <span class="xb-section-code">${kindMeta[0]}</span>
+        <h3>${esc(cleanTitle || kindMeta[1])}</h3>
         <span class="xb-section-count">${parsed.items.length} 条</span>
       </header>
       <div class="xb-news-list">${cards || note}</div>
     </section>`;
+  }
+
+  // 从简报正文统计某类板块条目数（v2 简报的战争/地缘板块没有独立计数字段，渲染端自行解析）
+  function xbSectionItemCount(content, pattern) {
+    const normalized = cleanDisplayText(content || "");
+    const matches = [...normalized.matchAll(/^##\s+(.+)$/gm)];
+    for (let i = 0; i < matches.length; i += 1) {
+      if (pattern.test(matches[i][1])) {
+        const body = normalized.slice(matches[i].index + matches[i][0].length, matches[i + 1]?.index ?? normalized.length);
+        return xbParseNews(body).items.length;
+      }
+    }
+    return 0;
   }
 
   function xbBulletSection(title, body, conclusion = false) {
@@ -461,6 +479,7 @@
     const rendered = sections.map((section) => {
       if (/AI 要闻/.test(section.title)) return xbNewsSection(section.title, section.body, "ai");
       if (/股市|财经|市场/.test(section.title)) return xbNewsSection(section.title, section.body, "market");
+      if (/战争|地缘/.test(section.title)) return xbNewsSection(section.title, section.body, "war");
       if (/噪音/.test(section.title)) return xbBulletSection(section.title, section.body, false);
       if (/结论/.test(section.title)) return xbBulletSection(section.title, section.body, true);
       return "";
@@ -517,28 +536,37 @@
 
     const latest = list[0];
     const latestTime = xbFormatTime(latest.time);
-    const latestCount = (Number(latest.aiCount) || 0) + (Number(latest.marketCount) || 0);
+    // v2 简报的战争/地缘板块没有独立计数字段，统一从正文解析
+    const countsOf = (brief) => {
+      const ai = Number(brief.aiCount) || 0;
+      const market = Number(brief.marketCount) || 0;
+      const war = xbSectionItemCount(brief.content, /战争|地缘/);
+      return { ai, market, war, total: ai + market + war };
+    };
+    const latestCounts = countsOf(latest);
+    const latestCount = latestCounts.total;
     const rail = list.map((brief, index) => {
       const ft = xbFormatTime(brief.time);
       return `<button type="button" class="xb-rail-item ${index === 0 ? "active" : ""}" data-i="${index}" aria-label="${esc(ft.full)} 日报">
         <span class="xb-rail-date">${esc(ft.day)}</span>
         <span class="xb-rail-clock">${esc(ft.clock)}</span>
-        <span class="xb-rail-count">${(Number(brief.aiCount) || 0) + (Number(brief.marketCount) || 0)} 条</span>
+        <span class="xb-rail-count">${countsOf(brief).total} 条</span>
       </button>`;
     }).join("");
 
     const bodies = list.map((brief, index) => {
       const ft = xbFormatTime(brief.time);
-      const count = (Number(brief.aiCount) || 0) + (Number(brief.marketCount) || 0);
+      const counts = countsOf(brief);
       const searchName = `外围热点 · ${brief.time || brief.id || brief.period || "最新一期"}`;
       return `<article class="xb-article ${index === 0 ? "active" : ""}" data-i="${index}" data-xname="${esc(searchName)}">
         <header class="xb-article-head">
           <div class="xb-article-kicker"><span>DAILY BRIEF</span><time>${esc(ft.full)}</time></div>
           <h2 class="xb-article-title">海外 AI 与市场情报</h2>
           <div class="xb-article-meta">
-            <span><b>${count}</b> 条硬信息</span>
-            <span>AI ${brief.aiCount || 0}</span>
-            <span>市场 ${brief.marketCount || 0}</span>
+            <span><b>${counts.total}</b> 条硬信息</span>
+            <span>AI ${counts.ai}</span>
+            <span>市场 ${counts.market}</span>
+            ${counts.war ? `<span>地缘 ${counts.war}</span>` : ""}
             <span>${esc(brief.period || "近约1天")}</span>
           </div>
         </header>
