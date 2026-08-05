@@ -224,6 +224,12 @@ test("外围热点空状态与每日情报正文排版清晰", async ({ page }) 
   expect(text).not.toMatch(/�|ï¿½|Ã|Â|â€™|â€œ|â€|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200D\u2060\uFEFF]/);
   expect(text).not.toMatch(/[⏱◎⌘]/);
 
+  // .xb-article.active 带有入场动画（translateY 6px→0，约 240ms），
+  // 量几何前必须等动画结束，否则 y 差值取决于断言执行耗时，会抖动失败。
+  await page.locator(".xb-article.active").evaluate(async (el) => {
+    await Promise.allSettled(el.getAnimations().map((a) => a.finished));
+  });
+
   const rail = await page.locator(".xb-rail").boundingBox();
   const article = await page.locator(".xb-article.active").boundingBox();
   expect(rail).not.toBeNull();
