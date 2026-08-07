@@ -43,7 +43,18 @@ jobs:
         run: pip install --quiet requests numpy pandas mootdx lxml tickflow
 
       - name: 抓取日K(TickFlow免费档)
-        run: python3 scripts/fetch_klines_tf.py
+        run: |
+          set -euo pipefail
+          # 免费档偶发整批空响应/限流；工作流层再兜底重试，减少失败邮件
+          for attempt in 1 2 3; do
+            if python3 scripts/fetch_klines_tf.py; then
+              exit 0
+            fi
+            echo "日K抓取失败，${attempt}/3，等待 $((attempt * 45)) 秒后重试..."
+            sleep $((attempt * 45))
+          done
+          echo "::error::日K连续 3 次抓取失败"
+          exit 1
 
       - name: 重算技术信号 -> 写回 data.js / meta.js
         run: node scripts/fetch_signals.js

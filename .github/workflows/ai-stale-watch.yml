@@ -41,7 +41,7 @@ jobs:
               echo '```'
               echo "$output" | grep '^STALE' || echo "$output"
               echo '```'
-              echo "请在本机（Hermes）补跑对应模块的生成任务后推送。巡检记录：${RUN_URL}"
+              echo "请在本机按 agent/ 说明书补跑对应模块后推送。巡检记录：${RUN_URL}"
             } > /tmp/stale_body.md
             if [ -n "$issue_number" ]; then
               gh issue comment "$issue_number" --body-file /tmp/stale_body.md

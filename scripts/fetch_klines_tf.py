@@ -37,8 +37,8 @@ DATA_JS = DIR.parent / "data.js"
 
 # 免费档限流 60 次/分钟:每只之间节流避免触发;触发则等待后自动重试。
 THROTTLE_SEC = 1.1
-RATELIMIT_WAIT_SEC = 8
-MAX_ATTEMPTS = 3
+RATELIMIT_WAIT_SEC = 15
+MAX_ATTEMPTS = 5
 
 
 def load_codes():
@@ -152,24 +152,31 @@ def main():
 
     syms = [tf_symbol(c) for c in codes]
 
-    # 一次性批量抓取(免费档 batch 内部并发,47只实测3.7s且不触发 60次/分钟 限流)
+    # 一次性批量抓取(免费档 batch 内部并发)；限流/空批/瞬时网络错误都重试
     dfs = None
     err = None
-    for attempt in range(MAX_ATTEMPTS):  # 整体限流自动重试,最多 MAX_ATTEMPTS 次
+    for attempt in range(MAX_ATTEMPTS):
         try:
             dfs = tf.klines.batch(syms, period="1d", count=330, adjust="forward",
                                   as_dataframe=True, show_progress=True, max_workers=5)
+            nonempty = sum(1 for code in codes if (dfs.get(tf_symbol(code)) is not None and len(dfs.get(tf_symbol(code))) > 0))
+            if nonempty == 0:
+                raise RuntimeError("batch 返回空数据")
             err = None
             break
         except RateLimitError as e:
             err = e
-            if attempt < MAX_ATTEMPTS - 1:
-                print(f"  ⏳ batch 限流,等 {RATELIMIT_WAIT_SEC}s 重试({attempt + 2}/{MAX_ATTEMPTS})...", file=sys.stderr)
-                time.sleep(RATELIMIT_WAIT_SEC)
-            else:
-                break
+            wait = RATELIMIT_WAIT_SEC * (attempt + 1)
         except Exception as e:
             err = e
+            wait = RATELIMIT_WAIT_SEC * (attempt + 1)
+        if attempt < MAX_ATTEMPTS - 1:
+            print(
+                f"  ⏳ batch 失败({type(err).__name__}: {err})，等 {wait}s 重试({attempt + 2}/{MAX_ATTEMPTS})...",
+                file=sys.stderr,
+            )
+            time.sleep(wait)
+        else:
             break
     if err is not None:
         print(f"  ✗ 批量抓取失败: {type(err).__name__}: {err},保留所有旧缓存", file=sys.stderr)

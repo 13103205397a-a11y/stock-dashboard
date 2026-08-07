@@ -4,9 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    # 每天 19:00/20:00/21:00 北京时间保底部署
-    - cron: "0 11 * * *"
-    - cron: "0 12 * * *"
+    # 每天 21:00 北京时间保底部署一次即可；多点位会互相抢 Pages 部署并刷失败邮件
     - cron: "0 13 * * *"
   workflow_dispatch: {}
 
@@ -15,10 +13,10 @@ permissions:
   pages: write
   id-token: write
 
-# 同一时间只保留最新一次部署：并行部署可能出现旧提交后完成、覆盖新站点
+# 排队串行部署，避免中途取消把整次构建标成失败并发邮件
 concurrency:
   group: pages-deploy
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -69,7 +67,7 @@ jobs:
         with:
           path: _site
 
-      # GitHub Pages 后端偶发返回 failed，多次重试递增等待
+      # GitHub Pages 后端偶发 failed/cancelled，拉长间隔后重试
       - name: 部署尝试 1
         id: deploy1
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
@@ -80,8 +78,8 @@ jobs:
       - name: 等待重试 1
         if: steps.deploy1.outcome != 'success'
         run: |
-          echo "部署 1 失败(${{ steps.deploy1.outcome }})，等待 30 秒后重试"
-          sleep 30
+          echo "部署 1 失败(${{ steps.deploy1.outcome }})，等待 90 秒后重试"
+          sleep 90
 
       - name: 部署尝试 2
         id: deploy2
@@ -94,8 +92,8 @@ jobs:
       - name: 等待重试 2
         if: steps.deploy1.outcome != 'success' && steps.deploy2.outcome != 'success'
         run: |
-          echo "部署 2 失败(${{ steps.deploy2.outcome }})，等待 60 秒后重试"
-          sleep 60
+          echo "部署 2 失败(${{ steps.deploy2.outcome }})，等待 120 秒后重试"
+          sleep 120
 
       - name: 部署尝试 3
         id: deploy3
@@ -103,6 +101,7 @@ jobs:
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
         with:
           artifact_name: github-pages
+        continue-on-error: true
 
       - name: 部署结果汇总
         if: always()

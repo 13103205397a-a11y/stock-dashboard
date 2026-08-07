@@ -584,15 +584,26 @@ def merge_posts_into_inbox(
     return added
 
 
+def _title_fingerprint(title: object) -> str:
+    """粗粒度标题指纹，用于摘要去重（去掉空白/标点后取前 24 字）。"""
+    text = re.sub(r"[\s\W_]+", "", str(title or ""), flags=re.U)
+    return text[:24]
+
+
 def posts_for_digest(inbox: dict, *, since: datetime | None, end: datetime) -> list[dict]:
-    """从 inbox 取出摘要窗口内的帖子（按类限 5 条）。"""
+    """从 inbox 取出摘要窗口内的帖子（按类限 5 条，标题近似去重）。"""
     end_bj = end.astimezone(BEIJING)
     since_bj = since.astimezone(BEIJING) if since else end_bj - timedelta(hours=24)
     selected: list[dict] = []
     counts = {key: 0 for key in CATEGORIES}
-    for post in inbox.get("posts", []):
-        if not isinstance(post, dict):
-            continue
+    seen_titles: set[str] = set()
+    # 先按发布时间新→旧，保证每类优先最新
+    ordered = sorted(
+        [p for p in inbox.get("posts", []) if isinstance(p, dict)],
+        key=lambda item: str(item.get("publishedAt") or ""),
+        reverse=True,
+    )
+    for post in ordered:
         category = post.get("category")
         if category not in counts or counts[category] >= 5:
             continue
@@ -601,9 +612,13 @@ def posts_for_digest(inbox: dict, *, since: datetime | None, end: datetime) -> l
             continue
         if published < since_bj - OVERLAP or published > end_bj + timedelta(minutes=10):
             continue
+        fingerprint = _title_fingerprint(post.get("titleZh"))
+        if fingerprint and fingerprint in seen_titles:
+            continue
+        if fingerprint:
+            seen_titles.add(fingerprint)
         selected.append(post)
         counts[category] += 1
-    selected.sort(key=lambda item: str(item.get("publishedAt") or ""), reverse=True)
     return selected
 
 
@@ -1134,7 +1149,7 @@ def run_observation(
             )
             return 0
 
-        # 摘要：优先用窗口内 inbox 全量（含本轮新增）
+        # 摘要窗口固定用早/晚报回看时长，不因「距上次采集仅 1–2 小时」缩成近约 1 小时
         digest_since = end - (
             MORNING_LOOKBACK if mode == "digest-morning" else EVENING_LOOKBACK
         )
@@ -1143,7 +1158,7 @@ def run_observation(
         html_path = write_desktop_html(
             posts=digest_posts,
             payload=digest_payload,
-            start=max(start, digest_since),
+            start=digest_since,
             end=end,
             mode=mode,
         )
@@ -1163,13 +1178,13 @@ def run_observation(
             markdown = render_markdown(
                 digest_payload,
                 digest_posts,
-                max(start, digest_since),
+                digest_since,
                 end,
             )
             item = push_xbrief.push(
                 markdown,
                 title="外围热点",
-                period=period_label(max(start, digest_since), end, compact=True),
+                period=period_label(digest_since, end, compact=True),
                 time_str=stamp,
             )
             state["lastResult"] = "local-published"
