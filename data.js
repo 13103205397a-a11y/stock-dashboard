@@ -221,10 +221,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": -56.44,
       "turnover": 5.15,
-      "date": "2026-08-08",
-      "asof": "2026-08-08"
+      "date": "2026-08-09",
+      "asof": "2026-08-09"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "交银国际证券",
@@ -266,7 +266,7 @@ window.STOCKS = [
       "eps_cur": 27.65,
       "eps_next": 49.17,
       "analyst_count": 29,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -483,10 +483,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": -10.7,
       "turnover": 4.77,
-      "date": "2026-08-08",
-      "asof": "2026-08-08"
+      "date": "2026-08-09",
+      "asof": "2026-08-09"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "华鑫证券",
@@ -528,7 +528,7 @@ window.STOCKS = [
       "eps_cur": 13.99,
       "eps_next": 23.3,
       "analyst_count": 20,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -744,10 +744,10 @@ window.STOCKS = [
     "fund": {
       "netInflow": 2.01,
       "turnover": 5.6,
-      "date": "2026-08-08",
-      "asof": "2026-08-08"
+      "date": "2026-08-09",
+      "asof": "2026-08-09"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "东吴证券",
@@ -789,7 +789,7 @@ window.STOCKS = [
       "eps_cur": 3.21,
       "eps_next": 4.54,
       "analyst_count": 20,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -1007,7 +1007,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "太平洋",
@@ -1049,7 +1049,7 @@ window.STOCKS = [
       "eps_cur": 2.0,
       "eps_next": 3.37,
       "analyst_count": 6,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -1268,7 +1268,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "群益证券",
@@ -1310,7 +1310,7 @@ window.STOCKS = [
       "eps_cur": 6.82,
       "eps_next": 11.04,
       "analyst_count": 14,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -1529,7 +1529,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "太平洋",
@@ -1571,7 +1571,7 @@ window.STOCKS = [
       "eps_cur": 2.84,
       "eps_next": 3.39,
       "analyst_count": 14,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -1790,7 +1790,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "中邮证券",
@@ -1832,7 +1832,7 @@ window.STOCKS = [
       "eps_cur": 1.82,
       "eps_next": 2.21,
       "analyst_count": 10,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -2050,7 +2050,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "华鑫证券",
@@ -2092,7 +2092,7 @@ window.STOCKS = [
       "eps_cur": 7.81,
       "eps_next": 10.79,
       "analyst_count": 7,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -2311,7 +2311,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "民生证券",
@@ -2353,7 +2353,7 @@ window.STOCKS = [
       "eps_cur": 0.47,
       "eps_next": 1.28,
       "analyst_count": 4,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -2572,7 +2572,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "太平洋",
@@ -2614,7 +2614,7 @@ window.STOCKS = [
       "eps_cur": 2.35,
       "eps_next": 3.05,
       "analyst_count": 8,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -2835,7 +2835,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "开源证券",
@@ -2877,7 +2877,7 @@ window.STOCKS = [
       "eps_cur": 9.33,
       "eps_next": 15.82,
       "analyst_count": 17,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -3096,7 +3096,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "中邮证券",
@@ -3138,7 +3138,7 @@ window.STOCKS = [
       "eps_cur": 3.0,
       "eps_next": 4.57,
       "analyst_count": 22,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -3357,7 +3357,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "中邮证券",
@@ -3399,7 +3399,7 @@ window.STOCKS = [
       "eps_cur": 2.33,
       "eps_next": 3.23,
       "analyst_count": 20,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -3619,7 +3619,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "开源证券",
@@ -3661,7 +3661,7 @@ window.STOCKS = [
       "eps_cur": 3.75,
       "eps_next": 7.63,
       "analyst_count": 13,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -3880,7 +3880,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "太平洋",
@@ -3922,7 +3922,7 @@ window.STOCKS = [
       "eps_cur": 2.41,
       "eps_next": 3.48,
       "analyst_count": 13,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -4141,7 +4141,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "华鑫证券",
@@ -4183,7 +4183,7 @@ window.STOCKS = [
       "eps_cur": 0.71,
       "eps_next": 1.08,
       "analyst_count": 11,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -4373,6 +4373,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "一周调研速递：多家公司产能、订单、技术迎来突破，涉及PCB、MLCC、算力、CPO等行业",
+        "date": "2026-08-08 19:34:58",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202608083835848720.html",
+        "content": "利通电子表示，目前公司在执行的AI算力云服务合同，期限均在36个月以上。合同订单收入可覆盖对应设备投入，持续产生稳定经营收益。现有算力业务现金流足以覆盖各类成本支出，随着经营利润持续积累，公司现金流与负债结构将逐步改善。"
+      },
+      {
         "title": "利通电子:利通电子股票交易异常波动公告",
         "date": "2026-08-07",
         "source": "公司公告",
@@ -4385,13 +4392,6 @@ window.STOCKS = [
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603629",
         "content": ""
-      },
-      {
-        "title": "利通电子：股票交易异常波动公告",
-        "date": "2026-08-06 18:54:00",
-        "source": "证券日报",
-        "url": "http://finance.eastmoney.com/a/202608063834014565.html",
-        "content": "证券日报网讯 8月6日，利通电子发布公告称，公司股票于2026年8月4日、8月5日、8月6日连续3个交易日内收盘价格涨幅偏离值累计达20%，根据《上海证券交易所交易规则》的有关规定，属于股票交易异常波动情况。"
       }
     ],
     "fund": {
@@ -4400,7 +4400,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "东莞证券",
@@ -4424,7 +4424,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -4643,7 +4643,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "华鑫证券",
@@ -4679,7 +4679,7 @@ window.STOCKS = [
       "eps_cur": 0.23,
       "eps_next": 0.68,
       "analyst_count": 2,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -4873,6 +4873,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "上市公司业绩预告折射经济韧性",
+        "date": "2026-08-09 05:41:38",
+        "source": "经济日报",
+        "url": "http://finance.eastmoney.com/a/202608093835874645.html",
+        "content": "以集成电路为例，科创板集成电路上市公司达130家，涵盖芯片设计、制造、封测、设备、材料、软件等产业链各环节，汇聚了海光信息、寒武纪、中芯国际等行业龙头，逐步形成链条完整、协同创新的发展格局，提升了我国集成电路产业的自主化水平。"
+      },
+      {
         "title": "华尔街加码中国“硬科技”：光通信ETF半数仓位押注，明星ETF重仓长鑫；OpenAI暂停下一代模型部分研发；美联储9月加息概率降至44%，金价涨破4300美元 | 一周国际财经",
         "date": "2026-08-08 12:01:26",
         "source": "每日经济新闻",
@@ -4885,13 +4892,6 @@ window.STOCKS = [
         "source": "界面新闻",
         "url": "http://finance.eastmoney.com/a/202608083835805122.html",
         "content": "2026年8月8日，寒武纪(688256.SH)发布2026年中报。 　　公司营业总收入为59.96亿元。归母净利润为23.11亿元。经营活动现金净流入为3.11亿元，较去年同报告期经营活动现金净流入减少6.00亿元，同比较去年同期下降65.83%。"
-      },
-      {
-        "title": "A股半年报盘点丨171家上市公司已披露 16家公司净利润超10亿元",
-        "date": "2026-08-08 08:22:36",
-        "source": "第一财经",
-        "url": "http://finance.eastmoney.com/a/202608083835788554.html",
-        "content": "寒武纪、盛美上海、广合科技排名居前，上半年净利润分别为23.11亿元、9.89亿元、9.56亿元。 　　当日已发布半年报公司中有3家公司还发布了半年度权益分派方案（包括派息、转增及送股），其中3家半年度权益分派方案为董事会预案。"
       }
     ],
     "fund": {
@@ -4900,7 +4900,7 @@ window.STOCKS = [
       "date": "2026-08-07",
       "asof": "2026-08-07"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "群益证券",
@@ -4942,7 +4942,7 @@ window.STOCKS = [
       "eps_cur": 8.71,
       "eps_next": 18.17,
       "analyst_count": 15,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -5161,7 +5161,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "交银国际证券",
@@ -5203,7 +5203,7 @@ window.STOCKS = [
       "eps_cur": 8.56,
       "eps_next": 10.57,
       "analyst_count": 20,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -5422,7 +5422,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "开源证券",
@@ -5464,7 +5464,7 @@ window.STOCKS = [
       "eps_cur": 1.03,
       "eps_next": 1.29,
       "analyst_count": 13,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -5683,7 +5683,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "中邮证券",
@@ -5725,7 +5725,7 @@ window.STOCKS = [
       "eps_cur": 1.12,
       "eps_next": 1.39,
       "analyst_count": 16,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -5944,7 +5944,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "华龙证券",
@@ -5986,7 +5986,7 @@ window.STOCKS = [
       "eps_cur": 0.32,
       "eps_next": 0.39,
       "analyst_count": 2,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -6204,7 +6204,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "中邮证券",
@@ -6246,7 +6246,7 @@ window.STOCKS = [
       "eps_cur": 0.35,
       "eps_next": 0.73,
       "analyst_count": 4,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -6465,7 +6465,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "国信证券",
@@ -6507,7 +6507,7 @@ window.STOCKS = [
       "eps_cur": 32.72,
       "eps_next": 27.41,
       "analyst_count": 8,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -6699,6 +6699,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "德明利:关于回购注销2023年和2024年限制性股票激励计划部分限制性股票完成的公告",
+        "date": "2026-08-10",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=001309",
+        "content": ""
+      },
+      {
         "title": "德明利:关于控股股东认购的2023年向特定对象发行股票限售股解除限售上市流通并承诺十二个月内不减持公司股票的提示性公告",
         "date": "2026-07-28",
         "source": "公司公告",
@@ -6711,13 +6718,6 @@ window.STOCKS = [
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=001309",
         "content": ""
-      },
-      {
-        "title": "德明利:关于控股股东自愿承诺不减持公司股票的公告",
-        "date": "2026-07-25",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=001309",
-        "content": ""
       }
     ],
     "fund": {
@@ -6726,7 +6726,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "国信证券",
@@ -6768,7 +6768,7 @@ window.STOCKS = [
       "eps_cur": 35.46,
       "eps_next": 29.85,
       "analyst_count": 3,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -6988,7 +6988,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "中邮证券",
@@ -7030,7 +7030,7 @@ window.STOCKS = [
       "eps_cur": 1.86,
       "eps_next": 2.35,
       "analyst_count": 15,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -7249,7 +7249,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "中邮证券",
@@ -7291,7 +7291,7 @@ window.STOCKS = [
       "eps_cur": 0.58,
       "eps_next": 0.7,
       "analyst_count": 4,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -7510,7 +7510,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "华鑫证券",
@@ -7552,7 +7552,7 @@ window.STOCKS = [
       "eps_cur": 1.19,
       "eps_next": 1.56,
       "analyst_count": 13,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -7744,25 +7744,25 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "百家机构调研股曝光 两股上榜！仕佳光子半年报业绩高增长",
+        "date": "2026-08-09 08:14:00",
+        "source": "数据宝",
+        "url": "http://finance.eastmoney.com/a/202608093835884959.html",
+        "content": "国瓷材料有CPO、MLCC（多层片式陶瓷电容器）、商业航天、固态电池等多个热门科技题材。在调研中公司表示，上半年MLCC介质粉体销量实现稳步增长；为更好满足下游客户需求，公司针对AI服务器及车规级MLCC粉体，已完成部分高端产线的扩产工作。"
+      },
+      {
+        "title": "一周调研速递：多家公司产能、订单、技术迎来突破，涉及PCB、MLCC、算力、CPO等行业",
+        "date": "2026-08-08 19:34:58",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202608083835848720.html",
+        "content": "国瓷材料称，公司针对AI服务器及车规级MLCC粉体，已完成部分高端产线的扩产工作。MLCC介质粉体及电子浆料销量稳步增长，持续推进AI服务器及车规用MLCC介质粉体扩产及市场开拓；覆铜板用填充材料项目：客户验证进程加快，产品实现小批量销售。"
+      },
+      {
         "title": "国瓷材料：公司与澳大利亚SDI公司并购后可在技术研发、产品生产等领域实现资源互通、优势互补",
         "date": "2026-08-06 17:06:00",
         "source": "证券日报",
         "url": "http://finance.eastmoney.com/a/202608063833949194.html",
         "content": "证券日报网8月6日讯 ，国瓷材料在接受调研时表示，澳大利亚SDI公司深耕行业超50年，主营复合树脂、粘接剂、水门汀、牙齿美白等临床端耗材，是澳大利亚专业牙科材料领域的领先制造商，与公司原有以氧化锆瓷块为核心的技工端义齿材料形成高度互补，能够进一步补充产品线，完善产品布局；SDI公司拥有完善的海外渠道资源"
-      },
-      {
-        "title": "国瓷材料：针对AI服务器及车规级MLCC粉体 已完成部分高端产线的扩产工作",
-        "date": "2026-08-06 10:46:00",
-        "source": "南方财经网",
-        "url": "http://finance.eastmoney.com/a/202608063833646958.html",
-        "content": "南方财经8月6日电，国瓷材料8月5日在分析师会议上表示，受益于行业景气度持续回升以及AI服务器、汽车电子等新兴应用领域需求的拉动，公司上半年MLCC介质粉体销量实现稳步增长；为更好满足下游客户需求，公司针对AI服务器及车规级MLCC粉体，已完成部分高端产线的扩产工作。"
-      },
-      {
-        "title": "国瓷材料：目前公司已建成硫化物固态电解质自动化生产线 量产能力初步构建",
-        "date": "2026-08-06 10:46:00",
-        "source": "南方财经网",
-        "url": "http://finance.eastmoney.com/a/202608063833647060.html",
-        "content": "南方财经8月6日电，国瓷材料8月5日在分析师会议上表示，随着全固态电池产业化进程推进，硫化物固态电解质因其高离子电导率等优势，成为核心关键材料。"
       }
     ],
     "fund": {
@@ -7771,7 +7771,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "华鑫证券",
@@ -7813,7 +7813,7 @@ window.STOCKS = [
       "eps_cur": 0.84,
       "eps_next": 1.06,
       "analyst_count": 20,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -8032,7 +8032,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "华鑫证券",
@@ -8074,7 +8074,7 @@ window.STOCKS = [
       "eps_cur": 1.14,
       "eps_next": 1.66,
       "analyst_count": 4,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -8293,7 +8293,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "东吴证券",
@@ -8335,7 +8335,7 @@ window.STOCKS = [
       "eps_cur": 3.83,
       "eps_next": 5.91,
       "analyst_count": 9,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -8554,7 +8554,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "东吴证券",
@@ -8596,7 +8596,7 @@ window.STOCKS = [
       "eps_cur": 2.58,
       "eps_next": 3.96,
       "analyst_count": 14,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -8818,7 +8818,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "金元证券",
@@ -8860,7 +8860,7 @@ window.STOCKS = [
       "eps_cur": 3.07,
       "eps_next": 4.12,
       "analyst_count": 20,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -9054,25 +9054,25 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "美将外国电力逆变器列入“覆盖清单”，A股龙头回应相关影响",
+        "date": "2026-08-09 12:25:00",
+        "source": "证券时报",
+        "url": "http://finance.eastmoney.com/a/202608093835901957.html",
+        "content": "8月7日，阳光电源股价上涨6.99%，报收于114.16元/股。"
+      },
+      {
+        "title": "阳光电源回应FCC政策影响：主要限制新产品认证 已获认证产品销售不受波及",
+        "date": "2026-08-08 20:58:09",
+        "source": "央广财经",
+        "url": "http://finance.eastmoney.com/a/202608083835856495.html",
+        "content": "8月8日，阳光电源（300274.SZ）在互动平台公开回应称，公司目前初步判断，FCC政策主要限制新产品认证，不影响已获认证产品的销售，公司目前在美销售的光伏逆变器、储能系统不受影响。"
+      },
+      {
         "title": "A股股票回购一览：27家公司披露回购进展",
         "date": "2026-08-08 08:20:36",
         "source": "第一财经",
         "url": "http://finance.eastmoney.com/a/202608083835788089.html",
         "content": "从回购实施进展来看，凯普生物、阳光电源、日月明回购金额最高，分别回购7499.1万元、4999.38万元、2553.41万元。 　　从已完成回购来看，当日共7家公司回购金额超千万。爱玛科技、仙琚制药、新朋股份已完成回购金额最高，分别回购3.0亿元、1.5亿元、1.2亿元。"
-      },
-      {
-        "title": "寒武纪上半年净利同比增122.61%；*ST实达收到立案通知书丨公告精选",
-        "date": "2026-08-07 21:38:00",
-        "source": "21世纪经济报道",
-        "url": "http://finance.eastmoney.com/a/202608073835477257.html",
-        "content": "股份 　　方盛股份：丁振红拟减持不超1.9988%股份 　　创力集团：郝龙拟减持不超0.014%股份 　　紫燕食品：宁国筑巢企业管理咨询服务合伙企业（有限合伙）和宁国衔泥企业管理咨询服务合伙企业（有限合伙）已累计减持0.06%股份 　　回购 　　晶丰明源：首次回购10923股 　　阳光电源"
-      },
-      {
-        "title": "阳光电源：首次回购公司股份471800股",
-        "date": "2026-08-07 21:08:00",
-        "source": "证券日报",
-        "url": "http://finance.eastmoney.com/a/202608073835461560.html",
-        "content": "证券日报网讯 8月7日，阳光电源发布公告称，2026年8月6日，公司通过股份回购专用证券账户以集中竞价交易方式实施了首次回购。本次回购股份数量为471，800股，占公司目前总股本的0.0228%。"
       }
     ],
     "fund": {
@@ -9081,7 +9081,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "东吴证券",
@@ -9123,7 +9123,7 @@ window.STOCKS = [
       "eps_cur": 7.44,
       "eps_next": 9.1,
       "analyst_count": 29,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -9342,7 +9342,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "国信证券",
@@ -9384,7 +9384,7 @@ window.STOCKS = [
       "eps_cur": 4.37,
       "eps_next": 5.53,
       "analyst_count": 23,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -9603,7 +9603,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "东吴证券",
@@ -9645,7 +9645,7 @@ window.STOCKS = [
       "eps_cur": 1.48,
       "eps_next": 2.72,
       "analyst_count": 12,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -9864,7 +9864,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "国信证券",
@@ -9906,7 +9906,7 @@ window.STOCKS = [
       "eps_cur": 0.46,
       "eps_next": 0.73,
       "analyst_count": 6,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -10125,7 +10125,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "东吴证券",
@@ -10167,7 +10167,7 @@ window.STOCKS = [
       "eps_cur": 0.31,
       "eps_next": 0.37,
       "analyst_count": 12,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -10386,7 +10386,7 @@ window.STOCKS = [
       "date": "2026-08-08",
       "asof": "2026-08-08"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "东吴证券",
@@ -10428,7 +10428,7 @@ window.STOCKS = [
       "eps_cur": 1.2,
       "eps_next": 1.39,
       "analyst_count": 17,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -10649,7 +10649,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "国金证券",
@@ -10691,7 +10691,7 @@ window.STOCKS = [
       "eps_cur": 0.92,
       "eps_next": 1.58,
       "analyst_count": 12,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -10911,7 +10911,7 @@ window.STOCKS = [
       "date": "2026-08-08",
       "asof": "2026-08-08"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "西南证券",
@@ -10953,7 +10953,7 @@ window.STOCKS = [
       "eps_cur": 2.0,
       "eps_next": 2.54,
       "analyst_count": 13,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -11172,7 +11172,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "中邮证券",
@@ -11214,7 +11214,7 @@ window.STOCKS = [
       "eps_cur": 2.01,
       "eps_next": 4.13,
       "analyst_count": 6,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -11433,7 +11433,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "国信证券",
@@ -11475,7 +11475,7 @@ window.STOCKS = [
       "eps_cur": 0.22,
       "eps_next": 0.24,
       "analyst_count": 1,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -11694,7 +11694,7 @@ window.STOCKS = [
       "date": "2026-08-05",
       "asof": "2026-08-05"
     },
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "中航证券",
@@ -11736,7 +11736,7 @@ window.STOCKS = [
       "eps_cur": 0.34,
       "eps_next": 0.37,
       "analyst_count": 1,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -11949,7 +11949,7 @@ window.STOCKS = [
         "content": "多家头部厂商上调MLCC价格 　　8月4日午后，MLCC概念活跃，概念指数收涨5.22%，博杰股份涨停，洁美科技、斯迪克、红星发展、火炬电子、风华高科等股均涨超5%。"
       }
     ],
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "research": [
       {
         "org": "华鑫证券",
@@ -11985,7 +11985,7 @@ window.STOCKS = [
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   },
   {
@@ -12216,7 +12216,7 @@ window.STOCKS = [
         "content": ""
       }
     ],
-    "newsAsof": "2026-08-08",
+    "newsAsof": "2026-08-09",
     "valuation": {
       "pe_ttm": 70.33,
       "pe_fwd": 52.6,
@@ -12226,7 +12226,7 @@ window.STOCKS = [
       "eps_cur": 2.83,
       "eps_next": 3.47,
       "analyst_count": 9,
-      "asof": "2026-08-08"
+      "asof": "2026-08-09"
     }
   }
 ];
