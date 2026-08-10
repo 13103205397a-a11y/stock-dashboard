@@ -197,22 +197,22 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "华尔街加码中国“硬科技”：光通信ETF半数仓位押注，明星ETF重仓长鑫；OpenAI暂停下一代模型部分研发；美联储9月加息概率降至44%，金价涨破4300美元 | 一周国际财经",
-        "date": "2026-08-08 12:01:26",
-        "source": "每日经济新闻",
-        "url": "http://stock.eastmoney.com/a/202608083835830849.html",
-        "content": "LYTE共持有12家公司，其中新易盛、中际旭创、天孚通信、源杰科技、光迅科技5家中国企业合计权重达46.8%。新易盛和中际旭创更是位列第三、第四大重仓股。 　　此外，8月初，高盛和摩根大通大幅增持中际旭创H股。"
-      },
-      {
-        "title": "科技早报 | 苹果上调多款设备以旧换新回收价；宇树科技回应机器人销售禁令",
-        "date": "2026-08-08 08:45:00",
-        "source": "界面新闻",
-        "url": "http://finance.eastmoney.com/a/202608083835791049.html",
-        "content": "摩根大通继续加仓中际旭创H股，持股比例升至15.02% 　　8月7日，香港交易所权益披露，摩根大通在中际旭创H股的持股比例于8月4日从13.48%升至15.02%。"
-      },
-      {
         "title": "中际旭创:H股公告(截至2026年7月31日止股份发行人的证券变动月报表)",
         "date": "2026-08-06",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300308",
+        "content": ""
+      },
+      {
+        "title": "中际旭创:关于控股股东及其一致行动人持股比例变动超过1%整数倍的公告",
+        "date": "2026-07-30",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300308",
+        "content": ""
+      },
+      {
+        "title": "中际旭创:关于境外上市股份(H股)挂牌并上市交易的公告",
+        "date": "2026-07-30",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300308",
         "content": ""
@@ -220,11 +220,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": -56.44,
-      "turnover": 5.15,
-      "date": "2026-08-09",
-      "asof": "2026-08-09"
+      "turnover": 3.18,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "交银国际证券",
@@ -258,15 +258,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 71.98,
-      "pe_fwd": 33.3,
-      "peg": 0.43,
-      "pb": 31.06,
-      "mcap_yi": 10210.0,
+      "pe_ttm": 67.09,
+      "pe_fwd": 31.0,
+      "peg": 0.4,
+      "pb": 28.95,
+      "mcap_yi": 9516.29,
       "eps_cur": 27.65,
       "eps_next": 49.17,
       "analyst_count": 29,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -466,15 +466,15 @@ window.STOCKS = [
         "content": "LYTE共持有12家公司，其中新易盛、中际旭创、天孚通信、源杰科技、光迅科技5家中国企业合计权重达46.8%。新易盛和中际旭创更是位列第三、第四大重仓股。 　　此外，8月初，高盛和摩根大通大幅增持中际旭创H股。"
       },
       {
-        "title": "今日这些个股异动 主力加仓电子、有色金属板块",
-        "date": "2026-08-07 16:26:22",
-        "source": "第一财经",
-        "url": "http://finance.eastmoney.com/a/202608073835216422.html",
-        "content": "有色金属、医药生物、机械设备、电力设备等板块，净流出计算机、通信、传媒、非银金融、环保等板块； 　　-光迅科技、胜宏科技、铜冠铜箔、生益科技、C展芯主力资金净流入规模居前，分别净流入22.43亿元、16.46亿元、14.67亿元、10.46亿元、10.23亿元； 　　-中际旭创、新易盛"
-      },
-      {
         "title": "新易盛:2026年半年度业绩预告",
         "date": "2026-07-20",
+        "source": "公司公告",
+        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300502",
+        "content": ""
+      },
+      {
+        "title": "新易盛:关于完成工商登记变更并换发营业执照的公告",
+        "date": "2026-07-09",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=300502",
         "content": ""
@@ -482,11 +482,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": -10.7,
-      "turnover": 4.77,
-      "date": "2026-08-09",
-      "asof": "2026-08-09"
+      "turnover": 3.88,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "华鑫证券",
@@ -520,15 +520,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 54.65,
-      "pe_fwd": 30.1,
-      "peg": 0.45,
-      "pb": 30.23,
-      "mcap_yi": 5279.74,
+      "pe_ttm": 50.96,
+      "pe_fwd": 28.1,
+      "peg": 0.42,
+      "pb": 28.19,
+      "mcap_yi": 4922.9,
       "eps_cur": 13.99,
       "eps_next": 23.3,
       "analyst_count": 20,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -743,11 +743,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 2.01,
-      "turnover": 5.6,
-      "date": "2026-08-09",
-      "asof": "2026-08-09"
+      "turnover": 2.9,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "东吴证券",
@@ -781,15 +781,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 115.86,
-      "pe_fwd": 71.6,
-      "peg": 1.71,
-      "pb": 46.03,
-      "mcap_yi": 2510.69,
+      "pe_ttm": 111.14,
+      "pe_fwd": 68.7,
+      "peg": 1.64,
+      "pb": 44.15,
+      "mcap_yi": 2408.39,
       "eps_cur": 3.22,
       "eps_next": 4.57,
       "analyst_count": 19,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -1002,12 +1002,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 21.99,
-      "turnover": 8.9,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "netInflow": -18.91,
+      "turnover": 7.06,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "太平洋",
@@ -1041,15 +1041,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 154.24,
-      "pe_fwd": 96.5,
-      "peg": 1.41,
-      "pb": 11.55,
-      "mcap_yi": 1517.93,
+      "pe_ttm": 139.91,
+      "pe_fwd": 87.5,
+      "peg": 1.28,
+      "pb": 10.48,
+      "mcap_yi": 1376.86,
       "eps_cur": 2.0,
       "eps_next": 3.37,
       "analyst_count": 6,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -1263,12 +1263,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.58,
-      "turnover": 4.74,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "netInflow": 0.25,
+      "turnover": 2.72,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "群益证券",
@@ -1302,15 +1302,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 473.98,
-      "pe_fwd": 198.8,
-      "peg": 3.21,
-      "pb": 68.47,
-      "mcap_yi": 1665.8,
+      "pe_ttm": 465.46,
+      "pe_fwd": 195.2,
+      "peg": 3.15,
+      "pb": 67.24,
+      "mcap_yi": 1635.85,
       "eps_cur": 6.82,
       "eps_next": 11.04,
       "analyst_count": 14,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -1524,12 +1524,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 5.61,
-      "turnover": 11.49,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "netInflow": -4.58,
+      "turnover": 7.7,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "太平洋",
@@ -1563,15 +1563,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 45.46,
-      "pe_fwd": 21.0,
-      "peg": 1.08,
-      "pb": 4.63,
-      "mcap_yi": 1460.41,
+      "pe_ttm": 44.38,
+      "pe_fwd": 20.5,
+      "peg": 1.06,
+      "pb": 4.52,
+      "mcap_yi": 1425.57,
       "eps_cur": 2.84,
       "eps_next": 3.39,
       "analyst_count": 14,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -1786,11 +1786,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 4.38,
-      "turnover": 10.04,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "turnover": 5.02,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "中邮证券",
@@ -1824,15 +1824,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 35.98,
-      "pe_fwd": 18.5,
-      "peg": 0.86,
-      "pb": 3.1,
-      "mcap_yi": 1149.14,
+      "pe_ttm": 34.89,
+      "pe_fwd": 17.9,
+      "peg": 0.84,
+      "pb": 3.0,
+      "mcap_yi": 1114.33,
       "eps_cur": 1.82,
       "eps_next": 2.21,
       "analyst_count": 10,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -2046,11 +2046,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": -1.27,
-      "turnover": 3.96,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "turnover": 2.35,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "华鑫证券",
@@ -2084,15 +2084,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 242.32,
-      "pe_fwd": 43.4,
-      "peg": 1.14,
-      "pb": 19.7,
-      "mcap_yi": 1376.23,
+      "pe_ttm": 240.04,
+      "pe_fwd": 43.0,
+      "peg": 1.13,
+      "pb": 19.52,
+      "mcap_yi": 1363.31,
       "eps_cur": 7.81,
       "eps_next": 10.79,
       "analyst_count": 7,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -2307,11 +2307,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 2.11,
-      "turnover": 13.38,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "turnover": 7.1,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "民生证券",
@@ -2345,15 +2345,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 555.23,
-      "pe_fwd": 83.0,
-      "peg": 0.48,
-      "pb": 17.3,
-      "mcap_yi": 570.18,
+      "pe_ttm": 529.46,
+      "pe_fwd": 79.1,
+      "peg": 0.46,
+      "pb": 16.49,
+      "mcap_yi": 543.72,
       "eps_cur": 0.47,
       "eps_next": 1.28,
       "analyst_count": 4,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -2545,6 +2545,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "【明日主题前瞻】AI时代的关键数字底座，6G标准化与关键技术验证正加速推进",
+        "date": "2026-08-09 20:18:04",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202608093835965797.html",
+        "content": "上市公司中，华工科技前瞻布局低轨卫星通信及6G基站光模块技术攻关与产品研发，完成多款重点产品的客户送样及联调测试，并于2026年4月发布100G 星载光模块，为下一代移动通信网络建设储备核心能力。"
+      },
+      {
         "title": "英伟达加速布局6G，通信ETF华夏（515050）盘中涨超2%，中信：高景气度驱动估值与业绩双重提升",
         "date": "2026-08-06 10:40:21",
         "source": "界面新闻",
@@ -2557,22 +2564,15 @@ window.STOCKS = [
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=000988",
         "content": ""
-      },
-      {
-        "title": "华工科技:关于参加湖北辖区上市公司2026年投资者集体接待日活动的公告",
-        "date": "2026-07-02",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=000988",
-        "content": ""
       }
     ],
     "fund": {
       "netInflow": 2.06,
-      "turnover": 8.79,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "turnover": 4.33,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "太平洋",
@@ -2606,15 +2606,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 63.08,
-      "pe_fwd": 45.4,
-      "peg": 1.52,
-      "pb": 9.37,
-      "mcap_yi": 1071.31,
+      "pe_ttm": 60.81,
+      "pe_fwd": 43.7,
+      "peg": 1.47,
+      "pb": 9.03,
+      "mcap_yi": 1032.92,
       "eps_cur": 2.35,
       "eps_next": 3.05,
       "analyst_count": 8,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -2808,6 +2808,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "上证早知道｜000831，机构净买入1.12亿元；001258，上半年净利同比增715.75%",
+        "date": "2026-08-10 06:51:00",
+        "source": "上海证券报",
+        "url": "http://finance.eastmoney.com/a/202608103836038858.html",
+        "content": "○8月7日交易公开信息显示，机构席位净买入胜宏科技、云南锗业、多氟多、盛达资源、高争民爆等公司。 机构调研 　　○百济神州透露，百悦达目前由外部CMO供应，各环节均按计划推进，预计于2026年第三季度末至第四季度初在美国正式商业化上市。"
+      },
+      {
         "title": "【中证十点半】寒武纪上半年业绩大增；胜宏科技最新回应来了",
         "date": "2026-08-07 22:30:00",
         "source": "中国证券报·中证金牛座",
@@ -2820,22 +2827,15 @@ window.STOCKS = [
         "source": "证券日报",
         "url": "http://finance.eastmoney.com/a/202608073835520875.html",
         "content": "证券日报网讯 8月7日，胜宏科技发布公告称，公司股票于2026年8月5日、2026年8月6日、2026年8月7日连续三个交易日内收盘价格涨幅偏离值累计达到30%，根据深圳证券交易所的有关规定，属于股票交易异常波动。"
-      },
-      {
-        "title": "突发！这家公司及实控人涉嫌信披违法违规被证监会立案|盘后公告集锦",
-        "date": "2026-08-07 21:19:29",
-        "source": "财联社",
-        "url": "http://finance.eastmoney.com/a/202608073835437058.html",
-        "content": "【胜宏科技：与核心客户合作开发的研发迭代产品正顺利推进当中部分客户已释放2027–2028年长期需求】 　　胜宏科技(300476.SZ)公告称，公司股票于2026年8月5日、8月6日、8月7日连续三个交易日内收盘价格涨幅偏离值累计达到30%，属于股票交易异常波动。"
       }
     ],
     "fund": {
       "netInflow": 15.91,
-      "turnover": 8.39,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "turnover": 4.75,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "开源证券",
@@ -2869,15 +2869,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 58.84,
-      "pe_fwd": 30.0,
+      "pe_ttm": 58.59,
+      "pe_fwd": 29.9,
       "peg": 0.43,
-      "pb": 17.58,
-      "mcap_yi": 2424.28,
+      "pb": 17.51,
+      "mcap_yi": 2413.89,
       "eps_cur": 9.33,
       "eps_next": 15.82,
       "analyst_count": 17,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -3092,11 +3092,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 9.16,
-      "turnover": 4.15,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "turnover": 2.11,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "中邮证券",
@@ -3130,15 +3130,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 56.31,
-      "pe_fwd": 42.0,
-      "peg": 0.8,
-      "pb": 15.3,
-      "mcap_yi": 2420.24,
+      "pe_ttm": 54.01,
+      "pe_fwd": 40.2,
+      "peg": 0.77,
+      "pb": 14.68,
+      "mcap_yi": 2321.41,
       "eps_cur": 3.0,
       "eps_next": 4.57,
       "analyst_count": 22,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -3353,11 +3353,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 4.77,
-      "turnover": 1.71,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "turnover": 0.87,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "中邮证券",
@@ -3391,15 +3391,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 63.31,
-      "pe_fwd": 43.5,
-      "peg": 1.13,
-      "pb": 7.27,
-      "mcap_yi": 2343.41,
+      "pe_ttm": 61.03,
+      "pe_fwd": 42.0,
+      "peg": 1.09,
+      "pb": 7.01,
+      "mcap_yi": 2259.06,
       "eps_cur": 2.33,
       "eps_next": 3.23,
       "analyst_count": 20,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -3615,11 +3615,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 4.99,
-      "turnover": 7.38,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "turnover": 5.3,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "开源证券",
@@ -3653,15 +3653,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 175.31,
-      "pe_fwd": 52.1,
-      "peg": 0.5,
-      "pb": 15.8,
-      "mcap_yi": 2707.07,
+      "pe_ttm": 163.34,
+      "pe_fwd": 48.5,
+      "peg": 0.47,
+      "pb": 14.72,
+      "mcap_yi": 2522.14,
       "eps_cur": 3.75,
       "eps_next": 7.63,
       "analyst_count": 13,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -3876,11 +3876,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 19.18,
-      "turnover": 3.25,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "turnover": 2.89,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "太平洋",
@@ -3914,15 +3914,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 86.55,
-      "pe_fwd": 58.1,
-      "peg": 1.31,
-      "pb": 21.27,
-      "mcap_yi": 3375.97,
+      "pe_ttm": 84.46,
+      "pe_fwd": 56.7,
+      "peg": 1.28,
+      "pb": 20.76,
+      "mcap_yi": 3294.21,
       "eps_cur": 2.41,
       "eps_next": 3.48,
       "analyst_count": 13,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -4137,11 +4137,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 5.62,
-      "turnover": 11.1,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "turnover": 8.53,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "华鑫证券",
@@ -4175,15 +4175,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 122.0,
-      "pe_fwd": 64.7,
-      "peg": 1.24,
-      "pb": 7.69,
-      "mcap_yi": 464.08,
+      "pe_ttm": 117.62,
+      "pe_fwd": 62.4,
+      "peg": 1.2,
+      "pb": 7.41,
+      "mcap_yi": 447.41,
       "eps_cur": 0.71,
       "eps_next": 1.08,
       "analyst_count": 11,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -4395,12 +4395,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": -0.87,
-      "turnover": 14.77,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "netInflow": -3.16,
+      "turnover": 7.35,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "东莞证券",
@@ -4416,15 +4416,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 87.43,
+      "pe_ttm": 84.32,
       "pe_fwd": null,
       "peg": null,
-      "pb": 21.75,
-      "mcap_yi": 459.56,
+      "pb": 20.98,
+      "mcap_yi": 443.26,
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -4616,6 +4616,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "8月10日投资避雷针：8天翻倍人气股提示风险 如股价继续大幅波动将停牌核查",
+        "date": "2026-08-10 08:15:03",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202608103836048828.html",
+        "content": "国内经济信息方面包括：1）商品期货LOF、QDII LOF最晚2027年底终止上市；2）欧盟“电池法规”2027年2月18日落地，国内出口厂商将迎来严苛的ESG合规约束；公司方面重点关注包括：1）高争民爆公告，如后续公司股票交易继续出现非理性大幅波动，公司可能申请停牌核查；2）4连板沃格光电表示"
+      },
+      {
         "title": "沃格光电:江西沃格光电集团股份有限公司关于控股股东、实际控制人及持股5%以上股东相关方收到《行政处罚事先告知书》的公告",
         "date": "2026-08-08",
         "source": "公司公告",
@@ -4628,22 +4635,15 @@ window.STOCKS = [
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=603773",
         "content": ""
-      },
-      {
-        "title": "刚收获4连板！沃格光电公告：控股股东信披违法将被罚",
-        "date": "2026-08-07 22:51:00",
-        "source": "券商中国",
-        "url": "http://finance.eastmoney.com/a/202608073835550024.html",
-        "content": "沃格光电近日已经收获四连板。 　　告知书显示，经查明，沃格光电时任董事长、控股股东、实际控制人易伟华将其持有的1180万股沃格光电无限售条件流通股协议转让至深圳中锦程资产管理有限公司旗下私募基金。"
       }
     ],
     "fund": {
-      "netInflow": 1.51,
-      "turnover": 9.74,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "netInflow": -0.19,
+      "turnover": 10.75,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "华鑫证券",
@@ -4671,15 +4671,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": -115.25,
-      "pe_fwd": 413.3,
-      "peg": 2.11,
-      "pb": 20.23,
-      "mcap_yi": 213.6,
+      "pe_ttm": -113.17,
+      "pe_fwd": 405.9,
+      "peg": 2.07,
+      "pb": 19.86,
+      "mcap_yi": 209.76,
       "eps_cur": 0.23,
       "eps_next": 0.68,
       "analyst_count": 2,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -4873,34 +4873,34 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "上市公司业绩预告折射经济韧性",
-        "date": "2026-08-09 05:41:38",
-        "source": "经济日报",
-        "url": "http://finance.eastmoney.com/a/202608093835874645.html",
-        "content": "以集成电路为例，科创板集成电路上市公司达130家，涵盖芯片设计、制造、封测、设备、材料、软件等产业链各环节，汇聚了海光信息、寒武纪、中芯国际等行业龙头，逐步形成链条完整、协同创新的发展格局，提升了我国集成电路产业的自主化水平。"
-      },
-      {
-        "title": "华尔街加码中国“硬科技”：光通信ETF半数仓位押注，明星ETF重仓长鑫；OpenAI暂停下一代模型部分研发；美联储9月加息概率降至44%，金价涨破4300美元 | 一周国际财经",
-        "date": "2026-08-08 12:01:26",
-        "source": "每日经济新闻",
-        "url": "http://stock.eastmoney.com/a/202608083835830849.html",
-        "content": "富时罗素全球投资研究部高级经理张若芃向每经记者表示，截至2026年7月31日，华虹半导体过去一年股价上涨330%，寒武纪上涨132%，海光信息上涨99%，带动整个硬件板块回报率达71%。"
-      },
-      {
-        "title": "寒武纪(688256.SH)：2026年中报净利润为23.11亿元",
-        "date": "2026-08-08 09:56:49",
+        "title": "本轮存储周期持续上行，国产光刻设备赛道传来重磅利好突破",
+        "date": "2026-08-10 10:43:52",
         "source": "界面新闻",
-        "url": "http://finance.eastmoney.com/a/202608083835805122.html",
-        "content": "2026年8月8日，寒武纪(688256.SH)发布2026年中报。 　　公司营业总收入为59.96亿元。归母净利润为23.11亿元。经营活动现金净流入为3.11亿元，较去年同报告期经营活动现金净流入减少6.00亿元，同比较去年同期下降65.83%。"
+        "url": "http://finance.eastmoney.com/a/202608103836395944.html",
+        "content": "成分股方面涨跌互现，石头科技领涨2.87%，萤石网络上涨2.41%，聚辰股份上涨1.35%；奥普特领跌7.58%，芯原股份下跌7.43%，寒武纪下跌6.98%。拉长时间看，截至2026年8月7日，科创人工智能ETF华夏近1周累计上涨6.72%。"
+      },
+      {
+        "title": "【早知道】中国央行连续第21个月增持黄金；伊朗最高领袖与总统举行会谈",
+        "date": "2026-08-10 07:41:00",
+        "source": "证券时报网",
+        "url": "http://finance.eastmoney.com/a/202608103836048115.html",
+        "content": "寒武纪上半年净利润同比增122.61%。伊朗最高领袖与总统举行会谈，讨论经济和军事等问题。"
+      },
+      {
+        "title": "早新闻 | AI芯片龙头，业绩大增",
+        "date": "2026-08-10 07:38:00",
+        "source": "数据宝",
+        "url": "http://finance.eastmoney.com/a/202608103836049120.html",
+        "content": "公司新闻 　　寒武纪：上半年净利润23.11亿元，同比增长123% 　　摩尔线程：上半年净利润亏损1156.31万元，同比减亏，公司筹划发行H股 　　江波龙：完成37亿元定增事项，发行价格较最新收盘价溢价45% 　　维宏股份：并购基金参股上海洛丁森，将重点推进六维力传感器落地"
       }
     ],
     "fund": {
-      "netInflow": 1.18,
-      "turnover": 2.54,
-      "date": "2026-08-07",
-      "asof": "2026-08-07"
+      "netInflow": 0.72,
+      "turnover": 2.46,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "群益证券",
@@ -4934,15 +4934,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 226.26,
-      "pe_fwd": 137.8,
-      "peg": 1.27,
-      "pb": 55.62,
-      "mcap_yi": 7539.08,
+      "pe_ttm": 214.37,
+      "pe_fwd": 130.5,
+      "peg": 1.2,
+      "pb": 52.69,
+      "mcap_yi": 7143.0,
       "eps_cur": 8.71,
       "eps_next": 18.17,
       "analyst_count": 15,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -5156,12 +5156,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 15.63,
-      "turnover": 6.94,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 20.0,
+      "turnover": 6.7,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "交银国际证券",
@@ -5195,15 +5195,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 101.81,
-      "pe_fwd": 48.7,
-      "peg": 2.07,
-      "pb": 11.83,
-      "mcap_yi": 2787.95,
+      "pe_ttm": 96.95,
+      "pe_fwd": 46.4,
+      "peg": 1.98,
+      "pb": 11.26,
+      "mcap_yi": 2654.78,
       "eps_cur": 8.56,
       "eps_next": 10.57,
       "analyst_count": 20,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -5395,6 +5395,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "上证早知道｜000831，机构净买入1.12亿元；001258，上半年净利同比增715.75%",
+        "date": "2026-08-10 06:51:00",
+        "source": "上海证券报",
+        "url": "http://finance.eastmoney.com/a/202608103836038858.html",
+        "content": "相关公司方面，通富微电是封测领域龙头企业，客户覆盖国际巨头以及各个细分领域龙头，与AMD建立“合资+合作”的紧密战略关系。盛合晶微是芯粒多芯片集成封装引领者，具备全流程先进封测业务布局。"
+      },
+      {
         "title": "什么信号？突破10%“隐形上限”，这只北交所新股战略配售比例扩大至30%",
         "date": "2026-08-07 19:06:08",
         "source": "每日经济新闻",
@@ -5407,22 +5414,15 @@ window.STOCKS = [
         "source": "界面新闻",
         "url": "http://stock.eastmoney.com/a/202608073835169119.html",
         "content": "2026年8月7日盘中，半导体、元件、高带宽内存、存储芯片等板块概念震荡走强；个股方面，截至收盘，芯朋微涨超12%，睿创微纳、聚辰股份、天岳先进、通富微电等跟涨。"
-      },
-      {
-        "title": "通富微电:股票交易异常波动公告",
-        "date": "2026-07-31",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=002156",
-        "content": ""
       }
     ],
     "fund": {
-      "netInflow": 7.27,
-      "turnover": 7.4,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 5.1,
+      "turnover": 4.63,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "开源证券",
@@ -5456,15 +5456,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 67.91,
-      "pe_fwd": 62.8,
-      "peg": 2.49,
-      "pb": 6.32,
-      "mcap_yi": 982.1,
+      "pe_ttm": 66.08,
+      "pe_fwd": 61.1,
+      "peg": 2.42,
+      "pb": 6.15,
+      "mcap_yi": 955.69,
       "eps_cur": 1.03,
       "eps_next": 1.29,
       "analyst_count": 13,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -5678,12 +5678,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 10.09,
-      "turnover": 6.56,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -11.46,
+      "turnover": 5.53,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "中邮证券",
@@ -5717,15 +5717,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 84.21,
-      "pe_fwd": 69.4,
+      "pe_ttm": 84.27,
+      "pe_fwd": 69.5,
       "peg": 2.88,
       "pb": 4.87,
-      "mcap_yi": 1391.27,
+      "mcap_yi": 1392.34,
       "eps_cur": 1.12,
       "eps_next": 1.39,
       "analyst_count": 16,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -5939,12 +5939,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 3.39,
-      "turnover": 8.43,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 4.6,
+      "turnover": 6.53,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "华龙证券",
@@ -5978,15 +5978,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 73.25,
-      "pe_fwd": 56.2,
-      "peg": 2.57,
-      "pb": 3.35,
-      "mcap_yi": 597.41,
+      "pe_ttm": 72.39,
+      "pe_fwd": 55.5,
+      "peg": 2.54,
+      "pb": 3.31,
+      "mcap_yi": 590.44,
       "eps_cur": 0.32,
       "eps_next": 0.39,
       "analyst_count": 2,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -6177,34 +6177,34 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "股市直播|*ST帅电，重大资产重组；两家公司被证监会立案",
+        "date": "2026-08-09 23:33:00",
+        "source": "上海证券报",
+        "url": "http://finance.eastmoney.com/a/202608093836006556.html",
+        "content": "立昂微：披露半年报。公司2026年上半年实现营业收入20.94亿元，同比增长25.72%；实现归属于上市公司股东的净利润8397.26万元，上年同期亏损1.27亿元；基本每股收益0.12元。 　　华智数媒：披露半年报。"
+      },
+      {
+        "title": "半导体硅片板块盈利水平改善 立昂微上半年净利润同比扭亏为盈",
+        "date": "2026-08-09 21:10:00",
+        "source": "证券时报网",
+        "url": "http://finance.eastmoney.com/a/202608093835970924.html",
+        "content": "立昂微是国内少数的半导体垂直一体化平台型企业，横跨半导体硅片、功率半导体、化合物半导体三大细分行业，形成了从前端核心材料到中后端高端芯片的完整产业闭环。 　　谈及经营情况，立昂微认为，上半年净利润扭亏为盈，核心驱动因素为半导体硅片板块盈利水平大幅改善。"
+      },
+      {
         "title": "25家A股上市公司本周披露并购重组最新公告 蓝盾光电拟购买岚创科技控股权明日复牌",
         "date": "2026-08-09 18:11:52",
         "source": "财联社",
         "url": "http://finance.eastmoney.com/a/202608093835946944.html",
         "content": "据财联社不完全统计，截至发稿，本周（8月3日-8月9日）包括蓝盾光电、*ST帅电、立昂微、信通电子、德迈仕、华林证券、森林包装、名家汇、宏昌科技、通化金马、健帆生物、创源股份、华谊集团、锴威特、凯旺科技、兆日科技、福莱特、中赋科技、重庆水务、通宇通讯、中科三环、埃斯顿、东方材料、中孚实业"
-      },
-      {
-        "title": "立昂微(605358.SH)：2026年中报净利润为8397.26万元",
-        "date": "2026-08-08 09:55:52",
-        "source": "界面新闻",
-        "url": "http://finance.eastmoney.com/a/202608083835803284.html",
-        "content": "2026年8月8日，立昂微(605358.SH)发布2026年中报。 　　公司营业总收入为20.94亿元。归母净利润为8397.26万元。经营活动现金净流入为3.70亿元。 　　公司最新资产负债率为41.33%。"
-      },
-      {
-        "title": "立昂微:立昂微第五届董事会第十八次会议决议公告",
-        "date": "2026-08-08",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=605358",
-        "content": ""
       }
     ],
     "fund": {
-      "netInflow": 1.14,
-      "turnover": 3.72,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 0.19,
+      "turnover": 3.39,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "中邮证券",
@@ -6238,15 +6238,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 505.54,
-      "pe_fwd": 128.2,
-      "peg": 1.18,
-      "pb": 3.23,
-      "mcap_yi": 346.56,
+      "pe_ttm": 493.26,
+      "pe_fwd": 125.1,
+      "peg": 1.15,
+      "pb": 3.15,
+      "mcap_yi": 338.15,
       "eps_cur": 0.35,
       "eps_next": 0.73,
       "analyst_count": 4,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -6438,34 +6438,34 @@ window.STOCKS = [
     },
     "news": [
       {
-        "title": "DRAM短缺再确认！苹果紧急采购内存芯片，台积电2nm产能拉满！期货大佬增持，兆易创新涨近8%，芯片ETF汇添富(516920)再涨超2.5%冲击四连阳",
-        "date": "2026-08-07 13:29:09",
-        "source": "界面新闻",
-        "url": "http://stock.eastmoney.com/a/202608073835080190.html",
-        "content": "芯片ETF汇添富（516920）标的指数成分股中有22家已公布业绩预告，20家净利润均同比预增，江波龙、佰维存储、兆易创新等预计大幅翻倍！ 　　本轮半导体景气更多来自AI服务器、高性能计算以及国产替代带来的结构性需求增长。"
+        "title": "宇树科技今日申购；中国央行连续第21个月增持黄金丨盘前情报",
+        "date": "2026-08-10 08:36:00",
+        "source": "21世纪经济报道",
+        "url": "http://finance.eastmoney.com/a/202608103836063141.html",
+        "content": "公告精选 　　江波龙：完成37亿元定增事项，发行价格为560元/股，较最新收盘价溢价45% 　　药明康德：美国法院就公司的初步禁令动议作出裁决 　　*ST实达：公司收到立案通知书 　　*ST航图：公司及实际控制人王宇翔收到立案通知书 　　中京电子：向特定对象发行股票获证监会同意注册批复"
       },
       {
-        "title": "江波龙:关于签订募集资金三方监管协议的公告",
-        "date": "2026-08-07",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301308",
-        "content": ""
+        "title": "早新闻 | AI芯片龙头，业绩大增",
+        "date": "2026-08-10 07:38:00",
+        "source": "数据宝",
+        "url": "http://finance.eastmoney.com/a/202608103836049120.html",
+        "content": "公司新闻 　　寒武纪：上半年净利润23.11亿元，同比增长123% 　　摩尔线程：上半年净利润亏损1156.31万元，同比减亏，公司筹划发行H股 　　江波龙：完成37亿元定增事项，发行价格较最新收盘价溢价45% 　　维宏股份：并购基金参股上海洛丁森，将重点推进六维力传感器落地"
       },
       {
-        "title": "江波龙:关于向特定对象发行股票发行情况报告书披露的提示性公告",
-        "date": "2026-08-07",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=301308",
-        "content": ""
+        "title": "【早报】宇树科技，今日申购；伊方批准霍尔木兹海峡安全纲要；寒武纪、江波龙、药明康德发布重要公告",
+        "date": "2026-08-10 07:00:00",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202608103836040881.html",
+        "content": "2、江波龙完成37亿元定增事项，发行价格为560元/股，较最新收盘价溢价45%。 　　3、摩尔线程公告称，2026年上半年实现营收17.36亿元，同比大幅增长147.42%。 　　4、药明康德公告称，美国法院就公司的初步禁令动议作出裁决，挑战1260H认定期间免受不利影响。"
       }
     ],
     "fund": {
-      "netInflow": 2.23,
-      "turnover": 5.46,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 5.56,
+      "turnover": 7.74,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "国信证券",
@@ -6499,15 +6499,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 30.08,
-      "pe_fwd": 11.8,
+      "pe_ttm": 31.27,
+      "pe_fwd": 12.3,
       "peg": null,
-      "pb": 13.57,
-      "mcap_yi": 1089.64,
+      "pb": 14.11,
+      "mcap_yi": 1132.65,
       "eps_cur": 32.72,
       "eps_next": 27.41,
       "analyst_count": 8,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -6706,14 +6706,14 @@ window.STOCKS = [
         "content": ""
       },
       {
-        "title": "德明利:关于控股股东认购的2023年向特定对象发行股票限售股解除限售上市流通并承诺十二个月内不减持公司股票的提示性公告",
-        "date": "2026-07-28",
-        "source": "公司公告",
-        "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=001309",
-        "content": ""
+        "title": "德明利：关于回购注销2023年和2024年限制性股票激励计划部分限制性股票完成的公告",
+        "date": "2026-08-09 19:12:00",
+        "source": "证券日报",
+        "url": "http://finance.eastmoney.com/a/202608093835958926.html",
+        "content": "证券日报网讯 8月9日，德明利发布关于回购注销2023年和2024年限制性股票激励计划部分限制性股票完成的公告称，公司2026年第二次临时股东大会审议通过回购注销2023年和2024年限制性股票激励计划部分限制性股票的议案，决定回购注销2名离职员工已获授尚未解除限售的限制性股票共2788"
       },
       {
-        "title": "德明利:华泰联合证券有限责任公司关于深圳市德明利技术股份有限公司2023年向特定对象发行股票部分限售股解除限售并上市流通的核查意见",
+        "title": "德明利:关于控股股东认购的2023年向特定对象发行股票限售股解除限售上市流通并承诺十二个月内不减持公司股票的提示性公告",
         "date": "2026-07-28",
         "source": "公司公告",
         "url": "https://np-anotice-stock.eastmoney.com/api/security/ann?stock_list=001309",
@@ -6721,12 +6721,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 1.96,
-      "turnover": 16.63,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 4.55,
+      "turnover": 8.48,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "国信证券",
@@ -6760,15 +6760,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 22.34,
-      "pe_fwd": 11.4,
+      "pe_ttm": 21.85,
+      "pe_fwd": 11.1,
       "peg": null,
-      "pb": 13.84,
-      "mcap_yi": 666.98,
+      "pb": 13.53,
+      "mcap_yi": 652.16,
       "eps_cur": 35.46,
       "eps_next": 29.85,
       "analyst_count": 3,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -6983,12 +6983,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 3.1,
-      "turnover": 4.19,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -1.69,
+      "turnover": 2.67,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "中邮证券",
@@ -7022,15 +7022,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 88.03,
-      "pe_fwd": 68.5,
-      "peg": 2.6,
-      "pb": 11.76,
-      "mcap_yi": 2381.95,
+      "pe_ttm": 84.99,
+      "pe_fwd": 65.8,
+      "peg": 2.5,
+      "pb": 11.35,
+      "mcap_yi": 2289.58,
       "eps_cur": 1.86,
       "eps_next": 2.35,
       "analyst_count": 15,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -7222,6 +7222,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "【明日主题前瞻】AI时代的关键数字底座，6G标准化与关键技术验证正加速推进",
+        "date": "2026-08-09 20:18:04",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202608093835965797.html",
+        "content": "风华高科是国内被动电子元件行业龙头，核心产品MLCC、片式电阻器均为“国家级制造业单项冠军产品”。"
+      },
+      {
         "title": "今日这些个股异动 主力加仓电子、有色金属板块",
         "date": "2026-08-07 16:26:22",
         "source": "第一财经",
@@ -7234,22 +7241,15 @@ window.STOCKS = [
         "source": "第一财经",
         "url": "http://finance.eastmoney.com/a/202608063834198861.html",
         "content": "国内厂商如风华高科、三环集团等发布的半年报预告也实现业绩预增。 　　与此同时，龙头企业开始新一轮产品涨价，被动元器件市场的供需格局正被改写。"
-      },
-      {
-        "title": "今日这些个股异动 主力加仓通信、基础化工板块",
-        "date": "2026-08-06 16:28:32",
-        "source": "第一财经",
-        "url": "http://finance.eastmoney.com/a/202608063833882334.html",
-        "content": "主力资金今日净流入通信、基础化工、医药生物、建筑材料、煤炭等板块，净流出计算机、传媒、电力设备、有色金属、汽车等板块； 　　-天孚通信、胜宏科技、长电科技、多氟多、景旺电子主力资金净流入规模居前，分别净流入12.01亿元、8.94亿元、7.44亿元、7.39亿元、6.48亿元； 　　-宁德时代、风华高科"
       }
     ],
     "fund": {
-      "netInflow": 9.84,
-      "turnover": 19.11,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -6.89,
+      "turnover": 11.74,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "中邮证券",
@@ -7283,15 +7283,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 219.47,
-      "pe_fwd": 100.5,
-      "peg": 4.86,
-      "pb": 5.45,
-      "mcap_yi": 674.42,
+      "pe_ttm": 220.71,
+      "pe_fwd": 101.1,
+      "peg": 4.89,
+      "pb": 5.48,
+      "mcap_yi": 678.24,
       "eps_cur": 0.58,
       "eps_next": 0.7,
       "analyst_count": 4,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -7505,12 +7505,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 2.72,
-      "turnover": 9.06,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 1.06,
+      "turnover": 3.65,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "华鑫证券",
@@ -7544,15 +7544,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 94.54,
-      "pe_fwd": 42.2,
-      "peg": 1.36,
-      "pb": 3.91,
-      "mcap_yi": 238.97,
+      "pe_ttm": 91.65,
+      "pe_fwd": 40.9,
+      "peg": 1.32,
+      "pb": 3.79,
+      "mcap_yi": 231.65,
       "eps_cur": 1.19,
       "eps_next": 1.56,
       "analyst_count": 13,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -7766,12 +7766,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 5.59,
-      "turnover": 21.72,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -2.43,
+      "turnover": 14.54,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "华鑫证券",
@@ -7805,15 +7805,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 110.19,
-      "pe_fwd": 84.4,
-      "peg": 3.22,
-      "pb": 9.64,
-      "mcap_yi": 604.66,
+      "pe_ttm": 116.67,
+      "pe_fwd": 89.3,
+      "peg": 3.41,
+      "pb": 10.21,
+      "mcap_yi": 640.23,
       "eps_cur": 0.84,
       "eps_next": 1.06,
       "analyst_count": 20,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -8005,34 +8005,34 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "上证早知道｜000831，机构净买入1.12亿元；001258，上半年净利同比增715.75%",
+        "date": "2026-08-10 06:51:00",
+        "source": "上海证券报",
+        "url": "http://finance.eastmoney.com/a/202608103836038858.html",
+        "content": "相关公司方面，信维通信在商业卫星通信领域已实现频高速连接器批量供货，进一步拓展阵列天线及模组等新产品。雷科防务面向商业遥感、卫星通信、太空算力等前沿方向，自研标准化、通用化星上智算产品取得阶段性突破，成功斩获多项商业航天订单。"
+      },
+      {
+        "title": "【明日主题前瞻】AI时代的关键数字底座，6G标准化与关键技术验证正加速推进",
+        "date": "2026-08-09 20:18:04",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202608093835965797.html",
+        "content": "信维通信持续深化LCP材料工艺研发，开展6G前沿技术及先进材料研究，联合相关领域客户共同推进基于LCP的高频高速解决方案，部分方案已在国内外客户多个场景实现量产应用，同时也在新兴的应用场景中推进客户验证与业务导入。"
+      },
+      {
         "title": "英伟达一则利好引爆！6G龙头002792，5天4板，昨晚刚发完澄清公告",
         "date": "2026-08-07 11:00:00",
         "source": "华夏时报",
         "url": "http://finance.eastmoney.com/a/202608073834979648.html",
         "content": "武汉凡谷2连板，广哈通信涨超10%，盛路通信、灿勤科技、信维通信、本川智能涨幅靠前。 　　消息面上，英伟达正在加速进入电信运营商市场，并在中国寻找基站厂商合作方，开发符合海外市场要求的6G基站。"
-      },
-      {
-        "title": "长征八号甲遥十圆满发射卫星互联网低轨23组，多项关键技术实现突破；SpaceX拟建地面基础设施与卫星网络互补，向美国电信三巨头发起挑战——《投资早参》",
-        "date": "2026-08-06 08:32:53",
-        "source": "每日经济新闻",
-        "url": "http://finance.eastmoney.com/a/202608063833210145.html",
-        "content": "概念股包括华力创通、信维通信、中国卫星等。 　　3、8月5日，字节跳动正式推出原生音视频全双工大模型SeedRealtime。SeedRealtime用统一架构原生融合音频、视频与文本，能在连续的多模态信息流上实时交互，带来“边看、边听、边说”的全新体验。"
-      },
-      {
-        "title": "通信行业上市公司并购活跃 加速实现资源整合",
-        "date": "2026-08-06 07:38:00",
-        "source": "证券日报",
-        "url": "http://finance.eastmoney.com/a/202608063832942795.html",
-        "content": "7月14日，深圳市信维通信股份有限公司（以下简称“信维通信”）披露，公司全资子公司信维通信（益阳）有限公司（以下简称“益阳信维”）拟以不超过11亿元收购信维电子科技（益阳）有限公司（以下简称“益阳电子科技”）55%的股权。"
       }
     ],
     "fund": {
-      "netInflow": 1.41,
-      "turnover": 9.13,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 0.8,
+      "turnover": 5.22,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "华鑫证券",
@@ -8066,15 +8066,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 89.54,
-      "pe_fwd": 59.8,
-      "peg": 1.31,
-      "pb": 8.26,
-      "mcap_yi": 562.13,
+      "pe_ttm": 88.46,
+      "pe_fwd": 59.0,
+      "peg": 1.29,
+      "pb": 8.17,
+      "mcap_yi": 555.36,
       "eps_cur": 1.14,
       "eps_next": 1.66,
       "analyst_count": 4,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -8288,12 +8288,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 1.05,
-      "turnover": 1.12,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -0.2,
+      "turnover": 0.68,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "东吴证券",
@@ -8327,15 +8327,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 134.68,
-      "pe_fwd": 74.1,
-      "peg": 1.36,
-      "pb": 12.6,
-      "mcap_yi": 1206.83,
+      "pe_ttm": 128.21,
+      "pe_fwd": 70.5,
+      "peg": 1.3,
+      "pb": 12.0,
+      "mcap_yi": 1148.78,
       "eps_cur": 3.83,
       "eps_next": 5.91,
       "analyst_count": 9,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -8549,12 +8549,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 3.01,
-      "turnover": 5.65,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -2.77,
+      "turnover": 3.13,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "东吴证券",
@@ -8588,15 +8588,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 51.67,
-      "pe_fwd": 38.7,
-      "peg": 0.72,
-      "pb": 4.78,
-      "mcap_yi": 954.34,
+      "pe_ttm": 48.87,
+      "pe_fwd": 36.6,
+      "peg": 0.68,
+      "pb": 4.53,
+      "mcap_yi": 902.67,
       "eps_cur": 2.58,
       "eps_next": 3.96,
       "analyst_count": 14,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -8813,12 +8813,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 13.95,
-      "turnover": 0.92,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 2.23,
+      "turnover": 0.55,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "金元证券",
@@ -8852,15 +8852,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 33.28,
-      "pe_fwd": 22.2,
-      "peg": 0.65,
-      "pb": 8.28,
-      "mcap_yi": 13529.7,
+      "pe_ttm": 33.59,
+      "pe_fwd": 22.4,
+      "peg": 0.66,
+      "pb": 8.36,
+      "mcap_yi": 13654.72,
       "eps_cur": 3.07,
       "eps_next": 4.12,
       "analyst_count": 20,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -9054,6 +9054,13 @@ window.STOCKS = [
     },
     "news": [
       {
+        "title": "【早报】宇树科技，今日申购；伊方批准霍尔木兹海峡安全纲要；寒武纪、江波龙、药明康德发布重要公告",
+        "date": "2026-08-10 07:00:00",
+        "source": "财联社",
+        "url": "http://finance.eastmoney.com/a/202608103836040881.html",
+        "content": "10、阳光电源在互动平台称，FCC政策主要限制新产品认证，不影响已获认证产品的销售。 　　环球市场 　　1、美股三大指数上周五集体收涨，均创4月中旬以来最大单周涨幅。"
+      },
+      {
         "title": "美将外国电力逆变器列入“覆盖清单”，A股龙头回应相关影响",
         "date": "2026-08-09 12:25:00",
         "source": "证券时报",
@@ -9066,22 +9073,15 @@ window.STOCKS = [
         "source": "央广财经",
         "url": "http://finance.eastmoney.com/a/202608083835856495.html",
         "content": "8月8日，阳光电源（300274.SZ）在互动平台公开回应称，公司目前初步判断，FCC政策主要限制新产品认证，不影响已获认证产品的销售，公司目前在美销售的光伏逆变器、储能系统不受影响。"
-      },
-      {
-        "title": "A股股票回购一览：27家公司披露回购进展",
-        "date": "2026-08-08 08:20:36",
-        "source": "第一财经",
-        "url": "http://finance.eastmoney.com/a/202608083835788089.html",
-        "content": "从回购实施进展来看，凯普生物、阳光电源、日月明回购金额最高，分别回购7499.1万元、4999.38万元、2553.41万元。 　　从已完成回购来看，当日共7家公司回购金额超千万。爱玛科技、仙琚制药、新朋股份已完成回购金额最高，分别回购3.0亿元、1.5亿元、1.2亿元。"
       }
     ],
     "fund": {
-      "netInflow": 5.25,
-      "turnover": 1.64,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 6.04,
+      "turnover": 2.92,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "东吴证券",
@@ -9115,15 +9115,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 19.84,
-      "pe_fwd": 15.3,
-      "peg": 0.69,
-      "pb": 5.01,
-      "mcap_yi": 1812.32,
+      "pe_ttm": 19.61,
+      "pe_fwd": 15.2,
+      "peg": 0.68,
+      "pb": 4.95,
+      "mcap_yi": 1790.57,
       "eps_cur": 7.44,
       "eps_next": 9.1,
       "analyst_count": 29,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -9337,12 +9337,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.45,
-      "turnover": 0.57,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 1.46,
+      "turnover": 0.72,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "国信证券",
@@ -9376,15 +9376,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 29.56,
-      "pe_fwd": 19.4,
+      "pe_ttm": 29.46,
+      "pe_fwd": 19.3,
       "peg": 0.73,
-      "pb": 10.87,
-      "mcap_yi": 1079.95,
+      "pb": 10.84,
+      "mcap_yi": 1076.26,
       "eps_cur": 4.37,
       "eps_next": 5.53,
       "analyst_count": 23,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -9598,12 +9598,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.58,
-      "turnover": 6.05,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -1.6,
+      "turnover": 4.0,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "东吴证券",
@@ -9637,15 +9637,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 475.08,
-      "pe_fwd": 84.1,
-      "peg": 1.0,
-      "pb": 8.13,
-      "mcap_yi": 611.66,
+      "pe_ttm": 458.16,
+      "pe_fwd": 81.1,
+      "peg": 0.97,
+      "pb": 7.84,
+      "mcap_yi": 589.88,
       "eps_cur": 1.48,
       "eps_next": 2.72,
       "analyst_count": 12,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -9859,12 +9859,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 2.48,
-      "turnover": 4.41,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 0.77,
+      "turnover": 5.56,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "国信证券",
@@ -9898,15 +9898,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 172.4,
-      "pe_fwd": 87.1,
-      "peg": 1.48,
-      "pb": 9.24,
-      "mcap_yi": 223.69,
+      "pe_ttm": 168.57,
+      "pe_fwd": 85.2,
+      "peg": 1.45,
+      "pb": 9.03,
+      "mcap_yi": 218.72,
       "eps_cur": 0.46,
       "eps_next": 0.73,
       "analyst_count": 6,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -10120,12 +10120,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 2.21,
-      "turnover": 2.55,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -0.49,
+      "turnover": 2.47,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "东吴证券",
@@ -10159,15 +10159,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 54.58,
+      "pe_ttm": 54.62,
       "pe_fwd": 45.4,
-      "peg": 2.34,
+      "peg": 2.35,
       "pb": 3.13,
-      "mcap_yi": 721.21,
+      "mcap_yi": 721.72,
       "eps_cur": 0.31,
       "eps_next": 0.37,
       "analyst_count": 12,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -10382,11 +10382,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 0.41,
-      "turnover": 4.26,
-      "date": "2026-08-08",
-      "asof": "2026-08-08"
+      "turnover": 3.4,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "东吴证券",
@@ -10420,15 +10420,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 44.63,
-      "pe_fwd": 38.3,
-      "peg": 2.42,
-      "pb": 8.38,
-      "mcap_yi": 379.29,
+      "pe_ttm": 44.38,
+      "pe_fwd": 38.1,
+      "peg": 2.41,
+      "pb": 8.33,
+      "mcap_yi": 377.15,
       "eps_cur": 1.2,
       "eps_next": 1.39,
       "analyst_count": 17,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -10644,12 +10644,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 1.71,
-      "turnover": 3.15,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 3.42,
+      "turnover": 2.2,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "国金证券",
@@ -10683,15 +10683,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 147.62,
-      "pe_fwd": 60.8,
-      "peg": 0.85,
-      "pb": 21.62,
-      "mcap_yi": 631.93,
+      "pe_ttm": 144.9,
+      "pe_fwd": 59.6,
+      "peg": 0.83,
+      "pb": 21.22,
+      "mcap_yi": 620.28,
       "eps_cur": 0.92,
       "eps_next": 1.58,
       "analyst_count": 12,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -10907,11 +10907,11 @@ window.STOCKS = [
     ],
     "fund": {
       "netInflow": 0.01,
-      "turnover": 2.35,
-      "date": "2026-08-08",
-      "asof": "2026-08-08"
+      "turnover": 1.25,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "西南证券",
@@ -10945,15 +10945,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 22.0,
-      "pe_fwd": 34.9,
-      "peg": 1.29,
-      "pb": 8.19,
-      "mcap_yi": 1141.27,
+      "pe_ttm": 21.3,
+      "pe_fwd": 33.8,
+      "peg": 1.25,
+      "pb": 7.93,
+      "mcap_yi": 1104.62,
       "eps_cur": 2.0,
       "eps_next": 2.54,
       "analyst_count": 13,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -11167,12 +11167,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 6.13,
-      "turnover": 15.5,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 2.6,
+      "turnover": 9.3,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "中邮证券",
@@ -11206,15 +11206,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 1251.69,
-      "pe_fwd": 101.6,
-      "peg": 0.96,
-      "pb": 36.34,
-      "mcap_yi": 288.89,
+      "pe_ttm": 1215.64,
+      "pe_fwd": 98.6,
+      "peg": 0.94,
+      "pb": 35.29,
+      "mcap_yi": 280.57,
       "eps_cur": 2.01,
       "eps_next": 4.13,
       "analyst_count": 6,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -11428,12 +11428,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 8.17,
-      "turnover": 22.47,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -0.32,
+      "turnover": 9.46,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "国信证券",
@@ -11467,15 +11467,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 88.94,
-      "pe_fwd": 88.8,
-      "peg": 9.77,
-      "pb": 4.75,
-      "mcap_yi": 408.48,
+      "pe_ttm": 86.34,
+      "pe_fwd": 86.2,
+      "peg": 9.48,
+      "pb": 4.61,
+      "mcap_yi": 396.56,
       "eps_cur": 0.22,
       "eps_next": 0.24,
       "analyst_count": 1,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -11689,12 +11689,12 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 1.42,
-      "turnover": 10.22,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -0.01,
+      "turnover": 6.84,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "中航证券",
@@ -11728,15 +11728,15 @@ window.STOCKS = [
       }
     ],
     "valuation": {
-      "pe_ttm": 238.26,
-      "pe_fwd": 115.4,
-      "peg": 13.08,
-      "pb": 5.21,
-      "mcap_yi": 191.55,
+      "pe_ttm": 247.97,
+      "pe_fwd": 120.1,
+      "peg": 13.61,
+      "pb": 5.43,
+      "mcap_yi": 199.36,
       "eps_cur": 0.34,
       "eps_next": 0.37,
       "analyst_count": 1,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -11949,7 +11949,7 @@ window.STOCKS = [
         "content": "多家头部厂商上调MLCC价格 　　8月4日午后，MLCC概念活跃，概念指数收涨5.22%，博杰股份涨停，洁美科技、斯迪克、红星发展、火炬电子、风华高科等股均涨超5%。"
       }
     ],
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "research": [
       {
         "org": "华鑫证券",
@@ -11971,21 +11971,21 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 0.9,
-      "turnover": 7.97,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": -0.04,
+      "turnover": 9.72,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
     "valuation": {
-      "pe_ttm": 121.99,
+      "pe_ttm": 121.18,
       "pe_fwd": null,
       "peg": null,
-      "pb": 4.52,
-      "mcap_yi": 106.12,
+      "pb": 4.49,
+      "mcap_yi": 105.41,
       "eps_cur": null,
       "eps_next": null,
       "analyst_count": 0,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   },
   {
@@ -12188,10 +12188,10 @@ window.STOCKS = [
       }
     ],
     "fund": {
-      "netInflow": 4.86,
-      "turnover": 13.44,
-      "date": "2026-08-05",
-      "asof": "2026-08-05"
+      "netInflow": 1.77,
+      "turnover": 7.17,
+      "date": "2026-08-10",
+      "asof": "2026-08-10"
     },
     "news": [
       {
@@ -12216,17 +12216,17 @@ window.STOCKS = [
         "content": ""
       }
     ],
-    "newsAsof": "2026-08-09",
+    "newsAsof": "2026-08-10",
     "valuation": {
-      "pe_ttm": 70.33,
-      "pe_fwd": 52.6,
-      "peg": 2.32,
-      "pb": 8.9,
-      "mcap_yi": 473.9,
+      "pe_ttm": 72.35,
+      "pe_fwd": 54.1,
+      "peg": 2.39,
+      "pb": 9.16,
+      "mcap_yi": 487.5,
       "eps_cur": 2.83,
       "eps_next": 3.47,
       "analyst_count": 9,
-      "asof": "2026-08-09"
+      "asof": "2026-08-10"
     }
   }
 ];
