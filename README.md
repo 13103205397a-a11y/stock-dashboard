@@ -88,7 +88,6 @@ python3 scripts/build_site.py --list-files
 | `scripts/fetch_enhanced.py` | `data.js` 的资金、研报和估值 |
 | `scripts/fetch_market.py` | `market.js` |
 | `scripts/push_xbrief.py` | `xbriefs.js` |
-| `scripts/fetch_weekend.py` | `weekend.js` |
 
 统一刷新计划只保留仍服务活跃模块的步骤：
 
@@ -148,8 +147,6 @@ open "股市看板.app"
 python3 scripts/run_refresh.py
 ```
 
-历史脚本 `scripts/sync_hermes_dashboard.py` / `fetch_hermes_module.py` 仅保留兼容，默认日常流程不再调用。
-
 ### 质量门禁
 
 ```bash
@@ -159,18 +156,15 @@ npm run test:e2e
 python3 scripts/build_site.py _site
 ```
 
-- `quality.yml` 在每次推送和 Pull Request 中执行语法检查、数据契约、新鲜度、单元/集成测试、桌面与手机浏览器 E2E；另在 macOS runner 上执行 `swiftc -typecheck app/main.swift`。
-- `pages.yml` 在上传和部署前重新执行完整单元测试和浏览器 E2E。任何 E2E 失败都会阻止部署。
-- 部署成功后，Pages 使用 `build_site.py --list-files` 探测全部实际公开文件。
-- `refresh-signals.yml` 只生成并提交 `data.js`、`meta.js` 和 `market.js`，不会改写 Agent 研究模块文件。
-- `ai-stale-watch.yml` 根据活跃模块清单巡检外围热点、逻辑链、今日热点事件和周末发酵。历史 `review` 字段仅用于现有卡片展示，不再对应生成任务或新鲜度门禁。
+- 项目已转向**本地优先**：GitHub Actions 工作流（quality / pages / refresh-signals / ai-stale-watch）已归档到 `archive/github-workflows/`，不再参与日常流程；本地质量门禁以 `npm test` + `npm run test:e2e` 为准。
+- 历史 `review` 字段仅用于现有卡片展示，不再对应生成任务或新鲜度门禁。
 
 ### 关键文件
 
 | 文件 | 作用 |
 |---|---|
 | `index.html` / `app.js` / `app_ai_modules.js` | 页面结构、交互和研究模块渲染 |
-| `styles.css` / `design-system.css` / `claude-theme.css` / `warm-desk.css` | 样式层：基础 → 设计系统 → 暖色主题 → 研究台版式覆盖 |
+| `styles.css` / `design-system.css` / `claude-theme.css` / `warm-desk.css` | 样式层：基础 → 设计系统（已属性级精简）→ 暖色主题 → 研究台版式覆盖 |
 | `active_modules.json` | 活跃模块、数据契约、新鲜度和 Agent 交付配置 |
 | `public_files.json` | 公开前端核心资源 |
 | `scripts/build_site.py` | 确定性公开构建与探针清单 |
@@ -178,8 +172,7 @@ python3 scripts/build_site.py _site
 | `scripts/check_freshness.js` | 按北京时间及工作日计算的新鲜度门禁 |
 | `scripts/refresh_plan.json` | 本地与 Mac App 共用的活跃刷新步骤 |
 | `scripts/run_grok_xbrief.py` | Grok 只读 X 观察、去重、受控发布与行情刷新 |
-| `launchd/com.stockdashboard.grok-xbrief.plist` | macOS 每日 23:00、跑完即退出的后台任务 |
-| `scripts/sync_hermes_dashboard.py` | 旧 Hermes 同步器（兼容保留，默认不跑） |
+| `launchd/com.stockdashboard.grok-xbrief.plist` | macOS 每 2 小时采集、08:00 早报 / 23:00 晚报 + 行情的后台任务 |
 
 ### 增删模块
 

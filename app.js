@@ -44,6 +44,13 @@
     ["market.js", "市场异动数据"],
     ["industry.js", "行业数据"],
   ];
+  // 逻辑链强度评级：与 app_ai_modules.js 共用同一份（app_ai_modules.js 从 App 解构）
+  const logicStrengthRank = { "强": 3, "中": 2, "弱": 1 };
+  // 退休文件名 → 预编译正则（避免每次 cleanDisplayText 调用都 new RegExp）
+  const RETIRED_SOURCE_PATTERNS = RETIRED_SOURCE_FILES.map(([name, label]) => [
+    new RegExp(`(?<![A-Za-z0-9_])${name.replace(".", "\\.")}(?![A-Za-z0-9_])`, "gi"),
+    label,
+  ]);
   const cleanDisplayText = (value) => {
     if (value == null) return "";
     let text = String(value)
@@ -61,8 +68,8 @@
       .replace(/(?<![A-Za-z0-9_])(?:thsStrong|thsHot)(?![A-Za-z0-9_])\s*[:：]?\s*/gi, " ")
       .replace(/(?<![A-Za-z0-9_])break\s*=\s*\d+\s*(?:次)?(?![A-Za-z0-9_])/gi, " ")
       .replace(/(?<![A-Za-z0-9_])confidence\s*=\s*([\w\u4e00-\u9fff-]+)/gi, "置信度：$1");
-    for (const [name, label] of RETIRED_SOURCE_FILES) {
-      text = text.replace(new RegExp(`(?<![A-Za-z0-9_])${name.replace(".", "\\.")}(?![A-Za-z0-9_])`, "gi"), label);
+    for (const [pattern, label] of RETIRED_SOURCE_PATTERNS) {
+      text = text.replace(pattern, label);
     }
     text = text
       // Hermes 偶尔把生成过程当成报告正文保存；只清理开头，避免误伤正文引用。
@@ -339,16 +346,19 @@
   const trendRank = { "多头排列": 2, "震荡": 1, "空头排列": 0 };
   function sortList(list) {
     const by = state.sort;
-    if (by === "default") return list;
     const arr = list.slice();
     const g = (s) => s.signal || {};
+    // 「跌超25%」筛选且未显式选排序时，默认按回撤从深到浅排，方便先看最惨的
+    if (by === "default" && state.verdict === "drawdown") {
+      arr.sort((a, b) => (drawdownPct(g(b)) ?? -1) - (drawdownPct(g(a)) ?? -1));
+      return arr;
+    }
+    if (by === "default") return arr;
     if (by === "chg") arr.sort((a, b) => (g(b).chgPct ?? -99) - (g(a).chgPct ?? -99));
     else if (by === "toBreakout") arr.sort((a, b) => (g(a).toBreakoutPct ?? 999) - (g(b).toBreakoutPct ?? 999));
     else if (by === "pullback") arr.sort((a, b) => (g(a).pullbackPct ?? 999) - (g(b).pullbackPct ?? 999));
     else if (by === "drawdown") arr.sort((a, b) => (drawdownPct(g(b)) ?? -1) - (drawdownPct(g(a)) ?? -1));
     else if (by === "trend") arr.sort((a, b) => (trendRank[g(b).trend] ?? -1) - (trendRank[g(a).trend] ?? -1) || (g(b).posPct ?? -99) - (g(a).posPct ?? -99));
-    // 「跌超25%」筛选时默认按回撤从深到浅排，方便先看最惨的
-    else if (state.verdict === "drawdown") arr.sort((a, b) => (drawdownPct(g(b)) ?? -1) - (drawdownPct(g(a)) ?? -1));
     return arr;
   }
 
@@ -371,7 +381,17 @@
   }
 
   const sgn = (n) => (n > 0 ? "up" : n < 0 ? "down" : "");
-  const pct = (n) => (n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(1) + "%");  // 主力净流入（亿元，A股惯例：流入为红、流出为绿）
+  // 安全数值：字段可能是数字字符串或异常值，统一转有限数字，失败返回 NaN。
+  const toNum = (v) => {
+    if (v == null) return NaN;
+    const n = typeof v === "number" ? v : Number(v);
+    return Number.isFinite(n) ? n : NaN;
+  };
+  const fmtNum = (v, digits, suffix = "") => {
+    const n = toNum(v);
+    return Number.isFinite(n) ? n.toFixed(digits) + suffix : "—";
+  };
+  const pct = (n) => { const x = toNum(n); return !Number.isFinite(x) ? "—" : (x > 0 ? "+" : "") + x.toFixed(1) + "%"; };  // 主力净流入（亿元，A股惯例：流入为红、流出为绿）
   const fundChip = (s) => {
     const f = s.fund;
     if (!f || f.netInflow == null) return "";
@@ -528,8 +548,10 @@
 
   function showDrawer() {
     const drawer = $("#drawer");
-    if (!drawer.classList.contains("show") && document.activeElement instanceof HTMLElement) {
-      drawerReturnFocus = document.activeElement;
+    // 每次打开都更新返回焦点引用（含抽屉内跳转另一标的），关闭时回到最后触发的元素。
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && !drawer.contains(active)) {
+      drawerReturnFocus = active;
     }
     document.body.style.overflow = "hidden";
     drawer.classList.add("show");
@@ -551,11 +573,22 @@
 
   // 统一入口：巨头核心走完整叙事版，其他关联标的走轻量版。
   function openDrawer(code) {
-    const s = STOCKS.find((x) => x.code === code);
-    if (s) return renderWatchDrawer(s);
-    const m = findMarketStock(code);
-    if (m) return renderMarketDrawer(m);
-    showToast(`暂未找到股票 ${code} 的详情数据`, "error");
+    try {
+      const s = STOCKS.find((x) => x.code === code);
+      if (s) return renderWatchDrawer(s);
+      const m = findMarketStock(code);
+      if (m) return renderMarketDrawer(m);
+      showToast(`暂未找到股票 ${code} 的详情数据`, "error");
+    } catch (err) {
+      console.warn("openDrawer 渲染失败", err);
+      const drawer = $("#drawerInner");
+      if (drawer) {
+        drawer.innerHTML = `
+          ${drawerHeadHtml("数据异常", String(code || ""), "无法显示详情")}
+          <div class="dsec"><p class="dnarr" role="alert">该条目数据异常，无法显示详情</p></div>`;
+      }
+      showDrawer();
+    }
   }
 
   // 从 MARKET 各池里找这只票(含龙虎榜 + 全局引用索引)
@@ -608,7 +641,7 @@
         </div>
         ${s.fund ? `<div class="fund-row${isFundStale(s.fund) ? " fund-stale" : ""}">
           <span class="fr-lab">主力资金（同花顺 ${esc(s.fund.date || "")}${isFundStale(s.fund) ? " · 非当日" : ""}）</span>
-          <span class="fr-val ${s.fund.netInflow > 0 ? "up" : s.fund.netInflow < 0 ? "down" : ""}">净流入 ${s.fund.netInflow == null ? "—" : (s.fund.netInflow > 0 ? "+" : "") + s.fund.netInflow + " 亿"}</span>
+          <span class="fr-val ${(() => { const ni = toNum(s.fund.netInflow); return Number.isFinite(ni) ? sgn(ni) : ""; })()}">净流入 ${(() => { const ni = toNum(s.fund.netInflow); return Number.isFinite(ni) ? (ni > 0 ? "+" : "") + ni + " 亿" : "—"; })()}</span>
           <span class="fr-val">换手 ${s.fund.turnover == null ? "—" : s.fund.turnover + "%"}</span>
         </div>` : ""}
       </div>` : "";
@@ -620,13 +653,13 @@
       ${s.valuation ? `<div class="dsec">
         <h3>估值面板 <span class="src-note">机构一致预期 · ${esc(s.valuation.asof || "")}</span></h3>
         <div class="val-grid">
-          <div class="vm"><span class="vm-l">PE(TTM)</span><span class="vm-v">${s.valuation.pe_ttm == null ? "—" : s.valuation.pe_ttm.toFixed(1)}</span></div>
-          <div class="vm"><span class="vm-l">前向PE</span><span class="vm-v">${s.valuation.pe_fwd == null ? "—" : s.valuation.pe_fwd.toFixed(1)}</span></div>
-          <div class="vm"><span class="vm-l">PEG</span><span class="vm-v ${s.valuation.peg != null && s.valuation.peg < 1 ? "up" : s.valuation.peg != null && s.valuation.peg > 2 ? "down" : ""}">${s.valuation.peg == null ? "—" : s.valuation.peg.toFixed(2)}</span></div>
-          <div class="vm"><span class="vm-l">PB</span><span class="vm-v">${s.valuation.pb == null ? "—" : s.valuation.pb.toFixed(2)}</span></div>
-          <div class="vm"><span class="vm-l">总市值</span><span class="vm-v">${s.valuation.mcap_yi == null ? "—" : s.valuation.mcap_yi.toFixed(0) + "亿"}</span></div>
-          <div class="vm"><span class="vm-l">今年EPS</span><span class="vm-v">${s.valuation.eps_cur == null ? "—" : s.valuation.eps_cur.toFixed(2)}</span></div>
-          <div class="vm"><span class="vm-l">明年EPS</span><span class="vm-v">${s.valuation.eps_next == null ? "—" : s.valuation.eps_next.toFixed(2)}</span></div>
+          <div class="vm"><span class="vm-l">PE(TTM)</span><span class="vm-v">${fmtNum(s.valuation.pe_ttm, 1)}</span></div>
+          <div class="vm"><span class="vm-l">前向PE</span><span class="vm-v">${fmtNum(s.valuation.pe_fwd, 1)}</span></div>
+          <div class="vm"><span class="vm-l">PEG</span><span class="vm-v ${(() => { const p = toNum(s.valuation.peg); return p < 1 ? "up" : p > 2 ? "down" : ""; })()}">${fmtNum(s.valuation.peg, 2)}</span></div>
+          <div class="vm"><span class="vm-l">PB</span><span class="vm-v">${fmtNum(s.valuation.pb, 2)}</span></div>
+          <div class="vm"><span class="vm-l">总市值</span><span class="vm-v">${fmtNum(s.valuation.mcap_yi, 0, "亿")}</span></div>
+          <div class="vm"><span class="vm-l">今年EPS</span><span class="vm-v">${fmtNum(s.valuation.eps_cur, 2)}</span></div>
+          <div class="vm"><span class="vm-l">明年EPS</span><span class="vm-v">${fmtNum(s.valuation.eps_next, 2)}</span></div>
           <div class="vm"><span class="vm-l">覆盖机构</span><span class="vm-v">${s.valuation.analyst_count == null ? "—" : s.valuation.analyst_count + "家"}</span></div>
         </div>
       </div>` : ""}
@@ -719,20 +752,24 @@
   function renderMarketDrawer(m) {
     const chg = m.chgPct ?? m.pct;
     const industry = typeof m.industry === "string" ? m.industry : (m.industry || []).join("/");
-    const netflow = m.netInflow != null ? m.netInflow / 1e8 : null;
+    const netInflowNum = toNum(m.netInflow);
+    const netflow = Number.isFinite(netInflowNum) ? netInflowNum / 1e8 : null;
+    const mcapYi = toNum(m.mcap_yi);
+    const turnoverNum = toNum(m.turnover);
+    const amplitudeNum = toNum(m.amplitude);
     $("#drawerInner").innerHTML = `
       ${drawerHeadHtml(m.name, m.code, industry || (m._sources || []).join(" / ") || "分析模块关联标的", m.lbc ? `<span class="mc-hl up">${m.lbc}连板</span>` : "")}
-      ${(m.price != null || chg != null || m.turnover != null || netflow != null) ? `<div class="dsec">
+      ${(m.price != null || chg != null || turnoverNum != null || netflow != null) ? `<div class="dsec">
         <h3>实时行情 <span class="src-note">东财 · ${esc(MARKET.date || "")}</span></h3>
         <div class="sig-top">
           <span class="sig-px">¥${m.price ?? "—"}</span>
           ${chg != null ? `<span class="chg ${sgn(chg)}">${pct(chg)}</span>` : ""}
-          ${m.turnover != null ? `<span class="sig-pos">换手 ${m.turnover.toFixed(2)}%</span>` : ""}
+          ${Number.isFinite(turnoverNum) ? `<span class="sig-pos">换手 ${turnoverNum.toFixed(2)}%</span>` : ""}
           ${m.volumeRatio != null ? `<span class="sig-pos">量比 ${m.volumeRatio}</span>` : ""}
-          ${m.amplitude != null ? `<span class="sig-pos">振幅 ${m.amplitude.toFixed(2)}%</span>` : ""}
+          ${Number.isFinite(amplitudeNum) ? `<span class="sig-pos">振幅 ${amplitudeNum.toFixed(2)}%</span>` : ""}
         </div>
         ${netflow != null ? `<div class="fund-row"><span class="fr-lab">主力净流入</span><span class="fr-val ${sgn(netflow)}">${netflow > 0 ? "+" : ""}${netflow.toFixed(2)} 亿</span></div>` : ""}
-        ${m.mcap_yi != null ? `<div class="fund-row"><span class="fr-lab">总市值</span><span class="fr-val">${m.mcap_yi.toFixed(0)} 亿</span></div>` : ""}
+        ${Number.isFinite(mcapYi) ? `<div class="fund-row"><span class="fr-lab">总市值</span><span class="fr-val">${mcapYi.toFixed(0)} 亿</span></div>` : ""}
         ${m.zt_stat ? `<div class="fund-row"><span class="fr-lab">连板</span><span class="fr-val">${esc(m.zt_stat)}</span></div>` : ""}
         ${m.first_seal ? `<div class="fund-row"><span class="fr-lab">封板时间</span><span class="fr-val">${esc(m.first_seal)}</span></div>` : ""}
       </div>` : ""}
@@ -797,10 +834,6 @@
     } catch {
       return "";
     }
-  }
-  function viewFromHash() {
-    const value = hashViewName();
-    return VIEW_RENDER[value] ? value : "home";
   }
   function syncViewLocation(view, replace = false) {
     const hash = `#${view}`;
@@ -1016,12 +1049,28 @@
   const sbData = $("#sbData");
   const bbClock = $("#bbClock");
 
+  // 交易日历（休市日）缓存：fetch 失败时回退到「工作日 + 交易时段」逻辑
+  let closedMarketDates = null;
   const isTrading = (d) => {
     const day = d.getDay();
     if (day === 0 || day === 6) return false;
     const mins = d.getHours() * 60 + d.getMinutes();
-    return (mins >= 570 && mins <= 690) || (mins >= 780 && mins <= 900);
+    if (!((mins >= 570 && mins <= 690) || (mins >= 780 && mins <= 900))) return false;
+    if (Array.isArray(closedMarketDates)) {
+      const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      if (closedMarketDates.includes(dateStr)) return false;
+    }
+    return true;
   };
+  // 异步加载休市日历（market_calendar.json，格式 closedWeekdays: [...]）；失败静默回退
+  if (typeof fetch === "function") {
+    fetch("market_calendar.json", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data && Array.isArray(data.closedWeekdays)) closedMarketDates = data.closedWeekdays;
+      })
+      .catch(() => {});
+  }
   const updateClock = () => {
     const d = new Date();
     const dateStr = d.toLocaleDateString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" });
@@ -1136,8 +1185,6 @@
     return `<section class="${prefix}-block ${kind || ""}"><div class="${prefix}-block-l">${esc(label)}</div><div class="${prefix}-block-b">${html}</div></section>`;
   };
 
-  const fmtYi = (n) => n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(2) + "亿";
-
   let searchIndex = null;
   function addSearchItem(list, type, title, meta, text, view, code) {
     const hay = [type, title, meta, text, code].filter(Boolean).join(" ").toLowerCase();
@@ -1152,6 +1199,16 @@
     });
     (window.LOGIC?.chains || []).forEach((c) => addSearchItem(list, "逻辑链", c.name, c.event_type || "", [c.event, c.logic, c.invalidation].filter(Boolean).join(" "), "logic"));
     (window.EVENTS?.events || []).forEach((e) => addSearchItem(list, "事件", e.title, e.importance || "", [e.content, e.sectors].join(" "), "events"));
+    // 市场扫描榜单（涨停/异动/热榜等）：股票代码+名称入索引，命中后跳转市场页
+    const mkPools = ["topGainers", "topLosers", "topTurnover", "topInflow", "topOutflow", "limitUp", "limitDown", "brokeUp", "hotRank"];
+    const MK = window.MARKET || {};
+    mkPools.forEach((p) => {
+      (MK[p] || []).forEach((x) => {
+        if (x && x.code && x.name) {
+          addSearchItem(list, "市场扫描", x.name, `${x.code} · ${p}`, [x.industry, x.reason, x.zt_stat, x.lbc && `${x.lbc}连板`].filter(Boolean).join(" "), "market", x.code);
+        }
+      });
+    });
     addSearchItem(list, "外围热点", "外围热点", "每日 23:00", "海外 AI 宏观 财经 股市 中文日报", "xbrief");
     (window.XBRIEFS?.briefs || []).forEach((b) => {
       const title = `外围热点 · ${b.time || b.id || b.period || "最新一期"}`;
@@ -1196,7 +1253,7 @@
   function activateSearchResult(item) {
     if (!item) return;
     if (item.code) {
-      switchView("watch");
+      switchView(item.view === "market" ? "market" : "watch");
       setTimeout(() => openDrawer(item.code), 80);
     } else jumpToModuleItem(item.view || "home", item.title);
     closeSearchPanel();
@@ -1293,12 +1350,11 @@
       : "";
 
     // 各模块"最强"选取规则
-    // 今日热点事件: importance 最高
-    const impRank = { "高": 3, "中高": 2, "中": 1 };
+    // 今日热点事件: importance 最高（评级统一取 app_ai_modules.js 挂载的 App.impRank）
+    const impRank = (window.App && window.App.impRank) || {};
     const bestEvt = (E && E.events || []).slice().sort((a, b) => (impRank[b.importance] || 0) - (impRank[a.importance] || 0))[0];
-    // 逻辑链: 按 Agent 给出的强度评级取最强
-    const logicStrRank = { "强": 3, "中": 2, "弱": 1 };
-    const bestLogic = (L && L.chains || []).slice().sort((a, b) => (logicStrRank[b.strength] || 0) - (logicStrRank[a.strength] || 0))[0];
+    // 逻辑链: 按 Agent 给出的强度评级取最强（模块级唯一定义）
+    const bestLogic = (L && L.chains || []).slice().sort((a, b) => (logicStrengthRank[b.strength] || 0) - (logicStrengthRank[a.strength] || 0))[0];
 
     // 精华卡: 标签 + 标题 + 一句话精华 + 强度徽章 + 跳转目标
     const cards = [
@@ -1444,7 +1500,7 @@
         ${listBlock("炸板", MK.brokeUp, (x) => stockRow(x, x.industry || ""))}
         ${listBlock("跌停", MK.limitDown, (x) => stockRow(x, x.industry || ""))}
         ${listBlock("涨幅靠前", MK.topGainers, (x) => stockRow(x, x.industry || ""))}
-        ${listBlock("成交额靠前", MK.topTurnover, (x) => stockRow(x, x.amount != null ? `${(x.amount / 1e8).toFixed(1)}亿` : ""))}
+        ${listBlock("成交额靠前", MK.topTurnover, (x) => { const a = toNum(x.amount); return stockRow(x, Number.isFinite(a) ? `${(a / 1e8).toFixed(1)}亿` : ""); })}
       </div>
       <div class="home-foot">点亮行可打开自选池内标的详情；池外仅展示 · 非投资建议</div>
       </div>
@@ -1484,19 +1540,20 @@
   // 逻辑链、外围热点、事件和周末模块由 app_ai_modules.js 注册。
   window.App = {
     STOCKS, META, MARKET,
-    state, viewScroll,
-    get curView() { return curView; }, set curView(v) { curView = v; },
+    state,
+    get curView() { return curView; },
     $, grid, viewScrollRoot,
     cleanDisplayText, esc, safeUrl, northboundYi, isUnverifiedText, researchSessionMeta, isFundStale, displayImportance,
+    logicStrengthRank,
     getStockReferenceIndex, isChanged, isOpportunity, latestDay, freshNews, matches, trendRank,
     sortList, sparkline, sgn, pct, fundChip, trendCls, drawdownPct, isDeepDrawdown, drawdownFlag, stateTone,
     card, liList, newsList, researchList,
-    secTitle, trunc, emptyState, fieldHtml, titleShort, leadOf, blockHtml, fmtYi,
+    secTitle, trunc, emptyState, fieldHtml, titleShort, leadOf, blockHtml,
     drawerHeadHtml,
     renderMeta, renderMarketSnap, renderGauges, renderStats, renderChips,
     renderWatch, renderMarket, renderHome,
     showDrawer, openDrawer, closeDrawer, renderWatchDrawer, renderMarketDrawer, findMarketStock,
-    switchView, viewFromHash, syncViewLocation,
+    switchView, syncViewLocation,
     renderGlobalSearch, closeSearchPanel,
   };
 

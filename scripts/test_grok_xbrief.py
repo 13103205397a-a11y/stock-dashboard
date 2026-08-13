@@ -327,7 +327,7 @@ class GrokXbriefTest(unittest.TestCase):
         self.assertFalse(plist["KeepAlive"])
         self.assertFalse(plist["RunAtLoad"])
         self.assertIn("scripts/run_grok_xbrief.py", plist["ProgramArguments"][1])
-        self.assertIn("--git-push", plist["ProgramArguments"])
+        self.assertNotIn("--git-push", plist["ProgramArguments"])
         self.assertIn("auto", plist["ProgramArguments"])
 
 

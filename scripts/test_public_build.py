@@ -55,11 +55,13 @@ class PublicBuildTest(unittest.TestCase):
         self.assertTrue(stocks["contract"]["requireSignalDate"])
         self.assertEqual(stocks["freshness"][0]["selector"], "oldest:signal.date")
 
-    def test_pages_deploy_is_gated_by_e2e_and_uses_dynamic_probe(self):
-        workflow = (build_site.ROOT / ".github/workflows/pages.yml").read_text(encoding="utf-8")
+    def test_pages_workflow_is_archived_for_local_only_use(self):
+        # 项目已转向本地优先：CI 工作流归档到 archive/，根目录不再保留部署配置
+        archived = build_site.ROOT / "archive/github-workflows/pages.yml"
+        self.assertTrue(archived.is_file(), "归档的 pages.yml 应保留在 archive/")
+        self.assertFalse((build_site.ROOT / ".github/workflows/pages.yml").exists())
+        workflow = archived.read_text(encoding="utf-8")
         self.assertIn("npm run test:e2e", workflow)
-        self.assertIn("scripts/build_site.py --list-files", workflow)
-        self.assertLess(workflow.index("npm run test:e2e"), workflow.index("actions/upload-pages-artifact"))
         for retired in ["hot.js", "newsall.js", "industry_market.js", "fundflow.js", "materials.js"]:
             self.assertNotIn(retired, workflow)
 

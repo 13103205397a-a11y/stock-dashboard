@@ -16,4 +16,4 @@ node scripts/check_freshness.js --strict --scope=market
 
 echo "==== 完成 $(date '+%F %T') ===="
 echo "研究模块请按 agent/logic-chain.md · events-analysis.md · weekend_ferment.md 由 Agent 更新"
-echo "本机 App 请 Cmd+R 重新加载；GitHub Pages 约 1–3 分钟后更新"
+echo "本机看板刷新页面即可看到新数据（app_server 每 30 秒自动检测数据版本）"

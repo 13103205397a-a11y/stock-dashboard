@@ -1,11 +1,27 @@
 (function (App) {
-  const { $, esc, secTitle, trunc, emptyState, fieldHtml, titleShort, leadOf, blockHtml, cleanDisplayText, openDrawer, researchSessionMeta, displayImportance } = App;
+  const { $, esc, secTitle, trunc, emptyState, fieldHtml, titleShort, leadOf, blockHtml, cleanDisplayText, openDrawer, researchSessionMeta, displayImportance, logicStrengthRank } = App;
 
   /* ---------- 4. 逻辑链（事件驱动推理链：事件 → 传导 → 标的） ---------- */
   // 强度由生成 Agent 在数据中直接给出(strength: 强/中/弱)，前端不再做关键词评分
-  const logicStrengthRank = { "强": 3, "中": 2, "弱": 1 };
   const logicStrengthCls = { "强": "up", "中": "warn", "弱": "down" };
   const logicDirCls = (d) => (d === "受益" ? "up" : d === "受损" ? "down" : d === "分化" ? "warn" : "");
+
+  // 数据新鲜度：解析 YYYY-MM-DD 开头的日期串，返回距今天数（无法解析返回 null）
+  const daysSinceDate = (value) => {
+    const m = String(value || "").match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return null;
+    const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return Math.round((today - d) / 86400000);
+  };
+  // 过期提示条（≥2 天未更新才显示）
+  const staleBanner = (days) => (days == null || days < 2)
+    ? ""
+    : `<div style="margin:0 0 14px;padding:10px 14px;border:1px solid var(--warn);border-left-width:4px;border-radius:8px;background:rgba(196,137,22,.06);font-size:13px;line-height:1.6" role="note">⚠ 数据已 ${days} 天未更新</div>`;
+
+  // 重要性评级：高 > 中高 > 中 > 低；待核实排后（首页「最强事件」与事件排序共用，挂载到 App.impRank）
+  const impRank = { "高": 4, "中高": 3, "中": 2, "低": 1, "待核实": 0 };
 
   function renderLogic() {
     const el = $("#viewLogic");
@@ -271,8 +287,7 @@
       return `<div class="ev-sectors">${parts.map((s) => `<span class="ev-sector">${esc(s)}</span>`).join("")}</div>`;
     };
 
-    // 重要性：高 > 中高 > 中 > 低；待核实排后
-    const impRank = { "高": 4, "中高": 3, "中": 2, "低": 1, "待核实": 0 };
+    // 重要性：高 > 中高 > 中 > 低；待核实排后（impRank 为模块级定义）
     const ranked = EVENTS.events.slice().sort((a, b) => {
       const ai = displayImportance(a);
       const bi = displayImportance(b);
@@ -344,11 +359,14 @@
     return { day: "—", clock: s || "—", full: s || "—" };
   }
 
+  // 通用 markdown 内联转换（**加粗** / `代码`），xbInline 与 md2html 共用
+  const inlineMd = (c) => c
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+
   function xbInline(value) {
-    return esc(cleanDisplayText(value || "").trim())
-      .replace(/\[([^\]]+)\]\((https:\/\/x\.com\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
-      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-      .replace(/`([^`]+)`/g, "<code>$1</code>")
+    return inlineMd(esc(cleanDisplayText(value || "").trim())
+      .replace(/\[([^\]]+)\]\((https:\/\/x\.com\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'))
       .replace(/(【未证实】|未证实)/g, '<span class="xb-flag">$1</span>');
   }
 
@@ -512,9 +530,12 @@
     const list = (XB && Array.isArray(XB.briefs))
       ? XB.briefs.filter((b) => cleanDisplayText(b.content || "").trim().length >= 40)
       : [];
+    const staleDays = daysSinceDate(XB && (XB.updated || XB.generatedAt));
+    const staleNote = staleBanner(staleDays);
 
     if (!list.length) {
       el.innerHTML = `<div class="xb-page xb-page-empty">
+        ${staleNote}
         ${xbMasthead("NEXT EDITION", "23:00", "北京时间 · 每日一次")}
         <section class="xb-empty-state" aria-live="polite">
           <div class="xb-empty-index" aria-hidden="true">01</div>
@@ -575,6 +596,7 @@
     }).join("");
 
     el.innerHTML = `<div class="xb-page">
+      ${staleNote}
       ${xbMasthead("LATEST EDITION", `${latestTime.day} ${latestTime.clock}`, `${latestCount} 条硬信息 · 北京时间`)}
       <section class="xb-overview" aria-label="最新一期摘要">
         <div class="xb-overview-lead"><span>本期收录</span><strong>${latestCount}</strong><small>条可验证增量</small></div>
@@ -615,8 +637,10 @@
       return;
     }
     const freshness = review.generatedAt ? `报告时间 ${review.generatedAt}（北京时间）` : "报告时间未知";
+    const staleNote = staleBanner(daysSinceDate(review.generatedAt));
     el.innerHTML = `<div class="kimi-page">
       ${secTitle("每日复盘", "Kimi Code · 本机自动接入")}
+      ${staleNote}
       <div class="kimi-meta" role="status">
         <span class="kimi-source">来源：${esc(review.source || "Kimi Code")}</span>
         <span>${esc(freshness)}</span>
@@ -677,9 +701,6 @@
       .replace(/(\+[\d.]+%)/g, '<span class="up">$1</span>')
       .replace(/(-[\d.]+%)/g, '<span class="down">$1</span>')
       .replace(/(利[多空])/g, (m) => `<span class="${m === "利多" ? "up" : "down"}">${m}</span>`);
-    const inlineMd = (c) => c
-      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-      .replace(/`([^`]+)`/g, "<code>$1</code>");
     for (let raw of lines) {
       const line = raw.replace(/\r$/, "");
       // 分隔线
@@ -699,7 +720,7 @@
       if (lm) {
         if (inOl) { html += "</ol>"; inOl = false; }
         if (!inList) { html += "<ul>"; inList = true; }
-        html += `<li>${lm[1].replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>")}</li>`;
+        html += `<li>${inlineMd(lm[1])}</li>`;
         continue;
       }
       // 有序列表（外围热点主结构：1. **标题**）
@@ -707,7 +728,7 @@
       if (om) {
         if (inList) { html += "</ul>"; inList = false; }
         if (!inOl) { html += '<ol class="xb-ol">'; inOl = true; }
-        html += `<li>${om[1].replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>")}</li>`;
+        html += `<li>${inlineMd(om[1])}</li>`;
         continue;
       }
       // 空行
@@ -722,7 +743,7 @@
       }
       // 普通段落（内联：加粗 **x** / `code`）
       flushList();
-      html += `<p>${line.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>")}</p>`;
+      html += `<p>${inlineMd(line)}</p>`;
     }
     flushList(); flushTable();
     return html;
@@ -733,5 +754,6 @@
   App.renderEvents = renderEvents;
   App.renderXBriefs = renderXBriefs;
   App.renderKimiReview = refreshKimiReview;
+  App.impRank = impRank;
   if (window.App.start) window.App.start();
 })(window.App);
