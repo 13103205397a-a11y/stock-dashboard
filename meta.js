@@ -1,34 +1,34 @@
 /* 全局元信息：signalDate/signalStat/marketSnapshot 由行情程序自动统计；marketRegime 等由复盘 Agent 维护 */
 window.META = {
-  "lastUpdated": "2026-08-13",
-  "signalDate": "2026-08-13",
-  "signalStat": "多头 0 / 空头 7 · 左侧已到逢低区 10 · 右侧突破或临近 0（共 47 只，行情截至 2026-08-13，刷新于 2026-08-13）",
+  "lastUpdated": "2026-08-14",
+  "signalDate": "2026-08-14",
+  "signalStat": "多头 0 / 空头 5 · 左侧已到逢低区 14 · 右侧突破或临近 0（共 47 只，行情截至 2026-08-14，刷新于 2026-08-14）",
   "marketSnapshot": {
-    "date": "2026-08-13",
+    "date": "2026-08-14",
     "indices": [
       {
         "code": "sh000001",
         "name": "上证指数",
-        "price": 3926.96,
-        "pct": -0.5
+        "price": 3927.18,
+        "pct": 0.01
       },
       {
         "code": "sz399001",
         "name": "深证成指",
-        "price": 14289.44,
-        "pct": -0.87
+        "price": 14354.31,
+        "pct": 0.45
       },
       {
         "code": "sz399006",
         "name": "创业板指",
-        "price": 3586.04,
-        "pct": -0.45
+        "price": 3626.3,
+        "pct": 1.12
       },
       {
         "code": "sh000688",
         "name": "科创50",
-        "price": 1717.75,
-        "pct": -1.11
+        "price": 1717.68,
+        "pct": 0
       }
     ]
   },
