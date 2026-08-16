@@ -6,9 +6,6 @@
     "app.js",
     "app_ai_modules.js",
     "styles.css",
-    "design-system.css",
-    "claude-theme.css",
-    "warm-desk.css",
     "active_modules.json"
   ]
 }

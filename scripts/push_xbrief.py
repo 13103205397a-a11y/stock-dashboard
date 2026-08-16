@@ -69,7 +69,6 @@ BOOTSTRAP_FILES = [
     "app.js",
     "app_ai_modules.js",
     "styles.css",
-    "warm-desk.css",
     "tests/e2e/dashboard.spec.mjs",
     "public_files.json",
 ]

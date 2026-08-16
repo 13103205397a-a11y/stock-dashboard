@@ -29,7 +29,7 @@ class PublicBuildTest(unittest.TestCase):
             copied = build_site.build_site(output)
             self.assertEqual(copied, expected)
             self.assertTrue((output / "index.html").is_file())
-            self.assertTrue((output / "design-system.css").is_file())
+            self.assertTrue((output / "styles.css").is_file())
             self.assertTrue((output / "active_modules.json").is_file())
             self.assertTrue((output / "xbriefs.js").is_file())
             self.assertTrue((output / ".nojekyll").is_file())

@@ -164,7 +164,7 @@ python3 scripts/build_site.py _site
 | 文件 | 作用 |
 |---|---|
 | `index.html` / `app.js` / `app_ai_modules.js` | 页面结构、交互和研究模块渲染 |
-| `styles.css` / `design-system.css` / `claude-theme.css` / `warm-desk.css` | 样式层：基础 → 设计系统（已属性级精简）→ 暖色主题 → 研究台版式覆盖 |
+| `styles.css` | 合并样式：四层（基础/设计系统/暖色主题/研究台）按原序合并为单文件，计算样式经逐元素比对验证等价；历史分层存档于 `archive/css-layers/` |
 | `active_modules.json` | 活跃模块、数据契约、新鲜度和 Agent 交付配置 |
 | `public_files.json` | 公开前端核心资源 |
 | `scripts/build_site.py` | 确定性公开构建与探针清单 |
