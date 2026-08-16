@@ -4,7 +4,7 @@
 
 ## 项目位置
 
-`/Users/Admin/Documents/开发项目/股市看板`
+`/Users/Admin/Projects/股市看板`
 
 ## 当前定位
 
@@ -24,7 +24,7 @@
 更新后执行：
 
 ```bash
-cd /Users/Admin/Documents/开发项目/股市看板
+cd /Users/Admin/Projects/股市看板
 node xhs/generate_xhs.js
 python3 xhs/render_cards.py
 ```
@@ -79,9 +79,9 @@ python3 xhs/render_cards.py
 ## 下次启动时给 Codex 的提示词
 
 ```text
-请先阅读 /Users/Admin/Documents/开发项目/股市看板/xhs/AGENT_MEMORY.md，
+请先阅读 /Users/Admin/Projects/股市看板/xhs/AGENT_MEMORY.md，
 然后继续执行小红书半自动发布工作流。
-股市看板项目路径是 /Users/Admin/Documents/开发项目/股市看板。
+股市看板项目路径是 /Users/Admin/Projects/股市看板。
 ```
 
 ## 内容策略

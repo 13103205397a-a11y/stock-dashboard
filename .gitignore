@@ -1,10 +1,9 @@
-# 行情原始数据缓存（每日由 fetch_klines.sh 重新拉取，无需入库）
+# 行情原始数据缓存（每日由 fetch_klines_tf.py 重新拉取，无需入库）
 scripts/raw/
 .DS_Store
 __pycache__/
 *.tmp
-# Hermes hook 更新日志（本机运行日志，不入库）
-scripts/.hermes-update.log
+*.log
 scripts/raw_news.json
 # 跨语言数据锁（运行时产物，不入库）
 .data.lock

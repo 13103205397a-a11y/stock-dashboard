@@ -7,12 +7,12 @@
   <key>ProgramArguments</key>
   <array>
     <string>/usr/bin/python3</string>
-    <string>/Users/Admin/Documents/开发项目/股市看板/scripts/run_grok_xbrief.py</string>
+    <string>/Users/Admin/Projects/股市看板/scripts/run_grok_xbrief.py</string>
     <string>--mode</string>
     <string>auto</string>
   </array>
   <key>WorkingDirectory</key>
-  <string>/Users/Admin/Documents/开发项目/股市看板</string>
+  <string>/Users/Admin/Projects/股市看板</string>
   <key>EnvironmentVariables</key>
   <dict>
     <key>PATH</key>
