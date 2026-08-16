@@ -224,11 +224,12 @@ body {
   width: 32px !important;
   height: 32px !important;
   padding: 0;
-  color: var(--terracotta) !important;
-  background: none !important;
+  color: #171717 !important;
+  background: #ffffff !important;
   border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 0 1px rgba(15, 20, 29, 0.06) !important;
+  overflow: hidden;
 }
 
 .logo-text {

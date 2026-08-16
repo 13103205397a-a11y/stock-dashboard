@@ -1,165 +1,124 @@
 #!/usr/bin/env python3
 """
-股市看板 Mac App Logo 生成器
-风格：研究台 · 沙盘坐标（非行情图）
-- 深墨暖径向底 + 极淡网格
-- 赭石四象限环 + 坐标轴 + 离散观测点
-- macOS squircle；4× 超采样后降采样
+股市看板 Mac App Logo
+白底 · 大写 B · 高级简洁
+
+铺满不透明白底，圆角交给系统 superellipse，避免二次裁切发飘。
+字母按真实墨水框几何居中，再做极小光学微调。
 """
-from PIL import Image, ImageDraw, ImageFilter
+from __future__ import annotations
+
+import shutil
+import subprocess
+import tempfile
 from pathlib import Path
-import math
+
+from PIL import Image, ImageDraw, ImageFont
 
 OUT_SIZE = 1024
-SCALE = 4  # 超采样
+SCALE = 4
 SIZE = OUT_SIZE * SCALE
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "icon_assets"
 OUT.mkdir(parents=True, exist_ok=True)
 
-
-def lerp(a, b, t):
-    return a + (b - a) * t
-
-
-def radial_ink_bg(size):
-    """中心暖墨 #201a16 → 四角 #141010"""
-    cx = cy = size / 2
-    max_r = math.hypot(cx, cy)
-    c0 = (32, 26, 22)   # #201a16
-    c1 = (20, 16, 16)   # #141010
-    img = Image.new("RGBA", (size, size))
-    px = img.load()
-    for y in range(size):
-        for x in range(size):
-            t = min(1.0, math.hypot(x - cx, y - cy) / max_r)
-            t = t ** 1.15
-            px[x, y] = (
-                int(lerp(c0[0], c1[0], t)),
-                int(lerp(c0[1], c1[1], t)),
-                int(lerp(c0[2], c1[2], t)),
-                255,
-            )
-    return img
+FONT_PATH = "/System/Library/Fonts/HelveticaNeue.ttc"
+FONT_INDEX = 1  # Helvetica Neue Bold
+INK = (23, 23, 23, 255)
+PAPER = (255, 255, 255, 255)
 
 
-def fade_grid(size, step, line_rgb, base_alpha=95):
-    """十字网格，离中心越远越淡"""
+def load_font(px: int) -> ImageFont.FreeTypeFont:
+    try:
+        return ImageFont.truetype(FONT_PATH, px, index=FONT_INDEX)
+    except OSError:
+        return ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", px, index=1)
+
+
+def ink_bbox(img: Image.Image) -> tuple[int, int, int, int]:
+    box = img.split()[-1].getbbox()
+    if box is None:
+        raise RuntimeError("letter B rendered empty")
+    return box
+
+
+def draw_letter_b(size: int) -> Image.Image:
+    font = load_font(int(size * 0.56))
+    scratch = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    ImageDraw.Draw(scratch).text(
+        (size / 2, size / 2), "B", font=font, fill=INK, anchor="mm"
+    )
+    left, top, right, bottom = ink_bbox(scratch)
+    ink_cx = (left + right) / 2
+    ink_cy = (top + bottom) / 2
+    # 几何居中后：B 左竖偏重，略向右；大写视觉中心略偏上
+    dx = round(size / 2 - ink_cx + size * 0.006)
+    dy = round(size / 2 - ink_cy - size * 0.012)
+
     layer = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(layer)
-    cx = cy = size / 2
-    fade_r = size * 0.42
-    margin = int(size * 0.078)
-    for x in range(margin, size - margin, step):
-        dist = abs(x - cx)
-        a = int(base_alpha * max(0.0, 1.0 - dist / fade_r))
-        if a < 4:
-            continue
-        draw.line([(x, margin), (x, size - margin)], fill=line_rgb + (a,), width=max(1, SCALE // 2))
-    for y in range(margin, size - margin, step):
-        dist = abs(y - cy)
-        a = int(base_alpha * max(0.0, 1.0 - dist / fade_r))
-        if a < 4:
-            continue
-        draw.line([(margin, y), (size - margin, y)], fill=line_rgb + (a,), width=max(1, SCALE // 2))
+    layer.paste(scratch, (dx, dy), scratch)
     return layer
 
 
-def squircle_mask(size, radius):
-    mask = Image.new("L", (size, size), 0)
-    ImageDraw.Draw(mask).rounded_rectangle([0, 0, size - 1, size - 1], radius=radius, fill=255)
-    return mask
+def compose_master() -> Image.Image:
+    canvas = Image.new("RGBA", (SIZE, SIZE), PAPER)
+    canvas = Image.alpha_composite(canvas, draw_letter_b(SIZE))
+    return canvas.resize((OUT_SIZE, OUT_SIZE), Image.Resampling.LANCZOS)
 
 
-# ---- 画布 ----
-bg = radial_ink_bg(SIZE)
+def write_icns(png_1024: Path, icns_path: Path) -> None:
+    sizes = {
+        "icon_16x16.png": 16,
+        "icon_16x16@2x.png": 32,
+        "icon_32x32.png": 32,
+        "icon_32x32@2x.png": 64,
+        "icon_128x128.png": 128,
+        "icon_128x128@2x.png": 256,
+        "icon_256x256.png": 256,
+        "icon_256x256@2x.png": 512,
+        "icon_512x512.png": 512,
+        "icon_512x512@2x.png": 1024,
+    }
+    src = Image.open(png_1024).convert("RGBA")
+    with tempfile.TemporaryDirectory(prefix="AppIcon.") as tmp:
+        iconset = Path(tmp) / "AppIcon.iconset"
+        iconset.mkdir()
+        for name, px in sizes.items():
+            src.resize((px, px), Image.Resampling.LANCZOS).save(iconset / name, "PNG")
+        subprocess.run(
+            ["iconutil", "-c", "icns", str(iconset), "-o", str(icns_path)],
+            check=True,
+        )
 
-# 网格（#3a2f28）
-grid_step = 96 * SCALE
-bg = Image.alpha_composite(bg, fade_grid(SIZE, grid_step, (58, 47, 40), base_alpha=88))
 
-mark = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-md = ImageDraw.Draw(mark)
-cx = cy = SIZE // 2
+def main() -> None:
+    final = compose_master()
+    left, top, right, bottom = ink_bbox(final)
+    print(
+        f"ink box=({left},{top})-({right},{bottom}) "
+        f"cx={(left + right) / 2:.1f} cy={(top + bottom) / 2:.1f} "
+        f"center={OUT_SIZE / 2:.1f}"
+    )
 
-# 坐标轴（赭石深 #b86a46）
-axis_half = int(280 * SCALE)
-axis_w = max(3, int(10 * SCALE))
-axis = (184, 106, 70, 255)
-md.line([(cx - axis_half, cy), (cx + axis_half, cy)], fill=axis, width=axis_w)
-md.line([(cx, cy - axis_half), (cx, cy + axis_half)], fill=axis, width=axis_w)
-# 轴端微圆帽
-cap_r = axis_w // 2
-for px, py in (
-    (cx - axis_half, cy),
-    (cx + axis_half, cy),
-    (cx, cy - axis_half),
-    (cx, cy + axis_half),
-):
-    md.ellipse([px - cap_r, py - cap_r, px + cap_r, py + cap_r], fill=axis)
+    png_path = OUT / "logo_1024.png"
+    final.save(png_path, "PNG")
+    print(f"✓ {png_path.name}")
 
-# 四象限环（赭石亮 #d18a66）
-ring_r = int(220 * SCALE)
-ring_w = max(4, int(26 * SCALE))
-ring = (209, 138, 102, 255)
-bbox = [cx - ring_r, cy - ring_r, cx + ring_r, cy + ring_r]
-md.ellipse(bbox, outline=ring, width=ring_w)
+    for px, name in ((32, "logo_32.png"), (180, "apple-touch-icon.png")):
+        final.resize((px, px), Image.Resampling.LANCZOS).save(OUT / name, "PNG")
+        print(f"✓ {name}")
 
-# 观测点（纸白 + 赭石，四象限不对称）
-paper = (232, 217, 200, 255)
-terr = (209, 138, 102, 255)
-dots = [
-    (-132, -132, 18, paper),
-    (138, -162, 14, terr),
-    (-152, 148, 14, terr),
-    (128, 138, 18, paper),
-    (48, -78, 9, paper),
-]
-for dx, dy, r, color in dots:
-    x = cx + int(dx * SCALE)
-    y = cy + int(dy * SCALE)
-    rr = max(2, int(r * SCALE))
-    md.ellipse([x - rr, y - rr, x + rr, y + rr], fill=color)
+    icns_path = OUT / "AppIcon.icns"
+    write_icns(png_path, icns_path)
+    print(f"✓ {icns_path.name}")
 
-# 环心极弱暖辉（克制）
-glow = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-gd = ImageDraw.Draw(glow)
-gd.ellipse(
-    [cx - int(160 * SCALE), cy - int(160 * SCALE), cx + int(160 * SCALE), cy + int(160 * SCALE)],
-    fill=(209, 138, 102, 28),
-)
-glow = glow.filter(ImageFilter.GaussianBlur(radius=28 * SCALE))
-bg = Image.alpha_composite(bg, glow)
-bg = Image.alpha_composite(bg, mark)
+    app_icns = HERE.parent / "股市看板.app" / "Contents" / "Resources" / "AppIcon.icns"
+    if app_icns.parent.exists():
+        shutil.copy2(icns_path, app_icns)
+        app = app_icns.parents[2]
+        subprocess.run(["touch", str(app), str(app / "Contents" / "Info.plist")], check=False)
+        print(f"✓ 已写入 {app_icns.relative_to(HERE.parent)}")
 
-# 顶部微高光
-scan = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-sd = ImageDraw.Draw(scan)
-band = int(SIZE * 0.09)
-for y in range(band):
-    a = int(26 * (1 - y / band))
-    sd.line([(0, y), (SIZE, y)], fill=(243, 235, 224, a))
-bg = Image.alpha_composite(bg, scan)
 
-# 降采样 → 1024
-bg = bg.resize((OUT_SIZE, OUT_SIZE), Image.Resampling.LANCZOS)
-
-# squircle + 边缘玻璃感
-radius = OUT_SIZE // 5
-mask = squircle_mask(OUT_SIZE, radius)
-bg.putalpha(mask)
-edge = Image.new("RGBA", (OUT_SIZE, OUT_SIZE), (0, 0, 0, 0))
-ed = ImageDraw.Draw(edge)
-ed.rounded_rectangle(
-    [0, 0, OUT_SIZE - 1, OUT_SIZE - 1],
-    radius=radius,
-    outline=(255, 255, 255, 30),
-    width=2,
-)
-ed.arc([2, 2, OUT_SIZE - 3, OUT_SIZE - 3], 200, 340, fill=(255, 255, 255, 44), width=3)
-final = Image.alpha_composite(bg, edge)
-
-png_path = OUT / "logo_1024.png"
-final.save(png_path, "PNG")
-print(f"✓ {png_path.name} 生成完成 ({OUT_SIZE}x{OUT_SIZE})")
-print("  设计：深墨沙盘 + 赭石四象限环/坐标轴 + 观测点（无 K 线）")
+if __name__ == "__main__":
+    main()

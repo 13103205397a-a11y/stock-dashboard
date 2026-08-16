@@ -80,7 +80,7 @@ html, body {
   border-bottom: 1px solid color-mix(in srgb, #f3ebe0 10%, transparent) !important;
 }
 
-/* 线标标记：无色块底，赭石单色，像研究台铜钉 */
+/* 白底 B 字标，与 App 图标同一套身份 */
 .side-logo > svg,
 .side-logo > .logo-mark {
   flex: 0 0 30px !important;
@@ -88,10 +88,11 @@ html, body {
   height: 30px !important;
   padding: 0 !important;
   border: 0 !important;
-  border-radius: 0 !important;
-  background: none !important;
-  box-shadow: none !important;
-  color: #c8704d !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 1px rgba(243, 235, 224, 0.14) !important;
+  color: #171717 !important;
+  overflow: hidden;
 }
 
 .logo-title {
