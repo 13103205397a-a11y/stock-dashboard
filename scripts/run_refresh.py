@@ -49,27 +49,13 @@ def acquire_refresh_lock():
     return lock_file
 
 
-def env_with_iwencai() -> dict[str, str]:
+def child_env() -> dict[str, str]:
+    """子进程环境：保证 ~/.local/bin 在 PATH 里（grok 等本机 CLI 所在）。"""
     env = os.environ.copy()
     local_bin = str(Path.home() / ".local" / "bin")
     path_entries = env.get("PATH", "").split(os.pathsep)
     if local_bin not in path_entries:
         env["PATH"] = os.pathsep.join([local_bin, *filter(None, path_entries)])
-    if env.get("IWENCAI_API_KEY") or sys.platform != "darwin":
-        return env
-    account = env.get("IWENCAI_KEYCHAIN_ACCOUNT", "Admin")
-    try:
-        result = subprocess.run(
-            ["security", "find-generic-password", "-a", account, "-s", "iwencai-api-key", "-w"],
-            capture_output=True,
-            text=True,
-            timeout=10,
-        )
-        key = (result.stdout or "").strip()
-        if key:
-            env["IWENCAI_API_KEY"] = key
-    except Exception:
-        pass
     return env
 
 
@@ -87,7 +73,7 @@ def main() -> int:
             print(f"{i}. [{kind}{requirement}] {step['name']}: {' '.join(step['command'])}")
         return 0
 
-    env = env_with_iwencai()
+    env = child_env()
     lock_file = acquire_refresh_lock()
     if lock_file is None:
         print("✗ 已有刷新任务正在运行，本次未启动。", file=sys.stderr, flush=True)

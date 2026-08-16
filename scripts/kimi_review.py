@@ -48,6 +48,14 @@ def _is_candidate(path: Path) -> bool:
     )
 
 
+def _mtime_or_floor(path: Path) -> float:
+    # 候选文件可能在列出与 stat 之间被写入方删除，取 -1 兜底而不是抛异常
+    try:
+        return path.stat().st_mtime
+    except OSError:
+        return -1.0
+
+
 def find_latest_review() -> Path | None:
     configured_file = os.environ.get("KIMI_REVIEW_FILE", "").strip()
     if configured_file:
@@ -57,7 +65,7 @@ def find_latest_review() -> Path | None:
     for directory in _candidate_dirs():
         if directory.is_dir():
             candidates.extend(path for path in directory.iterdir() if _is_candidate(path))
-    return max(candidates, key=lambda path: path.stat().st_mtime) if candidates else None
+    return max(candidates, key=_mtime_or_floor) if candidates else None
 
 
 class _SafeHTMLParser(HTMLParser):

@@ -7,10 +7,12 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>A股盘面 · 研究工作台</title>
-  <link rel="stylesheet" href="styles.css?v=22" />
+  <link rel="icon" type="image/png" href="app/icon_assets/logo_32.png" />
+  <link rel="apple-touch-icon" href="app/icon_assets/apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css?v=23" />
   <link rel="stylesheet" href="design-system.css?v=13" />
-  <link rel="stylesheet" href="claude-theme.css?v=18" />
-  <link rel="stylesheet" href="warm-desk.css?v=12" />
+  <link rel="stylesheet" href="claude-theme.css?v=19" />
+  <link rel="stylesheet" href="warm-desk.css?v=13" />
 </head>
 <body class="density-compact">
   <a class="skip-link" href="#mainContent">跳到主要内容</a>
@@ -23,14 +25,9 @@
     <!-- ===== 左侧导航 ===== -->
     <aside class="sidebar" id="sidebar" aria-label="模块导航">
       <div class="side-logo">
-        <svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 18.5h16" opacity="0.42"/>
-          <path d="M7.5 6v2.5M7.5 13v3" opacity="0.7"/>
-          <rect x="6.8" y="8.5" width="1.4" height="4.5" rx="0.4" fill="currentColor" stroke="none" opacity="0.48"/>
-          <path d="M16.5 5v3M16.5 12.5V16" opacity="0.7"/>
-          <rect x="15.8" y="8" width="1.4" height="4.5" rx="0.4" fill="currentColor" stroke="none" opacity="0.48"/>
-          <path d="M12 3.5V7M12 15v2.5"/>
-          <rect x="10.7" y="7" width="2.6" height="8" rx="0.8" fill="currentColor" stroke="none"/>
+        <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="8" fill="#ffffff"/>
+          <text x="16" y="16.4" text-anchor="middle" dominant-baseline="central" font-family="Helvetica Neue, Helvetica, -apple-system, BlinkMacSystemFont, sans-serif" font-weight="700" font-size="18" fill="#171717">B</text>
         </svg>
         <div class="logo-text">
           <span class="logo-title">A股盘面</span>
@@ -201,7 +198,7 @@
 
   <!-- 详情抽屉 -->
   <div class="drawer-backdrop" id="backdrop"></div>
-  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-hidden="true" tabindex="-1">
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-hidden="true" tabindex="-1" inert>
     <div class="drawer-inner" id="drawerInner"></div>
   </aside>
 

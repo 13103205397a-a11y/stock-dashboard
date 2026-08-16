@@ -148,7 +148,8 @@
       }
       if (!points.length) {
         points = text
-          .split(/(?<=[。！？；;])\s*/)
+          .replace(/([。！？；;])\s*/g, "$1\u0000")
+          .split("\u0000")
           .map((x) => x.trim())
           .filter((x) => x.length >= 8);
       }
@@ -628,6 +629,58 @@
 
 
   /* ---------- 8c. Kimi Code 每日复盘（仅本机 API 读取） ---------- */
+  // Kimi 报告 HTML 进 DOM 前的白名单消毒：即使来源是本机文件，也不允许脚本、
+  // 事件属性和非 http(s) 协议直接执行（与服务端 _SafeHTMLParser 构成双保险）。
+  const KIMI_ALLOWED_TAGS = new Set([
+    "H1", "H2", "H3", "H4", "H5", "H6", "P", "DIV", "SPAN", "SECTION", "ARTICLE",
+    "HEADER", "FOOTER", "ASIDE", "UL", "OL", "LI", "TABLE", "THEAD", "TBODY",
+    "TFOOT", "TR", "TD", "TH", "CAPTION", "STRONG", "B", "EM", "I", "U", "S",
+    "SMALL", "BR", "HR", "BLOCKQUOTE", "PRE", "CODE", "A", "FIGURE",
+    "FIGCAPTION", "DETAILS", "SUMMARY", "DL", "DT", "DD",
+  ]);
+  const KIMI_DROP_SUBTREE = new Set(["SCRIPT", "STYLE", "IFRAME", "OBJECT", "EMBED", "SVG", "FORM"]);
+  const KIMI_URL_ATTR = { A: "href", IMG: "src" };
+  const KIMI_SAFE_ATTRS = new Set(["class", "colspan", "rowspan", "alt", "title", "target"]);
+
+  function sanitizeReportHtml(htmlText) {
+    if (!htmlText) return "";
+    const parsed = new DOMParser().parseFromString(String(htmlText), "text/html");
+    const fragment = document.createDocumentFragment();
+    const walk = (node, target) => {
+      node.childNodes.forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          target.appendChild(document.createTextNode(child.textContent));
+          return;
+        }
+        if (child.nodeType !== Node.ELEMENT_NODE) return;
+        const tag = child.tagName;
+        if (KIMI_DROP_SUBTREE.has(tag)) return; // 整体丢弃，不保留子内容
+        if (!KIMI_ALLOWED_TAGS.has(tag)) {
+          walk(child, target); // 非白名单元素只保留其文本
+          return;
+        }
+        const el = document.createElement(tag);
+        const urlAttr = KIMI_URL_ATTR[tag];
+        for (const attr of Array.from(child.attributes)) {
+          const name = attr.name.toLowerCase();
+          if (name.startsWith("on") || name === "style" || name === "id") continue;
+          if (attr.name === urlAttr) {
+            if (/^https?:/i.test(attr.value.trim())) el.setAttribute(attr.name, attr.value.trim());
+            continue;
+          }
+          if (KIMI_SAFE_ATTRS.has(name)) el.setAttribute(attr.name, attr.value);
+        }
+        if (tag === "A" && el.getAttribute("href")) el.setAttribute("rel", "noopener noreferrer");
+        walk(child, el);
+        target.appendChild(el);
+      });
+    };
+    walk(parsed.body, fragment);
+    const wrap = document.createElement("div");
+    wrap.appendChild(fragment);
+    return wrap.innerHTML;
+  }
+
   function renderKimiReview(data) {
     const el = $("#viewKimi");
     if (!el) return;
@@ -646,7 +699,7 @@
         <span>${esc(freshness)}</span>
         <span>文件：${esc(review.fileName || "最新报告")}</span>
       </div>
-      <article class="kimi-report">${review.contentHtml}</article>
+      <article class="kimi-report">${sanitizeReportHtml(review.contentHtml)}</article>
       <footer class="kimi-foot">Kimi Code 输出的本地复盘报告 · 看板只读展示，不改写原报告</footer>
     </div>`;
   }

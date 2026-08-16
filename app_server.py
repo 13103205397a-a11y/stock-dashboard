@@ -137,23 +137,6 @@ def _probe_existing_server(port, timeout=1.0):
         connection.close()
 
 
-def _env_with_iwencai():
-    env = os.environ.copy()
-    if env.get("IWENCAI_API_KEY"):
-        return env
-    try:
-        import subprocess as sp
-        account = env.get("IWENCAI_KEYCHAIN_ACCOUNT", "Admin")
-        key = sp.run(["security", "find-generic-password", "-a", account,
-                      "-s", "iwencai-api-key", "-w"],
-                     capture_output=True, text=True, timeout=10).stdout.strip()
-        if key:
-            env["IWENCAI_API_KEY"] = key
-    except Exception:
-        pass
-    return env
-
-
 def _load_xbriefs_data(root=None):
     """解析项目根目录 xbriefs.js 中的 window.XBRIEFS（只读，损坏时返回空结构）。"""
     base = Path(root or HERE)
@@ -386,30 +369,41 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         pass  # 静默日志，避免刷屏
 
 
+REFRESH_WATCHDOG_SECONDS = 30 * 60
+
+
 def _run_refresh():
     """统一调用主刷新器，由主刷新器负责步骤语义与跨进程锁。"""
     try:
-        env = _env_with_iwencai()
         proc = subprocess.Popen(
             [sys.executable, os.path.join(HERE, "scripts", "run_refresh.py")],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
-            env=env,
             cwd=HERE,
             bufsize=1,
         )
-        for raw in proc.stdout or []:
-            line = raw.strip()
-            if not line:
-                continue
-            refresh_state["log"].append(line[:500])
-            if line.startswith("✗ "):
-                refresh_state["failedSteps"].append(line[2:].split(" ", 1)[0])
-        returncode = proc.wait()
+        # 看门狗：子进程挂死时强杀，否则 running 永远为 True，后续刷新会一直 409
+        watchdog = threading.Timer(REFRESH_WATCHDOG_SECONDS, proc.kill)
+        watchdog.start()
+        try:
+            for raw in proc.stdout or []:
+                line = raw.strip()
+                if not line:
+                    continue
+                refresh_state["log"].append(line[:500])
+                if line.startswith("✗ "):
+                    refresh_state["failedSteps"].append(line[2:].split(" ", 1)[0])
+            returncode = proc.wait()
+        finally:
+            watchdog.cancel()
         refresh_state["done"] = returncode == 0
         if returncode != 0:
             refresh_state["error"] = "刷新失败，请查看日志"
+            if returncode == -9:
+                refresh_state["log"].append(
+                    f"✗ 看门狗超时（{REFRESH_WATCHDOG_SECONDS // 60} 分钟），已强制终止刷新"
+                )
     except Exception as e:
         refresh_state["error"] = str(e)
         refresh_state["log"].append(f"✗ 异常: {e}")

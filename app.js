@@ -47,8 +47,9 @@
   // 逻辑链强度评级：与 app_ai_modules.js 共用同一份（app_ai_modules.js 从 App 解构）
   const logicStrengthRank = { "强": 3, "中": 2, "弱": 1 };
   // 退休文件名 → 预编译正则（避免每次 cleanDisplayText 调用都 new RegExp）
+  // 用捕获组代替 lookbehind：旧 Safari(<16.4) 解析不了 (?<!)，会直接让整个脚本崩掉
   const RETIRED_SOURCE_PATTERNS = RETIRED_SOURCE_FILES.map(([name, label]) => [
-    new RegExp(`(?<![A-Za-z0-9_])${name.replace(".", "\\.")}(?![A-Za-z0-9_])`, "gi"),
+    new RegExp(`(^|[^A-Za-z0-9_])${name.replace(".", "\\.")}(?![A-Za-z0-9_])`, "gi"),
     label,
   ]);
   const cleanDisplayText = (value) => {
@@ -65,11 +66,11 @@
       .replace(/Â/g, "")
       .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200D\u2060\uFEFF]/g, "")
       // 这些是采集/分析阶段的内部字段，不应直接出现在阅读界面。
-      .replace(/(?<![A-Za-z0-9_])(?:thsStrong|thsHot)(?![A-Za-z0-9_])\s*[:：]?\s*/gi, " ")
-      .replace(/(?<![A-Za-z0-9_])break\s*=\s*\d+\s*(?:次)?(?![A-Za-z0-9_])/gi, " ")
-      .replace(/(?<![A-Za-z0-9_])confidence\s*=\s*([\w\u4e00-\u9fff-]+)/gi, "置信度：$1");
+      .replace(/(^|[^A-Za-z0-9_])(?:thsStrong|thsHot)(?![A-Za-z0-9_])\s*[:：]?\s*/gi, "$1 ")
+      .replace(/(^|[^A-Za-z0-9_])break\s*=\s*\d+\s*(?:次)?(?![A-Za-z0-9_])/gi, "$1 ")
+      .replace(/(^|[^A-Za-z0-9_])confidence\s*=\s*([\w\u4e00-\u9fff-]+)/gi, "$1置信度：$2");
     for (const [pattern, label] of RETIRED_SOURCE_PATTERNS) {
-      text = text.replace(pattern, label);
+      text = text.replace(pattern, `$1${label}`);
     }
     text = text
       // Hermes 偶尔把生成过程当成报告正文保存；只清理开头，避免误伤正文引用。
@@ -556,6 +557,7 @@
     document.body.style.overflow = "hidden";
     drawer.classList.add("show");
     drawer.setAttribute("aria-hidden", "false");
+    drawer.inert = false;
     $("#backdrop").classList.add("show");
     $("#dclose")?.addEventListener("click", closeDrawer);
     requestAnimationFrame(() => $("#dclose")?.focus());
@@ -742,6 +744,7 @@
     const wasOpen = drawer.classList.contains("show");
     drawer.classList.remove("show");
     drawer.setAttribute("aria-hidden", "true");
+    drawer.inert = true;
     $("#backdrop").classList.remove("show");
     document.body.style.overflow = "";          // A1: 关闭恢复背景滚动
     if (wasOpen && drawerReturnFocus?.isConnected) drawerReturnFocus.focus();
@@ -1134,15 +1137,16 @@
       if (!t) return "";
       // 已有显式编号：1. 2. / ①② / (1)(2)
       if (/\d+[.、)]\s|①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩|（\d+）/.test(t)) {
-        items = t.split(/(?<=\d+[.、)]\s|①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩|）)/).map((x) => x.trim()).filter(Boolean);
+        // 在编号分隔符后插 \u0000 再切分，等价于 lookbehind 切分（旧 Safari 兼容）
+        items = t.replace(/(\d+[.、)]\s|①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩|）)/g, "$1\u0000").split("\u0000").map((x) => x.trim()).filter(Boolean);
       } else {
         // 中英文分号优先（实际数据常用英文 ; 分隔多事实点）
         const semiParts = t.split(/[；;]/).map((x) => x.trim()).filter(Boolean);
         if (semiParts.length >= 2) {
           items = semiParts;
         } else {
-          // 句号兜底
-          const sentParts = t.split(/(?<=[。！？])\s*/).map((x) => x.trim()).filter(Boolean);
+          // 句号兜底（\u0000 标记切分，等价于 lookbehind，旧 Safari 兼容）
+          const sentParts = t.replace(/([。！？])\s*/g, "$1\u0000").split("\u0000").map((x) => x.trim()).filter(Boolean);
           if (sentParts.length >= 2) {
             items = sentParts;
           } else {

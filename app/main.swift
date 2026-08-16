@@ -8,7 +8,7 @@ import Foundation
 
 // 项目根目录：优先环境变量 STOCK_DASHBOARD_DIR，否则用默认值（换机器时设环境变量覆盖）
 let PROJECT = ProcessInfo.processInfo.environment["STOCK_DASHBOARD_DIR"]
-    ?? "/Users/Admin/Documents/开发项目/股市看板"
+    ?? "/Users/Admin/Projects/股市看板"
 let DASHBOARD_APP_ID = "stock-dashboard"
 let DASHBOARD_API_VERSION = 1
 let XBRIEF_STALE_HOURS: TimeInterval = 26 * 3600
@@ -721,7 +721,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
             completionHandler: nil)
 
         DispatchQueue.global().async {
-            let env = self.getEnvWithIwencai()
+            let env = self.appEnvironment()
             let task = Process()
             task.launchPath = "/usr/bin/env"
             task.arguments = ["python3", "scripts/run_refresh.py"]
@@ -786,24 +786,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKScri
         }
         out += "\""
         return out
-    }
-
-    func getEnvWithIwencai() -> [String: String] {
-        var env = appEnvironment()
-        if env["IWENCAI_API_KEY"] != nil { return env }
-        let account = env["IWENCAI_KEYCHAIN_ACCOUNT"] ?? "Admin"
-        let task = Process()
-        task.launchPath = "/usr/bin/security"
-        task.arguments = ["find-generic-password", "-a", account, "-s", "iwencai-api-key", "-w"]
-        let pipe = Pipe()
-        task.standardOutput = pipe
-        task.standardError = Pipe()
-        do { try task.run(); task.waitUntilExit() }
-        catch { return env }
-        let key = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)?
-            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        if !key.isEmpty { env["IWENCAI_API_KEY"] = key }
-        return env
     }
 
     @objc func reloadPage() { webView.reload() }
